@@ -1,18 +1,19 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import login from '@/pages/login'
-import sidebar from '@/components/sidebar'
-import home from '@/pages/home'
-Vue.use(Router)
+import VueRouter from 'vue-router'
+import {routers,otherRouter,appRouter} from './router'
+Vue.use(VueRouter)
 
-export default new Router({
-    routes: [{
-        path: '/login',
-        name: 'login',
-        component: login
-    }, {
-        path: '/',
-        name: 'home',
-        component: home
-    }]
-})
+// 路由配置
+const RouterConfig = {
+    // mode: 'history',
+    routes: routers
+};
+
+export const router = new VueRouter(RouterConfig);
+router.beforeEach((to, from, next) => {
+   
+});
+
+router.afterEach((to) => {
+    // window.scrollTo(0, 0);
+});
