@@ -3,9 +3,9 @@ import home from '@/pages/home'
 export const loginRouter = {
     path: '/login',
     name: 'login',
-    meta: {
-        title: 'Login - 登录'
-    },
+    // meta: {
+    //     title: 'Login - 登录'
+    // },
     component: () => import('@/pages/login.vue')
 };
 
@@ -16,7 +16,7 @@ export const otherRouter = {
     redirect: '/home',
     component: home,
     children: [
-        // { path: 'home', name: 'home_index', component: () => import('@/pages/home.vue') },
+        { path: 'home', name: 'home_index', component: home },
        
     ]
 };
@@ -32,9 +32,7 @@ export const appRouter = [
     //         { path: 'index', title: '权限管理', name: 'access_index', component: () => import('@/views/access/access.vue') }
     //     ]
     // },
-    {
-
-    }
+  
 ]
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [

@@ -56,7 +56,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang='less' scoped>
 .login {
   display: -webkit-flex;
   display: flex;

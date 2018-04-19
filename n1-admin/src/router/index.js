@@ -10,10 +10,10 @@ const RouterConfig = {
 };
 
 export const router = new VueRouter(RouterConfig);
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
    
-});
+// });
 
-router.afterEach((to) => {
-    // window.scrollTo(0, 0);
-});
+// router.afterEach((to) => {
+//     // window.scrollTo(0, 0);
+// });
