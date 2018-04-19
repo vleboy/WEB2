@@ -21,7 +21,7 @@
             </Header>
             <Content>
                 <Card>
-                    <div style="height: 600px">content</div>
+                    <div style="height: 600px">contents</div>
                 </Card>
             </Content>
         </Layout>
