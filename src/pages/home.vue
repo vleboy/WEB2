@@ -40,3 +40,6 @@ export default {
   components:{sidebar}
 }
 </script>
+<style lang="scss" scoped>
+
+</style>

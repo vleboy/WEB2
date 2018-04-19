@@ -1,6 +1,6 @@
 <template>
     <div class="sider">
-        <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'scroll'}">
+        <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <Menu active-name="1" theme="dark" width="auto" :open-names="['1']">
                 <MenuItem name="1-1">
                     <span>看板</span>
@@ -83,7 +83,13 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    data(){
+        return{
+
+        }
+    }
+};
 </script>
 
 <style scoped>

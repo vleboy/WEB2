@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { Form } from "iview";
 export default {
   data() {
     return {
