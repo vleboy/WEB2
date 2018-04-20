@@ -1,7 +1,7 @@
 <template>
     <div class="sider">
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1" theme="dark" width="auto" :open-names="['1']">
+            <Menu active-name="1" theme="dark" width="auto" :open-names="['1']" @on-select='selectMenu'>
                 <MenuItem name="1-1">
                     <span>看板</span>
                 </MenuItem>
@@ -87,6 +87,17 @@ export default {
     data(){
         return{
 
+        }
+    }
+    ,methods:{
+        selectMenu(name){
+            console.log(name);
+            if(name=='7-1'){
+                this.$router.push({name:'ugreport-index'})
+            }
+            if(name='2-1'){
+                this.$router.push({name:"ownspace-index"})
+            }
         }
     }
 };
