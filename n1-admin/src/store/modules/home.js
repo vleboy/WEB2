@@ -7,7 +7,7 @@ export const home={
         },{
             title:'ug报表',
             path:'/ugreport/index',
-            name:'ugreport'
+            name:'ugreport-index'
         }],
         cachePage: [],
     },

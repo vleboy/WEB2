@@ -1,11 +1,39 @@
+import {getCode,logIn} from '../../service/index'
 export const login = {
     state:{
-
+        getcode:'',
+        infos:{}
     },
     mutations:{
-
+        updateCode(state,{params}){
+            state.getcode=`data:image/png;base64,${params}`
+        },
+        saveInfo(state,{params}){
+            state.infos=params
+        }
     },
     actions:{
-        
+        getcapcha({state,commit},{usage,relKey}){
+            getCode(usage,relKey).then(res=>{
+                if(res.code==0){
+                    commit('updateCode',{params:res.payload})
+                }
+            })
+        },
+        userlogin({commit},{role,username,password,captcha,cb}){
+            logIn(role,username,password,captcha).then(res=>{
+                console.log(res);
+                if(res.code==0){
+                    localStorage.setItem('n1admin',res.payload.token);
+                    localStorage.setItem('displayName',res.payload.displayName);
+                    localStorage.setItem('userInfo',JSON.stringify(res.payload))
+                    commit('saveInfo',{params:res.payload});
+                    cb&&cb()
+                }else{
+                    alert(res.msg)
+                }
+                
+            })
+        }
     }
 }

@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       avatorPath: "",
-      userName: "test"
+      userName: localStorage.getItem("displayName"),
     };
   },
   computed: {
@@ -50,9 +50,17 @@ export default {
   methods: {
     handleClickUserDropdown(name) {
       if (name === "ownSpace") {
-        this.$router.push({ name: "ownspace" });
+        this.$router.push({ name: "ownspace-index" });
       } else if (name === "loginout") {
         // 退出登录
+        this.$Modal.confirm({
+          title: "提示",
+          content: "<p>是否确认退出</p>",
+          onOk: () => {
+            localStorage.clear();
+            this.$router.push({ name: "login" });
+          }
+        });
       }
     }
   },
@@ -64,13 +72,13 @@ export default {
   height: 64px;
   z-index: 111;
   overflow: hidden;
-//   background: #f0f0f0;
+  //   background: #f0f0f0;
   float: left;
 }
 .user-dropdown-menu-con {
   float: right;
 }
-.ivu-layout-header{
-    padding:0 50px 0 10px;
+.ivu-layout-header {
+  padding: 0 50px 0 10px;
 }
 </style>

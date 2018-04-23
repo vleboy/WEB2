@@ -7,6 +7,7 @@ function checkStatus(response) {
     if(response && ( response.status == 200 || response.status == 304 || response.status == 400 )) {
         return response.data
     }
+    // console.log(response);
     return {
         status: 404,
         msg: '网络异常'

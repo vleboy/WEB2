@@ -95,7 +95,7 @@ export default {
             if(name=='7-1'){
                 this.$router.push({name:'ugreport-index'})
             }
-            if(name='2-1'){
+            if(name='1-2'){
                 this.$router.push({name:"ownspace-index"})
             }
         }
