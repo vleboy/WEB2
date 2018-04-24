@@ -63,7 +63,8 @@ export default {
   methods: {
     getcaptcha() {
       this.$Message.config({
-        top: 50
+        top: 100,
+        duration:3
       });
       if (!this.username) {
         this.$Message.warning({

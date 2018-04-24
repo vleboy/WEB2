@@ -55,3 +55,13 @@ export async function getCode(usage,relKey){
 export async function logIn(role,username,password,captcha){
     return http(post('/users/auth',{role,username,password,captcha}))
 }
+//查询平台用户账单统计
+export async function queryUserbyId(userId){
+    return http(post('/queryUserStat',{userId}))
+}
+export async function queryUserbyParent(parent){
+    return http(post('/queryUserStat',{parent}))
+}
+export async function queryPlayer(parentId){
+    return http(post('/queryPlayerStat',{parentId}))
+}
