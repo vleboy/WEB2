@@ -96,7 +96,7 @@ export default {
                       }
                       console.log(level);
                       // let showList = this.reportChild;
-                      let showList = await this.testme(this.reportChild,userId)
+                      let showList = await this.getNextLevel(this.reportChild,userId)
                       console.log(showList);
                       let copyList = [...showList];
                       for (let i = 0; i <= showList.length; i++) {
@@ -212,7 +212,7 @@ export default {
     changeDate(time) {
       console.log(time);
     },
-    async testme(showList,userId){
+    async getNextLevel(showList,userId){
        return new Promise((resolve, reject) => {
         this.$store
           .dispatch("getUserChild", { parent: userId })
