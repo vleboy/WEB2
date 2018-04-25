@@ -212,15 +212,6 @@ export default {
     changeDate(time) {
       console.log(time);
     },
-<<<<<<< HEAD
-    async testme(showList, userId) {
-      return new Promise((resolve, reject) => {
-        this.$store.dispatch("getUserChild", { parent: userId }).then(res => {
-          showList.push(res.payload);
-          showList = [...new Set(showList)];
-          resolve(showList);
-        });
-=======
     async getNextLevel(showList,userId){
        return new Promise((resolve, reject) => {
         this.$store
@@ -230,7 +221,6 @@ export default {
             showList = [...new Set(showList)];
             resolve(showList);
           });
->>>>>>> 05e556f6872d2cb80fc95e035650e5c8f6681bdc
       });
     }
   },
