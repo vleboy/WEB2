@@ -1,5 +1,5 @@
 import { queryUserbyParent,queryUserbyId,queryPlayer } from '../../service/index'
-export const ugreport = {
+export const report = {
     state:{
        
     },
@@ -7,14 +7,14 @@ export const ugreport = {
       
     },
     actions:{
-       getUserList({commit},{userId}){
-        return queryUserbyId(userId)
+       getUserList({commit},params){
+        return queryUserbyId(params)
        },
-       getUserChild({commit},{parent}){
-        return queryUserbyParent(parent)
+       getUserChild({commit},params){
+        return queryUserbyParent(params)
        },
-       getPlayerList({commit},{parentId}){
-         return queryPlayer(parentId)
+       getPlayerList({commit},params){
+         return queryPlayer(params)
        }
     }
 }

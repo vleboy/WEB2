@@ -6,7 +6,7 @@
           当前选择列表
         </p>
         <div class="right">
-          <DatePicker type="daterange" :editable="false" placement="bottom-end" placeholder="选择日期" style="width: 250px" @on-change="changeDate"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
           <Button type="primary">搜索</Button>
           <Button type="ghost">重置</Button>
         </div>
@@ -25,24 +25,32 @@
       </p>
       <Table :columns="columns1" :data="item" size="small" no-data-text="暂无数据"></Table>
     </div>
-    <div class="palyerList">
+    <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
       </p>
       <Table :columns="columns2" :data="playerList" size="small" no-data-text="暂无数据"></Table>
     </div>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
   </div>
 </template>
 <script>
+import _ from "lodash";
+import {getDefaultTime} from '../config/getDefaultTime'
 export default {
   data() {
     return {
-      reportChild: [], //点击渲染的下级
+      defaultTime:getDefaultTime(),
+      spinShow: false, //加载spin
       showName: false, //上级商家
       userName: "", //上级商家名字
-      playerList: [],
-      user: [],
-      child: [],
+      reportChild: [], //点击渲染的下级
+      playerList: [], //玩家列表
+      user: [], //当前管理员
+      child: [], //管理员下级
       columns1: [
         {
           title: "序号",
@@ -72,19 +80,42 @@ export default {
                 },
                 on: {
                   click: async () => {
+                    this.spinShow = true;
                     if (params.row.role == "1") {
-                      console.log("admin");
+                      //管理员
+                      this.$store
+                        .dispatch("getUserChild", {
+                          parent: "01",
+                          gameType: 40000,
+                          query: {
+                            createdAt: this.changedTime
+                          }
+                        })
+                        .then(res => {
+                          console.log(res);
+                          this.child = res.payload;
+                          this.spinShow = false;
+                        });
                     } else if (params.row.role == "100") {
                       //商户
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
                       this.$store
-                        .dispatch("getPlayerList", { parentId: userId })
+                        .dispatch("getPlayerList", {
+                          parentId: userId,
+                          gameType: 40000,
+                          query: {
+                            createdAt: this.changedTime
+                          }
+                        })
                         .then(res => {
                           this.playerList = res.payload;
+                          this.spinShow = false;
                           console.log(res);
                         });
+                      var anchor = this.$el.querySelector("#playerList");
+                      document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
                       this.playerList = [];
@@ -94,21 +125,20 @@ export default {
                       if (level == 1) {
                         this.reportChild = [];
                       }
-                      console.log(level);
-                      // let showList = this.reportChild;
-                      let showList = await this.getNextLevel(this.reportChild,userId)
-                      console.log(showList);
-                      let copyList = [...showList];
-                      for (let i = 0; i <= showList.length; i++) {
-                        // console.log(showList[i]);
-                        // for (let j=0;j<=showList[i].length;j++){
-                        //   if(showList[i][j].level>level+1){
-                        //     showList.slice(j,1)
-                        //   }
-                        // }
+                      let showList = await this.getNextLevel(
+                        this.reportChild,
+                        userId
+                      );
+                      // console.log(showList);
+                      let len = showList.length;
+                      if (showList[0].length > 0) {
+                        while (len--) {
+                          if (showList[len][0].level > level + 1) {
+                            showList.splice(len, 1);
+                          }
+                        }
                       }
-                      // showList = copyList;
-                      // console.log(this.reportChild);
+                      this.reportChild = showList;
                     }
                     console.log(params.row);
                   }
@@ -120,27 +150,105 @@ export default {
         },
         {
           title: "交易次数",
-          key: "bet"
+          key: "betCount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.betCount;
+            }
+            if (params.row.role == "1") {
+              return h("span", count);
+            } else {
+              return h("span", params.row.betCount);
+            }
+          }
         },
         {
           title: "投注金额",
-          key: "betCount"
+          key: "betAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.betAmount;
+            }
+            if (params.row.role == "1") {
+              return h("span", count.toFixed(2));
+            } else {
+              return h("span", params.row.betAmount);
+            }
+          }
         },
         {
           title: "输赢金额",
-          key: "winlose"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.winloseAmount;
+            }
+            if (params.row.role == "1") {
+              sessionStorage.setItem("winloseAmount", count.toFixed(2));
+              return h("span", count.toFixed(2));
+            } else {
+              return h("span", params.row.winloseAmount);
+            }
+          }
         },
         {
           title: "商家占成",
-          key: "suffix"
+          key: "",
+          render: (h, params) => {
+            if (params.row.role != "1") {
+              let arr = params.row.gameList;
+              let result = null;
+              for (let item of arr) {
+                if (item.code == "40000") {
+                  result = item.rate;
+                }
+              }
+              return h("span", result + "%");
+            } else {
+              return h("span", "100%");
+            }
+          }
         },
         {
           title: "商家交公司",
-          key: "level"
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              return h("span", 0);
+            } else {
+              return h("span", params.row.submitAmount);
+            }
+          }
         },
         {
           title: "获利比例",
-          key: "rate"
+          key: "rate",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              let winloseAmount = sessionStorage.getItem("winloseAmount");
+              let arr = this.child;
+              let mixAmount = 0;
+              for (let item of arr) {
+                mixAmount += item.mixAmount;
+              }
+              let result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
+              return h("span", result);
+            } else {
+              return h(
+                "span",
+                (
+                  100 *
+                  (params.row.winloseAmount / params.row.mixAmount)
+                ).toFixed(2) + "%"
+              );
+            }
+          }
         }
       ],
       columns2: [
@@ -158,19 +266,19 @@ export default {
         },
         {
           title: "交易次数",
-          key: "tradetime"
+          key: "betCount"
         },
         {
           title: "投注金额",
-          key: "betcount"
+          key: "betAmount"
         },
         {
           title: "输赢金额",
-          key: "winlose"
+          key: "winloseAmount"
         },
         {
           title: "洗码量",
-          key: "egug"
+          key: "mixAmount"
         }
       ]
       // data2: [
@@ -185,8 +293,22 @@ export default {
       // ]
     };
   },
-  computed: {},
+  computed: {
+    // defaultTime(){
+    //   return getDefaultTime()
+    // }
+     changedTime(){
+       let time=this.defaultTime;
+       time=time.map((item)=>{
+         return item.getTime()
+       })
+       return time;
+     }
+  },
   methods: {
+    changeTime(time){
+      console.log(this.defaultTime);
+    },
     types(value) {
       switch (value) {
         case "0":
@@ -209,36 +331,51 @@ export default {
           break;
       }
     },
-    changeDate(time) {
-      console.log(time);
-    },
-    async getNextLevel(showList,userId){
-       return new Promise((resolve, reject) => {
+    
+    async getNextLevel(showList, userId) {
+      return new Promise((resolve, reject) => {
         this.$store
-          .dispatch("getUserChild", { parent: userId })
+          .dispatch("getUserChild", {
+            parent: userId,
+            gameType: 40000,
+            query: {
+              createdAt: this.changedTime
+            }
+          })
           .then(res => {
             showList.push(res.payload);
-            showList = [...new Set(showList)];
+            showList = _.uniqWith(showList, _.isEqual);
+            this.spinShow = false;
             resolve(showList);
           });
       });
     }
   },
   created() {
+    console.log(this.defaultTime);
     let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
     let req1 = this.$store.dispatch("getUserList", { userId: userId });
-    let req2 = this.$store.dispatch("getUserChild", { parent: "01" });
+    let req2 = this.$store.dispatch("getUserChild", {
+      parent: "01",
+      gameType: 40000,
+      query: {
+        createdAt: this.changedTime
+      }
+    });
+    this.spinShow = true;
     let _this = this;
     _this.axios.all([req1, req2]).then(
       _this.axios.spread(function(acct, perms) {
         //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
+        _this.spinShow = false;
         if (acct.code == 0) {
           _this.user.push(acct.payload);
+          // console.log(acct.payload);
         }
         if (perms.code == 0) {
           _this.child = perms.payload;
         }
-        _this.user[0].username = _this.user[0].username.slice(9);
+        // _this.user[0].username = _this.user[0].username.slice(9);
       })
     );
   }
@@ -258,6 +395,9 @@ export default {
     .right {
       float: right;
     }
+  }
+  .demo-spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
   }
 }
 </style>

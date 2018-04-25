@@ -48,20 +48,20 @@ export async function example(params) {
     return http()
 }
 //获取验证码
-export async function getCode(usage,relKey){
-    return http(post('/captcha',{usage,relKey}))
+export async function getCode(params){
+    return http(post('/captcha',params))
 }
 //登录
-export async function logIn(role,username,password,captcha){
-    return http(post('/users/auth',{role,username,password,captcha}))
+export async function logIn(params){
+    return http(post('/users/auth',params))
 }
 //查询平台用户账单统计
-export async function queryUserbyId(userId){
-    return http(post('/queryUserStat',{userId}))
+export async function queryUserbyId(params){
+    return http(post('/queryUserStat',params))
 }
-export async function queryUserbyParent(parent){
-    return http(post('/queryUserStat',{parent}))
+export async function queryUserbyParent(params){
+    return http(post('/queryUserStat',params))
 }
-export async function queryPlayer(parentId){
-    return http(post('/queryPlayerStat',{parentId}))
+export async function queryPlayer(params){
+    return http(post('/queryPlayerStat',params))
 }

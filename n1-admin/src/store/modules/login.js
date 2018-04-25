@@ -13,15 +13,15 @@ export const login = {
         }
     },
     actions:{
-        getcapcha({state,commit},{usage,relKey}){
-            getCode(usage,relKey).then(res=>{
+        getcapcha({state,commit},params){
+            getCode(params).then(res=>{
                 if(res.code==0){
                     commit('updateCode',{params:res.payload})
                 }
             })
         },
-        userlogin({commit},{role,username,password,captcha,cb}){
-            logIn(role,username,password,captcha).then(res=>{
+        userlogin({commit},params){
+            logIn(params).then(res=>{
                 console.log(res);
                 if(res.code==0){
                     localStorage.setItem('n1admin',res.payload.token);
