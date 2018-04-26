@@ -1,82 +1,119 @@
 <template>
     <div class="sider">
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1" theme="dark" width="auto" :open-names="['1']" @on-select='selectMenu'>
-                <MenuItem name="1-1">
+            <Menu ref="sideMenu" :active-name="activeName" theme="dark" width="auto" @on-select='selectMenu'>
+                <MenuItem name="home">
                 <span>看板</span>
                 </MenuItem>
-                <MenuItem name="1-2">
+                <MenuItem name="ownspace-index">
                 <span>个人中心</span>
                 </MenuItem>
                 <Submenu name="1">
                     <template slot="title">
                         输赢报表
                     </template>
-                    <MenuItem name="1-3">公司输赢总报表</MenuItem>
+                    <MenuItem name="winloseAcount">公司输赢总报表</MenuItem>
                     <Submenu name='2'>
                         <template slot="title">NA游戏总报表</template>
-                        <MenuItem name="2-1">NA电子游戏报表</MenuItem>
-                        <MenuItem name="2-2">NA街机游戏报表</MenuItem>
-                        <MenuItem name="2-3">NA真人游戏报表</MenuItem>
-                        <MenuItem name="2-4">NA电子游戏报表（跳转）</MenuItem>
-                        <MenuItem name="2-5">NA棋牌游戏报表</MenuItem>
+                        <MenuItem name="navideo">NA电子游戏报表</MenuItem>
+                        <MenuItem name="nastreet">NA街机游戏报表</MenuItem>
+                        <MenuItem name="natrue">NA真人游戏报表</MenuItem>
+                        <!-- <MenuItem name="2-4">NA电子游戏报表（跳转）</MenuItem> -->
+                        <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='3'>
                         <template slot="title">TTG游戏报表</template>
-                        <MenuItem name="3-1">TTG电子游戏报表</MenuItem>
+                        <MenuItem name="ttgvideo">TTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='4'>
                         <template slot="title">SA游戏报表</template>
-                        <MenuItem name="4-1">SA游戏总报表</MenuItem>
-                        <MenuItem name="4-2">SA真人游戏报表</MenuItem>
-                        <MenuItem name="4-3">SA捕鱼游戏报表</MenuItem>
+                        <!-- <MenuItem name="4-1">SA游戏总报表</MenuItem> -->
+                        <MenuItem name="satrue">SA真人游戏报表</MenuItem>
+                        <MenuItem name="safishing">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='5'>
                         <template slot="title">MG游戏报表</template>
-                        <MenuItem name="5-1">MG电子游戏报表</MenuItem>
+                        <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='6'>
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="6-1">AG电子游戏报表</MenuItem>
+                        <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='7'>
                         <template slot="title">UG游戏报表</template>
-                        <MenuItem name="7-1">UG电子游戏报表</MenuItem>
+                        <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="8">
                     <template slot="title">
                         商户中心
                     </template>
-                    <MenuItem name="8-1">TTG游戏报表</MenuItem>
+                    <Submenu name='22'>
+                        <template slot="title">线路商管理</template>
+                        <MenuItem name="aa">线路商列表</MenuItem>
+                        <MenuItem name="bb">创建线路商</MenuItem>
+                    </Submenu>
+                    <Submenu name='23'>
+                        <template slot="title">商户管理</template>
+                        <MenuItem name="aaa">商户列表</MenuItem>
+                        <MenuItem name="bbb">创建商户</MenuItem>
+                    </Submenu>
+                    <MenuItem name="8-1">接入商点数警告列表</MenuItem>
                 </Submenu>
                 <Submenu name="9">
                     <template slot="title">
                         玩家中心
                     </template>
-                    <MenuItem name="9-1">Option 1</MenuItem>
-                    <MenuItem name="9-2">Option 2</MenuItem>
+                    <MenuItem name="9-1">玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="10">
                     <template slot="title">
                         游戏中心
                     </template>
-                    <MenuItem name="10-1">Option 1</MenuItem>
-                    <MenuItem name="10-2">Option 2</MenuItem>
+                    <MenuItem name="10-1">游戏列表</MenuItem>
                 </Submenu>
                 <Submenu name="11">
                     <template slot="title">
                         运营中心
                     </template>
-                    <MenuItem name="11-1">Option 1</MenuItem>
-                    <MenuItem name="11-2">Option 2</MenuItem>
+                    <Submenu name='24'>
+                        <template slot="title">公告管理</template>
+                        <MenuItem name="aac">游戏公告列表</MenuItem>
+                        <MenuItem name="bbba">跑马灯列表</MenuItem>
+                    </Submenu>
+                    <Submenu name='25'>
+                        <template slot="title">邮件管理</template>
+                        <MenuItem name="322">游戏邮件列表</MenuItem>
+                    </Submenu>
+                    <Submenu name='26'>
+                        <template slot="title">展位管理</template>
+                        <MenuItem name="3">展位列表</MenuItem>
+                    </Submenu>
+                    <MenuItem name="11-1">商户运营记录</MenuItem>
+                    <MenuItem name="11-2">道具造价</MenuItem>
                 </Submenu>
                 <Submenu name="12">
                     <template slot="title">
                         系统设置
                     </template>
-                    <MenuItem name="12-1">Option 1</MenuItem>
-                    <MenuItem name="12-2">Option 2</MenuItem>
+                     <Submenu name='27'>
+                        <template slot="title">登录日志</template>
+                        <MenuItem name="271">线路商登录日志</MenuItem>
+                        <MenuItem name="272">商户登录日志</MenuItem>
+                    </Submenu>
+                     <Submenu name='28'>
+                        <template slot="title">操作日志</template>
+                        <MenuItem name="281">管理员操作日志</MenuItem>
+                    </Submenu>
+                    <Submenu name='29'>
+                        <template slot="title">管理员管理</template>
+                        <MenuItem name="291">管理员列表</MenuItem>
+                        <MenuItem name="292">添加管理员</MenuItem>
+                        <MenuItem name="293">管理员角色列表</MenuItem>
+                        <MenuItem name="294">新增管理员角色</MenuItem>
+                    </Submenu>
+                    <MenuItem name="12-1">线路号列表</MenuItem>
+                    <MenuItem name="12-2">Debug操作日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -89,15 +126,18 @@ export default {
   },
   methods: {
     selectMenu(name) {
-      console.log(name);
-      if (name == "7-1") {
-        this.$router.push({ name: "ugreport-index" });
-      }
-      if (name == "1-2") {
-        this.$router.push({ name: "ownspace-index" });
-      }
+    //   console.log(name);
+      this.$router.push({ name: name });
     }
-  }
+  },
+  props:['activeName']
+//    updated() {
+//     this.$nextTick(() => {
+//       if (this.$refs.sideMenu) {
+//         this.$refs.sideMenu.updateOpened();
+//       }
+//     });
+//   }
 };
 </script>
 

@@ -1,17 +1,41 @@
+import {otherRouter,appRouter} from '@/router/router'
+import Util from '@/libs/util';
 export const home={
     state:{
         pageOpenedList: [{
-            title: '首页',
-            path: '',
-            name: 'home'
-        },{
-            title:'ug报表',
-            path:'/ugreport/index',
-            name:'ugreport-index'
+            path: '/home',
+            name: 'home',
+            title:'首页'
         }],
+        currentPageName: '',
         cachePage: [],
+        tagsList: [...otherRouter.children],
+        dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+        // openedSubmenuArr:[]//要展开的菜单数组
     },
     mutations:{
+        // addOpenSubmenu (state, name) {
+        //     let hasThisName = false;
+        //     let isEmpty = false;
+        //     if (name.length === 0) {
+        //         isEmpty = true;
+        //     }
+        //     if (state.openedSubmenuArr.indexOf(name) > -1) {
+        //         hasThisName = true;
+        //     }
+        //     if (!hasThisName && !isEmpty) {
+        //         state.openedSubmenuArr.push(name);
+        //     }
+        // },
+        // clearOpenedSubmenu (state) {
+        //     state.openedSubmenuArr.length = 0;
+        // },
+        setTagsList (state, list) {
+            state.tagsList.push(...list);
+        },
+        setCurrentPageName (state, name) {
+            state.currentPageName = name;
+        },
         removeTag (state, name) {
             state.pageOpenedList.map((item, index) => {
                 if (item.name === name) {
@@ -32,6 +56,11 @@ export const home={
         },
         setOpenedList (state) {
             state.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [otherRouter.children[0]];
+        },
+        initCachepage (state) {
+            if (localStorage.cachePage) {
+                state.cachePage = JSON.parse(localStorage.cachePage);
+            }
         },
         increateTag (state, tagObj) {
             if (!Util.oneOf(tagObj.name, state.dontCache)) {

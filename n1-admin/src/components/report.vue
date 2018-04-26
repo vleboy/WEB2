@@ -1,12 +1,12 @@
 <template>
-  <div class="ug">
+  <div class="report">
     <div class="nowList">
       <div class="top">
         <p class="title">
           当前选择列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
           <Button type="primary">搜索</Button>
           <Button type="ghost">重置</Button>
         </div>
@@ -39,11 +39,11 @@
 </template>
 <script>
 import _ from "lodash";
-import {getDefaultTime} from '../config/getDefaultTime'
+import { getDefaultTime } from "@/config/getDefaultTime";
 export default {
   data() {
     return {
-      defaultTime:getDefaultTime(),
+      defaultTime: getDefaultTime(),
       spinShow: false, //加载spin
       showName: false, //上级商家
       userName: "", //上级商家名字
@@ -51,6 +51,11 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
+      option: {
+        disabledDate(date) {
+          return date && date.valueOf() > Date.now() - 180000;
+        }
+      },
       columns1: [
         {
           title: "序号",
@@ -86,7 +91,7 @@ export default {
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
-                          gameType: 40000,
+                          gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
                           }
@@ -104,7 +109,7 @@ export default {
                       this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
-                          gameType: 40000,
+                          gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
                           }
@@ -140,7 +145,7 @@ export default {
                       }
                       this.reportChild = showList;
                     }
-                    console.log(params.row);
+                    // console.log(params.row);
                   }
                 }
               },
@@ -205,7 +210,7 @@ export default {
               let arr = params.row.gameList;
               let result = null;
               for (let item of arr) {
-                if (item.code == "40000") {
+                if (item.code == this.gameType) {
                   result = item.rate;
                 }
               }
@@ -231,13 +236,18 @@ export default {
           key: "rate",
           render: (h, params) => {
             if (params.row.role == "1") {
-              let winloseAmount = sessionStorage.getItem("winloseAmount");
+              let winloseAmount = parseInt(sessionStorage.getItem("winloseAmount")) ;
               let arr = this.child;
               let mixAmount = 0;
               for (let item of arr) {
                 mixAmount += item.mixAmount;
               }
-              let result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
+              let result='';
+              if(winloseAmount / mixAmount!=NaN){
+                result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
+              }else{
+                result=''
+              }
               return h("span", result);
             } else {
               return h(
@@ -281,32 +291,19 @@ export default {
           key: "mixAmount"
         }
       ]
-      // data2: [
-      //   {
-      //     name: "张三",
-      //     nickname: "张三疯",
-      //     tradetime: 23,
-      //     betcount: 1222,
-      //     winlose: 199,
-      //     egug: 23
-      //   },
-      // ]
     };
   },
   computed: {
-    // defaultTime(){
-    //   return getDefaultTime()
-    // }
-     changedTime(){
-       let time=this.defaultTime;
-       time=time.map((item)=>{
-         return item.getTime()
-       })
-       return time;
-     }
+    changedTime() {
+      let time = this.defaultTime;
+      time = time.map(item => {
+        return item.getTime();
+      });
+      return time;
+    }
   },
   methods: {
-    changeTime(time){
+    changeTime(time) {
       console.log(this.defaultTime);
     },
     types(value) {
@@ -331,13 +328,12 @@ export default {
           break;
       }
     },
-    
     async getNextLevel(showList, userId) {
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch("getUserChild", {
             parent: userId,
-            gameType: 40000,
+            gameType: this.gameType,
             query: {
               createdAt: this.changedTime
             }
@@ -352,12 +348,12 @@ export default {
     }
   },
   created() {
-    console.log(this.defaultTime);
+    // console.log(this.defaultTime);
     let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
     let req1 = this.$store.dispatch("getUserList", { userId: userId });
     let req2 = this.$store.dispatch("getUserChild", {
       parent: "01",
-      gameType: 40000,
+      gameType: this.gameType,
       query: {
         createdAt: this.changedTime
       }
@@ -378,11 +374,12 @@ export default {
         // _this.user[0].username = _this.user[0].username.slice(9);
       })
     );
-  }
+  },
+  props:['gameType']
 };
 </script>
 <style lang="less" scoped>
-.ug {
+.report {
   min-height: 90vh;
   .title {
     font-size: 1.2rem;

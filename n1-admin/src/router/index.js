@@ -11,16 +11,7 @@ const RouterConfig = {
 
 export const router = new VueRouter(RouterConfig);
 // router.beforeEach((to, from, next) => {
-	// 	if(window.localStorage.getItem('SOFOER')) {
-	// 		next()
-	// 	}else {
-	// 		next({
-	// 			path: '/login',
-	// 			query: {
-	// 				redirect: to.fullPath
-	// 			}
-	// 		})
-	// }
+		
 // });
 
 // router.afterEach((to) => {

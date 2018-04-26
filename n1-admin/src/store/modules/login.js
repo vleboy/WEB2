@@ -20,8 +20,8 @@ export const login = {
                 }
             })
         },
-        userlogin({commit},params){
-            logIn(params).then(res=>{
+        userlogin({commit},{role,username,password,captcha,cb}){
+            logIn(role,username,password,captcha).then(res=>{
                 console.log(res);
                 if(res.code==0){
                     localStorage.setItem('n1admin',res.payload.token);

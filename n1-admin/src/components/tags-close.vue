@@ -1,6 +1,6 @@
 <template>
     <div ref="scrollCon" @DOMMouseScroll="handlescroll" @mousewheel="handlescroll" class="tags-outer-scroll-con">
-        <div ref="scrollBody" class="tags-inner-scroll-body" >   <!--  :style="{left: tagBodyLeft + 'px'}"-->
+        <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}" >   <!--  :style="{left: tagBodyLeft + 'px'}"-->
             <transition-group name="taglist-moving-animation">
                 <Tag 
                     type="dot"
@@ -12,7 +12,7 @@
                     @click.native="linkTo(item)"
                     :closable="item.name==='home'?false:true"
                     :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
-                >{{ itemTitle(item) }}</Tag>
+                >{{ item.title }}</Tag>
             </transition-group>
         </div>
     </div>
@@ -39,21 +39,11 @@ export default {
         }
     },
     computed: {
-        // title () {
-        //     return this.$store.state.home.currentTitle;
-        // },
         tagsList () {
             return this.$store.state.home.pageOpenedList;
         }
     },
     methods: {
-        itemTitle (item) {
-            // if (typeof item.title === 'object') {
-            //     return this.$t(item.title);
-            // } else {
-                return item.title;
-            // }
-        },
         closePage (event, name) {
             let pageOpenedList = this.$store.state.home.pageOpenedList;
             let lastPageObj = pageOpenedList[0];
@@ -95,27 +85,27 @@ export default {
             }
         },
         handlescroll (e) {
-            var type = e.type;
-            let delta = 0;
-            if (type === 'DOMMouseScroll' || type === 'mousewheel') {
-                delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
-            }
-            let left = 0;
-            if (delta > 0) {
-                left = Math.min(0, this.tagBodyLeft + delta);
-            } else {
-                if (this.$refs.scrollCon.offsetWidth - 100 < this.$refs.scrollBody.offsetWidth) {
-                    if (this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollCon.offsetWidth + 100)) {
-                        left = this.tagBodyLeft;
-                    } else {
-                        left = Math.max(this.tagBodyLeft + delta, this.$refs.scrollCon.offsetWidth - this.$refs.scrollBody.offsetWidth - 100);
-                    }
+        var type = e.type;
+        let delta = 0;
+        if (type === 'DOMMouseScroll' || type === 'mousewheel') {
+            delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
+        }
+        let left = 0;
+        if (delta > 0) {
+            left = Math.min(0, this.tagBodyLeft + delta);
+        } else {
+            if (this.$refs.scrollCon.offsetWidth - 100 < this.$refs.scrollBody.offsetWidth) {
+                if (this.tagBodyLeft < -(this.$refs.scrollBody.offsetWidth - this.$refs.scrollCon.offsetWidth + 100)) {
+                    left = this.tagBodyLeft;
                 } else {
-                    this.tagBodyLeft = 0;
+                    left = Math.max(this.tagBodyLeft + delta, this.$refs.scrollCon.offsetWidth - this.$refs.scrollBody.offsetWidth - 100);
                 }
+            } else {
+                this.tagBodyLeft = 0;
             }
-            this.tagBodyLeft = left;
-        },
+          }
+        this.tagBodyLeft = left;
+         },
         
         moveToView (tag) {
             if (tag.offsetLeft < -this.tagBodyLeft) {
@@ -131,13 +121,13 @@ export default {
         }
     },
     mounted () {
-        console.log(this.$refs.tagsPageOpened);
+        // console.log(this.$refs.tagsPageOpened);
         this.refsTag = this.$refs.tagsPageOpened;
         setTimeout(() => {
             this.refsTag.forEach((item, index) => {
                 if (this.$route.name === item.name) {
                     let tag = this.refsTag[index].$el;
-                    console.log(tag);
+                    // console.log(tag);
                     this.moveToView(tag);
                 }
             });
@@ -172,7 +162,10 @@ export default {
                 padding: 2px 10px;
                 overflow: visible;
                 white-space: nowrap;
-                // transition: left .3s ease;
+                transition: left .3s ease;
             }
+    }
+    .taglist-moving-animation-move{
+        transition: transform .3s;
     }
 </style>
