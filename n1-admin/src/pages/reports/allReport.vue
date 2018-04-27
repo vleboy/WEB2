@@ -655,8 +655,9 @@ export default {
             console.log(acct);
             console.log(perms);
             _this.spinShow = false;
+            _this.user=[];
             if (acct.code == 0) {
-              _this.user = acct.payload;
+              _this.user.push(acct.payload);
             }
             if (perms.code == 0) {
               _this.child = perms.payload;

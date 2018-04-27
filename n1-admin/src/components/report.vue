@@ -369,8 +369,9 @@ export default {
           _this.axios.spread(function(acct, perms) {
             //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
             _this.spinShow = false;
+            _this.user=[];
             if (acct.code == 0) {
-              _this.user = acct.payload;
+              _this.user.push(acct.payload);
               // console.log(acct.payload);
             }
             if (perms.code == 0) {
