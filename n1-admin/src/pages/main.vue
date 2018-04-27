@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <sidebar :activeName='activeName'></sidebar>
+    <sidebar :openName='openName'></sidebar>
     <Layout :style="{marginLeft: '256px'}">
       <Header class="main_header">
         <div class="tags-con">
@@ -42,7 +42,7 @@ export default {
     return {
       avatorPath: "",
       userName: localStorage.getItem("displayName"),
-      activeName:''
+      openName: [],
     };
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
           content: "<p>是否确认退出</p>",
           onOk: () => {
             localStorage.clear();
-            // this.$store.commit("clearOpenedSubmenu");
+            this.$store.commit("clearOpenedSubmenu");
             this.$router.push({ name: "login" });
           }
         });
@@ -97,11 +97,27 @@ export default {
   },
   watch: {
     $route(to) {
-      // console.log(to.name);
-      this.$store.commit("setCurrentPageName", to.name);
-      this.checkTag(to.name);
-      this.activeName=to.name;
-      localStorage.currentPageName = to.name;
+      let name = to.name;
+      this.$store.commit("setCurrentPageName", name);
+      this.checkTag(name);
+      localStorage.currentPageName = name;
+      // this.$store.commit("addOpenSubmenu", pathArr[1].name);
+
+      if (name.includes("na")) {
+        this.openName = ["report", "ugreport"];
+      } else if (name.includes("ttg")) {
+        this.openName = ["report", "ttgreport"];
+      } else if (name.includes("sa")) {
+        this.openName = ["report", "sareport"];
+      } else if (name.includes("mg")) {
+        this.openName = ["report", "mgreport"];
+      } else if (name.includes("ag")) {
+        this.openName = ["report", "agreport"];
+      } else if (name.includes("ug")) {
+        this.openName = ["report", "ugreport"];
+      }else if(name=='allreport'){
+        this.openName=["report"]
+      }
     }
   }
 };
@@ -113,7 +129,7 @@ export default {
   overflow: hidden;
   //   background: #f0f0f0;
 }
-.main_header{
+.main_header {
   height: 64px;
   background: #fff;
   box-shadow: 0 2px 1px 1px rgba(100, 100, 100, 0.1);
@@ -121,16 +137,16 @@ export default {
   z-index: 11;
 }
 .user-dropdown-menu-con {
-    position: absolute;
-    right: 0;
-    top: 0;
-    box-sizing: border-box;
-    text-align: center;
-    height: 100%;
-    background: white;
-    z-index: 10;
-    width: 120px;
-    margin-right: 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  box-sizing: border-box;
+  text-align: center;
+  height: 100%;
+  background: white;
+  z-index: 10;
+  width: 120px;
+  margin-right: 10px;
 }
 .ivu-layout-header {
   padding: 0 50px 0 10px;

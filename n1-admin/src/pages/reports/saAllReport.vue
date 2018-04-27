@@ -1,41 +1,41 @@
 <template>
-  <div class="report">
-    <div class="nowList">
-      <div class="top">
-        <p class="title">
-          当前选择列表
-        </p>
-        <div class="right">
-          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
-          <Button type="primary" @click="search">搜索</Button>
-          <Button type="ghost" @click="reset">重置</Button>
+    <div class="saAll">
+        <div class="nowList">
+            <div class="top">
+                <p class="title">
+                    当前选择列表
+                </p>
+                <div class="right">
+                    <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
+                    <Button type="primary">搜索</Button>
+                    <Button type="ghost">重置</Button>
+                </div>
+            </div>
+            <Table :columns="columns1" :data="user" size="small" no-data-text="暂无数据"></Table>
         </div>
-      </div>
-      <Table :columns="columns1" :data="user" size="small" no-data-text="暂无数据"></Table>
+        <div class="childList">
+            <p class="title">
+                直属下级列表
+            </p>
+            <Table :columns="columns1" :data="child" size="small" no-data-text="暂无数据"></Table>
+        </div>
+        <div class="childList" v-for="(item,index) in reportChild" :key="index">
+            <p class="title">
+                ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+            </p>
+            <Table :columns="columns1" :data="item" size="small" no-data-text="暂无数据"></Table>
+        </div>
+        <div class="playerList" id="playerList">
+            <p class="title">
+                <span v-show="showName"> ({{ userName }})</span>所属玩家列表
+            </p>
+            <Table :columns="columns2" :data="playerList" size="small" no-data-text="暂无数据"></Table>
+        </div>
+        <Spin size="large" fix v-if="spinShow">
+            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+            <div>加载中...</div>
+        </Spin>
     </div>
-    <div class="childList">
-      <p class="title">
-        直属下级列表
-      </p>
-      <Table :columns="columns1" :data="child" size="small" no-data-text="暂无数据"></Table>
-    </div>
-    <div class="childList" v-for="(item,index) in reportChild" :key="index">
-      <p class="title">
-        ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
-      </p>
-      <Table :columns="columns1" :data="item" size="small" no-data-text="暂无数据"></Table>
-    </div>
-    <div class="playerList" id="playerList">
-      <p class="title">
-        <span v-show="showName"> ({{ userName }})</span>所属玩家列表
-      </p>
-      <Table :columns="columns2" :data="playerList" size="small" no-data-text="暂无数据"></Table>
-    </div>
-    <Spin size="large" fix v-if="spinShow">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-      <div>加载中...</div>
-    </Spin>
-  </div>
 </template>
 <script>
 import _ from "lodash";
@@ -170,23 +170,7 @@ export default {
           }
         },
         {
-          title: "投注金额",
-          key: "betAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.betAmount;
-            }
-            if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
-            } else {
-              return h("span", params.row.betAmount);
-            }
-          }
-        },
-        {
-          title: "输赢金额",
+          title: "总游戏输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
             let arr = this.child;
@@ -203,25 +187,7 @@ export default {
           }
         },
         {
-          title: "商家占成",
-          key: "",
-          render: (h, params) => {
-            if (params.row.role != "1") {
-              let arr = params.row.gameList;
-              let result = null;
-              for (let item of arr) {
-                if (item.code == this.gameType) {
-                  result = item.rate;
-                }
-              }
-              return h("span", result + "%");
-            } else {
-              return h("span", "100%");
-            }
-          }
-        },
-        {
-          title: "商家交公司",
+          title: "总游戏交公司",
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
@@ -232,31 +198,58 @@ export default {
           }
         },
         {
-          title: "获利比例",
-          key: "rate",
+          title: "SA真人游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.winloseAmount;
+            }
+            if (params.row.role == "1") {
+              sessionStorage.setItem("winloseAmount", count.toFixed(2));
+              return h("span", count.toFixed(2));
+            } else {
+              return h("span", params.row.winloseAmount);
+            }
+          }
+        },
+        {
+          title: "SA真人游戏(商家交公司)",
+          key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              let winloseAmount = parseInt(sessionStorage.getItem("winloseAmount")) ;
-              let arr = this.child;
-              let mixAmount = 0;
-              for (let item of arr) {
-                mixAmount += item.mixAmount;
-              }
-              let result='';
-              if(winloseAmount / mixAmount!=NaN){
-                result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
-              }else{
-                result=''
-              }
-              return h("span", result);
+              return h("span", 0);
             } else {
-              return h(
-                "span",
-                (
-                  100 *
-                  (params.row.winloseAmount / params.row.mixAmount)
-                ).toFixed(2) + "%"
-              );
+              return h("span", params.row.submitAmount);
+            }
+          }
+        },
+        {
+          title: "SA捕鱼游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.winloseAmount;
+            }
+            if (params.row.role == "1") {
+              sessionStorage.setItem("winloseAmount", count.toFixed(2));
+              return h("span", count.toFixed(2));
+            } else {
+              return h("span", params.row.winloseAmount);
+            }
+          }
+        },
+        {
+          title: "SA捕鱼游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              return h("span", 0);
+            } else {
+              return h("span", params.row.submitAmount);
             }
           }
         }
@@ -279,16 +272,16 @@ export default {
           key: "betCount"
         },
         {
-          title: "投注金额",
-          key: "betAmount"
-        },
-        {
-          title: "输赢金额",
+          title: "总游戏输赢金额",
           key: "winloseAmount"
         },
         {
-          title: "洗码量",
-          key: "mixAmount"
+          title: "SA真人游戏(输赢金额)",
+          key: "winloseAmount"
+        },
+        {
+          title: "SA捕鱼游戏(输赢金额)",
+          key: "winloseAmount"
         }
       ]
     };
@@ -304,14 +297,7 @@ export default {
   },
   methods: {
     changeTime(time) {
-      console.log(this.changedTime);
-    },
-    reset(){
-      this.defaultTime=getDefaultTime()
-      this.init()
-    },
-    search(){
-      this.init()
+      console.log(this.defaultTime);
     },
     types(value) {
       switch (value) {
@@ -352,44 +338,41 @@ export default {
             resolve(showList);
           });
       });
-    },
-    init(){
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-        let req1 = this.$store.dispatch("getUserList", { userId: userId });
-        let req2 = this.$store.dispatch("getUserChild", {
-          parent: "01",
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        });
-        this.spinShow = true;
-        let _this = this;
-        _this.axios.all([req1, req2]).then(
-          _this.axios.spread(function(acct, perms) {
-            //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
-            _this.spinShow = false;
-            if (acct.code == 0) {
-              _this.user.push(acct.payload);
-              // console.log(acct.payload);
-            }
-            if (perms.code == 0) {
-              _this.child = perms.payload;
-            }
-            // _this.user[0].username = _this.user[0].username.slice(9);
-          })
-        );
     }
   },
   created() {
     // console.log(this.defaultTime);
-    this.init()
+    let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+    let req1 = this.$store.dispatch("getUserList", { userId: userId });
+    let req2 = this.$store.dispatch("getUserChild", {
+      parent: "01",
+      gameType: this.gameType,
+      query: {
+        createdAt: this.changedTime
+      }
+    });
+    this.spinShow = true;
+    let _this = this;
+    _this.axios.all([req1, req2]).then(
+      _this.axios.spread(function(acct, perms) {
+        //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
+        _this.spinShow = false;
+        if (acct.code == 0) {
+          _this.user.push(acct.payload);
+          // console.log(acct.payload);
+        }
+        if (perms.code == 0) {
+          _this.child = perms.payload;
+        }
+        // _this.user[0].username = _this.user[0].username.slice(9);
+      })
+    );
   },
-  props:['gameType']
+  props: ["gameType"]
 };
 </script>
 <style lang="less" scoped>
-.report {
+.saAll {
   min-height: 90vh;
   .title {
     font-size: 1.2rem;

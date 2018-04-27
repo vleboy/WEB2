@@ -1,45 +1,46 @@
 <template>
     <div class="sider">
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu ref="sideMenu" :active-name="activeName" theme="dark" width="auto" @on-select='selectMenu'>
+            <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="home">
                 <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index">
                 <span>个人中心</span>
                 </MenuItem>
-                <Submenu name="1">
+                <Submenu name="report">
                     <template slot="title">
                         输赢报表
                     </template>
-                    <MenuItem name="winloseAcount">公司输赢总报表</MenuItem>
-                    <Submenu name='2'>
-                        <template slot="title">NA游戏总报表</template>
+                    <MenuItem name="allreport">公司输赢总报表</MenuItem>
+                    <Submenu name='ugreport'>
+                        <template slot="title">NA游戏报表</template>
+                        <MenuItem name="naAll">NA游戏总报表</MenuItem>
                         <MenuItem name="navideo">NA电子游戏报表</MenuItem>
                         <MenuItem name="nastreet">NA街机游戏报表</MenuItem>
                         <MenuItem name="natrue">NA真人游戏报表</MenuItem>
                         <!-- <MenuItem name="2-4">NA电子游戏报表（跳转）</MenuItem> -->
                         <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='3'>
+                    <Submenu name='ttgreport'>
                         <template slot="title">TTG游戏报表</template>
                         <MenuItem name="ttgvideo">TTG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='4'>
+                    <Submenu name='sareport'>
                         <template slot="title">SA游戏报表</template>
-                        <!-- <MenuItem name="4-1">SA游戏总报表</MenuItem> -->
+                        <MenuItem name="saAll">SA游戏总报表</MenuItem>
                         <MenuItem name="satrue">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='5'>
+                    <Submenu name='mgreport'>
                         <template slot="title">MG游戏报表</template>
                         <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='6'>
+                    <Submenu name='agreport'>
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='7'>
+                    <Submenu name='ugreport'>
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
@@ -96,12 +97,12 @@
                     <template slot="title">
                         系统设置
                     </template>
-                     <Submenu name='27'>
+                    <Submenu name='27'>
                         <template slot="title">登录日志</template>
                         <MenuItem name="271">线路商登录日志</MenuItem>
                         <MenuItem name="272">商户登录日志</MenuItem>
                     </Submenu>
-                     <Submenu name='28'>
+                    <Submenu name='28'>
                         <template slot="title">操作日志</template>
                         <MenuItem name="281">管理员操作日志</MenuItem>
                     </Submenu>
@@ -126,18 +127,17 @@ export default {
   },
   methods: {
     selectMenu(name) {
-    //   console.log(name);
       this.$router.push({ name: name });
     }
   },
-  props:['activeName']
-//    updated() {
-//     this.$nextTick(() => {
-//       if (this.$refs.sideMenu) {
-//         this.$refs.sideMenu.updateOpened();
-//       }
-//     });
-//   }
+  props: ["openName"],
+  updated() {
+    this.$nextTick(() => {
+      if (this.$refs.sideMenu) {
+        this.$refs.sideMenu.updateOpened();
+      }
+    });
+  }
 };
 </script>
 

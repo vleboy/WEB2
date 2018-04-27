@@ -37,6 +37,13 @@ export const appRouter = [
         children:[{path:'index',title:'个人中心', name:'ownspace-index',component:()=>import('@/pages/ownSpace.vue')}]
     },
     {
+        path:'/allreport',
+        title:'公司输赢总报表',
+        name:'all',
+        component:main,
+        children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:()=>import('@/pages/reports/allReport.vue')}]
+    },
+    {
         path:'/aggame',
         title:'AG游戏报表',
         name:'aggame',
@@ -59,7 +66,8 @@ export const appRouter = [
             {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:()=>import('@/pages/reports/naCardGame.vue')},
             {path:'street',title:'NA街机游戏报表',name:'nastreet',component:()=>import('@/pages/reports/naStreetGame.vue')},
             {path:'true',title:'NA真人游戏报表',name:'natrue',component:()=>import('@/pages/reports/naTrueGame.vue')},
-            {path:'video',title:'NA电子游戏报表',name:'navideo',component:()=>import('@/pages/reports/naVideoGame.vue')}
+            {path:'video',title:'NA电子游戏报表',name:'navideo',component:()=>import('@/pages/reports/naVideoGame.vue')},
+            {path:'all',title:'NA游戏总报表',name:'naAll',component:()=>import('@/pages/reports/naAllReport.vue')}
         ]
     },
     {
@@ -68,6 +76,7 @@ export const appRouter = [
         name:'sagame',
         component:main,
         children:[
+            {path:'all',title:'SA游戏总报表',name:'saAll',component:()=>import('@/pages/reports/saAllReport.vue')},
             {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:()=>import('@/pages/reports/saFishingGame.vue')},
             {path:'true',title:'SA真人游戏报表',name:'satrue',component:()=>import('@/pages/reports/saTrueGame.vue')},
         ]
