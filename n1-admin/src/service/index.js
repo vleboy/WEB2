@@ -47,13 +47,10 @@ const imgpost = (urls, datas) => ({
 export async function example(params) {
     return http()
 }
-//获取验证码
-export async function getCode(params){
-    return http(post('/captcha',params))
-}
+
 //登录
-export async function logIn(role,username,password,captcha,cb){
-    return http(post('/users/auth',{role,username,password,captcha,cb}))
+export async function logIn(role,username,password,challenge,vid,cb){
+    return http(post('/users/auth',{role,username,password,challenge,vid,cb}))
 }
 //查询平台用户账单统计
 export async function queryUserStat(params){

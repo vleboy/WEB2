@@ -20,8 +20,8 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({commit},{role,username,password,cb}){
-            logIn(role,username,password).then(res=>{
+        userlogin({commit},{role,username,password,challenge,vid,cb}){
+            logIn(role,username,password,challenge,vid).then(res=>{
                 console.log(res);
                 if(res.code==0){
                     localStorage.setItem('n1token',res.payload.token);

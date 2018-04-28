@@ -26,7 +26,7 @@
               <div id="vaptcha_container">
                 <div class="vaptcha-init-main">
                   <div class="vaptcha-init-loading">
-                    <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" /></a>
+                    <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
                   </div>
               </div>
             </div>
@@ -55,7 +55,6 @@ export default {
       username: "", // 用户名
       password: "", // 密码
       userdata: {},
-      tip: "",
       vaptchaObj: null
     };
   },
@@ -90,7 +89,6 @@ export default {
             //当验证成功时执行回调,function,参数token为string,必选
             self.userdata.token = token;
             self.userdata.challenge = challenge;
-            self.tip = "";
           },
           fail: function() {
             self.clearData("人机验证失败");
@@ -106,6 +104,7 @@ export default {
     login() {
       let passReg = /^\w{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
+      let self=this;
       if (!this.userdata.challenge) {
         this.$Message.warning({
           content: "请进行人机验证"
@@ -129,7 +128,8 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        ...this.userdata,
+        challenge:this.userdata.challenge,
+        vid:this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         }
@@ -181,8 +181,7 @@ export default {
   border: 1px solid #eee;
   border-radius: 2px;
 }
-#vaptcha_container {
-  // height: 2.1rem;
-  width:100%;
-}
+// #vaptcha_container {
+//   // width:100%;
+// }
 </style>
