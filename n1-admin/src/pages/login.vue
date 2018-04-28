@@ -23,12 +23,12 @@
         <FormItem label="验证">
           <Row>
             <Col span="8">
-              <div id="vaptcha_container">
-                <div class="vaptcha-init-main">
-                  <div class="vaptcha-init-loading">
-                    <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                    <span class="vaptcha-text">智能验证码加载中...</span>
-                  </div>
+            <div id="vaptcha_container">
+              <div class="vaptcha-init-main">
+                <div class="vaptcha-init-loading">
+                  <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                  <span class="vaptcha-text">智能验证码加载中...</span>
+                </div>
               </div>
             </div>
             </Col>
@@ -37,7 +37,10 @@
         <FormItem>
           <Row>
             <Col span="8">
-            <Button class="loginbtn" type="ghost" @click="login">登录</Button>
+            <Button class="loginbtn" :loading="loading" type="ghost" @click="login">
+              <span v-if="!loading">登录</span>
+              <span v-else>Loading...</span>
+            </Button>
             </Col>
           </Row>
         </FormItem>
@@ -52,6 +55,7 @@ import { api } from "@/service/urlConfig";
 export default {
   data() {
     return {
+      loading: false,
       role: "1",
       username: "", // 用户名
       password: "", // 密码
@@ -105,7 +109,7 @@ export default {
     login() {
       let passReg = /^\w{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
-      let self=this;
+      let self = this;
       if (!this.userdata.challenge) {
         this.$Message.warning({
           content: "请进行人机验证"
@@ -124,13 +128,14 @@ export default {
         });
         return;
       }
+      this.loading = true;
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
         role: "1",
         username: this.username,
         password: password,
-        challenge:this.userdata.challenge,
-        vid:this.userdata.token,
+        challenge: this.userdata.challenge,
+        vid: this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         }
@@ -182,10 +187,21 @@ export default {
   border: 1px solid #eee;
   border-radius: 2px;
 }
-// #vaptcha_container {
-//   // width:100%;
-// }
-.vaptcha-text{
-  padding-left:60px;
+#vaptcha_container {
+  width: 100%;
+  .vaptcha-init-main {
+    display: table;
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    .vaptcha-init-loading {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+      img{
+        vertical-align: middle;
+      }
+    }
+  }
 }
 </style>
