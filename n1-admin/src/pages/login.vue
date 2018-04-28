@@ -27,6 +27,7 @@
                 <div class="vaptcha-init-main">
                   <div class="vaptcha-init-loading">
                     <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                    <span class="vaptcha-text">智能验证码加载中...</span>
                   </div>
               </div>
             </div>
@@ -184,4 +185,7 @@ export default {
 // #vaptcha_container {
 //   // width:100%;
 // }
+.vaptcha-text{
+  padding-left:60px;
+}
 </style>
