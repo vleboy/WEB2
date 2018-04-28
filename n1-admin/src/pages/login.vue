@@ -37,7 +37,7 @@
         <FormItem>
           <Row>
             <Col span="8">
-            <Button class="loginbtn" :loading="loading" type="ghost" @click="login">
+            <Button class="loginbtn" :loading="$store.state.home.loading" type="ghost" @click="login">
               <span v-if="!loading">登录</span>
               <span v-else>Loading...</span>
             </Button>
@@ -55,7 +55,6 @@ import { api } from "@/service/urlConfig";
 export default {
   data() {
     return {
-      loading: false,
       role: "1",
       username: "", // 用户名
       password: "", // 密码
@@ -64,7 +63,11 @@ export default {
     };
   },
   watch: {},
-  computed: {},
+  computed: {
+    loading(){
+      return this.$store.state.home.loading;
+    }
+  },
   created() {
     //   if (localStorage.token) {
     //   this.$router.push({
@@ -128,7 +131,7 @@ export default {
         });
         return;
       }
-      this.loading = true;
+      this.$store.commit('changeLoading',{params:true})
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
         role: "1",

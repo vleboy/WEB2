@@ -1,6 +1,7 @@
 <template>
     <div class="sider">
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
+            <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <!-- <MenuItem name="home">
                 <span>看板</span>
@@ -152,5 +153,11 @@ export default {
 .layout-header-bar {
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.logoimg{
+    max-width:200px; 
+    position: relative;
+	left: 50%;
+    transform: translateX(-50%);
 }
 </style>

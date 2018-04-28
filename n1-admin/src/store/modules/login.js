@@ -3,6 +3,7 @@ export const login = {
     state:{
         // getcode:'',
         infos:{},
+        loading:false
     },
     mutations:{
         // updateCode(state,{params}){
@@ -10,6 +11,9 @@ export const login = {
         // },
         saveInfo(state,{params}){
             state.infos=params
+        },
+        changeLoading(state,{params}){
+            state.loading=params
         }
     },
     actions:{
@@ -31,6 +35,7 @@ export const login = {
                     cb&&cb()
                 }else{
                     alert(res.msg)
+                    commit('changeLoading',{params:false})
                 }
                 
             })
