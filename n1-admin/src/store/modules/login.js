@@ -34,10 +34,8 @@ export const login = {
                     commit('saveInfo',{params:res.payload});
                     cb&&cb()
                 }else{
-                    alert(res.msg)
                     commit('changeLoading',{params:false})
                 }
-                
             })
         }
     }
