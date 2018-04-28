@@ -1,4 +1,4 @@
-import { queryUserbyParent,queryUserbyId,queryPlayer } from '../../service/index'
+import { queryUserStat,queryPlayer } from '../../service/index'
 export const report = {
     state:{
        
@@ -8,10 +8,10 @@ export const report = {
     },
     actions:{
        getUserList({commit},params){
-        return queryUserbyId(params)
+        return queryUserStat(params)
        },
        getUserChild({commit},params){
-        return queryUserbyParent(params)
+        return queryUserStat(params)
        },
        getPlayerList({commit},params){
          return queryPlayer(params)

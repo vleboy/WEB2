@@ -80,7 +80,6 @@ export default {
           content: "<p>是否确认退出</p>",
           onOk: () => {
             localStorage.clear();
-            this.$store.commit("clearOpenedSubmenu");
             this.$router.push({ name: "login" });
           }
         });

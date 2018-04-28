@@ -662,7 +662,6 @@ export default {
             if (perms.code == 0) {
               _this.child = perms.payload;
             }
-            // _this.user[0].username = _this.user[0].username.slice(9);
           })
         );
     }

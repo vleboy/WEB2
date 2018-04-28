@@ -56,12 +56,10 @@ export async function logIn(role,username,password,captcha,cb){
     return http(post('/users/auth',{role,username,password,captcha,cb}))
 }
 //查询平台用户账单统计
-export async function queryUserbyId(params){
+export async function queryUserStat(params){
     return http(post('/queryUserStat',params))
 }
-export async function queryUserbyParent(params){
-    return http(post('/queryUserStat',params))
-}
+//获取playlist
 export async function queryPlayer(params){
     return http(post('/queryPlayerStat',params))
 }

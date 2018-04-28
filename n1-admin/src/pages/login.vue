@@ -20,17 +20,17 @@
             </Col>
           </Row>
         </FormItem>
-        <FormItem label="验证码">
+        <FormItem label="验证">
           <Row>
-            <Col span="4">
-            <Input v-model="captcha" @keyup.native.enter="login" :maxlength='4'></Input>
-            </Col>
-            <Col span="4">
-            <div class="codebox" @click="getcaptcha">
-              <Button class="get_code" type="text" v-if="$store.state.login.getcode==''">
-                获取验证码
-              </Button>
-              <img v-else class="code-img" :src="$store.state.login.getcode">
+            <Col span="8">
+            <div class="codebox">
+              <div id="vaptcha_container">
+                <div class="vaptcha-init-main">
+                  <div class="vaptcha-init-loading">
+                    <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" /></a>
+                  </div>
+                </div>
+              </div>
             </div>
             </Col>
           </Row>
@@ -49,46 +49,68 @@
 
 <script>
 import bcrypt from "bcryptjs";
+import { api } from "@/service/urlConfig";
 export default {
   data() {
     return {
       role: "1",
       username: "", // 用户名
       password: "", // 密码
-      captcha: "" // 验证码
+      userdata: {},
+      tip: "",
+      vaptchaObj: null
     };
   },
   watch: {},
   computed: {},
+  created() {
+    //   if (localStorage.token) {
+    //   this.$router.push({
+    //     path: "/layout/log"
+    //   });
+    // } else {
+    this.initVaptcha();
+    // }
+  },
   methods: {
-    getcaptcha() {
-      this.$Message.config({
-        top: 100,
-        duration:3
+    clearData(msg) {
+      this.$Message.warning({
+        content: msg
       });
-      if (!this.username) {
-        this.$Message.warning({
-          content: "请输入用户名以获取验证码"
-        });
-      } else {
-        let relKey = "Platform_" + this.username;
-        let usage = "login";
-        this.$store.dispatch("getcapcha", {
-          usage: usage,
-          relKey: relKey,
-          err: () => {
-            this.$Message.error(res.msg);
+    },
+    initVaptcha() {
+      let self = this;
+      this.axios.post(api.getVaptcha, {}).then(function(r) {
+        const options = {
+          vid: r.data.vid,
+          challenge: r.data.challenge,
+          type: "float", //验证码类型,string,默认float,可选择float,popup,embed,
+          checkingAnimation: "display", //是否显示智能检测动画，"hide"则为隐藏
+          outage: api.getDownTime,
+          container: "#vaptcha_container",
+          success: function(token, challenge) {
+            //当验证成功时执行回调,function,参数token为string,必选
+            self.userdata.token = token;
+            self.userdata.challenge = challenge;
+            self.tip = "";
+          },
+          fail: function() {
+            self.clearData("人机验证失败");
           }
+        };
+        //vaptcha对象初始化
+        window.vaptcha(options, function(obj) {
+          self.vaptchaObj = obj;
+          self.vaptchaObj.init();
         });
-      }
+      });
     },
     login() {
       let passReg = /^\w{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
-      let codeReg = /^\d{4}$/;
-      if (!codeReg.test(this.captcha)) {
+      if (!this.userdata.challenge) {
         this.$Message.warning({
-          content: "验证码不是数字"
+          content: "请进行人机验证"
         });
         return;
       }
@@ -109,7 +131,7 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        captcha: this.captcha,
+        ...this.userdata,
         cb: () => {
           this.$router.push({ name: "home" });
         }
@@ -165,6 +187,9 @@ export default {
   width: 7.2rem;
   height: 2.1rem;
   margin-left: 0.15rem;
-  float: right;
+}
+#vaptcha_container {
+  width: 100%;
+  height: 2.1rem;
 }
 </style>

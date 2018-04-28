@@ -1,30 +1,30 @@
-import {getCode,logIn} from '../../service/index'
+import {logIn} from '../../service/index'
 export const login = {
     state:{
-        getcode:'',
-        infos:{}
+        // getcode:'',
+        infos:{},
     },
     mutations:{
-        updateCode(state,{params}){
-            state.getcode=`data:image/png;base64,${params}`
-        },
+        // updateCode(state,{params}){
+        //     state.getcode=`data:image/png;base64,${params}`
+        // },
         saveInfo(state,{params}){
             state.infos=params
         }
     },
     actions:{
-        getcapcha({state,commit},params){
-            getCode(params).then(res=>{
-                if(res.code==0){
-                    commit('updateCode',{params:res.payload})
-                }
-            })
-        },
-        userlogin({commit},{role,username,password,captcha,cb}){
-            logIn(role,username,password,captcha).then(res=>{
+        // getcapcha({state,commit},params){
+        //     getCode(params).then(res=>{
+        //         if(res.code==0){
+        //             commit('updateCode',{params:res.payload})
+        //         }
+        //     })
+        // },
+        userlogin({commit},{role,username,password,cb}){
+            logIn(role,username,password).then(res=>{
                 console.log(res);
                 if(res.code==0){
-                    localStorage.setItem('n1admin',res.payload.token);
+                    localStorage.setItem('n1token',res.payload.token);
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
                     commit('saveInfo',{params:res.payload});

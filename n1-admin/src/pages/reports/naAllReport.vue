@@ -7,8 +7,8 @@
                 </p>
                 <div class="right">
                     <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
-                    <Button type="primary">搜索</Button>
-                    <Button type="ghost">重置</Button>
+                    <Button type="primary" @click="search">搜索</Button>
+                    <Button type="ghost" @click="reset">重置</Button>
                 </div>
             </div>
             <Table :columns="columns1" :data="user" size="small" no-data-text="暂无数据"></Table>
@@ -51,6 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
+      gameType:[10000,30000,40000,50000],
       option: {
         disabledDate(date) {
           return date && date.valueOf() > Date.now() - 180000;
@@ -179,7 +180,6 @@ export default {
               count += item.winloseAmount;
             }
             if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -204,13 +204,20 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              count += item.winloseAmount;
+              for(let key in item.gameTypeMap){
+                if(key=='30000'){
+                  count+=item.gameTypeMap[key].winloseAmount;
+                }
+              }
             }
             if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
-              return h("span", params.row.winloseAmount);
+              let winloseAmount=0;
+              if(params.row.gameTypeMap['30000']!==undefined){
+                winloseAmount=params.row.gameTypeMap['30000'].winloseAmount.toFixed(2)
+              }
+              return h("span", winloseAmount);
             }
           }
         },
@@ -221,7 +228,11 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+               let submitAmount=0;
+              if(params.row.gameTypeMap['30000']!==undefined){
+                submitAmount=params.row.gameTypeMap['30000'].submitAmount.toFixed(2)
+              }
+              return h("span", submitAmount);
             }
           }
         },
@@ -232,13 +243,20 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              count += item.winloseAmount;
+              for(let key in item.gameTypeMap){
+                if(key=='40000'){
+                  count+=item.gameTypeMap[key].winloseAmount;
+                }
+              }
             }
             if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
-              return h("span", params.row.winloseAmount);
+               let winloseAmount=0;
+              if(params.row.gameTypeMap['40000']!==undefined){
+                winloseAmount=params.row.gameTypeMap['40000'].winloseAmount.toFixed(2)
+              }
+              return h("span", winloseAmount);
             }
           }
         },
@@ -249,7 +267,11 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              let submitAmount=0;
+              if(params.row.gameTypeMap['40000']!==undefined){
+                submitAmount=params.row.gameTypeMap['40000'].submitAmount.toFixed(2)
+              }
+              return h("span", submitAmount);
             }
           }
         },
@@ -260,13 +282,20 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              count += item.winloseAmount;
+              for(let key in item.gameTypeMap){
+                if(key=='50000'){
+                  count+=item.gameTypeMap[key].winloseAmount;
+                }
+              }
             }
             if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
-              return h("span", params.row.winloseAmount);
+              let winloseAmount=0;
+              if(params.row.gameTypeMap['50000']!==undefined){
+                winloseAmount=params.row.gameTypeMap['50000'].winloseAmount.toFixed(2)
+              }
+              return h("span", winloseAmount);
             }
           }
         },
@@ -277,7 +306,11 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              let submitAmount=0;
+              if(params.row.gameTypeMap['50000']!==undefined){
+                submitAmount=params.row.gameTypeMap['50000'].submitAmount.toFixed(2)
+              }
+              return h("span", submitAmount);
             }
           }
         }
@@ -301,19 +334,40 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "betAmount"
-        },
-        {
-          title: "NA真人游戏(输赢金额)",
           key: "winloseAmount"
         },
         {
+          title: "NA真人游戏(输赢金额)",
+          key: "winloseAmount",
+          render:(h,params)=>{
+            let winloseAmount=0;
+            if(params.row.gameTypeMap['30000']!==undefined){
+              winloseAmount=params.row.gameTypeMap['30000'].winloseAmount.toFixed(2)
+            }
+            return h("span", winloseAmount);
+          }
+        },
+        {
           title: "NA电子游戏(输赢金额)",
-          key: "mixAmount"
+          key: "winloseAmount",
+          render:(h,params)=>{
+            let winloseAmount=0;
+            if(params.row.gameTypeMap['40000']!==undefined){
+              winloseAmount=params.row.gameTypeMap['40000'].winloseAmount.toFixed(2)
+            }
+            return h("span", winloseAmount);
+          }
         },
         {
           title: "NA街机游戏(输赢金额)",
-          key: "mixAmount"
+          key: "winloseAmount",
+          render:(h,params)=>{
+            let winloseAmount=0;
+            if(params.row.gameTypeMap['50000']!==undefined){
+              winloseAmount=params.row.gameTypeMap['50000'].winloseAmount.toFixed(2)
+            }
+            return h("span", winloseAmount);
+          }
         }
       ]
     };
@@ -330,6 +384,13 @@ export default {
   methods: {
     changeTime(time) {
       console.log(this.defaultTime);
+    },
+    reset(){
+      this.defaultTime=getDefaultTime();
+      this.init()
+    },
+    search(){
+      this.init()
     },
     types(value) {
       switch (value) {
@@ -370,37 +431,38 @@ export default {
             resolve(showList);
           });
       });
+    },
+    init(){
+       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let req2 = this.$store.dispatch("getUserChild", {
+        parent: "01",
+        gameType: this.gameType,
+        query: {
+          createdAt: this.changedTime
+        }
+      });
+      this.spinShow = true;
+      let _this = this;
+      _this.axios.all([req1, req2]).then(
+        _this.axios.spread(function(acct, perms) {
+          //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
+          _this.spinShow = false;
+          if (acct.code == 0) {
+            _this.user.push(acct.payload);
+            // console.log(acct.payload);
+          }
+          if (perms.code == 0) {
+            _this.child = perms.payload;
+          }
+        })
+      );
     }
   },
   created() {
     // console.log(this.defaultTime);
-    let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-    let req1 = this.$store.dispatch("getUserList", { userId: userId });
-    let req2 = this.$store.dispatch("getUserChild", {
-      parent: "01",
-      gameType: this.gameType,
-      query: {
-        createdAt: this.changedTime
-      }
-    });
-    this.spinShow = true;
-    let _this = this;
-    _this.axios.all([req1, req2]).then(
-      _this.axios.spread(function(acct, perms) {
-        //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
-        _this.spinShow = false;
-        if (acct.code == 0) {
-          _this.user.push(acct.payload);
-          // console.log(acct.payload);
-        }
-        if (perms.code == 0) {
-          _this.child = perms.payload;
-        }
-        // _this.user[0].username = _this.user[0].username.slice(9);
-      })
-    );
+   this.init()
   },
-  props: ["gameType"]
 };
 </script>
 <style lang="less" scoped>
