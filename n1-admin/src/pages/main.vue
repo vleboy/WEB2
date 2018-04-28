@@ -15,7 +15,7 @@
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
-                <DropdownItem name="ownSpace">个人中心</DropdownItem>
+                <!-- <DropdownItem name="ownSpace">个人中心</DropdownItem> -->
                 <DropdownItem name="loginout" divided>退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -71,11 +71,7 @@ export default {
       }
     },
     handleClickUserDropdown(name) {
-      if (name === "ownSpace") {
-        this.$router.push({ name: "ownspace-index" });
-      } else if (name === "loginout") {
-        // 退出登录
-        this.$Modal.confirm({
+       this.$Modal.confirm({
           title: "提示",
           content: "<p>是否确认退出</p>",
           onOk: () => {
@@ -83,7 +79,11 @@ export default {
             this.$router.push({ name: "login" });
           }
         });
-      }
+      // if (name === "ownSpace") {
+      //   // this.$router.push({ name: "ownspace-index" });
+      // } else if (name === "loginout") {
+      //   // 退出登录
+      // }
     }
   },
   components: { sidebar, tagClose },

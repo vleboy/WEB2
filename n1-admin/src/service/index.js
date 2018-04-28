@@ -14,8 +14,8 @@ const get = urls => ({
 const post = (urls, datas) => {
     let TOKEN='';
     let headers={};
-    if(window.localStorage.getItem('n1admin')) {
-        TOKEN = window.localStorage.getItem('n1admin')
+    if(window.localStorage.getItem('n1token')) {
+        TOKEN = window.localStorage.getItem('n1token')
         headers={
             "Content-Type": "application/json; charset=utf-8",
             "Authorization":TOKEN
