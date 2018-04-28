@@ -2,12 +2,12 @@
     <div class="sider">
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
-                <MenuItem name="home">
+                <!-- <MenuItem name="home">
                 <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index">
                 <span>个人中心</span>
-                </MenuItem>
+                </MenuItem> -->
                 <Submenu name="report">
                     <template slot="title">
                         输赢报表
@@ -45,7 +45,7 @@
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                <Submenu name="8">
+                <!-- <Submenu name="8">
                     <template slot="title">
                         商户中心
                     </template>
@@ -115,7 +115,7 @@
                     </Submenu>
                     <MenuItem name="12-1">线路号列表</MenuItem>
                     <MenuItem name="12-2">Debug操作日志</MenuItem>
-                </Submenu>
+                </Submenu> -->
             </Menu>
         </Sider>
     </div>
