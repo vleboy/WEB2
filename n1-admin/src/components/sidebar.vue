@@ -19,7 +19,7 @@
                         <MenuItem name="navideo">NA电子游戏报表</MenuItem>
                         <MenuItem name="nastreet">NA街机游戏报表</MenuItem>
                         <MenuItem name="natrue">NA真人游戏报表</MenuItem>
-                        <!-- <MenuItem name="2-4">NA电子游戏报表（跳转）</MenuItem> -->
+                        <MenuItem name="jump">NA真人游戏报表(跳转)</MenuItem>
                         <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ttgreport'>
@@ -127,7 +127,14 @@ export default {
   },
   methods: {
     selectMenu(name) {
-      this.$router.push({ name: name });
+      if (name == "jump") {
+        this.$Message.success('跳转中,如有弹窗拦截,请允许')
+        this.$store.dispatch("getGameSign", { gameType: 30000 }).then(res => {
+          window.open(res.url);
+        });
+      } else {
+        this.$router.push({ name: name });
+      }
     }
   },
   props: ["openName"],

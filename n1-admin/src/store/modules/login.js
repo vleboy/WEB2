@@ -1,4 +1,4 @@
-import {logIn} from '../../service/index'
+import {logIn} from '@/service/index'
 export const login = {
     state:{
         // getcode:'',

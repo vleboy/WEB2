@@ -1,32 +1,29 @@
 import axios from 'axios'
-import vue from 'vue'
+import {Message} from 'iview'
 axios.interceptors.request.use(config => config, error => Promise.reject(error))
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
-
+Message.config({
+    top: 50,
+    duration: 3
+});
 function checkStatus(response) {
-    // console.log(response);
-    if(response && ( response.status == 200 || response.status == 304 || response.status == 400 )) {
-        return response.data
-        if(response.data.code!='0'){
-            vue.$Message.error(response.data.msg);
-        }
+    // console.log(response)
+  if (response.data.code != '0') {
+        Message.warning(response.data.msg);
     }
+  if (response && (response.status == 200 || response.status == 304 || response.status == 400)) {
+    return response.data
+  } else {
     return {
-        status: 404,
-        msg: '网络异常'
+      status: 404,
+      msg: '网络异常'
     }
+    Message.warning('网络异常');
+  }
 }
-// function checkCode(res) {
-//     console.log('res', res)
-//     if(res.status == 404) {
-//         console.log(res.msg)
-//     }
-//     if(res.data && (!res.data.success)) {
-//         console.log(res.data.msg)
-//     }
-//     return res
-// }
 
 export const http = config => {
-    return axios(config).then(response => checkStatus(response))
+  return axios(config).then(response => checkStatus(response)).catch((err) => {
+    Message.warning('网络连接不稳定');
+  })
 }

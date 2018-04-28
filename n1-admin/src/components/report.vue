@@ -3,7 +3,7 @@
     <div class="nowList">
       <div class="top">
         <p class="title">
-          当前选择列表
+          当前用户列表
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
@@ -236,17 +236,19 @@ export default {
           key: "rate",
           render: (h, params) => {
             if (params.row.role == "1") {
-              let winloseAmount = parseInt(sessionStorage.getItem("winloseAmount")) ;
+              let winloseAmount = parseInt(
+                sessionStorage.getItem("winloseAmount")
+              );
               let arr = this.child;
               let mixAmount = 0;
               for (let item of arr) {
                 mixAmount += item.mixAmount;
               }
-              let result='';
-              if(winloseAmount !=0){
+              let result = "";
+              if (winloseAmount != 0) {
                 result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
-              }else{
-                result=0
+              } else {
+                result = 0;
               }
               return h("span", result);
             } else {
@@ -306,12 +308,12 @@ export default {
     changeTime(time) {
       console.log(this.changedTime);
     },
-    reset(){
-      this.defaultTime=getDefaultTime()
-      this.init()
+    reset() {
+      this.defaultTime = getDefaultTime();
+      this.init();
     },
-    search(){
-      this.init()
+    search() {
+      this.init();
     },
     types(value) {
       switch (value) {
@@ -353,40 +355,34 @@ export default {
           });
       });
     },
-    init(){
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-        let req1 = this.$store.dispatch("getUserList", { userId: userId });
-        let req2 = this.$store.dispatch("getUserChild", {
-          parent: "01",
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        });
-        this.spinShow = true;
-        let _this = this;
-        _this.axios.all([req1, req2]).then(
-          _this.axios.spread(function(acct, perms) {
-            //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
-            _this.spinShow = false;
-            _this.user=[];
-            if (acct.code == 0) {
-              _this.user.push(acct.payload);
-              // console.log(acct.payload);
-            }
-            if (perms.code == 0) {
-              _this.child = perms.payload;
-            }
-            // _this.user[0].username = _this.user[0].username.slice(9);
-          })
-        );
+    async init() {
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let req2 = this.$store.dispatch("getUserChild", {
+        parent: "01",
+        gameType: this.gameType,
+        query: {
+          createdAt: this.changedTime
+        }
+      });
+      this.spinShow = true;
+      //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
+      let [acct, perms] = await this.axios.all([req1, req2]);
+      this.spinShow = false;
+      this.user = [];
+      if (acct && acct.code == 0) {
+        this.user.push(acct.payload);
+      }
+      if (perms && perms.code == 0) {
+        this.child = perms.payload;
+      }
     }
   },
   created() {
     // console.log(this.defaultTime);
-    this.init()
+    this.init();
   },
-  props:['gameType']
+  props: ["gameType"]
 };
 </script>
 <style lang="less" scoped>

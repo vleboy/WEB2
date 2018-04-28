@@ -1,4 +1,4 @@
-import { queryUserStat,queryPlayer } from '../../service/index'
+import { queryUserStat,queryPlayer } from '@/service/index'
 export const report = {
     state:{
        

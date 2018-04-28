@@ -60,3 +60,7 @@ export async function queryUserStat(params){
 export async function queryPlayer(params){
     return http(post('/queryPlayerStat',params))
 }
+//game/sign
+export async function gameSign(params){
+    return http(post('/game/sign',params))
+}
