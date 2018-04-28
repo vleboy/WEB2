@@ -23,13 +23,11 @@
         <FormItem label="验证">
           <Row>
             <Col span="8">
-            <div class="codebox">
               <div id="vaptcha_container">
                 <div class="vaptcha-init-main">
                   <div class="vaptcha-init-loading">
                     <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" /></a>
                   </div>
-                </div>
               </div>
             </div>
             </Col>
@@ -183,13 +181,8 @@ export default {
   border: 1px solid #eee;
   border-radius: 2px;
 }
-.codebox {
-  width: 7.2rem;
-  height: 2.1rem;
-  margin-left: 0.15rem;
-}
 #vaptcha_container {
-  width: 100%;
-  height: 2.1rem;
+  // height: 2.1rem;
+  width:100%;
 }
 </style>
