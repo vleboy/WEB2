@@ -2,11 +2,7 @@ import {otherRouter,appRouter} from '@/router/router'
 import Util from '@/libs/util';
 export const home={
     state:{
-        pageOpenedList: [{
-            path: '/home',
-            name: 'home',
-            title:'首页'
-        }],
+        pageOpenedList: [],
         // openedSubmenuArr: [], // 要展开的菜单数组
         currentPageName: '',
         cachePage: [],
@@ -66,6 +62,9 @@ export const home={
             if (!Util.oneOf(tagObj.name, state.dontCache)) {
                 state.cachePage.push(tagObj.name);
                 localStorage.cachePage = JSON.stringify(state.cachePage);
+            }
+            if(state.pageOpenedList.length==9){
+                state.pageOpenedList.splice(1,1);
             }
             state.pageOpenedList.push(tagObj);
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);

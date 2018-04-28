@@ -243,10 +243,10 @@ export default {
                 mixAmount += item.mixAmount;
               }
               let result='';
-              if(winloseAmount / mixAmount!=NaN){
+              if(winloseAmount !=0){
                 result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
               }else{
-                result=''
+                result=0
               }
               return h("span", result);
             } else {
