@@ -20,7 +20,7 @@ export const page404 = {
 export const otherRouter = {
     path: '/',
     name: 'otherRouter',
-    redirect: '/home',
+    redirect: '/login',
     title:'other',
     component: main,
     children: [
