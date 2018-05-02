@@ -89,8 +89,8 @@ export default {
           container: "#vaptcha_container",
           success: function(token, challenge) {
             //当验证成功时执行回调,function,参数token为string,必选
-            self.token = token;
-            self.challenge = challenge;
+            self.userdata.token = token;
+            self.userdata.challenge = challenge;
           },
           fail: function() {
             self.clearData("人机验证失败");
@@ -107,7 +107,7 @@ export default {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      if (!this.challenge) {
+      if (!this.userdata.challenge) {
         this.$Message.warning({
           content: "请进行人机验证"
         });
@@ -131,8 +131,8 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        challenge: this.challenge,
-        vid: this.token,
+        challenge: this.userdata.challenge,
+        vid: this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         },
