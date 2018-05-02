@@ -6,13 +6,17 @@ export const loginRouter = {
     // meta: {
     //     title: 'Login - 登录'
     // },
+    meta: {
+        requireAuth: false
+      },
     component: () => import('@/pages/login.vue')
 };
 export const page404 = {
     path: '*',
     name: 'error-404',
     meta: {
-        title: '404-页面不存在'
+        title: '404-页面不存在',
+        requireAuth: false
     },
     component: () => import('@/pages/404.vue')
 };
@@ -20,7 +24,7 @@ export const page404 = {
 export const otherRouter = {
     path: '/',
     name: 'otherRouter',
-    redirect: '/login',
+    redirect: '/home',
     title:'other',
     component: main,
     children: [

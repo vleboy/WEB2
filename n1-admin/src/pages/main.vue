@@ -101,7 +101,7 @@ export default {
       this.checkTag(name);
       localStorage.currentPageName = name;
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
-
+      this.openName=["report"]
       if (name.includes("na")) {
         this.openName = ["report", "ugreport"];
       } else if (name.includes("ttg")) {

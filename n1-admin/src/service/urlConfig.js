@@ -1,9 +1,12 @@
 //开发环境
-export const URL = 'd3rqtlfdd4m9wd.cloudfront.net'
+    export const URL = 'd3rqtlfdd4m9wd.cloudfront.net'
 
 //正式环境
-
-// export const URL = 'n1admin.na12345.com'
+// if(DEV){
+//     export const URL = 'd3rqtlfdd4m9wd.cloudfront.net'
+// }else{
+//     export const URL = 'n1admin.na12345.com'
+// }
 
 export const httpType ='https://'
 

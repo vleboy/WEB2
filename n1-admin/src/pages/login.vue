@@ -69,13 +69,7 @@ export default {
     }
   },
   created() {
-    //   if (localStorage.token) {
-    //   this.$router.push({
-    //     path: "/layout/log"
-    //   });
-    // } else {
     this.initVaptcha();
-    // }
   },
   methods: {
     clearData(msg) {
@@ -141,6 +135,9 @@ export default {
         vid: this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
+        },
+        err:()=>{
+          this.initVaptcha();
         }
       })
     }

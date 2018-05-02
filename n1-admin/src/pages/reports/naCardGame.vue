@@ -1,6 +1,6 @@
 <template>
   <div class="naCard">
-    <report :gameType='10000'></report>
+    <report :gameType='3'></report>
   </div>
 </template>
 <script>

@@ -24,17 +24,19 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({commit},{role,username,password,challenge,vid,cb}){
+        userlogin({commit},{role,username,password,challenge,vid,cb,err}){
             logIn(role,username,password,challenge,vid).then(res=>{
                 console.log(res);
                 if(res.code==0){
                     localStorage.setItem('n1token',res.payload.token);
+                    setTimeout(()=>localStorage.removeItem('n1token'),259200000);
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
                     commit('saveInfo',{params:res.payload});
-                    cb&&cb()
+                    cb && cb()
                 }else{
-                    commit('changeLoading',{params:false})
+                    commit('changeLoading',{params:false});
+                    err && err()
                 }
             })
         }
