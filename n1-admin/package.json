@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "build-dev": "node build/development.js",
     "build-prod":"node build/build.js",
-    "test-admin":"node build/development.js"
+    "test-admin":"node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
