@@ -10,15 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'd3rqtlfdd4m9wd.cloudfront.net/', //接口域名
-        changeOrigin: true, //是否跨域
-        pathRewrite: {
-          '^/api': '' //需要rewrite重写
-        }
-      }
-    },
+    // proxyTable: {
+    //   '/api': {
+    //     target: 'd3rqtlfdd4m9wd.cloudfront.net/', //接口域名
+    //     changeOrigin: true, //是否跨域
+    //     pathRewrite: {
+    //       '^/api': '' //需要rewrite重写
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
