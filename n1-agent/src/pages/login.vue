@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-left">
-      <p class="title-big">NA后台管理系统</p>
+      <p class="title-big">NA代理管理系统</p>
     </div>
     <div class="login-center"></div>
     <div class="login-right">
@@ -107,12 +107,12 @@ export default {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      if (!this.userdata.challenge) {
-        this.$Message.warning({
-          content: "请进行人机验证"
-        });
-        return;
-      }
+      // if (!this.userdata.challenge) {
+      //   this.$Message.warning({
+      //     content: "请进行人机验证"
+      //   });
+      //   return;
+      // }
       if (!nameReg.test(this.username)) {
         this.$Message.warning({
           content: "用户名为5-16位的（英文、数字、@、_、-）"
@@ -128,11 +128,11 @@ export default {
       this.$store.commit('changeLoading',{params:true})
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
-        role: "1",
+        role: "1000",
         username: this.username,
         password: password,
-        challenge: this.userdata.challenge,
-        vid: this.userdata.token,
+        challenge:'ada3',// this.userdata.challenge,
+        vid:'ab',// this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         },
