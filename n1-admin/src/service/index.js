@@ -3,13 +3,19 @@ import { URL,httpType } from './urlConfig'
 // import QS from 'qs'
 
 // get请求
-const get = urls => ({
-    method: 'get',
-    url: URL + urls,
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest'
+const get = urls => {
+    let token=localStorage.getItem('n1token');
+    let headers={
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization":token
     }
-})
+    return {
+     method: 'get',
+     url: httpType+ URL + urls,
+     headers: headers
+    }
+}
+
 // post请求
 const post = (urls, datas) => {
     let TOKEN='';

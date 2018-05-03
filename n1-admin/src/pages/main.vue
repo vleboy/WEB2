@@ -150,4 +150,5 @@ export default {
 .ivu-layout-header {
   padding: 0 50px 0 10px;
 }
+
 </style>

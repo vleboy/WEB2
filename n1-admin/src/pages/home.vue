@@ -14,7 +14,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .home-main {
-  height: 90vh;
+  height: 84vh;
   .contentBox {
     margin-top: 100px;
     text-align: center;
