@@ -1,5 +1,5 @@
 <template>
-  <div class="saAll">
+  <div class="report">
     <div class="nowList">
       <div class="top">
         <p class="title">
@@ -51,7 +51,6 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [1060000, 1110000],
       option: {
         disabledDate(date) {
           return date && date.valueOf() > Date.now() - 180000;
@@ -87,7 +86,6 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    //代理
                     if (params.row.level == 0) {
                       this.$store
                         .dispatch("getUserChild", {
@@ -153,10 +151,8 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let count = 0;
-            if (arr.length > 0) {
-              for (let item of arr) {
-                count += item.betCount;
-              }
+            for (let item of arr) {
+              count += item.betCount;
             }
             if (params.row.level == 0) {
               return h("span", count);
@@ -166,7 +162,23 @@ export default {
           }
         },
         {
-          title: "总游戏输赢金额",
+          title: "投注金额",
+          key: "betAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.betAmount;
+            }
+            if (params.row.level == 0) {
+              return h("span", count.toFixed(2));
+            } else {
+              return h("span", params.row.betAmount);
+            }
+          }
+        },
+        {
+          title: "输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
             let arr = this.child;
@@ -175,6 +187,7 @@ export default {
               count += item.winloseAmount;
             }
             if (params.row.level == 0) {
+              // sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -182,7 +195,83 @@ export default {
           }
         },
         {
-          title: "总游戏交公司",
+          title: "返水比例",
+          key: "",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              return h("span", 0);
+            } else {
+              let obj = params.row.gameList;
+              let mix = 0;
+              for (let item of arr) {
+                for (let key in item) {
+                  if (item.code == this.gameType) {
+                    mix = parseFloat(item.mix);
+                  }
+                }
+              }
+              return h("span", mix.toFixed(2) + "%");
+            }
+          }
+        },
+        {
+          title: "洗码量",
+          key: "",
+          render: (h, params) => {
+            let arr = this.child;
+            let mixAmount = 0;
+            for (let item of arr) {
+              mixAmount += item.mixAmount;
+            }
+            if (params.row.level == 0) {
+              return h("span", mixAmount.toFixed(2));
+            } else {
+              return h("span", params.row.mixAmount.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "佣金",
+          key: "",
+          render: (h, params) => {
+            let arr = this.child;
+            let boundsSum = 0;
+            for (let item of arr) {
+              boundsSum += item.boundsSum;
+            }
+            if (params.row.level == 0) {
+              return h("span", boundsSum.toFixed(2));
+            } else {
+              return h("span", params.row.boundsSum.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "代理总金额",
+          key: "",
+          render: (h, params) => {
+            let arr = this.child;
+            let totalSum = 0;
+            for (let item of arr) {
+              totalSum += item.totalSum;
+            }
+            if (params.row.level == 0) {
+              return h("span", totalSum.toFixed(2));
+            } else {
+              return h("span", params.row.totalSum.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "代理占成",
+          key: "",
+          render: (h, params) => {
+            let rate = params.row.rate + "%";
+            return h("span", rate);
+          }
+        },
+        {
+          title: "代理交公司",
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
@@ -193,92 +282,31 @@ export default {
           }
         },
         {
-          title: "SA真人游戏(输赢金额)",
-          key: "winloseAmount",
+          title: "获利比例",
+          key: "rate",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            if (arr.length > 0) {
+            if (params.row.level == 0) {
+              let totalSum = 0;
+              let betAmount = 0;
+              let arr = this.child;
               for (let item of arr) {
-                for (let key in item.gameTypeMap) {
-                  if (key == "1060000") {
-                    count += item.gameTypeMap[key].winloseAmount;
-                  }
-                }
+                betAmount += item.betAmount;
+                totalSum += item.totalSum;
               }
-            }
-            if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
+              let result = "";
+              if (totalSum != 0) {
+                result = (100 * totalSum / betAmount).toFixed(2) + "%";
+              } else {
+                result = 0;
+              }
+              return h("span", result);
             } else {
-              let winloseAmount = 0;
-              if (params.row.gameTypeMap["1060000"] !== undefined) {
-                winloseAmount = params.row.gameTypeMap[
-                  "1060000"
-                ].winloseAmount.toFixed(2);
-              }
-              return h("span", winloseAmount);
-            }
-          }
-        },
-        {
-          title: "SA真人游戏(商家交公司)",
-          key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.level == 0) {
-              return h("span", 0);
-            } else {
-              let submitAmount = 0;
-              if (params.row.gameTypeMap["1060000"] !== undefined) {
-                submitAmount = params.row.gameTypeMap[
-                  "1060000"
-                ].submitAmount.toFixed(2);
-              }
-              return h("span", submitAmount);
-            }
-          }
-        },
-        {
-          title: "SA捕鱼游戏(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            if (arr.length > 0) {
-              for (let item of arr) {
-                for (let key in item.gameTypeMap) {
-                  if (key == "1110000") {
-                    count += item.gameTypeMap[key].winloseAmount;
-                  }
-                }
-              }
-            }
-            if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
-            } else {
-              let winloseAmount = 0;
-              if (params.row.gameTypeMap["1110000"] !== undefined) {
-                winloseAmount = params.row.gameTypeMap[
-                  "1110000"
-                ].winloseAmount.toFixed(2);
-              }
-              return h("span", winloseAmount);
-            }
-          }
-        },
-        {
-          title: "SA捕鱼游戏(商家交公司)",
-          key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.level == 0) {
-              return h("span", 0);
-            } else {
-              let submitAmount = 0;
-              if (params.row.gameTypeMap["1110000"] !== undefined) {
-                submitAmount = params.row.gameTypeMap[
-                  "1110000"
-                ].submitAmount.toFixed(2);
-              }
-              return h("span", submitAmount);
+              return h(
+                "span",
+                (100 * (params.row.totalSum / params.row.betAmount)).toFixed(
+                  2
+                ) + "%"
+              );
             }
           }
         }
@@ -301,34 +329,16 @@ export default {
           key: "betCount"
         },
         {
-          title: "总游戏输赢金额",
+          title: "投注金额",
+          key: "betAmount"
+        },
+        {
+          title: "输赢金额",
           key: "winloseAmount"
         },
         {
-          title: "SA真人游戏(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let winloseAmount = 0;
-            if (params.row.gameTypeMap["1060000"] !== undefined) {
-              winloseAmount = params.row.gameTypeMap[
-                "1060000"
-              ].winloseAmount.toFixed(2);
-            }
-            return h("span", winloseAmount);
-          }
-        },
-        {
-          title: "SA捕鱼游戏(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let winloseAmount = 0;
-            if (params.row.gameTypeMap["1110000"] !== undefined) {
-              winloseAmount = params.row.gameTypeMap[
-                "1110000"
-              ].winloseAmount.toFixed(2);
-            }
-            return h("span", winloseAmount);
-          }
+          title: "洗码量",
+          key: "mixAmount"
         }
       ]
     };
@@ -344,7 +354,7 @@ export default {
   },
   methods: {
     changeTime(time) {
-      console.log(this.defaultTime);
+      console.log(this.changedTime);
     },
     confirm() {
       this.init();
@@ -407,6 +417,7 @@ export default {
         }
       });
       this.spinShow = true;
+      //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.spinShow = false;
       this.user = [];
@@ -421,11 +432,12 @@ export default {
   created() {
     // console.log(this.defaultTime);
     this.init();
-  }
+  },
+  props: ["gameType"]
 };
 </script>
 <style lang="less" scoped>
-.saAll {
+.report {
   min-height: 90vh;
   .title {
     font-size: 1.2rem;

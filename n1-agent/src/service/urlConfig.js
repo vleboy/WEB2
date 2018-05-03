@@ -1,7 +1,6 @@
-console.log(process.env);
 
 export let URL = (process.env.NODE_ENV == 'development') 
-? 'd3oo6v0d877qm6.cloudfront.net' : 'n1agent.na12345.com';
+? 'd3prd6rbitzqm3.cloudfront.net' : '';
 export const httpType = 'https://'
 
 export const api = {

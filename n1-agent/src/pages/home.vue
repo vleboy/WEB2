@@ -1,7 +1,7 @@
 <template>
     <div class="home-main">
         <div class="contentBox">
-            <span class="test">欢迎使用NA后台管理系统</span>
+            <span class="test">欢迎使用NA代理管理系统</span>
         </div>
     </div>
 </template>

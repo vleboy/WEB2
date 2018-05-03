@@ -1,17 +1,17 @@
 <template>
   <div class="naTrue">
-    <report :gameType='30000'></report>
+    <reportTrue :gameType='30000'></reportTrue>
   </div>
 </template>
 <script>
-import report from '@/components/report'
+import reportTrue from '@/components/report-true'
 export default {
   data(){
     return {
 
     }
   },
-  components:{report}
+  components:{reportTrue}
 }
 </script>
 <style lang="less" scoped>

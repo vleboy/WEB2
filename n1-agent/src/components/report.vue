@@ -6,7 +6,7 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
@@ -86,8 +86,7 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.role == "1") {
-                      //管理员
+                    if (params.row.level == 0) {
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
@@ -97,15 +96,32 @@ export default {
                           }
                         })
                         .then(res => {
-                          console.log(res);
+                          // console.log(res);
                           this.child = res.payload;
                           this.spinShow = false;
                         });
-                    } else if (params.row.role == "100") {
-                      //商户
+                    } else {
+                      console.log(params.row);
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
+                      let level = params.row.level;
+                      let showList = await this.getNextLevel(
+                        this.reportChild,
+                        userId
+                      );
+                      showList = _.filter(showList, function(o) {
+                        return o.length;
+                      });
+                      let len = showList.length;
+                      if (len > 0) {
+                        while (len--) {
+                          if (showList[len][0].level > level + 1) {
+                            showList.splice(len, 1);
+                          }
+                        }
+                      }
+                      this.reportChild = showList;
                       this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
@@ -117,33 +133,10 @@ export default {
                         .then(res => {
                           this.playerList = res.payload;
                           this.spinShow = false;
-                          console.log(res);
+                          // console.log(res);
                         });
                       var anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
-                    } else if (params.row.role == "10") {
-                      //线路商
-                      this.playerList = [];
-                      this.showName = false;
-                      let userId = params.row.userId;
-                      let level = params.row.level;
-                      if (level == 1) {
-                        this.reportChild = [];
-                      }
-                      let showList = await this.getNextLevel(
-                        this.reportChild,
-                        userId
-                      );
-                      // console.log(showList);
-                      let len = showList.length;
-                      if (showList[0].length > 0) {
-                        while (len--) {
-                          if (showList[len][0].level > level + 1) {
-                            showList.splice(len, 1);
-                          }
-                        }
-                      }
-                      this.reportChild = showList;
                     }
                     // console.log(params.row);
                   }
@@ -162,7 +155,7 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", count);
             } else {
               return h("span", params.row.betCount);
@@ -178,7 +171,7 @@ export default {
             for (let item of arr) {
               count += item.betAmount;
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.betAmount);
@@ -194,8 +187,8 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
+            if (params.row.level == 0) {
+              // sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -203,28 +196,70 @@ export default {
           }
         },
         {
-          title: "商家占成",
+          title: "返水比例",
           key: "",
           render: (h, params) => {
-            if (params.row.role != "1") {
+            if (params.row.level == 0) {
+              return h("span", 0);
+            } else {
               let arr = params.row.gameList;
-              let result = null;
+              let mix = 0;
               for (let item of arr) {
-                if (item.code == this.gameType) {
-                  result = item.rate;
+                for (let key in item) {
+                  if (item.code == this.gameType) {
+                    mix = parseFloat(item.mix);
+                  }
                 }
               }
-              return h("span", result + "%");
-            } else {
-              return h("span", "100%");
+              return h("span", mix.toFixed(2) + "%");
             }
           }
         },
         {
-          title: "商家交公司",
+          title: "佣金",
+          key: "",
+          render: (h, params) => {
+            let arr = this.child;
+            let boundsSum = 0;
+            for (let item of arr) {
+              boundsSum += item.boundsSum;
+            }
+            if (params.row.level == 0) {
+              return h("span", boundsSum.toFixed(2));
+            } else {
+              return h("span", params.row.boundsSum.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "代理总金额",
+          key: "",
+          render: (h, params) => {
+            let arr = this.child;
+            let totalSum = 0;
+            for (let item of arr) {
+              totalSum += item.totalSum;
+            }
+            if (params.row.level == 0) {
+              return h("span", totalSum.toFixed(2));
+            } else {
+              return h("span", params.row.totalSum.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "代理占成",
+          key: "",
+          render: (h, params) => {
+            let rate = params.row.rate + "%";
+            return h("span", rate);
+          }
+        },
+        {
+          title: "代理交公司",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               return h("span", params.row.submitAmount);
@@ -235,18 +270,17 @@ export default {
           title: "获利比例",
           key: "rate",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              let winloseAmount = parseInt(
-                sessionStorage.getItem("winloseAmount")
-              );
+            if (params.row.level == 0) {
+              let totalSum = 0;
+              let betAmount = 0;
               let arr = this.child;
-              let mixAmount = 0;
               for (let item of arr) {
-                mixAmount += item.mixAmount;
+                betAmount += item.betAmount;
+                totalSum += item.totalSum;
               }
               let result = "";
-              if (winloseAmount != 0) {
-                result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
+              if (totalSum != 0) {
+                result = (100 * totalSum / betAmount).toFixed(2) + "%";
               } else {
                 result = 0;
               }
@@ -254,10 +288,9 @@ export default {
             } else {
               return h(
                 "span",
-                (
-                  100 *
-                  (params.row.winloseAmount / params.row.mixAmount)
-                ).toFixed(2) + "%"
+                (100 * (params.row.totalSum / params.row.betAmount)).toFixed(
+                  2
+                ) + "%"
               );
             }
           }
@@ -307,6 +340,9 @@ export default {
   methods: {
     changeTime(time) {
       console.log(this.changedTime);
+    },
+    confirm() {
+      this.init();
     },
     reset() {
       this.defaultTime = getDefaultTime();

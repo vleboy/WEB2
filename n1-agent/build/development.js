@@ -9,7 +9,7 @@ const path = require('path')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
-const webpackConfig = require('./webpack.dev.conf')
+const webpackConfig = require('./webpack.test-admin.conf')
 
 const spinner = ora('building for development...')
 spinner.start()

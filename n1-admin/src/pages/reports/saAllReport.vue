@@ -6,7 +6,7 @@
                     当前用户列表
                 </p>
                 <div class="right">
-                    <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
+                    <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime" @on-ok="confirm"></DatePicker>
                     <Button type="primary" @click="search">搜索</Button>
                     <Button type="ghost" @click="reset">重置</Button>
                 </div>
@@ -135,9 +135,12 @@ export default {
                         this.reportChild,
                         userId
                       );
+                       showList = _.filter(showList, function(o) {
+                        return o.length;
+                      });
                       // console.log(showList);
                       let len = showList.length;
-                      if (showList[0].length > 0) {
+                      if (len > 0) {
                         while (len--) {
                           if (showList[len][0].level > level + 1) {
                             showList.splice(len, 1);
@@ -334,6 +337,9 @@ export default {
   methods: {
     changeTime(time) {
       console.log(this.defaultTime);
+    },
+    confirm() {
+      this.init();
     },
     reset(){
       this.defaultTime=getDefaultTime();

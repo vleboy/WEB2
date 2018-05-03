@@ -6,7 +6,7 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
@@ -51,7 +51,18 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [10000,30000,40000,50000,1010000,10300000,1050000,1060000,1100000,1110000],
+      gameType: [
+        10000,
+        30000,
+        40000,
+        50000,
+        1010000,
+        10300000,
+        1050000,
+        1060000,
+        1100000,
+        1110000
+      ],
       option: {
         disabledDate(date) {
           return date && date.valueOf() > Date.now() - 180000;
@@ -87,8 +98,8 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.role == "1") {
-                      //管理员
+                    //代理
+                    if (params.row.level == 0) {
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
@@ -102,11 +113,27 @@ export default {
                           this.child = res.payload;
                           this.spinShow = false;
                         });
-                    } else if (params.row.role == "100") {
-                      //商户
+                    } else {
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
+                      let level = params.row.level;
+                      let showList = await this.getNextLevel(
+                      this.reportChild,
+                      userId
+                      );
+                      showList = _.filter(showList, function(o) {
+                        return o.length;
+                      });
+                      let len = showList.length;
+                      if (len > 0) {
+                          while (len--) {
+                            if (showList[len][0].level > level + 1) {
+                              showList.splice(len, 1);
+                            }
+                          }
+                      }
+                      this.reportChild = showList;
                       this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
@@ -122,32 +149,9 @@ export default {
                         });
                       var anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
-                    } else if (params.row.role == "10") {
-                      //线路商
-                      this.playerList = [];
-                      this.showName = false;
-                      let userId = params.row.userId;
-                      let level = params.row.level;
-                      if (level == 1) {
-                        this.reportChild = [];
-                      }
-                      let showList = await this.getNextLevel(
-                        this.reportChild,
-                        userId
-                      );
-                      // console.log(showList);
-                      let len = showList.length;
-                      if (showList[0].length > 0) {
-                        while (len--) {
-                          if (showList[len][0].level > level + 1) {
-                            showList.splice(len, 1);
-                          }
-                        }
-                      }
-                      this.reportChild = showList;
                     }
-                    // console.log(params.row);
                   }
+                  // console.log(params.row);
                 }
               },
               params.row.username
@@ -163,7 +167,7 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", count);
             } else {
               return h("span", params.row.betCount);
@@ -179,7 +183,7 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -190,7 +194,7 @@ export default {
           title: "总游戏交公司",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               return h("span", params.row.submitAmount);
@@ -203,21 +207,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['10000','30000','40000','50000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
-              // console.log(obj);
               let count = 0;
-              for ( let key in obj) {
-                if(['10000','30000','40000','50000'].includes(key)){
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
@@ -229,13 +232,13 @@ export default {
           title: "NA游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['10000','30000','40000','50000'].includes(key)){
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -249,20 +252,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1010000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1010000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1010000'){
+              for (let key in obj) {
+                if (key == "1010000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -274,13 +277,13 @@ export default {
           title: "TTG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1010000'){
+              for (let key in obj) {
+                if (key == "1010000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -294,20 +297,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1060000','1110000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1060000", "1110000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['1060000','1110000'].includes(key)){
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
@@ -319,13 +322,13 @@ export default {
           title: "SA游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['1060000','1110000'].includes(key)){
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -339,20 +342,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['10300000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["10300000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='10300000'){
+              for (let key in obj) {
+                if (key == "10300000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -364,13 +367,13 @@ export default {
           title: "MG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='10300000'){
+              for (let key in obj) {
+                if (key == "10300000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -384,20 +387,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1050000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1050000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1050000'){
+              for (let key in obj) {
+                if (key == "1050000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -409,13 +412,13 @@ export default {
           title: "AG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1050000'){
+              for (let key in obj) {
+                if (key == "1050000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -429,20 +432,20 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1100000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1100000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1100000'){
+              for (let key in obj) {
+                if (key == "1100000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -454,13 +457,13 @@ export default {
           title: "UG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1100000'){
+              for (let key in obj) {
+                if (key == "1100000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -494,84 +497,84 @@ export default {
           title: "NA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['10000','30000','40000','50000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["3", "30000", "40000", "50000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "TTG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1010000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1010000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "SA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1060000','1110000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1060000", "1110000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "MG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['10300000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["10300000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "AG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1050000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1050000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "UG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1100000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1100000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         }
       ]
@@ -590,12 +593,15 @@ export default {
     changeTime(time) {
       console.log(this.changedTime);
     },
-    reset(){
-      this.defaultTime=getDefaultTime();
-      this.init()
+    confirm() {
+      this.init();
     },
-    search(){
-      this.init()
+    reset() {
+      this.defaultTime = getDefaultTime();
+      this.init();
+    },
+    search() {
+      this.init();
     },
     types(value) {
       switch (value) {
@@ -637,31 +643,31 @@ export default {
           });
       });
     },
-    async init(){
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-        let req1 = this.$store.dispatch("getUserList", { userId: userId });
-        let req2 = this.$store.dispatch("getUserChild", {
-          parent: "01",
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        });
-        this.spinShow = true;
-        let [acct, perms] = await this.axios.all([req1, req2]);
-        this.spinShow = false;
-        this.user = [];
-        if (acct && acct.code == 0) {
-          this.user.push(acct.payload);
+    async init() {
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let req2 = this.$store.dispatch("getUserChild", {
+        parent: "01",
+        gameType: this.gameType,
+        query: {
+          createdAt: this.changedTime
         }
-        if (perms && perms.code == 0) {
-          this.child = perms.payload;
-        }
+      });
+      this.spinShow = true;
+      let [acct, perms] = await this.axios.all([req1, req2]);
+      this.spinShow = false;
+      this.user = [];
+      if (acct && acct.code == 0) {
+        this.user.push(acct.payload);
+      }
+      if (perms && perms.code == 0) {
+        this.child = perms.payload;
+      }
     }
   },
   created() {
     // console.log(this.defaultTime);
-    this.init()
+    this.init();
   }
 };
 </script>
