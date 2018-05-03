@@ -98,7 +98,15 @@ export const appRouter = [
         name:'uggame',
         component:main,
         children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:()=>import('@/pages/reports/ugSportGame.vue')}]
+    },
+    {
+        path:'/business',
+        title:'线路商列表',
+        name:'business',
+        component:main,
+        children:[{path:'list',title:'线路商列表',name:'businessList',component:()=>import('@/pages/businessList.vue')}]
     }
+
 ]
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [

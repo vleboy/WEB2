@@ -65,7 +65,7 @@ export const home={
                 localStorage.cachePage = JSON.stringify(state.cachePage);
             }
             if(state.pageOpenedList.length==9){
-                state.pageOpenedList.splice(1,1);
+                state.pageOpenedList.splice(0,1);
             }
             state.pageOpenedList.push(tagObj);
             localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
