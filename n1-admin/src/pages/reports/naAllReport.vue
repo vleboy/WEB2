@@ -51,7 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType:[10000,30000,40000,50000],
+      gameType:[3,30000,40000,50000],
       option: {
         disabledDate(date) {
           return date && date.valueOf() > Date.now() - 180000;

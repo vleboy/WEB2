@@ -51,7 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [10000,30000,40000,50000,1010000,10300000,1050000,1060000,1100000,1110000],
+      gameType: [3,30000,40000,50000,1010000,10300000,1050000,1060000,1100000,1110000],
       option: {
         disabledDate(date) {
           return date && date.valueOf() > Date.now() - 180000;
@@ -208,7 +208,7 @@ export default {
             let allCount = 0;
             for(let item of arr){
               for ( let key in item.gameTypeMap){
-                if(['10000','30000','40000','50000'].includes(key)){
+                if(['3','30000','40000','50000'].includes(key)){
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -220,7 +220,7 @@ export default {
               // console.log(obj);
               let count = 0;
               for ( let key in obj) {
-                if(['10000','30000','40000','50000'].includes(key)){
+                if(['3','30000','40000','50000'].includes(key)){
                   count += obj[key].winloseAmount;
                 }
               }
@@ -238,7 +238,7 @@ export default {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for ( let key in obj) {
-                if(['10000','30000','40000','50000'].includes(key)){
+                if(['3','30000','40000','50000'].includes(key)){
                   count += obj[key].submitAmount;
                 }
               }
@@ -500,7 +500,7 @@ export default {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for ( let key in obj) {
-               if(['10000','30000','40000','50000'].includes(key)){
+               if(['3','30000','40000','50000'].includes(key)){
                   count += obj[key].winloseAmount;
                 }
               }

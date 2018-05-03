@@ -52,7 +52,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       gameType: [
-        10000,
+        3,//NA棋牌
         30000,
         40000,
         50000,
@@ -625,6 +625,7 @@ export default {
           break;
       }
     },
+    //获取下级
     async getNextLevel(showList, userId) {
       return new Promise((resolve, reject) => {
         this.$store
@@ -643,6 +644,7 @@ export default {
           });
       });
     },
+    //初始化
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let req1 = this.$store.dispatch("getUserList", { userId: userId });
