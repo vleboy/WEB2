@@ -96,7 +96,7 @@ export default {
             self.clearData("人机验证失败");
           }
         };
-        //vaptcha对象初始化
+          //vaptcha对象初始化
         window.vaptcha(options, function(obj) {
           self.vaptchaObj = obj;
           self.vaptchaObj.init();
