@@ -186,7 +186,7 @@ export default {
             if (params.row.level == 0) {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", params.row.submitAmount.toFixed(2));
             }
           }
         },
@@ -221,7 +221,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let submitAmount = 0;
               if (params.row.gameTypeMap["30000"] !== undefined) {
@@ -264,7 +264,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let submitAmount = 0;
               if (params.row.gameTypeMap["40000"] !== undefined) {
@@ -307,7 +307,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let submitAmount = 0;
               if (params.row.gameTypeMap["50000"] !== undefined) {

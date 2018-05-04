@@ -195,9 +195,9 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", params.row.submitAmount.toFixed(2));
             }
           }
         },
@@ -233,7 +233,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -278,7 +278,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -323,7 +323,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -368,7 +368,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -413,7 +413,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -458,7 +458,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", 0);
+              return h("span", '0.00');
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
