@@ -4,7 +4,7 @@
       <table cellspacing="0">
         <tr>
           <td>
-            <span>管理员账号 : {{adminInfo.uname}}</span>
+            <span>管理员账号 : {{adminInfo.username | getName}}</span>
           </td>
           <td>
             <span>管理员密码 : {{adminInfo.password}}
@@ -12,15 +12,15 @@
             </span>
           </td>
           <td>
-            <span>管理员余额 : {{ }}</span>
+            <span>管理员余额 : {{ balance }}</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span>管理员角色 : {{ }}</span>
+            <span>管理员角色 : {{ adminInfo.subRole }}</span>
           </td>
           <td>
-            <span>上次登录时间 : {{(adminInfo.loginAt)}}</span>
+            <span>上次登录时间 : {{dayjs(adminInfo.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
             <span>上次登录IP : {{adminInfo.lastIP}}</span>
@@ -29,13 +29,14 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="copertion" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page>
     </div>
-    <Modal v-model="modal" title="修改密码" @on-ok="ok" @on-cancel="cancel">
+    <Modal v-model="modal" title="修改密码" @on-ok="ok">
       <p class="modal_input">
         <Row>
           <Col span="4">新密码</Col>
-          <Col span="16">
+          <Col span="10">
           <Input v-model="password" size="small" placeholder="请输入新密码"></Input>
           </Col>
         </Row>
@@ -43,40 +44,37 @@
       <p class="modal_input">
         <Row>
           <Col span="4">重复新密码</Col>
-          <Col span="16">
+          <Col span="10">
           <Input v-model="repassword" size="small" placeholder="请重复新密码"></Input>
           </Col>
         </Row>
       </p>
     </Modal>
+    <Spin size="large" fix v-if="$store.state.login.loading">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
   </div>
 </template>
 <script>
+import dayjs from 'dayjs'
 export default {
   data() {
     return {
       modal: false,
-      balance: 12,
-      adminInfo: {
-        displayName: "超级管理员",
-        parent: "11",
-        parentName: "管理员2",
-        uname: "abc",
-        password: 123456,
-        rate: 23,
-        createdAt: "2018-2-23",
-        loginAt: "2018-3-3",
-        lastIP: "192.156.2.1",
-        remark: "notes"
-      },
+      password: "",
+      repassword: "",
+      dayjs:dayjs,
+      showData: [], //
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:80
         },
         {
-          title: "账户余额",
-          key: "count"
+          title: "交易前余额",
+          key: "oldBalance"
         },
         {
           title: "交易点数",
@@ -84,37 +82,115 @@ export default {
         },
         {
           title: "交易时间",
-          key: "time"
+          key: "createdAt",
+          render: (h, params) => {
+            return h("span", this.dayjs(params.row.createdAt).format('YYYY-MM-DD HH:mm:ss'));
+          }
         },
         {
           title: "交易对象",
-          key: "object"
+          key: "toUser",
+          minWidth:250,
+          render:(h,params)=>{
+            let row=params.row;
+            if(row.fromLevel>row.toLevel){
+              return h('span',row.toDisplayName+' 对 '+row.fromDisplayName)
+            }else{
+              return h('span',row.fromDisplayName+' 对 '+row.toDisplayName)
+            }
+          }
         },
         {
           title: "交易类型",
-          key: "type"
+          key: "action",
+          render:(h,params)=>{
+            let row=params.row;
+            if(row.amount>0){
+              return h('span','减点')
+            }else{
+              return h('span','加点')
+            }           
+          }
         },
         {
-          title: "交易详情(原账+当前操作额=现在余额)",
-          key: "detail"
+          title: "交易后余额",
+          key: "balance",
         },
         {
           title: "操作人",
-          key: "opreator"
+          key: "operator",
+          render:(h,params)=>{
+            return h('span',params.row.operator.split('_')[1])
+          }
         },
         {
           title: "备注",
-          key: "note"
+          key: "remark",
+          minWidth:300
         }
-      ],
-      copertion: []
+      ]
     };
   },
+  computed: {
+    total() {
+      return this.waterfall.length;
+    },
+    adminInfo() {
+      return this.$store.state.login.admininfo;
+    },
+    balance() {
+      return this.$store.state.login.balance;
+    },
+    waterfall() {
+      return JSON.parse(sessionStorage.getItem('waterfall'));
+    }
+  },
   methods: {
+    handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < 100) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, 100);
+      }
+    },
+    changepage(index) {
+      var _start = (index - 1) * 100;
+      var _end = index * 100;
+      this.showData = this.waterfall.slice(_start, _end);
+    },
     newPassword() {
       this.modal = true;
+    },
+    ok() {
+      let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
+      if (!passReg.test(this.password)) {
+        this.$Message.warning({
+          content: "密码为8-16位的(英文、数字、符号)"
+        });
+        return;
+      }
+      if(this.password!=this.repassword){
+         this.$Message.warning({
+          content: "两次密码不一致"
+        });
+        return;
+      }      
+    },
+  },
+  filters: {
+    getName(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(9);
     }
-  }
+  },
+  created() {
+    this.$store.commit("changeLoading", { params: true });
+    this.$store.dispatch("adminInfo")
+    this.handlePage();
+  },
+  
 };
 </script>
 <style lang="less" scoped>
@@ -140,11 +216,13 @@ export default {
       font-weight: normal;
       cursor: pointer;
     }
-    
   }
-  .modal_input{
-      margin-bottom: 6px;
-    }
+  .page{
+    text-align: right;
+  }
+}
+.modal_input {
+  margin-bottom: 10px;
 }
 </style>
 

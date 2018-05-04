@@ -53,6 +53,7 @@ const imgpost = (urls, datas) => ({
 export async function example(params) {
     return http()
 }
+let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
 
 //登录
 export async function logIn(role,username,password,challenge,vid,cb,err){
@@ -69,4 +70,20 @@ export async function queryPlayer(params){
 //game/sign
 export async function gameSign(params){
     return http(post('/game/sign',params))
+}
+//admin_center
+export async function getAdminInfo(){
+    return http(get('/admin_center'))
+}
+//流水列表
+export async function getWaterfall(){
+    return http(get(`/waterfall/${userId}`))
+}
+//bill余额
+export async function getBill(){
+    return http(get(`/bills/${userId}`))
+}
+//商户列表
+export async function getMerchants(params){
+    return http(post('/merchants',params))
 }

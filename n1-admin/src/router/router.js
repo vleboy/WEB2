@@ -101,10 +101,10 @@ export const appRouter = [
     },
     {
         path:'/business',
-        title:'线路商列表',
+        title:'商户列表',
         name:'business',
         component:main,
-        children:[{path:'list',title:'线路商列表',name:'businessList',component:()=>import('@/pages/businessList.vue')}]
+        children:[{path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessList.vue')}]
     }
 
 ]

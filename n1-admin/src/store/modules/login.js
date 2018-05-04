@@ -1,9 +1,11 @@
-import {logIn} from '@/service/index'
+import {logIn,getAdminInfo,getWaterfall,getBill} from '@/service/index'
 export const login = {
     state:{
         // getcode:'',
         infos:{},
-        loading:false
+        loading:false,
+        admininfo:{},
+        balance:null,
     },
     mutations:{
         // updateCode(state,{params}){
@@ -14,7 +16,13 @@ export const login = {
         },
         changeLoading(state,{params}){
             state.loading=params
-        }
+        },
+        updateAdmin(state,{params}){
+            state.admininfo=params
+        },
+        updateBill(state,{params}){
+            state.balance=params
+        },
     },
     actions:{
         // getcapcha({state,commit},params){
@@ -38,6 +46,26 @@ export const login = {
                     commit('changeLoading',{params:false});
                     err && err()
                 }
+            })
+        },
+        adminInfo({commit}){
+            let p1=getAdminInfo().then(res=>{
+                if(res.code==0){
+                    commit('updateAdmin',{params:res.payload})
+                }
+            })
+            let p2= getWaterfall().then(res=>{
+                if(res.code==0){
+                    sessionStorage.setItem('waterfall',JSON.stringify(res.payload))
+                }
+            });
+           let p3= getBill().then(res=>{
+                if(res.code==0){
+                    commit('updateBill',{params:res.payload.balance})
+                }
+            });
+            Promise.all([p1,p2,p3]).then(()=>{
+                commit('changeLoading',{params:false});
             })
         }
     }

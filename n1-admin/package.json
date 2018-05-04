@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build-admin":"node build/build.js",
-    "test-admin":"node build/development.js"
+    "build-admin": "node build/build.js",
+    "test-admin": "node build/development.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.5.19",
     "iview": "^2.13.0",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
