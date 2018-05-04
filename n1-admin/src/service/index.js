@@ -53,7 +53,10 @@ const imgpost = (urls, datas) => ({
 export async function example(params) {
     return http()
 }
-let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+let userId=''
+if(localStorage.userInfo){
+  userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+}
 
 //登录
 export async function logIn(role,username,password,challenge,vid,cb,err){

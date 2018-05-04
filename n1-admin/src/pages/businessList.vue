@@ -49,7 +49,8 @@
     </div>
 </template>
 <script>
-import dayjs from "dayjs";
+import dayjs from "dayjs"
+import { Poptip,Table ,Button} from 'iview'
 export default {
   data() {
     return {
@@ -97,10 +98,26 @@ export default {
           title: "商户游戏",
           key: "",
           render: (h, params) => {
-              let gameList=params.row.gameList
-            return h(
-              "Poptip",
-              gameList.length+'款游戏'
+            let gameList = params.row.gameList;
+            let len=gameList.length;
+            let column=[
+              {
+                title:'商户游戏',
+                key:'name'
+              },{
+                title:'商户占成',
+                key:'rate'
+              }
+            ];
+            let list=[];
+            return (
+              <Poptip trigger="hover">
+                <Button type="text">{len}款游戏</Button>
+                <div slot="content">
+                <Table columns="column" data="list" size="small" no-data-text="暂无数据"></Table>
+                </div>
+              </Poptip>
+              // gameList.length+'款游戏'
             );
           }
         },
