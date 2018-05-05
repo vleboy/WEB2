@@ -50,18 +50,11 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { Poptip, Table, Button } from "iview";
 export default {
   data() {
     return {
       show: false,
       dayjs: dayjs,
-      option: {
-        disabledDate(date) {
-          return date && date.valueOf() > Date.now() - 180000;
-        }
-      },
-      defaultTime: "",
       value1: "",
       value2: "",
       value3: "",
@@ -111,33 +104,40 @@ export default {
             let data = [];
             let gameList = params.row.gameList;
             let len = gameList.length;
-            let obj = {};
             for (let item of gameList) {
-              obj.rate = item.rate;
+              let obj = {};
+              obj.rate = item.rate + "%";
               obj.name = item.name;
               data.push(obj);
             }
-            // <Table columns="column" data="data" size="small" no-data-text="暂无数据"></Table>
-            return (
-              <Poptip trigger="hover">
-                <Button type="text">{len}款游戏</Button>
-                <div slot="content" class="content">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Update Time</th>
-                        <th>Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>0.9.5</td>
-                        <td>2016-10-26</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Poptip>
+            return h(
+              "Poptip",
+              {
+                props: {
+                  trigger: "hover"
+                }
+              },
+              [
+                h(
+                  "span",
+                  {
+                    style: {
+                      cursor:'pointer'
+                    }
+                  },
+                  len + "款游戏"
+                ),
+                h("Table", {
+                  props: {
+                    columns: column,
+                    data: data,
+                    border: true,
+                    size: "small",
+                    width: 250
+                  },
+                  slot: "content"
+                })
+              ]
             );
           }
         },
