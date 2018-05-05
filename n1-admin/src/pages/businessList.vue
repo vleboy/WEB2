@@ -109,15 +109,24 @@ export default {
                 key:'rate'
               }
             ];
-            let list=[];
+            let name=[];
+            let rate=[];
+            for(let item of gameList){
+              name.push(item.name);
+              rate.push(item.rate)
+            }
             return (
               <Poptip trigger="hover">
                 <Button type="text">{len}款游戏</Button>
-                <div slot="content">
-                <Table columns="column" data="list" size="small" no-data-text="暂无数据"></Table>
+                <div slot="content" class='content'>
+                    // <ul class='left'>
+                    //   <li v-for="item in name" >{item}</li>
+                    // </ul>
+                    //  <ul class='right'>
+                    //   <li v-for="item in rate" >{item}</li>
+                    // </ul>
                 </div>
               </Poptip>
-              // gameList.length+'款游戏'
             );
           }
         },
