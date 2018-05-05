@@ -49,8 +49,8 @@
     </div>
 </template>
 <script>
-import dayjs from "dayjs"
-import { Poptip,Table ,Button} from 'iview'
+import dayjs from "dayjs";
+import { Poptip, Table, Button } from "iview";
 export default {
   data() {
     return {
@@ -98,33 +98,44 @@ export default {
           title: "商户游戏",
           key: "",
           render: (h, params) => {
-            let gameList = params.row.gameList;
-            let len=gameList.length;
-            let column=[
+            let column = [
               {
-                title:'商户游戏',
-                key:'name'
-              },{
-                title:'商户占成',
-                key:'rate'
+                title: "商户游戏",
+                key: "name"
+              },
+              {
+                title: "商户占成",
+                key: "rate"
               }
             ];
-            let name=[];
-            let rate=[];
-            for(let item of gameList){
-              name.push(item.name);
-              rate.push(item.rate)
+            let data = [];
+            let gameList = params.row.gameList;
+            let len = gameList.length;
+            let obj = {};
+            for (let item of gameList) {
+              obj.rate = item.rate;
+              obj.name = item.name;
+              data.push(obj);
             }
+            // <Table columns="column" data="data" size="small" no-data-text="暂无数据"></Table>
             return (
               <Poptip trigger="hover">
                 <Button type="text">{len}款游戏</Button>
-                <div slot="content" class='content'>
-                    // <ul class='left'>
-                    //   <li v-for="item in name" >{item}</li>
-                    // </ul>
-                    //  <ul class='right'>
-                    //   <li v-for="item in rate" >{item}</li>
-                    // </ul>
+                <div slot="content" class="content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Update Time</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>0.9.5</td>
+                        <td>2016-10-26</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </Poptip>
             );
