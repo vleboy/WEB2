@@ -1,4 +1,5 @@
-import {logIn,getAdminInfo,getWaterfall,getBill} from '@/service/index'
+import {logIn,getAdminInfo,getWaterfall,getBill,updatePassword} from '@/service/index'
+import {Message} from 'iview'
 export const login = {
     state:{
         // getcode:'',
@@ -66,6 +67,18 @@ export const login = {
             });
             Promise.all([p1,p2,p3]).then(()=>{
                 commit('changeLoading',{params:false});
+            })
+        },
+        changePassword({commit},params){
+            updatePassword(params).then(res=>{
+                if(res.code==0){
+                    Message.success('修改成功');
+                    getAdminInfo().then(re=>{
+                        if(re.code==0){
+                            commit('updateAdmin',{params:re.payload})
+                        }
+                    })
+                }
             })
         }
     }

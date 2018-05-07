@@ -12,3 +12,12 @@ export const getDefaultTime = function () {
   endTime=new Date(endTime);
   return [startTime, endTime]
 }
+export const formatMoney=function(number, places, symbol){
+  number = number || 0;
+  places = !isNaN(places = Math.abs(places)) ? places: 2;
+  symbol = symbol !== undefined ? symbol: "￥";
+  let negative = number < 0 ? "-": "",
+  i = parseInt(number = Math.abs( + number || 0).toFixed(places), 10) + "",
+  j = (j = i.length) > 3 ? j % 3 : 0;
+  return symbol + negative + (j ? i.substr(0, j) + ",": "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + ",") + (places ? "." + Math.abs(number - i).toFixed(places).slice(2) : "");
+}

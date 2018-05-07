@@ -1,59 +1,54 @@
 <template>
-    <div class="business">
-        <div class="search">
-            <Row class="row">
-                <Col span="2" offset="4">商户标识</Col>
-                <Col span="4">
-                <Input v-model="value2" placeholder="请输入"></Input>
-                </Col>
-                <Col span="2">商户线路号</Col>
-                <Col span="4">
-                <Input v-model="value1" placeholder="请输入"></Input>
-                </Col>
-                <Col span="5">
-                <div class="btns">
-                    <Button type="primary">搜索</Button>
-                    <Button type="ghost">重置</Button>
-                    <Button type="text" @click="show = !show" v-show="show">
-                        展开
-                        <Icon type="chevron-down"></Icon>
-                    </Button>
-                    <Button type="text" @click="show = !show" v-show="!show">
-                        收起
-                        <Icon type="chevron-up"></Icon>
-                    </Button>
-                </div>
-                </Col>
-            </Row>
-            <Row class="row" v-if="show">
-                <Col span="2" offset="4">商户昵称</Col>
-                <Col span="4">
-                <Input v-model="value3" placeholder="请输入"></Input>
-                </Col>
-                <Col span="2"></Col>
-                <Col span="4">
+  <div class="business">
+    <div class="search">
+      <Row class="row">
+        <Col span="2" offset="4">商户标识</Col>
+        <Col span="4">
+        <Input v-model="value2" placeholder="请输入"></Input>
+        </Col>
+        <Col span="2">商户线路号</Col>
+        <Col span="4">
+        <Input v-model="value1" placeholder="请输入"></Input>
+        </Col>
+        <Col span="5">
+        <div class="btns">
+          <Button type="primary">搜索</Button>
+          <Button type="ghost">重置</Button>
+        </div>
+        </Col>
+      </Row>
+      <Row class="row">
+        <Col span="2" offset="4">商户昵称</Col>
+        <Col span="4">
+        <Input v-model="value3" placeholder="请输入"></Input>
+        </Col>
+        <Col span="2"></Col>
+        <Col span="4">
 
-                </Col>
-            </Row>
-        </div>
-        <div class="option">
-            <p class="count">共搜索到{{ total }}条数据</p>
-            <p class="create">
-                <Button type="primary">创建商户</Button>
-            </p>
-        </div>
-        <div class="table">
-            <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
-            <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page>
-        </div>
+        </Col>
+      </Row>
     </div>
+    <div class="option">
+      <p class="count">共搜索到{{ total }}条数据</p>
+      <p class="create">
+        <Button type="primary">创建商户</Button>
+      </p>
+    </div>
+    <div class="table">
+      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page>
+    </div>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
 export default {
   data() {
     return {
-      show: false,
       dayjs: dayjs,
       value1: "",
       value2: "",
@@ -84,7 +79,43 @@ export default {
           title: "剩余点数",
           key: "",
           render: (h, params) => {
-            return h("span", params.row.lastBill.lastBalance.toFixed(2));
+            return h('div',[
+              h('p',params.row.lastBill.lastBalance.toFixed(2)),
+              h('p',[
+                h('Button',
+                {
+                  props: {
+                    type: "text",
+                    size: "small"
+                  },
+                  style: {
+                    color: "#20a0ff"
+                  },
+                  on: {
+                    click: () => {
+                      console.log(1);
+                    }
+                  }
+                },'加点'
+                ),
+                 h('Button',
+                {
+                  props: {
+                    type: "text",
+                    size: "small"
+                  },
+                  style: {
+                    color: "#20a0ff"
+                  },
+                  on: {
+                    click: () => {
+                      console.log(2);
+                    }
+                  }
+                },'减点'
+                ),
+              ])
+            ])
           }
         },
         {
@@ -122,7 +153,8 @@ export default {
                   "span",
                   {
                     style: {
-                      cursor:'pointer'
+                      cursor: "pointer",
+                      color: "#20a0ff"
                     }
                   },
                   len + "款游戏"
@@ -144,6 +176,7 @@ export default {
         {
           title: "创建时间",
           key: "",
+          minWidth:100,
           render: (h, params) => {
             return h(
               "span",
@@ -154,6 +187,7 @@ export default {
         {
           title: "最后登录时间",
           key: "",
+          minWidth:100,
           render: (h, params) => {
             return h(
               "span",
@@ -174,7 +208,25 @@ export default {
         },
         {
           title: "备注",
-          key: "remark"
+          key: "remark",
+          maxWidth:80,
+          render: (h, params) => {
+            let remark=params.row.remark;
+            let result=Object.prototype.toString.call(remark);
+            if (result.includes('String')) {
+              return h(
+                "Tooltip",
+                {
+                  props: {
+                    content: params.row.remark
+                  }
+                },
+                "备注"
+              );
+            }else{
+              return h('span','')
+            }
+          }
         },
         {
           title: "操作",
@@ -189,7 +241,7 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: "#20a0ff"
                   },
                   on: {
                     click: () => {
@@ -207,7 +259,7 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: "#20a0ff"
                   },
                   on: {
                     click: () => {
@@ -244,17 +296,20 @@ export default {
     },
     total() {
       return this.showData.length;
+    },
+    spinShow() {
+      return this.$store.state.merchants.spinShow;
     }
   },
   created() {
-    this.$store.dispatch("getMerchantsList", {
-      query: {
-        // suffix: "a",
-        // displayName: "a"
-      },
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+    // this.$store.dispatch("getMerchantsList", {
+    //   query: {
+    //     // suffix: "a",
+    //     // displayName: "a"
+    //   },
+    //   sortkey: "createdAt",
+    //   sort: "desc"
+    // });
   }
 };
 </script>

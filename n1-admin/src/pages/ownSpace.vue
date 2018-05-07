@@ -32,20 +32,20 @@
       <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
       <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page>
     </div>
-    <Modal v-model="modal" title="修改密码" @on-ok="ok">
+    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok">
       <p class="modal_input">
         <Row>
-          <Col span="4">新密码</Col>
-          <Col span="10">
-          <Input v-model="password" size="small" placeholder="请输入新密码"></Input>
+          <Col span="6" class="label">新密码</Col>
+          <Col span="14">
+          <Input v-model="password" placeholder="请输入新密码"></Input>
           </Col>
         </Row>
       </p>
       <p class="modal_input">
         <Row>
-          <Col span="4">重复新密码</Col>
-          <Col span="10">
-          <Input v-model="repassword" size="small" placeholder="请重复新密码"></Input>
+          <Col span="6" class="label">重复新密码</Col>
+          <Col span="14">
+          <Input v-model="repassword" placeholder="请重复新密码"></Input>
           </Col>
         </Row>
       </p>
@@ -57,20 +57,20 @@
   </div>
 </template>
 <script>
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 export default {
   data() {
     return {
       modal: false,
       password: "",
       repassword: "",
-      dayjs:dayjs,
+      dayjs: dayjs,
       showData: [], //
       columns1: [
         {
           title: "序号",
           type: "index",
-          maxWidth:80
+          maxWidth: 80
         },
         {
           title: "交易前余额",
@@ -83,50 +83,60 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
+          minWidth: 100,
           render: (h, params) => {
-            return h("span", this.dayjs(params.row.createdAt).format('YYYY-MM-DD HH:mm:ss'));
+            return h(
+              "span",
+              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+            );
           }
         },
         {
           title: "交易对象",
           key: "toUser",
-          minWidth:250,
-          render:(h,params)=>{
-            let row=params.row;
-            if(row.fromLevel>row.toLevel){
-              return h('span',row.toDisplayName+' 对 '+row.fromDisplayName)
-            }else{
-              return h('span',row.fromDisplayName+' 对 '+row.toDisplayName)
+          minWidth: 250,
+          render: (h, params) => {
+            let row = params.row;
+            if (row.fromLevel > row.toLevel) {
+              return h(
+                "span",
+                row.toDisplayName + " 对 " + row.fromDisplayName
+              );
+            } else {
+              return h(
+                "span",
+                row.fromDisplayName + " 对 " + row.toDisplayName
+              );
             }
           }
         },
         {
           title: "交易类型",
           key: "action",
-          render:(h,params)=>{
-            let row=params.row;
-            if(row.amount>0){
-              return h('span','减点')
-            }else{
-              return h('span','加点')
-            }           
+          render: (h, params) => {
+            let row = params.row;
+            if (row.amount > 0) {
+              return h("span", "减点");
+            } else {
+              return h("span", "加点");
+            }
           }
         },
         {
           title: "交易后余额",
-          key: "balance",
+          key: "balance"
         },
         {
           title: "操作人",
           key: "operator",
-          render:(h,params)=>{
-            return h('span',params.row.operator.split('_')[1])
+          render: (h, params) => {
+            return h("span", params.row.operator.split("_")[1]);
           }
         },
         {
           title: "备注",
           key: "remark",
-          minWidth:300
+          minWidth: 300
         }
       ]
     };
@@ -142,7 +152,7 @@ export default {
       return this.$store.state.login.balance;
     },
     waterfall() {
-      return JSON.parse(sessionStorage.getItem('waterfall'));
+      return JSON.parse(sessionStorage.getItem("waterfall"));
     }
   },
   methods: {
@@ -170,13 +180,56 @@ export default {
         });
         return;
       }
-      if(this.password!=this.repassword){
-         this.$Message.warning({
+      if (this.password != this.repassword) {
+        this.$Message.warning({
           content: "两次密码不一致"
         });
         return;
-      }      
+      }
+      if(this.passwordLevel(this.repassword)<3){
+         this.$Message.warning({
+          content: "密码强度不够"
+        });
+        return;
+      }
+      let userId = "";
+      if (localStorage.userInfo) {
+        userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      }
+      this.$store.dispatch("changePassword", {
+        userId: userId,
+        password: this.repassword
+      });
     },
+    passwordLevel(password) {
+      var Modes = 0;
+      for (let i = 0; i < password.length; i++) {
+        Modes |= CharMode(password.charCodeAt(i));
+      }
+      return bitTotal(Modes);
+      //CharMode函数
+      function CharMode(iN) {
+        if (iN >= 48 && iN <= 57)
+          //数字
+          return 1;
+        if (iN >= 65 && iN <= 90)
+          //大写字母
+          return 2;
+        if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90))
+          //大小写
+          return 4;
+        else return 8; //特殊字符
+      }
+      //bitTotal函数
+      function bitTotal(num) {
+        let modes = 0;
+        for (let i = 0; i < 4; i++) {
+          if (num & 1) modes++;
+          num >>>= 1;
+        }
+        return modes;
+      }
+    }
   },
   filters: {
     getName(value) {
@@ -187,10 +240,9 @@ export default {
   },
   created() {
     this.$store.commit("changeLoading", { params: true });
-    this.$store.dispatch("adminInfo")
+    this.$store.dispatch("adminInfo");
     this.handlePage();
-  },
-  
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -217,12 +269,15 @@ export default {
       cursor: pointer;
     }
   }
-  .page{
+  .page {
     text-align: right;
   }
 }
 .modal_input {
   margin-bottom: 10px;
+}
+.label {
+  line-height: 32px;
 }
 </style>
 

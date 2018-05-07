@@ -50,7 +50,7 @@
                     <template slot="title">
                         商户中心
                     </template>
-                        <!-- <MenuItem name="lineBusiness">线路商列表</MenuItem> -->
+                        <MenuItem name="lineBusiness">线路商列表</MenuItem>
                         <MenuItem name="businessList">商户列表</MenuItem>
                     <!-- <MenuItem name="8-1">接入商点数警告列表</MenuItem> -->
                 </Submenu>
