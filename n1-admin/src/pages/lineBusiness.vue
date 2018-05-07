@@ -127,14 +127,15 @@ export default {
               h("p", params.row.lastBill.lastBalance.toFixed(2)),
               h("p", [
                 h(
-                  "Button",
+                  "span",
                   {
-                    props: {
-                      type: "text",
-                      size: "small"
-                    },
+                    // props: {
+                    //   type: "text",
+                    //   size: "small"
+                    // },
                     style: {
-                      color: "#20a0ff"
+											color: "#20a0ff",
+											cursor:'pointer'
                     },
                     on: {
                       click: () => {
@@ -164,14 +165,13 @@ export default {
                   "加点"
                 ),
                 h(
-                  "Button",
+                  "span",
                   {
-                    props: {
-                      type: "text",
-                      size: "small"
-                    },
+                   
                     style: {
-                      color: "#20a0ff"
+											color: "#20a0ff",
+											cursor:'pointer',
+											paddingLeft:'10px'
                     },
                     on: {
                       click: () => {

@@ -41,10 +41,17 @@ export const merchants = {
             commit('updateBill',{params:res.payload.balance})
         })
        },
-       transferBill({commit},params){
+       transferBill({dispatch,commit},params){
         billTransfer(params).then(res=>{
             if(res.code==0){
                 Message.success('操作成功');
+                //刷新
+                dispatch("getManagerList", {
+                    query: {
+                    },
+                    sortkey: "createdAt",
+                    sort: "desc"
+                  });
             }
         })
        }
