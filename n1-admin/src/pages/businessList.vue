@@ -36,7 +36,6 @@
     </div>
     <div class="table">
       <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
-      <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -374,19 +373,19 @@ export default {
     };
   },
   methods: {
-    changepage(index) {
-      var _start = (index - 1) * 50;
-      var _end = index * 50;
-      this.showData = this.waterfall.slice(_start, _end);
-    },
-    handlePage() {
-      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-      if (this.total < 50) {
-        this.showData = this.waterfall;
-      } else {
-        this.showData = this.waterfall.slice(0, 50);
-      }
-    },
+    // changepage(index) {
+    //   var _start = (index - 1) * 50;
+    //   var _end = index * 50;
+    //   this.showData = this.waterfall.slice(_start, _end);
+    // },
+    // handlePage() {
+    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+    //   if (this.total < 50) {
+    //     this.showData = this.waterfall;
+    //   } else {
+    //     this.showData = this.waterfall.slice(0, 50);
+    //   }
+    // },
     changeOption(id) {
       this.disabled = false;
       if (id != "") {

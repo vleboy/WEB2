@@ -29,8 +29,8 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
-      <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page>
+      <Table :columns="columns1" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
+      <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok">
       <p class="modal_input">
@@ -65,7 +65,6 @@ export default {
       password: "",
       repassword: "",
       dayjs: dayjs,
-      showData: [], //
       columns1: [
         {
           title: "序号",
@@ -141,9 +140,9 @@ export default {
     };
   },
   computed: {
-    total() {
-      return this.waterfall.length;
-    },
+    // total() {
+    //   return this.waterfall.length;
+    // },
     adminInfo() {
       return this.$store.state.login.admininfo;
     },
@@ -155,19 +154,19 @@ export default {
     }
   },
   methods: {
-    handlePage() {
-      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-      if (this.total < 100) {
-        this.showData = this.waterfall;
-      } else {
-        this.showData = this.waterfall.slice(0, 100);
-      }
-    },
-    changepage(index) {
-      var _start = (index - 1) * 100;
-      var _end = index * 100;
-      this.showData = this.waterfall.slice(_start, _end);
-    },
+    // handlePage() {
+    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+    //   if (this.total < 100) {
+    //     this.showData = this.waterfall;
+    //   } else {
+    //     this.showData = this.waterfall.slice(0, 100);
+    //   }
+    // },
+    // changepage(index) {
+    //   var _start = (index - 1) * 100;
+    //   var _end = index * 100;
+    //   this.showData = this.waterfall.slice(_start, _end);
+    // },
     newPassword() {
       this.modal = true;
     },
@@ -240,7 +239,6 @@ export default {
   created() {
     this.$store.commit("changeLoading", { params: true });
     this.$store.dispatch("adminInfo");
-    this.handlePage();
   }
 };
 </script>
