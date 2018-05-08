@@ -71,7 +71,7 @@ export async function gameSign(params){
 }
 //admin_center
 export async function getAdminInfo(){
-    return http(get('/admin_center'))
+    return http(get(`/admin_center/${userId}`))
 }
 //流水列表
 export async function getWaterfall(){
