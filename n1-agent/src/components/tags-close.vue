@@ -26,7 +26,6 @@ export default {
             currentPageName: this.$route.name,
             tagBodyLeft: 0,
             refsTag: [],
-            tagsCount: 1
         };
     },
     props: {
@@ -66,7 +65,6 @@ export default {
             this.$store.commit('removeTag', name);
             this.$store.commit('closePage', name);
             pageOpenedList = this.$store.state.home.pageOpenedList;
-            localStorage.pageOpenedList = JSON.stringify(pageOpenedList);
             if (this.currentPageName === name) {
                 this.linkTo(lastPageObj);
             }
@@ -98,21 +96,20 @@ export default {
         }
     },
     mounted () {
-        // console.log(this.$refs.tagsPageOpened);
-        this.refsTag = this.$refs.tagsPageOpened;
-        setTimeout(() => {
-            this.refsTag.forEach((item, index) => {
-                if (this.$route.name === item.name) {
-                    let tag = this.refsTag[index].$el;
-                    // console.log(tag);
-                    this.moveToView(tag);
-                }
-            });
-        }, 1); // 这里不设定时器就会有偏移bug
-        this.tagsCount = this.tagsList.length;
+        // // console.log(this.$refs.tagsPageOpened);
+        // setTimeout(() => {
+        //     this.refsTag.forEach((item, index) => {
+        //         if (this.$route.name === item.name) {
+        //             let tag = this.refsTag[index].$el;
+        //             // console.log(tag);
+        //             this.moveToView(tag);
+        //         }
+        //     });
+        // }, 1); // 这里不设定时器就会有偏移bug
     },
     watch: {
         '$route' (to) {
+            this.refsTag = this.$refs.tagsPageOpened;
             this.currentPageName = to.name;
             this.$nextTick(() => {
                 this.refsTag.forEach((item, index) => {
@@ -122,7 +119,6 @@ export default {
                     }
                 });
             });
-            this.tagsCount = this.tagsList.length;
         }
     }
 };

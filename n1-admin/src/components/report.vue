@@ -134,7 +134,7 @@ export default {
                         this.reportChild,
                         userId
                       );
-                       showList = _.filter(showList, function(o) {
+                      showList = _.filter(showList, function(o) {
                         return o.length;
                       });
                       //  console.log(showList);
@@ -198,7 +198,6 @@ export default {
               count += item.winloseAmount;
             }
             if (params.row.role == "1") {
-              sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -239,12 +238,11 @@ export default {
           key: "rate",
           render: (h, params) => {
             if (params.row.role == "1") {
-              let winloseAmount = parseInt(
-                sessionStorage.getItem("winloseAmount")
-              );
               let arr = this.child;
+              let winloseAmount = 0;
               let mixAmount = 0;
               for (let item of arr) {
+                winloseAmount += item.winloseAmount;
                 mixAmount += item.mixAmount;
               }
               let result = "";

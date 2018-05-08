@@ -49,26 +49,21 @@ export const home={
                 openedPage.query = get.query;
             }
             state.pageOpenedList.splice(get.index, 1, openedPage);
-            localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         setOpenedList (state) {
-            state.pageOpenedList = localStorage.pageOpenedList ? JSON.parse(localStorage.pageOpenedList) : [otherRouter.children[0]];
+            state.pageOpenedList = [];
         },
         initCachepage (state) {
-            if (localStorage.cachePage) {
-                state.cachePage = JSON.parse(localStorage.cachePage);
-            }
+            state.cachePage=[];
         },
         increateTag (state, tagObj) {
             if (!Util.oneOf(tagObj.name, state.dontCache)) {
                 state.cachePage.push(tagObj.name);
-                localStorage.cachePage = JSON.stringify(state.cachePage);
             }
             if(state.pageOpenedList.length==9){
                 state.pageOpenedList.splice(0,1);
             }
             state.pageOpenedList.push(tagObj);
-            localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         closePage (state, name) {
             state.cachePage.forEach((item, index) => {

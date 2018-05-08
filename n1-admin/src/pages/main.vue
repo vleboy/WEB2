@@ -99,7 +99,6 @@ export default {
       let name = to.name;
       this.$store.commit("setCurrentPageName", name);
       this.checkTag(name);
-      localStorage.currentPageName = name;
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
       this.openName=["report"]
       if (name.includes("na")) {

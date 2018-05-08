@@ -188,7 +188,6 @@ export default {
               count += item.winloseAmount;
             }
             if (params.row.level == 0) {
-              // sessionStorage.setItem("winloseAmount", count.toFixed(2));
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
