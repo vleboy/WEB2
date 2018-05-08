@@ -1,124 +1,288 @@
 <template>
-    <div class="personalcenter">
-        <div style="text-align:center">
-            <h2 style="font-size: 2rem;margin:1.5rem 0 0 0">{{adminInfo.displayName}}</h2>
-        </div>
-        <div class="manangeinfo">
-            <h4 style="display:inline-block">管理信息</h4>
-            <!-- <span style="margin-left:0.4rem" v-if="this.adminInfo.parent !== '00'">
-                所属代理: {{adminInfo.parentName}}
-            </span> -->
-            <div class="manangeform">
-                <p>
-                    <span>管理员账号: {{adminInfo.uname}}</span>
-                    <!-- <span v-if="this.adminInfo.suffix !== 'Agent'">代理标识: {{adminInfo.suffix}}</span> -->
-                    <span>管理员密码: {{adminInfo.password}}
-                        <h5 class="newPassword" @click="newPassword">修改密码</h5>
-                    </span>
-                    <span>管理员成数: {{adminInfo.rate}}%</span>
-                </p>
-                <p>
-                    <span>创建时间: {{(adminInfo.createdAt)}}</span>
-                    <span>上次登录时间: {{(adminInfo.loginAt)}}</span>
-                    <span>上次登录IP: {{adminInfo.lastIP}}</span>
-                </p>
-                <p>
-                    <span style="width: 95%;word-break: break-all">备注: {{(adminInfo.remark)}}</span>
-                </p>
-            </div>
-        </div>
-        <div class="manager-copertion">
-            <h4>代理点数操作记录</h4>
-            <div class="copertion-form">
-                <div class="form-header">
-                    <span class="points">当前代理剩余点数:
-                        <span style="color:#FF9900">{{balance}}</span>
-                    </span>
-                </div>
-                <div class="propertyform-form">
-                </div>
-            </div>
-        </div>
+  <div class="personalcenter">
+    <div class="manangeinfo">
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <span>代理管理员账号 : {{adminInfo.username | getName}}</span>
+          </td>
+          <td>
+            <span>代理管理员密码 : {{adminInfo.password}}
+              <h5 class="newPassword" @click="newPassword">修改密码</h5>
+            </span>
+          </td>
+          <td>
+            <span>代理管理员成数 : {{ balance }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>代理创建时间 : {{ dayjs(adminInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
+          </td>
+          <td>
+            <span>上次登录时间 : {{dayjs(adminInfo.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </td>
+          <td>
+            <span>上次登录IP : {{adminInfo.lastIP}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>剩余点数 : {{ balance }}</span>
+          </td>
+        </tr>
+      </table>
     </div>
+    <div class="manager-copertion">
+      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page>
+    </div>
+    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok">
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">新密码</Col>
+          <Col span="14">
+          <Input v-model="password" placeholder="请输入新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">重复新密码</Col>
+          <Col span="14">
+          <Input v-model="repassword" placeholder="请重复新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+    </Modal>
+    <Spin size="large" fix v-if="$store.state.login.loading">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
+import dayjs from "dayjs";
 export default {
   data() {
     return {
-      balance: 12,
-      adminInfo: {
-        displayName: "超级管理员",
-        parent: "11",
-        parentName: "管理员2",
-        uname: "abc",
-        password: 123456,
-        rate: 23,
-        createdAt: "2018-2-23",
-        loginAt: "2018-3-3",
-        lastIP: "192.156.2.1",
-        remark: "notes"
-      }
+      modal: false,
+      password: "",
+      repassword: "",
+      dayjs: dayjs,
+      showData: [], //
+      columns1: [
+        {
+          title: "序号",
+          type: "index",
+          maxWidth: 80
+        },
+        {
+          title: "账户余额",
+          key: "oldBalance"
+        },
+        {
+          title: "交易点数",
+          key: "amount"
+        },
+        {
+          title: "交易时间",
+          key: "createdAt",
+          minWidth: 100,
+          render: (h, params) => {
+            return h(
+              "span",
+              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+            );
+          }
+        },
+        {
+          title: "交易对象",
+          key: "toUser",
+          minWidth: 250,
+          render: (h, params) => {
+            let row = params.row;
+            if (row.fromLevel > row.toLevel) {
+              return h(
+                "span",
+                row.toDisplayName + " 对 " + row.fromDisplayName
+              );
+            } else {
+              return h(
+                "span",
+                row.fromDisplayName + " 对 " + row.toDisplayName
+              );
+            }
+          }
+        },
+        {
+          title: "交易类型",
+          key: "action",
+          render: (h, params) => {
+            let row = params.row;
+            if (row.amount > 0) {
+              return h("span", "减点");
+            } else {
+              return h("span", "加点");
+            }
+          }
+        },
+        {
+          title: "交易后余额",
+          key: "balance"
+        },
+        {
+          title: "操作人",
+          key: "operator",
+          render: (h, params) => {
+            return h("span", params.row.operator.split("_")[1]);
+          }
+        },
+        {
+          title: "备注",
+          key: "remark",
+          minWidth: 300
+        }
+      ]
     };
   },
+  computed: {
+    total() {
+      return this.waterfall.length;
+    },
+    adminInfo() {
+      return this.$store.state.login.admininfo;
+    },
+    waterfall() {
+      return JSON.parse(sessionStorage.getItem("waterfall"));
+    },
+     balance() {
+      return this.$store.state.login.balance;
+    },
+  },
   methods: {
+    handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < 100) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, 100);
+      }
+    },
+    changepage(index) {
+      var _start = (index - 1) * 100;
+      var _end = index * 100;
+      this.showData = this.waterfall.slice(_start, _end);
+    },
     newPassword() {
-      console.log("1");
+      this.modal = true;
+    },
+    ok() {
+      let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
+      if (!passReg.test(this.password)) {
+        this.$Message.warning({
+          content: "密码为8-16位的(英文、数字、符号)"
+        });
+        return;
+      }
+      if (this.password != this.repassword) {
+        this.$Message.warning({
+          content: "两次密码不一致"
+        });
+        return;
+      }
+      if(this.passwordLevel(this.repassword)<3){
+         this.$Message.warning({
+          content: "密码强度不够"
+        });
+        return;
+      }
+      let userId = "";
+      if (localStorage.userInfo) {
+        userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      }
+      this.$store.dispatch("changePassword", {
+        userId: userId,
+        password: this.repassword
+      });
+    },
+    passwordLevel(password) {
+      var Modes = 0;
+      for (let i = 0; i < password.length; i++) {
+        Modes |= CharMode(password.charCodeAt(i));
+      }
+      return bitTotal(Modes);
+      //CharMode函数
+      function CharMode(iN) {
+        if (iN >= 48 && iN <= 57)
+          //数字
+          return 1;
+        if (iN >= 65 && iN <= 90)
+          //大写字母
+          return 2;
+        if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90))
+          //大小写
+          return 4;
+        else return 8; //特殊字符
+      }
+      //bitTotal函数
+      function bitTotal(num) {
+        let modes = 0;
+        for (let i = 0; i < 4; i++) {
+          if (num & 1) modes++;
+          num >>>= 1;
+        }
+        return modes;
+      }
     }
+  },
+  filters: {
+    getName(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(9);
+    }
+  },
+  created() {
+    this.$store.commit("changeLoading", { params: true });
+    this.$store.dispatch("adminInfo");
+    this.handlePage();
   }
 };
 </script>
 <style lang="less" scoped>
-.personalcenter .manangeinfo,
-.personalcenter .manager-copertion {
-  width: 99%;
-  margin: 0 auto;
-  vertical-align: baseline;
-}
 .personalcenter {
-  .manangeform {
-    background-color: #f5f5f5;
-    margin-bottom: 2rem;
-  }
-  .copertion-form {
-    background-color: #f5f5f5;
-    padding-left: 1.5%;
-  }
-  .form-header {
-    padding: 1rem 0;
-  }
-  .manangeform {
-    span {
+  min-height: 84vh;
+  .manangeinfo {
+    width: 100%;
+    margin: 10px auto 20px;
+    table {
+      width: 100%;
+      td {
+        border: 1px solid #e9eaec;
+        width: 32%;
+        height: 50px;
+        padding-left: 10px;
+      }
+    }
+    .newPassword {
+      margin-left: 0.5rem;
+      color: #20a0ff;
       display: inline-block;
-      width: 25%;
-      padding: 2rem 1.5rem 1.5rem 2rem;
+      // font-size: 1rem;
+      font-weight: normal;
+      cursor: pointer;
     }
   }
-  h4 {
-    font-size: 1.8rem;
-    font-weight: normal;
-    padding: 2rem 0;
-    color: #5a5a5a;
+  .page {
+    text-align: right;
   }
-  .right {
-    float: right;
-    margin-bottom: 1rem;
-    padding-right: 2.6rem;
-  }
-  .points {
-    vertical-align: -0.75rem;
-  }
-  .input {
-    width: 20rem;
-    margin-right: 0.4rem;
-  }
-  .newPassword {
-    margin-left: 0.5rem;
-    color: #20a0ff;
-    display: inline-block;
-    // font-size: 1rem;
-    font-weight: normal;
-    cursor: pointer;
-  }
+}
+.modal_input {
+  margin-bottom: 10px;
+}
+.label {
+  line-height: 32px;
 }
 </style>
 

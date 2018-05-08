@@ -3,13 +3,18 @@ import { URL,httpType } from './urlConfig'
 // import QS from 'qs'
 
 // get请求
-const get = urls => ({
-    method: 'get',
-    url: URL + urls,
-    headers: {
-        'X-Requested-With': 'XMLHttpRequest'
+const get = urls =>{
+    let token=localStorage.getItem('n1token');
+    let headers={
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization":token
     }
-})
+    return {
+     method: 'get',
+     url: httpType+ URL + urls,
+     headers: headers
+    }
+}
 // post请求
 const post = (urls, datas) => {
     let TOKEN='';
@@ -63,4 +68,20 @@ export async function queryPlayer(params){
 //game/sign
 export async function gameSign(params){
     return http(post('/game/sign',params))
+}
+//admin_center
+export async function getAdminInfo(){
+    return http(get('/admin_center'))
+}
+//流水列表
+export async function getWaterfall(){
+    return http(get(`/waterfall/${userId}`))
+}
+//bill余额 个人中心
+export async function getBill(){
+    return http(get(`/bills/${userId}`))
+}
+//该密码
+export async function updatePassword(params){
+    return http(post('/updatePassword',params))
 }

@@ -98,7 +98,22 @@ export const appRouter = [
         name:'uggame',
         component:main,
         children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:()=>import('@/pages/reports/ugSportGame.vue')}]
-    }
+    },
+    {
+        path:'/agent',
+        title:'代理列表',
+        name:'agent',
+        component:main,
+        children:[{path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentList.vue')}]
+    },
+    {
+        path:'/agent',
+        title:'告警列表',
+        name:'agent',
+        component:main,
+        children:[{path:'warn',title:'告警列表',name:'warnList',component:()=>import('@/pages/warnList.vue')}]
+    },
+
 ]
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [

@@ -37,7 +37,12 @@ export const login = {
             logIn(role,username,password,challenge,vid).then(res=>{
                 console.log(res);
                 if(res.code==0){
-                    localStorage.setItem('n1token',res.payload.token);
+                    if(localStorage.getItem('n1token')) {
+                        localStorage.removeItem('n1token');
+                        localStorage.setItem('n1token', res.payload.token)
+                    }else{
+                        localStorage.setItem('n1token', res.payload.token);
+                    }
                     setTimeout(()=>localStorage.removeItem('n1token'),259200000);
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))

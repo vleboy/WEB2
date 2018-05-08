@@ -54,6 +54,20 @@ export const merchants = {
                   });
             }
         })
+       },
+       transferBussnessBill({dispatch,commit},params){
+        billTransfer(params).then(res=>{
+            if(res.code==0){
+                Message.success('操作成功');
+                //刷新
+                dispatch("getMerchantsList", {
+                    query: {
+                    },
+                    sortkey: "createdAt",
+                    sort: "desc"
+                  });
+            }
+        })
        }
     }
 }

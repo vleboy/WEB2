@@ -6,9 +6,10 @@
                 <!-- <MenuItem name="home">
                 <span>看板</span>
                 </MenuItem>
+                -->
                 <MenuItem name="ownspace-index">
                 <span>个人中心</span>
-                </MenuItem> -->
+                </MenuItem> 
                 <Submenu name="report">
                     <template slot="title">
                         输赢报表
@@ -46,22 +47,14 @@
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                <!-- <Submenu name="8">
+                 <Submenu name="8">
                     <template slot="title">
-                        商户中心
+                        代理中心
                     </template>
-                    <Submenu name='22'>
-                        <template slot="title">线路商管理</template>
-                        <MenuItem name="aa">线路商列表</MenuItem>
-                        <MenuItem name="bb">创建线路商</MenuItem>
-                    </Submenu>
-                    <Submenu name='23'>
-                        <template slot="title">商户管理</template>
-                        <MenuItem name="aaa">商户列表</MenuItem>
-                        <MenuItem name="bbb">创建商户</MenuItem>
-                    </Submenu>
-                    <MenuItem name="8-1">接入商点数警告列表</MenuItem>
+                    <MenuItem name="agentList">代理列表</MenuItem>
+                    <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
+                <!--
                 <Submenu name="9">
                     <template slot="title">
                         玩家中心

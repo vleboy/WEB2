@@ -3,9 +3,6 @@ import main from '@/pages/main'
 export const loginRouter = {
     path: '/login',
     name: 'login',
-    // meta: {
-    //     title: 'Login - 登录'
-    // },
     meta: {
         requireAuth: false
       },

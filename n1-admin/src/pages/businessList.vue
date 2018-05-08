@@ -4,11 +4,11 @@
       <Row class="row">
         <Col span="2" offset="4">商户标识</Col>
         <Col span="4">
-        <Input v-model="value2" placeholder="请输入"></Input>
+        <Input v-model="sn" placeholder="请输入"></Input>
         </Col>
         <Col span="2">商户线路号</Col>
         <Col span="4">
-        <Input v-model="value1" placeholder="请输入"></Input>
+        <Input v-model="msn" placeholder="请输入"></Input>
         </Col>
         <Col span="5">
         <div class="btns">
@@ -20,7 +20,7 @@
       <Row class="row">
         <Col span="2" offset="4">商户昵称</Col>
         <Col span="4">
-        <Input v-model="value3" placeholder="请输入"></Input>
+        <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
         <Col span="2"></Col>
         <Col span="4">
@@ -42,6 +42,48 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
+    <Modal v-model="modal" @on-ok="ok" id="plusModal" @on-cancel='cancel'>
+      <h2 v-if='plus'>加点操作</h2>
+      <h2 v-else>减点操作</h2>
+      <Row class-name='modalrow'>
+        <Col span="4" v-if='plus'>增加点数</Col>
+        <Col span="4" v-else>减少点数</Col>
+        <Col span="16">
+        <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
+          <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
+        </Tooltip>
+        </Col>
+      </Row>
+      <Row class-name='modalrow'>
+        <Col span="4">起始账户</Col>
+        <Col span="16">
+        <Select v-model="select" v-if='plus' @on-change='changeOption'>
+          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <p v-else>【商户】{{uname}}</p>
+        </Col>
+      </Row>
+      <Row v-if="plus" class-name='modalrow'>
+        <Col span="4">增加账户</Col>
+        <Col span="16">
+        <p>【商户】{{uname}}</p>
+        </Col>
+      </Row>
+      <Row v-else class-name='modalrow'>
+        <Col span="4">转入账户</Col>
+        <Col span="16">
+        <Select v-model="select" @on-change='changeOption'>
+          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        </Col>
+      </Row>
+      <Row class-name='textrow'>
+        <Col span="4">备注</Col>
+        <Col span="16">
+        <textarea v-model="note" id="textRow" placeholder="注明备注,如没有可不填" rows="6" autocomplete="off" maxlength="180"></textarea>
+        </Col>
+      </Row>
+    </Modal>
   </div>
 </template>
 <script>
@@ -50,9 +92,21 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      value1: "",
-      value2: "",
-      value3: "",
+      sn: "",//标识
+      msn: "",//线路号
+      displayName: "",
+      uname: "", //modal增加账户
+      point: "", //点数
+      note: "", //备注
+      options: [], //select
+      plus: null, //加点
+      modal: false, //加点弹窗
+      select: "", //加点select
+      fromUserId: "", //id
+      toRole: " ",
+      toUser: "",
+      disabled: true, //加点禁用
+      tooltip: "起始账户余额为", //tooltip content
       columns1: [
         {
           title: "序号",
@@ -79,43 +133,87 @@ export default {
           title: "剩余点数",
           key: "",
           render: (h, params) => {
-            return h('div',[
-              h('p',params.row.lastBill.lastBalance.toFixed(2)),
-              h('p',[
-                h('Button',
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: "#20a0ff"
-                  },
-                  on: {
-                    click: () => {
-                      console.log(1);
+            let admininfo = JSON.parse(localStorage.getItem("userInfo"));
+            let admin = admininfo.username.substr(9);
+            let adminId = admininfo.userId;
+            let userName = admininfo.username;
+            return h("div", [
+              h("p", params.row.lastBill.lastBalance.toFixed(2)),
+              h("p", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer"
+                    },
+                    on: {
+                      click: () => {
+                        this.plus = true;
+                        this.modal = true;
+                        this.disabled = true;
+                        this.uname = params.row.uname;
+                        let option = [
+                          {
+                            value: adminId,
+                            label: "【管理员】" + admin
+                          }
+                        ];
+                        if (params.row.parent != "01") {
+                          let another = {
+                            value: params.row.parent,
+                            label: "【线路商】" + params.row.parentDisplayName
+                          };
+                          option.push(another);
+                        }
+                        this.options = option;
+                        this.toRole = "100";
+                        this.toUser = params.row.username;
+                      }
                     }
-                  }
-                },'加点'
+                  },
+                  "加点"
                 ),
-                 h('Button',
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: "#20a0ff"
-                  },
-                  on: {
-                    click: () => {
-                      console.log(2);
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer",
+                      paddingLeft: "10px"
+                    },
+                    on: {
+                      click: () => {
+                        this.plus = false;
+                        this.modal = true;
+                        this.disabled = true;
+                        this.uname = params.row.uname;
+                        let option = [
+                          {
+                            value: adminId,
+                            label: "【管理员】" + admin,
+                            role: "1",
+                            userName: userName
+                          }
+                        ];
+                        if (params.row.parent != "01") {
+                          let another = {
+                            value: params.row.parent,
+                            label: "【线路商】" + params.row.parentDisplayName,
+                            role: params.row.role,
+                            userName: params.row.parentName
+                          };
+                          option.push(another);
+                        }
+                        this.options = option;
+                        this.fromUserId = params.row.userId;
+                      }
                     }
-                  }
-                },'减点'
-                ),
+                  },
+                  "减点"
+                )
               ])
-            ])
+            ]);
           }
         },
         {
@@ -176,7 +274,7 @@ export default {
         {
           title: "创建时间",
           key: "",
-          minWidth:100,
+          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",
@@ -187,7 +285,7 @@ export default {
         {
           title: "最后登录时间",
           key: "",
-          minWidth:100,
+          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",
@@ -209,11 +307,11 @@ export default {
         {
           title: "备注",
           key: "remark",
-          maxWidth:80,
+          maxWidth: 80,
           render: (h, params) => {
-            let remark=params.row.remark;
-            let result=Object.prototype.toString.call(remark);
-            if (result.includes('String')) {
+            let remark = params.row.remark;
+            let result = Object.prototype.toString.call(remark);
+            if (result.includes("String")) {
               return h(
                 "Tooltip",
                 {
@@ -223,8 +321,8 @@ export default {
                 },
                 "备注"
               );
-            }else{
-              return h('span','')
+            } else {
+              return h("span", "");
             }
           }
         },
@@ -288,6 +386,47 @@ export default {
       } else {
         this.showData = this.waterfall.slice(0, 50);
       }
+    },
+    changeOption(id) {
+      this.disabled = false;
+      if (id != "") {
+        this.$store.dispatch("otherBill", id);
+      }
+    },
+    focus() {
+      this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
+    },
+    ok() {
+      if (this.plus == true) {
+        this.fromUserId = this.select;
+      } else {
+        let selectId = this.select;
+        let option = this.options;
+        for (let key in option) {
+          if (option[key].value == selectId) {
+            this.toRole = option[key].role;
+            this.toUser = option[key].userName;
+          }
+        }
+      }
+      // console.log(this.toRole, this.select);
+      this.$store.dispatch("transferBussnessBill", {
+        fromUserId: this.fromUserId,
+        toRole: this.toRole,
+        toUser: this.toUser,
+        amount: this.point,
+        remark: this.note
+      })
+      .then(() => {
+        this.select = "";
+        this.note = "";
+        this.point = "";
+      });
+    },
+    cancel() {
+      this.select = "";
+      this.note = "";
+      this.point = "";
     }
   },
   computed: {
@@ -302,14 +441,14 @@ export default {
     }
   },
   created() {
-    // this.$store.dispatch("getMerchantsList", {
-    //   query: {
-    //     // suffix: "a",
-    //     // displayName: "a"
-    //   },
-    //   sortkey: "createdAt",
-    //   sort: "desc"
-    // });
+    this.$store.dispatch("getMerchantsList", {
+      query: {
+        // suffix: "a",
+        // displayName: "a"
+      },
+      sortkey: "createdAt",
+      sort: "desc"
+    });
   }
 };
 </script>
@@ -340,5 +479,33 @@ export default {
   .page {
     text-align: right;
   }
+}
+#textRow {
+  display: block;
+  resize: vertical;
+  padding: 5px 7px;
+  line-height: 1.5;
+  width: 100%;
+  color: #1f2d3d;
+  border: 1px solid #bfcbd9;
+  border-radius: 4px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+#plusModal {
+  h2 {
+    margin-bottom: 22px;
+  }
+}
+.modalrow {
+  height: 36px;
+  line-height: 36px;
+  margin-bottom: 22px;
+}
+.ivu-modal-body {
+  padding: 30px 20px;
+  font-size: 14px;
+}
+.ivu-modal-footer {
+  text-align: center;
 }
 </style>
