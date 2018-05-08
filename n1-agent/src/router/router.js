@@ -107,11 +107,11 @@ export const appRouter = [
         children:[{path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentList.vue')}]
     },
     {
-        path:'/agent',
+        path:'/warn',
         title:'告警列表',
-        name:'agent',
+        name:'warn',
         component:main,
-        children:[{path:'warn',title:'告警列表',name:'warnList',component:()=>import('@/pages/warnList.vue')}]
+        children:[{path:'list',title:'告警列表',name:'warnList',component:()=>import('@/pages/warnList.vue')}]
     },
 
 ]

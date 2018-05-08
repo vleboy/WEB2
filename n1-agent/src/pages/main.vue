@@ -110,12 +110,14 @@ export default {
         this.openName = ["report", "sareport"];
       } else if (name.includes("mg")) {
         this.openName = ["report", "mgreport"];
-      } else if (name.includes("ag")) {
+      } else if (name=='agtrue') {
         this.openName = ["report", "agreport"];
       } else if (name.includes("ug")) {
         this.openName = ["report", "ugreport"];
       }else if(name=='allreport'){
         this.openName=["report"]
+      }else if(name=='agentList'||name=='warnList'){
+        this.openName=['agentCenter']
       }
     }
   }

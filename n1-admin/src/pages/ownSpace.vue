@@ -136,8 +136,7 @@ export default {
         {
           title: "备注",
           key: "remark",
-          minWidth: 300
-        }
+          minWidth: 80        }
       ]
     };
   },

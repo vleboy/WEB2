@@ -4,7 +4,7 @@
       <table cellspacing="0">
         <tr>
           <td>
-            <span>代理管理员账号 : {{adminInfo.username | getName}}</span>
+            <span>代理管理员账号 : {{adminInfo.username}}</span>
           </td>
           <td>
             <span>代理管理员密码 : {{adminInfo.password}}
@@ -12,7 +12,7 @@
             </span>
           </td>
           <td>
-            <span>代理管理员成数 : {{ balance }}</span>
+            <span>代理管理员成数 : {{ adminInfo.rate+'%' }}</span>
           </td>
         </tr>
         <tr>
@@ -30,6 +30,8 @@
           <td>
             <span>剩余点数 : {{ balance }}</span>
           </td>
+          <td></td>
+          <td></td>
         </tr>
       </table>
     </div>
@@ -56,7 +58,7 @@
       </p>
     </Modal>
     <Spin size="large" fix v-if="$store.state.login.loading">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <Icon type="  -c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
   </div>
@@ -135,13 +137,13 @@ export default {
           title: "操作人",
           key: "operator",
           render: (h, params) => {
-            return h("span", params.row.operator.split("_")[1]);
+            return h("span", params.row.operator);
           }
         },
         {
           title: "备注",
           key: "remark",
-          minWidth: 300
+          minWidth: 80
         }
       ]
     };
@@ -237,11 +239,6 @@ export default {
     }
   },
   filters: {
-    getName(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.substr(9);
-    }
   },
   created() {
     this.$store.commit("changeLoading", { params: true });

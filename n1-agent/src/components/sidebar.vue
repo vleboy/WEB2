@@ -47,7 +47,7 @@
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                 <Submenu name="8">
+                 <Submenu name="agentCenter">
                     <template slot="title">
                         代理中心
                     </template>
@@ -148,7 +148,7 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .logoimg{
-    max-width:200px; 
+    max-width:180px; 
     position: relative;
 	left: 50%;
     transform: translateX(-50%);

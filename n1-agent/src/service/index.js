@@ -52,7 +52,10 @@ const imgpost = (urls, datas) => ({
 export async function example(params) {
     return http()
 }
-
+let userId=''
+if(localStorage.userInfo){
+  userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+}
 //登录
 export async function logIn(role,username,password,challenge,vid,cb,err){
     return http(post('/agentLogin',{role,username,password,challenge,vid,cb,err}))
@@ -71,7 +74,7 @@ export async function gameSign(params){
 }
 //admin_center
 export async function getAdminInfo(){
-    return http(get(`/admin_center/${userId}`))
+    return http(get(`/agentOne/${userId}`))
 }
 //流水列表
 export async function getWaterfall(){

@@ -116,6 +116,8 @@ export default {
         this.openName = ["report", "ugreport"];
       }else if(name=='allreport'){
         this.openName=["report"]
+      }else if(name=='businessList'||name=='lineBusiness'){
+        this.openName=['businessCenter']
       }
     }
   }
