@@ -4,7 +4,7 @@
 			<p class="title">
 				当前代理
 			</p>
-			<Table :columns="columns1" :data="current" size="small" no-data-text="暂无数据"></Table>
+			<Table :columns="columns1" :data="userInfo" size="small" no-data-text="暂无数据"></Table>
 		</div>
 		<div class="childList">
 			<div class="top">
@@ -12,7 +12,7 @@
 					下级代理列表
 				</span>
 				<div class="search">
-					<Input v-model="search1" placeholder="请输入搜索内容" style="width: 100px"></Input>
+					<Input v-model="search1" placeholder="请输入搜索内容" style="width: 150px"></Input>
 					<Button type="primary" @click="search">搜索</Button>
 					<Button type="ghost" @click="reset">重置</Button>
 				</div>
@@ -27,7 +27,7 @@
 					所属玩家列表
 				</span>
 				<div class="search">
-					<Input v-model="search1" placeholder="请输入搜索内容" style="width: 100px"></Input>
+					<Input v-model="search1" placeholder="请输入搜索内容" style="width: 150px"></Input>
 					<Button type="primary" @click="search">搜索</Button>
 					<Button type="ghost" @click="reset">重置</Button>
 				</div>
@@ -59,15 +59,32 @@ export default {
         },
         {
           title: "上级代理",
-          key: "parentDisplayName"
+					key: "parentDisplayName",
+					render:(h,params)=>{
+						if(params.row.level==0){
+							return h('span','')
+						}else{
+							return h('span',params.row.parentDisplayName)
+						}
+					}
         },
         {
           title: "代理游戏",
-          key: "username"
+					key: "",
+					render:(h,params)=>{
+						if(params.row.level==0){
+							return h('span','')
+						}else{
+							return h('span','parentDisplayName')
+						}
+					}
         },
         {
           title: "代理成数",
-          key: "displayName"
+					key: "rate",
+					render:(h,params)=>{
+						return h('span',params.row.rate+'%')
+					}
         },
         {
           title: "剩余点数",
@@ -124,7 +141,6 @@ export default {
           key: ""
         }
       ],
-      current: [],
       nextLevel: [],
       playerList: []
     };
@@ -136,7 +152,14 @@ export default {
     reset() {
       console.log(1);
     }
-  }
+	},
+	computed:{
+		userInfo(){
+			let arr=[];
+			arr.push(JSON.parse(localStorage.getItem('userInfo')))
+			return arr
+		}
+	}
 };
 </script>
 <style lang="less" scoped>
@@ -144,13 +167,14 @@ export default {
 	min-height: 89vh;
 	.top{
 		clear: both;
-		height: 46px;
+		height: 50px;
 		.left{
 			float: left;
 		}
 		.search{
 			float: right;
 			line-height: 40px;
+			padding-top: 4px;
 		}
 	}
   .title {

@@ -150,7 +150,7 @@ export default {
       return this.$store.state.login.balance;
     },
     waterfall() {
-      return JSON.parse(sessionStorage.getItem("waterfall"));
+      return this.$store.state.login.waterfall;
     }
   },
   methods: {
