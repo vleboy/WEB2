@@ -86,5 +86,25 @@ export async function getBill(){
 }
 //该密码
 export async function updatePassword(params){
-    return http(post('/updatePassword',params))
+    return http(post('/updateAgentPassword',params))
+}
+//代理列表
+export async function getagentList(params){
+    return http(post('/agentList',params))
+}
+//代理玩家列表
+export async function playerList(params){
+    return http(post('/player/list',params))
+}
+//转账
+export async function billTransfer(params){
+    return http(post('/billTransfer',params))
+}
+//player 加点
+export async function addBill(params){
+    return http(post('/agent/player/deposit',params))
+}
+//player 减点
+export async function reduceBill(params){
+    return http(post('/agent/player/take',params))
 }

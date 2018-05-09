@@ -1,4 +1,5 @@
 import {logIn,getAdminInfo,getWaterfall,getBill,updatePassword} from '@/service/index'
+import {Message} from 'iview'
 export const login = {
     state:{
         // getcode:'',

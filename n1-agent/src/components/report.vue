@@ -101,7 +101,7 @@ export default {
                           this.spinShow = false;
                         });
                     } else {
-                      console.log(params.row);
+                      // console.log(params.row);
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
@@ -338,7 +338,7 @@ export default {
   },
   methods: {
     changeTime(time) {
-      console.log(this.changedTime);
+      // console.log(this.changedTime);
     },
     confirm() {
       this.init();

@@ -32,7 +32,7 @@
       <Table :columns="columns1" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
       <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
     </div>
-    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok">
+    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
       <p class="modal_input">
         <Row>
           <Col span="6" class="label">新密码</Col>
@@ -135,7 +135,30 @@ export default {
         {
           title: "备注",
           key: "remark",
-          minWidth: 80        }
+          minWidth: 80,
+          render: (h, params) => {
+            if (params.row.remark == "NULL!" || params.row.remark == null) {
+              return h("span", "");
+            } else {
+              return h(
+                "Tooltip",
+                {
+                  props: {
+                    content: params.row.remark
+                  }
+                },
+                [
+                  h("Icon", {
+                    props: {
+                      type: "search",
+                      color: "#20a0ff"
+                    }
+                  })
+                ]
+              );
+            }
+          }
+        }
       ]
     };
   },
@@ -184,8 +207,8 @@ export default {
         });
         return;
       }
-      if(this.passwordLevel(this.repassword)<3){
-         this.$Message.warning({
+      if (this.passwordLevel(this.repassword) < 3) {
+        this.$Message.warning({
           content: "密码强度不够"
         });
         return;
@@ -194,10 +217,19 @@ export default {
       if (localStorage.userInfo) {
         userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       }
-      this.$store.dispatch("changePassword", {
-        userId: userId,
-        password: this.repassword
-      });
+      this.$store
+        .dispatch("changePassword", {
+          userId: userId,
+          password: this.repassword
+        })
+        .then(() => {
+          this.password = "";
+          this.repassword = "";
+        });
+    },
+    cancel() {
+      this.password = "";
+      this.repassword = "";
     },
     passwordLevel(password) {
       var Modes = 0;

@@ -290,10 +290,17 @@ export default {
                 "Tooltip",
                 {
                   props: {
-                    content: params.row.remark
+                    content: remark
                   }
                 },
-                "备注"
+                [
+                  h('Icon',{
+                    props:{
+                      type:'search',
+                      color:"#20a0ff"
+                    }
+                  })
+                ]
               );
             } else {
               return h("span", "");
