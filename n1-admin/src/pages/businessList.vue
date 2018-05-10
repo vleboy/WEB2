@@ -468,7 +468,7 @@ export default {
   padding: 15px 10px;
 }
 .search {
-  background-color: #f2f2f2;
+  // background-color: #f2f2f2;
   height: 126px;
 }
 .option {

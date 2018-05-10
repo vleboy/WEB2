@@ -105,3 +105,15 @@ export async function updatePassword(params){
 export async function billTransfer(params){
     return http(post('/billTransfer',params))
 }
+//管理员列表
+export async function adminList(params){
+    return http(post('/adminList',params))
+}
+//线路号列表
+export async function lineNumlist(params){
+    return http(post('/msnList',params))
+}
+//日志列表
+export async function logList(params){
+    return http(post('/logList',params))
+}

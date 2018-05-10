@@ -42,7 +42,7 @@ export default {
     return {
       avatorPath: "",
       userName: localStorage.getItem("displayName"),
-      openName: [],
+      openName: []
     };
   },
   computed: {
@@ -71,14 +71,14 @@ export default {
       }
     },
     handleClickUserDropdown(name) {
-       this.$Modal.confirm({
-          title: "提示",
-          content: "<p>是否确认退出</p>",
-          onOk: () => {
-            localStorage.clear();
-            this.$router.push({ name: "login" });
-          }
-        });
+      this.$Modal.confirm({
+        title: "提示",
+        content: "<p>是否确认退出</p>",
+        onOk: () => {
+          localStorage.clear();
+          this.$router.push({ name: "login" });
+        }
+      });
       // if (name === "ownSpace") {
       //   // this.$router.push({ name: "ownspace-index" });
       // } else if (name === "loginout") {
@@ -100,25 +100,41 @@ export default {
       this.$store.commit("setCurrentPageName", name);
       this.checkTag(name);
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
-      this.openName=["report"]
-      if (name.includes("na")) {
-        this.openName = ["report", "ugreport"];
-      } else if (name.includes("ttg")) {
-        this.openName = ["report", "ttgreport"];
-      } else if (name.includes("sa")) {
-        this.openName = ["report", "sareport"];
-      } else if (name.includes("mg")) {
-        this.openName = ["report", "mgreport"];
-      } else if (name.includes("ag")) {
-        this.openName = ["report", "agreport"];
-      } else if (name.includes("ug")) {
-        this.openName = ["report", "ugreport"];
-      }else if(name=='allreport'){
-        this.openName=["report"]
-      }else if(name=='businessList'||name=='lineBusiness'){
-        this.openName=['businessCenter']
-      }else if(name=='ownspace-index'){
-        this.openName=[]
+      // this.openName = ["report"];
+      switch (name) {
+        case "nacard" || "nastreet" || "natrue" || "navideo" || "naAll":
+          this.openName = ["report", "ugreport"];
+          break;
+        case "ttgvideo":
+          this.openName = ["report", "ttgreport"];
+          break;
+        case "saAll" || "safishing" || "satrue":
+          this.openName = ["report", "sareport"];
+          break;
+        case "mgvideo":
+          this.openName = ["report", "mgreport"];
+          break;
+        case "agtrue":
+          this.openName = ["report", "agreport"];
+          break;
+        case "ugsport":
+          this.openName = ["report", "ugreport"];
+          break;
+        case "allreport":
+          this.openName = ["report"];
+          break;
+        case "businessList" || "lineBusiness":
+          this.openName = ["businessCenter"];
+          break;
+        case "ownspace-index":
+          this.openName = [];
+          break;
+        case "adminList" || "lineNumList":
+          this.openName = ["adminCenter"];
+          break;
+        case "lineLoginLog" || "merchantLog" || "adminLog" || "debugLog":
+          this.openName = ["logCenter"];
+          break;
       }
     }
   }
@@ -153,5 +169,4 @@ export default {
 .ivu-layout-header {
   padding: 0 50px 0 10px;
 }
-
 </style>

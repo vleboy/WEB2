@@ -101,15 +101,33 @@ export const appRouter = [
         title:'商户列表',
         name:'business',
         component:main,
-        children:[{path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessList.vue')}]
+        children:[
+            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessList.vue')},
+            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/lineBusiness.vue')}
+    ]
     },
     {
-        path:'/line',
-        title:'商户列表',
-        name:'line',
+        path:'/admin',
+        title:'管理员列表',
+        name:'admin',
         component:main,
-        children:[{path:'list',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/lineBusiness.vue')}]
-    }
+        children:[
+            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminList.vue')},
+            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/lineNumList.vue')}
+    ]
+    },
+    {
+        path:'/log',
+        title:'日志',
+        name:'log',
+        component:main,
+        children:[
+            {path:'lineLogin',title:'线路商登录日志',name:'lineLoginLog',component:()=>import('@/pages/log/lineLoginLog.vue')},
+            {path:'merchant',title:'商户登录日志',name:'merchantLog',component:()=>import('@/pages/log/merchantLog.vue')},
+            {path:'admin',title:'管理员操作日志',name:'adminLog',component:()=>import('@/pages/log/adminLog.vue')},
+            {path:'debug',title:'DEBUG日志',name:'debugLog',component:()=>import('@/pages/log/debugLog.vue')},
+        ]
+    },
 
 ]
 // 所有上面定义的路由都要写在下面的routers里

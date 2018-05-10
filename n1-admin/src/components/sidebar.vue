@@ -54,21 +54,21 @@
                         <MenuItem name="businessList">商户列表</MenuItem>
                     <!-- <MenuItem name="8-1">接入商点数警告列表</MenuItem> -->
                 </Submenu>
-                 <Submenu name="9">
+                 <Submenu name="adminCenter">
                     <template slot="title">
                         管理员中心
                     </template>
-                    <MenuItem name="9-1">管理员列表</MenuItem>
-                    <MenuItem name="9-2">线路号列表</MenuItem>
+                    <MenuItem name="adminList">管理员列表</MenuItem>
+                    <MenuItem name="lineNumList">线路号列表</MenuItem>
                 </Submenu>
-                <Submenu name="10">
+                <Submenu name="logCenter">
                     <template slot="title">
                         日志中心
                     </template>
-                    <MenuItem name="10-1">线路商登录日志</MenuItem>
-                    <MenuItem name="10-2">商户登录日志</MenuItem>
-                    <MenuItem name="10-3">管理员操作日志</MenuItem>
-                    <MenuItem name="10-4">DEBUG日志</MenuItem>
+                    <MenuItem name="lineLoginLog">线路商登录日志</MenuItem>
+                    <MenuItem name="merchantLog">商户登录日志</MenuItem>
+                    <MenuItem name="adminLog">管理员操作日志</MenuItem>
+                    <MenuItem name="debugLog">DEBUG日志</MenuItem>
                 </Submenu>
                 <!--
                
