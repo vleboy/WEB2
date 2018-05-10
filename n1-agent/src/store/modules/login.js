@@ -7,6 +7,7 @@ export const login = {
         loading:false,
         admininfo:{},
         balance:null,
+        waterfall:[]
     },
     mutations:{
         // updateCode(state,{params}){
@@ -24,6 +25,9 @@ export const login = {
         updateBill(state,{params}){
             state.balance=params
         },
+        updateWaterfall(state,{params}){
+            state.waterfall=params
+        }
     },
     actions:{
         // getcapcha({state,commit},params){
@@ -62,7 +66,7 @@ export const login = {
             })
             let p2= getWaterfall().then(res=>{
                 if(res.code==0){
-                    sessionStorage.setItem('waterfall',JSON.stringify(res.payload))
+                    commit('updateWaterfall',{params:res.payload})
                 }
             });
            let p3= getBill().then(res=>{
