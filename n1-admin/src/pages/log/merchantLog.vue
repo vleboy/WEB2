@@ -1,39 +1,39 @@
 <template>
-    <div class="merchantLog">
-         <div class="search">
-            <Row class="row">
-                <Col span='2' offset='4'> 代理昵称:
-                </Col>
-                <Col span="4">
-                <Input v-model="username" placeholder="请输入"></Input>
-                </Col>
-                <Col span='2'> 代理账号:
-                </Col>
-                <Col span="4">
-                <Input v-model="usercount" placeholder="请输入"></Input>
-                </Col>
-                <Col span="2">
-                <div class="btns">
-                    <Button type="primary" class="searchbtn">搜索</Button>
-                </div>
-                </Col>
-            </Row>
+  <div class="merchantLog">
+    <div class="search">
+      <Row class="row">
+        <Col span='2' offset='4'> 代理昵称:
+        </Col>
+        <Col span="4">
+        <Input v-model="username" placeholder="请输入"></Input>
+        </Col>
+        <Col span='2'> 代理账号:
+        </Col>
+        <Col span="4">
+        <Input v-model="useracount" placeholder="请输入"></Input>
+        </Col>
+        <Col span="2">
+        <div class="btns">
+          <Button type="primary" class="searchbtn">搜索</Button>
         </div>
-        <div class="option">
-            <p class="count">共搜索到{{ count }}条数据</p>
-        </div>
-        <div class="table">
-            <Table :columns="columns1" :data="merchantLog" size="small" no-data-text="暂无数据"></Table>
-        </div>
-        <div class="btn">
-            <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
-            <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
-        </div>
-        <Spin size="large" fix v-if="$store.state.admin.loading">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+        </Col>
+      </Row>
     </div>
+    <div class="option">
+      <p class="count">共搜索到{{ count }}条数据</p>
+    </div>
+    <div class="table">
+      <Table :columns="columns1" :data="merchantLog" size="small" no-data-text="暂无数据"></Table>
+    </div>
+    <div class="btn">
+      <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
+      <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
+    </div>
+    <Spin size="large" fix v-if="$store.state.admin.loading">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
@@ -42,9 +42,8 @@ export default {
     return {
       dayjs: dayjs,
       username: "",
-      usercount:'',
+      useracount: "",
       firstPage: true,
-      pageIndex: 0,
       showList: [],
       columns1: [
         {
@@ -137,23 +136,10 @@ export default {
     },
     merchantLog() {
       return this.$store.state.admin.merchantLog;
-    },
-    allAdminLog() {
-      return this.$store.state.admin.allAdminLog;
-    },
-    showLog: {
-      get() {
-        return this.showList;
-      },
-      // setter
-      set(newValue) {
-        this.showList = newValue;
-      }
     }
   },
   methods: {
     nextPage() {
-      this.pageIndex += 1;
       let startKey = this.$store.state.admin.startKey;
       this.$store.dispatch("getMerchantLog", {
         role: "1000",
@@ -164,28 +150,28 @@ export default {
         query: {}
       });
       this.firstPage = false;
-      this.showLog = this.adminLog;
     },
     homePage() {
-      let index = this.pageIndex - 1;
-      let allLog = this.allAdminLog;
-      this.pageIndex -= 1;
-      if (this.pageIndex == 0) {
-        this.firstPage = true;
-      }
-      this.showLog = allLog[index];
-    }
-  },
-  created() {
-    this.$store
-      .dispatch("getMerchantLog", {
+      this.$store.dispatch("getMerchantLog", {
         role: "1000",
         type: "login",
         pageSize: "50",
         startKey: null,
         level: -1,
         query: {}
-      })
+      });
+      this.firstPage = true;
+    }
+  },
+  created() {
+    this.$store.dispatch("getMerchantLog", {
+      role: "1000",
+      type: "login",
+      pageSize: "50",
+      startKey: null,
+      level: -1,
+      query: {}
+    });
   }
 };
 </script>

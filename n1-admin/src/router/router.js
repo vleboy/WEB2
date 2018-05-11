@@ -26,6 +26,9 @@ export const otherRouter = {
     component: main,
     children: [
         { path: 'home', name: 'home',title:'首页', component: () => import('@/pages/home.vue')},
+        { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: () => import('@/pages/addAdmin.vue')},
+        { path: 'addMerchant', name: 'addMerchant',title:'新增商户', component: () => import('@/pages/addMerchant.vue')},
+        { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/addLineMerchant.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里

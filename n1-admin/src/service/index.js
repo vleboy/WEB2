@@ -97,7 +97,7 @@ export async function getMerchants(params){
 export async function getManagers(params){
     return http(post('/managers',params))
 }
-//该密码
+//改密码
 export async function updatePassword(params){
     return http(post('/updatePassword',params))
 }
@@ -116,4 +116,21 @@ export async function lineNumlist(params){
 //日志列表
 export async function logList(params){
     return http(post('/logList',params))
+}
+//停用启用线路号
+export async function changeLineStatus(line,type){
+    return http(get(`/lockmsn/${line}/${type}`))
+}
+//获取下级角色
+export async function getsbuRole(params){
+    return http(post('/subRoleList',params))
+}
+//创建管理员
+export async function createAdmin(params){
+    return http(post('/admins',params))
+}
+//创商户
+//可用线路商
+export async function avalibleManager(){
+    return http(get('/avalible_managers'))
 }

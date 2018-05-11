@@ -1,12 +1,10 @@
 import { adminList,lineNumlist,logList } from '@/service/index'
-import _ from 'lodash'
 export const admin = {
     state:{
        adminList:[],//管理员列表
        lineNumList:[],//线路号列表
        loading:false,
        adminLog:[],
-       allAdminLog:[],
        debugLog:[],
        startKey:{},
        lineLog:[],
@@ -23,10 +21,10 @@ export const admin = {
             state.loading=params
         },//log
         //全部adminlog
-        updateAllAdminLog(state,{params}){
-            state.allAdminLog.push(params);
-            state.allAdminLog = _.uniqWith(state.allAdminLog, _.isEqual);
-        },  
+        // updateAllAdminLog(state,{params}){
+        //     state.allAdminLog.push(params);
+        //     state.allAdminLog = _.uniqWith(state.allAdminLog, _.isEqual);
+        // },  
         changeAdminLog(state,{params}){
             state.adminLog=params
         },
@@ -65,7 +63,6 @@ export const admin = {
         return logList(params).then(res=>{
             if(res.code==0){
                 commit('changeAdminLog',{params:res.payload.Items});
-                commit('updateAllAdminLog',{params:res.payload.Items})
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
                 commit('updateLoading',{params:false})
             }
@@ -75,7 +72,6 @@ export const admin = {
         commit('updateLoading',{params:true})
           logList(params).then(res=>{
             if(res.code==0){
-                console.log(res);
                 commit('changeDebugLog',{params:res.payload.Items})
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
                 commit('updateLoading',{params:false})
@@ -85,7 +81,6 @@ export const admin = {
       getMerchantLog({commit},params){
         commit('updateLoading',{params:true})
           logList(params).then(res=>{
-              console.log(res);
               commit('changeMerchantLog',{params:res.payload.Items})
               commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
               commit('updateLoading',{params:false})
@@ -95,13 +90,12 @@ export const admin = {
       getLineLoginLog({commit},params){
         commit('updateLoading',{params:true})
           logList(params).then(res=>{
-              console.log(res);
               if(res.code==0){
                   commit('changeLineLog',{params:res.payload.Items})
                   commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
                   commit('updateLoading',{params:false})
               }
           })
-      }
+      },
     }
 }

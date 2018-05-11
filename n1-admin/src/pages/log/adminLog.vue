@@ -4,7 +4,7 @@
             <p class="count">共搜索到{{ count }}条数据</p>
         </div>
         <div class="table">
-            <Table :columns="columns1" :data="showLog" size="small" no-data-text="暂无数据"></Table>
+            <Table :columns="columns1" :data="adminLog" size="small" no-data-text="暂无数据"></Table>
         </div>
         <div class="btn">
             <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
@@ -22,10 +22,7 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      username: "",
       firstPage: true,
-      pageIndex: 0,
-      showList: [],
       columns1: [
         {
           title: "序号",
@@ -82,27 +79,14 @@ export default {
   },
   computed: {
     count() {
-      return this.showLog.length;
+      return this.adminLog.length;
     },
     adminLog() {
       return this.$store.state.admin.adminLog;
     },
-    allAdminLog() {
-      return this.$store.state.admin.allAdminLog;
-    },
-    showLog: {
-      get() {
-        return this.showList;
-      },
-      // setter
-      set(newValue) {
-        this.showList = newValue;
-      }
-    }
   },
   methods: {
     nextPage() {
-      this.pageIndex += 1;
       let startKey = this.$store.state.admin.startKey;
       this.$store.dispatch("getAdminLog", {
         role: "1",
@@ -111,16 +95,16 @@ export default {
         startKey: startKey
       });
       this.firstPage = false;
-      this.showLog = this.adminLog;
     },
     homePage() {
-      let index = this.pageIndex - 1;
-      let allLog = this.allAdminLog;
-      this.pageIndex -= 1;
-      if (this.pageIndex == 0) {
-        this.firstPage = true;
-      }
-      this.showLog = allLog[index];
+      this.$store
+      .dispatch("getAdminLog", {
+        role: "1",
+        type: "operate",
+        pageSize: 50,
+        startKey: null
+      })
+      this.firstPage=true;
     }
   },
   created() {
@@ -131,9 +115,6 @@ export default {
         pageSize: 50,
         startKey: null
       })
-      .then(() => {
-        this.showLog = this.adminLog;
-      });
   }
 };
 </script>

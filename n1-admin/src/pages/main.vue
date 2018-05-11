@@ -100,7 +100,6 @@ export default {
       this.$store.commit("setCurrentPageName", name);
       this.checkTag(name);
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
-      // this.openName = ["report"];
       switch (name) {
         case "nacard" || "nastreet" || "natrue" || "navideo" || "naAll":
           this.openName = ["report", "ugreport"];

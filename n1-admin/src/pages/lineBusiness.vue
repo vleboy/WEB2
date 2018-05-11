@@ -21,7 +21,7 @@
     <div class="option">
       <p class="count">共搜索到{{ total }}条数据</p>
       <p class="create">
-        <Button type="primary">创建线路商</Button>
+        <Button type="primary" @click="createLine">创建线路商</Button>
       </p>
     </div>
     <div class="table">
@@ -409,6 +409,9 @@ export default {
     },
     focus() {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
+    },
+    createLine(){
+      this.$router.push({name:'addLineMerchant'})
     }
   },
   computed: {

@@ -88,6 +88,13 @@ export const login = {
                     })
                 }
             })
+        },
+        updatePwd({commit},params){
+            updatePassword(params).then(res=>{
+                if(res.code==0){
+                    Message.success('修改成功');
+                }
+            })
         }
     }
 }

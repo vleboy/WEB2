@@ -17,12 +17,30 @@
     <div class="option">
       <p class="count">共搜索到{{ count }}条数据</p>
       <p class="create">
-        <Button type="primary">创建管理员</Button>
+        <Button type="primary" @click="addAdmin">创建管理员</Button>
       </p>
     </div>
     <div class="table">
       <Table :columns="columns1" :data="adminList" size="small" no-data-text="暂无数据"></Table>
     </div>
+    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">新密码</Col>
+          <Col span="14">
+          <Input v-model="password" placeholder="请输入新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">重复新密码</Col>
+          <Col span="14">
+          <Input v-model="repassword" placeholder="请重复新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+    </Modal>
     <Spin size="large" fix v-if="$store.state.admin.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -36,6 +54,10 @@ export default {
     return {
       username: "",
       dayjs: dayjs,
+      modal: false,
+      password:'',
+      repassword:'',
+      userId:'',
       columns1: [
         {
           title: "序号",
@@ -84,11 +106,12 @@ export default {
                   style: {
                     color: "#20a0ff",
                     cursor: "pointer",
-                    paddingRight:'5px'
+                    paddingRight: "5px"
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      this.modal = true;
+                      this.userId=params.row.userId;
                     }
                   }
                 },
@@ -101,7 +124,7 @@ export default {
                   style: {
                     color: "#20a0ff",
                     cursor: "pointer",
-                    paddingLeft:'5px'
+                    paddingLeft: "5px"
                   },
                   on: {
                     click: () => {
@@ -126,13 +149,81 @@ export default {
       return this.$store.state.admin.adminList;
     }
   },
+  methods: {
+    addAdmin(){
+      this.$router.push({name:'addAdmin'})
+    },
+    ok() {
+      let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
+      if (!passReg.test(this.password)) {
+        this.$Message.warning({
+          content: "密码为8-16位的(英文、数字、符号)"
+        });
+        return;
+      }
+      if (this.password != this.repassword) {
+        this.$Message.warning({
+          content: "两次密码不一致"
+        });
+        return;
+      }
+      if (this.passwordLevel(this.repassword) < 3) {
+        this.$Message.warning({
+          content: "密码强度不够"
+        });
+        return;
+      }
+      this.$store
+        .dispatch("updatePwd", {
+          userId: this.userId,
+          password: this.repassword
+        })
+        .then(() => {
+          this.password = "";
+          this.repassword = "";
+        });
+    },
+    cancel() {
+      this.password = "";
+      this.repassword = "";
+    },
+    passwordLevel(password) {
+      var Modes = 0;
+      for (let i = 0; i < password.length; i++) {
+        Modes |= CharMode(password.charCodeAt(i));
+      }
+      return bitTotal(Modes);
+      //CharMode函数
+      function CharMode(iN) {
+        if (iN >= 48 && iN <= 57)
+          //数字
+          return 1;
+        if (iN >= 65 && iN <= 90)
+          //大写字母
+          return 2;
+        if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90))
+          //大小写
+          return 4;
+        else return 8; //特殊字符
+      }
+      //bitTotal函数
+      function bitTotal(num) {
+        let modes = 0;
+        for (let i = 0; i < 4; i++) {
+          if (num & 1) modes++;
+          num >>>= 1;
+        }
+        return modes;
+      }
+    }
+  },
   created() {
     this.$store.dispatch("getAdminList", {
       query: {},
       sortkey: "createdAt",
       sort: "desc"
     });
-    this.$store.commit('updateLoading',{params:true})
+    this.$store.commit("updateLoading", { params: true });
   }
 };
 </script>
@@ -162,5 +253,11 @@ export default {
       padding-bottom: 15px;
     }
   }
+}
+.modal_input {
+  margin-bottom: 10px;
+}
+.label {
+  line-height: 32px;
 }
 </style>

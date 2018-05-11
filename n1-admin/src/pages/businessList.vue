@@ -31,7 +31,7 @@
     <div class="option">
       <p class="count">共搜索到{{ total }}条数据</p>
       <p class="create">
-        <Button type="primary">创建商户</Button>
+        <Button type="primary" @click="addMerchant">创建商户</Button>
       </p>
     </div>
     <div class="table">
@@ -393,6 +393,9 @@ export default {
     //     this.showData = this.waterfall.slice(0, 50);
     //   }
     // },
+    addMerchant(){
+      this.$router.push({name:'addMerchant'})
+    },
     changeOption(id) {
       this.disabled = false;
       if (id != "") {

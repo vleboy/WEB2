@@ -1,30 +1,29 @@
 <template>
-    <div class="debugLog">
-        <div class="option">
-            <Row class="row">
-                <Col span="4">
-                <p class="count">共搜索到{{ count }}条数据</p>
-                </Col>
-                <Col span="5" offset='15'>
-                <Select v-model="role" style="width:200px">
-                    <Option v-for="item in selectOption" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-                <Button type="primary" class="searchbtn">搜索</Button>
-                </Col>
-            </Row>
-        </div>
-        <div class="table">
-            <Table :columns="columns1" :data="debugLog" size="small" no-data-text="暂无数据"></Table>
-        </div>
-        <div class="btn">
-            <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
-            <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
-        </div>
-        <Spin size="large" fix v-if="$store.state.admin.loading">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+  <div class="debugLog">
+    <div class="option">
+      <Row class="row">
+        <Col span="4">
+        <p class="count">共搜索到{{ count }}条数据</p>
+        </Col>
+        <Col span="5" offset='15'>
+        <Select style="width:200px" @on-change='changeRole' v-model="role">
+          <Option v-for="item in selectOption" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        </Col>
+      </Row>
     </div>
+    <div class="table">
+      <Table :columns="columns1" :data="debugLog" size="small" no-data-text="暂无数据"></Table>
+    </div>
+    <div class="btn">
+      <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
+      <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
+    </div>
+    <Spin size="large" fix v-if="$store.state.admin.loading">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
@@ -32,10 +31,8 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      username: "",
       firstPage: true,
-      pageIndex: 0,
-      role: "",
+      role:'',
       selectOption: [
         {
           value: "2",
@@ -50,7 +47,6 @@ export default {
           label: "第三方战绩异常"
         }
       ],
-      showList: [],
       columns1: [
         {
           title: "时间",
@@ -109,41 +105,37 @@ export default {
     },
     debugLog() {
       return this.$store.state.admin.debugLog;
-    },
-    // allAdminLog() {
-    //   return this.$store.state.admin.allAdminLog;
-    // },
-    showLog: {
-      get() {
-        return this.showList;
-      },
-      // setter
-      set(newValue) {
-        this.showList = newValue;
-      }
     }
   },
   methods: {
     nextPage() {
-      this.pageIndex += 1;
       let startKey = this.$store.state.admin.startKey;
+      let role=this.role;
       this.$store.dispatch("getAdminLog", {
-        role: "1",
-        type: "operate",
-        pageSize: 50,
+        role: role,
+        type: "settlement",
+        pageSize: 20,
         startKey: startKey
       });
       this.firstPage = false;
-      this.showLog = this.adminLog;
     },
     homePage() {
-      let index = this.pageIndex - 1;
-      let allLog = this.allAdminLog;
-      this.pageIndex -= 1;
-      if (this.pageIndex == 0) {
-        this.firstPage = true;
-      }
-      this.showLog = allLog[index];
+      let role=this.role;
+      this.$store.dispatch("getDebugLog", {
+        role: role,
+        type: "settlement",
+        pageSize: 20,
+        startKey: ""
+      });
+      this.firstPage = true;
+    },
+    changeRole(val) {
+      this.$store.dispatch("getDebugLog", {
+        role: val,
+        type: "settlement",
+        pageSize: 20,
+        startKey: ""
+      });
     }
   },
   created() {
@@ -165,8 +157,8 @@ export default {
       padding-top: 5px;
       padding-bottom: 10px;
     }
-    .searchbtn{
-        margin-left:10px; 
+    .searchbtn {
+      margin-left: 10px;
     }
   }
   .btn {
