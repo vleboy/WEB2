@@ -146,7 +146,7 @@ export async function avalibleManager(){
 }
 //上级线路商游戏
 export async function companySelect(params){
-    return http(post('/companySelect',params))
+    return http(post('/companySelect',params,'game'))
 }
 //验证存在
 export async function checkExit(params){
@@ -154,9 +154,17 @@ export async function checkExit(params){
 }
 //gameBigType
 export async function gameBigType(params){
-    return http(post('/gameBigType',params))
+    return http(post('/gameBigType',params,'game'))
 }
 //添加线路商/商户
 export async function addUsers(params){
     return http(post('/users',params))
+}
+//随机msn
+export async function msnRandom(){
+    return http(get('/msnRandom'))
+}
+//检查msn可用
+export async function checkMsn(num){
+    return http(get(`/check_msn/${num}`))
 }

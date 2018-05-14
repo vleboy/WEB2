@@ -77,12 +77,12 @@
                         <Row>
                             <Col span="10">
                             <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
-                                <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
+                                <Option v-for="item in gameType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                             </Select>
                             </Col>
                             <Col span="10">
                             <Select v-model="detail.gameList" placeholder="请选择" @on-change="selectGame">
-                                <Option v-for="item in gameList" :value="item.name" :key="item.code">{{ item.name }}</Option>
+                                <Option v-for="item in gameList" :value="item.name" :key="item.name">{{ item.name }}</Option>
                             </Select>
                             </Col>
                         </Row>
@@ -256,7 +256,6 @@ export default {
       parentBalance: "",
       gameType: [],
       gameList: [],
-      ruleValidate: {},
       gameDetail: [],
       tooltip: "当前所属上级余额:",
       basicValidate: {
@@ -335,14 +334,15 @@ export default {
       this.game = value;
     },
     addGame() {
-      let gameItem = {
-        company: this.detail.gameType,
-        name: this.detail.gameList,
-        rate: this.detail.balance,
-        companyName: "AsiaGaming",
-        type: "1",
-        code: "1050000"
-      };
+      let gamelist = this.gameList;
+      let gameName = this.game;
+      let gameItem = {};
+      for (let item of gamelist) {
+        if (item.name == gameName) {
+          gameItem = item;
+        }
+      }
+      gameItem.rate = this.detail.balance;
       this.gameDetail.push(gameItem);
     }, //生成密码
     createPass() {
@@ -373,13 +373,12 @@ export default {
                   role: "10",
                   ...this.admin,
                   ...this.basic,
-                  gameList: this.gameList
+                  gameList: this.gameDetail
                 })
                 .then(res => {
                   if (res.code == 0) {
-                    console.log(res);
-                    Message.success("添加成功");
-                    // this.$router.push({name:'lineBusiness'})
+                    this.$Message.success("添加成功");
+                    this.$router.push({name:'lineBusiness'})
                   }
                 });
             } else {

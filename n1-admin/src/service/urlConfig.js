@@ -1,10 +1,16 @@
 // console.log(process.env.NODE_ENV);
 // export const URL='d3rqtlfdd4m9wd.cloudfront.net'
-// export const URL='d3rqtlfdd4m9wd.cloudfront.net'
-export let URL = type =>{
-  if(process.env.NODE_ENV == 'production') {
-    return 'n1admin.na12345.com'
-  } else{
+export let URL = type => {
+  if (process.env.NODE_ENV == 'production') {
+    switch (type) {
+      case 'game':
+        return 'n1game.na12345.com'
+        break
+      default:
+        return 'n1admin.na12345.com'
+        break
+    }
+  } else {
     switch (type) {
       case 'game':
         return 'dgjmusja39cm2.cloudfront.net'
