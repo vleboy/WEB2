@@ -58,7 +58,7 @@ export async function example(params) {
 
 //针对业务逻辑里的请求
 export async function httpRequest(type,method,url,params,) {
-  //参数分别作用 （方法, 请求接口，参数，域名接口）
+  //参数分别作用 （域名接口, 方法, 请求接口, 参数）
   return method == 'get' ? http(get(url,type)) : http(post(url,params,type))
 }
 
@@ -146,7 +146,7 @@ export async function avalibleManager(){
 }
 //上级线路商游戏
 export async function companySelect(params){
-    return http(post('/companySelect',params))
+    return http(post('/companySelect',params,'game'))
 }
 //验证存在
 export async function checkExit(params){
@@ -154,7 +154,7 @@ export async function checkExit(params){
 }
 //gameBigType
 export async function gameBigType(params){
-    return http(post('/gameBigType',params))
+    return http(post('/gameBigType',params,'game'))
 }
 //添加线路商/商户
 export async function addUsers(params){
