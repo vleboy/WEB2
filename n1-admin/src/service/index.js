@@ -1,5 +1,5 @@
 import { http } from './http'
-import { URL,httpType } from './urlConfig'
+import { URL,httpType,gameUrl } from './urlConfig'
 // import QS from 'qs'
 
 // get请求
@@ -15,7 +15,18 @@ const get = urls => {
      headers: headers
     }
 }
-
+const gameGet=urls=>{
+    let token=localStorage.getItem('n1token');
+    let headers={
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization":token
+    }
+    return {
+     method: 'get',
+     url: gameUrl + urls,
+     headers: headers
+    }
+}
 // post请求
 const post = (urls, datas) => {
     let TOKEN='';
@@ -34,6 +45,27 @@ const post = (urls, datas) => {
     return {
         method: 'post',
         url: httpType+ URL + urls,
+        data:datas,                       //QS.stringify(datas),
+        headers: headers
+    }
+}
+const gamePost=(urls,datas)=>{
+    let TOKEN='';
+    let headers={};
+    if(window.localStorage.getItem('n1token')) {
+        TOKEN = window.localStorage.getItem('n1token')
+        headers={
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization":TOKEN
+        }
+    }else{
+        headers={
+            "Content-Type": "application/json; charset=utf-8",
+        }
+    }
+    return {
+        method: 'post',
+        url: gameUrl + urls,
         data:datas,                       //QS.stringify(datas),
         headers: headers
     }
@@ -85,7 +117,7 @@ export async function getWaterfall(){
 //bill余额 个人中心
 export async function getBill(){
     return http(get(`/bills/${userId}`))
-}
+}//otherbill
 export async function getOtherBill(Id){
     return http(get(`/bills/${Id}`))
 }
@@ -133,4 +165,20 @@ export async function createAdmin(params){
 //可用线路商
 export async function avalibleManager(){
     return http(get('/avalible_managers'))
+}
+//上级线路商游戏
+export async function companySelect(params){
+    return http(gamePost('/companySelect',params))
+}
+//验证存在
+export async function checkExit(params){
+    return http(post('/checkExist',params))
+}
+//gameBigType
+export async function gameBigType(params){
+    return http(gamePost('/gameBigType',params))
+}
+//添加线路商/商户
+export async function addUsers(params){
+    return http(post('/users',params))
 }

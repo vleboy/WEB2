@@ -5,6 +5,7 @@ import {home} from './modules/home'
 import {report} from './modules/report'
 import { merchants } from './modules/merchants'
 import {admin} from './modules/admin'
+import {add} from './modules/add'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
     modules: {
@@ -12,6 +13,7 @@ export const store = new Vuex.Store({
         home,
         report,
         merchants,
-        admin
+        admin,
+        add
     }
 })

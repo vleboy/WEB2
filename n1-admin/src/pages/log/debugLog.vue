@@ -32,19 +32,19 @@ export default {
     return {
       dayjs: dayjs,
       firstPage: true,
-      role:'',
+      role: "",
       selectOption: [
         {
-          value: "2",
-          label: "账号结果异常"
+          value: "4",
+          label: "第三方战绩异常"
         },
         {
           value: "3",
           label: "超时流水异常"
         },
         {
-          value: "4",
-          label: "第三方战绩异常"
+          value: "2",
+          label: "账号结果异常"
         }
       ],
       columns1: [
@@ -110,7 +110,7 @@ export default {
   methods: {
     nextPage() {
       let startKey = this.$store.state.admin.startKey;
-      let role=this.role;
+      let role = this.role;
       this.$store.dispatch("getAdminLog", {
         role: role,
         type: "settlement",
@@ -120,7 +120,7 @@ export default {
       this.firstPage = false;
     },
     homePage() {
-      let role=this.role;
+      let role = this.role;
       this.$store.dispatch("getDebugLog", {
         role: role,
         type: "settlement",
@@ -140,7 +140,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getDebugLog", {
-      role: 2,
+      role: 4,
       type: "settlement",
       pageSize: 20,
       startKey: ""

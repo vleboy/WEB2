@@ -154,7 +154,7 @@ export default {
       this.$router.push({name:'addAdmin'})
     },
     ok() {
-      let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
+      let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{8,16}$/;
       if (!passReg.test(this.password)) {
         this.$Message.warning({
           content: "密码为8-16位的(英文、数字、符号)"
