@@ -1,9 +1,10 @@
 import { http } from './http'
-import { URL,httpType,gameUrl } from './urlConfig'
+import { URL,httpType } from './urlConfig'
 // import QS from 'qs'
 
-// get请求
-const get = urls => {
+// get请求 (url拼接参数，请求域名类别）
+// 域名类别为: 不传域名默认为n1, 游戏相关接口为game
+const get = (urls, type) => {
     let token=localStorage.getItem('n1token');
     let headers={
         "Content-Type": "application/json; charset=utf-8",
@@ -11,24 +12,13 @@ const get = urls => {
     }
     return {
      method: 'get',
-     url: httpType+ URL + urls,
+     url: httpType+ URL(type) + urls,
      headers: headers
     }
 }
-const gameGet=urls=>{
-    let token=localStorage.getItem('n1token');
-    let headers={
-        "Content-Type": "application/json; charset=utf-8",
-        "Authorization":token
-    }
-    return {
-     method: 'get',
-     url: gameUrl + urls,
-     headers: headers
-    }
-}
+
 // post请求
-const post = (urls, datas) => {
+const post = (urls, datas, type) => {
     let TOKEN='';
     let headers={};
     if(window.localStorage.getItem('n1token')) {
@@ -44,32 +34,12 @@ const post = (urls, datas) => {
     }
     return {
         method: 'post',
-        url: httpType+ URL + urls,
+        url: httpType+ URL(type) + urls,
         data:datas,                       //QS.stringify(datas),
         headers: headers
     }
 }
-const gamePost=(urls,datas)=>{
-    let TOKEN='';
-    let headers={};
-    if(window.localStorage.getItem('n1token')) {
-        TOKEN = window.localStorage.getItem('n1token')
-        headers={
-            "Content-Type": "application/json; charset=utf-8",
-            "Authorization":TOKEN
-        }
-    }else{
-        headers={
-            "Content-Type": "application/json; charset=utf-8",
-        }
-    }
-    return {
-        method: 'post',
-        url: gameUrl + urls,
-        data:datas,                       //QS.stringify(datas),
-        headers: headers
-    }
-}
+
 //img
 const imgpost = (urls, datas) => ({
     method: 'post',
@@ -85,6 +55,14 @@ const imgpost = (urls, datas) => ({
 export async function example(params) {
     return http()
 }
+
+//针对业务逻辑里的请求
+export async function httpRequest(type,method,url,params,) {
+  //参数分别作用 （方法, 请求接口，参数，域名接口）
+  return method == 'get' ? http(get(url,type)) : http(post(url,params,type))
+}
+
+//
 let userId=''
 if(localStorage.userInfo){
   userId = JSON.parse(localStorage.getItem("userInfo")).userId;
@@ -168,7 +146,7 @@ export async function avalibleManager(){
 }
 //上级线路商游戏
 export async function companySelect(params){
-    return http(gamePost('/companySelect',params))
+    return http(post('/companySelect',params))
 }
 //验证存在
 export async function checkExit(params){
@@ -176,7 +154,7 @@ export async function checkExit(params){
 }
 //gameBigType
 export async function gameBigType(params){
-    return http(gamePost('/gameBigType',params))
+    return http(post('/gameBigType',params))
 }
 //添加线路商/商户
 export async function addUsers(params){
