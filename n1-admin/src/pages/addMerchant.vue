@@ -127,8 +127,8 @@
                         <Row>
                             <Col span="10">
                             <Select v-model="detail.httpType" placeholder="请选择">
-                                <Option value="Http://">Http://</Option>
-                                <Option value="Https://">Https://</Option>
+                                <Option value="http://">http://</Option>
+                                <Option value="https://">https://</Option>
                             </Select>
                             </Col>
                             <Col span="10">
@@ -143,8 +143,8 @@
                         <Row>
                             <Col span="10">
                             <Select v-model="detail.chargeType" placeholder="请选择">
-                                <Option value="Http://">Http://</Option>
-                                <Option value="Https://">Https://</Option>
+                                <Option value="http://">http://</Option>
+                                <Option value="https://">https://</Option>
                             </Select>
                             </Col>
                             <Col span="10">
@@ -160,8 +160,8 @@
                         <Row>
                             <Col span="10">
                             <Select v-model="detail.registType" placeholder="请选择">
-                                <Option value="Http://">Http://</Option>
-                                <Option value="Https://">Https://</Option>
+                                <Option value="http://">http://</Option>
+                                <Option value="https://">https://</Option>
                             </Select>
                             </Col>
                             <Col span="10">
@@ -176,8 +176,8 @@
                         <Row>
                             <Col span="10">
                             <Select v-model="detail.serviceType" placeholder="请选择">
-                                <Option value="Http://">Http://</Option>
-                                <Option value="Https://">Https://</Option>
+                                <Option value="http://">http://</Option>
+                                <Option value="https://">https://</Option>
                             </Select>
                             </Col>
                             <Col span="10">
@@ -198,6 +198,10 @@
                 <Button type="primary" class="reset">重置</Button>
             </div>
         </Row>
+        <Spin size="large" fix v-if="$store.state.admin.loading">
+            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+            <div>加载中...</div>
+        </Spin>
     </div>
 </template>
 <script>
@@ -243,7 +247,7 @@ export default {
     };
     const validatesuffix = (rule, value, callback) => {
       if (value == "") {
-        callback(new Error("标识不能为空"));
+        callback(new Error("前缀不能为空"));
       } else {
         let testReg = /^[a-zA-Z][a-zA-Z0-9]{1,5}$/;
         if (!testReg.test(value)) {
@@ -256,7 +260,7 @@ export default {
               if (res.payload == true) {
                 callback();
               } else {
-                callback(new Error("标识不可用,请重新输入"));
+                callback(new Error("前缀不可用,请重新输入"));
               }
             }
           });
@@ -294,7 +298,7 @@ export default {
             if (res.payload.avalible == true) {
               callback();
             } else {
-              callback(new Error("标识不可用,请重新输入"));
+              callback(new Error("线路号不可用,请重新输入"));
             }
           }
         });
@@ -376,13 +380,13 @@ export default {
         gameType: "",
         gamelist: "",
         loginWhiteList: "",
-        httpType: "",
+        httpType: "http://",
         url: "",
+        chargeType: "http://",
         chargeUrl: "",
+        registType: "http://",
         registUrl: "",
-        chargeType: "",
-        registType: "",
-        serviceType: "",
+        serviceType: "http://",
         serviceUrl: ""
       },
       admin: {
@@ -459,6 +463,7 @@ export default {
   },
   methods: {
     selectPre(id) {
+      this.$store.commit("updateLoading", { params: true });
       this.disabled = false;
       companySelect({ parent: id }).then(res => {
         if (res.code == 0) {
@@ -468,6 +473,7 @@ export default {
       getOtherBill(id).then(res => {
         if (res.code == 0) {
           this.parentBalance = res.payload.balance;
+          this.$store.commit("updateLoading", { params: false });
         }
       });
     },
