@@ -11,8 +11,9 @@ function checkStatus(response) {
   if (response.data.code != '0') {
         Message.warning(response.data.msg);
         if(response.data.msg=='TOKEN已过期'){
-          let host=location.hostname;
-          location.href=host+'#/login'
+          let host=location.href;
+          host=host.split('#')[0]
+          window.location.href=host+'#/login'
         }
     }
   if (response && (response.status == 200 || response.status == 304 || response.status == 400)) {
