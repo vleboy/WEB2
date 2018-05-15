@@ -30,6 +30,7 @@ export const otherRouter = {
         { path: 'addMerchant', name: 'addMerchant',title:'新增商户', component: () => import('@/pages/addMerchant.vue')},
         { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/addLineMerchant.vue')},
         { path: 'createRole', name: 'createRole',title:'创建新角色', component: () => import('@/pages/createRole.vue')},
+        { path: 'editRole', name: 'editRole',title:'编辑角色', component: () => import('@/pages/editRole.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里

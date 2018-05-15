@@ -12,8 +12,8 @@
         </Col>
         <Col span="5">
         <div class="btns">
-          <Button type="primary">搜索</Button>
-          <Button type="ghost">重置</Button>
+          <Button type="primary" @click="search">搜索</Button>
+          <Button type="ghost" @click="reset">重置</Button>
         </div>
         </Col>
       </Row>
@@ -21,10 +21,6 @@
         <Col span="2" offset="4">商户昵称</Col>
         <Col span="4">
         <Input v-model="displayName" placeholder="请输入"></Input>
-        </Col>
-        <Col span="2"></Col>
-        <Col span="4">
-
         </Col>
       </Row>
     </div>
@@ -441,6 +437,32 @@ export default {
       this.select = "";
       this.note = "";
       this.point = "";
+    },
+    reset() {
+      this.sn = "";
+      this.displayName = "";
+      this.msn = "";
+    },
+    search() {
+      let query={
+        sn:this.sn,
+        msn:this.msn,
+        displayName:this.displayName
+      }
+      if (!query.sn) {
+        delete query.sn;
+      }
+      if (!query.displayName) {
+        delete query.displayName;
+      }
+      if (!query.msn) {
+        delete query.msn;
+      }
+      this.$store.dispatch("getMerchantsList", {
+        query,
+        sortkey: "createdAt",
+        sort: "desc"
+      });
     }
   },
   computed: {

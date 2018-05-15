@@ -23,7 +23,7 @@ export default {
         {
           title: "角色名",
           key: "name",
-          maxWidth: 160,
+          maxWidth: 160
         },
         {
           title: "权限",
@@ -52,7 +52,7 @@ export default {
         {
           title: "备注",
           key: "",
-          maxWidth:60,
+          maxWidth: 60,
           render: (h, params) => {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
@@ -81,7 +81,7 @@ export default {
         {
           title: "操作",
           key: "",
-          maxWidth:120,
+          maxWidth: 120,
           render: (h, params) => {
             return h("p", [
               h(
@@ -94,7 +94,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      let name = params.row.name;
+                      this.$router.push({
+                        name: "editRole",
+                        params: { name: name }
+                      });
                     }
                   }
                 },
@@ -127,7 +131,7 @@ export default {
                           });
                         },
                         onCancel: () => {
-                          this.$Message.info('已取消')
+                          this.$Message.info("已取消");
                         }
                       });
                     }

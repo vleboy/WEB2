@@ -128,7 +128,7 @@ export default {
         case "ownspace-index":
           this.openName = [];
           break;
-        case "adminList" || "lineNumList":
+        case "adminList" || "lineNumList" ||"adminRole":
           this.openName = ["adminCenter"];
           break;
         case "lineLoginLog" || "merchantLog" || "adminLog" || "debugLog":

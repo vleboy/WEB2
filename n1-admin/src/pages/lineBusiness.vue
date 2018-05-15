@@ -12,8 +12,8 @@
         </Col>
         <Col span="5">
         <div class="btns">
-          <Button type="primary">搜索</Button>
-          <Button type="ghost">重置</Button>
+          <Button type="primary" @click="search">搜索</Button>
+          <Button type="ghost" @click="reset">重置</Button>
         </div>
         </Col>
       </Row>
@@ -93,7 +93,7 @@ export default {
       toUser: "",
       dayjs: dayjs,
       displayName: "",
-      suffix: "",//前缀
+      suffix: "", //前缀
       disabled: true, //加点禁用
       tooltip: "起始账户余额为", //tooltip content
       columns1: [
@@ -294,10 +294,10 @@ export default {
                   }
                 },
                 [
-                  h('Icon',{
-                    props:{
-                      type:'search',
-                      color:"#20a0ff"
+                  h("Icon", {
+                    props: {
+                      type: "search",
+                      color: "#20a0ff"
                     }
                   })
                 ]
@@ -410,8 +410,29 @@ export default {
     focus() {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
-    createLine(){
-      this.$router.push({name:'addLineMerchant'})
+    createLine() {
+      this.$router.push({ name: "addLineMerchant" });
+    },
+    reset() {
+      this.suffix = "";
+      this.displayName = "";
+    },
+    search() {
+      let query = {
+        suffix: this.suffix,
+        displayName: this.displayName
+      };
+      if (!query.suffix) {
+        delete query.suffix;
+      }
+      if (!query.displayName) {
+        delete query.displayName;
+      }
+      this.$store.dispatch("getManagerList", {
+        query,
+        sortkey: "createdAt",
+        sort: "desc"
+      });
     }
   },
   computed: {
