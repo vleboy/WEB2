@@ -95,10 +95,8 @@ export default {
                   on: {
                     click: () => {
                       let name = params.row.name;
-                      this.$router.push({
-                        name: "editRole",
-                        params: { name: name }
-                      });
+                      this.$store.commit("changeName", { params:name });
+                      this.$router.push({ name: "editRole" });
                     }
                   }
                 },

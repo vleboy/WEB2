@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import { subRoleOne, subRoleUpdate } from "../service/index";
+import { subRoleUpdate } from "../service/index";
 export default {
   data() {
     return {
@@ -236,19 +236,28 @@ export default {
     //   this.$refs["createRole"].resetFields();
     // }
   },
-  beforeCreate() {
-    let self = this;
-    let name = this.$route.params.name;
-    let treeData=this.treeData;
-    subRoleOne({ name }).then(res => {
-        if (res.code == 0) {
-        //   for (let item of res.permissions) {
-        //     treeData[index].checked = true;
-        //   }
-        self.admin.name = res.payload.name;
-        self.admin.remark = res.payload.remark;
-      }
+  computed: {
+    roleDetail() {
+      return this.$store.state.add.subRoleDetail;
+    }
+  },
+  created() {
+    let name = this.$store.state.add.name;
+    console.log(name);
+    this.$store.dispatch("getSubRoleDetail", {
+      name: name
     });
+    let detail=this.roleDetail;
+    console.log(detail);
+    this.admin.name=detail.name;
+    this.admin.remark=detail.remark;
+    let permissions = detail.permissions;
+    let treeData=this.treeData[0]
+    console.log(permissions);
+    console.log(treeData);
+    // if(permissions.includes(treeData.title)){
+    //   treeData.checked=true;
+    // }
   }
 };
 </script>
