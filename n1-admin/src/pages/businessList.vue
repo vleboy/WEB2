@@ -91,8 +91,8 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      sn: "",//标识
-      msn: "",//线路号
+      sn: "", //标识
+      msn: "", //线路号
       displayName: "",
       uname: "", //modal增加账户
       point: "", //点数
@@ -311,22 +311,26 @@ export default {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
             if (result.includes("String")) {
-              return h(
-                "Tooltip",
-                {
-                  props: {
-                    content:remark
-                  }
-                },
-                [
-                  h('Icon',{
-                    props:{
-                      type:'search',
-                      color:"#20a0ff"
+              if (remark != "NULL!") {
+                return h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: remark
                     }
-                  })
-                ]
-              );
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "search",
+                        color: "#20a0ff"
+                      }
+                    })
+                  ]
+                );
+              } else {
+                return h("span", "");
+              }
             } else {
               return h("span", "");
             }
@@ -393,8 +397,8 @@ export default {
     //     this.showData = this.waterfall.slice(0, 50);
     //   }
     // },
-    addMerchant(){
-      this.$router.push({name:'addMerchant'})
+    addMerchant() {
+      this.$router.push({ name: "addMerchant" });
     },
     changeOption(id) {
       this.disabled = false;
@@ -419,18 +423,19 @@ export default {
         }
       }
       // console.log(this.toRole, this.select);
-      this.$store.dispatch("transferBussnessBill", {
-        fromUserId: this.fromUserId,
-        toRole: this.toRole,
-        toUser: this.toUser,
-        amount: this.point,
-        remark: this.note
-      })
-      .then(() => {
-        this.select = "";
-        this.note = "";
-        this.point = "";
-      });
+      this.$store
+        .dispatch("transferBussnessBill", {
+          fromUserId: this.fromUserId,
+          toRole: this.toRole,
+          toUser: this.toUser,
+          amount: this.point,
+          remark: this.note
+        })
+        .then(() => {
+          this.select = "";
+          this.note = "";
+          this.point = "";
+        });
     },
     cancel() {
       this.select = "";

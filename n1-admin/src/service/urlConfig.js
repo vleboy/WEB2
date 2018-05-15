@@ -26,6 +26,6 @@ export let URL = type => {
 export const httpType = 'https://'
 
 export const api = {
-  getVaptcha: httpType + URL + '/vaptcha/getVaptcha',
-  getDownTime: httpType + URL + '/vaptcha/getDownTime'
+  getVaptcha: httpType + URL() + '/vaptcha/getVaptcha',
+  getDownTime: httpType + URL() + '/vaptcha/getDownTime'
 }

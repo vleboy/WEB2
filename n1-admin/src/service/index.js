@@ -168,3 +168,11 @@ export async function msnRandom(){
 export async function checkMsn(num){
     return http(get(`/check_msn/${num}`))
 }
+//新增角色
+export async function subRoleNew(params) {
+    return http(post('/subRoleNew',params))   
+}
+//删除角色
+export async function subRoleDelete(params) {
+    return http(post('/subRoleDelete',params))
+}

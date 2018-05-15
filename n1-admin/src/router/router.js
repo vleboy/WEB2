@@ -29,6 +29,7 @@ export const otherRouter = {
         { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: () => import('@/pages/addAdmin.vue')},
         { path: 'addMerchant', name: 'addMerchant',title:'新增商户', component: () => import('@/pages/addMerchant.vue')},
         { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/addLineMerchant.vue')},
+        { path: 'createRole', name: 'createRole',title:'创建新角色', component: () => import('@/pages/createRole.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -116,7 +117,8 @@ export const appRouter = [
         component:main,
         children:[
             {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminList.vue')},
-            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/lineNumList.vue')}
+            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/lineNumList.vue')},
+            {path:'role',title:'管理员角色列表',name:'adminRole',component:()=>import('@/pages/adminRole.vue')}
     ]
     },
     {

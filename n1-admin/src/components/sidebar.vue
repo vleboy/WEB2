@@ -8,7 +8,7 @@
                 </MenuItem>-->
                 <MenuItem name="ownspace-index">
                 <span>个人中心</span>
-                </MenuItem> 
+                </MenuItem>
                 <Submenu name="report">
                     <template slot="title">
                         输赢报表
@@ -46,20 +46,21 @@
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                 <Submenu name="businessCenter">
+                <Submenu name="businessCenter">
                     <template slot="title">
                         商户中心
                     </template>
-                        <MenuItem name="lineBusiness">线路商列表</MenuItem>
-                        <MenuItem name="businessList">商户列表</MenuItem>
+                    <MenuItem name="lineBusiness">线路商列表</MenuItem>
+                    <MenuItem name="businessList">商户列表</MenuItem>
                     <!-- <MenuItem name="8-1">接入商点数警告列表</MenuItem> -->
                 </Submenu>
-                 <Submenu name="adminCenter">
+                <Submenu name="adminCenter">
                     <template slot="title">
                         管理员中心
                     </template>
                     <MenuItem name="adminList">管理员列表</MenuItem>
                     <MenuItem name="lineNumList">线路号列表</MenuItem>
+                    <MenuItem name="adminRole">管理员角色列表</MenuItem>
                 </Submenu>
                 <Submenu name="logCenter">
                     <template slot="title">
@@ -127,7 +128,7 @@ export default {
   methods: {
     selectMenu(name) {
       if (name == "jump") {
-        this.$Message.success('跳转中,如有弹窗拦截,请允许')
+        this.$Message.success("跳转中,如有弹窗拦截,请允许");
         this.$store.dispatch("getGameSign", { gameType: 30000 }).then(res => {
           window.open(res.url);
         });
@@ -152,10 +153,10 @@ export default {
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
-.logoimg{
-    max-width:180px; 
-    position: relative;
-	left: 50%;
-    transform: translateX(-50%);
+.logoimg {
+  max-width: 180px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

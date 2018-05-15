@@ -208,7 +208,9 @@ export default {
   },
   beforeCreate() {
     getsbuRole().then(res => {
-      this.subRoleList = res.payload.Items;
+       if (res.code == 0) {
+        this.subRoleList = res.payload.Items;
+      }
     });
   }
 };

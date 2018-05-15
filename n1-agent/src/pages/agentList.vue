@@ -101,11 +101,11 @@ export default {
                   },
                   on: {
                     click: async () => {
-                      this.$store.commit('changePlayer',{
-                        params:[]
-                      })
+                      this.$store.commit("changePlayer", {
+                        params: []
+                      });
                       let userId = params.row.userId;
-                      this.$store.commit('changeRowId',{params:userId})
+                      this.$store.commit("changeRowId", { params: userId });
                       let level = params.row.level;
                       this.currentLevel = level + 1;
                       let showList = await this.getNextAgent(
@@ -124,10 +124,9 @@ export default {
                         }
                       }
                       this.agentChild = showList;
-                      this.$store
-                        .dispatch("getAgentPlayer", {
-                          fromUserId: userId
-                        })
+                      this.$store.dispatch("getAgentPlayer", {
+                        fromUserId: userId
+                      });
                     }
                   }
                 },
@@ -310,26 +309,30 @@ export default {
         {
           title: "备注",
           key: "remark",
-          render:(h,params)=>{
+          render: (h, params) => {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
             if (result.includes("String")) {
-              return h(
-                "Tooltip",
-                {
-                  props: {
-                    content: remark
-                  }
-                },
-                [
-                  h('Icon',{
-                    props:{
-                      type:'search',
-                      color:"#20a0ff"
+              if (remark != "NULL!") {
+                return h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: remark
                     }
-                  })
-                ]
-              );
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "search",
+                        color: "#20a0ff"
+                      }
+                    })
+                  ]
+                );
+              } else {
+                return h("span", "");
+              }
             } else {
               return h("span", "");
             }
@@ -432,7 +435,7 @@ export default {
           title: "操作",
           key: ""
         }
-      ],
+      ]
     };
   },
   methods: {
@@ -526,7 +529,7 @@ export default {
     agentList() {
       return this.$store.state.report.agentList;
     },
-    playerList(){
+    playerList() {
       return this.$store.state.report.playerList;
     }
   },
