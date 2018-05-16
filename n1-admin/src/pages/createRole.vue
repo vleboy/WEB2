@@ -83,7 +83,7 @@ export default {
                   expand: true,
                   children: [
                     {
-                      title: "TTG游戏报表"
+                      title: "TTG电子游戏报表"
                     }
                   ]
                 },

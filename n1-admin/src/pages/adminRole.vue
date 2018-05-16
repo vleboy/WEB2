@@ -4,16 +4,49 @@
       <Button type="primary" @click="addRole">创建新角色</Button>
     </p>
     <Table :columns="columns" :data="subRoleList" size="small" no-data-text="暂无数据"></Table>
+    <Modal v-model="modal" :width='600' @on-ok="ok" :scrollable='true'>
+      <section class="createSection">
+        <h2 slot="title">编辑角色</h2>
+        <Form ref='createRole' :model="admin" :label-width="80">
+          <FormItem label="角色名称" prop="name">
+            <Row>
+              <Col span="20">
+              <Input v-model="admin.name" disabled placeholder="角色名称"></Input>
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem label="角色权限" prop="authority">
+            <Row>
+              <Col span="20">
+              <Tree :data="treeData" show-checkbox ref='tree'></Tree>
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem label="备注" prop="remark">
+            <Row>
+              <Col span="20">
+              <Input v-model="admin.remark" :maxlength='200' type="textarea" class="remark" :rows="4" placeholder="请输入备注(如没有可不填),最多不超过200个字符"></Input>
+              </Col>
+            </Row>
+          </FormItem>
+        </Form>
+      </section>
+    </Modal>
   </div>
 </template>
 <script>
 import dayjs from "dayjs";
-import { getsbuRole, subRoleDelete } from "../service/index";
+import { getsbuRole, subRoleDelete, subRoleUpdate } from "../service/index";
 export default {
   data() {
     return {
       dayjs: dayjs,
+      modal: false,
       subRoleList: [],
+      admin: {
+        remark: "",
+        name: ""
+      },
       columns: [
         {
           title: "序号",
@@ -94,9 +127,36 @@ export default {
                   },
                   on: {
                     click: () => {
-                      let name = params.row.name;
-                      this.$store.commit("changeName", { params:name });
-                      this.$router.push({ name: "editRole" });
+                      this.admin.name = params.row.name;
+                      this.admin.remark = params.row.remark;
+                      let permissions = params.row.permissions;
+                      let tree = this.treeData[0];
+                      if (permissions.includes(tree.title)) {
+                        tree.checked = true;
+                      }
+                      let second = tree.children;
+                      for (let item of second) {
+                        if (permissions.includes(item.title)) {
+                          item.checked = true;
+                        }
+                        if (item.children != undefined) {
+                          let third = item.children;
+                          for (let thirdItem of third) {
+                            if (permissions.includes(thirdItem.title)) {
+                              thirdItem.checked = true;
+                            }
+                            if (thirdItem.children != undefined) {
+                              let four = thirdItem.children;
+                              for (let fourItem of four) {
+                                if (permissions.includes(fourItem.title)) {
+                                  fourItem.checked = true;
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                      this.modal = true;
                     }
                   }
                 },
@@ -128,9 +188,6 @@ export default {
                             }
                           });
                         },
-                        onCancel: () => {
-                          this.$Message.info("已取消");
-                        }
                       });
                     }
                   }
@@ -140,12 +197,204 @@ export default {
             ]);
           }
         }
+      ],
+      treeData: [
+        {
+          title: "所有权限",
+          expand: true,
+          checked: false,
+          children: [
+            {
+              title: "个人中心",
+              expand: true,
+              checked: false
+            },
+            {
+              title: "输赢报表",
+              expand: true,
+              checked: false,
+              children: [
+                {
+                  title: "公司输赢总报表",
+                  checked: false
+                },
+                {
+                  title: "NA游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "NA游戏总报表",
+                      checked: false
+                    },
+                    {
+                      title: "NA电子游戏报表",
+                      checked: false
+                    },
+                    {
+                      title: "NA街机游戏报表",
+                      checked: false
+                    },
+                    {
+                      title: "NA棋牌游戏报表",
+                      checked: false
+                    },
+                    {
+                      title: "NA真人游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "TTG游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "TTG电子游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "SA游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "SA游戏总报表",
+                      checked: false
+                    },
+                    {
+                      title: "SA真人游戏报表",
+                      checked: false
+                    },
+                    {
+                      title: "SA捕鱼游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "MG游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "MG电子游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "AG游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "AG真人游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "UG游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "UG体育游戏报表",
+                      checked: false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              title: "商户中心",
+              expand: true,
+              checked: false,
+              children: [
+                {
+                  title: "线路商列表",
+                  checked: false
+                },
+                {
+                  title: "商户列表",
+                  checked: false
+                }
+              ]
+            },
+            {
+              title: "管理员中心",
+              checked: false,
+              expand: true,
+              children: [
+                {
+                  title: "管理员列表",
+                  checked: false
+                },
+                {
+                  title: "线路号列表",
+                  checked: false
+                },
+                {
+                  title: "管理员角色列表",
+                  checked: false
+                }
+              ]
+            },
+            {
+              title: "日志中心",
+              expand: true,
+              checked: false,
+              children: [
+                {
+                  title: "线路商登录日志",
+                  checked: false
+                },
+                {
+                  title: "商户登录日志",
+                  checked: false
+                },
+                {
+                  title: "管理员操作日志",
+                  checked: false
+                },
+                {
+                  title: "DEBUG日志",
+                  checked: false
+                }
+              ]
+            }
+          ]
+        }
       ]
     };
   },
   methods: {
     addRole() {
       this.$router.push({ name: "createRole" });
+    },
+    ok() {
+      let trees = this.$refs.tree.getCheckedNodes();
+      let permissions = [];
+      for (let item of trees) {
+        permissions.push(item.title);
+      }
+      subRoleUpdate({
+        ...this.admin,
+        permissions: permissions
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("保存成功");
+          getsbuRole().then(res => {
+            if (res.code == 0) {
+              this.subRoleList = res.payload.Items;
+            }
+          });
+        }
+      });
     }
   },
   beforeCreate() {
@@ -162,6 +411,19 @@ export default {
   min-height: 89vh;
   .create {
     margin-bottom: 20px;
+  }
+}
+.createSection {
+  width: 40rem;
+  margin: 0 auto;
+  .remark {
+    width: 21rem;
+  }
+  .btn {
+    margin-left: 60px;
+    .reset {
+      margin-left: 100px;
+    }
   }
 }
 </style>
