@@ -24,7 +24,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { changeLineStatus } from "../service/index";
+import { changeLineStatus } from "@/service/index";
 export default {
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
                 },
                 "未使用"
               );
-            } else if(params.row.status == 2){
+            } else if (params.row.status == 2) {
               return h(
                 "span",
                 {
@@ -96,11 +96,21 @@ export default {
                     cursor: "pointer"
                   },
                   on: {
-                    click: async() => {
+                    click: () => {
                       let msn = params.row.msn;
-                      await changeLineStatus(msn, 2);
-                      this.$store.dispatch("getLineNumList", {});
-                      this.$store.commit("updateLoading", { params: true });
+                      this.$Modal.confirm({
+                        title: "Title",
+                        content: "<p>是否停用线路号</p>",
+                        onOk: async () => {
+                          await changeLineStatus(msn, 2);
+                          this.$store.dispatch("getLineNumList", {});
+                          this.$store.commit("updateLoading", { params: true });
+                          this.$Message.success("停用成功");
+                        },
+                        onCancel: () => {
+                          this.$Message.info("取消");
+                        }
+                      });
                     }
                   }
                 },
@@ -115,11 +125,21 @@ export default {
                     cursor: "pointer"
                   },
                   on: {
-                    click: async() => {
+                    click: () => {
                       let msn = params.row.msn;
-                      await changeLineStatus(msn, 0);
-                      this.$store.dispatch("getLineNumList", {});
-                      this.$store.commit("updateLoading", { params: true });
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: "<p>是否启用线路号</p>",
+                        onOk: async () => {
+                          await changeLineStatus(msn, 0);
+                          this.$store.dispatch("getLineNumList", {});
+                          this.$store.commit("updateLoading", { params: true });
+                          this.$Message.success("启用成功");
+                        },
+                        onCancel: () => {
+                          this.$Message.info("取消");
+                        }
+                      });
                     }
                   }
                 },
@@ -139,14 +159,14 @@ export default {
       return this.$store.state.admin.lineNumList;
     }
   },
-  methods:{
-    reset(){
-      this.msn=''
+  methods: {
+    reset() {
+      this.msn = "";
     },
-    search(){
-    this.$store.dispatch("getLineNumList", {
-      msn:this.msn
-    });
+    search() {
+      this.$store.dispatch("getLineNumList", {
+        msn: this.msn
+      });
     }
   },
   created() {

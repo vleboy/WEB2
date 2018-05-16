@@ -1,14 +1,14 @@
 <template>
-  <div class="line">
+  <div class="business">
     <div class="search">
       <Row class="row">
-        <Col span="2" offset="4">线路商前缀</Col>
+        <Col span="2" offset="4">商户标识</Col>
         <Col span="4">
-        <Input v-model="suffix" placeholder="请输入"></Input>
+        <Input v-model="sn" placeholder="请输入"></Input>
         </Col>
-        <Col span="2">线路商昵称</Col>
+        <Col span="2">商户线路号</Col>
         <Col span="4">
-        <Input v-model="displayName" placeholder="请输入"></Input>
+        <Input v-model="msn" placeholder="请输入"></Input>
         </Col>
         <Col span="5">
         <div class="btns">
@@ -17,16 +17,21 @@
         </div>
         </Col>
       </Row>
+      <Row class="row">
+        <Col span="2" offset="4">商户昵称</Col>
+        <Col span="4">
+        <Input v-model="displayName" placeholder="请输入"></Input>
+        </Col>
+      </Row>
     </div>
     <div class="option">
       <p class="count">共搜索到{{ total }}条数据</p>
       <p class="create">
-        <Button type="primary" @click="createLine">创建线路商</Button>
+        <Button type="primary" @click="addMerchant">创建商户</Button>
       </p>
     </div>
     <div class="table">
       <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
-      <!-- <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page> -->
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -50,13 +55,13 @@
         <Select v-model="select" v-if='plus' @on-change='changeOption'>
           <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <p v-else>【线路商】{{uname}}</p>
+        <p v-else>【商户】{{uname}}</p>
         </Col>
       </Row>
       <Row v-if="plus" class-name='modalrow'>
         <Col span="4">增加账户</Col>
         <Col span="16">
-        <p>【线路商】{{uname}}</p>
+        <p>【商户】{{uname}}</p>
         </Col>
       </Row>
       <Row v-else class-name='modalrow'>
@@ -77,11 +82,15 @@
   </div>
 </template>
 <script>
-import dayjs from "dayjs"
-import { userChangeStatus } from "../service/index"
+import dayjs from "dayjs";
+import { userChangeStatus } from "@/service/index";
 export default {
   data() {
     return {
+      dayjs: dayjs,
+      sn: "", //标识
+      msn: "", //线路号
+      displayName: "",
       uname: "", //modal增加账户
       point: "", //点数
       note: "", //备注
@@ -92,9 +101,6 @@ export default {
       fromUserId: "", //id
       toRole: " ",
       toUser: "",
-      dayjs: dayjs,
-      displayName: "",
-      suffix: "", //前缀
       disabled: true, //加点禁用
       tooltip: "起始账户余额为", //tooltip content
       columns1: [
@@ -104,12 +110,16 @@ export default {
           maxWidth: 80
         },
         {
-          title: "线路商前缀",
-          key: "suffix"
+          title: "商户标识",
+          key: "sn"
         },
         {
-          title: "线路商昵称",
+          title: "商户昵称",
           key: "displayName"
+        },
+        {
+          title: "线路号",
+          key: "msn"
         },
         {
           title: "上级线路商",
@@ -153,7 +163,7 @@ export default {
                           option.push(another);
                         }
                         this.options = option;
-                        this.toRole = "10";
+                        this.toRole = "100";
                         this.toUser = params.row.username;
                       }
                     }
@@ -203,12 +213,12 @@ export default {
           }
         },
         {
-          title: "线路商游戏",
+          title: "商户游戏",
           key: "",
           render: (h, params) => {
             let column = [
               {
-                title: "线路商游戏",
+                title: "商户游戏",
                 key: "name"
               },
               {
@@ -269,11 +279,22 @@ export default {
           }
         },
         {
+          title: "最后登录时间",
+          key: "",
+          minWidth: 100,
+          render: (h, params) => {
+            return h(
+              "span",
+              this.dayjs(params.row.loginAt).format("YYYY-MM-DD HH:mm:ss")
+            );
+          }
+        },
+        {
           title: "状态",
           key: "",
           render: (h, params) => {
             if (params.row.status == 1) {
-            return h(
+              return h(
                 "span",
                 {
                   style: {
@@ -303,7 +324,7 @@ export default {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
             if (result.includes("String")) {
-              if (result != "NULL!") {
+              if (remark != "NULL!") {
                 return h(
                   "Tooltip",
                   {
@@ -350,11 +371,15 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: "#20a0ff"
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      let userId=params.row.userId;
+                      let displayName=params.row.displayName;
+                      let username=params.row.username;
+                      let parentDisplayName=params.row.parentDisplayName;
+                      this.$router.push({name:'merchantDetail',params:{userId,displayName,username,parentDisplayName}})
                     }
                   }
                 },
@@ -368,19 +393,19 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: "#20a0ff"
                   },
                   on: {
                     click: () => {
                       userChangeStatus({
-                        role: "10",
+                        role: "100",
                         status,
                         userId: params.row.userId
                       }).then(res => {
                         if (res.code == 0) {
                           this.$Message.success("修改成功");
-                          this.$store.dispatch("getManagerList", {
-                            query: { },
+                          this.$store.dispatch("getMerchantsList", {
+                            query: {},
                             sortkey: "createdAt",
                             sort: "desc"
                           });
@@ -398,6 +423,31 @@ export default {
     };
   },
   methods: {
+    // changepage(index) {
+    //   var _start = (index - 1) * 50;
+    //   var _end = index * 50;
+    //   this.showData = this.waterfall.slice(_start, _end);
+    // },
+    // handlePage() {
+    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+    //   if (this.total < 50) {
+    //     this.showData = this.waterfall;
+    //   } else {
+    //     this.showData = this.waterfall.slice(0, 50);
+    //   }
+    // },
+    addMerchant() {
+      this.$router.push({ name: "addMerchant" });
+    },
+    changeOption(id) {
+      this.disabled = false;
+      if (id != "") {
+        this.$store.dispatch("otherBill", id);
+      }
+    },
+    focus() {
+      this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
+    },
     ok() {
       if (this.plus == true) {
         this.fromUserId = this.select;
@@ -413,7 +463,7 @@ export default {
       }
       // console.log(this.toRole, this.select);
       this.$store
-        .dispatch("transferBill", {
+        .dispatch("transferBussnessBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,
           toUser: this.toUser,
@@ -431,47 +481,27 @@ export default {
       this.note = "";
       this.point = "";
     },
-    // changepage(index) {
-    //   var _start = (index - 1) * 50;
-    //   var _end = index * 50;
-    //   this.showData = this.waterfall.slice(_start, _end);
-    // },
-    // handlePage() {
-    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-    //   if (this.total < 50) {
-    //     this.showData = this.waterfall;
-    //   } else {
-    //     this.showData = this.waterfall.slice(0, 50);
-    //   }
-    // },
-    changeOption(id) {
-      this.disabled = false;
-      if (id != "") {
-        this.$store.dispatch("otherBill", id);
-      }
-    },
-    focus() {
-      this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
-    },
-    createLine() {
-      this.$router.push({ name: "addLineMerchant" });
-    },
     reset() {
-      this.suffix = "";
+      this.sn = "";
       this.displayName = "";
+      this.msn = "";
     },
     search() {
       let query = {
-        suffix: this.suffix,
+        sn: this.sn,
+        msn: this.msn,
         displayName: this.displayName
       };
-      if (!query.suffix) {
-        delete query.suffix;
+      if (!query.sn) {
+        delete query.sn;
       }
       if (!query.displayName) {
         delete query.displayName;
       }
-      this.$store.dispatch("getManagerList", {
+      if (!query.msn) {
+        delete query.msn;
+      }
+      this.$store.dispatch("getMerchantsList", {
         query,
         sortkey: "createdAt",
         sort: "desc"
@@ -480,7 +510,7 @@ export default {
   },
   computed: {
     showData() {
-      return this.$store.state.merchants.managerList;
+      return this.$store.state.merchants.merchantsList;
     },
     total() {
       return this.showData.length;
@@ -490,7 +520,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getManagerList", {
+    this.$store.dispatch("getMerchantsList", {
       query: {
         // suffix: "a",
         // displayName: "a"
@@ -498,38 +528,48 @@ export default {
       sortkey: "createdAt",
       sort: "desc"
     });
+  },
+   watch: {
+    $route(to, from) {
+      if (from.name == "addMerchant") {
+        this.$store.dispatch("getMerchantsList", {
+          query: {},
+          sortkey: "createdAt",
+          sort: "desc"
+        });
+      }
+    }
   }
 };
 </script>
 <style lang="less" scoped>
-.line {
+.business {
   min-height: 89vh;
-  .row {
-    line-height: 32px;
-    text-align: center;
-    padding: 15px 10px;
+}
+.row {
+  line-height: 32px;
+  text-align: center;
+  padding: 15px 10px;
+}
+.search {
+  // background-color: #f2f2f2;
+  height: 126px;
+}
+.option {
+  .count {
+    line-height: 28px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
-  .search {
-    // background-color: #f2f2f2;
-    height: 63px;
-  }
-  .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-    .create {
-      padding-bottom: 15px;
-    }
-  }
-  .table {
-    .page {
-      text-align: right;
-    }
+  .create {
+    padding-bottom: 15px;
   }
 }
-
+.table {
+  .page {
+    text-align: right;
+  }
+}
 #textRow {
   display: block;
   resize: vertical;

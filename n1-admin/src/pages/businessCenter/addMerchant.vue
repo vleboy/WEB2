@@ -45,7 +45,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="商户点数" prop="points">
+          <FormItem label="商户初始点数" prop="points">
             <Row>
               <Col span="20">
               <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
@@ -212,7 +212,7 @@ import {
   getOtherBill,
   msnRandom,
   checkMsn
-} from "../service/index";
+} from "@/service/index";
 export default {
   data() {
     const validateNickname = (rule, value, callback) => {
@@ -312,7 +312,7 @@ export default {
         if (!testReg.test(value)) {
           callback(new Error("点数需为数字"));
         } else if (value > this.parentBalance) {
-          callback(new Error("点数需小于上级线路商"));
+          callback(new Error("点数已超出上级余额数"));
         } else {
           callback();
         }
@@ -462,10 +462,10 @@ export default {
     this.$store.dispatch("getSubrole");
   },
   methods: {
-    reset(){
-      this.$refs['basicform'].resetFields();
-      this.$refs['adminform'].resetFields();
-      this.$refs['gameList'].resetFields();
+    reset() {
+      this.$refs["basicform"].resetFields();
+      this.$refs["adminform"].resetFields();
+      this.$refs["gameList"].resetFields();
     },
     selectPre(id) {
       this.$store.commit("updateLoading", { params: true });
@@ -551,11 +551,11 @@ export default {
       window.open(url);
     },
     addMerchant() {
-      this.$store.commit("updateLoading", { params: true });
       this.$refs["basicform"].validate(valid => {
         if (valid) {
           this.$refs["adminform"].validate(valid => {
             if (valid) {
+              this.$store.commit("updateLoading", { params: true });
               this.$store
                 .dispatch("newUser", {
                   role: "100",

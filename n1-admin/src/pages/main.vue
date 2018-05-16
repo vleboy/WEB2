@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       avatorPath: "",
-      userName: localStorage.getItem("displayName"),
+      userName: localStorage.getItem("subRole"),
       openName: []
     };
   },

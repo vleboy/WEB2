@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import {subRoleNew} from '../service/index'
+import {subRoleNew} from '@/service/index'
 export default {
   data() {
     return {

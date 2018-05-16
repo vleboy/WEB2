@@ -61,7 +61,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { getsbuRole, adminUpdate } from "../service/index";
+import { getsbuRole, adminUpdate } from "@/service/index";
 export default {
   data() {
     return {
@@ -145,7 +145,7 @@ export default {
                   on: {
                     click: () => {
                       this.userId = params.row.userId;
-                      this.subRole=params.row.subRole;
+                      this.subRole = params.row.subRole;
                       this.roleModal = true;
                     }
                   }
@@ -254,17 +254,28 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getAdminList", {
-      query: {},
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+    this.$store.commit("updateLoading", { params: true });
     getsbuRole().then(res => {
       if (res.code == 0) {
         this.subRoleList = res.payload.Items;
       }
     });
-    this.$store.commit("updateLoading", { params: true });
+    this.$store.dispatch("getAdminList", {
+      query: {},
+      sortkey: "createdAt",
+      sort: "desc"
+    });
+  },
+  watch: {
+    $route(to, from) {
+      if (from.name == "addAdmin") {
+        this.$store.dispatch("getAdminList", {
+          query: {},
+          sortkey: "createdAt",
+          sort: "desc"
+        });
+      }
+    }
   }
 };
 </script>

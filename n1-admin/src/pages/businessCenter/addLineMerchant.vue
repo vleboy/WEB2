@@ -77,7 +77,7 @@
             <Row>
               <Col span="10">
               <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
-                <Option v-for="item in gameType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in gameType" :value="item.companyName" :key="item.companyName">{{ item.companyName }}</Option>
               </Select>
               </Col>
               <Col span="10">
@@ -121,7 +121,7 @@ import {
   checkExit,
   gameBigType,
   getOtherBill
-} from "../service/index";
+} from "@/service/index";
 export default {
   data() {
     const validateNickname = (rule, value, callback) => {
@@ -184,7 +184,7 @@ export default {
         if (!testReg.test(value)) {
           callback(new Error("点数需为数字"));
         } else if (value > this.parentBalance) {
-          callback(new Error("点数需小于上级线路商"));
+          callback(new Error("点数已超出上级余额数"));
         } else {
           callback();
         }
@@ -313,7 +313,7 @@ export default {
     reset() {
       this.$refs["basicform"].resetFields();
       this.$refs["adminform"].resetFields();
-      this.$refs['gameList'].resetFields();
+      this.$refs["gameList"].resetFields();
     },
     selectPre(id) {
       this.$store.commit("updateLoading", { params: true });
@@ -375,11 +375,11 @@ export default {
       this.admin.password = pw;
     },
     addlineMerchant() {
-      this.$store.commit("updateLoading", { params: true });
       this.$refs["basicform"].validate(valid => {
         if (valid) {
           this.$refs["adminform"].validate(valid => {
             if (valid) {
+              this.$store.commit("updateLoading", { params: true });
               this.$store
                 .dispatch("newUser", {
                   role: "10",
@@ -409,6 +409,11 @@ export default {
       return this.$store.state.add.subRoleList;
     }
   }
+  // watch: {
+  //   $route(to, from) {
+  //     this.$router.go(0);
+  //   }
+  // }
 };
 </script>
 

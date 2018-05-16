@@ -26,10 +26,12 @@ export const otherRouter = {
     component: main,
     children: [
         { path: 'home', name: 'home',title:'首页', component: () => import('@/pages/home.vue')},
-        { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: () => import('@/pages/addAdmin.vue')},
-        { path: 'addMerchant', name: 'addMerchant',title:'新增商户', component: () => import('@/pages/addMerchant.vue')},
-        { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/addLineMerchant.vue')},
-        { path: 'createRole', name: 'createRole',title:'创建新角色', component: () => import('@/pages/createRole.vue')},
+        { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: () => import('@/pages/adminCenter/addAdmin.vue')},
+        { path: 'createRole', name: 'createRole',title:'创建新角色', component: () => import('@/pages/adminCenter/createRole.vue')},
+        { path: 'addMerchant', name: 'addMerchant',title:'创建商户', component: () => import('@/pages/businessCenter/addMerchant.vue')},
+        { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/businessCenter/addLineMerchant.vue')},
+        { path: 'lineDetail', name: 'lineDetail',title:'线路商详情', component: () => import('@/pages/businessCenter/lineDetail.vue')},
+        { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: () => import('@/pages/businessCenter/merchantDetail.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -106,8 +108,8 @@ export const appRouter = [
         name:'business',
         component:main,
         children:[
-            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessList.vue')},
-            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/lineBusiness.vue')}
+            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessCenter/businessList.vue')},
+            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineBusiness.vue')}
     ]
     },
     {
@@ -116,9 +118,9 @@ export const appRouter = [
         name:'admin',
         component:main,
         children:[
-            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminList.vue')},
-            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/lineNumList.vue')},
-            {path:'role',title:'管理员角色列表',name:'adminRole',component:()=>import('@/pages/adminRole.vue')}
+            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminCenter/adminList.vue')},
+            {path:'role',title:'管理员角色列表',name:'adminRole',component:()=>import('@/pages/adminCenter/adminRole.vue')},
+            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/adminCenter/lineNumList.vue')},
     ]
     },
     {

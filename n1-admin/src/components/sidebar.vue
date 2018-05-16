@@ -59,8 +59,8 @@
                         管理员中心
                     </template>
                     <MenuItem name="adminList" v-if='permission.includes("管理员列表")'>管理员列表</MenuItem>
-                    <MenuItem name="lineNumList" v-if='permission.includes("线路号列表")'>线路号列表</MenuItem>
                     <MenuItem name="adminRole" v-if='permission.includes("管理员角色列表")'>管理员角色列表</MenuItem>
+                    <MenuItem name="lineNumList" v-if='permission.includes("线路号列表")'>线路号列表</MenuItem>
                 </Submenu>
                 <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
                     <template slot="title">

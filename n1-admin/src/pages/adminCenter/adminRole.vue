@@ -36,7 +36,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { getsbuRole, subRoleDelete, subRoleUpdate } from "../service/index";
+import { getsbuRole, subRoleDelete, subRoleUpdate } from "@/service/index";
 export default {
   data() {
     return {
@@ -187,7 +187,7 @@ export default {
                               });
                             }
                           });
-                        },
+                        }
                       });
                     }
                   }
@@ -403,6 +403,17 @@ export default {
         this.subRoleList = res.payload.Items;
       }
     });
+  },
+  watch: {
+    $route(to, from) {
+      if (from.name == "createRole") {
+        getsbuRole().then(res => {
+          if (res.code == 0) {
+            this.subRoleList = res.payload.Items;
+          }
+        });
+      }
+    }
   }
 };
 </script>

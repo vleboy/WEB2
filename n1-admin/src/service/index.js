@@ -92,6 +92,9 @@ export async function getAdminInfo(){
 export async function getWaterfall(){
     return http(get(`/waterfall/${userId}`))
 }
+export async function waterFall(userId){
+    return http(get(`/waterfall/${userId}`))
+}
 //bill余额 个人中心
 export async function getBill(){
     return http(get(`/bills/${userId}`))
@@ -102,6 +105,10 @@ export async function getOtherBill(Id){
 //商户列表
 export async function getMerchants(params){
     return http(post('/merchants',params))
+}
+//单个商户 
+export async function oneMerchants(userId){
+    return http(get(`/merchants/${userId}`))
 }
 //线路商列表
 export async function getManagers(params){

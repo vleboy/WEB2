@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import { getsbuRole, createAdmin } from "../service/index";
+import { getsbuRole, createAdmin } from "@/service/index";
 export default {
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -164,8 +164,8 @@ export default {
               this.$Message.success({
                 content: "创建成功"
               });
-              this.$router.push({ name: "adminList" });
               this.formItem={};
+              this.$router.push({ name: "adminList"});
             }
           });
         } else {
