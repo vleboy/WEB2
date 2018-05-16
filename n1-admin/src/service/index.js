@@ -180,7 +180,15 @@ export async function subRoleDelete(params) {
 export async function subRoleOne(params) {
     return http(post('/subRoleOne',params))
 }
-//更新角色
+//管理员角色列表更新角色
 export async function subRoleUpdate(params) {
     return http(post('/subRoleUpdate',params))
+}
+//管理员列表更新角色
+export async function adminUpdate(params){
+    return http(post('/adminUpdate',params))
+}
+//线路商 更新状态
+export async function userChangeStatus(params){
+    return http(post('/userChangeStatus',params))
 }

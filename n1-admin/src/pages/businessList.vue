@@ -83,6 +83,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
+import { userChangeStatus } from "../service/index";
 export default {
   data() {
     return {
@@ -293,9 +294,25 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.status == 1) {
-              return h("span", "已启用");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff"
+                  }
+                },
+                "已启用"
+              );
             } else {
-              return h("span", "未启用");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#f5141e"
+                  }
+                },
+                "未启用"
+              );
             }
           }
         },
@@ -336,6 +353,15 @@ export default {
           title: "操作",
           key: "",
           render: (h, params) => {
+            let text = "";
+            let status = null;
+            if (params.row.status == 1) {
+              text = "停用";
+              status = 0;
+            } else {
+              text = "启用";
+              status = 1;
+            }
             return h("div", [
               h(
                 "Button",
@@ -367,11 +393,24 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(2);
+                      userChangeStatus({
+                        role: "100",
+                        status,
+                        userId: params.row.userId
+                      }).then(res => {
+                        if (res.code == 0) {
+                          this.$Message.success("修改成功");
+                          this.$store.dispatch("getMerchantsList", {
+                            query: {},
+                            sortkey: "createdAt",
+                            sort: "desc"
+                          });
+                        }
+                      });
                     }
                   }
                 },
-                "停用"
+                text
               )
             ]);
           }
@@ -444,11 +483,11 @@ export default {
       this.msn = "";
     },
     search() {
-      let query={
-        sn:this.sn,
-        msn:this.msn,
-        displayName:this.displayName
-      }
+      let query = {
+        sn: this.sn,
+        msn: this.msn,
+        displayName: this.displayName
+      };
       if (!query.sn) {
         delete query.sn;
       }

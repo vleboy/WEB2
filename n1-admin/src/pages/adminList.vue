@@ -1,6 +1,6 @@
 <template>
   <div class="adminList">
-    <div class="search">
+    <!-- <div class="search">
       <Row class="row">
         <Col span="2" offset="14">用户名</Col>
         <Col span="4">
@@ -13,7 +13,7 @@
         </div>
         </Col>
       </Row>
-    </div>
+    </div> -->
     <div class="option">
       <p class="count">共搜索到{{ count }}条数据</p>
       <p class="create">
@@ -41,6 +41,18 @@
         </Row>
       </p>
     </Modal>
+    <Modal v-model="roleModal" title="修改角色" :width='400' @on-ok="updateRole" @on-cancel='cancelRole'>
+      <p class="select">
+        <Row>
+          <Col span="14" offset="5">
+          <Select v-model="subRole" placeholder="请选择">
+            <Option v-for="item in subRoleList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+          </Select>
+          </Col>
+        </Row>
+      </p>
+
+    </Modal>
     <Spin size="large" fix v-if="$store.state.admin.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -49,15 +61,19 @@
 </template>
 <script>
 import dayjs from "dayjs";
+import { getsbuRole, adminUpdate } from "../service/index";
 export default {
   data() {
     return {
+      subRoleList: [],
+      subRole: "",
+      roleModal: false, //修改角色modal
       username: "",
       dayjs: dayjs,
-      modal: false,
-      password:'',
-      repassword:'',
-      userId:'',
+      modal: false, //修改密码modal
+      password: "",
+      repassword: "",
+      userId: "",
       columns1: [
         {
           title: "序号",
@@ -111,7 +127,7 @@ export default {
                   on: {
                     click: () => {
                       this.modal = true;
-                      this.userId=params.row.userId;
+                      this.userId = params.row.userId;
                     }
                   }
                 },
@@ -128,7 +144,9 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      this.userId = params.row.userId;
+                      this.subRole=params.row.subRole;
+                      this.roleModal = true;
                     }
                   }
                 },
@@ -150,8 +168,8 @@ export default {
     }
   },
   methods: {
-    addAdmin(){
-      this.$router.push({name:'addAdmin'})
+    addAdmin() {
+      this.$router.push({ name: "addAdmin" });
     },
     ok() {
       let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{8,16}$/;
@@ -186,6 +204,24 @@ export default {
     cancel() {
       this.password = "";
       this.repassword = "";
+    },
+    updateRole() {
+      adminUpdate({
+        subRole: this.subRole,
+        userId: this.userId
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("修改成功");
+          this.$store.dispatch("getAdminList", {
+            query: {},
+            sortkey: "createdAt",
+            sort: "desc"
+          });
+        }
+      });
+    },
+    cancelRole() {
+      this.subRole = "";
     },
     passwordLevel(password) {
       var Modes = 0;
@@ -222,6 +258,11 @@ export default {
       query: {},
       sortkey: "createdAt",
       sort: "desc"
+    });
+    getsbuRole().then(res => {
+      if (res.code == 0) {
+        this.subRoleList = res.payload.Items;
+      }
     });
     this.$store.commit("updateLoading", { params: true });
   }

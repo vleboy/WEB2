@@ -5,16 +5,16 @@
         <Col span='2' offset='4'> 代理昵称:
         </Col>
         <Col span="4">
-        <Input v-model="username" placeholder="请输入"></Input>
+        <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
         <Col span='2'> 代理账号:
         </Col>
         <Col span="4">
-        <Input v-model="useracount" placeholder="请输入"></Input>
+        <Input v-model="username" placeholder="请输入"></Input>
         </Col>
         <Col span="2">
         <div class="btns">
-          <Button type="primary" class="searchbtn">搜索</Button>
+          <Button type="primary" class="searchbtn" @click="search">搜索</Button>
         </div>
         </Col>
       </Row>
@@ -42,7 +42,7 @@ export default {
     return {
       dayjs: dayjs,
       username: "",
-      useracount: "",
+      displayName: "",
       firstPage: true,
       columns1: [
         {
@@ -159,7 +159,27 @@ export default {
         level: 0,
         query: {}
       });
-      this.firstPage=true;
+      this.firstPage = true;
+    },
+    search() {
+      let query = {
+        username: this.username,
+        displayName: this.displayName
+      };
+      if (!query.username) {
+        delete query.username;
+      }
+      if (!query.displayName) {
+        delete query.displayName;
+      }
+      this.$store.dispatch("getLineLoginLog", {
+        query,
+        role: "1000",
+        type: "login",
+        pageSize: "50",
+        startKey: null,
+        level: 0
+      });
     }
   },
   created() {

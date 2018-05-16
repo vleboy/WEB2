@@ -77,7 +77,8 @@
   </div>
 </template>
 <script>
-import dayjs from "dayjs";
+import dayjs from "dayjs"
+import { userChangeStatus } from "../service/index"
 export default {
   data() {
     return {
@@ -272,9 +273,25 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.status == 1) {
-              return h("span", "已启用");
+            return h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff"
+                  }
+                },
+                "已启用"
+              );
             } else {
-              return h("span", "未启用");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#f5141e"
+                  }
+                },
+                "未启用"
+              );
             }
           }
         },
@@ -286,22 +303,26 @@ export default {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
             if (result.includes("String")) {
-              return h(
-                "Tooltip",
-                {
-                  props: {
-                    content: remark
-                  }
-                },
-                [
-                  h("Icon", {
+              if (result != "NULL!") {
+                return h(
+                  "Tooltip",
+                  {
                     props: {
-                      type: "search",
-                      color: "#20a0ff"
+                      content: remark
                     }
-                  })
-                ]
-              );
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "search",
+                        color: "#20a0ff"
+                      }
+                    })
+                  ]
+                );
+              } else {
+                return h("span", "");
+              }
             } else {
               return h("span", "");
             }
@@ -311,6 +332,15 @@ export default {
           title: "操作",
           key: "",
           render: (h, params) => {
+            let text = "";
+            let status = null;
+            if (params.row.status == 1) {
+              text = "停用";
+              status = 0;
+            } else {
+              text = "启用";
+              status = 1;
+            }
             return h("div", [
               h(
                 "Button",
@@ -342,11 +372,24 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(2);
+                      userChangeStatus({
+                        role: "10",
+                        status,
+                        userId: params.row.userId
+                      }).then(res => {
+                        if (res.code == 0) {
+                          this.$Message.success("修改成功");
+                          this.$store.dispatch("getManagerList", {
+                            query: { },
+                            sortkey: "createdAt",
+                            sort: "desc"
+                          });
+                        }
+                      });
                     }
                   }
                 },
-                "停用"
+                text
               )
             ]);
           }
