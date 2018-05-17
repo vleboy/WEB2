@@ -588,7 +588,13 @@ export default {
   },
   computed: {
     subRoleList() {
-      return this.$store.state.add.subRoleList;
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let subRoleList = this.$store.state.add.subRoleList;
+      subRoleList.unshift({
+        label: "直属",
+        value: userId
+      });
+      return subRoleList;
     }
   }
 };

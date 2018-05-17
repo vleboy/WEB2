@@ -19,7 +19,7 @@ export const login = {
         saveInfo(state,{params}){
             state.infos=params
         },
-        changeLoading(state,{params}){
+        updateLoading(state,{params}){
             state.loading=params
         },
         updateAdmin(state,{params}){
@@ -52,7 +52,7 @@ export const login = {
                     commit('saveInfo',{params:res.payload});
                     cb && cb()
                 }else{
-                    commit('changeLoading',{params:false});
+                    commit('updateLoading',{params:false});
                     err && err()
                 }
             })
@@ -73,7 +73,7 @@ export const login = {
                 }
             });
             Promise.all([p1,p2,p3]).then(()=>{
-                commit('changeLoading',{params:false});
+                commit('updateLoading',{params:false});
             })
         },
         changePassword({commit},params){

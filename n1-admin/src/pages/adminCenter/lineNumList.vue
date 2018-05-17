@@ -164,14 +164,15 @@ export default {
       this.msn = "";
     },
     search() {
+      this.$store.commit("updateLoading", { params: true });
       this.$store.dispatch("getLineNumList", {
         msn: this.msn
       });
     }
   },
   created() {
-    this.$store.dispatch("getLineNumList", {});
     this.$store.commit("updateLoading", { params: true });
+    this.$store.dispatch("getLineNumList", {});
   }
 };
 </script>

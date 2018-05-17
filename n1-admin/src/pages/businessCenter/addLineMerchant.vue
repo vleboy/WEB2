@@ -77,7 +77,7 @@
             <Row>
               <Col span="10">
               <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
-                <Option v-for="item in gameType" :value="item.companyName" :key="item.companyName">{{ item.companyName }}</Option>
+                <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
               </Select>
               </Col>
               <Col span="10">
@@ -316,13 +316,22 @@ export default {
       this.$refs["gameList"].resetFields();
     },
     selectPre(id) {
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       this.$store.commit("updateLoading", { params: true });
       this.disabled = false;
-      companySelect({ parent: id }).then(res => {
-        if (res.code == 0) {
-          this.gameType = res.payload;
-        }
-      });
+      if (userId == id) {
+        companySelect({ parent: "01" }).then(res => {
+          if (res.code == 0) {
+            this.gameType = res.payload;
+          }
+        });
+      } else {
+        companySelect({ parent: id }).then(res => {
+          if (res.code == 0) {
+            this.gameType = res.payload;
+          }
+        });
+      }
       getOtherBill(id).then(res => {
         if (res.code == 0) {
           this.parentBalance = res.payload.balance;
@@ -406,7 +415,13 @@ export default {
   },
   computed: {
     subRoleList() {
-      return this.$store.state.add.subRoleList;
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let subRoleList = this.$store.state.add.subRoleList;
+      subRoleList.unshift({
+        label: "直属",
+        value: userId
+      });
+      return subRoleList;
     }
   }
   // watch: {

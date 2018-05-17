@@ -17,7 +17,7 @@ export const admin = {
         changeLineNumList(state,{params}){
             state.lineNumList=params
         },
-        updateLoading(state,{params}){
+        logLoading(state,{params}){
             state.loading=params
         },//log
         //全部adminlog
@@ -46,7 +46,7 @@ export const admin = {
         adminList(params).then(res=>{
             if(res.code==0){
                 commit('changeAdminList',{params:res.payload})
-                commit('updateLoading',{params:false})
+                commit('logLoading',{params:false})
             }
         })
       },
@@ -54,46 +54,46 @@ export const admin = {
           lineNumlist(params).then(res=>{
             if(res.code==0){
                 commit('changeLineNumList',{params:res.payload.Items})
-                commit('updateLoading',{params:false})
+                commit('logLoading',{params:false})
             }
           })
       },
       getAdminLog({commit},params){
-        commit('updateLoading',{params:true})
+        commit('logLoading',{params:true})
         return logList(params).then(res=>{
             if(res.code==0){
                 commit('changeAdminLog',{params:res.payload.Items});
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
-                commit('updateLoading',{params:false})
+                commit('logLoading',{params:false})
             }
         })
       },
       getDebugLog({commit},params){
-        commit('updateLoading',{params:true})
+        commit('logLoading',{params:true})
           logList(params).then(res=>{
             if(res.code==0){
                 commit('changeDebugLog',{params:res.payload.Items})
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
-                commit('updateLoading',{params:false})
+                commit('logLoading',{params:false})
             }              
           })
       },
       getMerchantLog({commit},params){
-        commit('updateLoading',{params:true})
+        commit('logLoading',{params:true})
           logList(params).then(res=>{
               commit('changeMerchantLog',{params:res.payload.Items})
               commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
-              commit('updateLoading',{params:false})
+              commit('logLoading',{params:false})
               
           })
       },
       getLineLoginLog({commit},params){
-        commit('updateLoading',{params:true})
+        commit('logLoading',{params:true})
           logList(params).then(res=>{
               if(res.code==0){
                   commit('changeLineLog',{params:res.payload.Items})
                   commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
-                  commit('updateLoading',{params:false})
+                  commit('logLoading',{params:false})
               }
           })
       },

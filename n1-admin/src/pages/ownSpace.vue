@@ -269,7 +269,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("changeLoading", { params: true });
+    this.$store.commit("updateLoading", { params: true });
     this.$store.dispatch("adminInfo");
   }
 };

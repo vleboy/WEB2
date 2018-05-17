@@ -125,7 +125,7 @@ export default {
         });
         return;
       }
-      this.$store.commit('changeLoading',{params:true})
+      this.$store.commit('updateLoading',{params:true})
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
         role: "1",
