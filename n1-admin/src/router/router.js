@@ -32,6 +32,7 @@ export const otherRouter = {
         { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/businessCenter/addLineMerchant.vue')},
         { path: 'lineDetail', name: 'lineDetail',title:'线路商详情', component: () => import('@/pages/businessCenter/lineDetail.vue')},
         { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: () => import('@/pages/businessCenter/merchantDetail.vue')},
+        { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:()=>import('@/pages/player/playerdetail.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -133,6 +134,15 @@ export const appRouter = [
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:()=>import('@/pages/log/merchantLog.vue')},
             {path:'admin',title:'管理员操作日志',name:'adminLog',component:()=>import('@/pages/log/adminLog.vue')},
             {path:'debug',title:'DEBUG日志',name:'debugLog',component:()=>import('@/pages/log/debugLog.vue')},
+        ]
+    },
+    {
+      path:'/play',
+      title:'玩家列表',
+      name:'playList',
+      component:main,
+      children:[
+          {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
         ]
     },
 

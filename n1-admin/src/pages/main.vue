@@ -134,6 +134,12 @@ export default {
         case "lineLoginLog" || "merchantLog" || "adminLog" || "debugLog":
           this.openName = ["logCenter"];
           break;
+        case "playList":
+          this.openName=['playList'];
+          break;
+        case "playDetail":
+          this.openName=['playDetail'];
+          break;
       }
     }
   }

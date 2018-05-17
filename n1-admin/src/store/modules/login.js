@@ -49,6 +49,8 @@ export const login = {
                     setTimeout(()=>localStorage.removeItem('n1token'),259200000);
                     localStorage.setItem('subRole',res.payload.subRole);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
+                    localStorage.setItem('loginId', res.payload.userId)
+                    localStorage.setItem('loginRole',res.payload.role)
                     commit('saveInfo',{params:res.payload});
                     cb && cb()
                 }else{
