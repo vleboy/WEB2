@@ -20,20 +20,20 @@
             </Col>
           </Row>
         </FormItem>
-        <!--<FormItem label="验证">-->
-          <!--<Row>-->
-            <!--<Col span="8">-->
-            <!--<div id="vaptcha_container">-->
-              <!--<div class="vaptcha-init-main">-->
-                <!--<div class="vaptcha-init-loading">-->
-                  <!--<img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />-->
-                  <!--<span class="vaptcha-text">智能验证码加载中...</span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--</Col>-->
-          <!--</Row>-->
-        <!--</FormItem>-->
+        <FormItem label="验证">
+          <Row>
+            <Col span="8">
+            <div id="vaptcha_container">
+              <div class="vaptcha-init-main">
+                <div class="vaptcha-init-loading">
+                  <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                  <span class="vaptcha-text">智能验证码加载中...</span>
+                </div>
+              </div>
+            </div>
+            </Col>
+          </Row>
+        </FormItem>
         <FormItem>
           <Row>
             <Col span="8">
@@ -107,12 +107,12 @@ export default {
       let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      // if (!this.userdata.challenge) {
-      //   this.$Message.warning({
-      //     content: "请进行人机验证"
-      //   });
-      //   return;
-      // }
+      if (!this.userdata.challenge) {
+        this.$Message.warning({
+          content: "请进行人机验证"
+        });
+        return;
+      }
       if (!nameReg.test(this.username)) {
         this.$Message.warning({
           content: "用户名为5-16位的（英文、数字、@、_、-）"
@@ -131,8 +131,8 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        challenge:  '1',
-        vid:  '1',
+        challenge: this.userdata.challenge,
+        vid: this.userdata.token,
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
