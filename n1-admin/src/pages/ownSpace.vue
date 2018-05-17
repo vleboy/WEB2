@@ -135,7 +135,7 @@ export default {
         {
           title: "备注",
           key: "remark",
-          minWidth: 80,
+          maxWidth: 80,
           render: (h, params) => {
             if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");

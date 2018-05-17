@@ -203,6 +203,14 @@ export async function adminUpdate(params){
 export async function userChangeStatus(params){
     return http(post('/userChangeStatus',params))
 }
+//更新线路商
+export async function updateManagers(userId,params){
+    return http(post(`/managers/${userId}`,params))
+}
+//更新商户
+export async function updateMerchant(userId,params){
+    return http(post(`/merchants/${userId}`,params))
+}
 //下级列表 
 export async function childList(id,role){
     return http(get(`/childList/${id}/${role}`))
