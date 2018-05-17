@@ -64,7 +64,7 @@ export default {
   },
   watch: {},
   computed: {
-    loading(){
+    loading() {
       return this.$store.state.login.loading;
     }
   },
@@ -96,7 +96,7 @@ export default {
             self.clearData("人机验证失败");
           }
         };
-          //vaptcha对象初始化
+        //vaptcha对象初始化
         window.vaptcha(options, function(obj) {
           self.vaptchaObj = obj;
           self.vaptchaObj.init();
@@ -125,7 +125,7 @@ export default {
         });
         return;
       }
-      this.$store.commit('updateLoading',{params:true})
+      this.$store.commit("updateLoading", { params: true });
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
         role: "1",
@@ -134,13 +134,14 @@ export default {
         challenge: this.userdata.challenge,
         vid: this.userdata.token,
         cb: () => {
+          this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
         },
-        err:()=>{
-          this.userdata={};
+        err: () => {
+          this.userdata = {};
           this.initVaptcha();
         }
-      })
+      });
     }
   }
 };
@@ -199,7 +200,7 @@ export default {
       text-align: center;
       display: table-cell;
       vertical-align: middle;
-      img{
+      img {
         vertical-align: middle;
       }
     }
