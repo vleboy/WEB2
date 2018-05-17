@@ -1,145 +1,145 @@
 <template>
-    <div class="merchantDetail">
-        <p class="userName">{{$route.params.displayName}} ({{$route.params.username }})</p>
-        <Collapse v-model="value">
-            <Panel name="1">
-                基本信息 所属线路商: {{$route.params.parentDisplayName}}
-                <div slot="content">
-                    <Form :model="basic" label-position="left" :label-width="100">
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="商户ID">
-                                {{ merchantDetail.displayId}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="上级商户">
-                                {{merchantDetail.parentDisplayName}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户昵称">
-                                {{merchantDetail.displayName}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="商户密匙">
-                                {{merchantDetail.apiKey}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户线路号">
-                                {{merchantDetail.msn}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <Checkbox class="browser" v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="创建时间">
-                                {{merchantDetail.createdAt}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="最后登录时间">
-                                {{merchantDetail.updatedAt}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="标识">
-                                {{merchantDetail.sn}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="商户前端域名">
-                                {{merchantDetail.frontURL}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户充值域名">
-                                {{merchantDetail.moneyURL}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户注册域名">
-                                {{merchantDetail.registerURL}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="商户客服域名">
-                                {{merchantDetail.feedbackURL}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户白名单">
-                                {{merchantDetail.loginWhiteList}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="商户前缀">
-                                {{merchantDetail.suffix}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="管理员账号">
-                                {{ merchantDetail.username}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="管理员密码">
-                                {{merchantDetail.password}}
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="上次登录时间">
-                                {{merchantDetail.loginAt}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="上次登录IP">
-                                {{merchantDetail.lastIp}}
-                            </FormItem>
-                            </Col>
-                            <Col span="16">
-                            <FormItem label="备注">
-                                {{merchantDetail.remark}}
-                            </FormItem>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span="8">
-                            <FormItem label="LOGO">
-                                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
-                            </FormItem>
-                            </Col>
-                            <Col span="8">
-                            <FormItem label="NAME">
-                                <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
-                            </FormItem>
-                            </Col>
-                        </Row>
+  <div class="merchantDetail">
+    <p class="userName">{{$route.params.displayName}} ({{$route.params.username }})</p>
+    <Collapse v-model="value">
+      <Panel name="1">
+        基本信息 所属线路商: {{$route.params.parentDisplayName}}
+        <Button type="primary" class="edit" @click="editBtn" v-if="isedit">编辑</Button>
+        <Button type="primary" class="edit" @click="save" v-else>提交修改</Button>
+        <div slot="content">
+          <Form :model="basic" label-position="left" :label-width="100">
+            <Row>
+              <Col span="8">
+              <FormItem label="商户ID">
+                {{ merchantDetail.displayId}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="上级商户">
+                {{merchantDetail.parentDisplayName}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户昵称">
+                {{merchantDetail.displayName}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="商户密匙">
+                {{merchantDetail.apiKey}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户线路号">
+                {{merchantDetail.msn}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <Checkbox class="browser" v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="创建时间">
+                {{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="最后登录时间">
+                {{dayjs(merchantDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="标识">
+                {{merchantDetail.sn}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="商户前端域名">
+                {{merchantDetail.frontURL}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户充值域名">
+                {{merchantDetail.moneyURL}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户注册域名">
+                {{merchantDetail.registerURL}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="商户客服域名">
+                {{merchantDetail.feedbackURL}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户白名单">
+                {{merchantDetail.loginWhiteList}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户前缀">
+                {{merchantDetail.suffix}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="管理员账号">
+                {{ merchantDetail.username}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="管理员密码">
+                {{merchantDetail.password}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="上次登录时间">
+                {{dayjs(merchantDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="上次登录IP">
+                {{merchantDetail.lastIp}}
+              </FormItem>
+              </Col>
+              <Col span="16">
+              <FormItem label="备注">
+                {{merchantDetail.remark}}
+              </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="LOGO">
+                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="NAME">
+                <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
+              </FormItem>
+              </Col>
+            </Row>
 
-                    </Form>
-                </div>
-            </Panel>
-            <Panel name="2">
-                游戏信息
-                <Button type="primary" class="edit" @click="editBtn" v-if="isedit">编辑</Button>
-                <Button type="primary" class="edit" @click="save" v-else>提交修改</Button>
-                <div slot="content">
-                    <!-- <Form ref='gameList' :model="detail" :label-width="110">
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2">
+        游戏信息
+        <div slot="content">
+          <!-- <Form ref='gameList' :model="detail" :label-width="110">
                         <FormItem prop="ownGame">
                             <Row>
                                 <Col span="10">
@@ -166,21 +166,21 @@
                             </Row>
                         </FormItem>
                     </Form> -->
-                    <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" no-data-text="暂无数据"></Table>
-                </div>
-            </Panel>
-            <Panel name="3">
-                财务信息
-                <div slot="content">
-                    <Table :columns="columns" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
-                </div>
-            </Panel>
-        </Collapse>
-        <Spin size="large" fix v-if="spinShow">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
-    </div>
+          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" no-data-text="暂无数据"></Table>
+        </div>
+      </Panel>
+      <Panel name="3">
+        财务信息
+        <div slot="content">
+          <Table :columns="columns" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
+        </div>
+      </Panel>
+    </Collapse>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import { waterFall, oneMerchants, companySelect } from "@/service/index";

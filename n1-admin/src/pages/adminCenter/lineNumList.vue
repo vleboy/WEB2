@@ -2,10 +2,10 @@
   <div class="lineNumList">
     <div class="search">
       <Row class="row">
-        <Col span="3" offset="18">
+        <Col span="3" offset="9">
         <Input v-model="msn" placeholder="请输入需要查询的线路号"></Input>
         </Col>
-        <Col span="2">
+        <Col span="4">
         <div class="btns">
           <Button type="primary" class="searchbtn" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
@@ -23,13 +23,11 @@
   </div>
 </template>
 <script>
-import dayjs from "dayjs";
 import { changeLineStatus } from "@/service/index";
 export default {
   data() {
     return {
       msn: "",
-      dayjs: dayjs,
       columns1: [
         {
           title: "线路号",
@@ -39,37 +37,27 @@ export default {
           title: "状态",
           key: "status",
           render: (h, params) => {
+            let text = "";
+            let color = "";
             if (params.row.status == 1) {
-              return h(
-                "span",
-                {
-                  style: {
-                    color: "#f30"
-                  }
-                },
-                "已使用"
-              );
+              color = "#f30";
+              text = "已使用";
             } else if (params.row.status == 0) {
-              return h(
-                "span",
-                {
-                  style: {
-                    color: "#0c0"
-                  }
-                },
-                "未使用"
-              );
-            } else if (params.row.status == 2) {
-              return h(
-                "span",
-                {
-                  style: {
-                    color: "#108de9"
-                  }
-                },
-                "已停用"
-              );
+              color = "#0c0";
+              text = "未使用";
+            } else {
+              color = "#108de9";
+              text = "已停用";
             }
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              text
+            );
           }
         },
         {
@@ -87,41 +75,24 @@ export default {
           title: "操作",
           key: "",
           render: (h, params) => {
+            let text = "";
+            let opreate = null;
+            let color = "";
             if (params.row.status == 0) {
-              return h(
-                "span",
-                {
-                  style: {
-                    color: "#0c0",
-                    cursor: "pointer"
-                  },
-                  on: {
-                    click: () => {
-                      let msn = params.row.msn;
-                      this.$Modal.confirm({
-                        title: "Title",
-                        content: "<p>是否停用线路号</p>",
-                        onOk: async () => {
-                          await changeLineStatus(msn, 2);
-                          this.$store.dispatch("getLineNumList", {});
-                          this.$store.commit("updateLoading", { params: true });
-                          this.$Message.success("停用成功");
-                        },
-                        onCancel: () => {
-                          this.$Message.info("取消");
-                        }
-                      });
-                    }
-                  }
-                },
-                "停用"
-              );
+              text = "停用";
+              opreate = 2;
+              color = "#0c0";
             } else if (params.row.status == 2) {
+              text = "启用";
+              opreate = 0;
+              color = "#20a0ff";
+            }
+            if (params.row.status == 0 || params.row.status == 2) {
               return h(
                 "span",
                 {
                   style: {
-                    color: "#20a0ff",
+                    color: color,
                     cursor: "pointer"
                   },
                   on: {
@@ -129,21 +100,18 @@ export default {
                       let msn = params.row.msn;
                       this.$Modal.confirm({
                         title: "提示!",
-                        content: "<p>是否启用线路号</p>",
+                        content: `<p>是否${text}线路号</p>`,
                         onOk: async () => {
-                          await changeLineStatus(msn, 0);
+                          this.$store.commit("logLoading", { params: true });
+                          await changeLineStatus(msn, opreate);
                           this.$store.dispatch("getLineNumList", {});
-                          this.$store.commit("updateLoading", { params: true });
-                          this.$Message.success("启用成功");
-                        },
-                        onCancel: () => {
-                          this.$Message.info("取消");
+                          this.$Message.success(`${text}成功`);
                         }
                       });
                     }
                   }
                 },
-                "启用"
+                text
               );
             } else {
               return h("span", "");

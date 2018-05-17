@@ -355,12 +355,15 @@ export default {
           render: (h, params) => {
             let text = "";
             let status = null;
+            let color='';
             if (params.row.status == 1) {
               text = "停用";
               status = 0;
+              color='#f5141e'
             } else {
               text = "启用";
               status = 1;
+              color='#20a0ff'
             }
             return h("div", [
               h(
@@ -375,11 +378,19 @@ export default {
                   },
                   on: {
                     click: () => {
-                      let userId=params.row.userId;
-                      let displayName=params.row.displayName;
-                      let username=params.row.username;
-                      let parentDisplayName=params.row.parentDisplayName;
-                      this.$router.push({name:'merchantDetail',params:{userId,displayName,username,parentDisplayName}})
+                      let userId = params.row.userId;
+                      let displayName = params.row.displayName;
+                      let username = params.row.username;
+                      let parentDisplayName = params.row.parentDisplayName;
+                      this.$router.push({
+                        name: "merchantDetail",
+                        params: {
+                          userId,
+                          displayName,
+                          username,
+                          parentDisplayName
+                        }
+                      });
                     }
                   }
                 },
@@ -393,23 +404,29 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#20a0ff"
+                    color: color
                   },
                   on: {
                     click: () => {
-                      userChangeStatus({
-                        role: "100",
-                        status,
-                        userId: params.row.userId
-                      }).then(res => {
-                        if (res.code == 0) {
-                          this.$Message.success("修改成功");
-                          this.$store.dispatch("getMerchantsList", {
-                            query: {},
-                            sortkey: "createdAt",
-                            sort: "desc"
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: `<p>是否${text}线路号</p>`,
+                        onOk: () => {
+                          userChangeStatus({
+                            role: "100",
+                            status,
+                            userId: params.row.userId
+                          }).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success(`${text}成功`);
+                              this.$store.dispatch("getMerchantsList", {
+                                query: {},
+                                sortkey: "createdAt",
+                                sort: "desc"
+                              });
+                            }
                           });
-                        }
+                        },
                       });
                     }
                   }
@@ -529,7 +546,7 @@ export default {
       sort: "desc"
     });
   },
-   watch: {
+  watch: {
     $route(to, from) {
       if (from.name == "addMerchant") {
         this.$store.dispatch("getMerchantsList", {

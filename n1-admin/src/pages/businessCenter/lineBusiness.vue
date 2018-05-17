@@ -77,8 +77,8 @@
   </div>
 </template>
 <script>
-import dayjs from "dayjs"
-import { userChangeStatus } from "@/service/index"
+import dayjs from "dayjs";
+import { userChangeStatus } from "@/service/index";
 export default {
   data() {
     return {
@@ -273,7 +273,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.status == 1) {
-            return h(
+              return h(
                 "span",
                 {
                   style: {
@@ -334,12 +334,15 @@ export default {
           render: (h, params) => {
             let text = "";
             let status = null;
+            let color='';
             if (params.row.status == 1) {
               text = "停用";
               status = 0;
+              color='#f5141e'
             } else {
               text = "启用";
               status = 1;
+              color='#20a0ff'
             }
             return h("div", [
               h(
@@ -350,11 +353,11 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: "#20a0ff"
                   },
                   on: {
                     click: () => {
-                      this.$router.push({name:'lineDetail'})
+                      this.$router.push({ name: "lineDetail" });
                     }
                   }
                 },
@@ -368,23 +371,29 @@ export default {
                     size: "small"
                   },
                   style: {
-                    color: "#1d90e6"
+                    color: color
                   },
                   on: {
                     click: () => {
-                      userChangeStatus({
-                        role: "10",
-                        status,
-                        userId: params.row.userId
-                      }).then(res => {
-                        if (res.code == 0) {
-                          this.$Message.success("修改成功");
-                          this.$store.dispatch("getManagerList", {
-                            query: { },
-                            sortkey: "createdAt",
-                            sort: "desc"
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: `<p>是否${text}线路号</p>`,
+                        onOk: () => {
+                          userChangeStatus({
+                            role: "10",
+                            status,
+                            userId: params.row.userId
+                          }).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success(`${text}成功`);
+                              this.$store.dispatch("getManagerList", {
+                                query: {},
+                                sortkey: "createdAt",
+                                sort: "desc"
+                              });
+                            }
                           });
-                        }
+                        },
                       });
                     }
                   }
@@ -499,7 +508,7 @@ export default {
       sort: "desc"
     });
   },
-   watch: {
+  watch: {
     $route(to, from) {
       if (from.name == "addLineMerchant") {
         this.$store.dispatch("getManagerList", {

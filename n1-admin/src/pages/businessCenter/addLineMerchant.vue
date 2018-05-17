@@ -109,7 +109,7 @@
         <Button type="primary" class="reset" @click="reset">重置</Button>
       </div>
     </Row>
-    <Spin size="large" fix v-if="$store.state.admin.loading">
+    <Spin size="large" fix v-if="$store.state.login.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
@@ -319,19 +319,17 @@ export default {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       this.$store.commit("updateLoading", { params: true });
       this.disabled = false;
+      let params = {};
       if (userId == id) {
-        companySelect({ parent: "01" }).then(res => {
-          if (res.code == 0) {
-            this.gameType = res.payload;
-          }
-        });
+        params = { parent: "01" };
       } else {
-        companySelect({ parent: id }).then(res => {
-          if (res.code == 0) {
-            this.gameType = res.payload;
-          }
-        });
+        params = { parent: id };
       }
+      companySelect(params).then(res => {
+        if (res.code == 0) {
+          this.gameType = res.payload;
+        }
+      });
       getOtherBill(id).then(res => {
         if (res.code == 0) {
           this.parentBalance = res.payload.balance;
@@ -415,13 +413,7 @@ export default {
   },
   computed: {
     subRoleList() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let subRoleList = this.$store.state.add.subRoleList;
-      subRoleList.unshift({
-        label: "直属",
-        value: userId
-      });
-      return subRoleList;
+      return this.$store.state.add.subRoleList;
     }
   }
   // watch: {
