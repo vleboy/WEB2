@@ -31,7 +31,7 @@
       </p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="showData" size="small" ></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>

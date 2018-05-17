@@ -14,7 +14,7 @@
       </Row>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="lineNumList" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="lineNumList" size="small" ></Table>
     </div>
     <Spin size="large" fix v-if="$store.state.admin.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>

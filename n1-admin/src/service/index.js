@@ -114,6 +114,10 @@ export async function oneMerchants(userId){
 export async function getManagers(params){
     return http(post('/managers',params))
 }
+//单个路商
+export async function oneManagers(userId){
+    return http(get(`/managers/${userId}`))
+}
 //改密码
 export async function updatePassword(params){
     return http(post('/updatePassword',params))
@@ -198,4 +202,8 @@ export async function adminUpdate(params){
 //线路商 更新状态
 export async function userChangeStatus(params){
     return http(post('/userChangeStatus',params))
+}
+//下级列表 
+export async function childList(id,role){
+    return http(get(`/childList/${id}/${role}`))
 }

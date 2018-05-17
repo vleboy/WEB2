@@ -115,7 +115,7 @@
               </Col>
             </Row>
           </FormItem>
-          <Table :columns="columns" :data="gameDetail" class="table" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns" :data="gameDetail" class="table" size="small" ></Table>
           <FormItem label="商户API白名单">
             <Row>
               <Col span="20">

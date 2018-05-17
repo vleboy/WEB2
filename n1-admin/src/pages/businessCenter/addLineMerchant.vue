@@ -71,7 +71,7 @@
       </Col>
       <Col span="12">
       <div class="detail">
-        <h2>线路商信息</h2>
+        <h2>拓展信息</h2>
         <Form ref='gameList' :model="detail" :label-width="120" :rules="detailValidate">
           <FormItem label="线路商拥有的游戏" prop="ownGame">
             <Row>
@@ -98,7 +98,7 @@
               </Col>
             </Row>
           </FormItem>
-          <Table :columns="columns" :data="gameDetail" class="table" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns" :data="gameDetail" class="table" size="small" ></Table>
         </Form>
       </div>
       </Col>

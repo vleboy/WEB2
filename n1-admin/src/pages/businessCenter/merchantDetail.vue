@@ -166,13 +166,13 @@
                             </Row>
                         </FormItem>
                     </Form> -->
-          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" ></Table>
         </div>
       </Panel>
       <Panel name="3">
         财务信息
         <div slot="content">
-          <Table :columns="columns" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns" :data="waterfall" size="small" ></Table>
         </div>
       </Panel>
     </Collapse>
@@ -197,7 +197,12 @@ export default {
       defaultBrower: false,
       gameDetail: [],
       basic: {},
-      merchantDetail: null,
+      merchantDetail: {
+        launchImg:{
+          logo:[],
+          name:[]
+        }
+      },
       columns1: [
         {
           title: "公司",
@@ -331,29 +336,8 @@ export default {
       waterfall: []
     };
   },
-  async beforeCreate() {
-    this.spinShow = true;
-    let userId = this.$route.params.userId;
-    this.parent = userId;
-    let req1 = waterFall(userId);
-    let req2 = oneMerchants(userId);
-    let req3 = companySelect({ parent: userId });
-    let [waterfall, merchant, company] = await this.axios.all([
-      req1,
-      req2,
-      req3
-    ]);
-    this.spinShow = false;
-    if (waterfall && waterfall.code == 0) {
-      this.waterfall = waterfall.payload;
-    }
-    if (merchant && merchant.code == 0) {
-      this.merchantDetail = merchant.payload;
-      this.gameDetail = merchant.payload.gameList;
-    }
-    if (company && company.code == 0) {
-      //   this.gameDetail = company.payload;
-    }
+   created() {
+     this.init()
   },
   methods: {
     editBtn() {
@@ -364,6 +348,30 @@ export default {
     save() {
       this.edit = false;
       this.isedit = true;
+    },
+    async init() {
+      this.spinShow = true;
+      let userId = this.$route.params.userId;
+      this.parent = userId;
+      let req1 = waterFall(userId);
+      let req2 = oneMerchants(userId);
+      let req3 = companySelect({ parent: userId });
+      let [waterfall, merchant, company] = await this.axios.all([
+        req1,
+        req2,
+        req3
+      ]);
+      this.spinShow = false;
+      if (waterfall && waterfall.code == 0) {
+        this.waterfall = waterfall.payload;
+      }
+      if (merchant && merchant.code == 0) {
+        this.merchantDetail = merchant.payload;
+        this.gameDetail = merchant.payload.gameList;
+      }
+      if (company && company.code == 0) {
+        //   this.gameDetail = company.payload;
+      }
     }
   }
 };

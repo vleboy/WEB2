@@ -13,7 +13,7 @@
       </Row>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="debugLog" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="debugLog" size="small" ></Table>
     </div>
     <div class="btn">
       <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>

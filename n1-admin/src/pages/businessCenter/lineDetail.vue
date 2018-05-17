@@ -10,129 +10,62 @@
           <Form :model="basic" label-position="left" :label-width="100">
             <Row>
               <Col span="8">
-              <FormItem label="商户ID">
-                {{ merchantDetail.displayId}}
+              <FormItem label="线路商ID">
+                {{ lineDetail.displayId}}
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="上级商户">
-                {{merchantDetail.parentDisplayName}}
+              <FormItem label="上级线路商">
+                {{lineDetail.parentDisplayName}}
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户昵称">
-                {{merchantDetail.displayName}}
+              <FormItem label="线路商前缀">
+                {{lineDetail.suffix}}
               </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="商户密匙">
-                {{merchantDetail.apiKey}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户线路号">
-                {{merchantDetail.msn}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <Checkbox class="browser" v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
               </Col>
             </Row>
             <Row>
               <Col span="8">
               <FormItem label="创建时间">
-                {{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
+                {{dayjs(lineDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
               <Col span="8">
               <FormItem label="最后登录时间">
-                {{dayjs(merchantDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
+                {{dayjs(lineDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="标识">
-                {{merchantDetail.sn}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="商户前端域名">
-                {{merchantDetail.frontURL}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户充值域名">
-                {{merchantDetail.moneyURL}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户注册域名">
-                {{merchantDetail.registerURL}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="商户客服域名">
-                {{merchantDetail.feedbackURL}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户白名单">
-                {{merchantDetail.loginWhiteList}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户前缀">
-                {{merchantDetail.suffix}}
+              <FormItem label="上次登录时间">
+                {{dayjs(lineDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
               <FormItem label="管理员账号">
-                {{ merchantDetail.username}}
+                {{ lineDetail.username}}
               </FormItem>
               </Col>
               <Col span="8">
               <FormItem label="管理员密码">
-                {{merchantDetail.password}}
+                {{lineDetail.password}}
               </FormItem>
               </Col>
-              <Col span="8">
-              <FormItem label="上次登录时间">
-                {{dayjs(merchantDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
               <Col span="8">
               <FormItem label="上次登录IP">
-                {{merchantDetail.lastIp}}
-              </FormItem>
-              </Col>
-              <Col span="16">
-              <FormItem label="备注">
-                {{merchantDetail.remark}}
+                {{lineDetail.lastIP}}
               </FormItem>
               </Col>
             </Row>
             <Row>
-              <Col span="8">
-              <FormItem label="LOGO">
-                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="NAME">
-                <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
+              <Col span="16">
+              <FormItem label="备注">
+                {{lineDetail.remark}}
               </FormItem>
               </Col>
             </Row>
-
           </Form>
         </div>
       </Panel>
@@ -166,16 +99,24 @@
                             </Row>
                         </FormItem>
                     </Form> -->
-          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small" ></Table>
         </div>
       </Panel>
       <Panel name="3">
         财务信息
         <div slot="content">
-          <Table :columns="columns" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
+          <Table :columns="columns" :data="waterfall" size="small" ></Table>
         </div>
       </Panel>
     </Collapse>
+    <div class="next">
+      <h2>下级线路商列表</h2>
+    <Table :columns="columns2" :data="nextLine" size="small" ></Table>
+    </div>
+    <div class="ownedMerchant">
+      <h2>拥有商户列表</h2>
+    <Table :columns="columns3" :data="ownedbusiness" size="small" ></Table>
+    </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -183,7 +124,7 @@
   </div>
 </template>
 <script>
-import { waterFall, oneMerchants, companySelect } from "@/service/index";
+import { waterFall, oneManagers, companySelect,childList } from "@/service/index";
 import dayjs from "dayjs";
 export default {
   data() {
@@ -197,7 +138,79 @@ export default {
       defaultBrower: false,
       gameDetail: [],
       basic: {},
-      merchantDetail: null,
+      lineDetail: {},
+      nextLine:[],//下级线路商列表
+      ownedbusiness:[],//拥有商户列表
+      columns2:[
+        {
+         title: "序号",
+          type: "index",
+          maxWidth: 80
+        },
+        {
+          title: "线路商标识",
+          key: "sn"
+        },
+        {
+          title: "线路商昵称",
+          key: "displayName"
+        },
+        {
+          title: "剩余点数",
+          key: "points"
+        },
+        {
+          title: "操作人",
+          key: "op"
+        },
+        {
+          title: "操作时间",
+          key: ""
+        },
+        {
+          title: "备注",
+          key: "remark"
+        },
+        {
+          title:'操作(对旗下线路商操作)',
+          key:''
+        }
+      ],
+      columns3:[
+         {
+         title: "序号",
+          type: "index",
+          maxWidth: 80
+        },
+        {
+          title: "商户标识",
+          key: "sn"
+        },
+        {
+          title: "商户昵称",
+          key: "displayName"
+        },
+        {
+          title: "剩余点数",
+          key: "points"
+        },
+        {
+          title: "操作人",
+          key: "op"
+        },
+        {
+          title: "操作时间",
+          key: ""
+        },
+        {
+          title: "备注",
+          key: "remark"
+        },
+        {
+          title:'操作(对旗下商户操作)',
+          key:''
+        }
+      ],
       columns1: [
         {
           title: "公司",
@@ -345,23 +358,33 @@ export default {
       let userId = this.$route.params.userId;
       this.parent = userId;
       let req1 = waterFall(userId);
-      let req2 = oneMerchants(userId);
+      let req2 = oneManagers(userId);
       let req3 = companySelect({ parent: userId });
-      let [waterfall, merchant, company] = await this.axios.all([
+      let req4=childList(userId,'10');//线路商
+      let req5=childList(userId,'100')//商户
+      let [waterfall, managers, company,lineChild,ownBusiness] = await this.axios.all([
         req1,
         req2,
-        req3
+        req3,req4,req5
       ]);
       this.spinShow = false;
       if (waterfall && waterfall.code == 0) {
         this.waterfall = waterfall.payload;
       }
-      if (merchant && merchant.code == 0) {
-        this.merchantDetail = merchant.payload;
-        this.gameDetail = merchant.payload.gameList;
+      if (managers && managers.code == 0) {
+        this.lineDetail = managers.payload;
+        this.gameDetail = managers.payload.gameList;
       }
       if (company && company.code == 0) {
         //   this.gameDetail = company.payload;
+      }
+      if(lineChild&&lineChild.code==0){
+        console.log(lineChild);
+        this.nextLine=lineChild.payload;
+      }
+      if(ownBusiness&&ownBusiness.code==0){
+        console.log(ownBusiness);
+        this.ownedbusiness=ownBusiness.payload;
       }
     },
     save() {
@@ -388,6 +411,9 @@ export default {
   }
   .logo {
     width: 200px;
+  }
+  .next,.ownedMerchant{
+    margin: 20px auto;
   }
 }
 </style>

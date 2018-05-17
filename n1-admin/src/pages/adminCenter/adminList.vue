@@ -21,7 +21,7 @@
       </p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="adminList" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="adminList" size="small" ></Table>
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
       <p class="modal_input">

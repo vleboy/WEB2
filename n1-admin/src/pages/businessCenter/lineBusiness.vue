@@ -25,7 +25,7 @@
       </p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="showData" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="showData" size="small" ></Table>
       <!-- <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page> -->
     </div>
     <Spin size="large" fix v-if="spinShow">
@@ -334,15 +334,15 @@ export default {
           render: (h, params) => {
             let text = "";
             let status = null;
-            let color='';
+            let color = "";
             if (params.row.status == 1) {
               text = "停用";
               status = 0;
-              color='#f5141e'
+              color = "#f5141e";
             } else {
               text = "启用";
               status = 1;
-              color='#20a0ff'
+              color = "#20a0ff";
             }
             return h("div", [
               h(
@@ -357,7 +357,17 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ name: "lineDetail" });
+                      let userId = params.row.userId;
+                      let displayName = params.row.displayName;
+                      let username = params.row.username;
+                      this.$router.push({
+                        name: "lineDetail",
+                        params: {
+                          userId,
+                          displayName,
+                          username
+                        }
+                      });
                     }
                   }
                 },
@@ -393,7 +403,7 @@ export default {
                               });
                             }
                           });
-                        },
+                        }
                       });
                     }
                   }

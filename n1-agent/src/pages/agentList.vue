@@ -4,7 +4,7 @@
       <p class="title">
         当前代理
       </p>
-      <Table :columns="columns1" :data="userInfo" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="userInfo" size="small" ></Table>
     </div>
     <div class="childList">
       <div class="top">
@@ -18,14 +18,14 @@
         </div>
       </div>
       <div class="table">
-        <Table :columns="columns1" :data="agentList" size="small" no-data-text="暂无数据"></Table>
+        <Table :columns="columns1" :data="agentList" size="small" ></Table>
       </div>
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级代理列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="item" size="small" ></Table>
     </div>
     <div class="playerList" id="playerList">
       <div class="top">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="table">
-        <Table :columns="columns2" :data="playerList" size="small" no-data-text="暂无数据"></Table>
+        <Table :columns="columns2" :data="playerList" size="small" ></Table>
       </div>
     </div>
     <Spin size="large" fix v-if="$store.state.report.loading">

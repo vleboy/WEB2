@@ -3,7 +3,7 @@
     <p class="create">
       <Button type="primary" @click="addRole">创建新角色</Button>
     </p>
-    <Table :columns="columns" :data="subRoleList" size="small" no-data-text="暂无数据"></Table>
+    <Table :columns="columns" :data="subRoleList" size="small" ></Table>
     <Modal v-model="modal" :width='600' @on-ok="ok" :scrollable='true'>
       <section class="createSection">
         <h2 slot="title">编辑角色</h2>

@@ -23,7 +23,7 @@
       <p class="count">共搜索到{{ count }}条数据</p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="merchantLog" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="merchantLog" size="small" ></Table>
     </div>
     <div class="btn">
       <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>

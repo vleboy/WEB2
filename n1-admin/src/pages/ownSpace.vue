@@ -29,7 +29,7 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="waterfall" size="small" no-data-text="暂无数据"></Table>
+      <Table :columns="columns1" :data="waterfall" size="small" ></Table>
       <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
