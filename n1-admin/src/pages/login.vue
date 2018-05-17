@@ -37,7 +37,7 @@
         <FormItem>
           <Row>
             <Col span="8">
-            <Button class="loginbtn" :loading="$store.state.home.loading" type="ghost" @click="login">
+            <Button class="loginbtn" :loading="$store.state.login.loading" type="ghost" @click="login">
               <span v-if="!loading">登录</span>
               <span v-else>Loading...</span>
             </Button>
@@ -65,7 +65,7 @@ export default {
   watch: {},
   computed: {
     loading(){
-      return this.$store.state.home.loading;
+      return this.$store.state.login.loading;
     }
   },
   created() {

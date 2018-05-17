@@ -254,7 +254,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("updateLoading", { params: true });
+    this.$store.commit("logLoading", { params: true });
     getsbuRole().then(res => {
       if (res.code == 0) {
         this.subRoleList = res.payload.Items;

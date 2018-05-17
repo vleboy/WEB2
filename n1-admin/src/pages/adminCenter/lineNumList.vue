@@ -164,14 +164,14 @@ export default {
       this.msn = "";
     },
     search() {
-      this.$store.commit("updateLoading", { params: true });
+      this.$store.commit("logLoading", { params: true });
       this.$store.dispatch("getLineNumList", {
         msn: this.msn
       });
     }
   },
   created() {
-    this.$store.commit("updateLoading", { params: true });
+    this.$store.commit("logLoading", { params: true });
     this.$store.dispatch("getLineNumList", {});
   }
 };
