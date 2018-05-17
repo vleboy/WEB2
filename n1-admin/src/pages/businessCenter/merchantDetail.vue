@@ -11,12 +11,12 @@
             <Row>
               <Col span="8">
               <FormItem label="商户ID">
-                {{ merchantDetail.displayId}}
+                {{ merchantDetail.displayId }}
               </FormItem>
               </Col>
               <Col span="8">
               <FormItem label="上级商户">
-                {{merchantDetail.parentDisplayName}}
+                {{ merchantDetail.parentDisplayName }}
               </FormItem>
               </Col>
               <Col span="8">
@@ -331,38 +331,35 @@ export default {
       waterfall: []
     };
   },
-  created() {
+  async beforeCreate() {
     this.spinShow = true;
-    this.init();
+    let userId = this.$route.params.userId;
+    this.parent = userId;
+    let req1 = waterFall(userId);
+    let req2 = oneMerchants(userId);
+    let req3 = companySelect({ parent: userId });
+    let [waterfall, merchant, company] = await this.axios.all([
+      req1,
+      req2,
+      req3
+    ]);
+    this.spinShow = false;
+    if (waterfall && waterfall.code == 0) {
+      this.waterfall = waterfall.payload;
+    }
+    if (merchant && merchant.code == 0) {
+      this.merchantDetail = merchant.payload;
+      this.gameDetail = merchant.payload.gameList;
+    }
+    if (company && company.code == 0) {
+      //   this.gameDetail = company.payload;
+    }
   },
   methods: {
     editBtn() {
       this.edit = true;
       this.isedit = false;
       //   this.value=['1','2','3']
-    },
-    async init() {
-      let userId = this.$route.params.userId;
-      this.parent = userId;
-      let req1 = waterFall(userId);
-      let req2 = oneMerchants(userId);
-      let req3 = companySelect({ parent: userId });
-      let [waterfall, merchant, company] = await this.axios.all([
-        req1,
-        req2,
-        req3
-      ]);
-      this.spinShow = false;
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
-      if (merchant && merchant.code == 0) {
-        this.merchantDetail = merchant.payload;
-        this.gameDetail = merchant.payload.gameList;
-      }
-      if (company && company.code == 0) {
-        //   this.gameDetail = company.payload;
-      }
     },
     save() {
       this.edit = false;

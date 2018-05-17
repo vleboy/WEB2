@@ -377,7 +377,7 @@ export default {
                     click: () => {
                       this.$Modal.confirm({
                         title: "提示!",
-                        content: `<p>是否${text}线路号</p>`,
+                        content: `<p>是否${text}线路商</p>`,
                         onOk: () => {
                           userChangeStatus({
                             role: "10",
