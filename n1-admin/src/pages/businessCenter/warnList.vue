@@ -11,9 +11,6 @@
             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
             <div>加载中...</div>
         </Spin>
-        <Progress :percent="100">
-            898
-        </Progress>
     </div>
 </template>
 <script>
@@ -90,7 +87,8 @@ export default {
                         margin: "5px 0",
                         backgroundColor: "#e4e8f1",
                         borderRadius: " 4px",
-                        width: "80%"
+                        width: "80%",
+                        height: "26px"
                       }
                     },
                     item.company
@@ -129,7 +127,8 @@ export default {
                         backgroundColor: "#e4e8f1",
                         borderRadius: " 4px",
                         width: "80%",
-                        color: color
+                        color: color,
+                        height: "26px"
                       }
                     },
                     text
@@ -150,7 +149,19 @@ export default {
               return h(
                 "div",
                 companyList.map(item => {
-                  let text = item.winloseAmount + "/" + item.topAmount;
+                  let text =
+                    item.winloseAmount.toFixed(2) + "/" + item.topAmount;
+                    let width=0;
+                    let color='';
+                    if(item.winloseAmount<item.topAmount&&item.winloseAmount>0&&item.topAmount>0){
+                        width=(100*item.winloseAmount/item.topAmount).toFixed(2)+'%';
+                        console.log(width);
+                        if(item.winloseAmount/item.topAmount>0.8){
+                            color="#f30"
+                        }else{
+                            color="#0c0"
+                        }
+                    }
                   return h(
                     "div",
                     {
@@ -158,9 +169,17 @@ export default {
                         margin: "8px 0px",
                         border: "1px solid rgb(0, 0, 0)",
                         borderRadius: "5px",
-                        textAlign: "center"
+                        textAlign: "center",
+                        height: "24px"
                       }
-                    },
+                    },[
+                         h('div',{
+                            style:{
+                                width:width,
+                                backgroundColor:color,
+                            }
+                         })
+                    ],
                     text
                   );
                 })
@@ -179,40 +198,44 @@ export default {
               return h(
                 "div",
                 companyList.map(item => {
-                  return h("p", [
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            console.log(item.userId);
+                  return h(
+                    "p",
+                    { style: { margin: "5px 0", height: "26px", lineHeight: "26px" } },
+                    [
+                      h(
+                        "span",
+                        {
+                          style: {
+                            color: "#20a0ff",
+                            cursor: "pointer",
+                            marginRight: "10px"
+                          },
+                          on: {
+                            click: () => {
+                              console.log(item.userId);
+                            }
                           }
-                        }
-                      },
-                      "设定点数告警上限"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
                         },
-                        on: {
-                          click: () => {
-                            console.log(2);
+                        "设定点数告警上限"
+                      ),
+                      h(
+                        "span",
+                        {
+                          style: {
+                            color: "#20a0ff",
+                            cursor: "pointer",
+                            marginRight: "10px"
+                          },
+                          on: {
+                            click: () => {
+                              console.log(2);
+                            }
                           }
-                        }
-                      },
-                      "停用"
-                    )
-                  ]);
+                        },
+                        "停用"
+                      )
+                    ]
+                  );
                 })
               );
             } else {
