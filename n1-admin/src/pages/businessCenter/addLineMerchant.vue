@@ -76,7 +76,7 @@
           <FormItem label="线路商拥有的游戏" prop="ownGame" :required='true'>
             <Row>
               <Col span="10">
-              <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
+              <Select v-model="detail.gameType" :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
                 <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
               </Select>
               </Col>
@@ -87,7 +87,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem v-if="selected">
+          <FormItem v-if="selected" prop='balance'>
             <label for="" slot="label">{{game}}商家占成(%)</label>
             <Row>
               <Col span="20">
@@ -122,6 +122,7 @@ import {
   gameBigType,
   getOtherBill
 } from "@/service/index";
+import _ from "lodash";
 export default {
   data() {
     const validateNickname = (rule, value, callback) => {
@@ -197,6 +198,18 @@ export default {
         let testReg = /^[a-zA-Z0-9]{5,16}$/;
         if (!testReg.test(value)) {
           callback(new Error("5-16位,限英文和数字"));
+        } else {
+          callback();
+        }
+      }
+    };
+    const validateRate = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("占成不能为空"));
+      } else {
+        let testReg = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
+        if (!testReg.test(value)) {
+          callback(new Error("请输入0.00~100.00之间的数字"));
         } else {
           callback();
         }
@@ -311,7 +324,14 @@ export default {
           }
         ]
       },
-      detailValidate: {}
+      detailValidate: {
+        balance: [
+          {
+            validator: validateRate,
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   beforeCreate() {
@@ -322,28 +342,36 @@ export default {
       this.$refs["basicform"].resetFields();
       this.$refs["adminform"].resetFields();
       this.$refs["gameList"].resetFields();
+      this.detail = {
+        gameType: "",
+        gameList: "",
+        balance: ""
+      };
+      this.gameDetail = [];
     },
     selectPre(id) {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      this.$store.commit("updateLoading", { params: true });
-      this.disabled = false;
-      let params = {};
-      if (userId == id) {
-        params = { parent: "01" };
-      } else {
-        params = { parent: id };
+      if (id) {
+        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+        this.$store.commit("updateLoading", { params: true });
+        this.disabled = false;
+        let params = {};
+        if (userId == id) {
+          params = { parent: "01" };
+        } else {
+          params = { parent: id };
+        }
+        companySelect(params).then(res => {
+          if (res.code == 0) {
+            this.gameType = res.payload;
+          }
+        });
+        getOtherBill(id).then(res => {
+          if (res.code == 0) {
+            this.parentBalance = res.payload.balance;
+            this.$store.commit("updateLoading", { params: false });
+          }
+        });
       }
-      companySelect(params).then(res => {
-        if (res.code == 0) {
-          this.gameType = res.payload;
-        }
-      });
-      getOtherBill(id).then(res => {
-        if (res.code == 0) {
-          this.parentBalance = res.payload.balance;
-          this.$store.commit("updateLoading", { params: false });
-        }
-      });
     },
     focus() {
       this.tooltip = "当前所属上级余额:" + this.parentBalance;
@@ -370,6 +398,7 @@ export default {
       }
       gameItem.rate = this.detail.balance;
       this.gameDetail.push(gameItem);
+      this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
     }, //生成密码
     createPass() {
       let text = [
@@ -407,7 +436,7 @@ export default {
                     this.$store.commit("updateLoading", { params: false });
                     this.$Message.success("添加成功");
                     this.$router.push({ name: "lineBusiness" });
-                  }else{
+                  } else {
                     this.$store.commit("updateLoading", { params: false });
                   }
                 });
@@ -426,11 +455,9 @@ export default {
       return this.$store.state.add.subRoleList;
     }
   },
-  $route(to, from) {
-    if (from.name == "lineBusiness") {
-      this.$refs["basicform"].resetFields();
-      this.$refs["adminform"].resetFields();
-      this.$refs["gameList"].resetFields();
+  watch: {
+    $route(to, from) {
+      this.reset();
     }
   }
 };
