@@ -215,3 +215,7 @@ export async function updateMerchant(userId,params){
 export async function childList(id,role){
     return http(get(`/childList/${id}/${role}`))
 }
+//告警时间
+export async function configOne(params){
+    return http(post('/configOne',params))
+}

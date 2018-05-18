@@ -110,7 +110,8 @@ export const appRouter = [
         component:main,
         children:[
             {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessCenter/businessList.vue')},
-            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineBusiness.vue')}
+            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineBusiness.vue')},
+            {path:'warn',title:'接入商点数警告列表',name:'warnList',component:()=>import('@/pages/businessCenter/warnList.vue')}
     ]
     },
     {
@@ -139,7 +140,7 @@ export const appRouter = [
     {
       path:'/play',
       title:'玩家列表',
-      name:'playList',
+      name:'play',
       component:main,
       children:[
           {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}

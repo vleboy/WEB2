@@ -45,7 +45,7 @@
             <Row>
               <Col span="8">
               <FormItem label="管理员账号" v-if="edit">
-                {{ lineDetail.username}}
+                {{ lineDetail.uname}}
               </FormItem>
               <FormItem label="管理员账号" prop="username" v-else>
                 <Row>
@@ -565,7 +565,7 @@ export default {
       this.edit = false;
       this.isedit = false;
       this.value = ["1", "2", "3"];
-      this.basic.username = this.lineDetail.username;
+      this.basic.username = this.lineDetail.uname;
       this.basic.password = this.lineDetail.password;
       this.basic.remark = this.lineDetail.remark;
     },
@@ -596,8 +596,10 @@ export default {
       this.isedit = true;
       let userId = this.parent;
       let params = this.lineDetail;
-      params.username = username;
+      let suffix=this.lineDetail.suffix;
+      params.username =suffix+'_'+ username;
       params.password = password;
+      params.uname=username;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       this.spinShow = true;

@@ -52,13 +52,13 @@
                     </template>
                     <MenuItem name="lineBusiness" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
                     <MenuItem name="businessList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
-                    <!-- <MenuItem name="8-1">接入商点数警告列表</MenuItem> -->
+                    <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
-                <Submenu name="playList">
+                <Submenu name="playList" v-if='authorityStr.includes("玩家列表")'>
                   <template slot="title">
                     玩家中心
                   </template>
-                  <MenuItem name="playList">玩家列表</MenuItem>
+                  <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if='authorityStr.includes("管理员列表")||authorityStr.includes("线路号列表")||authorityStr.includes("管理员角色列表")'>
                     <template slot="title">
