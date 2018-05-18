@@ -1,6 +1,6 @@
 <template>
   <div class="lineDetail">
-    <p class="userName">{{$route.params.displayName}} ({{$route.params.username }})</p>
+    <p class="userName">{{$route.query.displayName}} ({{$route.query.username }})</p>
     <Collapse v-model="value">
       <Panel name="1">
         基本信息
@@ -698,8 +698,8 @@ export default {
       this.basic.password = pw;
     },
     async init() {
-      let userId = this.$route.params.userId;
-      let parent = this.$route.params.parent;
+      let userId = this.$route.query.userId;
+      let parent = this.$route.query.parent;
       this.parent = parent;
       this.userId = userId;
       let req1 = waterFall(userId);

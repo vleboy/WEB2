@@ -1,9 +1,9 @@
 <template>
   <div class="merchantDetail">
-    <p class="userName">{{$route.params.displayName}} ({{$route.params.username }})</p>
+    <p class="userName">{{$route.query.displayName}} ({{$route.query.username }})</p>
     <Collapse v-model="value">
       <Panel name="1">
-        基本信息 所属线路商: {{$route.params.parentDisplayName}}
+        基本信息 所属线路商: {{$route.query.parentDisplayName}}
         <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
         <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
         <div slot="content">
@@ -570,8 +570,8 @@ export default {
     },
     async init() {
       this.spinShow = true;
-      let userId = this.$route.params.userId;
-      let parent = this.$route.params.parent;
+      let userId = this.$route.query.userId;
+      let parent = this.$route.query.parent;
       this.parent = parent;
       this.userId = userId;
       let req1 = waterFall(userId);

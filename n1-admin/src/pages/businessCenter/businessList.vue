@@ -384,8 +384,8 @@ export default {
                       let username = params.row.username;
                       let parentDisplayName = params.row.parentDisplayName;
                       this.$router.push({
-                        name: "merchantDetail",
-                        params: {
+                        path: "/merchantDetail",
+                        query: {
                           userId,
                           displayName,
                           username,

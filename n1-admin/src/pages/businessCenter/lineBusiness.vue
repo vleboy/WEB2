@@ -361,8 +361,8 @@ export default {
                       let displayName = params.row.displayName;
                       let username = params.row.username;
                       this.$router.push({
-                        name: "lineDetail",
-                        params: {
+                        path: "/lineDetail",
+                        query: {
                           userId,
                           displayName,
                           username
