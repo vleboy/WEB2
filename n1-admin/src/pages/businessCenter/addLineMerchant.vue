@@ -19,7 +19,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="上级线路商" prop="parent">
+          <FormItem label="上级线路商" prop="parent" :required='true'>
             <Row>
               <Col span="20">
               <Select v-model="basic.parent" placeholder="请选择" @on-change='selectPre'>
@@ -73,7 +73,7 @@
       <div class="detail">
         <h2>拓展信息</h2>
         <Form ref='gameList' :model="detail" :label-width="120" :rules="detailValidate">
-          <FormItem label="线路商拥有的游戏" prop="ownGame">
+          <FormItem label="线路商拥有的游戏" prop="ownGame" :required='true'>
             <Row>
               <Col span="10">
               <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
@@ -98,7 +98,7 @@
               </Col>
             </Row>
           </FormItem>
-          <Table :columns="columns" :data="gameDetail" class="table" size="small" ></Table>
+          <Table :columns="columns" :data="gameDetail" class="table" size="small"></Table>
         </Form>
       </div>
       </Col>
@@ -223,8 +223,8 @@ export default {
         {
           title: "商家占成",
           key: "rate",
-          render:(h,params)=>{
-            return h('span',params.row.rate+'%')
+          render: (h, params) => {
+            return h("span", params.row.rate + "%");
           }
         },
         {
@@ -275,18 +275,21 @@ export default {
         ],
         displayName: [
           {
+            required: true,
             validator: validateNickname,
             trigger: "blur"
           }
         ],
         suffix: [
           {
+            required: true,
             validator: validatesuffix,
             trigger: "blur"
           }
         ],
         points: [
           {
+            required: true,
             validator: validateBalance,
             trigger: "blur"
           }
@@ -295,12 +298,14 @@ export default {
       adminValidate: {
         username: [
           {
+            required: true,
             validator: validateUserName,
             trigger: "blur"
           }
         ],
         password: [
           {
+            required: true,
             validator: validatePass,
             trigger: "blur"
           }
@@ -402,6 +407,8 @@ export default {
                     this.$store.commit("updateLoading", { params: false });
                     this.$Message.success("添加成功");
                     this.$router.push({ name: "lineBusiness" });
+                  }else{
+                    this.$store.commit("updateLoading", { params: false });
                   }
                 });
             } else {
@@ -418,12 +425,14 @@ export default {
     subRoleList() {
       return this.$store.state.add.subRoleList;
     }
+  },
+  $route(to, from) {
+    if (from.name == "lineBusiness") {
+      this.$refs["basicform"].resetFields();
+      this.$refs["adminform"].resetFields();
+      this.$refs["gameList"].resetFields();
+    }
   }
-  // watch: {
-  //   $route(to, from) {
-  //     this.$router.go(0);
-  //   }
-  // }
 };
 </script>
 

@@ -245,7 +245,8 @@ import {
   waterFall,
   oneMerchants,
   companySelect,
-  gameBigType,updateMerchant
+  gameBigType,
+  updateMerchant
 } from "@/service/index";
 import dayjs from "dayjs";
 export default {
@@ -295,8 +296,8 @@ export default {
         {
           title: "商家占成",
           key: "rate",
-           render:(h,params)=>{
-            return h('span',params.row.rate+'%')
+          render: (h, params) => {
+            return h("span", params.row.rate + "%");
           }
         },
         {
@@ -462,25 +463,25 @@ export default {
       this.edit = true;
       this.isedit = true;
       let userId = this.parent;
-      let suffix=this.merchantDetail.suffix;
+      let suffix = this.merchantDetail.suffix;
       let params = this.merchantDetail;
-      params.username=suffix+'_'+username;
+      params.username = suffix + "_" + username;
       params.uname = username;
       params.password = password;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
-      params.frontURL=this.basic.frontURL;
-      params.moneyURL=this.basic.moneyURL;
-      params.registerURL=this.basic.registerURL;
-      params.feedbackURL=this.basic.feedbackURL;
-      params.loginWhiteList=this.basic.loginWhiteList;
-      params.isOpenBrowser=this.defaultBrower;
+      params.frontURL = this.basic.frontURL;
+      params.moneyURL = this.basic.moneyURL;
+      params.registerURL = this.basic.registerURL;
+      params.feedbackURL = this.basic.feedbackURL;
+      params.loginWhiteList = this.basic.loginWhiteList;
+      params.isOpenBrowser = this.defaultBrower;
       this.spinShow = true;
       updateMerchant(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
           this.spinShow = false;
-        }else{
+        } else {
           this.spinShow = false;
         }
       });
@@ -547,7 +548,7 @@ export default {
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {
-        //   this.gameDetail = company.payload;
+        this.gameType = company.payload;
       }
     }
   }

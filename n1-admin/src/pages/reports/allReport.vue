@@ -6,30 +6,30 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime" @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ></Table>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
       </p>
-      <Table :columns="columns1" :data="child" size="small" ></Table>
+      <Table :columns="columns1" :data="child" size="small"></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" ></Table>
+      <Table :columns="columns1" :data="item" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ></Table>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -51,12 +51,18 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [3,30000,40000,50000,1010000,10300000,1050000,1060000,1100000,1110000],
-      option: {
-        disabledDate(date) {
-          return date && date.valueOf() > Date.now() - 180000;
-        }
-      },
+      gameType: [
+        3,
+        30000,
+        40000,
+        50000,
+        1010000,
+        10300000,
+        1050000,
+        1060000,
+        1100000,
+        1110000
+      ],
       columns1: [
         {
           title: "序号",
@@ -100,6 +106,7 @@ export default {
                         .then(res => {
                           // console.log(res);
                           this.child = res.payload;
+                          this.reportChild = [];
                           this.spinShow = false;
                         });
                     } else if (params.row.role == "100") {
@@ -117,6 +124,7 @@ export default {
                         })
                         .then(res => {
                           this.playerList = res.payload;
+                          this.reportChild = [];
                           this.spinShow = false;
                           // console.log(res);
                         });
@@ -131,22 +139,23 @@ export default {
                       if (level == 1) {
                         this.reportChild = [];
                       }
+                      let oldArr = this.reportChild;
+                      let len = oldArr.length;
+                      if (len > 0) {
+                        while (len--) {
+                          if (oldArr[len][0].level > level + 1) {
+                            oldArr.splice(len, 1);
+                          }
+                        }
+                      }
                       let showList = await this.getNextLevel(
                         this.reportChild,
                         userId
                       );
-                       showList = _.filter(showList, function(o) {
+                      showList = _.filter(showList, function(o) {
                         return o.length;
                       });
                       // console.log(showList);
-                      let len = showList.length;
-                      if (len > 0) {
-                        while (len--) {
-                          if (showList[len][0].level > level + 1) {
-                            showList.splice(len, 1);
-                          }
-                        }
-                      }
                       this.reportChild = showList;
                     }
                     // console.log(params.row);
@@ -194,7 +203,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               return h("span", params.row.submitAmount.toFixed(2));
             }
@@ -206,9 +215,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['3','30000','40000','50000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -219,8 +228,8 @@ export default {
               let obj = params.row.gameTypeMap;
               // console.log(obj);
               let count = 0;
-              for ( let key in obj) {
-                if(['3','30000','40000','50000'].includes(key)){
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
@@ -233,12 +242,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['3','30000','40000','50000'].includes(key)){
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -252,9 +261,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1010000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1010000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -264,8 +273,8 @@ export default {
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1010000'){
+              for (let key in obj) {
+                if (key == "1010000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -278,12 +287,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1010000'){
+              for (let key in obj) {
+                if (key == "1010000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -297,9 +306,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1060000','1110000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1060000", "1110000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -309,8 +318,8 @@ export default {
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['1060000','1110000'].includes(key)){
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
@@ -323,12 +332,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(['1060000','1110000'].includes(key)){
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -342,9 +351,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['10300000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["10300000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -354,8 +363,8 @@ export default {
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='10300000'){
+              for (let key in obj) {
+                if (key == "10300000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -368,12 +377,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='10300000'){
+              for (let key in obj) {
+                if (key == "10300000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -387,9 +396,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1050000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1050000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -399,8 +408,8 @@ export default {
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1050000'){
+              for (let key in obj) {
+                if (key == "1050000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -413,12 +422,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1050000'){
+              for (let key in obj) {
+                if (key == "1050000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -432,9 +441,9 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
-            for(let item of arr){
-              for ( let key in item.gameTypeMap){
-                if(['1100000'].includes(key)){
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1100000"].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -444,8 +453,8 @@ export default {
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1100000'){
+              for (let key in obj) {
+                if (key == "1100000") {
                   count = obj[key].winloseAmount;
                 }
               }
@@ -458,12 +467,12 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
-              for ( let key in obj) {
-                if(key=='1100000'){
+              for (let key in obj) {
+                if (key == "1100000") {
                   count = obj[key].submitAmount;
                 }
               }
@@ -497,84 +506,84 @@ export default {
           title: "NA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['3','30000','40000','50000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["3", "30000", "40000", "50000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "TTG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1010000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1010000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "SA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1060000','1110000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1060000", "1110000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "MG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['10300000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["10300000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "AG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1050000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1050000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         },
         {
           title: "UG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for ( let key in obj) {
-               if(['1100000'].includes(key)){
-                  count += obj[key].winloseAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1100000"].includes(key)) {
+                count += obj[key].winloseAmount;
               }
-              return h("span", count.toFixed(2));
+            }
+            return h("span", count.toFixed(2));
           }
         }
       ]
@@ -583,25 +592,29 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      time = time.map(item => {
+      time = time.map((item, index) => {
+        if (index == 1 && item.getTime() > Date.now() - 180000) {
+          return Date.now() - 180000;
+        }
         return item.getTime();
       });
+      this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     }
   },
   methods: {
-    changeTime(time) {
-      console.log(this.changedTime);
-    },
     confirm() {
+      this.reportChild = [];
       this.init();
     },
-    reset(){
-      this.defaultTime=getDefaultTime();
-      this.init()
+    reset() {
+      this.defaultTime = getDefaultTime();
+      this.reportChild = [];
+      this.init();
     },
-    search(){
-      this.init()
+    search() {
+      this.reportChild = [];
+      this.init();
     },
     types(value) {
       switch (value) {
@@ -643,31 +656,31 @@ export default {
           });
       });
     },
-    async init(){
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-        let req1 = this.$store.dispatch("getUserList", { userId: userId });
-        let req2 = this.$store.dispatch("getUserChild", {
-          parent: "01",
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        });
-        this.spinShow = true;
-        let [acct, perms] = await this.axios.all([req1, req2]);
-        this.spinShow = false;
-        this.user = [];
-        if (acct && acct.code == 0) {
-          this.user.push(acct.payload);
+    async init() {
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let req2 = this.$store.dispatch("getUserChild", {
+        parent: "01",
+        gameType: this.gameType,
+        query: {
+          createdAt: this.changedTime
         }
-        if (perms && perms.code == 0) {
-          this.child = perms.payload;
-        }
+      });
+      this.spinShow = true;
+      let [acct, perms] = await this.axios.all([req1, req2]);
+      this.spinShow = false;
+      this.user = [];
+      if (acct && acct.code == 0) {
+        this.user.push(acct.payload);
+      }
+      if (perms && perms.code == 0) {
+        this.child = perms.payload;
+      }
     }
   },
   created() {
     // console.log(this.defaultTime);
-    this.init()
+    this.init();
   }
 };
 </script>

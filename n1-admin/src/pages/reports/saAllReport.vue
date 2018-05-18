@@ -1,41 +1,41 @@
 <template>
-    <div class="saAll">
-        <div class="nowList">
-            <div class="top">
-                <p class="title">
-                    当前用户列表
-                </p>
-                <div class="right">
-                    <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-change="changeTime" @on-ok="confirm"></DatePicker>
-                    <Button type="primary" @click="search">搜索</Button>
-                    <Button type="ghost" @click="reset">重置</Button>
-                </div>
-            </div>
-            <Table :columns="columns1" :data="user" size="small" ></Table>
+  <div class="saAll">
+    <div class="nowList">
+      <div class="top">
+        <p class="title">
+          当前用户列表
+        </p>
+        <div class="right">
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <Button type="primary" @click="search">搜索</Button>
+          <Button type="ghost" @click="reset">重置</Button>
         </div>
-        <div class="childList">
-            <p class="title">
-                直属下级列表
-            </p>
-            <Table :columns="columns1" :data="child" size="small" ></Table>
-        </div>
-        <div class="childList" v-for="(item,index) in reportChild" :key="index">
-            <p class="title">
-                ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
-            </p>
-            <Table :columns="columns1" :data="item" size="small" ></Table>
-        </div>
-        <div class="playerList" id="playerList">
-            <p class="title">
-                <span v-show="showName"> ({{ userName }})</span>所属玩家列表
-            </p>
-            <Table :columns="columns2" :data="playerList" size="small" ></Table>
-        </div>
-        <Spin size="large" fix v-if="spinShow">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+      </div>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
+    <div class="childList">
+      <p class="title">
+        直属下级列表
+      </p>
+      <Table :columns="columns1" :data="child" size="small"></Table>
+    </div>
+    <div class="childList" v-for="(item,index) in reportChild" :key="index">
+      <p class="title">
+        ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+      </p>
+      <Table :columns="columns1" :data="item" size="small"></Table>
+    </div>
+    <div class="playerList" id="playerList">
+      <p class="title">
+        <span v-show="showName"> ({{ userName }})</span>所属玩家列表
+      </p>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
+    </div>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import _ from "lodash";
@@ -51,12 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType:[1060000,1110000],
-      option: {
-        disabledDate(date) {
-          return date && date.valueOf() > Date.now() - 180000;
-        }
-      },
+      gameType: [1060000, 1110000],
       columns1: [
         {
           title: "序号",
@@ -98,8 +93,8 @@ export default {
                           }
                         })
                         .then(res => {
-                          console.log(res);
                           this.child = res.payload;
+                          this.reportChild = [];
                           this.spinShow = false;
                         });
                     } else if (params.row.role == "100") {
@@ -117,8 +112,8 @@ export default {
                         })
                         .then(res => {
                           this.playerList = res.payload;
+                          this.reportChild = [];
                           this.spinShow = false;
-                          console.log(res);
                         });
                       var anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
@@ -131,22 +126,24 @@ export default {
                       if (level == 1) {
                         this.reportChild = [];
                       }
+                      let oldArr = this.reportChild;
+                      let len = oldArr.length;
+                      if (len > 0) {
+                        while (len--) {
+                          if (oldArr[len][0].level > level + 1) {
+                            oldArr.splice(len, 1);
+                          }
+                        }
+                      }
                       let showList = await this.getNextLevel(
                         this.reportChild,
                         userId
                       );
-                       showList = _.filter(showList, function(o) {
+                      showList = _.filter(showList, function(o) {
                         return o.length;
                       });
                       // console.log(showList);
-                      let len = showList.length;
-                      if (len > 0) {
-                        while (len--) {
-                          if (showList[len][0].level > level + 1) {
-                            showList.splice(len, 1);
-                          }
-                        }
-                      }
+
                       this.reportChild = showList;
                     }
                     // console.log(params.row);
@@ -207,18 +204,20 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              for(let key in item.gameTypeMap){
-                if(key=='1060000'){
-                  count+=item.gameTypeMap[key].winloseAmount;
+              for (let key in item.gameTypeMap) {
+                if (key == "1060000") {
+                  count += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
             if (params.row.role == "1") {
               return h("span", count.toFixed(2));
             } else {
-              let winloseAmount=0;
-              if(params.row.gameTypeMap['1060000']!==undefined){
-                winloseAmount=params.row.gameTypeMap['1060000'].winloseAmount.toFixed(2)
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["1060000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "1060000"
+                ].winloseAmount.toFixed(2);
               }
               return h("span", winloseAmount);
             }
@@ -229,11 +228,13 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-              let submitAmount=0;
-              if(params.row.gameTypeMap['1060000']!==undefined){
-                submitAmount=params.row.gameTypeMap['1060000'].submitAmount.toFixed(2)
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["1060000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "1060000"
+                ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
             }
@@ -245,19 +246,21 @@ export default {
           render: (h, params) => {
             let arr = this.child;
             let count = 0;
-             for (let item of arr) {
-              for(let key in item.gameTypeMap){
-                if(key=='1110000'){
-                  count+=item.gameTypeMap[key].winloseAmount;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "1110000") {
+                  count += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
             if (params.row.role == "1") {
               return h("span", count.toFixed(2));
             } else {
-              let winloseAmount=0;
-              if(params.row.gameTypeMap['1110000']!==undefined){
-                winloseAmount=params.row.gameTypeMap['1110000'].winloseAmount.toFixed(2)
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["1110000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "1110000"
+                ].winloseAmount.toFixed(2);
               }
               return h("span", winloseAmount);
             }
@@ -268,11 +271,13 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-              let submitAmount=0;
-              if(params.row.gameTypeMap['1110000']!==undefined){
-                submitAmount=params.row.gameTypeMap['1110000'].submitAmount.toFixed(2)
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["1110000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "1110000"
+                ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
             }
@@ -303,10 +308,12 @@ export default {
         {
           title: "SA真人游戏(输赢金额)",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let winloseAmount=0;
-            if(params.row.gameTypeMap['1060000']!==undefined){
-              winloseAmount=params.row.gameTypeMap['1060000'].winloseAmount.toFixed(2)
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["1060000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "1060000"
+              ].winloseAmount.toFixed(2);
             }
             return h("span", winloseAmount);
           }
@@ -314,10 +321,12 @@ export default {
         {
           title: "SA捕鱼游戏(输赢金额)",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let winloseAmount=0;
-            if(params.row.gameTypeMap['1110000']!==undefined){
-              winloseAmount=params.row.gameTypeMap['1110000'].winloseAmount.toFixed(2)
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["1110000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "1110000"
+              ].winloseAmount.toFixed(2);
             }
             return h("span", winloseAmount);
           }
@@ -328,25 +337,29 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      time = time.map(item => {
+      time = time.map((item, index) => {
+        if (index == 1 && item.getTime() > Date.now() - 180000) {
+          return Date.now() - 180000;
+        }
         return item.getTime();
       });
+      this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     }
   },
   methods: {
-    changeTime(time) {
-      console.log(this.defaultTime);
-    },
     confirm() {
+      this.reportChild = [];
       this.init();
     },
-    reset(){
-      this.defaultTime=getDefaultTime();
-      this.init()
+    reset() {
+      this.reportChild = [];
+      this.defaultTime = getDefaultTime();
+      this.init();
     },
-    search(){
-      this.init()
+    search() {
+      this.reportChild = [];
+      this.init();
     },
     types(value) {
       switch (value) {
@@ -388,7 +401,7 @@ export default {
           });
       });
     },
-     async init(){
+    async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let req1 = this.$store.dispatch("getUserList", { userId: userId });
       let req2 = this.$store.dispatch("getUserChild", {
@@ -412,8 +425,8 @@ export default {
   },
   created() {
     // console.log(this.defaultTime);
-    this.init()
-  },
+    this.init();
+  }
 };
 </script>
 <style lang="less" scoped>

@@ -36,7 +36,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="所属线路商" prop="parent">
+          <FormItem label="所属线路商" prop="parent" :required="true">
             <Row>
               <Col span="20">
               <Select v-model="basic.parent" placeholder="请选择" @on-change='selectPre'>
@@ -90,7 +90,7 @@
       <div class="detail">
         <h2>拓展信息</h2>
         <Form ref='gameList' :model="detail" :label-width="110" :rules="detailValidate">
-          <FormItem label="商户拥有的游戏" prop="ownGame">
+          <FormItem label="商户拥有的游戏" prop="ownGame" :required='true'>
             <Row>
               <Col span="10">
               <Select v-model="detail.gameType" :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
@@ -415,30 +415,35 @@ export default {
         ],
         displayName: [
           {
+            required: true,
             validator: validateNickname,
             trigger: "blur"
           }
         ],
         suffix: [
           {
+            required: true,
             validator: validatesuffix,
             trigger: "blur"
           }
         ],
         msn: [
           {
+            required: true,
             validator: validateMsn,
             trigger: "blur"
           }
         ],
         sn: [
           {
+            required: true,
             validator: validateSn,
             trigger: "blur"
           }
         ],
         points: [
           {
+            required: true,
             validator: validateBalance,
             trigger: "blur"
           }
@@ -447,12 +452,14 @@ export default {
       adminValidate: {
         username: [
           {
+            required: true,
             validator: validateUserName,
             trigger: "blur"
           }
         ],
         password: [
           {
+            required: true,
             validator: validatePass,
             trigger: "blur"
           }
@@ -584,6 +591,8 @@ export default {
                     this.$store.commit("updateLoading", { params: false });
                     this.$Message.success("添加成功");
                     this.$router.push({ name: "businessList" });
+                  }else{
+                    this.$store.commit("updateLoading", { params: false });
                   }
                 });
             } else {
@@ -599,6 +608,13 @@ export default {
   computed: {
     subRoleList() {
       return this.$store.state.add.subRoleList;
+    }
+  },
+  $route(to, from) {
+    if (from.name == "businessList") {
+      this.$refs["basicform"].resetFields();
+      this.$refs["adminform"].resetFields();
+      this.$refs["gameList"].resetFields();
     }
   }
 };
