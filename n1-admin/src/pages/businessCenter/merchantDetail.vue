@@ -447,6 +447,14 @@ export default {
   created() {
     this.init();
   },
+  watch: {
+    $route(to, from) {
+      if (to.name == "merchantDetail") {
+        this.spinShow = true;
+        this.init();
+      }
+    }
+  },
   methods: {
     editBtn() {
       this.edit = false;

@@ -587,6 +587,14 @@ export default {
     this.spinShow = true;
     this.init();
   },
+  watch: {
+    $route(to, from) {
+      if (to.name == "lineDetail") {
+        this.spinShow = true;
+        this.init();
+      }
+    }
+  },
   methods: {
     editBtn() {
       this.edit = false;
