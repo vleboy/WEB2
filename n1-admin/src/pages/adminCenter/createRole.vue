@@ -1,39 +1,39 @@
 <template>
-    <div class="createRole">
-        <section class="create">
-            <h2>创建角色</h2>
-            <Form ref='createRole' :model="admin" :label-width="80">
-                <FormItem label="创建角色" prop="name">
-                    <Row>
-                        <Col span="20">
-                        <Input v-model="admin.name" placeholder="输入创建角色名称"></Input>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem label="角色权限" prop="authority">
-                    <Row>
-                        <Col span="20">
-                        <Tree :data="treeData" show-checkbox ref='tree'></Tree>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem label="备注" prop="remark">
-                    <Row>
-                        <Col span="20">
-                        <Input v-model="admin.remark" :maxlength='200' type="textarea" class="remark" :rows="4" placeholder="请输入备注(如没有可不填),最多不超过200个字符"></Input>
-                        </Col>
-                    </Row>
-                </FormItem>
-            </Form>
-            <div class="btn">
-                <Button type="primary" @click="createNew">确认创建</Button>
-                <Button type="primary" class="reset" @click="reset">重置</Button>
-            </div>
-        </section>
-    </div>
+  <div class="createRole">
+    <section class="create">
+      <h2>创建角色</h2>
+      <Form ref='createRole' :model="admin" :label-width="80">
+        <FormItem label="创建角色" prop="name">
+          <Row>
+            <Col span="20">
+            <Input v-model="admin.name" placeholder="输入创建角色名称"></Input>
+            </Col>
+          </Row>
+        </FormItem>
+        <FormItem label="角色权限" prop="authority">
+          <Row>
+            <Col span="20">
+            <Tree :data="treeData" show-checkbox ref='tree'></Tree>
+            </Col>
+          </Row>
+        </FormItem>
+        <FormItem label="备注" prop="remark">
+          <Row>
+            <Col span="20">
+            <Input v-model="admin.remark" :maxlength='200' type="textarea" class="remark" :rows="4" placeholder="请输入备注(如没有可不填),最多不超过200个字符"></Input>
+            </Col>
+          </Row>
+        </FormItem>
+      </Form>
+      <div class="btn">
+        <Button type="primary" @click="createNew">确认创建</Button>
+        <Button type="primary" class="reset" @click="reset">重置</Button>
+      </div>
+    </section>
+  </div>
 </template>
 <script>
-import {subRoleNew} from '@/service/index'
+import { subRoleNew } from "@/service/index";
 export default {
   data() {
     return {
@@ -144,6 +144,15 @@ export default {
               ]
             },
             {
+              title: "玩家中心",
+              expand: true,
+              children: [
+                {
+                  title: "玩家列表"
+                }
+              ]
+            },
+            {
               title: "管理员中心",
               expand: true,
               children: [
@@ -184,22 +193,22 @@ export default {
   methods: {
     createNew() {
       let trees = this.$refs.tree.getCheckedNodes();
-      let permissions=[];
-      for(let item of trees){
-        permissions.push(item.title)
+      let permissions = [];
+      for (let item of trees) {
+        permissions.push(item.title);
       }
       subRoleNew({
         ...this.admin,
-        permissions:permissions
-      }).then(res=>{
-        if(res.code==0){
-          this.$Message.success('创建成功')
-          this.$router.push({name:'adminRole'})
+        permissions: permissions
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("创建成功");
+          this.$router.push({ name: "adminRole" });
         }
-      })
+      });
     },
-    reset(){
-      this.$refs['createRole'].resetFields();
+    reset() {
+      this.$refs["createRole"].resetFields();
     }
   }
 };

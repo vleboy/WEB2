@@ -30,6 +30,7 @@ export default {
         {
           title: "类型",
           key: "",
+          maxWidth: 100,
           render: (h, params) => {
             return h("span", this.types(params.row.role));
           }
@@ -37,6 +38,7 @@ export default {
         {
           title: "接入商标识",
           key: "",
+          maxWidth: 120,
           render: (h, params) => {
             if (params.row.role == "10") {
               return h("span", params.row.suffix);
@@ -48,6 +50,7 @@ export default {
         {
           title: "接入商昵称",
           key: "displayName",
+          maxWidth: 140,
           render: (h, params) => {
             if (params.row.role == "10") {
               return h(
@@ -151,17 +154,23 @@ export default {
                 companyList.map(item => {
                   let text =
                     item.winloseAmount.toFixed(2) + "/" + item.topAmount;
-                    let width=0;
-                    let color='';
-                    if(item.winloseAmount<item.topAmount&&item.winloseAmount>0&&item.topAmount>0){
-                        width=(100*item.winloseAmount/item.topAmount).toFixed(2)+'%';
-                        console.log(width);
-                        if(item.winloseAmount/item.topAmount>0.8){
-                            color="#f30"
-                        }else{
-                            color="#0c0"
-                        }
+                  let width = 0;
+                  let color = "#fff";
+                  if (
+                    item.winloseAmount < item.topAmount &&
+                    item.winloseAmount > 0 &&
+                    item.topAmount > 0
+                  ) {
+                    width =
+                      (100 * item.winloseAmount / item.topAmount).toFixed(2) +
+                      "%";
+                    console.log(width);
+                    if (item.winloseAmount / item.topAmount > 0.8) {
+                      color = "#f30";
+                    } else {
+                      color = "#0c0";
                     }
+                  }
                   return h(
                     "div",
                     {
@@ -172,13 +181,15 @@ export default {
                         textAlign: "center",
                         height: "24px"
                       }
-                    },[
-                         h('div',{
-                            style:{
-                                width:width,
-                                backgroundColor:color,
-                            }
-                         })
+                    },
+                    [
+                      h("div", {
+                        style: {
+                          width: width,
+                          backgroundColor: color,
+                          marginTop: "-24px"
+                        }
+                      })
                     ],
                     text
                   );
@@ -200,7 +211,13 @@ export default {
                 companyList.map(item => {
                   return h(
                     "p",
-                    { style: { margin: "5px 0", height: "26px", lineHeight: "26px" } },
+                    {
+                      style: {
+                        margin: "5px 0",
+                        height: "26px",
+                        lineHeight: "26px"
+                      }
+                    },
                     [
                       h(
                         "span",

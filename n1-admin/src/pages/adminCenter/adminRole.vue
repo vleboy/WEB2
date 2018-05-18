@@ -3,7 +3,7 @@
     <p class="create">
       <Button type="primary" @click="addRole">创建新角色</Button>
     </p>
-    <Table :columns="columns" :data="subRoleList" size="small" ></Table>
+    <Table :columns="columns" :data="subRoleList" size="small"></Table>
     <Modal v-model="modal" :width='600' @on-ok="ok" :scrollable='true'>
       <section class="createSection">
         <h2 slot="title">编辑角色</h2>
@@ -340,6 +340,17 @@ export default {
                 },
                 {
                   title: "管理员角色列表",
+                  checked: false
+                }
+              ]
+            },
+            {
+              title: "玩家中心",
+              expand: true,
+              checked: false,
+              children: [
+                {
+                  title: "玩家列表",
                   checked: false
                 }
               ]

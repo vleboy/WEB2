@@ -135,11 +135,11 @@ export default {
           this.openName = ["logCenter"];
           break;
         case "playList":
-          this.openName=['playList'];
+          this.openName=['playerCenter'];
           break;
-        case "playDetail":
-          this.openName=['playDetail'];
-          break;
+        // case "playDetail":
+        //   this.openName=['playDetail'];
+        //   break;
       }
     }
   }

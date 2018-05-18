@@ -54,7 +54,7 @@
                     <MenuItem name="businessList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
                     <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
-                <Submenu name="playList" v-if='authorityStr.includes("玩家列表")'>
+                <Submenu name="playerCenter" v-if='authorityStr.includes("玩家列表")'>
                   <template slot="title">
                     玩家中心
                   </template>
