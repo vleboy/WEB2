@@ -111,7 +111,7 @@ export default {
                       let len = oldArr.length;
                       if (len > 0) {
                         while (len--) {
-                          if (oldArr[len][0].level == level + 1) {
+                          if (oldArr[len][0].level >= level + 1) {
                             oldArr.splice(len, 1);
                           }
                         }
@@ -155,10 +155,8 @@ export default {
                       showList = _.filter(showList, function(o) {
                         return o.length;
                       });
-                      //  console.log(showList);
                       this.reportChild = showList;
                     }
-                    // console.log(params.row);
                   }
                 }
               },
