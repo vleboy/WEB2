@@ -575,6 +575,7 @@ export default {
       this.parent = parent;
       this.userId = userId;
       this.edit = true;
+      this.isedit = true;
       let req1 = waterFall(userId);
       let req2 = oneMerchants(userId);
       let req3 = companySelect({ parent });
