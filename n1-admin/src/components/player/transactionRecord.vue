@@ -22,6 +22,7 @@
             type="datetimerange"
             :transfer='true'
             style="width: 300px"
+            @on-ok="searchAmount"
             placeholder="选择日期时间范围">
           </DatePicker>
           <Button type="primary" @click="searchAmount">搜索</Button>
@@ -137,11 +138,13 @@
         columns: [
           {
             title: '交易号',
-            key: 'businessKey'
+            key: 'businessKey',
+            width: 200
           },
           {
             title: '交易时间',
             key: '',
+            width: 160,
             render: (h, params) => {
               return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
             }
@@ -149,6 +152,7 @@
           {
             title: '结算前余额',
             key: '',
+            width: 140,
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.originalAmount))
             }
@@ -383,10 +387,11 @@
         return thousandFormatter(data)
       },
       exportData () {
+        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
         let [startTime, endTime] = this.amountDate
         startTime = new Date(startTime).getTime()
         endTime = new Date(endTime).getTime()
-        window.open(`https://d3rqtlfdd4m9wd.cloudfront.net/player/bill/detail/download?userName=${localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
+        window.open(`${url}/player/bill/detail/download?userName=${localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
       }
     }
   }

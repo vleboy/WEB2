@@ -97,19 +97,12 @@
         gameTypeList: [],
         columns: [
           {
-            title: '序号',
-            type: 'index',
-            width: 60,
-            align: 'center'
-          },
-          {
             title: '玩家ID',
             key: 'userId'
           },
           {
             title: '用户名',
-            key: 'userNameParent',
-            width: 200
+            key: 'userNameParent'
           },
           {
             title: '线路号',
@@ -160,7 +153,6 @@
           {
             title: '最近登录游戏时间',
             key: '',
-            width: 160,
             render: (h, params) => {
               return h("span", dayjs(params.row.updateAt).format("YYYY-MM-DD HH:mm:ss"));
             }
@@ -168,7 +160,6 @@
           {
             title: '操作',
             key: 'action',
-            width: 150,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -178,8 +169,7 @@
                     size: 'small'
                   },
                   style: {
-                    color:'#20a0ff',
-                    marginRight: '5px'
+                    color:'#20a0ff'
                   },
                   on: {
                     click: () => {
@@ -257,18 +247,19 @@
         })
       },
       changeStatus (row) {
-        if(this.isFetching) return
-        this.isFetching = true
-        httpRequest('post','/player/forzen',{
-          userName: row.userName,
-          state: row.state ? 0 : 1
-        }).then(
-          result => {
-            this.$Message.success('状态改变成功')
-            row.state = row.state ? 0 : 1 // 本地修改状态
-            this.isFetching = false
+        this.$Modal.confirm({
+          title: "提示!",
+          content: `<p>是否${row.state ? '停用' : '启用'}该玩家？</p>`,
+          onOk: () => {
+            httpRequest('post','/player/forzen',{
+              userName: row.userName,
+              state: row.state ? 0 : 1
+            }).then(res => {
+              this.$Message.success('状态改变成功')
+              row.state = row.state ? 0 : 1 // 本地修改状态
+            });
           }
-        )
+        });
       }, // 更改玩家状态
       allChangeState (num) {
         if (!this.checkedArray.length) {
@@ -382,7 +373,6 @@
       padding-bottom:10px;
     }
     .propList-search{
-      background-color: #f2f2f2;
       line-height: 32px;
       text-align: center;
       padding: 15px 10px;

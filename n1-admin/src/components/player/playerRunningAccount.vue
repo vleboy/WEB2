@@ -124,11 +124,13 @@ $
         columns: [
           {
             title: '流水号',
-            key: 'sn'
+            key: 'sn',
+            width: 210
           },
           {
             title: '日期',
             key: '',
+            width: 155,
             render: (h, params) => {
               return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
             }
@@ -306,7 +308,8 @@ $
         this.playerAccountListStartKey = ''
       },
       exportData() {
-        window.open(`https://d3rqtlfdd4m9wd.cloudfront.net/player/bill/flow/download?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
+        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
+        window.open(`${url}/player/bill/flow/download?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
       }
     },
     watch: {
