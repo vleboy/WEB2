@@ -4,7 +4,7 @@
       <Row>
         <Col class="-p-h-bottom">
           <RadioGroup v-model="companyInfo" @on-change="changeCompany" type="button">
-            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.companyName}}</Radio>
+            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
           </RadioGroup>
         </Col>
       </Row>
@@ -128,7 +128,7 @@
         },
         companyList: [],
         gameTypeList: [],
-        companyInfo: '-1',
+        companyInfo: '全部厂商',
         playerDetailList: [],
         playerDetailListStorage: [],
         playerDetailStartKey: '',
@@ -335,8 +335,7 @@
           result => {
             this.companyList = result.payload || []
             this.companyList.unshift({
-              company: '-1',
-              companyName: '全部厂商'
+              company: '全部厂商',
             })
             this.changeCompany()
             // this.$store.commit('closeLoading')
@@ -345,7 +344,7 @@
       }, //获取运营商列表
       changeCompany () {
         httpRequest('post','/gameBigType',{
-          companyIden: this.companyInfo
+          companyIden: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo
         },'game').then(
           result => {
             this.gameTypeList = result.payload
