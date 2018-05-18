@@ -380,6 +380,7 @@ export default {
                     click: () => {
                       let userId = params.row.userId;
                       let displayName = params.row.displayName;
+                      let parent=params.row.parent;
                       let username = params.row.username;
                       let parentDisplayName = params.row.parentDisplayName;
                       this.$router.push({
@@ -388,6 +389,7 @@ export default {
                           userId,
                           displayName,
                           username,
+                          parent,
                           parentDisplayName
                         }
                       });

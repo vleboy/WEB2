@@ -518,18 +518,14 @@ export default {
         let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
         this.$store.commit("updateLoading", { params: true });
         this.disabled = false;
-        let params = {};
-        if (userId == id) {
-          params = { parent: "01" };
-        } else {
-          params = { parent: id };
-        }
+        let params = { parent: id };
         companySelect(params).then(res => {
           if (res.code == 0) {
             this.gameType = res.payload;
           }
         });
-        getOtherBill(id).then(res => {
+        let ids = id == "01" ? userId : id;
+        getOtherBill(ids).then(res => {
           if (res.code == 0) {
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });
@@ -561,8 +557,10 @@ export default {
         }
       }
       gameItem.rate = this.detail.balance;
-      this.gameDetail.push(gameItem);
-      this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      if(gameItem.rate){
+        this.gameDetail.push(gameItem);
+        this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      }
     },
     randomMsn() {
       msnRandom().then(res => {
@@ -611,9 +609,9 @@ export default {
         if (valid) {
           this.$refs["adminform"].validate(valid => {
             if (valid) {
-              if(_.isEmpty(this.gameDetail)){
+              if (_.isEmpty(this.gameDetail)) {
                 this.$Message.error("尚未选择游戏");
-                return 
+                return;
               }
               this.$store.commit("updateLoading", { params: true });
               this.$store

@@ -397,8 +397,10 @@ export default {
         }
       }
       gameItem.rate = this.detail.balance;
-      this.gameDetail.push(gameItem);
-      this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      if(gameItem.rate){
+        this.gameDetail.push(gameItem);
+        this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      }
     }, //生成密码
     createPass() {
       let text = [

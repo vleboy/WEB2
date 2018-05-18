@@ -197,7 +197,7 @@
       <Panel name="2">
         游戏信息
         <div slot="content">
-          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit">
+          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
             <FormItem prop="ownGame">
               <Row>
                 <Col span="3">
@@ -249,8 +249,21 @@ import {
   updateMerchant
 } from "@/service/index";
 import dayjs from "dayjs";
+import _ from "lodash";
 export default {
   data() {
+    const validateRate = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("占成不能为空"));
+      } else {
+        let testReg = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
+        if (!testReg.test(value)) {
+          callback(new Error("请输入0.00~100.00之间的数字"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       parent: "",
       value: "3",
@@ -260,6 +273,15 @@ export default {
       spinShow: false,
       defaultBrower: false,
       gameDetail: [],
+      gameValidate: {
+        balance: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: validateRate
+          }
+        ]
+      },
       basic: {
         username: "",
         password: "",
@@ -304,21 +326,23 @@ export default {
           title: "操作",
           key: "opreate",
           render: (h, params) => {
-            return h(
-              "span",
-              {
-                style: {
-                  color: "#20a0ff",
-                  cursor: "pointer"
-                },
-                on: {
-                  click: index => {
-                    this.gameDetail.splice(index, 1);
+            if (!this.edit) {
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff",
+                    cursor: "pointer"
+                  },
+                  on: {
+                    click: index => {
+                      this.gameDetail.splice(index, 1);
+                    }
                   }
-                }
-              },
-              "删除"
-            );
+                },
+                "删除"
+              );
+            }
           }
         }
       ],
@@ -462,7 +486,7 @@ export default {
       }
       this.edit = true;
       this.isedit = true;
-      let userId = this.parent;
+      let userId = this.userId;
       let suffix = this.merchantDetail.suffix;
       let params = this.merchantDetail;
       params.username = suffix + "_" + username;
@@ -477,6 +501,11 @@ export default {
       params.loginWhiteList = this.basic.loginWhiteList;
       params.isOpenBrowser = this.defaultBrower;
       this.spinShow = true;
+      if (_.isEmpty(params.gameList)) {
+        this.$Message.success("尚未选择游戏");
+        this.spinShow = false;
+        return;
+      }
       updateMerchant(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
@@ -506,8 +535,12 @@ export default {
           gameItem = item;
         }
       }
-      gameItem.rate = this.gameForm.balance;
-      this.gameDetail.push(gameItem);
+      let re = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
+      if (re.test(this.gameForm.balance)) {
+        gameItem.rate = this.gameForm.balance;
+        this.gameDetail.push(gameItem);
+        this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      }
     }, //生成密码
     createPass() {
       let text = [
@@ -530,10 +563,12 @@ export default {
     async init() {
       this.spinShow = true;
       let userId = this.$route.params.userId;
-      this.parent = userId;
+      let parent = this.$route.params.parent;
+      this.parent = parent;
+      this.userId = userId;
       let req1 = waterFall(userId);
       let req2 = oneMerchants(userId);
-      let req3 = companySelect({ parent: userId });
+      let req3 = companySelect({ parent });
       let [waterfall, merchant, company] = await this.axios.all([
         req1,
         req2,

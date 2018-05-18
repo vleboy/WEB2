@@ -96,7 +96,7 @@
       <Panel name="2">
         游戏信息
         <div slot="content">
-          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit">
+          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
             <FormItem prop="ownGame">
               <Row>
                 <Col span="3">
@@ -157,8 +157,21 @@ import {
   updateManagers
 } from "@/service/index";
 import dayjs from "dayjs";
+import _ from "lodash";
 export default {
   data() {
+    const validateRate = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("占成不能为空"));
+      } else {
+        let testReg = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
+        if (!testReg.test(value)) {
+          callback(new Error("请输入0.00~100.00之间的数字"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       parent: "",
       value: "3",
@@ -174,6 +187,15 @@ export default {
         gameType: "",
         gamelist: "",
         balance: ""
+      },
+      gameValidate: {
+        balance: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: validateRate
+          }
+        ]
       },
       basic: {
         username: "",
@@ -443,21 +465,23 @@ export default {
           title: "操作",
           key: "opreate",
           render: (h, params) => {
-            return h(
-              "span",
-              {
-                style: {
-                  color: "#20a0ff",
-                  cursor: "pointer"
-                },
-                on: {
-                  click: index => {
-                    this.gameDetail.splice(index, 1);
+            if (!this.edit) {
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff",
+                    cursor: "pointer"
+                  },
+                  on: {
+                    click: index => {
+                      this.gameDetail.splice(index, 1);
+                    }
                   }
-                }
-              },
-              "删除"
-            );
+                },
+                "删除"
+              );
+            }
           }
         }
       ],
@@ -597,7 +621,7 @@ export default {
       }
       this.edit = true;
       this.isedit = true;
-      let userId = this.parent;
+      let userId = this.userId;
       let params = this.lineDetail;
       let suffix = this.lineDetail.suffix;
       params.username = suffix + "_" + username;
@@ -606,6 +630,11 @@ export default {
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       this.spinShow = true;
+      if (_.isEmpty(params.gameList)) {
+        this.$Message.success("尚未选择游戏");
+        this.spinShow = false;
+        return;
+      }
       updateManagers(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
@@ -635,8 +664,12 @@ export default {
           gameItem = item;
         }
       }
-      gameItem.rate = this.gameForm.balance;
-      this.gameDetail.push(gameItem);
+      let re = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
+      if (re.test(this.gameForm.balance)) {
+        gameItem.rate = this.gameForm.balance;
+        this.gameDetail.push(gameItem);
+        this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      }
     }, //生成密码
     createPass() {
       let text = [
@@ -658,10 +691,12 @@ export default {
     },
     async init() {
       let userId = this.$route.params.userId;
-      this.parent = userId;
+      let parent = this.$route.params.parent;
+      this.parent = parent;
+      this.userId = userId;
       let req1 = waterFall(userId);
       let req2 = oneManagers(userId);
-      let req3 = companySelect({ parent: userId });
+      let req3 = companySelect({ parent });
       let req4 = childList(userId, "10"); //线路商
       let req5 = childList(userId, "100"); //商户
       let [
