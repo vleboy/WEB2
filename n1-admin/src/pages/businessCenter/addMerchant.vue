@@ -611,6 +611,10 @@ export default {
         if (valid) {
           this.$refs["adminform"].validate(valid => {
             if (valid) {
+              if(_.isEmpty(this.gameDetail)){
+                this.$Message.error("尚未选择游戏");
+                return 
+              }
               this.$store.commit("updateLoading", { params: true });
               this.$store
                 .dispatch("newUser", {

@@ -212,7 +212,7 @@
                 </Col>
               </Row>
             </FormItem>
-            <FormItem v-if="selected">
+            <FormItem v-if="selected" prop='balance'>
               <label slot="label">{{game}}商家占成(%)</label>
               <Row>
                 <Col span="4">
