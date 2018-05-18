@@ -222,7 +222,10 @@ export default {
         },
         {
           title: "商家占成",
-          key: "rate"
+          key: "rate",
+          render:(h,params)=>{
+            return h('span',params.row.rate+'%')
+          }
         },
         {
           title: "操作",

@@ -46,13 +46,13 @@
                         <MenuItem name="ugsport" v-if='permission.includes("UG体育游戏报表")'>UG体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")'>
+                <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">
                         商户中心
                     </template>
                     <MenuItem name="lineBusiness" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
                     <MenuItem name="businessList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
-                    <MenuItem name="warnList">接入商点数警告列表</MenuItem>
+                    <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
                 <Submenu name="playerCenter" v-if='authorityStr.includes("玩家列表")'>
                   <template slot="title">

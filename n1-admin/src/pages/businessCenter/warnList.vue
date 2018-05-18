@@ -7,6 +7,36 @@
             </p>
             <Table :columns="columns" :data="warnList" size="small"></Table>
         </div>
+        <div class="childLists" v-for="(item,index) in childList" v-if="childList[0].length != 0" :key="index">
+            <p class="title">
+                ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+            </p>
+            <Table :columns="columns" :data="item" size="small"></Table>
+        </div>
+        <Modal v-model="pointModal" title="预警点数" :width='450' @on-ok="changePoint" @on-cancel='cancel'>
+            <p class='gameTitle'>{{gameType}}游戏</p>
+            <p class="current">当前值 {{winloseAmount}}/{{topAmount}}</p>
+            <Row class="current">
+                <Col span="8"> 设定值:{{winloseAmount}}/
+                </Col>
+                <Col span="12">
+                <Input v-model="newAmount" :number='true' size="small" placeholder="请输入"></Input>
+                </Col>
+            </Row>
+        </Modal>
+        <Modal v-model="opreateModal" :width='450' @on-ok="handleOpreate">
+            <div class="open" v-if="open">
+                <p slot="header" class="modalHead">启用</p>
+                <p class="content">确认要启用该接入商的{{gameType}}游戏吗？</p>
+            </div>
+            <div class="close" v-else>
+                <p slot="header" class="modalHead">停用</p>
+                <p class="content">确认要停用该接入商的{{gameType}}游戏吗？</p>
+                <p class="red content">
+                    告警: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。
+                </p>
+            </div>
+        </Modal>
         <Spin size="large" fix v-if="spinShow">
             <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
             <div>加载中...</div>
@@ -14,13 +44,26 @@
     </div>
 </template>
 <script>
-import { configOne, queryUserStat } from "@/service/index";
+import _ from "lodash";
+import { configOne, queryUserStat, userChangeStatus } from "@/service/index";
 import dayjs from "dayjs";
 export default {
   data() {
     return {
       endTime: "",
+      open: false,
+      opreateModal: false,
+      pointModal: false,
+      companyList: [],
+      gameType: "",
+      opreate: null,
+      userId: "",
+      role: "", //
       dayjs: dayjs,
+      topAmount: null,
+      winloseAmount: null,
+      newAmount: null,
+      childList: [[]],
       columns: [
         {
           title: "序号",
@@ -61,8 +104,26 @@ export default {
                     color: "#20a0ff"
                   },
                   on: {
-                    click: () => {
-                      console.log(1);
+                    click: async () => {
+                      let userId = params.row.userId;
+                      this.spinShow = true;
+                      let level = params.row.level;
+                      let showList = await this.getNextLevel(
+                        this.childList,
+                        userId
+                      );
+                      showList = _.filter(showList, function(o) {
+                        return o.length;
+                      });
+                      let len = showList.length;
+                      if (len > 0) {
+                        while (len--) {
+                          if (showList[len][0].level > level + 1) {
+                            showList.splice(len, 1);
+                          }
+                        }
+                      }
+                      this.childList = showList;
                     }
                   }
                 },
@@ -164,12 +225,17 @@ export default {
                     width =
                       (100 * item.winloseAmount / item.topAmount).toFixed(2) +
                       "%";
-                    console.log(width);
                     if (item.winloseAmount / item.topAmount > 0.8) {
-                      color = "#f30";
+                      color = "red";
                     } else {
                       color = "#0c0";
                     }
+                  } else if (
+                    item.winloseAmount > 0 &&
+                    item.topAmount > 0 &&
+                    item.winloseAmount > item.topAmount
+                  ) {
+                    (width = "100%"), (color = "red");
                   }
                   return h(
                     "div",
@@ -183,15 +249,17 @@ export default {
                       }
                     },
                     [
+                      h("span", text),
                       h("div", {
                         style: {
                           width: width,
                           backgroundColor: color,
-                          marginTop: "-24px"
+                          marginTop: "-19px",
+                          borderRadius: "5px",
+                          height: "24px"
                         }
                       })
-                    ],
-                    text
+                    ]
                   );
                 })
               );
@@ -209,6 +277,17 @@ export default {
               return h(
                 "div",
                 companyList.map(item => {
+                  let text = "";
+                  let open = false;
+                  let opreate = null;
+                  if (item.status == 1) {
+                    text = "停用";
+                    opreate = 0;
+                  } else {
+                    text = "启用";
+                    open = true;
+                    opreate = 1;
+                  }
                   return h(
                     "p",
                     {
@@ -229,7 +308,13 @@ export default {
                           },
                           on: {
                             click: () => {
-                              console.log(item.userId);
+                              this.winloseAmount = item.winloseAmount;
+                              this.topAmount = item.topAmount;
+                              this.gameType = item.company;
+                              this.pointModal = true;
+                              this.companyList = params.row.companyList;
+                              this.userId = params.row.userId;
+                              this.role = params.row.role;
                             }
                           }
                         },
@@ -245,11 +330,17 @@ export default {
                           },
                           on: {
                             click: () => {
-                              console.log(2);
+                              this.opreateModal = true;
+                              this.gameType = item.company;
+                              this.open = open;
+                              this.opreate = opreate;
+                              this.companyList = params.row.companyList;
+                              this.userId = params.row.userId;
+                              this.role = params.row.role;
                             }
                           }
                         },
-                        "停用"
+                        text
                       )
                     ]
                   );
@@ -291,6 +382,59 @@ export default {
         this.warnList = userStat.payload;
       }
     },
+    cancel() {
+      this.newAmount = null;
+    },
+    changePoint() {
+      let point = parseInt(this.newAmount);
+      this.newAmount = null;
+      let companyList = this.companyList;
+      for (let item of companyList) {
+        if (item.company == this.gameType) {
+          item.topAmount = point;
+        }
+      }
+      userChangeStatus({
+        companyList,
+        userId: this.userId,
+        role: this.role
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+          this.init();
+        }
+      });
+    },
+    async getNextLevel(showList, userId) {
+      return new Promise((resolve, reject) => {
+        queryUserStat({ parent: userId }).then(res => {
+          showList.push(res.payload);
+          showList = _.uniqWith(showList, _.isEqual);
+          resolve(showList);
+          this.spinShow = false;
+        });
+      });
+    },
+    handleOpreate() {
+      let opreate = this.opreate;
+      let companyList = this.companyList;
+      for (let item of companyList) {
+        if (item.company == this.gameType) {
+          item.status = opreate;
+        }
+      }
+      userChangeStatus({
+        companyList,
+        switch: opreate,
+        userId: this.userId,
+        role: this.role
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+          this.init();
+        }
+      });
+    },
     types(value) {
       switch (value) {
         case "10":
@@ -322,5 +466,28 @@ export default {
       }
     }
   }
+}
+.red {
+  color: red;
+}
+.gameTitle {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 16px;
+}
+.current {
+  margin: 20px auto;
+  font-size: 14px;
+  text-indent: 1em;
+}
+.modalHead {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px auto;
+}
+.content {
+  text-align: center;
+  font-size: 14px;
+  margin: 5px auto;
 }
 </style>

@@ -93,7 +93,7 @@
           <FormItem label="商户拥有的游戏" prop="ownGame">
             <Row>
               <Col span="10">
-              <Select v-model="detail.gameType" placeholder="请选择" @on-change="selectCompany">
+              <Select v-model="detail.gameType" :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
                 <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
               </Select>
               </Col>
@@ -115,7 +115,7 @@
               </Col>
             </Row>
           </FormItem>
-          <Table :columns="columns" :data="gameDetail" class="table" size="small" ></Table>
+          <Table :columns="columns" :data="gameDetail" class="table" size="small"></Table>
           <FormItem label="商户API白名单">
             <Row>
               <Col span="20">
@@ -351,7 +351,10 @@ export default {
         },
         {
           title: "商家占成",
-          key: "rate"
+          key: "rate",
+          render: (h, params) => {
+            return h("span", params.row.rate + "%");
+          }
         },
         {
           title: "操作",

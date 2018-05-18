@@ -434,7 +434,10 @@ export default {
         },
         {
           title: "商家占成",
-          key: "rate"
+          key: "rate",
+          render: (h, params) => {
+            return h("span", params.row.rate + "%");
+          }
         },
         {
           title: "操作",
@@ -596,10 +599,10 @@ export default {
       this.isedit = true;
       let userId = this.parent;
       let params = this.lineDetail;
-      let suffix=this.lineDetail.suffix;
-      params.username =suffix+'_'+ username;
+      let suffix = this.lineDetail.suffix;
+      params.username = suffix + "_" + username;
       params.password = password;
-      params.uname=username;
+      params.uname = username;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       this.spinShow = true;
@@ -607,7 +610,7 @@ export default {
         if (res.code == 0) {
           this.$Message.success("修改成功");
           this.spinShow = false;
-        }else{
+        } else {
           this.spinShow = false;
         }
       });

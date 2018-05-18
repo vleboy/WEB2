@@ -140,6 +140,10 @@ export default {
                 },
                 {
                   title: "商户列表"
+                },
+                {
+                  title: "接入商点数警告列表",
+                  checked: false
                 }
               ]
             },
