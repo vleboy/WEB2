@@ -102,6 +102,16 @@ export default {
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
+                      let level = params.row.level;
+                      let oldArr = this.reportChild;
+                      let len = oldArr.length;
+                      if (len > 0) {
+                        while (len--) {
+                          if (oldArr[len][0].level >= level + 1) {
+                            oldArr.splice(len, 1);
+                          }
+                        }
+                      }
                       this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
@@ -112,7 +122,6 @@ export default {
                         })
                         .then(res => {
                           this.playerList = res.payload;
-                          this.reportChild = [];
                           this.spinShow = false;
                         });
                       var anchor = this.$el.querySelector("#playerList");
