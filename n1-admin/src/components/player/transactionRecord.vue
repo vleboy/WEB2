@@ -4,7 +4,7 @@
       <Row>
         <Col class="-p-h-bottom">
           <RadioGroup v-model="companyInfo" @on-change="changeCompany" type="button">
-            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.companyName}}</Radio>
+            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
           </RadioGroup>
         </Col>
       </Row>
@@ -22,6 +22,7 @@
             type="datetimerange"
             :transfer='true'
             style="width: 300px"
+            @on-ok="searchAmount"
             placeholder="选择日期时间范围">
           </DatePicker>
           <Button type="primary" @click="searchAmount">搜索</Button>
@@ -127,7 +128,7 @@
         },
         companyList: [],
         gameTypeList: [],
-        companyInfo: '-1',
+        companyInfo: '全部厂商',
         playerDetailList: [],
         playerDetailListStorage: [],
         playerDetailStartKey: '',
@@ -137,11 +138,13 @@
         columns: [
           {
             title: '交易号',
-            key: 'businessKey'
+            key: 'businessKey',
+            width: 200
           },
           {
             title: '交易时间',
             key: '',
+            width: 160,
             render: (h, params) => {
               return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
             }
@@ -149,6 +152,7 @@
           {
             title: '结算前余额',
             key: '',
+            width: 140,
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.originalAmount))
             }
@@ -331,8 +335,7 @@
           result => {
             this.companyList = result.payload || []
             this.companyList.unshift({
-              company: '-1',
-              companyName: '全部厂商'
+              company: '全部厂商',
             })
             this.changeCompany()
             // this.$store.commit('closeLoading')
@@ -341,7 +344,7 @@
       }, //获取运营商列表
       changeCompany () {
         httpRequest('post','/gameBigType',{
-          companyIden: this.companyInfo
+          companyIden: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo
         },'game').then(
           result => {
             this.gameTypeList = result.payload
@@ -383,10 +386,11 @@
         return thousandFormatter(data)
       },
       exportData () {
+        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
         let [startTime, endTime] = this.amountDate
         startTime = new Date(startTime).getTime()
         endTime = new Date(endTime).getTime()
-        window.open(`https://d3rqtlfdd4m9wd.cloudfront.net/player/bill/detail/download?userName=${localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
+        window.open(`${url}/player/bill/detail/download?userName=${localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
       }
     }
   }
