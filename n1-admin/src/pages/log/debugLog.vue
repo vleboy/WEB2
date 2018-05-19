@@ -107,7 +107,7 @@ export default {
     nextPage() {
       let startKey = this.$store.state.admin.startKey;
       let role = this.role;
-      this.$store.dispatch("getAdminLog", {
+      this.$store.dispatch("getDebugLog", {
         role: role,
         type: "settlement",
         pageSize: 20,

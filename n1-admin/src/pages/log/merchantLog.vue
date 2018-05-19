@@ -138,7 +138,7 @@ export default {
     nextPage() {
       let startKey = this.$store.state.admin.startKey;
       this.$store.dispatch("getMerchantLog", {
-        role: "1000",
+        role: "100",
         type: "login",
         pageSize: 50,
         startKey: startKey,
@@ -148,14 +148,7 @@ export default {
       this.firstPage = false;
     },
     homePage() {
-      this.$store.dispatch("getMerchantLog", {
-        role: "1000",
-        type: "login",
-        pageSize: "50",
-        startKey: null,
-        level: -1,
-        query: {}
-      });
+      this.init();
       this.firstPage = true;
     },
     search() {
@@ -171,35 +164,31 @@ export default {
       }
       this.$store.dispatch("getMerchantLog", {
         query,
-        role: "1000",
+        role: "100",
         type: "login",
         pageSize: "50",
         startKey: null,
         level: -1
       });
     },
-    reset() {
-      this.username = "";
-      this.displayName = "";
+    init() {
       this.$store.dispatch("getMerchantLog", {
-        role: "1000",
+        role: "100",
         type: "login",
         pageSize: "50",
         startKey: null,
         level: -1,
         query: {}
       });
+    },
+    reset() {
+      this.username = "";
+      this.displayName = "";
+      this.init();
     }
   },
   created() {
-    this.$store.dispatch("getMerchantLog", {
-      role: "1000",
-      type: "login",
-      pageSize: "50",
-      startKey: null,
-      level: -1,
-      query: {}
-    });
+    this.init();
   }
 };
 </script>

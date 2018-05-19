@@ -1,5 +1,8 @@
 <template>
     <div class="adminLog">
+        <div class="reload">
+        <Button type="primary" class="reset" @click="reset">刷新</Button>
+        </div>
         <div class="table">
             <Table :columns="columns1" :data="adminLog" size="small" ></Table>
         </div>
@@ -77,7 +80,7 @@ export default {
   computed: {
     adminLog() {
       return this.$store.state.admin.adminLog;
-    },
+    }
   },
   methods: {
     nextPage() {
@@ -91,24 +94,23 @@ export default {
       this.firstPage = false;
     },
     homePage() {
-      this.$store
-      .dispatch("getAdminLog", {
+      this.init();
+      this.firstPage = true;
+    },
+    init() {
+      this.$store.dispatch("getAdminLog", {
         role: "1",
         type: "operate",
         pageSize: 50,
         startKey: null
-      })
-      this.firstPage=true;
+      });
+    },
+    reset() {
+      this.init();
     }
   },
   created() {
-    this.$store
-      .dispatch("getAdminLog", {
-        role: "1",
-        type: "operate",
-        pageSize: 50,
-        startKey: null
-      })
+    this.init();
   }
 };
 </script>
@@ -120,6 +122,11 @@ export default {
     .nextpage {
       margin: 20px;
     }
+  }
+  .reload {
+    text-align: right;
+    margin: 15px auto;
+    padding-right: 10px;
   }
 }
 </style>

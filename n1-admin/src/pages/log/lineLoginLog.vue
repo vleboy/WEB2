@@ -135,8 +135,8 @@ export default {
   methods: {
     nextPage() {
       let startKey = this.$store.state.admin.startKey;
-      this.$store.dispatch("getAdminLog", {
-        role: "1000",
+      this.$store.dispatch("getLineLoginLog", {
+        role: "10",
         type: "login",
         pageSize: "50",
         startKey: startKey,
@@ -146,15 +146,18 @@ export default {
       this.firstPage = false;
     },
     homePage() {
+      this.init();
+      this.firstPage = true;
+    },
+    init() {
       this.$store.dispatch("getLineLoginLog", {
-        role: "1000",
+        role: "10",
         type: "login",
         pageSize: "50",
         startKey: null,
         level: 0,
         query: {}
       });
-      this.firstPage = true;
     },
     search() {
       let query = {
@@ -169,7 +172,7 @@ export default {
       }
       this.$store.dispatch("getLineLoginLog", {
         query,
-        role: "1000",
+        role: "10",
         type: "login",
         pageSize: "50",
         startKey: null,
@@ -179,25 +182,11 @@ export default {
     reset() {
       this.username = "";
       this.displayName = "";
-      this.$store.dispatch("getLineLoginLog", {
-        role: "1000",
-        type: "login",
-        pageSize: "50",
-        startKey: null,
-        level: 0,
-        query: {}
-      });
+      this.init();
     }
   },
   created() {
-    this.$store.dispatch("getLineLoginLog", {
-      role: "1000",
-      type: "login",
-      pageSize: "50",
-      startKey: null,
-      level: 0,
-      query: {}
-    });
+    this.init();
   }
 };
 </script>
