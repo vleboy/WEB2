@@ -3,7 +3,6 @@
     <div class="option">
       <Row class="row">
         <Col span="4">
-        <p class="count">共搜索到{{ count }}条数据</p>
         </Col>
         <Col span="5" offset='15'>
         <Select style="width:200px" @on-change='changeRole' v-model="role">
@@ -32,7 +31,7 @@ export default {
     return {
       dayjs: dayjs,
       firstPage: true,
-      role: "",
+      role: "4",
       selectOption: [
         {
           value: "4",
@@ -100,9 +99,6 @@ export default {
     };
   },
   computed: {
-    count() {
-      return this.debugLog.length;
-    },
     debugLog() {
       return this.$store.state.admin.debugLog;
     }
@@ -140,7 +136,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getDebugLog", {
-      role: 4,
+      role: '4',
       type: "settlement",
       pageSize: 20,
       startKey: ""
@@ -151,15 +147,8 @@ export default {
 <style lang="less" scoped>
 .debugLog {
   min-height: 89vh;
-  .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 10px;
-    }
-    .searchbtn {
-      margin-left: 10px;
-    }
+  .searchbtn {
+    margin-left: 10px;
   }
   .btn {
     text-align: right;

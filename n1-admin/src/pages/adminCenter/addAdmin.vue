@@ -164,8 +164,8 @@ export default {
               this.$Message.success({
                 content: "创建成功"
               });
-              this.formItem={};
-              this.$router.push({ name: "adminList"});
+              this.formItem = {};
+              this.$router.push({ name: "adminList" });
             }
           });
         } else {
@@ -175,6 +175,14 @@ export default {
     },
     reset(name) {
       this.$refs[name].resetFields();
+    },
+    init() {
+      // this.$refs['addform'].resetFields();
+      getsbuRole().then(res => {
+        if (res.code == 0) {
+          this.subRoleList = res.payload.Items;
+        }
+      });
     },
     passwordLevel(password) {
       var Modes = 0;
@@ -206,12 +214,14 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    getsbuRole().then(res => {
-       if (res.code == 0) {
-        this.subRoleList = res.payload.Items;
-      }
-    });
+  created() {
+    this.init();
+  },
+  watch: {
+    $route(to, from) {
+      this.reset("addform");
+      this.init();
+    }
   }
 };
 </script>

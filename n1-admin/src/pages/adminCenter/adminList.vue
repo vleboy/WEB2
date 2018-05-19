@@ -15,9 +15,9 @@
       </Row>
     </div> -->
     <div class="option">
-      <p class="count">共搜索到{{ count }}条数据</p>
       <p class="create">
         <Button type="primary" @click="addAdmin">创建管理员</Button>
+        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
     </div>
     <div class="table">
@@ -51,7 +51,6 @@
           </Col>
         </Row>
       </p>
-
     </Modal>
     <Spin size="large" fix v-if="$store.state.admin.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -160,9 +159,6 @@ export default {
     };
   },
   computed: {
-    count() {
-      return this.adminList.length;
-    },
     adminList() {
       return this.$store.state.admin.adminList;
     }
@@ -204,6 +200,22 @@ export default {
     cancel() {
       this.password = "";
       this.repassword = "";
+    },
+    reset() {
+      this.init();
+    },
+    init() {
+      this.$store.commit("logLoading", { params: true });
+      getsbuRole().then(res => {
+        if (res.code == 0) {
+          this.subRoleList = res.payload.Items;
+        }
+      });
+      this.$store.dispatch("getAdminList", {
+        query: {},
+        sortkey: "createdAt",
+        sort: "desc"
+      });
     },
     updateRole() {
       adminUpdate({
@@ -254,17 +266,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("logLoading", { params: true });
-    getsbuRole().then(res => {
-      if (res.code == 0) {
-        this.subRoleList = res.payload.Items;
-      }
-    });
-    this.$store.dispatch("getAdminList", {
-      query: {},
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+    this.init();
   },
   watch: {
     $route(to, from) {
@@ -282,27 +284,13 @@ export default {
 <style lang="less" scoped>
 .adminList {
   min-height: 89vh;
-  .search {
-    // background-color: #f2f2f2;
-    // height: 60px;
-    .row {
-      line-height: 32px;
-      text-align: center;
-      padding: 10px 10px;
-      .searchbtn {
-        margin-left: -15px;
-        margin-right: 10px;
-      }
-    }
-  }
   .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
     .create {
       padding-bottom: 15px;
+    }
+    .searchbtn {
+      float: right;
+      margin-right: 10px;
     }
   }
 }

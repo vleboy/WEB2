@@ -4,6 +4,7 @@
             <p>
                 <span class="title">管理员直管接入商 </span>
                 <span class="endtime">统计截止时间:{{countTime}}</span>
+                <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
             </p>
             <Table :columns="columns" :data="warnList" size="small"></Table>
         </div>
@@ -385,6 +386,9 @@ export default {
     cancel() {
       this.newAmount = null;
     },
+    reset(){
+      this.init();
+    },
     changePoint() {
       let point = parseInt(this.newAmount);
       this.newAmount = null;
@@ -463,6 +467,10 @@ export default {
       }
       .endtime {
         font-size: 16px;
+      }
+      .searchbtn{
+        float: right;
+        margin-right: 10px;
       }
     }
   }

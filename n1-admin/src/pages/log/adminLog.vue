@@ -1,8 +1,5 @@
 <template>
     <div class="adminLog">
-        <div class="option">
-            <p class="count">共搜索到{{ count }}条数据</p>
-        </div>
         <div class="table">
             <Table :columns="columns1" :data="adminLog" size="small" ></Table>
         </div>
@@ -78,9 +75,6 @@ export default {
     };
   },
   computed: {
-    count() {
-      return this.adminLog.length;
-    },
     adminLog() {
       return this.$store.state.admin.adminLog;
     },
@@ -121,13 +115,6 @@ export default {
 <style lang="less" scoped>
 .adminLog {
   min-height: 89vh;
-  .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 10px;
-    }
-  }
   .btn {
     text-align: right;
     .nextpage {

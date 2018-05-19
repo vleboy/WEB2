@@ -2,6 +2,7 @@
   <div class="adminrole">
     <p class="create">
       <Button type="primary" @click="addRole">创建新角色</Button>
+      <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
     </p>
     <Table :columns="columns" :data="subRoleList" size="small"></Table>
     <Modal v-model="modal" :width='600' @on-ok="ok" :scrollable='true'>
@@ -30,6 +31,10 @@
             </Row>
           </FormItem>
         </Form>
+         <Spin size="large" fix v-if="spin">
+          <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+          <div>加载中...</div>
+        </Spin>
       </section>
     </Modal>
   </div>
@@ -41,6 +46,7 @@ export default {
   data() {
     return {
       dayjs: dayjs,
+      spin:false,
       modal: false,
       subRoleList: [],
       admin: {
@@ -180,11 +186,7 @@ export default {
                         onOk: () => {
                           subRoleDelete({ name: name }).then(res => {
                             if (res.code == 0) {
-                              getsbuRole().then(res => {
-                                if (res.code == 0) {
-                                  this.subRoleList = res.payload.Items;
-                                }
-                              });
+                             this.init();
                             }
                           });
                         }
@@ -403,30 +405,30 @@ export default {
       }).then(res => {
         if (res.code == 0) {
           this.$Message.success("保存成功");
-          getsbuRole().then(res => {
-            if (res.code == 0) {
-              this.subRoleList = res.payload.Items;
-            }
-          });
+          this.init()
+        }
+      });
+    },
+    reset() {
+     this.init()
+    },
+    init() {
+      this.spin=true;
+      getsbuRole().then(res => {
+        if (res.code == 0) {
+          this.subRoleList = res.payload.Items;
+          this.spin=false;
         }
       });
     }
   },
-  beforeCreate() {
-    getsbuRole().then(res => {
-      if (res.code == 0) {
-        this.subRoleList = res.payload.Items;
-      }
-    });
+  created(){
+    this.init()
   },
   watch: {
     $route(to, from) {
       if (from.name == "createRole") {
-        getsbuRole().then(res => {
-          if (res.code == 0) {
-            this.subRoleList = res.payload.Items;
-          }
-        });
+       this.init()
       }
     }
   }
@@ -437,6 +439,10 @@ export default {
   min-height: 89vh;
   .create {
     margin-bottom: 20px;
+  }
+  .searchbtn {
+    float: right;
+    margin-right: 10px;
   }
 }
 .createSection {

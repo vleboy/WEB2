@@ -12,15 +12,13 @@
         <Col span="4">
         <Input v-model="username" placeholder="请输入"></Input>
         </Col>
-        <Col span="2">
+        <Col span="4">
         <div class="btns">
           <Button type="primary" class="searchbtn" @click="search">搜索</Button>
+          <Button type="primary" class="searchbtn" @click="reset">重置</Button>
         </div>
         </Col>
       </Row>
-    </div>
-    <div class="option">
-      <p class="count">共搜索到{{ count }}条数据</p>
     </div>
     <div class="table">
       <Table :columns="columns1" :data="lineLog" size="small" ></Table>
@@ -130,9 +128,6 @@ export default {
     };
   },
   computed: {
-    count() {
-      return this.lineLog.length;
-    },
     lineLog() {
       return this.$store.state.admin.lineLog;
     }
@@ -180,6 +175,18 @@ export default {
         startKey: null,
         level: 0
       });
+    },
+    reset() {
+      this.username = "";
+      this.displayName = "";
+      this.$store.dispatch("getLineLoginLog", {
+        role: "1000",
+        type: "login",
+        pageSize: "50",
+        startKey: null,
+        level: 0,
+        query: {}
+      });
     }
   },
   created() {
@@ -197,13 +204,7 @@ export default {
 <style lang="less" scoped>
 .lineLog {
   min-height: 89vh;
-  .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 10px;
-    }
-  }
+
   .search {
     .row {
       line-height: 32px;

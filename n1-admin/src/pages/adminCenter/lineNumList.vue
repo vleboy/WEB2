@@ -130,6 +130,8 @@ export default {
   methods: {
     reset() {
       this.msn = "";
+      this.$store.commit("logLoading", { params: true });
+      this.$store.dispatch("getLineNumList", {});
     },
     search() {
       this.$store.commit("logLoading", { params: true });

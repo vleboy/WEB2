@@ -25,7 +25,6 @@
       </Row>
     </div>
     <div class="option">
-      <p class="count">共搜索到{{ total }}条数据</p>
       <p class="create">
         <Button type="primary" @click="addMerchant">创建商户</Button>
       </p>
@@ -355,15 +354,15 @@ export default {
           render: (h, params) => {
             let text = "";
             let status = null;
-            let color='';
+            let color = "";
             if (params.row.status == 1) {
               text = "停用";
               status = 0;
-              color='#f5141e'
+              color = "#f5141e";
             } else {
               text = "启用";
               status = 1;
-              color='#20a0ff'
+              color = "#20a0ff";
             }
             return h("div", [
               h(
@@ -380,7 +379,7 @@ export default {
                     click: () => {
                       let userId = params.row.userId;
                       let displayName = params.row.displayName;
-                      let parent=params.row.parent;
+                      let parent = params.row.parent;
                       let username = params.row.username;
                       let parentDisplayName = params.row.parentDisplayName;
                       this.$router.push({
@@ -428,7 +427,7 @@ export default {
                               });
                             }
                           });
-                        },
+                        }
                       });
                     }
                   }
@@ -504,6 +503,11 @@ export default {
       this.sn = "";
       this.displayName = "";
       this.msn = "";
+      this.$store.dispatch("getMerchantsList", {
+        query: { },
+        sortkey: "createdAt",
+        sort: "desc"
+      });
     },
     search() {
       let query = {
@@ -530,9 +534,6 @@ export default {
   computed: {
     showData() {
       return this.$store.state.merchants.merchantsList;
-    },
-    total() {
-      return this.showData.length;
     },
     spinShow() {
       return this.$store.state.merchants.spinShow;
@@ -575,11 +576,6 @@ export default {
   height: 126px;
 }
 .option {
-  .count {
-    line-height: 28px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
   .create {
     padding-bottom: 15px;
   }

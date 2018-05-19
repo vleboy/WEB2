@@ -19,7 +19,6 @@
       </Row>
     </div>
     <div class="option">
-      <p class="count">共搜索到{{ total }}条数据</p>
       <p class="create">
         <Button type="primary" @click="createLine">创建线路商</Button>
       </p>
@@ -478,6 +477,11 @@ export default {
     reset() {
       this.suffix = "";
       this.displayName = "";
+      this.$store.dispatch("getManagerList", {
+      query: {},
+      sortkey: "createdAt",
+      sort: "desc"
+    });
     },
     search() {
       let query = {
@@ -500,9 +504,6 @@ export default {
   computed: {
     showData() {
       return this.$store.state.merchants.managerList;
-    },
-    total() {
-      return this.showData.length;
     },
     spinShow() {
       return this.$store.state.merchants.spinShow;
@@ -544,11 +545,6 @@ export default {
     height: 63px;
   }
   .option {
-    .count {
-      line-height: 28px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
     .create {
       padding-bottom: 15px;
     }
