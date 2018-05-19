@@ -74,7 +74,7 @@ export default {
         {
           title: "类型",
           key: "",
-          maxWidth: 100,
+          maxWidth: 80,
           render: (h, params) => {
             return h("span", this.types(params.row.role));
           }
@@ -82,7 +82,7 @@ export default {
         {
           title: "接入商标识",
           key: "",
-          maxWidth: 120,
+          maxWidth: 100,
           render: (h, params) => {
             if (params.row.role == "10") {
               return h("span", params.row.suffix);
@@ -305,7 +305,7 @@ export default {
                           style: {
                             color: "#20a0ff",
                             cursor: "pointer",
-                            marginRight: "10px"
+                            marginRight: "5px"
                           },
                           on: {
                             click: () => {
@@ -327,7 +327,7 @@ export default {
                           style: {
                             color: "#20a0ff",
                             cursor: "pointer",
-                            marginRight: "10px"
+                            marginRight: "5px"
                           },
                           on: {
                             click: () => {
@@ -375,13 +375,13 @@ export default {
         parent: "01"
       });
       let [config, userStat] = await this.axios.all([req1, req2]);
-      this.spinShow = false;
       if (config && config.code == 0) {
         this.endTime = config.payload.lastAllAmountTime;
       }
       if (userStat && userStat.code == 0) {
         this.warnList = userStat.payload;
       }
+      this.spinShow = false;
     },
     cancel() {
       this.newAmount = null;

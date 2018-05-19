@@ -76,7 +76,9 @@ export default {
         content: "<p>是否确认退出</p>",
         onOk: () => {
           localStorage.clear();
-          this.$router.push({ name: "login" });
+          let host = location.href;
+          host = host.split("#")[0];
+          window.location.href = host + "#/login";
         }
       });
       // if (name === "ownSpace") {
@@ -128,14 +130,14 @@ export default {
         case "ownspace-index":
           this.openName = [];
           break;
-        case "adminList" || "lineNumList" ||"adminRole":
+        case "adminList" || "lineNumList" || "adminRole":
           this.openName = ["adminCenter"];
           break;
         case "lineLoginLog" || "merchantLog" || "adminLog" || "debugLog":
           this.openName = ["logCenter"];
           break;
         case "playList":
-          this.openName=['playerCenter'];
+          this.openName = ["playerCenter"];
           break;
         // case "playDetail":
         //   this.openName=['playDetail'];
