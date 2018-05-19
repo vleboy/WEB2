@@ -154,7 +154,8 @@ import {
   companySelect,
   childList,
   gameBigType,
-  updateManagers
+  updateManagers,
+  userChangeStatus 
 } from "@/service/index";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -274,6 +275,20 @@ export default {
           title: "操作(对旗下线路商操作)",
           key: "",
           render: (h, params) => {
+            let userId = this.$route.query.userId;
+            let text = "";
+            let status = null;
+            let color = "";
+            let role = params.row.role;
+            if (params.row.status == 1) {
+              text = "停用";
+              status = 0;
+              color = "#f5141e";
+            } else {
+              text = "开启";
+              status = 1;
+              color = "#20a0ff";
+            }
             return h("div", [
               h(
                 "span",
@@ -311,16 +326,33 @@ export default {
                 "span",
                 {
                   style: {
-                    color: "#20a0ff",
+                    color: color,
                     cursor: "pointer"
                   },
                   on: {
                     click: () => {
-                      console.log(3);
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: `<p>是否${text}线路商</p>`,
+                        onOk: () => {
+                          userChangeStatus({
+                            role,
+                            status,
+                            userId: params.row.userId
+                          }).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success(`${text}成功`);
+                              childList(userId, "10").then(res => {
+                                this.nextLine = res.payload;
+                              });
+                            }
+                          });
+                        }
+                      });
                     }
                   }
                 },
-                "开启"
+                text
               )
             ]);
           }
@@ -393,6 +425,20 @@ export default {
           title: "操作(对旗下商户操作)",
           key: "",
           render: (h, params) => {
+            let userId = this.$route.query.userId;
+            let text = "";
+            let status = null;
+            let color = "";
+            let role = params.row.role;
+            if (params.row.status == 1) {
+              text = "停用";
+              status = 0;
+              color = "#f5141e";
+            } else {
+              text = "开启";
+              status = 1;
+              color = "#20a0ff";
+            }
             return h("div", [
               h(
                 "span",
@@ -430,16 +476,33 @@ export default {
                 "span",
                 {
                   style: {
-                    color: "#20a0ff",
+                    color: color,
                     cursor: "pointer"
                   },
                   on: {
                     click: () => {
-                      console.log(3);
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: `<p>是否${text}线路商</p>`,
+                        onOk: () => {
+                          userChangeStatus({
+                            role,
+                            status,
+                            userId: params.row.userId
+                          }).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success(`${text}成功`);
+                              childList(userId, "100").then(res => {
+                                this.ownedbusiness = res.payload;
+                              });
+                            }
+                          });
+                        }
+                      });
                     }
                   }
                 },
-                "开启"
+                text
               )
             ]);
           }

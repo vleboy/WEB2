@@ -60,6 +60,7 @@ export default {
       opreate: null,
       userId: "",
       role: "", //
+      spinShow:false,
       dayjs: dayjs,
       topAmount: null,
       winloseAmount: null,
