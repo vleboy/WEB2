@@ -2,12 +2,12 @@
   <div class="merchantLog">
     <div class="search">
       <Row class="row">
-        <Col span='2' offset='4'> 代理昵称:
+        <Col span='2' offset='4'> 商户昵称:
         </Col>
         <Col span="4">
         <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
-        <Col span='2'> 代理账号:
+        <Col span='2'> 商户账号:
         </Col>
         <Col span="4">
         <Input v-model="username" placeholder="请输入"></Input>
@@ -51,11 +51,11 @@ export default {
           maxWidth: 80
         },
         {
-          title: "代理昵称",
+          title: "商户昵称",
           key: "displayName"
         },
         {
-          title: "代理账号",
+          title: "商户账号",
           key: "username"
         },
         {

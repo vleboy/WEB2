@@ -78,7 +78,7 @@ export default {
           localStorage.clear();
           let host = location.href;
           host = host.split("#")[0];
-          window.location.href = host + "#/login";
+          window.location.href = host //+ "#/login";
         }
       });
       // if (name === "ownSpace") {
