@@ -62,12 +62,6 @@ export async function httpRequest(method,url,params,type) {
   return (method == 'get') ? http(get(url,type)) : http(post(url,params,type))
 }
 
-//
-let userId=''
-if(localStorage.userInfo){
-  userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-}
-
 //登录
 export async function logIn(role,username,password,challenge,vid,cb,err){
     return http(post('/users/auth',{role,username,password,challenge,vid,cb,err}))
@@ -89,19 +83,14 @@ export async function getAdminInfo(){
     return http(get('/admin_center'))
 }
 //流水列表
-export async function getWaterfall(){
-    return http(get(`/waterfall/${userId}`))
-}
-export async function waterFall(userId){
+export async function getWaterfall(userId){
     return http(get(`/waterfall/${userId}`))
 }
 //bill余额 个人中心
-export async function getBill(){
+export async function getBill(userId){
     return http(get(`/bills/${userId}`))
 }//otherbill
-export async function getOtherBill(Id){
-    return http(get(`/bills/${Id}`))
-}
+
 //商户列表
 export async function getMerchants(params){
     return http(post('/merchants',params))

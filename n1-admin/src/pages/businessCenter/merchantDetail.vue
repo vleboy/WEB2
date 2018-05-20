@@ -242,7 +242,7 @@
 </template>
 <script>
 import {
-  waterFall,
+  getWaterfall,
   oneMerchants,
   companySelect,
   gameBigType,
@@ -576,7 +576,7 @@ export default {
       this.userId = userId;
       this.edit = true;
       this.isedit = true;
-      let req1 = waterFall(userId);
+      let req1 = getWaterfall(userId);
       let req2 = oneMerchants(userId);
       let req3 = companySelect({ parent });
       let [waterfall, merchant, company] = await this.axios.all([

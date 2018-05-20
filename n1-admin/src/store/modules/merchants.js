@@ -1,4 +1,4 @@
-import { getMerchants,getManagers,getOtherBill,billTransfer } from '@/service/index'
+import { getMerchants,getManagers,getBill,billTransfer } from '@/service/index'
 import {Message} from 'iview'
 export const merchants = {
     state:{
@@ -37,7 +37,7 @@ export const merchants = {
          })
        },
        otherBill({commit},id){
-        getOtherBill(id).then(res=>{
+        getBill(id).then(res=>{
             commit('updateBill',{params:res.payload.balance})
         })
        },

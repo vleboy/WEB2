@@ -120,7 +120,7 @@ import {
   companySelect,
   checkExit,
   gameBigType,
-  getOtherBill
+  getBill
 } from "@/service/index";
 import _ from "lodash";
 export default {
@@ -361,7 +361,7 @@ export default {
           }
         });
         let ids = id == "01" ? userId : id;
-        getOtherBill(ids).then(res => {
+        getBill(ids).then(res => {
           if (res.code == 0) {
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });

@@ -209,7 +209,7 @@ import {
   companySelect,
   checkExit,
   gameBigType,
-  getOtherBill,
+  getBill,
   msnRandom,
   checkMsn
 } from "@/service/index";
@@ -525,7 +525,7 @@ export default {
           }
         });
         let ids = id == "01" ? userId : id;
-        getOtherBill(ids).then(res => {
+        getBill(ids).then(res => {
           if (res.code == 0) {
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });

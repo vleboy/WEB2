@@ -149,7 +149,7 @@
 </template>
 <script>
 import {
-  waterFall,
+  getWaterfall,
   oneManagers,
   companySelect,
   childList,
@@ -767,7 +767,7 @@ export default {
       this.userId = userId;
       this.edit = true;
       this.isedit = true;
-      let req1 = waterFall(userId);
+      let req1 = getWaterfall(userId);
       let req2 = oneManagers(userId);
       let req3 = companySelect({ parent });
       let req4 = childList(userId, "10"); //线路商
