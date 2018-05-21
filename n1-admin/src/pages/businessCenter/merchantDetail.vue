@@ -232,13 +232,12 @@
           <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
         </div>
       </Panel>
-      <Panel name="3">
-        财务信息
-        <div slot="content">
-          <Table :columns="columns" :data="waterfall" size="small"></Table>
-        </div>
-      </Panel>
     </Collapse>
+    <div class="finance">
+      <h2>财务信息</h2>
+      <Table :columns="columns" :data="showData" size="small"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+    </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -271,12 +270,14 @@ export default {
     };
     return {
       parent: "",
-      value: "3",
+      value: "",
       dayjs: dayjs,
       edit: true, //可编辑
       isedit: true,
       spinShow: false,
       defaultBrower: false,
+      pageSize: 100,
+      showData: [], //分页显示的data
       gameDetail: [],
       gameValidate: {
         balance: [
@@ -341,7 +342,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      let index=params.row._index;
+                      let index = params.row._index;
                       this.gameDetail.splice(index, 1);
                     }
                   }
@@ -461,11 +462,16 @@ export default {
       }
     }
   },
+  computed: {
+    total() {
+      return this.waterfall.length;
+    }
+  },
   methods: {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["1", "2", "3"];
+      this.value = ["1", "2"];
       this.basic.username = this.merchantDetail.uname;
       this.basic.password = this.merchantDetail.password;
       this.basic.remark = this.merchantDetail.remark;
@@ -474,6 +480,21 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
+    },
+    handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < this.pageSize) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, this.pageSize);
+      }
+    },
+    changepage(index) {
+      let size = this.pageSize;
+      let _start = (index - 1) * size;
+      let _end = index * size;
+      this.showData = this.waterfall.slice(_start, _end);
+      // console.log(this.showData);
     },
     save() {
       let username = this.basic.username;
@@ -540,7 +561,7 @@ export default {
       this.selected = true;
       this.game = value;
     },
-     reload() {
+    reload() {
       this.init();
     },
     addGame() {
@@ -604,6 +625,7 @@ export default {
       if (company && company.code == 0) {
         this.gameType = company.payload;
       }
+      this.handlePage();
     }
   }
 };
@@ -626,11 +648,18 @@ export default {
   .logo {
     width: 200px;
   }
+  .page {
+    text-align: right;
+    margin-top: 20px;
+  }
   .add,
   .create {
     color: #20a0ff;
     margin-left: 15px;
     cursor: pointer;
+  }
+  .finance {
+    margin-top: 15px;
   }
 }
 </style>

@@ -131,13 +131,12 @@
           <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
         </div>
       </Panel>
-      <Panel name="3">
-        财务信息
-        <div slot="content">
-          <Table :columns="columns" :data="waterfall" size="small"></Table>
-        </div>
-      </Panel>
     </Collapse>
+    <div class="finance">
+      <h2>财务信息</h2>
+      <Table :columns="columns" :data="showData" size="small"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+    </div>
     <div class="next">
       <h2>下级线路商列表</h2>
       <Table :columns="columns2" :data="nextLine" size="small"></Table>
@@ -227,6 +226,8 @@ export default {
       edit: true, //可编辑
       game: "",
       role: "",
+      pageSize:100,//分页
+      showData: [], //分页显示的data
       isedit: true,
       spinShow: false,
       defaultBrower: false,
@@ -692,7 +693,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      let index=params.row._index;
+                      let index = params.row._index;
                       this.gameDetail.splice(index, 1);
                     }
                   }
@@ -804,6 +805,11 @@ export default {
   created() {
     this.init();
   },
+   computed: {
+    total() {
+      return this.waterfall.length;
+    }
+  },
   watch: {
     $route(to, from) {
       if (to.name == "lineDetail") {
@@ -812,6 +818,21 @@ export default {
     }
   },
   methods: {
+     handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < this.pageSize) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, this.pageSize);
+      }
+    },
+    changepage(index) {
+      let size = this.pageSize;
+      let _start = (index - 1) * size;
+      let _end = index * size;
+      this.showData = this.waterfall.slice(_start, _end);
+      // console.log(this.showData);
+    },
     editBtn() {
       this.edit = false;
       this.isedit = false;
@@ -1008,6 +1029,7 @@ export default {
       if (ownBusiness && ownBusiness.code == 0) {
         this.ownedbusiness = ownBusiness.payload;
       }
+      this.handlePage();
     }
   }
 };
@@ -1021,6 +1043,9 @@ export default {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
+  }
+  .finance {
+    margin-top: 15px;
   }
   .edit {
     float: right;
@@ -1049,6 +1074,9 @@ export default {
   height: 36px;
   line-height: 36px;
   margin-bottom: 22px;
+}
+.page{
+  text-align: right;
 }
 #textRow {
   display: block;

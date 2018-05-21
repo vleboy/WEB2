@@ -7,10 +7,10 @@
       <table cellspacing="0">
         <tr>
           <td>
-            <span>管理员账号 : {{adminInfo.username | getName}}</span>
+            <span>管理员账号 : {{admin.username | getName}}</span>
           </td>
           <td>
-            <span>管理员密码 : {{adminInfo.password}}
+            <span>管理员密码 : {{admin.password}}
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
             </span>
           </td>
@@ -20,20 +20,20 @@
         </tr>
         <tr>
           <td>
-            <span>管理员角色 : {{ adminInfo.subRole }}</span>
+            <span>管理员角色 : {{ admin.subRole }}</span>
           </td>
           <td>
-            <span>上次登录时间 : {{dayjs(adminInfo.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            <span>上次登录时间 : {{dayjs(admin.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
-            <span>上次登录IP : {{adminInfo.lastIP}}</span>
+            <span>上次登录IP : {{admin.lastIP}}</span>
           </td>
         </tr>
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="waterfall" size="small"></Table>
-      <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
+      <Table :columns="columns1" :data="showData" size="small"></Table>
+      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
       <p class="modal_input">
@@ -61,7 +61,8 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import {thousandFormatter} from '@/config/format'
+import { getBill, getWaterfall, getAdminInfo } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -69,6 +70,11 @@ export default {
       password: "",
       repassword: "",
       dayjs: dayjs,
+      pageSize: 100,
+      balance:'',
+      admin:{},
+      waterfall:[],
+      showData: [],
       columns1: [
         {
           title: "序号",
@@ -78,8 +84,8 @@ export default {
         {
           title: "交易前余额",
           key: "oldBalance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.oldBalance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
           }
         },
         {
@@ -131,8 +137,8 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -173,33 +179,26 @@ export default {
     };
   },
   computed: {
-    // total() {
-    //   return this.waterfall.length;
-    // },
-    adminInfo() {
-      return this.$store.state.login.admininfo;
+    total() {
+      return this.waterfall.length;
     },
-    balance() {
-      return this.$store.state.login.balance;
-    },
-    waterfall() {
-      return this.$store.state.login.waterfall;
-    }
   },
   methods: {
-    // handlePage() {
-    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-    //   if (this.total < 100) {
-    //     this.showData = this.waterfall;
-    //   } else {
-    //     this.showData = this.waterfall.slice(0, 100);
-    //   }
-    // },
-    // changepage(index) {
-    //   var _start = (index - 1) * 100;
-    //   var _end = index * 100;
-    //   this.showData = this.waterfall.slice(_start, _end);
-    // },
+    handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < this.pageSize) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, this.pageSize);
+      }
+    },
+    changepage(index) {
+      let size = this.pageSize;
+      let _start = (index - 1) * size;
+      let _end = index * size;
+      this.showData = this.waterfall.slice(_start, _end);
+      // console.log(this.showData);
+    },
     newPassword() {
       this.modal = true;
     },
@@ -271,8 +270,27 @@ export default {
       }
     },
     reset() {
+      this.init()
+    },
+    async init() {
       this.$store.commit("updateLoading", { params: true });
-      this.$store.dispatch("adminInfo");
+      let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
+      let req1=getBill(userId);
+      let req2=getWaterfall(userId);
+      let req3=getAdminInfo();
+      let [bill,waterfall,admin]=await this.axios.all([req1,req2,req3])
+      this.$store.commit("updateLoading", { params: false });
+      if(bill&&bill.code==0){
+        this.balance=bill.payload.balance
+      }
+      if(waterfall&&waterfall.code==0){
+        this.waterfall=waterfall.payload
+      }
+      if(admin&&admin.code==0){
+        this.admin=admin.payload
+      }
+      this.handlePage();
+      
     }
   },
   filters: {
@@ -283,8 +301,8 @@ export default {
     }
   },
   created() {
-    this.$store.commit("updateLoading", { params: true });
-    this.$store.dispatch("adminInfo");
+    this.init()
+    this.handlePage();
   }
 };
 </script>
@@ -315,7 +333,7 @@ export default {
   .page {
     text-align: right;
   }
-  .reload{
+  .reload {
     text-align: right;
   }
 }
@@ -324,6 +342,10 @@ export default {
 }
 .label {
   line-height: 32px;
+}
+.page {
+  text-align: right;
+  margin-top: 20px;
 }
 </style>
 
