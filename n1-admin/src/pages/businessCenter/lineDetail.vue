@@ -1,11 +1,16 @@
 <template>
   <div class="lineDetail">
-    <p class="userName">{{$route.query.displayName}} ({{$route.query.username }})</p>
+    <div class="userName">
+      <span>{{$route.query.displayName}} ({{$route.query.username }})</span>
+      <span class="btns">
+        <Button type="primary" class="edit" @click="reload">刷新</Button>
+        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
+        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+      </span>
+    </div>
     <Collapse v-model="value">
       <Panel name="1">
         基本信息
-        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
-        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
         <div slot="content">
           <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
             <Row>
@@ -796,13 +801,11 @@ export default {
     };
   },
   created() {
-    this.spinShow = true;
     this.init();
   },
   watch: {
     $route(to, from) {
       if (to.name == "lineDetail") {
-        this.spinShow = true;
         this.init();
       }
     }
@@ -821,6 +824,9 @@ export default {
       if (id != "") {
         this.$store.dispatch("otherBill", id);
       }
+    },
+    reload() {
+      this.init();
     },
     ok() {
       if (this.plus == true) {
@@ -965,6 +971,7 @@ export default {
       this.basic.password = pw;
     },
     async init() {
+      this.spinShow = true;
       let userId = this.$route.query.userId;
       let parent = this.$route.query.parent;
       this.parent = parent;

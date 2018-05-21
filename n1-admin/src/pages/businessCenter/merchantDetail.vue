@@ -1,11 +1,16 @@
 <template>
   <div class="merchantDetail">
-    <p class="userName">{{$route.query.displayName}} ({{$route.query.username }})</p>
+    <div class="userName">
+      <span>{{$route.query.displayName}} ({{$route.query.username }})</span>
+      <span class="btns">
+        <Button type="primary" class="edit" @click="reload">刷新</Button>
+        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
+        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+      </span>
+    </div>
     <Collapse v-model="value">
       <Panel name="1">
         基本信息 所属线路商: {{$route.query.parentDisplayName}}
-        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
-        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
         <div slot="content">
           <Form :model="basic" label-position="left" :label-width="100">
             <Row>
@@ -533,6 +538,9 @@ export default {
     selectGame(value) {
       this.selected = true;
       this.game = value;
+    },
+     reload() {
+      this.init();
     },
     addGame() {
       let gamelist = this.gameList;
