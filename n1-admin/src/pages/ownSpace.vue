@@ -1,5 +1,8 @@
 <template>
   <div class="personalcenter">
+    <div class="reload">
+      <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+    </div>
     <div class="manangeinfo">
       <table cellspacing="0">
         <tr>
@@ -29,7 +32,7 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="waterfall" size="small" ></Table>
+      <Table :columns="columns1" :data="waterfall" size="small"></Table>
       <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
@@ -259,6 +262,10 @@ export default {
         }
         return modes;
       }
+    },
+    reset() {
+      this.$store.commit("updateLoading", { params: true });
+      this.$store.dispatch("adminInfo");
     }
   },
   filters: {
@@ -299,6 +306,9 @@ export default {
     }
   }
   .page {
+    text-align: right;
+  }
+  .reload{
     text-align: right;
   }
 }
