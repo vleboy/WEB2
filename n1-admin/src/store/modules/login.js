@@ -59,27 +59,27 @@ export const login = {
                 }
             })
         },
-        adminInfo({ commit }) {
-            let userId = localStorage.loginId?localStorage.getItem("loginId"):''
-            let p1 = getAdminInfo().then(res => {
-                if (res.code == 0) {
-                    commit('updateAdmin', { params: res.payload })
-                }
-            })
-            let p2 = getWaterfall(userId).then(res => {
-                if (res.code == 0) {
-                    commit('saveWaterfall', { params: res.payload })
-                }
-            });
-            let p3 = getBill(userId).then(res => {
-                if (res.code == 0) {
-                    commit('updateBill', { params: res.payload.balance })
-                }
-            });
-            Promise.all([p1, p2, p3]).then(() => {
-                commit('updateLoading', { params: false });
-            })
-        },
+        // adminInfo({ commit }) {
+        //     let userId = localStorage.loginId?localStorage.getItem("loginId"):''
+        //     let p1 = getAdminInfo().then(res => {
+        //         if (res.code == 0) {
+        //             commit('updateAdmin', { params: res.payload })
+        //         }
+        //     })
+        //     let p2 = getWaterfall(userId).then(res => {
+        //         if (res.code == 0) {
+        //             commit('saveWaterfall', { params: res.payload })
+        //         }
+        //     });
+        //     let p3 = getBill(userId).then(res => {
+        //         if (res.code == 0) {
+        //             commit('updateBill', { params: res.payload.balance })
+        //         }
+        //     });
+        //     Promise.all([p1, p2, p3]).then(() => {
+        //         commit('updateLoading', { params: false });
+        //     })
+        // },
         changePassword({ commit }, params) {
             updatePassword(params).then(res => {
                 if (res.code == 0) {
