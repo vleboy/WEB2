@@ -2,7 +2,7 @@
   <div class="lineNumList">
     <div class="search">
       <Row class="row">
-        <Col span="3" offset="9">
+        <Col span="4" offset="8">
         <Input v-model="msn" placeholder="请输入需要查询的线路号"></Input>
         </Col>
         <Col span="4">

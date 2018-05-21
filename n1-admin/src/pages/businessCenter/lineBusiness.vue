@@ -581,7 +581,5 @@ export default {
   padding: 30px 20px;
   font-size: 14px;
 }
-.ivu-modal-footer {
-  text-align: center;
-}
+
 </style>
