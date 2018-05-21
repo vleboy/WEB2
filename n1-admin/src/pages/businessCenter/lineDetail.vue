@@ -221,6 +221,7 @@ export default {
       dayjs: dayjs,
       edit: true, //可编辑
       game: "",
+      role: "",
       isedit: true,
       spinShow: false,
       defaultBrower: false,
@@ -358,6 +359,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.role = "10";
                       this.plus = true;
                       this.modal = true;
                       this.disabled = true;
@@ -393,6 +395,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.role = "10";
                       this.plus = false;
                       this.modal = true;
                       this.disabled = true;
@@ -409,7 +412,7 @@ export default {
                         let another = {
                           value: params.row.parent,
                           label: "【线路商】" + params.row.parentDisplayName,
-                          role: params.row.role,
+                          role: params.row.parentRole,
                           userName: params.row.parentName
                         };
                         option.push(another);
@@ -553,6 +556,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.role = "100";
                       this.plus = true;
                       this.modal = true;
                       this.disabled = true;
@@ -571,7 +575,7 @@ export default {
                         option.push(another);
                       }
                       this.options = option;
-                      this.toRole = "10";
+                      this.toRole = "100";
                       this.toUser = params.row.username;
                     }
                   }
@@ -588,6 +592,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.role = "100";
                       this.plus = false;
                       this.modal = true;
                       this.disabled = true;
@@ -604,7 +609,7 @@ export default {
                         let another = {
                           value: params.row.parent,
                           label: "【线路商】" + params.row.parentDisplayName,
-                          role: params.row.role,
+                          role: params.row.parentRole,
                           userName: params.row.parentName
                         };
                         option.push(another);
@@ -832,17 +837,30 @@ export default {
       }
       // console.log(this.toRole, this.select);
       this.$store
-        .dispatch("transferBill", {
+        .dispatch("detailBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,
           toUser: this.toUser,
           amount: this.point,
           remark: this.note
         })
-        .then(() => {
-          this.select = "";
-          this.note = "";
-          this.point = "";
+        .then(res => {
+          if (res.code == 0) {
+            this.$Message.success("操作成功");
+            this.select = "";
+            this.note = "";
+            this.point = "";
+            let userId = this.$route.query.userId;
+            if (this.role == "10") {
+              childList(userId, "10").then(res => {
+                this.nextLine = res.payload;
+              });
+            } else {
+              childList(userId, "100").then(res => {
+                this.ownedbusiness = res.payload;
+              });
+            }
+          }
         });
     },
     cancel() {

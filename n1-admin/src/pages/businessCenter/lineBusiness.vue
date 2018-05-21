@@ -185,7 +185,7 @@ export default {
                           let another = {
                             value: params.row.parent,
                             label: "【线路商】" + params.row.parentDisplayName,
-                            role: params.row.role,
+                            role: params.row.parentRole,
                             userName: params.row.parentName
                           };
                           option.push(another);

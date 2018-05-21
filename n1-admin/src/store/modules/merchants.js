@@ -41,6 +41,9 @@ export const merchants = {
             commit('updateBill',{params:res.payload.balance})
         })
        },
+       detailBill({dispatch,commit},params){
+           return billTransfer(params)
+       },
        transferBill({dispatch,commit},params){
         billTransfer(params).then(res=>{
             if(res.code==0){
