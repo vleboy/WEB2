@@ -2,10 +2,8 @@
   <div class="debugLog">
     <div class="option">
       <Row class="row">
-        <Col span="4">
-        </Col>
-        <Col span="5" offset='15'>
-        <Select style="width:200px" @on-change='changeRole' v-model="role">
+        <Col span="4" offset='20'>
+        <Select style="width:200px;float:right" @on-change='changeRole' v-model="role">
           <Option v-for="item in selectOption" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         </Col>
@@ -44,6 +42,14 @@ export default {
         {
           value: "2",
           label: "账号结果异常"
+        },
+        {
+          value: "7",
+          label: "控分停用"
+        },
+         {
+          value: "8",
+          label: "变更拥有游戏"
         }
       ],
       columns1: [
@@ -155,6 +161,9 @@ export default {
     .nextpage {
       margin: 20px;
     }
+  }
+  .option{
+    margin: 20px auto;
   }
 }
 </style>

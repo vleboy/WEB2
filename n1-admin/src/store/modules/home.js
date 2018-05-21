@@ -4,13 +4,14 @@ import {gameSign} from '@/service/index'
 export const home={
     state:{
         pageOpenedList: [],
-        // openedSubmenuArr: [], // 要展开的菜单数组
+        openedSubmenuArr: [], // 要展开的菜单数组
         currentPageName: '',
         cachePage: [],
         tagsList: [...otherRouter.children],
         dontCache: ['lineDetail','merchantDetail','addMerchant'], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
     },
     mutations:{
+        //openName
         addOpenSubmenu (state, name) {
             let hasThisName = false;
             let isEmpty = false;

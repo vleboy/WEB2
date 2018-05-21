@@ -76,9 +76,10 @@ export default {
         content: "<p>是否确认退出</p>",
         onOk: () => {
           localStorage.clear();
+          this.$store.commit("clearOpenedSubmenu");
           let host = location.href;
           host = host.split("#")[0];
-          window.location.href = host //+ "#/login";
+          window.location.href = host; //+ "#/login";
         }
       });
       // if (name === "ownSpace") {
