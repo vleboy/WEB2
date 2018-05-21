@@ -36,7 +36,7 @@
 import sidebar from "@/components/sidebar";
 import tagClose from "@/components/tags-close.vue";
 import util from "@/libs/util.js";
-
+import {menuOpen} from '@/config/menuOpen'
 export default {
   data() {
     return {
@@ -102,32 +102,8 @@ export default {
       let name = to.name;
       this.$store.commit("setCurrentPageName", name);
       this.checkTag(name);
+      this.openName=menuOpen(name);
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
-      if (name == "nacard" || "nastreet" || "natrue" || "navideo" || "naAll") {
-        this.openName = ["report", "ugreport"];
-      } else if (name == "ttgvideo") {
-        this.openName = ["report", "ttgreport"];
-      } else if (name == "saAll" || "safishing" || "satrue") {
-        this.openName = ["report", "sareport"];
-      } else if (name == "mgvideo") {
-        this.openName = ["report", "mgreport"];
-      } else if (name == "agtrue") {
-        this.openName = ["report", "agreport"];
-      } else if (name == "ugsport") {
-        this.openName = ["report", "ugreport"];
-      } else if (name == "allreport") {
-        this.openName = ["report"];
-      } else if (name == "businessList" || "lineBusiness") {
-        this.openName = ["businessCenter"];
-      } else if (name == "ownspace-index") {
-        this.openName = [];
-      } else if (name == "adminList" || "lineNumList" || "adminRole") {
-        this.openName = ["adminCenter"];
-      } else if (name == "lineLoginLog" ||"merchantLog" ||"adminLog" ||"debugLog" ) {
-        this.openName = ["logCenter"];
-      } else if (name == "playList") {
-        this.openName = ["playerCenter"];
-      }
     }
   }
 };
