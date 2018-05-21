@@ -1024,7 +1024,6 @@ export default {
   .edit {
     float: right;
     margin-right: 20px;
-    height: 38px;
   }
   .logo {
     width: 200px;
