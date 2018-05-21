@@ -252,7 +252,8 @@ export default {
                   cursor: "pointer"
                 },
                 on: {
-                  click: index => {
+                  click: () => {
+                    let index = params.row._index;
                     this.gameDetail.splice(index, 1);
                   }
                 }
@@ -393,7 +394,7 @@ export default {
         }
       }
       gameItem.rate = this.detail.balance;
-      if(gameItem.rate){
+      if (gameItem.rate) {
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
       }
@@ -421,9 +422,9 @@ export default {
         if (valid) {
           this.$refs["adminform"].validate(valid => {
             if (valid) {
-              if(_.isEmpty(this.gameDetail)){
+              if (_.isEmpty(this.gameDetail)) {
                 this.$Message.error("尚未选择游戏");
-                return 
+                return;
               }
               this.$store.commit("updateLoading", { params: true });
               this.$store

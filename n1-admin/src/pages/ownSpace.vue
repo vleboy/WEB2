@@ -61,6 +61,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
+import {thousandFormatter} from '@/config/format'
 export default {
   data() {
     return {
@@ -76,7 +77,10 @@ export default {
         },
         {
           title: "交易前余额",
-          key: "oldBalance"
+          key: "oldBalance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.oldBalance))
+          }
         },
         {
           title: "交易点数",
@@ -126,7 +130,10 @@ export default {
         },
         {
           title: "交易后余额",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "操作人",

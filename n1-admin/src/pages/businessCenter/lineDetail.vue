@@ -691,7 +691,8 @@ export default {
                     cursor: "pointer"
                   },
                   on: {
-                    click: index => {
+                    click: () => {
+                      let index=params.row._index;
                       this.gameDetail.splice(index, 1);
                     }
                   }

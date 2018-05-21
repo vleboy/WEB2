@@ -381,7 +381,8 @@ export default {
                   cursor: "pointer"
                 },
                 on: {
-                  click: index => {
+                  click: () => {
+                    let index = params.row._index;
                     this.gameDetail.splice(index, 1);
                   }
                 }
@@ -557,7 +558,7 @@ export default {
         }
       }
       gameItem.rate = this.detail.balance;
-      if(gameItem.rate){
+      if (gameItem.rate) {
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
       }
