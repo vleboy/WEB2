@@ -145,6 +145,48 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
+    <Modal v-model="modal" @on-ok="ok" id="plusModal" @on-cancel='cancel'>
+      <h2 v-if='plus'>加点操作</h2>
+      <h2 v-else>减点操作</h2>
+      <Row class-name='modalrow'>
+        <Col span="4" v-if='plus'>增加点数</Col>
+        <Col span="4" v-else>减少点数</Col>
+        <Col span="16">
+        <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
+          <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
+        </Tooltip>
+        </Col>
+      </Row>
+      <Row class-name='modalrow'>
+        <Col span="4">起始账户</Col>
+        <Col span="16">
+        <Select v-model="select" v-if='plus' @on-change='changeOption'>
+          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <p v-else>【线路商】{{uname}}</p>
+        </Col>
+      </Row>
+      <Row v-if="plus" class-name='modalrow'>
+        <Col span="4">增加账户</Col>
+        <Col span="16">
+        <p>【线路商】{{uname}}</p>
+        </Col>
+      </Row>
+      <Row v-else class-name='modalrow'>
+        <Col span="4">转入账户</Col>
+        <Col span="16">
+        <Select v-model="select" @on-change='changeOption'>
+          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        </Col>
+      </Row>
+      <Row class-name='textrow'>
+        <Col span="4">备注</Col>
+        <Col span="16">
+        <textarea v-model="note" id="textRow" placeholder="注明备注,如没有可不填" rows="6" autocomplete="off" maxlength="180"></textarea>
+        </Col>
+      </Row>
+    </Modal>
   </div>
 </template>
 <script>
@@ -155,7 +197,7 @@ import {
   childList,
   gameBigType,
   updateManagers,
-  userChangeStatus 
+  userChangeStatus
 } from "@/service/index";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -184,6 +226,18 @@ export default {
       defaultBrower: false,
       gameDetail: [],
       selected: false,
+      modal: false, //加减点modal
+      plus: true,
+      uname: "",
+      disabled: true,
+      tooltip: "起始账户余额为",
+      point: "",
+      select: "",
+      options: [],
+      note: "",
+      fromUserId: "",
+      toRole: " ",
+      toUser: "",
       gameForm: {
         gameType: "",
         gamelist: "",
@@ -275,6 +329,10 @@ export default {
           title: "操作(对旗下线路商操作)",
           key: "",
           render: (h, params) => {
+            let admininfo = JSON.parse(localStorage.getItem("userInfo"));
+            let admin = admininfo.username.substr(9);
+            let adminId = admininfo.userId;
+            let userName = admininfo.username;
             let userId = this.$route.query.userId;
             let text = "";
             let status = null;
@@ -300,7 +358,26 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      this.plus = true;
+                      this.modal = true;
+                      this.disabled = true;
+                      this.uname = params.row.uname;
+                      let option = [
+                        {
+                          value: adminId,
+                          label: "【管理员】" + admin
+                        }
+                      ];
+                      if (params.row.parent != "01") {
+                        let another = {
+                          value: params.row.parent,
+                          label: "【线路商】" + params.row.parentDisplayName
+                        };
+                        option.push(another);
+                      }
+                      this.options = option;
+                      this.toRole = "10";
+                      this.toUser = params.row.username;
                     }
                   }
                 },
@@ -316,7 +393,29 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(2);
+                      this.plus = false;
+                      this.modal = true;
+                      this.disabled = true;
+                      this.uname = params.row.uname;
+                      let option = [
+                        {
+                          value: adminId,
+                          label: "【管理员】" + admin,
+                          role: "1",
+                          userName: userName
+                        }
+                      ];
+                      if (params.row.parent != "01") {
+                        let another = {
+                          value: params.row.parent,
+                          label: "【线路商】" + params.row.parentDisplayName,
+                          role: params.row.role,
+                          userName: params.row.parentName
+                        };
+                        option.push(another);
+                      }
+                      this.options = option;
+                      this.fromUserId = params.row.userId;
                     }
                   }
                 },
@@ -425,6 +524,10 @@ export default {
           title: "操作(对旗下商户操作)",
           key: "",
           render: (h, params) => {
+            let admininfo = JSON.parse(localStorage.getItem("userInfo"));
+            let admin = admininfo.username.substr(9);
+            let adminId = admininfo.userId;
+            let userName = admininfo.username;
             let userId = this.$route.query.userId;
             let text = "";
             let status = null;
@@ -450,7 +553,26 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      this.plus = true;
+                      this.modal = true;
+                      this.disabled = true;
+                      this.uname = params.row.uname;
+                      let option = [
+                        {
+                          value: adminId,
+                          label: "【管理员】" + admin
+                        }
+                      ];
+                      if (params.row.parent != "01") {
+                        let another = {
+                          value: params.row.parent,
+                          label: "【线路商】" + params.row.parentDisplayName
+                        };
+                        option.push(another);
+                      }
+                      this.options = option;
+                      this.toRole = "10";
+                      this.toUser = params.row.username;
                     }
                   }
                 },
@@ -466,7 +588,29 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(2);
+                      this.plus = false;
+                      this.modal = true;
+                      this.disabled = true;
+                      this.uname = params.row.uname;
+                      let option = [
+                        {
+                          value: adminId,
+                          label: "【管理员】" + admin,
+                          role: "1",
+                          userName: userName
+                        }
+                      ];
+                      if (params.row.parent != "01") {
+                        let another = {
+                          value: params.row.parent,
+                          label: "【线路商】" + params.row.parentDisplayName,
+                          role: params.row.role,
+                          userName: params.row.parentName
+                        };
+                        option.push(another);
+                      }
+                      this.options = option;
+                      this.fromUserId = params.row.userId;
                     }
                   }
                 },
@@ -667,6 +811,48 @@ export default {
       this.basic.password = this.lineDetail.password;
       this.basic.remark = this.lineDetail.remark;
     },
+    changeOption(id) {
+      this.disabled = false;
+      if (id != "") {
+        this.$store.dispatch("otherBill", id);
+      }
+    },
+    ok() {
+      if (this.plus == true) {
+        this.fromUserId = this.select;
+      } else {
+        let selectId = this.select;
+        let option = this.options;
+        for (let key in option) {
+          if (option[key].value == selectId) {
+            this.toRole = option[key].role;
+            this.toUser = option[key].userName;
+          }
+        }
+      }
+      // console.log(this.toRole, this.select);
+      this.$store
+        .dispatch("transferBill", {
+          fromUserId: this.fromUserId,
+          toRole: this.toRole,
+          toUser: this.toUser,
+          amount: this.point,
+          remark: this.note
+        })
+        .then(() => {
+          this.select = "";
+          this.note = "";
+          this.point = "";
+        });
+    },
+    cancel() {
+      this.select = "";
+      this.note = "";
+      this.point = "";
+    },
+    focus() {
+      this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
+    },
     save() {
       let username = this.basic.username;
       if (username == "") {
@@ -828,6 +1014,27 @@ export default {
     margin-left: 15px;
     cursor: pointer;
   }
+}
+#plusModal {
+  h2 {
+    margin-bottom: 22px;
+  }
+}
+.modalrow {
+  height: 36px;
+  line-height: 36px;
+  margin-bottom: 22px;
+}
+#textRow {
+  display: block;
+  resize: vertical;
+  padding: 5px 7px;
+  line-height: 1.5;
+  width: 100%;
+  color: #1f2d3d;
+  border: 1px solid #bfcbd9;
+  border-radius: 4px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 </style>
 
