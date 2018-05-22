@@ -120,6 +120,15 @@ export const appRouter = [
             {path:'adminOpreate',title:'管理员操作日志',name:'adminOpreateLog',component:()=>import('@/pages/logCenter/adminOpreateLog.vue')},
         ]
     },
+    {
+        path:'/admin',
+        title:'管理中心',
+        name:'admin',
+        component:main,
+        children:[
+            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminCenter/adminList.vue')},
+        ]
+    },
  
 
 ]

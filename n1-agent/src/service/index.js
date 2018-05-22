@@ -116,3 +116,15 @@ export async function userChangeStatus(params){
 export async function logList(params){
     return http(post('/logList',params))
 }
+//agentAdminList
+export async function agentAdminList(params){
+    return http(post('/agentAdminList',params))
+}
+//agent 添加admin
+export async function agentAdminNew(params){
+    return http(post('/agentAdminNew',params))
+}
+//验证存在
+export async function checkExit(params){
+    return http(post('/checkExist',params))
+}

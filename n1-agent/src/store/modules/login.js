@@ -83,10 +83,11 @@ export const login = {
             })
         },
         changePassword({commit},params){
+         let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
             updatePassword(params).then(res=>{
                 if(res.code==0){
                     Message.success('修改成功');
-                    getAdminInfo().then(re=>{
+                    getAdminInfo(userId).then(re=>{
                         if(re.code==0){
                             commit('updateAdmin',{params:re.payload})
                         }

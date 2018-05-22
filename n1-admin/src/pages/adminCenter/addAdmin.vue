@@ -51,7 +51,7 @@ export default {
       if (value == "") {
         callback(new Error("密码不能为空"));
       } else {
-        let testReg = /^[a-zA-Z0-9_-]{6,16}$/;
+        let testReg = /^[a-zA-Z0-9@_#$%^&*!~-]{6,16}$/;
         if (!testReg.test(value)) {
           callback(new Error("6~16位,包含字母、数字及符号"));
         } else {

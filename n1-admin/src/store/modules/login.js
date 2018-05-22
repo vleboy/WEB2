@@ -1,4 +1,4 @@
-import { logIn, getAdminInfo, getWaterfall, getBill, updatePassword } from '@/service/index'
+import { logIn, getAdminInfo } from '@/service/index'
 import { Message } from 'iview'
 export const login = {
     state: {
@@ -81,10 +81,11 @@ export const login = {
         //     })
         // },
         changePassword({ commit }, params) {
+            let userId = localStorage.loginId?localStorage.getItem("loginId"):''
             updatePassword(params).then(res => {
                 if (res.code == 0) {
                     Message.success('修改成功');
-                    getAdminInfo().then(re => {
+                    getAdminInfo(userId).then(re => {
                         if (re.code == 0) {
                             commit('updateAdmin', { params: re.payload })
                         }
