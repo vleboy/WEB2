@@ -54,6 +54,14 @@
                     <MenuItem name="agentList">代理列表</MenuItem>
                     <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
+                  <Submenu name="logCenter">
+                    <template slot="title">
+                        日志中心
+                    </template>
+                    <MenuItem name="adminLoginLog">管理员登录日志</MenuItem>
+                    <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
+                    <MenuItem name="adminOpreateLog">管理员操作日志</MenuItem>
+                </Submenu>
                 <!--
                 <Submenu name="9">
                     <template slot="title">

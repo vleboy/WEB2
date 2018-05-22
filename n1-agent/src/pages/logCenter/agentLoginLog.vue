@@ -2,12 +2,12 @@
   <div class="merchantLog">
     <div class="search">
       <Row class="row">
-        <Col span='2' offset='4'> 商户昵称:
+        <Col span='2' offset='4'> 代理昵称:
         </Col>
         <Col span="4">
         <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
-        <Col span='2'> 商户账号:
+        <Col span='2'> 代理账号:
         </Col>
         <Col span="4">
         <Input v-model="username" placeholder="请输入"></Input>
@@ -21,13 +21,13 @@
       </Row>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="merchantLog" size="small" ></Table>
+      <Table :columns="columns1" :data="agentLoginLog" size="small" ></Table>
     </div>
     <div class="btn">
       <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
       <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
     </div>
-    <Spin size="large" fix v-if="$store.state.admin.loading">
+    <Spin size="large" fix v-if="$store.state.log.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
@@ -50,11 +50,11 @@ export default {
           maxWidth: 80
         },
         {
-          title: "商户昵称",
+          title: "代理昵称",
           key: "displayName"
         },
         {
-          title: "商户账号",
+          title: "代理账号",
           key: "username"
         },
         {
@@ -129,17 +129,17 @@ export default {
     };
   },
   computed: {
-    merchantLog() {
-      return this.$store.state.admin.merchantLog;
+    agentLoginLog() {
+      return this.$store.state.log.agentLoginLog;
     }
   },
   methods: {
     nextPage() {
-      let startKey = this.$store.state.admin.startKey;
-      this.$store.dispatch("getMerchantLog", {
-        role: "100",
+      let startKey = this.$store.state.log.startKey;
+      this.$store.dispatch("getAgentLoginLog", {
+        role: "1000",
         type: "login",
-        pageSize: 50,
+        pageSize: 100,
         startKey: startKey,
         level: -1,
         query: {}
@@ -161,20 +161,20 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-      this.$store.dispatch("getMerchantLog", {
+      this.$store.dispatch("getAgentLoginLog", {
         query,
-        role: "100",
+        role: "1000",
         type: "login",
-        pageSize: "50",
+        pageSize: 100,
         startKey: null,
         level: -1
       });
     },
     init() {
-      this.$store.dispatch("getMerchantLog", {
-        role: "100",
+      this.$store.dispatch("getAgentLoginLog", {
+        role: "1000",
         type: "login",
-        pageSize: "50",
+        pageSize: 100,
         startKey: null,
         level: -1,
         query: {}

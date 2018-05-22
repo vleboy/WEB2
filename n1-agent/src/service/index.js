@@ -112,3 +112,7 @@ export async function configOne(params){
 export async function userChangeStatus(params){
     return http(post('/userChangeStatus',params))
 }
+//日志列表
+export async function logList(params){
+    return http(post('/logList',params))
+}

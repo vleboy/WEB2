@@ -104,9 +104,21 @@ export const appRouter = [
         title:'代理列表',
         name:'agent',
         component:main,
-        children:[{path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentCenter/agentList.vue')},
-                  {path:'warn',title:'告警列表',name:'warnList',component:()=>import('@/pages/agentCenter/warnList.vue')}
-    ]
+        children:[
+            {path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentCenter/agentList.vue')},
+            {path:'warn',title:'告警列表',name:'warnList',component:()=>import('@/pages/agentCenter/warnList.vue')}
+        ]
+    },
+    {
+        path:'/log',
+        title:'日志中心',
+        name:'log',
+        component:main,
+        children:[
+            {path:'adminLogin',title:'管理员登录日志',name:'adminLoginLog',component:()=>import('@/pages/logCenter/adminLoginLog.vue')},
+            {path:'agentLogin',title:'代理登录日志',name:'agentLoginLog',component:()=>import('@/pages/logCenter/agentLoginLog.vue')},
+            {path:'adminOpreate',title:'管理员操作日志',name:'adminOpreateLog',component:()=>import('@/pages/logCenter/adminOpreateLog.vue')},
+        ]
     },
  
 
