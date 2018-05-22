@@ -189,6 +189,7 @@ export default {
                             userName: params.row.parentName
                           };
                           option.push(another);
+                          console.log(option);
                         }
                         this.options = option;
                         this.fromUserId = params.row.userId;
@@ -359,12 +360,14 @@ export default {
                       let userId = params.row.userId;
                       let displayName = params.row.displayName;
                       let username = params.row.username;
+                      let parent=params.row.parent;
                       this.$router.push({
                         path: "/lineDetail",
                         query: {
                           userId,
                           displayName,
-                          username
+                          username,
+                          parent
                         }
                       });
                     }

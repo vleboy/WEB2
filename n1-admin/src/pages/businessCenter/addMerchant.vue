@@ -98,8 +98,8 @@
               </Select>
               </Col>
               <Col span="10">
-              <Select v-model="detail.gamelist" placeholder="请选择" @on-change="selectGame">
-                <Option v-for="item in gameList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+              <Select v-model="detail.gamelist" placeholder="请选择" @on-change="selectGame" :label-in-value='true'>
+                <Option v-for="item in gameList" :value="item.code" :key="item.name">{{ item.name }}</Option>
               </Select>
               </Col>
             </Row>
@@ -107,8 +107,10 @@
           <FormItem v-if="selected" prop='balance'>
             <label for="" slot="label">{{game}}商家占成(%)</label>
             <Row>
-              <Col span="20">
-              <Input v-model="detail.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+              <Col span="10">
+              <Tooltip :content="tipContent">
+                <Input v-model="detail.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+              </Tooltip>
               </Col>
               <Col span="4">
               <span class="add" @click="addGame">添加</span>
@@ -116,7 +118,7 @@
             </Row>
           </FormItem>
           <Table :columns="columns" :data="gameDetail" class="table" size="small"></Table>
-          <FormItem label="商户API白名单">
+          <FormItem label="商户API白名单" prop='loginWhiteList'>
             <Row>
               <Col span="20">
               <Input v-model="detail.loginWhiteList" type="textarea" :rows="4" placeholder="请输入IP地址或IP范围,一行一个规则,每行以分号结尾,0.0.0.0为不限制任何IP"></Input>
@@ -211,7 +213,8 @@ import {
   gameBigType,
   getBill,
   msnRandom,
-  checkMsn
+  checkMsn,
+  oneManagers
 } from "@/service/index";
 import _ from "lodash";
 export default {
@@ -220,7 +223,7 @@ export default {
       if (value == "") {
         callback(new Error("昵称不能为空"));
       } else {
-        let nameReg = /^[u4e00-u9fa5a-zA-Z0-9]{2,10}$/;
+        let nameReg = /^[\u4E00-\u9FA5A-Za-z0-9]{2,10}$/;
         if (!nameReg.test(value)) {
           callback(new Error("2~10位,只能输入中英文及数字"));
         } else {
@@ -252,7 +255,7 @@ export default {
       } else {
         let testReg = /^[a-zA-Z][a-zA-Z0-9]{1,5}$/;
         if (!testReg.test(value)) {
-          callback(new Error("2~6位,只能输入中英文(字母开头)"));
+          callback(new Error("2~6位,只能输入英文数字(字母开头)"));
         } else {
           checkExit({
             suffix: { role: "100", suffix: value }
@@ -353,6 +356,9 @@ export default {
         points: null
       },
       selected: false,
+      tipContent: "上级游戏占成为:",
+      parentGameList: [], //parent rate
+      code: "",
       columns: [
         {
           title: "公司",
@@ -485,6 +491,11 @@ export default {
             validator: validateRate,
             trigger: "blur"
           }
+        ],
+        loginWhiteList: [
+          {
+            required: true
+          }
         ]
       }
     };
@@ -532,6 +543,13 @@ export default {
             this.$store.commit("updateLoading", { params: false });
           }
         });
+        if (id != "01") {
+          oneManagers(id).then(res => {
+            if (res.code == 0) {
+              this.parentGameList = res.payload.gameList;
+            }
+          });
+        }
       }
     },
     focus() {
@@ -544,20 +562,48 @@ export default {
         }
       });
     },
-    selectGame(value) {
+    selectGame(o) {
       this.selected = true;
-      this.game = value;
+      this.game = o.label;
+      this.code = o.value;
+      let parentGameList = this.parentGameList;
+      let maxRate = null;
+      if (parentGameList.length > 0) {
+        for (let item of parentGameList) {
+          if (item.code == o.value) {
+            maxRate = item.rate;
+            this.tipContent = `上级游戏占成为:${maxRate}`;
+          }
+        }
+      }
     },
     addGame() {
       let gamelist = this.gameList;
       let gameName = this.game;
       let gameItem = {};
+      let balance = this.detail.balance;
+      let parentGameList = this.parentGameList;
+      let maxRate = null;
+      if (parentGameList.length > 0) {
+        for (let item of parentGameList) {
+          if (item.code == this.code) {
+            maxRate = item.rate;
+          }
+        }
+      }
+      if (balance > maxRate && maxRate != null) {
+        this.$Message.warning({
+          content: `不能超过上级占成`,
+          duration: 2.5
+        });
+        return;
+      }
       for (let item of gamelist) {
         if (item.name == gameName) {
           gameItem = item;
         }
       }
-      gameItem.rate = this.detail.balance;
+      gameItem.rate = balance;
       if (gameItem.rate) {
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
@@ -655,6 +701,7 @@ export default {
   watch: {
     $route(to, from) {
       this.reset();
+      this.$store.dispatch("getSubrole");
     }
   }
 };
