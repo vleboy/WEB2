@@ -4,7 +4,7 @@
       <p class="title">
         当前代理
       </p>
-      <Table :columns="columns1" :data="userInfo" size="small" ></Table>
+      <Table :columns="columns1" :data="userInfo" size="small"></Table>
     </div>
     <div class="childList">
       <div class="top">
@@ -18,14 +18,14 @@
         </div>
       </div>
       <div class="table">
-        <Table :columns="columns1" :data="agentList" size="small" ></Table>
+        <Table :columns="columns1" :data="agentList" size="small"></Table>
       </div>
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级代理列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" ></Table>
+      <Table :columns="columns1" :data="item" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <div class="top">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="table">
-        <Table :columns="columns2" :data="playerList" size="small" ></Table>
+        <Table :columns="columns2" :data="playerList" size="small"></Table>
       </div>
     </div>
     <Spin size="large" fix v-if="$store.state.report.loading">
@@ -67,6 +67,7 @@
 <script>
 import dayjs from "dayjs";
 import _ from "lodash";
+import { userChangeStatus } from "@/service/index";
 export default {
   data() {
     return {
@@ -299,10 +300,30 @@ export default {
           title: "状态",
           key: "status",
           render: (h, params) => {
-            if (params.row.status == 1) {
-              return h("span", "正常");
+            if (params.row.parent == "00") {
+              return h("span", "");
             } else {
-              return h("span", "禁用");
+              if (params.row.status == 1) {
+                return h(
+                  "Tag",
+                  {
+                    props: {
+                      color: "green"
+                    }
+                  },
+                  "正常"
+                );
+              } else {
+                return h(
+                  "Tag",
+                  {
+                    props: {
+                      color: "red"
+                    }
+                  },
+                  "锁定"
+                );
+              }
             }
           }
         },
@@ -340,7 +361,187 @@ export default {
         },
         {
           title: "操作",
-          key: ""
+          key: "",
+          minWidth: 240,
+          render: (h, params) => {
+            if (params.row.parent == "00") {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer",
+                      marginRight: "10px"
+                    },
+                    on: {
+                      click: () => {
+                        console.log(1);
+                      }
+                    }
+                  },
+                  "创建代理"
+                ),
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer"
+                    },
+                    on: {
+                      click: () => {
+                        console.log(1);
+                      }
+                    }
+                  },
+                  "创建玩家"
+                )
+              ]);
+            } else {
+              let color = "";
+              let text = "";
+              let status = null;
+              if (params.row.status == 1) {
+                text = "锁定";
+                color = "#f30";
+                status = 0;
+                return h("div", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          console.log(1);
+                        }
+                      }
+                    },
+                    "查看"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: color,
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          this.$Modal.confirm({
+                            title: "提示!",
+                            content: `<p>是否${text}该代理</p>`,
+                            onOk: () => {
+                              userChangeStatus({
+                                role: "1000",
+                                status,
+                                userId: params.row.userId
+                              }).then(res => {
+                                if (res.code == 0) {
+                                  this.$Message.success(`${text}成功`);
+                                  this.init();
+                                }
+                              });
+                            }
+                          });
+                        }
+                      }
+                    },
+                    text
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          console.log(1);
+                        }
+                      }
+                    },
+                    "创建代理"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          console.log(1);
+                        }
+                      }
+                    },
+                    "创建玩家"
+                  )
+                ]);
+              } else {
+                text = "解锁";
+                color = "#19be6b";
+                status = 1;
+                return h("div", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          console.log(1);
+                        }
+                      }
+                    },
+                    "查看"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: color,
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          this.$Modal.confirm({
+                            title: "提示!",
+                            content: `<p>是否${text}该代理</p>`,
+                            onOk: () => {
+                              userChangeStatus({
+                                role: "1000",
+                                status,
+                                userId: params.row.userId
+                              }).then(res => {
+                                if (res.code == 0) {
+                                  this.$Message.success(`${text}成功`);
+                                  this.init();
+                                }
+                              });
+                            }
+                          });
+                        }
+                      }
+                    },
+                    text
+                  )
+                ]);
+              }
+            }
+          }
         }
       ],
       columns2: [
@@ -518,6 +719,15 @@ export default {
             resolve(showList);
           });
       });
+    },
+    init() {
+      this.$store.commit("agentLoading", { params: true });
+      this.$store.dispatch("getAgentList", {
+        parent: "01",
+        query: {},
+        sort: "desc",
+        sortkey: "createdAt"
+      });
     }
   },
   computed: {
@@ -534,13 +744,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("agentLoading", { params: true });
-    this.$store.dispatch("getAgentList", {
-      parent: "01",
-      query: {},
-      sort: "desc",
-      sortkey: "createdAt"
-    });
+    this.init();
   }
 };
 </script>

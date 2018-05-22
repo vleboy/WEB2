@@ -129,6 +129,15 @@ export const appRouter = [
             {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminCenter/adminList.vue')},
         ]
     },
+    {
+        path:'/game',
+        title:'游戏中心',
+        name:'game',
+        component:main,
+        children:[
+            {path:'config',title:'包房代理游戏配置',name:'gameConfig',component:()=>import('@/pages/gameCenter/gameConfig.vue')},
+        ]
+    },
  
 
 ]

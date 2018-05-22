@@ -128,3 +128,7 @@ export async function agentAdminNew(params){
 export async function checkExit(params){
     return http(post('/checkExist',params))
 }
+//config configNew
+export async function configNew(params){
+    return http(post('/configNew',params))
+}

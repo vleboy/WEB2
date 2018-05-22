@@ -62,11 +62,17 @@
                     <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
                     <MenuItem name="adminOpreateLog">管理员操作日志</MenuItem>
                 </Submenu>
-                 <Submenu name="adminCenter">
+                <Submenu name="adminCenter">
                     <template slot="title">
                         管理中心
                     </template>
                     <MenuItem name="adminList">管理员列表</MenuItem>
+                </Submenu>
+                <Submenu name="gameCenter">
+                    <template slot="title">
+                        游戏中心
+                    </template>
+                    <MenuItem name="gameConfig">包房代理游戏配置</MenuItem>
                 </Submenu>
                 <!--
                 <Submenu name="9">
