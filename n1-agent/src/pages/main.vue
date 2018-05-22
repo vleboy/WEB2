@@ -35,6 +35,7 @@
 <script>
 import sidebar from "@/components/sidebar";
 import tagClose from "@/components/tags-close.vue";
+import { menuOpen } from "@/config/menuOpen";
 import util from "@/libs/util.js";
 
 export default {
@@ -42,7 +43,7 @@ export default {
     return {
       avatorPath: "",
       userName: localStorage.getItem("displayName"),
-      openName: [],
+      openName: []
     };
   },
   computed: {
@@ -71,14 +72,14 @@ export default {
       }
     },
     handleClickUserDropdown(name) {
-       this.$Modal.confirm({
-          title: "提示",
-          content: "<p>是否确认退出</p>",
-          onOk: () => {
-            localStorage.clear();
-            this.$router.push({ name: "login" });
-          }
-        });
+      this.$Modal.confirm({
+        title: "提示",
+        content: "<p>是否确认退出</p>",
+        onOk: () => {
+          localStorage.clear();
+          this.$router.push({ name: "login" });
+        }
+      });
       // if (name === "ownSpace") {
       //   // this.$router.push({ name: "ownspace-index" });
       // } else if (name === "loginout") {
@@ -100,24 +101,7 @@ export default {
       this.$store.commit("setCurrentPageName", name);
       this.checkTag(name);
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
-      this.openName=["report"]
-      if (name.includes("na")) {
-        this.openName = ["report", "ugreport"];
-      } else if (name.includes("ttg")) {
-        this.openName = ["report", "ttgreport"];
-      } else if (name.includes("sa")) {
-        this.openName = ["report", "sareport"];
-      } else if (name.includes("mg")) {
-        this.openName = ["report", "mgreport"];
-      } else if (name=='agtrue') {
-        this.openName = ["report", "agreport"];
-      } else if (name.includes("ug")) {
-        this.openName = ["report", "ugreport"];
-      }else if(name=='allreport'){
-        this.openName=["report"]
-      }else if(name=='agentList'||name=='warnList'){
-        this.openName=['agentCenter']
-      }
+      this.openName = menuOpen(name);
     }
   }
 };

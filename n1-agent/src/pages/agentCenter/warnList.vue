@@ -97,7 +97,7 @@ export default {
           key: "displayName",
           maxWidth: 140,
           render: (h, params) => {
-            if (params.row.role == "10") {
+            if (params.row.role == "1000") {
               return h(
                 "span",
                 {
@@ -443,11 +443,8 @@ export default {
     },
     types(value) {
       switch (value) {
-        case "10":
-          return "线路商";
-          break;
-        case "100":
-          return "商户";
+        case "1000":
+          return "代理";
           break;
       }
     }

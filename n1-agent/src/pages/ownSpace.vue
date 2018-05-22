@@ -58,7 +58,7 @@
       </p>
     </Modal>
     <Spin size="large" fix v-if="$store.state.login.loading">
-      <Icon type="  -c" size=18 class="demo-spin-icon-load"></Icon>
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
   </div>

@@ -59,17 +59,21 @@ export const login = {
             })
         },
         adminInfo({commit}){
-            let p1=getAdminInfo().then(res=>{
+            let userId=''
+            if(localStorage.userInfo){
+            userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+            }
+            let p1=getAdminInfo(userId).then(res=>{
                 if(res.code==0){
                     commit('updateAdmin',{params:res.payload})
                 }
             })
-            let p2= getWaterfall().then(res=>{
+            let p2= getWaterfall(userId).then(res=>{
                 if(res.code==0){
                     commit('updateWaterfall',{params:res.payload})
                 }
             });
-           let p3= getBill().then(res=>{
+           let p3= getBill(userId).then(res=>{
                 if(res.code==0){
                     commit('updateBill',{params:res.payload.balance})
                 }

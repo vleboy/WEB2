@@ -37,7 +37,7 @@
         <FormItem>
           <Row>
             <Col span="8">
-            <Button class="loginbtn" :loading="$store.state.home.loading" type="ghost" @click="login">
+            <Button class="loginbtn" :loading="$store.state.login.loading" type="ghost" @click="login">
               <span v-if="!loading">登录</span>
               <span v-else>Loading...</span>
             </Button>
@@ -65,7 +65,7 @@ export default {
   watch: {},
   computed: {
     loading(){
-      return this.$store.state.home.loading;
+      return this.$store.state.login.loading;
     }
   },
   created() {
@@ -107,12 +107,12 @@ export default {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      if (!this.userdata.challenge) {
-        this.$Message.warning({
-          content: "请进行人机验证"
-        });
-        return;
-      }
+      // if (!this.userdata.challenge) {
+      //   this.$Message.warning({
+      //     content: "请进行人机验证"
+      //   });
+      //   return;
+      // }
       if (!nameReg.test(this.username)) {
         this.$Message.warning({
           content: "用户名为5-16位的（英文、数字、@、_、-）"
@@ -131,8 +131,8 @@ export default {
         role: "1000",
         username: this.username,
         password: password,
-        challenge: this.userdata.challenge,
-        vid:this.userdata.token,
+        challenge: 'a',//this.userdata.challenge,
+        vid:'b',//this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         },

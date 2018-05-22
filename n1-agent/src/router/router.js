@@ -104,15 +104,11 @@ export const appRouter = [
         title:'代理列表',
         name:'agent',
         component:main,
-        children:[{path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentList.vue')}]
+        children:[{path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentCenter/agentList.vue')},
+                  {path:'warn',title:'告警列表',name:'warnList',component:()=>import('@/pages/agentCenter/warnList.vue')}
+    ]
     },
-    {
-        path:'/warn',
-        title:'告警列表',
-        name:'warn',
-        component:main,
-        children:[{path:'list',title:'告警列表',name:'warnList',component:()=>import('@/pages/warnList.vue')}]
-    },
+ 
 
 ]
 // 所有上面定义的路由都要写在下面的routers里

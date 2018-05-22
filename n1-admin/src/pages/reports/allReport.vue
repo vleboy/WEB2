@@ -136,7 +136,7 @@ export default {
                           this.playerList = res.payload;
                           this.spinShow = false;
                         });
-                      var anchor = this.$el.querySelector("#playerList");
+                      let anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
