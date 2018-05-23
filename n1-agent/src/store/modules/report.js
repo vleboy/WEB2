@@ -53,9 +53,10 @@ export const report = {
        },
        //bill
        transferBill({dispatch,commit},params){
-        billTransfer(params).then(res=>{
-            if(res.code==0){
-                Message.success('操作成功');
+         billTransfer(params).then(res=>{
+           if(res.code==0){
+             Message.success('操作成功');
+             commit('agentLoading',{params:true})
                 //刷新
                 dispatch("getAgentList", {
                     parent:'01',
@@ -64,26 +65,31 @@ export const report = {
                     sortkey: "createdAt",
                     sort: "desc"
                   });
+              commit('agentLoading',{params:false})
             }
         })
        },
-       playAddBill({state,dispatch},params){
+       playAddBill({commit,dispatch,state},params){
         addBill(params).then(res=>{
           if(res.code==0){
             Message.success('操作成功');
+            commit('agentLoading',{params:true})
             dispatch('getAgentPlayer',{
               fromUserId:state.rowId
             })
+            commit('agentLoading',{params:false})
           }
         })
        },
-       playReduceBill({state,dispatch},params){
+       playReduceBill({commit,dispatch,state},params){
          reduceBill(params).then(res=>{
            if(res.code==0){
             Message.success('操作成功');
+            commit('agentLoading',{params:true})
             dispatch('getAgentPlayer',{
               fromUserId:state.rowId
             })
+            commit('agentLoading',{params:false})
            }
          })
        }

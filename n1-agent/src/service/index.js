@@ -132,3 +132,23 @@ export async function checkExit(params){
 export async function configNew(params){
     return http(post('/configNew',params))
 }
+//checkAgentMix
+export async function checkAgentMix(params){
+    return http(post('/checkAgentMix',params))
+}
+//availableAgents
+export async function availableAgents(params){
+    return http(post('/availableAgents',params))
+}
+//gameBigType
+export async function gameBigType(params){
+    return http(post('/gameBigType',params))
+}
+//上级线路商游戏
+export async function companySelect(params){
+    return http(post('/companySelect',params))
+}
+//创建代理
+export async function agentNew(params){
+    return http(post('/agentNew',params))
+}
