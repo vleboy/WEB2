@@ -1163,7 +1163,6 @@ export default {
     createAgent() {
       this.$refs["agentForm"].validate(valid => {
         if (valid) {
-          console.log(1);
           if (_.isEmpty(this.gameDetail)) {
             this.$Message.error("尚未选择游戏");
             return;
