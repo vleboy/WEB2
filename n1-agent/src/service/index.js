@@ -69,7 +69,7 @@ export async function gameSign(params){
     return http(post('/game/sign',params))
 }
 //admin_center
-export async function getAdminInfo(userId){
+export async function agentOne(userId){
     return http(get(`/agentOne/${userId}`))
 }
 //流水列表
@@ -151,4 +151,8 @@ export async function companySelect(params){
 //创建代理
 export async function agentNew(params){
     return http(post('/agentNew',params))
+}
+//创建玩家
+export async function creatPlayer(params){
+    return http(post('/agent/player/create',params))
 }

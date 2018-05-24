@@ -58,17 +58,17 @@
                     <template slot="title">
                         日志中心
                     </template>
-                    <MenuItem name="adminLoginLog">管理员登录日志</MenuItem>
+                    <MenuItem name="adminLoginLog" v-if="level==0">管理员登录日志</MenuItem>
                     <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
-                    <MenuItem name="adminOpreateLog">管理员操作日志</MenuItem>
+                    <MenuItem name="adminOpreateLog" v-if="level==0">管理员操作日志</MenuItem>
                 </Submenu>
-                <Submenu name="adminCenter">
+                <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
                         管理中心
                     </template>
                     <MenuItem name="adminList">管理员列表</MenuItem>
                 </Submenu>
-                <Submenu name="gameCenter">
+                <Submenu name="gameCenter" v-if="level==0">
                     <template slot="title">
                         游戏中心
                     </template>
@@ -138,6 +138,11 @@
 export default {
   data() {
     return {};
+  },
+  computed:{
+      level(){
+          return JSON.parse(localStorage.getItem('userInfo')).level
+      }
   },
   methods: {
     selectMenu(name) {

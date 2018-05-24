@@ -61,7 +61,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { getBill, getWaterfall, getAdminInfo } from "@/service/index";
+import { getBill, getWaterfall, agentOne } from "@/service/index";
 import { thousandFormatter } from "@/config/format";
 export default {
   data() {
@@ -277,7 +277,7 @@ export default {
       let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
       let req1=getBill(userId);
       let req2=getWaterfall(userId);
-      let req3=getAdminInfo();
+      let req3=agentOne();
       let [bill,waterfall,admin]=await this.axios.all([req1,req2,req3])
       this.$store.commit("updateLoading", { params: false });
       if(bill&&bill.code==0){

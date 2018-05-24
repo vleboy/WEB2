@@ -1,4 +1,4 @@
-import { logIn, getAdminInfo } from '@/service/index'
+import { logIn, agentOne } from '@/service/index'
 import { Message } from 'iview'
 export const login = {
     state: {
@@ -61,7 +61,7 @@ export const login = {
         },
         // adminInfo({ commit }) {
         //     let userId = localStorage.loginId?localStorage.getItem("loginId"):''
-        //     let p1 = getAdminInfo().then(res => {
+        //     let p1 = agentOne().then(res => {
         //         if (res.code == 0) {
         //             commit('updateAdmin', { params: res.payload })
         //         }
@@ -85,7 +85,7 @@ export const login = {
             updatePassword(params).then(res => {
                 if (res.code == 0) {
                     Message.success('修改成功');
-                    getAdminInfo(userId).then(re => {
+                    agentOne(userId).then(re => {
                         if (re.code == 0) {
                             commit('updateAdmin', { params: re.payload })
                         }

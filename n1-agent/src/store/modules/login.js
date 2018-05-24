@@ -1,4 +1,4 @@
-import {logIn,getAdminInfo,getWaterfall,getBill,updatePassword} from '@/service/index'
+import {logIn,agentOne,getWaterfall,getBill,updatePassword} from '@/service/index'
 import {Message} from 'iview'
 export const login = {
     state:{
@@ -63,7 +63,7 @@ export const login = {
             if(localStorage.userInfo){
             userId = JSON.parse(localStorage.getItem("userInfo")).userId;
             }
-            let p1=getAdminInfo(userId).then(res=>{
+            let p1=agentOne(userId).then(res=>{
                 if(res.code==0){
                     commit('updateAdmin',{params:res.payload})
                 }
@@ -87,7 +87,7 @@ export const login = {
             updatePassword(params).then(res=>{
                 if(res.code==0){
                     Message.success('修改成功');
-                    getAdminInfo(userId).then(re=>{
+                    agentOne(userId).then(re=>{
                         if(re.code==0){
                             commit('updateAdmin',{params:re.payload})
                         }

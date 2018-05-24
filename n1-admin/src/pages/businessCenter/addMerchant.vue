@@ -26,16 +26,6 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="商户线路号" prop="msn">
-            <Row>
-              <Col span="20">
-              <Input v-model="basic.msn" placeholder="请输入"></Input>
-              </Col>
-              <Col span="4">
-              <span class="random" @click="randomMsn">随机分配</span>
-              </Col>
-            </Row>
-          </FormItem>
           <FormItem label="所属线路商" prop="parent" :required="true">
             <Row>
               <Col span="20">
@@ -293,21 +283,6 @@ export default {
         }
       }
     };
-    const validateMsn = (rule, value, callback) => {
-      if (value == "") {
-        callback(new Error("线路号不能为空"));
-      } else {
-        checkMsn(value).then(res => {
-          if (res.code == 0) {
-            if (res.payload.avalible == true) {
-              callback();
-            } else {
-              callback(new Error("线路号不可用,请重新输入"));
-            }
-          }
-        });
-      }
-    };
     const validateBalance = (rule, value, callback) => {
       if (value == "") {
         callback(new Error("商户点数不能为空"));
@@ -351,7 +326,6 @@ export default {
         suffix: "",
         sn: "",
         displayName: "",
-        msn: "",
         parent: "",
         points: null
       },
@@ -447,13 +421,6 @@ export default {
             trigger: "blur"
           }
         ],
-        msn: [
-          {
-            required: true,
-            validator: validateMsn,
-            trigger: "blur"
-          }
-        ],
         sn: [
           {
             required: true,
@@ -527,7 +494,6 @@ export default {
     },
     selectPre(id) {
       if (id) {
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
         this.$store.commit("updateLoading", { params: true });
         this.disabled = false;
         let params = { parent: id };
@@ -536,20 +502,13 @@ export default {
             this.gameType = res.payload;
           }
         });
-        let ids = id == "01" ? userId : id;
-        getBill(ids).then(res => {
+        oneManagers(id).then(res => {
           if (res.code == 0) {
+            this.parentGameList = res.payload.gameList||[];
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });
           }
         });
-        if (id != "01") {
-          oneManagers(id).then(res => {
-            if (res.code == 0) {
-              this.parentGameList = res.payload.gameList;
-            }
-          });
-        }
       }
     },
     focus() {
@@ -598,6 +557,13 @@ export default {
         });
         return;
       }
+      if(balance>100){
+         this.$Message.warning({
+          content: `不能超过100`,
+          duration: 2.5
+        });
+        return;
+      }
       for (let item of gamelist) {
         if (item.name == gameName) {
           gameItem = item;
@@ -608,13 +574,6 @@ export default {
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
       }
-    },
-    randomMsn() {
-      msnRandom().then(res => {
-        if (res.code == 0) {
-          this.basic.msn = res.payload;
-        }
-      });
     },
     //生成密码
     createPass() {

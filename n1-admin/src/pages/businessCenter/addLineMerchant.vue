@@ -358,7 +358,6 @@ export default {
     },
     selectPre(id) {
       if (id) {
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
         this.$store.commit("updateLoading", { params: true });
         this.disabled = false;
         let params = { parent: id };
@@ -367,20 +366,13 @@ export default {
             this.gameType = res.payload;
           }
         });
-        let ids = id == "01" ? userId : id;
-        getBill(ids).then(res => {
+        oneManagers(id).then(res => {
           if (res.code == 0) {
+            this.parentGameList = res.payload.gameList||[];
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });
           }
         });
-        if (id != "01") {
-          oneManagers(id).then(res => {
-            if (res.code == 0) {
-              this.parentGameList = res.payload.gameList;
-            }
-          });
-        }
       }
     },
     focus() {
@@ -425,6 +417,13 @@ export default {
       if (balance > maxRate && maxRate != null) {
         this.$Message.warning({
           content: `不能超过上级占成`,
+          duration: 2.5
+        });
+        return;
+      }
+      if (balance > 100) {
+        this.$Message.warning({
+          content: `不能超过100`,
           duration: 2.5
         });
         return;

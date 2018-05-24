@@ -130,6 +130,33 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="playerModal" @on-ok="addPlayerConfirm" title="创建玩家" @on-cancel='cancelPlayer'>
+      <Form :label-width="80" ref="playerForm" :model="player" :rules='playerValidate'>
+        <FormItem label="用户名" prop='userName'>
+          <Input v-model="player.userName" placeholder="请输入6-16位中英文或者数字"></Input>
+        </FormItem>
+        <FormItem label="密码" prop='userPwd'>
+          <Input v-model="player.userPwd" placeholder="密码由6-16位字母和数字组成"></Input>
+        </FormItem>
+        <FormItem label="直属上级" :required='true'>
+          <Select v-model="player.parentId" placeholder="请选择" @on-change='selectPlayerParent'>
+            <Option v-for="item in parentList" :value="item.userId" :key="item.userId">{{ item.displayName }}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="玩家洗码比" :required='true'>
+          <Table :columns="playerCol" :data="playerMix" class="table" size="small"></Table>
+          </Input>
+        </FormItem>
+        <FormItem label="分配点数" prop='points'>
+          <Tooltip :content="pointContent">
+            <Input type="text" :disabled='disabled' v-model="player.points" placeholder="请输入点数"></Input>
+          </Tooltip>
+        </FormItem>
+        <FormItem label="备注">
+          <Input v-model="player.remark" type="textarea" :rows="4" placeholder="注明备注,如没有可不填"></Input>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
@@ -143,11 +170,36 @@ import {
   companySelect,
   getBill,
   checkExit,
-  getAdminInfo,
-  agentNew
+  agentOne,
+  agentNew,
+  creatPlayer
 } from "@/service/index";
 export default {
   data() {
+     const validatePlayerName = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("用户名不能为空"));
+      } else {
+        let nameReg = /^[A-Za-z0-9]{6,16}$/;
+        if (!nameReg.test(value)) {
+          callback(new Error("5~16位,只能包含英文或数字"));
+        } else {
+          callback()
+        }
+      }
+    };
+     const validatePlayerPass = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("密码不能为空"));
+      } else {
+        let nameReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$$/;
+        if (!nameReg.test(value)) {
+          callback(new Error("密码由6-16位字母和数字组成"));
+        } else {
+          callback()
+        }
+      }
+    };
     const validateSn = (rule, value, callback) => {
       if (!this.defaultSn) {
         if (value == "") {
@@ -359,6 +411,67 @@ export default {
           }
         ]
       },
+      //添加玩家
+      playerModal: false,
+      player: {
+        userName: "",
+        userPwd: "",
+        parentId: "",
+        points: "",
+        remark: ""
+      },
+      playerValidate: {
+        userName: [
+          {
+            validator: validatePlayerName,
+            trigger: "blur",
+            required: true
+          }
+        ],
+        userPwd: [
+          {
+            validator: validatePlayerPass,
+            trigger: "blur",
+            required: true
+          }
+        ],
+        points: [
+          {
+            required: true,
+            validator: validatePoint,
+            trigger: "blur"
+          }
+        ]
+      },
+      playerCol: [
+        {
+          title: "游戏类别",
+          key: "name"
+        },
+        {
+          title: "玩家洗码比（%）",
+          key: "",
+          render: (h, params) => {
+            return h("InputNumber", {
+              props: {
+                min: 0,
+                max: parseFloat(params.row.mix),
+                value: parseFloat(params.row.mix),
+                step: 0.1,
+                placeholder: "请输入玩家洗码比(必填)"
+              },
+              on: {
+                "on-change": value => {
+                  let playerMix=this.playerMix;
+                  let index=params.row._index;
+                  playerMix[index].mix=value
+                }
+              }
+            });
+          }
+        }
+      ],
+      playerMix: [],
       columns: [
         {
           title: "公司",
@@ -708,21 +821,6 @@ export default {
                     }
                   },
                   "创建代理"
-                ),
-                h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer"
-                    },
-                    on: {
-                      click: () => {
-                        console.log(1);
-                      }
-                    }
-                  },
-                  "创建玩家"
                 )
               ]);
             } else {
@@ -817,7 +915,14 @@ export default {
                       },
                       on: {
                         click: () => {
-                          console.log(1);
+                          this.playerModal = true;
+                          let parent =
+                            params.row.level == 0 ? "01" : params.row.userId;
+                          availableAgents({ parent }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
+                            }
+                          });
                         }
                       }
                     },
@@ -1090,7 +1195,7 @@ export default {
           }
         });
         if (id != "01") {
-          getAdminInfo(id).then(res => {
+          agentOne(id).then(res => {
             if (res.code == 0) {
               this.parentGameList = res.payload.gameList;
             }
@@ -1302,6 +1407,36 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       });
+    },
+    addPlayerConfirm() {
+     this.$refs['playerForm'].validate(valid=>{
+       if(valid){
+         creatPlayer({
+           ...this.player,
+           gameList:this.playerMix
+         }).then(res=>{
+           if(res.code==0){
+             this.$Message.success('创建成功');
+           }
+         })
+       }
+     })
+    },
+    cancelPlayer() {
+      this.$refs["playerForm"].resetFields();
+      this.playerMix=[];
+    },
+    selectPlayerParent(id) {
+      this.disabled = false;
+     if(id){
+        agentOne(id).then(res => {
+        if (res.code == 0) {
+          this.playerMix = res.payload.gameList;
+          this.parentBalance = res.payload.balance;
+          this.pointContent = "上级代理余额为:" + res.payload.balance;
+        }
+      });
+     }
     }
   },
   computed: {
