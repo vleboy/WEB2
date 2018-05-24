@@ -402,10 +402,6 @@ export default {
         }
       })
     }, // 删除公告
-    requestHeader () {
-//      this.uploadAli ()
-      this.uploadAws ()
-    },
     uploadAli () {
       this.actionUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
