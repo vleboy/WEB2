@@ -423,7 +423,7 @@ export default {
       }).then((results) => {
         this.$Message.success('上传成功')
         this.loadingStatus = false
-        this.noticeInfo.img = results.url || `${this.actionUrl}/${results.name}`
+        this.noticeInfo.img = `http://app.risheng3d.com/${results.name}` || results.url
         // console.log(results,this.noticeInfo.img, 'src')
       }).catch((err) => {
         this.loadingStatus = false
@@ -432,7 +432,7 @@ export default {
     },
     uploadAws () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
+      const prod = `http://img.na77.com/${this.imgFile.fileName}` //开发环境
 
       httpRequest('put',`${this.uploadAction[0].aws}`, this.imgFile)
         .then(res => {
