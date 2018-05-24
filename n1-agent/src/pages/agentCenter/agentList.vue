@@ -1181,7 +1181,7 @@ export default {
         this.disabled = false;
         agentOne(id).then(res => {
           if (res.code == 0) {
-            this.gameType = res.payload.companeArr;
+            this.gameType = res.payload.companyArr;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
             this.parentGameList = res.payload.gameList;
@@ -1198,7 +1198,12 @@ export default {
       }
     },
     selectCompany(value) {
-      gameBigType({ companyIden: value }).then(res => {
+      let userId=this.agent.parent;
+      let params = { companyIden: value, userId };
+      if (userId == "01") {
+        delete params.userId;
+      }
+      gameBigType(params).then(res => {
         if (res.code == 0) {
           this.gameList = res.payload;
         }

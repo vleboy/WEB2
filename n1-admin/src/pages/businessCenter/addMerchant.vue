@@ -505,8 +505,8 @@ export default {
             this.$store.commit("updateLoading", { params: false });
           }
         });
-      }
       this.parentId = id;
+      }
     },
     focus() {
       this.tooltip = "当前所属上级余额:" + this.parentBalance;
