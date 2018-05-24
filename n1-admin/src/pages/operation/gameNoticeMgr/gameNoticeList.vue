@@ -407,7 +407,7 @@ export default {
       this.uploadAws ()
     },
     uploadAli () {
-      this.url = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      this.actionUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadAction[1].ali.AccessKeyId,
@@ -415,19 +415,19 @@ export default {
         stsToken: this.uploadAction[1].ali.SecurityToken,
         bucket: 'assetdownload'
       })
-      console.log(this.imgFile.name)
+      // console.log(this.imgFile.name)
       let suffix = this.suffixFun(this.imgFile.name)
       let date = new Date().getTime()
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
       mi.multipartUpload(fileName, this.imgFile, {
       }).then((results) => {
         this.$Message.success('上传成功')
-        this.dialogLoading = false
-        this.noticeInfo.img = results.url || `${this.url}/${results.name}`
-        console.log(results,this.noticeInfo.img, 'src')
+        this.loadingStatus = false
+        this.noticeInfo.img = results.url || `${this.actionUrl}/${results.name}`
+        // console.log(results,this.noticeInfo.img, 'src')
       }).catch((err) => {
-        this.dialogLoading = false
-        console.log(err);
+        this.loadingStatus = false
+        // console.log(err);
       });
     },
     uploadAws () {
@@ -463,6 +463,7 @@ export default {
           this.uploadAction = res.payload
           this.actionUrl = res.payload[0].aws
           this.uploadAws()
+          // this.uploadAli()
           resolve(true)
         }).catch(err => {
           reject(false)
