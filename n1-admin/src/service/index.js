@@ -41,13 +41,12 @@ const post = (urls, datas, type) => {
 }
 
 //img
-const imgpost = (urls, datas) => ({
-    method: 'post',
-    url: URL + urls,
-    data: datas,
+const Image = (method, url, data) => ({
+    method: method,
+    url: url,
+    data: data,
     headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "image"
     }
 })
 
@@ -59,7 +58,17 @@ export async function example(params) {
 //针对业务逻辑里的请求
 export async function httpRequest(method,url,params,type) {
   //参数分别作用 （方法, 请求接口, 参数, 域名接口）
-  return (method == 'get') ? http(get(url,type)) : http(post(url,params,type))
+  switch (method) {
+    case 'get':
+      return http(get(url,type))
+    break
+    case 'post':
+      return http(post(url,params,type))
+    break
+    case 'put':
+      return http(Image(method,url,params))
+    break
+  }
 }
 
 //登录
@@ -95,7 +104,7 @@ export async function getBill(userId){
 export async function getMerchants(params){
     return http(post('/merchants',params))
 }
-//单个商户 
+//单个商户
 export async function oneMerchants(userId){
     return http(get(`/merchants/${userId}`))
 }
@@ -170,7 +179,7 @@ export async function checkMsn(num){
 }
 //新增角色
 export async function subRoleNew(params) {
-    return http(post('/subRoleNew',params))   
+    return http(post('/subRoleNew',params))
 }
 //删除角色
 export async function subRoleDelete(params) {
@@ -200,7 +209,7 @@ export async function updateManagers(userId,params){
 export async function updateMerchant(userId,params){
     return http(post(`/merchants/${userId}`,params))
 }
-//下级列表 
+//下级列表
 export async function childList(id,role){
     return http(get(`/childList/${id}/${role}`))
 }

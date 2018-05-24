@@ -146,7 +146,20 @@ export const appRouter = [
           {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
         ]
     },
-
+    {
+      path:'/operation',
+      title:'运营中心',
+      name:'operation',
+      component:main,
+      children:[
+          {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:()=>import('@/pages/operation/gameNoticeMgr/gameNoticeList.vue')},
+          {path:'gameMailList',title:'游戏邮件列表',name:'gameMailList',component:()=>import('@/pages/operation/mailMgr/gameMailList.vue')},
+          {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:()=>import('@/pages/operation/horseRaceLampMgr/horseRaceLampList.vue')},
+          {path:'businessRecord',title:'商户运营记录',name:'businessRecord',component:()=>import('@/pages/operation/businessRecord/businessRecordList.vue')},
+          {path:'boothList',title:'展位列表',name:'boothList',component:()=>import('@/pages/operation/booth/boothList.vue')},
+          {path:'propPrice',title:'道具定价',name:'propPrice',component:()=>import('@/pages/operation/propPrize/propPrizeList.vue')}
+        ]
+    }
 ]
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [
