@@ -35,7 +35,7 @@
         <div class="search">
           <Input v-model="search2" placeholder="请输入搜索内容" style="width: 150px"></Input>
           <Button type="primary" @click="search">搜索</Button>
-          <Button type="ghost" @click="reset">重置</Button>
+          <Button type="ghost" @click="resetplayer">重置</Button>
         </div>
       </div>
       <div class="table">
@@ -311,6 +311,7 @@ export default {
     };
     return {
       plus: null,
+      userInfo:[],
       modal: false,
       point: "",
       remark: "",
@@ -514,8 +515,26 @@ export default {
           title: "管理员账号",
           key: "username",
           render: (h, params) => {
-            if (params.row.parent == "00") {
-              return h("span", params.row.username);
+             let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
+            if (params.row.userId==currentId) {
+              return h(
+                "span",
+                {
+                  style: {
+                    cursor: "pointer",
+                    color: "#20a0ff"
+                  },
+                  on: {
+                    click: async () => {
+                      let userId = params.row.userId;
+                      this.$store.dispatch("getAgentPlayer", {
+                        fromUserId: userId
+                      });
+                    }
+                  }
+                },
+                params.row.username
+              );
             } else {
               return h(
                 "span",
@@ -645,8 +664,10 @@ export default {
           title: "剩余点数",
           key: "balance",
           render: (h, params) => {
-            if (params.row.parent == "00") {
-            } else {
+            let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
+            if (params.row.userId==currentId) {
+              return h('span',params.row.balance)
+            }else {
               return h("div", [
                 h("p", params.row.balance),
                 h("p", [
@@ -822,6 +843,86 @@ export default {
                 )
               ]);
             } else {
+               let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
+            if (params.row.userId==currentId) {
+               return h("div", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          let userId = params.row.userId;
+                          let username = params.row.username;
+                          let parent = params.row.parent;
+                          this.$router.push({
+                            path: "/agentDetail",
+                            query: {
+                              userId,
+                              username,
+                              parent
+                            }
+                          });
+                        }
+                      }
+                    },
+                    "查看"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          this.agentModal = true;
+                          this.parentSn = params.row.sn;
+                          availableAgents({ parent: params.row.userId }).then(
+                            res => {
+                              if (res.code == 0) {
+                                this.parentList = res.payload;
+                              }
+                            }
+                          );
+                          this.parentRate = params.row.rate;
+                          this.rateContent =
+                            "上级代理成数为:" + params.row.rate;
+                        }
+                      }
+                    },
+                    "创建代理"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          this.playerModal = true;
+                          let parent =
+                            params.row.level == 0 ? "01" : params.row.userId;
+                          availableAgents({ parent }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
+                            }
+                          });
+                        }
+                      }
+                    },
+                    "创建玩家"
+                  )
+                ]);
+            }
               let color = "";
               let text = "";
               let status = null;
@@ -840,7 +941,17 @@ export default {
                       },
                       on: {
                         click: () => {
-                          console.log(1);
+                          let userId = params.row.userId;
+                          let username = params.row.username;
+                          let parent = params.row.parent;
+                          this.$router.push({
+                            path: "/agentDetail",
+                            query: {
+                              userId,
+                              username,
+                              parent
+                            }
+                          });
                         }
                       }
                     },
@@ -942,7 +1053,17 @@ export default {
                       },
                       on: {
                         click: () => {
-                          console.log(1);
+                          let userId = params.row.userId;
+                          let username = params.row.username;
+                          let parent = params.row.parent;
+                          this.$router.push({
+                            path: "/agentDetail",
+                            query: {
+                              userId,
+                              username,
+                              parent
+                            }
+                          });
                         }
                       }
                     },
@@ -1164,6 +1285,9 @@ export default {
       console.log(2);
     },
     reset() {
+      this.init()
+    },
+    resetplayer(){
       console.log(1);
     },
     resetAgent() {
@@ -1198,7 +1322,7 @@ export default {
       }
     },
     selectCompany(value) {
-      let userId=this.agent.parent;
+      let userId = this.agent.parent;
       let params = { companyIden: value, userId };
       if (userId == "01") {
         delete params.userId;
@@ -1400,6 +1524,13 @@ export default {
       } else {
         parent = userId;
       }
+      agentOne(userId).then(res => {
+          if (res.code == 0) {
+            let arr=[];
+            arr.push(res.payload)
+           this.userInfo=arr
+          }
+        });
       this.$store.commit("agentLoading", { params: true });
       this.$store.dispatch("getAgentList", {
         parent,
@@ -1442,11 +1573,6 @@ export default {
     }
   },
   computed: {
-    userInfo() {
-      let arr = [];
-      arr.push(JSON.parse(localStorage.getItem("userInfo")));
-      return arr;
-    },
     agentList() {
       return this.$store.state.report.agentList;
     },

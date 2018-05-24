@@ -1,196 +1,202 @@
 <template>
-  <div class="lineDetail">
-    <div class="userName">
-      <span>{{$route.query.displayName}} ({{$route.query.username }})</span>
-      <span class="btns">
-        <Button type="primary" class="edit" @click="reload">刷新</Button>
-        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
-        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
-      </span>
-    </div>
-    <Collapse v-model="value">
-      <Panel name="1">
-        基本信息
-        <div slot="content">
-          <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
-            <Row>
-              <Col span="8">
-              <FormItem label="线路商ID">
-                {{ lineDetail.displayId}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="上级线路商">
-                {{lineDetail.parentDisplayName}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="线路商前缀">
-                {{lineDetail.suffix}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="创建时间">
-                {{dayjs(lineDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="最后登录时间">
-                {{dayjs(lineDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="管理员账号">
-                {{ lineDetail.uname}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="管理员密码" v-if="edit">
-                {{lineDetail.password}}
-              </FormItem>
-              <FormItem label="管理员密码" prop="password" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
-                  </Col>
-                  <Col span="4">
-                  <span class="create" @click="createPass">生成</span>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="上次登录IP">
-                {{lineDetail.lastIP}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="16">
-              <FormItem label="备注" v-if="edit">
-                {{lineDetail.remark}}
-              </FormItem>
-              <FormItem label="备注" prop="remark" v-else>
-                <Row>
-                  <Col span="20">
-                  <Input v-model="basic.remark" type="textarea" :maxlength='200' :rows="1" placeholder="请输入备注,最多不超过200个字符"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-            </Row>
-          </Form>
+    <div class="agentDetail">
+        <div class="userName">
+            <span> {{$route.query.username }}</span>
+            <span class="btns">
+                <Button type="primary" class="edit" @click="reload">刷新</Button>
+                <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
+                <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+            </span>
         </div>
-      </Panel>
-      <Panel name="2">
-        游戏信息
-        <div slot="content">
-          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
-            <FormItem prop="ownGame">
-              <Row>
-                <Col span="3">
-                <Select v-model="gameForm.gameType" placeholder="请选择" @on-change="selectCompany">
-                  <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
+        <Collapse v-model="value">
+            <Panel name="1">
+                基本信息
+                <div slot="content">
+                    <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
+                        <Row>
+                            <Col span="8">
+                            <FormItem label="代理ID">
+                                {{ agentDetail.displayId}}
+                            </FormItem>
+                            </Col>
+                            <Col span="8">
+                            <FormItem label="代理标识">
+                                {{agentDetail.parentDisplayName}}
+                            </FormItem>
+                            </Col>
+                            <Col span="8">
+                            <FormItem label="代理成数">
+                                {{agentDetail.rate}}
+                            </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="8">
+                            <FormItem label="创建时间">
+                                {{dayjs(agentDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
+                            </FormItem>
+                            </Col>
+                            <Col span="8">
+                            <FormItem label="最后登录时间">
+                                {{dayjs(agentDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
+                            </FormItem>
+                            </Col>
+                            <Col span="8">
+                            <FormItem label="上次登录IP">
+                                {{agentDetail.lastIP}}
+                            </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="8">
+                            <FormItem label="管理员账号" v-if="edit">
+                                {{ agentDetail.username}}
+                            </FormItem>
+                            <FormItem label="管理员账号" prop="username" v-else>
+                                <Row>
+                                    <Col span="10">
+                                    <Input v-model="basic.username" placeholder="5~16位,只能输入英文及数字"></Input>
+                                    </Col>
+                                </Row>
+                            </FormItem>
+                            </Col>
+                            <Col span="8">
+                            <FormItem label="管理员密码" v-if="edit">
+                                {{agentDetail.password}}
+                            </FormItem>
+                            <FormItem label="管理员密码" prop="password" v-else>
+                                <Row>
+                                    <Col span="10">
+                                    <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
+                                    </Col>
+                                    <Col span="4">
+                                    <span class="create" @click="createPass">生成</span>
+                                    </Col>
+                                </Row>
+                            </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span="16">
+                            <FormItem label="备注" v-if="edit">
+                                {{agentDetail.remark}}
+                            </FormItem>
+                            <FormItem label="备注" prop="remark" v-else>
+                                <Row>
+                                    <Col span="20">
+                                    <Input v-model="basic.remark" type="textarea" :maxlength='200' :rows="1" placeholder="请输入备注,最多不超过200个字符"></Input>
+                                    </Col>
+                                </Row>
+                            </FormItem>
+                            </Col>
+                        </Row>
+                    </Form>
+                </div>
+            </Panel>
+            <Panel name="2">
+                游戏信息
+                <div slot="content">
+                    <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
+                        <FormItem prop="ownGame">
+                            <Row>
+                                <Col span="3">
+                                <Select v-model="gameForm.gameType" placeholder="请选择" @on-change="selectCompany">
+                                    <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
+                                </Select>
+                                </Col>
+                                <Col span="3">
+                                <Select v-model="gameForm.gamelist" placeholder="请选择" @on-change="selectGame">
+                                    <Option v-for="item in gameList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+                                </Select>
+                                </Col>
+                            </Row>
+                        </FormItem>
+                        <FormItem v-if="selected">
+                            <label slot="label">{{game}}商家占成(%)</label>
+                            <Row>
+                                <Col span="4">
+                                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                                </Col>
+                                <Col span="2">
+                                <span class="add" @click="addGame">添加</span>
+                                </Col>
+                            </Row>
+                        </FormItem>
+                    </Form>
+                    <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
+                </div>
+            </Panel>
+        </Collapse>
+        <div class="finance">
+            <h2>财务信息</h2>
+            <Table :columns="columns" :data="showData" size="small"></Table>
+            <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+        </div>
+        <div class="next">
+            <h2>一级代理列表</h2>
+            <Table :columns="columns2" :data="nextLine" size="small"></Table>
+        </div>
+        <div class="ownedMerchant">
+            <h2>直属玩家列表</h2>
+            <Table :columns="columns3" :data="ownedbusiness" size="small"></Table>
+        </div>
+        <Spin size="large" fix v-if="spinShow">
+            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+            <div>加载中...</div>
+        </Spin>
+        <Modal v-model="modal" @on-ok="ok" id="plusModal" @on-cancel='cancel'>
+            <h2 v-if='plus'>加点操作</h2>
+            <h2 v-else>减点操作</h2>
+            <Row class-name='modalrow'>
+                <Col span="4" v-if='plus'>增加点数</Col>
+                <Col span="4" v-else>减少点数</Col>
+                <Col span="16">
+                <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
+                    <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
+                </Tooltip>
+                </Col>
+            </Row>
+            <Row class-name='modalrow'>
+                <Col span="4">起始账户</Col>
+                <Col span="16">
+                <Select v-model="select" v-if='plus' @on-change='changeOption'>
+                    <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                <p v-else>【线路商】{{uname}}</p>
+                </Col>
+            </Row>
+            <Row v-if="plus" class-name='modalrow'>
+                <Col span="4">增加账户</Col>
+                <Col span="16">
+                <p>【线路商】{{uname}}</p>
+                </Col>
+            </Row>
+            <Row v-else class-name='modalrow'>
+                <Col span="4">转入账户</Col>
+                <Col span="16">
+                <Select v-model="select" @on-change='changeOption'>
+                    <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
                 </Col>
-                <Col span="3">
-                <Select v-model="gameForm.gamelist" placeholder="请选择" @on-change="selectGame">
-                  <Option v-for="item in gameList" :value="item.name" :key="item.name">{{ item.name }}</Option>
-                </Select>
+            </Row>
+            <Row class-name='textrow'>
+                <Col span="4">备注</Col>
+                <Col span="16">
+                <textarea v-model="note" id="textRow" placeholder="注明备注,如没有可不填" rows="6" autocomplete="off" maxlength="180"></textarea>
                 </Col>
-              </Row>
-            </FormItem>
-            <FormItem v-if="selected">
-              <label slot="label">{{game}}商家占成(%)</label>
-              <Row>
-                <Col span="4">
-                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
-                </Col>
-                <Col span="2">
-                <span class="add" @click="addGame">添加</span>
-                </Col>
-              </Row>
-            </FormItem>
-          </Form>
-          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
-        </div>
-      </Panel>
-    </Collapse>
-    <div class="finance">
-      <h2>财务信息</h2>
-      <Table :columns="columns" :data="showData" size="small"></Table>
-      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+            </Row>
+        </Modal>
     </div>
-    <div class="next">
-      <h2>下级线路商列表</h2>
-      <Table :columns="columns2" :data="nextLine" size="small"></Table>
-    </div>
-    <div class="ownedMerchant">
-      <h2>拥有商户列表</h2>
-      <Table :columns="columns3" :data="ownedbusiness" size="small"></Table>
-    </div>
-    <Spin size="large" fix v-if="spinShow">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-      <div>加载中...</div>
-    </Spin>
-    <Modal v-model="modal" @on-ok="ok" id="plusModal" @on-cancel='cancel'>
-      <h2 v-if='plus'>加点操作</h2>
-      <h2 v-else>减点操作</h2>
-      <Row class-name='modalrow'>
-        <Col span="4" v-if='plus'>增加点数</Col>
-        <Col span="4" v-else>减少点数</Col>
-        <Col span="16">
-        <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
-          <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
-        </Tooltip>
-        </Col>
-      </Row>
-      <Row class-name='modalrow'>
-        <Col span="4">起始账户</Col>
-        <Col span="16">
-        <Select v-model="select" v-if='plus' @on-change='changeOption'>
-          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <p v-else>【线路商】{{uname}}</p>
-        </Col>
-      </Row>
-      <Row v-if="plus" class-name='modalrow'>
-        <Col span="4">增加账户</Col>
-        <Col span="16">
-        <p>【线路商】{{uname}}</p>
-        </Col>
-      </Row>
-      <Row v-else class-name='modalrow'>
-        <Col span="4">转入账户</Col>
-        <Col span="16">
-        <Select v-model="select" @on-change='changeOption'>
-          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        </Col>
-      </Row>
-      <Row class-name='textrow'>
-        <Col span="4">备注</Col>
-        <Col span="16">
-        <textarea v-model="note" id="textRow" placeholder="注明备注,如没有可不填" rows="6" autocomplete="off" maxlength="180"></textarea>
-        </Col>
-      </Row>
-    </Modal>
-  </div>
 </template>
 <script>
 import {
   getWaterfall,
-  oneManagers,
-  companySelect,
-  childList,
+  getagentList,
+  agentOne,
+  playerList,
+  //   childList,
   gameBigType,
-  updateManagers,
+  //   updateManagers,
   userChangeStatus
 } from "@/service/index";
 import dayjs from "dayjs";
@@ -216,7 +222,7 @@ export default {
       edit: true, //可编辑
       game: "",
       role: "",
-      pageSize:100,//分页
+      pageSize: 100, //分页
       showData: [], //分页显示的data
       isedit: true,
       spinShow: false,
@@ -250,12 +256,13 @@ export default {
         ]
       },
       basic: {
+        username: "",
         password: "",
         remark: ""
       },
       gameType: [],
       gameList: [], //select
-      lineDetail: {},
+      agentDetail: {},
       nextLine: [], //下级线路商列表
       ownedbusiness: [], //拥有商户列表
       columns2: [
@@ -757,7 +764,7 @@ export default {
           title: "操作人",
           key: "operator",
           render: (h, params) => {
-            return h("span", params.row.operator.split("_")[1]);
+            return h("span", params.row.operator);
           }
         },
         {
@@ -794,20 +801,20 @@ export default {
   created() {
     this.init();
   },
-   computed: {
+  computed: {
     total() {
       return this.waterfall.length;
     }
   },
   watch: {
     $route(to, from) {
-      if (to.name == "lineDetail") {
+      if (to.name == "agentDetail") {
         this.init();
       }
     }
   },
   methods: {
-     handlePage() {
+    handlePage() {
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
       if (this.total < this.pageSize) {
         this.showData = this.waterfall;
@@ -826,8 +833,9 @@ export default {
       this.edit = false;
       this.isedit = false;
       this.value = ["1", "2", "3"];
-      this.basic.password = this.lineDetail.password;
-      this.basic.remark = this.lineDetail.remark;
+      this.basic.username = this.agentDetail.uname;
+      this.basic.password = this.agentDetail.password;
+      this.basic.remark = this.agentDetail.remark;
     },
     changeOption(id) {
       this.disabled = false;
@@ -888,6 +896,17 @@ export default {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
     save() {
+      let username = this.basic.username;
+      if (username == "") {
+        this.$Message.warning("用户名不能为空");
+        return;
+      } else {
+        let testReg = /^[a-zA-Z0-9]{5,16}$/;
+        if (!testReg.test(username)) {
+          this.$Message.warning("用户名为5-16位,限英文和数字");
+          return;
+        }
+      }
       let password = this.basic.password;
       if (password == "") {
         this.$Message.warning("密码不能为空");
@@ -902,9 +921,11 @@ export default {
       this.edit = true;
       this.isedit = true;
       let userId = this.userId;
-      let params = this.lineDetail;
-      let suffix = this.lineDetail.suffix;
+      let params = this.agentDetail;
+      let suffix = this.agentDetail.suffix;
+      params.username = suffix + "_" + username;
       params.password = password;
+      params.uname = username;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       this.spinShow = true;
@@ -923,7 +944,7 @@ export default {
       });
     },
     selectCompany(value) {
-      let userId=this.parent;
+      let userId = this.parent;
       let params = { companyIden: value, userId };
       if (userId == "01") {
         delete params.userId;
@@ -981,33 +1002,34 @@ export default {
       this.edit = true;
       this.isedit = true;
       let req1 = getWaterfall(userId);
-      let req2 = oneManagers(userId);
-      let req3 = companySelect({ parent });
-      let req4 = childList(userId, "10"); //线路商
-      let req5 = childList(userId, "100"); //商户
+      let req2 = agentOne(userId);
+      let req3 = getagentList({
+        parent: userId,
+        query: {},
+        sortkey: "createdAt",
+        sort: "desc"
+      }); //线路商
+      let req4 = playerList({ fromUserId: userId }); //商户
       let [
         waterfall,
-        managers,
-        company,
-        lineChild,
-        ownBusiness
-      ] = await this.axios.all([req1, req2, req3, req4, req5]);
+        agentInfo,
+        agentChild,
+        agentPlayer
+      ] = await this.axios.all([req1, req2, req3, req4]);
       this.spinShow = false;
       if (waterfall && waterfall.code == 0) {
         this.waterfall = waterfall.payload;
       }
-      if (managers && managers.code == 0) {
-        this.lineDetail = managers.payload;
-        this.gameDetail = managers.payload.gameList;
+      if (agentInfo && agentInfo.code == 0) {
+        this.agentDetail = agentInfo.payload;
+        this.gameDetail = agentInfo.payload.gameList;
+        this.gameType = agentInfo.payload.companyArr;
       }
-      if (company && company.code == 0) {
-        this.gameType = company.payload;
+      if (agentChild && agentChild.code == 0) {
+        this.nextLine = agentChild.payload;
       }
-      if (lineChild && lineChild.code == 0) {
-        this.nextLine = lineChild.payload;
-      }
-      if (ownBusiness && ownBusiness.code == 0) {
-        this.ownedbusiness = ownBusiness.payload;
+      if (agentPlayer && agentPlayer.code == 0) {
+        this.ownedbusiness = agentPlayer.payload;
       }
       this.handlePage();
     }
@@ -1015,7 +1037,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.lineDetail {
+.agentDetail {
   min-height: 89vh;
   .userName {
     line-height: 36px;
@@ -1055,7 +1077,7 @@ export default {
   line-height: 36px;
   margin-bottom: 22px;
 }
-.page{
+.page {
   text-align: right;
 }
 #textRow {

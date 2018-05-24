@@ -145,15 +145,8 @@
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="管理员账号" v-if="edit">
+              <FormItem label="管理员账号">
                 {{ merchantDetail.uname}}
-              </FormItem>
-              <FormItem label="管理员账号" prop="username" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.username" placeholder="5~16位,只能输入英文及数字"></Input>
-                  </Col>
-                </Row>
               </FormItem>
               </Col>
               <Col span="8">
@@ -289,7 +282,6 @@ export default {
         ]
       },
       basic: {
-        username: "",
         password: "",
         remark: "",
         frontURL: "",
@@ -472,7 +464,6 @@ export default {
       this.edit = false;
       this.isedit = false;
       this.value = ["1", "2"];
-      this.basic.username = this.merchantDetail.uname;
       this.basic.password = this.merchantDetail.password;
       this.basic.remark = this.merchantDetail.remark;
       this.basic.frontURL = this.merchantDetail.frontURL;
@@ -497,17 +488,6 @@ export default {
       // console.log(this.showData);
     },
     save() {
-      let username = this.basic.username;
-      if (username == "") {
-        this.$Message.warning("用户名不能为空");
-        return;
-      } else {
-        let testReg = /^[a-zA-Z0-9]{5,16}$/;
-        if (!testReg.test(username)) {
-          this.$Message.warning("用户名为5-16位,限英文和数字");
-          return;
-        }
-      }
       let password = this.basic.password;
       if (password == "") {
         this.$Message.warning("密码不能为空");
@@ -524,8 +504,6 @@ export default {
       let userId = this.userId;
       let suffix = this.merchantDetail.suffix;
       let params = this.merchantDetail;
-      params.username = suffix + "_" + username;
-      params.uname = username;
       params.password = password;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;

@@ -29,6 +29,7 @@ export const otherRouter = {
     component: main,
     children: [
         { path: 'home', name: 'home',title:'首页', component: () => import('@/pages/home.vue')},
+        { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: () => import('@/pages/agentCenter/agentDetail.vue')},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
