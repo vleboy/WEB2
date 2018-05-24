@@ -30,7 +30,14 @@ function checkStatus(response) {
 
 export const http = config => {
   return axios(config).then(response => checkStatus(response)).catch((err) => {
-    if(router.history.current.name === 'gameNoticeList') return // 处理上传图片未知错误信息
-      Message.warning('网络连接不稳定');
+    let routerUrl = ['gameNoticeList','merchantDetail']
+
+    let isPass = routerUrl.some((item)=>{
+        return item === router.history.current.name
+    })
+
+    if(isPass) return // 处理上传图片未知错误信息
+
+    Message.warning('网络连接不稳定');
   })
 }
