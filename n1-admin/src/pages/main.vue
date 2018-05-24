@@ -104,6 +104,50 @@ export default {
       this.checkTag(name);
       this.openName=menuOpen(name);
       // this.$store.commit("addOpenSubmenu", pathArr[1].name);
+      switch (name) {
+        case "nacard" || "nastreet" || "natrue" || "navideo" || "naAll":
+          this.openName = ["report", "ugreport"];
+          break;
+        case "ttgvideo":
+          this.openName = ["report", "ttgreport"];
+          break;
+        case "saAll" || "safishing" || "satrue":
+          this.openName = ["report", "sareport"];
+          break;
+        case "mgvideo":
+          this.openName = ["report", "mgreport"];
+          break;
+        case "agtrue":
+          this.openName = ["report", "agreport"];
+          break;
+        case "ugsport":
+          this.openName = ["report", "ugreport"];
+          break;
+        case "allreport":
+          this.openName = ["report"];
+          break;
+        case "businessList" || "lineBusiness":
+          this.openName = ["businessCenter"];
+          break;
+        case "ownspace-index":
+          this.openName = [];
+          break;
+        case "adminList" || "lineNumList" || "adminRole":
+          this.openName = ["adminCenter"];
+          break;
+        case "lineLoginLog" || "merchantLog" || "adminLog" || "debugLog":
+          this.openName = ["logCenter"];
+          break;
+        case "playList":
+          this.openName = ["playerCenter"];
+          break;
+        case "playDetail":
+          this.openName=['playDetail'];
+          break;
+        case "boothList" || "gameMailList" || "businessRecord" || "propPrice" || "horseRaceLampList" || "gameNoticeList":
+          this.openName=['operation'];
+          break;
+      }
     }
   }
 };

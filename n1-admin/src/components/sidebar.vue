@@ -77,27 +77,19 @@
                     <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
                     <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
                 </Submenu>
-                <!--
-                <Submenu name="11">
+
+                <Submenu name="operation">
                     <template slot="title">
-                        运营中心
+                      运营中心
                     </template>
-                    <Submenu name='24'>
-                        <template slot="title">公告管理</template>
-                        <MenuItem name="aac">游戏公告列表</MenuItem>
-                        <MenuItem name="bbba">跑马灯列表</MenuItem>
-                    </Submenu>
-                    <Submenu name='25'>
-                        <template slot="title">邮件管理</template>
-                        <MenuItem name="322">游戏邮件列表</MenuItem>
-                    </Submenu>
-                    <Submenu name='26'>
-                        <template slot="title">展位管理</template>
-                        <MenuItem name="3">展位列表</MenuItem>
-                    </Submenu>
-                    <MenuItem name="11-1">商户运营记录</MenuItem>
-                    <MenuItem name="11-2">道具造价</MenuItem>
+                    <MenuItem name="gameNoticeList" v-if='permission.includes("游戏公告列表")'>游戏公告列表</MenuItem>
+                    <MenuItem name="gameMailList" v-if='permission.includes("游戏邮件列表")'>游戏邮件列表</MenuItem>
+                    <MenuItem name="horseRaceLampList" v-if='permission.includes("跑马灯列表")'>跑马灯列表</MenuItem>
+                    <MenuItem name="businessRecord" v-if='permission.includes("商户运营记录")'>商户运营记录</MenuItem>
+                    <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
+                    <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
                 </Submenu>
+              <!--
                 <Submenu name="12">
                     <template slot="title">
                         系统设置
