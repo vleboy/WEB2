@@ -198,7 +198,6 @@
 </template>
 <script>
 import {
-  companySelect,
   checkExit,
   gameBigType,
   getBill,
@@ -329,6 +328,7 @@ export default {
         parent: "",
         points: null
       },
+      parentId: "",
       selected: false,
       tipContent: "上级游戏占成为:",
       parentGameList: [], //parent rate
@@ -497,25 +497,27 @@ export default {
         this.$store.commit("updateLoading", { params: true });
         this.disabled = false;
         let params = { parent: id };
-        companySelect(params).then(res => {
-          if (res.code == 0) {
-            this.gameType = res.payload;
-          }
-        });
         oneManagers(id).then(res => {
           if (res.code == 0) {
-            this.parentGameList = res.payload.gameList||[];
+            this.gameType = res.payload.companyArr;
+            this.parentGameList = res.payload.gameList || [];
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });
           }
         });
       }
+      this.parentId = id;
     },
     focus() {
       this.tooltip = "当前所属上级余额:" + this.parentBalance;
     },
     selectCompany(value) {
-      gameBigType({ companyIden: value }).then(res => {
+      let userId = this.parentId;
+      let params = { companyIden: value, userId };
+      if (userId == "01") {
+        delete params.userId;
+      }
+      gameBigType(params).then(res => {
         if (res.code == 0) {
           this.gameList = res.payload;
         }
@@ -557,8 +559,8 @@ export default {
         });
         return;
       }
-      if(balance>100){
-         this.$Message.warning({
+      if (balance > 100) {
+        this.$Message.warning({
           content: `不能超过100`,
           duration: 2.5
         });

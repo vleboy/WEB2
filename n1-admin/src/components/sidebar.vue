@@ -55,10 +55,10 @@
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
                 <Submenu name="playerCenter" v-if='authorityStr.includes("玩家列表")'>
-                  <template slot="title">
-                    玩家中心
-                  </template>
-                  <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
+                    <template slot="title">
+                        玩家中心
+                    </template>
+                    <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if='authorityStr.includes("管理员列表")||authorityStr.includes("线路号列表")||authorityStr.includes("管理员角色列表")'>
                     <template slot="title">
@@ -77,10 +77,9 @@
                     <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
                     <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
                 </Submenu>
-
-                <Submenu name="operation">
+                <Submenu name="operation" v-if='authorityStr.includes("游戏公告列表")||authorityStr.includes("游戏邮件列表")||authorityStr.includes("跑马灯列表")||authorityStr.includes("商户运营记录")||authorityStr.includes("展位列表")||authorityStr.includes("道具定价")'>
                     <template slot="title">
-                      运营中心
+                        运营中心
                     </template>
                     <MenuItem name="gameNoticeList" v-if='permission.includes("游戏公告列表")'>游戏公告列表</MenuItem>
                     <MenuItem name="gameMailList" v-if='permission.includes("游戏邮件列表")'>游戏邮件列表</MenuItem>
@@ -89,7 +88,7 @@
                     <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
                     <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
                 </Submenu>
-              <!--
+                <!--
                 <Submenu name="12">
                     <template slot="title">
                         系统设置

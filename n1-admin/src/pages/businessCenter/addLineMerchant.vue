@@ -118,13 +118,7 @@
   </div>
 </template>
 <script>
-import {
-  companySelect,
-  checkExit,
-  gameBigType,
-  getBill,
-  oneManagers
-} from "@/service/index";
+import { checkExit, gameBigType, getBill, oneManagers } from "@/service/index";
 import _ from "lodash";
 export default {
   data() {
@@ -225,6 +219,7 @@ export default {
         parent: "",
         points: null
       },
+      parentId: "",
       parentGameList: [], //parent rate
       selected: false,
       game: "",
@@ -361,25 +356,27 @@ export default {
         this.$store.commit("updateLoading", { params: true });
         this.disabled = false;
         let params = { parent: id };
-        companySelect(params).then(res => {
-          if (res.code == 0) {
-            this.gameType = res.payload;
-          }
-        });
         oneManagers(id).then(res => {
           if (res.code == 0) {
-            this.parentGameList = res.payload.gameList||[];
+            this.gameType = res.payload.companyArr;
+            this.parentGameList = res.payload.gameList || [];
             this.parentBalance = res.payload.balance;
             this.$store.commit("updateLoading", { params: false });
           }
         });
       }
+      this.parentId = id;
     },
     focus() {
       this.tooltip = "当前所属上级余额:" + this.parentBalance;
     },
     selectCompany(value) {
-      gameBigType({ companyIden: value }).then(res => {
+      let userId = this.parentId;
+      let params = { companyIden: value, userId };
+      if (userId == "01") {
+        delete params.userId;
+      }
+      gameBigType(params).then(res => {
         if (res.code == 0) {
           this.gameList = res.payload;
         }

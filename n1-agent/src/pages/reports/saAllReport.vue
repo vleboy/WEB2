@@ -188,7 +188,9 @@ export default {
             if (params.row.level == 0) {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount.toFixed(2));
+              if(params.row.submitAmount){
+                return h("span", params.row.submitAmount.toFixed(2));
+              }
             }
           }
         },
@@ -397,10 +399,18 @@ export default {
       });
     },
     async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
+      let req1 = this.$store.dispatch("getUserList", { userId });
       let req2 = this.$store.dispatch("getUserChild", {
-        parent: "01",
+        parent,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime

@@ -167,8 +167,6 @@ import {
   userChangeStatus,
   checkAgentMix,
   gameBigType,
-  companySelect,
-  getBill,
   checkExit,
   agentOne,
   agentNew,
@@ -176,7 +174,7 @@ import {
 } from "@/service/index";
 export default {
   data() {
-     const validatePlayerName = (rule, value, callback) => {
+    const validatePlayerName = (rule, value, callback) => {
       if (value == "") {
         callback(new Error("用户名不能为空"));
       } else {
@@ -184,11 +182,11 @@ export default {
         if (!nameReg.test(value)) {
           callback(new Error("5~16位,只能包含英文或数字"));
         } else {
-          callback()
+          callback();
         }
       }
     };
-     const validatePlayerPass = (rule, value, callback) => {
+    const validatePlayerPass = (rule, value, callback) => {
       if (value == "") {
         callback(new Error("密码不能为空"));
       } else {
@@ -196,7 +194,7 @@ export default {
         if (!nameReg.test(value)) {
           callback(new Error("密码由6-16位字母和数字组成"));
         } else {
-          callback()
+          callback();
         }
       }
     };
@@ -462,9 +460,9 @@ export default {
               },
               on: {
                 "on-change": value => {
-                  let playerMix=this.playerMix;
-                  let index=params.row._index;
-                  playerMix[index].mix=value
+                  let playerMix = this.playerMix;
+                  let index = params.row._index;
+                  playerMix[index].mix = value;
                 }
               }
             });
@@ -1179,29 +1177,17 @@ export default {
     },
     selectParent(id) {
       if (id) {
-        let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
         this.$store.commit("agentLoading", { params: true });
         this.disabled = false;
-        companySelect({ parent: id }).then(res => {
+        agentOne(id).then(res => {
           if (res.code == 0) {
-            this.gameType = res.payload;
-          }
-        });
-        let ids = id == "01" ? userId : id;
-        getBill(ids).then(res => {
-          if (res.code == 0) {
+            this.gameType = res.payload.companeArr;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
+            this.parentGameList = res.payload.gameList;
+            this.$store.commit("agentLoading", { params: false });
           }
         });
-        if (id != "01") {
-          agentOne(id).then(res => {
-            if (res.code == 0) {
-              this.parentGameList = res.payload.gameList;
-            }
-          });
-        }
-        this.$store.commit("agentLoading", { params: false });
       }
     },
     selectType(v) {
@@ -1400,43 +1386,54 @@ export default {
       });
     },
     init() {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
       this.$store.commit("agentLoading", { params: true });
       this.$store.dispatch("getAgentList", {
-        parent: "01",
+        parent,
         query: {},
         sort: "desc",
         sortkey: "createdAt"
       });
     },
     addPlayerConfirm() {
-     this.$refs['playerForm'].validate(valid=>{
-       if(valid){
-         creatPlayer({
-           ...this.player,
-           gameList:this.playerMix
-         }).then(res=>{
-           if(res.code==0){
-             this.$Message.success('创建成功');
-           }
-         })
-       }
-     })
+      this.$refs["playerForm"].validate(valid => {
+        if (valid) {
+          creatPlayer({
+            ...this.player,
+            gameList: this.playerMix
+          }).then(res => {
+            if (res.code == 0) {
+              this.$Message.success("创建成功");
+            }
+          });
+        }
+      });
     },
     cancelPlayer() {
       this.$refs["playerForm"].resetFields();
-      this.playerMix=[];
+      this.playerMix = [];
     },
     selectPlayerParent(id) {
       this.disabled = false;
-     if(id){
+      this.$store.commit("agentLoading", { params: true });
+      if (id) {
         agentOne(id).then(res => {
-        if (res.code == 0) {
-          this.playerMix = res.payload.gameList;
-          this.parentBalance = res.payload.balance;
-          this.pointContent = "上级代理余额为:" + res.payload.balance;
-        }
-      });
-     }
+          if (res.code == 0) {
+            this.playerMix = res.payload.gameList;
+            this.parentBalance = res.payload.balance;
+            this.pointContent = "上级代理余额为:" + res.payload.balance;
+            this.$store.commit("agentLoading", { params: false });
+          }
+        });
+      }
     }
   },
   computed: {

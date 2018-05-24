@@ -11,25 +11,25 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ></Table>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
       </p>
-      <Table :columns="columns1" :data="child" size="small" ></Table>
+      <Table :columns="columns1" :data="child" size="small"></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" ></Table>
+      <Table :columns="columns1" :data="item" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ></Table>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -52,7 +52,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       gameType: [
-        3,//NA棋牌
+        3, //NA棋牌
         30000,
         40000,
         50000,
@@ -119,19 +119,19 @@ export default {
                       let userId = params.row.userId;
                       let level = params.row.level;
                       let showList = await this.getNextLevel(
-                      this.reportChild,
-                      userId
+                        this.reportChild,
+                        userId
                       );
                       showList = _.filter(showList, function(o) {
                         return o.length;
                       });
                       let len = showList.length;
                       if (len > 0) {
-                          while (len--) {
-                            if (showList[len][0].level > level + 1) {
-                              showList.splice(len, 1);
-                            }
+                        while (len--) {
+                          if (showList[len][0].level > level + 1) {
+                            showList.splice(len, 1);
                           }
+                        }
                       }
                       this.reportChild = showList;
                       this.$store
@@ -195,9 +195,11 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-              return h("span", params.row.submitAmount.toFixed(2));
+              if (params.row.submitAmount) {
+                return h("span", params.row.submitAmount.toFixed(2));
+              }
             }
           }
         },
@@ -233,7 +235,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -278,7 +280,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -323,7 +325,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -368,7 +370,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -413,7 +415,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -458,7 +460,7 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -646,10 +648,18 @@ export default {
     },
     //初始化
     async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
       let req1 = this.$store.dispatch("getUserList", { userId: userId });
       let req2 = this.$store.dispatch("getUserChild", {
-        parent: "01",
+        parent,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime

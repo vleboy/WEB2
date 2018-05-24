@@ -188,6 +188,30 @@ export default {
                   title: "DEBUG日志"
                 }
               ]
+            },
+            {
+              title: "运营中心",
+              expand: true,
+              children: [
+                {
+                  title: "游戏公告列表"
+                },
+                {
+                  title: "游戏邮件列表"
+                },
+                {
+                  title: "跑马灯列表"
+                },
+                {
+                  title: "商户运营记录"
+                },
+                  {
+                  title: "展位列表"
+                },
+                {
+                  title: "道具定价"
+                }
+              ]
             }
           ]
         }

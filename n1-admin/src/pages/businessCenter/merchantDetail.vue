@@ -551,7 +551,12 @@ export default {
       });
     },
     selectCompany(value) {
-      gameBigType({ companyIden: value }).then(res => {
+      let userId=this.parent;
+      let params = { companyIden: value, userId };
+      if (userId == "01") {
+        delete params.userId;
+      }
+      gameBigType(params).then(res => {
         if (res.code == 0) {
           this.gameList = res.payload;
         }

@@ -31,7 +31,7 @@
             </Row>
           </FormItem>
         </Form>
-         <Spin size="large" fix v-if="spin">
+        <Spin size="large" fix v-if="spin">
           <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
           <div>加载中...</div>
         </Spin>
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      spin:false,
+      spin: false,
       modal: false,
       subRoleList: [],
       admin: {
@@ -186,7 +186,7 @@ export default {
                         onOk: () => {
                           subRoleDelete({ name: name }).then(res => {
                             if (res.code == 0) {
-                             this.init();
+                              this.init();
                             }
                           });
                         }
@@ -383,6 +383,37 @@ export default {
                   checked: false
                 }
               ]
+            },
+            {
+              title: "运营中心",
+              expand: true,
+              checked: false,
+              children: [
+                {
+                  title: "游戏公告列表",
+                  checked: false
+                },
+                {
+                  title: "游戏邮件列表",
+                  checked: false
+                },
+                {
+                  title: "跑马灯列表",
+                  checked: false
+                },
+                {
+                  title: "商户运营记录",
+                  checked: false
+                },
+                {
+                  title: "展位列表",
+                  checked: false
+                },
+                {
+                  title: "道具定价",
+                  checked: false
+                }
+              ]
             }
           ]
         }
@@ -405,30 +436,30 @@ export default {
       }).then(res => {
         if (res.code == 0) {
           this.$Message.success("保存成功");
-          this.init()
+          this.init();
         }
       });
     },
     reset() {
-     this.init()
+      this.init();
     },
     init() {
-      this.spin=true;
+      this.spin = true;
       getsbuRole().then(res => {
         if (res.code == 0) {
           this.subRoleList = res.payload.Items;
-          this.spin=false;
+          this.spin = false;
         }
       });
     }
   },
-  created(){
-    this.init()
+  created() {
+    this.init();
   },
   watch: {
     $route(to, from) {
       if (from.name == "createRole") {
-       this.init()
+        this.init();
       }
     }
   }
