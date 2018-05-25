@@ -114,6 +114,7 @@ export default {
         adName: '',
         url: '',
         img: '',
+        imgAli: '',
         remark: ''
       },
       searchInfo: {
@@ -341,6 +342,7 @@ export default {
           adName: '',
           url: '',
           img: '',
+          imgAli: '',
           remark: ''
         }
         this.fileList = []
@@ -419,7 +421,7 @@ export default {
       }).then((results) => {
         this.$Message.success('上传成功')
         this.loadingStatus = false
-        this.noticeInfo.img = `http://app.risheng3d.com/${results.name}` || results.url
+        this.noticeInfo.imgAli = `http://app.risheng3d.com/${results.name}` || results.url
         // console.log(results,this.noticeInfo.img, 'src')
       }).catch((err) => {
         this.loadingStatus = false
@@ -459,7 +461,7 @@ export default {
           this.uploadAction = res.payload
           this.actionUrl = res.payload[0].aws
           this.uploadAws()
-          // this.uploadAli()
+          this.uploadAli()
           resolve(true)
         }).catch(err => {
           reject(false)
