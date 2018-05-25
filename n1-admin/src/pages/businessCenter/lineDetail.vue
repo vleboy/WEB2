@@ -952,6 +952,8 @@ export default {
         gameItem.rate = this.gameForm.balance;
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      }else{
+        this.$Message.warning('占成为0-100数字')
       }
     }, //生成密码
     createPass() {

@@ -12,8 +12,8 @@
           下级代理列表
         </span>
         <div class="search">
-          <Input v-model="search1" placeholder="请输入搜索内容" style="width: 150px"></Input>
-          <Button type="primary" @click="search">搜索</Button>
+          <Input v-model="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
+          <Button type="primary" @click="searchAgent">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
@@ -33,8 +33,8 @@
           所属玩家列表
         </span>
         <div class="search">
-          <Input v-model="search2" placeholder="请输入搜索内容" style="width: 150px"></Input>
-          <Button type="primary" @click="search">搜索</Button>
+          <Input v-model="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
+          <Button type="primary" @click="searchPlayer">搜索</Button>
           <Button type="ghost" @click="resetplayer">重置</Button>
         </div>
       </div>
@@ -314,11 +314,11 @@ export default {
     };
     return {
       plus: null,
-      userInfo:[],
+      userInfo: [],
       modal: false,
       point: "",
       remark: "",
-      search1: "",
+      userName: "",
       search2: "",
       parentDisplayName: "",
       dayjs: dayjs,
@@ -459,7 +459,7 @@ export default {
                 min: 0,
                 max: parseFloat(params.row.mix),
                 value: parseFloat(params.row.mix),
-                step: 0.1,
+                step: 0.01,
                 placeholder: "请输入玩家洗码比(必填)"
               },
               on: {
@@ -518,8 +518,8 @@ export default {
           title: "管理员账号",
           key: "username",
           render: (h, params) => {
-             let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
-            if (params.row.userId==currentId) {
+            let currentId = JSON.parse(localStorage.getItem("userInfo")).userId;
+            if (params.row.userId == currentId) {
               return h(
                 "span",
                 {
@@ -667,10 +667,10 @@ export default {
           title: "剩余点数",
           key: "balance",
           render: (h, params) => {
-            let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
-            if (params.row.userId==currentId) {
-              return h('span',params.row.balance)
-            }else {
+            let currentId = JSON.parse(localStorage.getItem("userInfo")).userId;
+            if (params.row.userId == currentId) {
+              return h("span", params.row.balance);
+            } else {
               return h("div", [
                 h("p", params.row.balance),
                 h("p", [
@@ -778,6 +778,7 @@ export default {
         {
           title: "备注",
           key: "remark",
+          maxWidth: 60,
           render: (h, params) => {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
@@ -810,7 +811,7 @@ export default {
         {
           title: "操作",
           key: "",
-          minWidth: 240,
+          minWidth: 220,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("div", [
@@ -832,11 +833,13 @@ export default {
                         this.parentSn = params.row.sn;
                         let parent =
                           params.row.level == 0 ? "01" : params.row.userId;
+                        this.agent.parent = parent;
                         availableAgents({ parent }).then(res => {
                           if (res.code == 0) {
                             this.parentList = res.payload;
                           }
                         });
+                        this.selectParent(parent);
                         this.parentRate = params.row.rate;
                         this.rateContent = "上级代理成数为:" + params.row.rate;
                       }
@@ -846,9 +849,10 @@ export default {
                 )
               ]);
             } else {
-               let currentId=JSON.parse(localStorage.getItem('userInfo')).userId;
-            if (params.row.userId==currentId) {
-               return h("div", [
+              let currentId = JSON.parse(localStorage.getItem("userInfo"))
+                .userId;
+              if (params.row.userId == currentId) {
+                return h("div", [
                   h(
                     "span",
                     {
@@ -887,6 +891,8 @@ export default {
                         click: () => {
                           this.agentModal = true;
                           this.parentSn = params.row.sn;
+                          let userId = params.row.userId;
+                          this.agent.parent = userId;
                           availableAgents({ parent: params.row.userId }).then(
                             res => {
                               if (res.code == 0) {
@@ -894,6 +900,7 @@ export default {
                               }
                             }
                           );
+                          this.selectParent(userId);
                           this.parentRate = params.row.rate;
                           this.rateContent =
                             "上级代理成数为:" + params.row.rate;
@@ -914,18 +921,20 @@ export default {
                           this.playerModal = true;
                           let parent =
                             params.row.level == 0 ? "01" : params.row.userId;
+                          this.player.parentId = parent;
                           availableAgents({ parent }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
                           });
+                          this.selectPlayerParent(parent);
                         }
                       }
                     },
                     "创建玩家"
                   )
                 ]);
-            }
+              }
               let color = "";
               let text = "";
               let status = null;
@@ -1003,13 +1012,14 @@ export default {
                         click: () => {
                           this.agentModal = true;
                           this.parentSn = params.row.sn;
-                          availableAgents({ parent: params.row.userId }).then(
-                            res => {
-                              if (res.code == 0) {
-                                this.parentList = res.payload;
-                              }
+                          let userId = params.row.userId;
+                          this.agent.parent = userId;
+                          availableAgents({ parent: userId }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
                             }
-                          );
+                          });
+                          this.selectParent(userId);
                           this.parentRate = params.row.rate;
                           this.rateContent =
                             "上级代理成数为:" + params.row.rate;
@@ -1030,11 +1040,13 @@ export default {
                           this.playerModal = true;
                           let parent =
                             params.row.level == 0 ? "01" : params.row.userId;
+                          this.player.parentId = parent;
                           availableAgents({ parent }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
                           });
+                          this.selectPlayerParent(parent);
                         }
                       }
                     },
@@ -1284,16 +1296,33 @@ export default {
     };
   },
   methods: {
-    search() {
-      console.log(2);
+    searchAgent() {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let username = this.userName;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
+      this.$store.dispatch("getAgentList", {
+        parent,
+        query: { username },
+        sort: "desc",
+        sortkey: "createdAt"
+      });
+    },
+    searchPlayer() {
+      console.log(1);
     },
     reset() {
-      this.search1='';
-      this.search2='';
-      this.init()
+      this.userName = "";
+      this.init();
     },
-    resetplayer(){
-      console.log(1);
+    resetplayer() {
+      this.search2 = "";
     },
     resetAgent() {
       this.$refs["agentForm"].resetFields();
@@ -1524,19 +1553,19 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
-      this.agentChild=[];
+      this.agentChild = [];
       if (level == 0) {
         parent = "01";
       } else {
         parent = userId;
       }
       agentOne(userId).then(res => {
-          if (res.code == 0) {
-            let arr=[];
-            arr.push(res.payload)
-           this.userInfo=arr
-          }
-        });
+        if (res.code == 0) {
+          let arr = [];
+          arr.push(res.payload);
+          this.userInfo = arr;
+        }
+      });
       this.$store.commit("agentLoading", { params: true });
       this.$store.dispatch("getAgentList", {
         parent,
@@ -1554,6 +1583,8 @@ export default {
           }).then(res => {
             if (res.code == 0) {
               this.$Message.success("创建成功");
+              this.$refs["playerForm"].resetFields();
+              this.playerMix = [];
             }
           });
         }

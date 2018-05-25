@@ -110,10 +110,12 @@
               </Row>
             </FormItem>
             <FormItem v-if="selected">
-              <label slot="label">{{game}}商家占成(%)</label>
+              <label slot="label">{{game}}洗码比(%)</label>
               <Row>
-                <Col span="4">
-                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                <Col span="3">
+                <Tooltip :content="mixTip" placement="top">
+                  <Input v-model="gameForm.balance" placeholder="0~1,不超过上级洗码比"></Input>
+                </Tooltip>
                 </Col>
                 <Col span="2">
                 <span class="add" @click="addGame">添加</span>
@@ -208,9 +210,12 @@ export default {
       parent: "",
       value: "",
       dayjs: dayjs,
+      parentGame: [],
+      maxMix: 0,
       edit: true, //可编辑
       game: "",
       role: "",
+      mixTip: "",
       pageSize: 100, //分页
       showData: [], //分页显示的data
       isedit: true,
@@ -263,29 +268,25 @@ export default {
           key: "balance"
         },
         {
-          title: "操作时间",
+          title: "创建时间",
           key: "",
           render: (h, params) => {
-            let time = params.row.lastBill.updateAt;
+            let time = params.row.createdAt;
             return h("span", this.dayjs(time).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
         {
           title: "备注",
           key: "remark",
-          maxWidth: 80,
           render: (h, params) => {
-            if (
-              params.row.lastBill.remark == "NULL!" ||
-              params.row.lastBill.remark == null
-            ) {
+            if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");
             } else {
               return h(
                 "Tooltip",
                 {
                   props: {
-                    content: params.row.lastBill.remark
+                    content: params.row.remark
                   }
                 },
                 [
@@ -301,7 +302,7 @@ export default {
           }
         },
         {
-          title: "操作(对旗下线路商操作)",
+          title: "操作(对旗下代理操作)",
           key: "",
           render: (h, params) => {
             let userId = this.$route.query.userId;
@@ -423,10 +424,10 @@ export default {
           key: "balance"
         },
         {
-          title: "操作时间",
+          title: "创建时间",
           key: "",
           render: (h, params) => {
-            let time = params.row.updateAt;
+            let time = params.row.createdAt;
             return h("span", this.dayjs(time).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
@@ -448,7 +449,6 @@ export default {
                       this.role = "10000";
                       this.plus = true;
                       this.modal = true;
-                      this.toRole = "10000";
                       this.fromUserId = this.agentDetail.userId;
                       this.toUser = params.row.userName;
                     }
@@ -470,8 +470,8 @@ export default {
                       this.plus = false;
                       this.modal = true;
                       this.fromUserId = params.row.userId;
-                      this.toRole = "1000";
-                      this.toUser = this.agentDetail.username;
+                      this.fromUserId = this.agentDetail.userId;
+                      this.toUser = params.row.userName;
                     }
                   }
                 },
@@ -670,6 +670,7 @@ export default {
     },
     ok() {
       let userId = this.$route.query.userId;
+      this.spinShow = true;
       if (this.role == "1000") {
         billTransfer({
           fromUserId: this.fromUserId,
@@ -690,6 +691,7 @@ export default {
             }).then(res => {
               if (res.code == 0) {
                 this.agentListOne = res.payload;
+                this.spinShow = false;
               }
             });
           }
@@ -710,6 +712,7 @@ export default {
               playerList({ fromUserId: userId }).then(res => {
                 if (res.code == 0) {
                   this.agentPlayerList = res.list;
+                  this.spinShow = false;
                 }
               });
             }
@@ -723,6 +726,7 @@ export default {
               playerList({ fromUserId: userId }).then(res => {
                 if (res.code == 0) {
                   this.agentPlayerList = res.list;
+                  this.spinShow = false;
                 }
               });
             }
@@ -784,6 +788,17 @@ export default {
     selectGame(value) {
       this.selected = true;
       this.game = value;
+      let mix = 0;
+      let parentGame = this.parentGame;
+      if (parentGame.length > 0) {
+        for (let item of parentGame) {
+          if (item.name == value) {
+            mix = item.mix;
+            this.maxMix = mix;
+          }
+        }
+      }
+      this.mixTip = `该上级代理${value}洗码比为${mix}%`;
     },
     addGame() {
       let gamelist = this.gameList;
@@ -794,12 +809,21 @@ export default {
           gameItem = item;
         }
       }
-      let re = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
-      if (re.test(this.gameForm.balance)) {
-        gameItem.rate = this.gameForm.balance;
-        this.gameDetail.push(gameItem);
-        this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
+      let balance = parseFloat(this.gameForm.balance);
+      let oldGame = this.gameDetail;
+      for (let item of oldGame) {
+        if (item.name == gameName) {
+          this.$Message.warning("已选择该游戏");
+          return;
+        }
       }
+      if (balance <= 1 && balance <= this.maxMix) {
+        gameItem.mix = this.gameForm.balance;
+      } else {
+        this.$Message.warning("洗码比为0-1数字,且不超过上级游戏洗码比");
+      }
+      this.gameDetail.push(gameItem);
+      this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
     }, //生成密码
     createPass() {
       let text = [
@@ -857,6 +881,11 @@ export default {
       if (agentPlayer && agentPlayer.code == 0) {
         this.agentPlayerList = agentPlayer.list;
       }
+      agentOne(parent).then(res => {
+        if (res.code == 0) {
+          this.parentGame = res.payload.gameList || [];
+        }
+      });
       this.handlePage();
     }
   }

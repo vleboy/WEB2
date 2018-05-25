@@ -1,4 +1,4 @@
-import {logIn,agentOne,getWaterfall,getBill,updatePassword} from '@/service/index'
+import {logIn,agentOne,getWaterfall,updatePassword} from '@/service/index'
 import {Message} from 'iview'
 export const login = {
     state:{
@@ -65,7 +65,8 @@ export const login = {
             }
             let p1=agentOne(userId).then(res=>{
                 if(res.code==0){
-                    commit('updateAdmin',{params:res.payload})
+                    commit('updateAdmin',{params:res.payload});
+                    commit('updateBill',{params:res.payload.balance})
                 }
             })
             let p2= getWaterfall(userId).then(res=>{
@@ -73,12 +74,7 @@ export const login = {
                     commit('updateWaterfall',{params:res.payload})
                 }
             });
-           let p3= getBill(userId).then(res=>{
-                if(res.code==0){
-                    commit('updateBill',{params:res.payload.balance})
-                }
-            });
-            Promise.all([p1,p2,p3]).then(()=>{
+            Promise.all([p1,p2]).then(()=>{
                 commit('changeLoading',{params:false});
             })
         },

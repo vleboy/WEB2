@@ -88,7 +88,7 @@ export async function gameSign(params){
     return http(post('/game/sign',params))
 }
 //admin_center
-export async function agentOne(){
+export async function adminCenter(){
     return http(get('/admin_center'))
 }
 //流水列表

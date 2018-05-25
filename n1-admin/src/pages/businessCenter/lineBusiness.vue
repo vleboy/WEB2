@@ -123,7 +123,7 @@ export default {
             let adminId = admininfo.userId;
             let userName = admininfo.username;
             return h("div", [
-              h("p", params.row.lastBill.lastBalance.toFixed(2)),
+              h("p", params.row.balance.toFixed(2)),
               h("p", [
                 h(
                   "span",

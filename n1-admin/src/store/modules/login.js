@@ -1,4 +1,4 @@
-import { logIn, agentOne } from '@/service/index'
+import { logIn, adminCenter,updatePassword } from '@/service/index'
 import { Message } from 'iview'
 export const login = {
     state: {
@@ -81,17 +81,7 @@ export const login = {
         //     })
         // },
         changePassword({ commit }, params) {
-            let userId = localStorage.loginId?localStorage.getItem("loginId"):''
-            updatePassword(params).then(res => {
-                if (res.code == 0) {
-                    Message.success('修改成功');
-                    agentOne(userId).then(re => {
-                        if (re.code == 0) {
-                            commit('updateAdmin', { params: re.payload })
-                        }
-                    })
-                }
-            })
+            return updatePassword(params)
         },
         updatePwd({ commit }, params) {
             updatePassword(params).then(res => {

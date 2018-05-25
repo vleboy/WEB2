@@ -61,7 +61,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { getBill, getWaterfall, agentOne } from "@/service/index";
+import { getWaterfall, adminCenter } from "@/service/index";
 import { thousandFormatter } from "@/config/format";
 export default {
   data() {
@@ -71,9 +71,9 @@ export default {
       repassword: "",
       dayjs: dayjs,
       pageSize: 100,
-      balance:'',
-      admin:{},
-      waterfall:[],
+      balance: "",
+      admin: {},
+      waterfall: [],
       showData: [],
       columns1: [
         {
@@ -181,7 +181,7 @@ export default {
   computed: {
     total() {
       return this.waterfall.length;
-    },
+    }
   },
   methods: {
     handlePage() {
@@ -226,14 +226,23 @@ export default {
       if (localStorage.userInfo) {
         userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       }
+      let self = this;
+      this.$store.commit("updateLoading", { params: true });
       this.$store
         .dispatch("changePassword", {
           userId: userId,
           password: this.repassword
         })
-        .then(() => {
-          this.password = "";
-          this.repassword = "";
+        .then(res => {
+          if (res.code == 0) {
+            self.password = "";
+            self.repassword = "";
+            adminCenter().then(res => {
+              self.admin = res.payload;
+              self.$store.commit("updateLoading", { params: false });
+              self.$Message.success('修改成功');
+            });
+          }
         });
     },
     cancel() {
@@ -270,27 +279,23 @@ export default {
       }
     },
     reset() {
-      this.init()
+      this.init();
     },
     async init() {
       this.$store.commit("updateLoading", { params: true });
       let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
-      let req1=getBill(userId);
-      let req2=getWaterfall(userId);
-      let req3=agentOne();
-      let [bill,waterfall,admin]=await this.axios.all([req1,req2,req3])
+      let req1 = getWaterfall(userId);
+      let req2 = adminCenter();
+      let [waterfall, admin] = await this.axios.all([req1, req2]);
       this.$store.commit("updateLoading", { params: false });
-      if(bill&&bill.code==0){
-        this.balance=bill.payload.balance
+      if (waterfall && waterfall.code == 0) {
+        this.waterfall = waterfall.payload;
       }
-      if(waterfall&&waterfall.code==0){
-        this.waterfall=waterfall.payload
-      }
-      if(admin&&admin.code==0){
-        this.admin=admin.payload
+      if (admin && admin.code == 0) {
+        this.admin = admin.payload;
+        this.balance = admin.payload.balance;
       }
       this.handlePage();
-      
     }
   },
   filters: {
@@ -301,7 +306,7 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.init();
     this.handlePage();
   }
 };
