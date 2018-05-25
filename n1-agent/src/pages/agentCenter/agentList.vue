@@ -454,19 +454,21 @@ export default {
           title: "玩家洗码比（%）",
           key: "",
           render: (h, params) => {
+            let mix = params.row.mix;
             return h("InputNumber", {
               props: {
                 min: 0,
-                max: parseFloat(params.row.mix),
-                value: parseFloat(params.row.mix),
+                max: parseFloat(mix),
+                value: parseFloat(mix),
                 step: 0.01,
                 placeholder: "请输入玩家洗码比(必填)"
               },
               on: {
                 "on-change": value => {
-                  let playerMix = this.playerMix;
+                  let playerMix = _.cloneDeep(this.playerMix);
                   let index = params.row._index;
                   playerMix[index].mix = value;
+                  this.playerMixClone = playerMix;
                 }
               }
             });
@@ -474,6 +476,7 @@ export default {
         }
       ],
       playerMix: [],
+      playerMixClone: [],
       columns: [
         {
           title: "公司",
@@ -1324,15 +1327,6 @@ export default {
     resetplayer() {
       this.search2 = "";
     },
-    resetAgent() {
-      this.$refs["agentForm"].resetFields();
-      this.parentList = [];
-      this.selected = false;
-      this.gameDetail = [];
-      this.disabled = true;
-      this.Topdisabled = false;
-      this.agentType = 1;
-    },
     selectParent(id) {
       if (id) {
         this.$store.commit("agentLoading", { params: true });
@@ -1444,6 +1438,17 @@ export default {
           this.$Message.error("请检查输入项");
         }
       });
+    },
+    resetAgent() {
+      this.$refs["agentForm"].resetFields();
+      this.$store.commit("agentLoading", { params: false });
+      this.parentList = [];
+      this.selected = false;
+      this.gameDetail = [];
+      this.disabled = true;
+      this.Topdisabled = false;
+      this.agentType = 1;
+      this.agent.remark = "";
     },
     ok() {
       if (this.playerPoint == false) {
@@ -1579,7 +1584,7 @@ export default {
         if (valid) {
           creatPlayer({
             ...this.player,
-            gameList: this.playerMix
+            gameList: this.playerMixClone
           }).then(res => {
             if (res.code == 0) {
               this.$Message.success("创建成功");
@@ -1592,7 +1597,9 @@ export default {
     },
     cancelPlayer() {
       this.$refs["playerForm"].resetFields();
+      this.$store.commit("agentLoading", { params: false });
       this.playerMix = [];
+      this.player.remark = "";
     },
     selectPlayerParent(id) {
       this.disabled = false;
