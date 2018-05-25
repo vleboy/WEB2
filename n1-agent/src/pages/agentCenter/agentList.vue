@@ -54,7 +54,10 @@
           <Input type="text" v-model="point" placeholder="请输入点数" style="width: 280px">
           </Input>
         </FormItem>
-        <FormItem label="起始账户">
+        <FormItem label="起始账户" v-if="plus">
+          {{parentDisplayName}}
+        </FormItem>
+        <FormItem label="转入账户" v-else>
           {{parentDisplayName}}
         </FormItem>
         <FormItem label="备注">
@@ -1285,6 +1288,8 @@ export default {
       console.log(2);
     },
     reset() {
+      this.search1='';
+      this.search2='';
       this.init()
     },
     resetplayer(){
@@ -1519,6 +1524,7 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
+      this.agentChild=[];
       if (level == 0) {
         parent = "01";
       } else {

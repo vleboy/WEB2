@@ -156,3 +156,7 @@ export async function agentNew(params){
 export async function creatPlayer(params){
     return http(post('/agent/player/create',params))
 }
+// 修改anget
+export async function agentUpdate(params){
+    return http(post('/agentUpdate',params))
+}
