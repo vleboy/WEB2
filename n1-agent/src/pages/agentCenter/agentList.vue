@@ -93,7 +93,7 @@
         <FormItem label="备注">
           <textarea v-model="agent.remark" id="textRow" placeholder="注明备注,如没有可不填" rows="2" autocomplete="off" maxlength="2000"></textarea>
         </FormItem>
-        <FormItem label="商户拥有的游戏" :required='true'>
+        <FormItem label="代理拥有的游戏" :required='true'>
           <Row>
             <Col span="10">
             <Select :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
@@ -284,7 +284,7 @@ export default {
       if (value == "") {
         callback(new Error("点数不能为空"));
       } else {
-        let testReg = /^[1-9]\d*$/;
+        let testReg = /^[0-9]\d*$/;
         if (!testReg.test(value)) {
           callback(new Error("点数需为数字"));
         } else {
@@ -781,7 +781,7 @@ export default {
         {
           title: "备注",
           key: "remark",
-          maxWidth: 60,
+          maxWidth: 80,
           render: (h, params) => {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);
@@ -814,7 +814,6 @@ export default {
         {
           title: "操作",
           key: "",
-          minWidth: 220,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("div", [
@@ -896,7 +895,7 @@ export default {
                           this.parentSn = params.row.sn;
                           let userId = params.row.userId;
                           this.agent.parent = userId;
-                          availableAgents({ parent: params.row.userId }).then(
+                          availableAgents({ parent: userId }).then(
                             res => {
                               if (res.code == 0) {
                                 this.parentList = res.payload;
@@ -1041,14 +1040,15 @@ export default {
                       on: {
                         click: () => {
                           this.playerModal = true;
-                          let parent =
+                          let userId =
                             params.row.level == 0 ? "01" : params.row.userId;
-                          this.player.parentId = parent;
-                          availableAgents({ parent }).then(res => {
+                          this.player.parentId = userId;
+                          availableAgents({ userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
                           });
+                          let parent=params.row.parent;
                           this.selectPlayerParent(parent);
                         }
                       }
@@ -1327,7 +1327,7 @@ export default {
     resetplayer() {
       this.search2 = "";
     },
-    selectParent(id) {
+    selectParent(id) {//代理
       if (id) {
         this.$store.commit("agentLoading", { params: true });
         this.disabled = false;
@@ -1427,7 +1427,7 @@ export default {
             points: agent.points,
             rate: agent.rate,
             role: "1000",
-            gamelist: this.gameDetail
+            gameList: this.gameDetail
           }).then(res => {
             if (res.code == 0) {
               this.$Message.success("创建成功");

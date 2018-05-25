@@ -78,6 +78,7 @@ export default {
         onOk: () => {
           localStorage.clear();
           this.$router.push({ name: "login" });
+          this.$store.commit('changeLoading',{params:false});
         }
       });
       // if (name === "ownSpace") {

@@ -873,7 +873,6 @@ export default {
       if (agentInfo && agentInfo.code == 0) {
         this.agentDetail = agentInfo.payload;
         this.gameDetail = agentInfo.payload.gameList;
-        this.gameType = agentInfo.payload.companyArr;
       }
       if (agentChild && agentChild.code == 0) {
         this.agentListOne = agentChild.payload;
@@ -884,6 +883,7 @@ export default {
       agentOne(parent).then(res => {
         if (res.code == 0) {
           this.parentGame = res.payload.gameList || [];
+          this.gameType = res.payload.companyArr;
         }
       });
       this.handlePage();
