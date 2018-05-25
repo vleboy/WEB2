@@ -30,7 +30,7 @@ export const otherRouter = {
     children: [
         { path: 'home', name: 'home',title:'首页', component: () => import('@/pages/home.vue')},
         { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: () => import('@/pages/agentCenter/agentDetail.vue')},
-        { path: 'detail', name:'playDetail', title:'玩家详情', component:()=>import('@/pages/player/playerdetail.vue')}
+        // { path: 'detail', name:'playDetail', title:'玩家详情', component:()=>import('@/pages/player/playerdetail.vue')}
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -140,15 +140,15 @@ export const appRouter = [
             {path:'config',title:'包房代理游戏配置',name:'gameConfig',component:()=>import('@/pages/gameCenter/gameConfig.vue')},
         ]
     },
-    {
-      path:'/play',
-      title:'玩家列表',
-      name:'play',
-      component:main,
-      children:[
-        {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
-      ]
-    }
+    // {
+    //   path:'/play',
+    //   title:'玩家列表',
+    //   name:'play',
+    //   component:main,
+    //   children:[
+    //     {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
+    //   ]
+    // }
 
 ]
 // 所有上面定义的路由都要写在下面的routers里
