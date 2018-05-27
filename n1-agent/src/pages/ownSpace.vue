@@ -81,7 +81,6 @@ export default {
         {
           title: "序号",
           type: "index",
-          maxWidth: 80
         },
         {
           title: "账户余额",
@@ -94,7 +93,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          minWidth: 100,
+          minWidth:80,
           render: (h, params) => {
             return h(
               "span",
@@ -105,7 +104,7 @@ export default {
         {
           title: "交易对象",
           key: "toUser",
-          minWidth: 250,
+          minWidth:120,
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
@@ -147,7 +146,6 @@ export default {
         {
           title: "备注",
           key: "remark",
-          minWidth: 80,
           render: (h, params) => {
             if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");
