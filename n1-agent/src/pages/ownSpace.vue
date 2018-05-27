@@ -4,31 +4,31 @@
       <table cellspacing="0">
         <tr>
           <td>
-            <span>代理管理员账号 : {{adminInfo.username}}</span>
+            <span>代理管理员账号 : {{agentDetail.username}}</span>
           </td>
           <td>
-            <span>代理管理员密码 : {{adminInfo.password}}
+            <span>代理管理员密码 : {{agentDetail.password}}
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
             </span>
           </td>
           <td>
-            <span>代理管理员成数 : {{ adminInfo.rate+'%' }}</span>
+            <span>代理管理员成数 : {{ agentDetail.rate+'%' }}</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span>代理创建时间 : {{ dayjs(adminInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
+            <span>代理创建时间 : {{ dayjs(agentDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
           </td>
           <td>
-            <span>上次登录时间 : {{dayjs(adminInfo.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            <span>上次登录时间 : {{dayjs(agentDetail.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
-            <span>上次登录IP : {{adminInfo.lastIP}}</span>
+            <span>上次登录IP : {{agentDetail.lastIP}}</span>
           </td>
         </tr>
         <tr>
           <td>
-            <span>剩余点数 : {{ balance }}</span>
+            <span>剩余点数 : {{ agentDetail.balance }}</span>
           </td>
           <td></td>
           <td></td>
@@ -36,8 +36,8 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="waterfall" size="small" ></Table>
-      <!-- <Page :total="total" class="page" show-elevator :page-size='100' show-total @on-change="changepage"></Page> -->
+      <Table :columns="columns1" :data="showData" size="small" ></Table>
+      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
       <p class="modal_input">
@@ -64,6 +64,7 @@
   </div>
 </template>
 <script>
+import {agentOne,getWaterfall} from '@/service/index'
 import dayjs from "dayjs";
 export default {
   data() {
@@ -72,6 +73,9 @@ export default {
       password: "",
       repassword: "",
       dayjs: dayjs,
+      agentDetail:{},
+      waterfall:[],
+      pageSize:50,
       showData: [], //
       columns1: [
         {
@@ -171,33 +175,25 @@ export default {
     };
   },
   computed: {
-    // total() {
-    //   return this.waterfall.length;
-    // },
-    adminInfo() {
-      return this.$store.state.login.admininfo;
+    total() {
+      return this.waterfall.length;
     },
-    waterfall() {
-      return this.$store.state.login.waterfall;
-    },
-    balance() {
-      return this.$store.state.login.balance;
-    }
   },
   methods: {
-    // handlePage() {
-    //   // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-    //   if (this.total < 100) {
-    //     this.showData = this.waterfall;
-    //   } else {
-    //     this.showData = this.waterfall.slice(0, 100);
-    //   }
-    // },
-    // changepage(index) {
-    //   var _start = (index - 1) * 100;
-    //   var _end = index * 100;
-    //   this.showData = this.waterfall.slice(_start, _end);
-    // },
+    handlePage() {
+      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+      if (this.total < this.pageSize) {
+        this.showData = this.waterfall;
+      } else {
+        this.showData = this.waterfall.slice(0, this.pageSize);
+      }
+    },
+    changepage(index) {
+      let size=this.pageSize
+      var _start = (index - 1) * size;
+      var _end = index * size;
+      this.showData = this.waterfall.slice(_start, _end);
+    },
     newPassword() {
       this.modal = true;
     },
@@ -239,6 +235,21 @@ export default {
       this.password = "";
       this.repassword = "";
     },
+    async init(){
+      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      this.$store.commit('changeLoading',{params:true})
+      let req1=agentOne(userId);
+      let req2=getWaterfall(userId);
+      let [agent,waterfall]=await this.axios.all([req1,req2]);
+      this.$store.commit('changeLoading',{params:false})
+      if (agent && agent.code == 0) {
+        this.agentDetail=agent.payload;
+      }
+      if (waterfall && waterfall.code == 0) {
+        this.waterfall=waterfall.payload;
+      }
+      this.handlePage();
+    },
     passwordLevel(password) {
       var Modes = 0;
       for (let i = 0; i < password.length; i++) {
@@ -271,9 +282,7 @@ export default {
   },
   filters: {},
   created() {
-    this.$store.commit("changeLoading", { params: true });
-    this.$store.dispatch("adminInfo");
-    // this.handlePage();
+    this.init()
   }
 };
 </script>

@@ -43,7 +43,7 @@
               </Col>
               <Col span="8">
               <FormItem label="最后登录时间">
-                {{dayjs(agentDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
+                {{dayjs(agentDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
               <Col span="8">

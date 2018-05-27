@@ -15,7 +15,7 @@
             </span>
           </td>
           <td>
-            <span>管理员余额 : {{ balance }}</span>
+            <span>管理员余额 : {{ admin.balance }}</span>
           </td>
         </tr>
         <tr>
@@ -71,7 +71,6 @@ export default {
       repassword: "",
       dayjs: dayjs,
       pageSize: 100,
-      balance: "",
       admin: {},
       waterfall: [],
       showData: [],
@@ -293,7 +292,6 @@ export default {
       }
       if (admin && admin.code == 0) {
         this.admin = admin.payload;
-        this.balance = admin.payload.balance;
       }
       this.handlePage();
     }
@@ -307,7 +305,6 @@ export default {
   },
   created() {
     this.init();
-    this.handlePage();
   }
 };
 </script>
