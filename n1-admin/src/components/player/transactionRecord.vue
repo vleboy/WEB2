@@ -311,7 +311,7 @@
 
         httpRequest('post','/player/bill/detail',{
           userName: name,
-          company: this.companyInfo,
+          company: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo,
           gameType: this.radioInfo,
           startTime: startTime,
           endTime: endTime,
