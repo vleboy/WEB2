@@ -308,7 +308,7 @@ $
         this.playerAccountListStartKey = ''
       },
       exportData() {
-        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
+        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3prd6rbitzqm3.cloudfront.net'
         window.open(`${url}/player/bill/flow/download?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
       }
     },
