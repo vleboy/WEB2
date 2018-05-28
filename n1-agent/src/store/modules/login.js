@@ -1,13 +1,10 @@
-import {logIn,agentOne,getWaterfall,updatePassword} from '@/service/index'
+import {logIn,agentOne,updatePassword} from '@/service/index'
 import {Message} from 'iview'
 export const login = {
     state:{
         // getcode:'',
         infos:{},
         loading:false,
-        admininfo:{},
-        balance:null,
-        waterfall:[]
     },
     mutations:{
         // updateCode(state,{params}){
@@ -19,15 +16,6 @@ export const login = {
         changeLoading(state,{params}){
             state.loading=params
         },
-        updateAdmin(state,{params}){
-            state.admininfo=params
-        },
-        updateBill(state,{params}){
-            state.balance=params
-        },
-        updateWaterfall(state,{params}){
-            state.waterfall=params
-        }
     },
     actions:{
         // getcapcha({state,commit},params){
@@ -56,26 +44,6 @@ export const login = {
                     commit('changeLoading',{params:false});
                     err && err()
                 }
-            })
-        },
-        adminInfo({commit}){
-            let userId=''
-            if(localStorage.userInfo){
-            userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-            }
-            let p1=agentOne(userId).then(res=>{
-                if(res.code==0){
-                    commit('updateAdmin',{params:res.payload});
-                    commit('updateBill',{params:res.payload.balance})
-                }
-            })
-            let p2= getWaterfall(userId).then(res=>{
-                if(res.code==0){
-                    commit('updateWaterfall',{params:res.payload})
-                }
-            });
-            Promise.all([p1,p2]).then(()=>{
-                commit('changeLoading',{params:false});
             })
         },
         changePassword({commit},params){
