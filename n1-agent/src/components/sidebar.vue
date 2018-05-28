@@ -54,6 +54,12 @@
                     <MenuItem name="agentList">代理列表</MenuItem>
                     <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
+                <Submenu name="playerCenter">
+                  <template slot="title">
+                    玩家中心
+                  </template>
+                  <MenuItem name="playList" >玩家列表</MenuItem>
+                </Submenu>
                 <Submenu name="logCenter">
                     <template slot="title">
                         日志中心

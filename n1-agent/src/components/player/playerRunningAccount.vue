@@ -1,0 +1,397 @@
+$
+<template>
+  <div class="p-playerAccount">
+    <div class="-p-base">
+      <Row class="-b-form">
+        <Col span="17">
+          时间：
+          <DatePicker
+            :editable='false'
+            :transfer='true'
+            v-model="amountDate"
+            type="daterange"
+            @on-change="changeDate"
+            placeholder="选择日期范围" style="width: 200px">
+          </DatePicker>
+          <DatePicker
+            v-model="monthDate"
+            :transfer='true'
+            type="month"
+            @on-change="changeMonth"
+            placeholder="按月选择">
+          </DatePicker>
+          最近：
+          <RadioGroup v-model="radioTime" @on-change="changeTime()" type="button">
+            <Radio label="1">1周</Radio>
+            <Radio label="2">1个月</Radio>
+            <Radio label="3">1年</Radio>
+          </RadioGroup>
+        </Col>
+        <Col span="7" class="text-right">
+          <Button @click="isShowSearch = !isShowSearch" type="text">高级筛选
+            <Icon type="arrow-down-b" v-if="!isShowSearch"></Icon>
+            <Icon type="arrow-up-b" v-else></Icon>
+          </Button>
+          <Button type="primary" @click="exportData">导出数据</Button>
+        </Col>
+      </Row>
+      <Row v-if="isShowSearch">
+        <div class="from-search">
+          类型：
+          <RadioGroup v-model="radioType" type="button">
+            <Radio label="3">下注</Radio>
+            <Radio label="11">中心钱包</Radio>
+            <Radio label="4">返奖</Radio>
+            <Radio label="13">商城</Radio>
+          </RadioGroup>
+        </div>
+        <div class="from-search">
+          资金流向：
+          <RadioGroup v-model="radioMoney" type="button">
+            <Radio label="1">本次发生金额（入）</Radio>
+            <Radio label="-1">本次发生金额（出）</Radio>
+          </RadioGroup>
+        </div>
+        <div class="form-button">
+          <Button type="primary" size="large" @click="searchData(true)">筛选</Button>
+          <Button type="primary" size="large" @click="searchData(false)">重置</Button>
+        </div>
+      </Row>
+    </div>
+    <div class="-p-total">
+      <div class="total-check -p-red" v-if="checkedArray.length">
+        <i class="el-icon-information" style="color: #f7ba2a;"></i> &ensp;已选中{{checkedArray.length || 0}}笔数据 &emsp;总计：
+        <span style="font-weight: bold">{{checkFormatNum}} </span>元
+      </div>
+    </div>
+    <div class="-p-table">
+      <div class="-t-form">
+        <Table :columns="columns" :data="dataList"></Table>
+        <Row style="padding: 20px 0">
+        <Col span="24" class="text-right">
+          <Page :total="playerAccountList.length"
+                show-elevator
+                :page-size="20"
+                :current.sync="currentPage"
+                @on-change="getNowpage"></Page>
+        </Col>
+        </Row>
+      </div>
+    </div>
+    <Spin size="large" fix v-if="isFetching">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
+</template>
+<script type="text/ecmascript-6">
+  import {formatUserName, thousandFormatter} from '@/config/format'
+  import {httpRequest} from '@/service/index'
+  import dayjs from "dayjs";
+
+  export default {
+    data() {
+      return {
+        nowSize: 20,
+        nowPage: 1,
+        pageSize: 100,
+        radioTime: '1',
+        radioMoney: '',
+        currentPage: 1,
+        radioType: '',
+        monthDate: '', // 月份快捷选择
+        startDate: '', // 开始时间搓
+        endDate: '', // 结束时间搓
+        allAmount: 0,
+        isShowSearch: false,
+        isFetching: false,
+        isLastMessage: false, // 主要判断是否是后台返回最后一次信息
+        typeList: {
+          '3': '下注',
+          '4': '返奖',
+          '5': '返还',
+          '10': '系统升级原账结余',
+          '11': '中心钱包',
+          '12': '代理操作',
+          '13': '商城'
+        },
+        checkedArray: [], // 选中的数据数组
+        amountDate: [], // 时间日期选择
+        playerAccountList: [], // 玩家流水账列表
+        playerRecordList: [], // 玩家战绩列表
+        playerAccountListStorage: [],
+        playerAccountListStartKey: '',
+        columns: [
+          {
+            title: '流水号',
+            key: 'sn',
+            width: 210
+          },
+          {
+            title: '日期',
+            key: '',
+            width: 155,
+            render: (h, params) => {
+              return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
+            }
+          },
+          {
+            title: '交易类型',
+            key: 'msn',
+            render: (h, params) => {
+              return h('span', this.typeList[params.row.type])
+            }
+          },
+          {
+            title: '游戏类型',
+            key: 'gameName'
+          },
+          {
+            title: '帐变前余额',
+            key: 'originalAmount',
+            render: (h, params) => {
+              return h('span', thousandFormatter(params.row.originalAmount))
+            }
+          },
+          {
+            title: '金额（入）',
+            key: '',
+            render: (h, params) => {
+              if(params.row.amount >= 0) {
+                return h('span', {
+                  class: {
+                    '-p-green': params.row.amount >= 0
+                  },
+                }, thousandFormatter(params.row.amount))
+              }
+            }
+          },
+          {
+            title: '金额（出）',
+            key: '',
+            render: (h, params) => {
+              if(params.row.amount < 0) {
+                return h('span', {
+                  class: {
+                    '-p-red': params.row.amount < 0
+                  },
+                }, thousandFormatter(params.row.amount))
+              }
+            }
+          },
+          {
+            title: '发生后金额',
+            key: '',
+            render: (h, params) => {
+              return h('span', thousandFormatter(params.row.balance))
+            }
+          }
+        ],
+      }
+    },
+    mounted() {
+      this.changeTime()
+    },
+    computed: {
+      dataList() {
+        if (this.nowPage === 1) {
+          return this.playerAccountList.slice(0, this.nowSize)
+        } else {
+          return this.playerAccountList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
+        }
+      },
+      userName() {
+        return formatUserName(localStorage.playerName)
+      },
+      formatNum() {
+        this.allAmount = 0
+        for (let item of this.playerAccountList) {
+          this.allAmount += Number(item.amount)
+        }
+        return thousandFormatter(this.allAmount)
+      }
+    },
+    methods: {
+      getNowpage(page) {
+        this.nowPage = page
+        if (page == Math.ceil(this.playerAccountList.length / this.nowSize) && !this.isFetching && page != 1 && !this.isLastMessage) {
+          this.playerAccountListStorage = JSON.parse(JSON.stringify(this.playerAccountList))
+          this.getPlayerAccount()
+        }
+      },
+      getPlayerAccount() {
+        if (this.isFetching) return
+        this.isFetching = true
+
+        httpRequest('post', '/player/bill/flow', {
+          userName: localStorage.playerName,
+          type: this.radioType,
+          action: this.radioMoney,
+          startTime: this.amountDate ? this.startDate : '',
+          endTime: this.amountDate ? this.endDate : '',
+          startKey: this.playerAccountListStartKey,
+          pageSize: this.pageSize
+        }).then(result => {
+            this.isLastMessage = result.list < this.pageSize
+            this.playerAccountList = result.list
+            this.playerAccountListStartKey = result.startKey
+            this.playerAccountUserName = result.userName
+            this.playerAccountListStorage.length && (this.playerAccountList = this.playerAccountListStorage.concat(this.playerAccountList))
+          }
+        ).finally(()=>{
+          this.isFetching = false
+        })
+      },
+      changeTime() {
+        const end = new Date();
+        const start = new Date();
+        if (this.radioTime) {
+          this.monthDate = '';
+        }
+        switch (+this.radioTime) {
+          case 1:
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+            this.amountDate = [start, end];
+            this.changeDate()
+            break;
+          case 2:
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            this.amountDate = [start, end];
+            this.changeDate()
+            break;
+          case 3:
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+            this.amountDate = [start, end];
+            this.changeDate()
+            break;
+        }
+      }, // 最近的时间快捷选择联动
+      changeDate() {
+        if (this.amountDate) {
+          this.startDate = new Date(this.amountDate[0].setMonth(this.amountDate[0].getMonth())).setHours(0, 0, 0, 0);
+          this.endDate = new Date(this.amountDate[1].setMonth(this.amountDate[1].getMonth())).setHours(0, 0, 0, 0) + 24 * 3600 * 1000 - 1;
+        } else {
+          this.radioTime = '';
+          this.monthDate = '';
+        }
+        this.initData()
+        this.getPlayerAccount()
+      }, //日期改变联动
+      changeMonth(date) {
+        if (date && this.monthDate) {
+          const month = new Date(date)
+          const startDay = new Date(month.setMonth(month.getMonth(), 1));
+          const endDay = new Date(month.setMonth(month.getMonth() + 1, 0));
+          this.amountDate = [startDay, endDay]
+          this.radioTime = ''
+          this.changeDate()
+        }
+      }, // 月份联动
+      selectionChange(val) {
+        this.checkedArray = val;
+        this.checkFormatNum = 0;
+        for (let item of this.checkedArray) {
+          this.checkFormatNum += Number(item.amount)
+        }
+        this.checkFormatNum = thousandFormatter(this.checkFormatNum)
+      }, //多选
+      searchData(bool) {
+        !bool && (this.radioMoney = '', this.radioType = '');
+        this.initData()
+        this.getPlayerAccount()
+      }, // 重置筛选条件
+      initData() {
+        this.currentPage = 1;
+        this.nowPage = 1;
+        this.playerAccountList = [];
+        this.playerAccountListStorage = []
+        this.playerAccountListStartKey = ''
+      },
+      exportData() {
+        let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
+        window.open(`${url}/player/bill/flow/download?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
+      }
+    },
+    watch: {
+      '$route': function (_new, _old) {
+        if((_new.name == 'playDetail') && (localStorage.playerName != this.playerAccountUserName)) {
+          this.initData()
+          this.getPlayerAccount()
+        }
+      }
+    },
+    filter1s: {   //过滤器，所有数字保留两位小数
+      currency(value) {
+        return (value - 0).toFixed(2);
+      }
+    },
+  }
+</script>
+
+<style scpoed type="text/less" lang="less">
+  .p-playerAccount {
+    .-p-base {
+      .-b-form {
+        padding: 0;
+        font-size: 0.8rem;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+
+      .from-search {
+        font-size: 0.8rem;
+        margin-top: 10px
+      }
+
+      .form-button {
+        position: absolute;
+        top: 25%;
+        right: 0;
+      }
+    }
+
+    .-p-total {
+      margin-bottom: 10px;
+      font-size: 16px
+    }
+
+    .-p-table {
+      padding: 6px 0 0 0;
+      margin: 0 auto;
+      vertical-align: baseline;
+
+      .-t-form {
+        padding: 0;
+        font-size: 0.8rem;
+        overflow: hidden;
+
+        .total-all {
+          background-color: #c2e7fd;
+          padding: 10px;
+          border-radius: 4px
+        }
+
+        .total-check {
+          background-color: #ffebbd;
+          padding: 10px;
+          border-radius: 4px;
+        }
+      }
+    }
+    h4 {
+      font-size: 1.3rem;
+      font-weight: normal;
+      padding: 16px 0;
+      color: #5a5a5a
+    }
+    .-p-green {
+      color: #00CC00
+    }
+    .-p-red {
+      color: #FF3300
+    }
+    .text-right {
+      text-align: right;
+    }
+  }
+</style>
