@@ -12,7 +12,7 @@
           下级代理列表
         </span>
         <div class="search">
-          <Input v-model="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
+          <Input v-model.trim="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
           <Button type="primary" @click="searchAgent">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
@@ -33,7 +33,7 @@
           所属玩家列表
         </span>
         <div class="search">
-          <Input v-model="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
+          <Input v-model.trim="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
           <Button type="primary" @click="searchPlayer">搜索</Button>
           <Button type="ghost" @click="resetplayer">重置</Button>
         </div>
@@ -42,7 +42,7 @@
         <Table :columns="columns2" :data="playerList" size="small"></Table>
       </div>
     </div>
-    <Spin size="large" fix v-if="$store.state.report.loading">
+    <Spin size="large" fix v-if="$store.state.agent.loading">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
@@ -173,7 +173,8 @@ import {
   checkExit,
   agentOne,
   agentNew,
-  creatPlayer
+  creatPlayer,
+  frozen
 } from "@/service/index";
 export default {
   data() {
@@ -532,10 +533,7 @@ export default {
                   },
                   on: {
                     click: async () => {
-                      let userId = params.row.userId;
-                      this.$store.dispatch("getAgentPlayer", {
-                        fromUserId: userId
-                      });
+                     this.init()
                     }
                   }
                 },
@@ -895,13 +893,11 @@ export default {
                           this.parentSn = params.row.sn;
                           let userId = params.row.userId;
                           this.agent.parent = userId;
-                          availableAgents({ parent: userId }).then(
-                            res => {
-                              if (res.code == 0) {
-                                this.parentList = res.payload;
-                              }
+                          availableAgents({ parent: userId }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
                             }
-                          );
+                          });
                           this.selectParent(userId);
                           this.parentRate = params.row.rate;
                           this.rateContent =
@@ -1048,7 +1044,7 @@ export default {
                               this.parentList = res.payload;
                             }
                           });
-                          let parent=params.row.parent;
+                          let parent = params.row.parent;
                           this.selectPlayerParent(parent);
                         }
                       }
@@ -1234,15 +1230,15 @@ export default {
           render: (h, params) => {
             let color = "";
             let text = "";
-            let status = null;
+            let state = null;
             if (params.row.state == 1) {
               text = "锁定";
               color = "#f30";
-              status = 0;
+              state = 0;
             } else {
               text = "解锁";
               color = "#19be6b";
-              status = 1;
+              state = 1;
             }
             return h("div", [
               h(
@@ -1271,18 +1267,27 @@ export default {
                   },
                   on: {
                     click: () => {
+                      let userId = params.row.parent;
                       this.$Modal.confirm({
                         title: "提示!",
                         content: `<p>是否${text}该玩家</p>`,
                         onOk: () => {
-                          userChangeStatus({
-                            role: "1000",
-                            status,
-                            userId: params.row.userId
+                          this.$store.commit("agentLoading", { params: true });
+                          frozen({
+                            state,
+                            userName: params.row.userName
                           }).then(res => {
                             if (res.code == 0) {
                               this.$Message.success(`${text}成功`);
-                              this.init();
+                              this.$store
+                                .dispatch("getAgentPlayer", {
+                                  fromUserId: userId
+                                })
+                                .finally(() => {
+                                  this.$store.commit("agentLoading", {
+                                    params: false
+                                  });
+                                });
                             }
                           });
                         }
@@ -1327,7 +1332,8 @@ export default {
     resetplayer() {
       this.search2 = "";
     },
-    selectParent(id) {//代理
+    selectParent(id) {
+      //代理
       if (id) {
         this.$store.commit("agentLoading", { params: true });
         this.disabled = false;
@@ -1563,7 +1569,11 @@ export default {
         parent = "01";
       } else {
         parent = userId;
+        this.$store.dispatch("getAgentPlayer", {
+          fromUserId: userId
+        });
       }
+      this.$store.commit("agentLoading", { params: true });
       agentOne(userId).then(res => {
         if (res.code == 0) {
           let arr = [];
@@ -1571,7 +1581,6 @@ export default {
           this.userInfo = arr;
         }
       });
-      this.$store.commit("agentLoading", { params: true });
       this.$store.dispatch("getAgentList", {
         parent,
         query: {},
@@ -1618,10 +1627,10 @@ export default {
   },
   computed: {
     agentList() {
-      return this.$store.state.report.agentList;
+      return this.$store.state.agent.agentList;
     },
     playerList() {
-      return this.$store.state.report.playerList;
+      return this.$store.state.agent.playerList;
     }
   },
   created() {

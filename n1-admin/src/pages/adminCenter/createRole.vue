@@ -128,6 +128,15 @@ export default {
                       title: "UG体育游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "YSB游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "YSB体育游戏报表"
+                    }
+                  ]
                 }
               ]
             },

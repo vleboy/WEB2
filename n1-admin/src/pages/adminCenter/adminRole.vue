@@ -41,6 +41,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
+import _ from 'lodash'
 import { getsbuRole, subRoleDelete, subRoleUpdate } from "@/service/index";
 export default {
   data() {
@@ -133,6 +134,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      let newTree=_.clone(this.treeData)
                       this.admin.name = params.row.name;
                       this.admin.remark = params.row.remark;
                       let permissions = params.row.permissions;
@@ -306,6 +308,17 @@ export default {
                   children: [
                     {
                       title: "UG体育游戏报表",
+                      checked: false
+                    }
+                  ]
+                },
+                {
+                  title: "YSB游戏报表",
+                  expand: true,
+                  checked: false,
+                  children: [
+                    {
+                      title: "YSB体育游戏报表",
                       checked: false
                     }
                   ]

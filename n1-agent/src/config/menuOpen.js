@@ -20,7 +20,7 @@ export const menuOpen = function (name) {
     openName = [];
   } else if (name.includes("Log")) {
     openName = ["logCenter"];
-  } else if (name == "playerList") {
+  } else if (name == "playList") {
     openName = ["playerCenter"];
   } else if (name == 'gameConfig') {
     openName = ['gameCenter']

@@ -10,6 +10,8 @@
       openName = ["report", "mgreport"];
     } else if (name == "agtrue") {
       openName = ["report", "agreport"];
+    }else if(name=='ysbSport'){
+      openName = ["report", "ysbReport"];
     } else if (name == "ugsport") {
       openName = ["report", "ugreport"];
     } else if (name == "allreport") {

@@ -178,3 +178,7 @@ export async function creatPlayer(params){
 export async function agentUpdate(params){
     return http(post('/agentUpdate',params))
 }
+//锁定玩家 
+export async function frozen(params){
+    return http(post('/player/forzen',params))
+}

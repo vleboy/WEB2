@@ -156,7 +156,7 @@ export default {
                   }
                 }
               },
-              params.row.username
+              params.row.uname
             );
           }
         },

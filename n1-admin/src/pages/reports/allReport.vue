@@ -61,12 +61,14 @@ export default {
         1050000,
         1060000,
         1100000,
-        1110000
+        1110000,
+        1130000
       ],
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:60
         },
         {
           title: "类型",
@@ -168,7 +170,7 @@ export default {
                   }
                 }
               },
-              params.row.username
+              params.row.uname
             );
           }
         },
@@ -485,6 +487,51 @@ export default {
               return h("span", count.toFixed(2));
             }
           }
+        },
+         {
+          title: "YSB游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let allCount = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1130000"].includes(key)) {
+                  allCount += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            if (params.row.role == "1") {
+              return h("span", allCount.toFixed(2));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1130000") {
+                  count = obj[key].winloseAmount;
+                }
+              }
+              return h("span", count.toFixed(2));
+            }
+          }
+        },
+        {
+          title: "YSB游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              return h("span", "0.00");
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1130000") {
+                  count = obj[key].submitAmount;
+                }
+              }
+              return h("span", count.toFixed(2));
+            }
+          }
         }
       ],
       columns2: [
@@ -586,6 +633,20 @@ export default {
             let count = 0;
             for (let key in obj) {
               if (["1100000"].includes(key)) {
+                count += obj[key].winloseAmount;
+              }
+            }
+            return h("span", count.toFixed(2));
+          }
+        },
+         {
+          title: "YSB游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1130000"].includes(key)) {
                 count += obj[key].winloseAmount;
               }
             }

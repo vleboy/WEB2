@@ -45,6 +45,10 @@
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport" v-if='permission.includes("UG体育游戏报表")'>UG体育游戏报表</MenuItem>
                     </Submenu>
+                    <Submenu name='ysbReport' v-if='authorityStr.includes("YSB")'>
+                        <template slot="title">YSB游戏报表</template>
+                        <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">

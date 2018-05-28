@@ -1,11 +1,10 @@
 import { queryUserStat,queryPlayer,getagentList,playerList,billTransfer,addBill,reduceBill } from '@/service/index'
 import {Message} from 'iview'
-export const report = {
+export const agent = {
     state:{
        agentList:[],
        loading:false,
        playerList:[],
-       rowId:''
     },
     mutations:{
       changeList(state,{params}){
@@ -17,9 +16,6 @@ export const report = {
       changePlayer(state,{params}){
         state.playerList=params
       },
-      changeRowId(state,{params}){
-        state.rowId=params
-      }
     },
     actions:{
        getUserList({commit},params){
@@ -53,10 +49,10 @@ export const report = {
        },
        //bill
        transferBill({dispatch,commit},params){
+         commit('agentLoading',{params:true})
          billTransfer(params).then(res=>{
            if(res.code==0){
              Message.success('操作成功');
-             commit('agentLoading',{params:true})
                 //刷新
                 dispatch("getAgentList", {
                     parent:'01',
@@ -64,32 +60,38 @@ export const report = {
                     },
                     sortkey: "createdAt",
                     sort: "desc"
-                  });
-              commit('agentLoading',{params:false})
+                  }).finally(()=>{
+                    commit('agentLoading',{params:false})
+                  })
             }
         })
        },
+       //玩家加减点
        playAddBill({commit,dispatch,state},params){
+         commit('agentLoading',{params:true})
         addBill(params).then(res=>{
           if(res.code==0){
             Message.success('操作成功');
-            commit('agentLoading',{params:true})
             dispatch('getAgentPlayer',{
-              fromUserId:state.rowId
+              fromUserId:params.fromUserId
             })
-            commit('agentLoading',{params:false})
+            .finally(()=>{
+              commit('agentLoading',{params:false})
+            })
           }
         })
        },
        playReduceBill({commit,dispatch,state},params){
+         commit('agentLoading',{params:true})
          reduceBill(params).then(res=>{
            if(res.code==0){
             Message.success('操作成功');
-            commit('agentLoading',{params:true})
             dispatch('getAgentPlayer',{
-              fromUserId:state.rowId
+              fromUserId:params.fromUserId
             })
-            commit('agentLoading',{params:false})
+            .finally(()=>{
+              commit('agentLoading',{params:false})
+            })
            }
          })
        }

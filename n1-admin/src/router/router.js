@@ -104,6 +104,13 @@ export const appRouter = [
         children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:()=>import('@/pages/reports/ugSportGame.vue')}]
     },
     {
+        path:'/ysb',
+        title:'YSB体育游戏',
+        name:'ysb',
+        component:main,
+        children:[{path:'sport',title:'YSB体育游戏报表',name:'ysbSport',component:()=>import('@/pages/reports/ysbSport.vue')}]
+    },
+    {
         path:'/business',
         title:'商户列表',
         name:'business',

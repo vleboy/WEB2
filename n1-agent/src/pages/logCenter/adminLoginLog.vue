@@ -2,15 +2,15 @@
   <div class="merchantLog">
     <div class="search">
       <Row class="row">
-        <Col span='2' offset='4'> 代理管理员昵称:
+        <Col span='2' offset='4'> 代理昵称:
         </Col>
         <Col span="4">
-        <Input v-model="displayName" placeholder="请输入"></Input>
+        <Input v-model.trim="displayName" placeholder="请输入"></Input>
         </Col>
-        <Col span='2'> 代理管理员账号:
+        <Col span='2'> 代理账号:
         </Col>
         <Col span="4">
-        <Input v-model="username" placeholder="请输入"></Input>
+        <Input v-model.trim="username" placeholder="请输入"></Input>
         </Col>
         <Col span="4">
         <div class="btns">
