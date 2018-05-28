@@ -12,7 +12,7 @@ const get = (urls, type) => {
   }
   return {
     method: 'get',
-    url: httpType+ URL(type) + urls,
+    url: httpType+ URL + urls,
     headers: headers
   }
 }
@@ -34,7 +34,7 @@ const post = (urls, datas, type) => {
   }
   return {
     method: 'post',
-    url: httpType+ URL(type) + urls,
+    url: httpType+ URL + urls,
     data:datas,                       //QS.stringify(datas),
     headers: headers
   }

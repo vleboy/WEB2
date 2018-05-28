@@ -27,7 +27,7 @@ export const login = {
         // },
         userlogin({commit},{role,username,password,challenge,vid,cb,err}){
             logIn(role,username,password,challenge,vid).then(res=>{
-                console.log(res);
+                // console.log(res);
                 if(res.code==0){
                     if(localStorage.getItem('n1token')) {
                         localStorage.removeItem('n1token');
@@ -38,6 +38,7 @@ export const login = {
                     setTimeout(()=>localStorage.removeItem('n1token'),259200000);
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
+                    localStorage.setItem('userId',res.payload.userId)
                     commit('saveInfo',{params:res.payload});
                     cb && cb()
                 }else{

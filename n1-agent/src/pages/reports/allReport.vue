@@ -97,21 +97,23 @@ export default {
                 },
                 on: {
                   click: async () => {
+                    let userId = localStorage.getItem("userId");
                     this.spinShow = true;
+                    this.reportChild = [];
                     //代理
-                    if (params.row.level == 0) {
+                    if (params.row.userId == userId) {
                       this.$store
-                        .dispatch("getUserChild", {
-                          parent: "01",
+                        .dispatch("getPlayerList", {
+                          parentId: userId,
                           gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
                           }
                         })
                         .then(res => {
-                          // console.log(res);
-                          this.child = res.payload;
+                          this.playerList = res.payload;
                           this.spinShow = false;
+                          // console.log(res);
                         });
                     } else {
                       this.userName = params.row.displayName;
@@ -199,6 +201,8 @@ export default {
             } else {
               if (params.row.submitAmount) {
                 return h("span", params.row.submitAmount.toFixed(2));
+              }else{
+                return h('span','0.00')
               }
             }
           }
@@ -657,7 +661,18 @@ export default {
       } else {
         parent = userId;
       }
-      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let req1 = null;
+      if (level == 0) {
+        req1 = this.$store.dispatch("getUserList", { userId: userId });
+      } else {
+        req1 = this.$store.dispatch("getUserList", {
+          userId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        });
+      }
       let req2 = this.$store.dispatch("getUserChild", {
         parent,
         gameType: this.gameType,
@@ -667,7 +682,17 @@ export default {
       });
       this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
-      this.spinShow = false;
+      this.$store
+        .dispatch("getPlayerList", {
+          parentId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        })
+        .then(res => {
+          this.playerList = res.payload;
+        });
       this.user = [];
       if (acct && acct.code == 0) {
         this.user.push(acct.payload);
@@ -675,6 +700,7 @@ export default {
       if (perms && perms.code == 0) {
         this.child = perms.payload;
       }
+      this.spinShow = false;
     }
   },
   created() {

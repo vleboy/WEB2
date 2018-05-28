@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       defaultTime: getDefaultTime(),
+      userId: localStorage.getItem("userId"),
       spinShow: false, //加载spin
       showName: false, //上级商家
       userName: "", //上级商家名字
@@ -88,18 +89,17 @@ export default {
                   click: async () => {
                     this.spinShow = true;
                     //代理
-                    if (params.row.level == 0) {
+                    if (params.row.userId == this.userId) {
                       this.$store
-                        .dispatch("getUserChild", {
-                          parent: "01",
+                        .dispatch("getPlayerList", {
+                          parentId: userId,
                           gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
                           }
                         })
                         .then(res => {
-                          // console.log(res);
-                          this.child = res.payload;
+                          this.playerList = res.payload;
                           this.spinShow = false;
                         });
                     } else {
@@ -136,7 +136,7 @@ export default {
                           this.spinShow = false;
                           // console.log(res);
                         });
-                      var anchor = this.$el.querySelector("#playerList");
+                      let anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
                     }
                     // console.log(params.row);
@@ -188,6 +188,8 @@ export default {
             } else {
               if (params.row.submitAmount) {
                 return h("span", params.row.submitAmount.toFixed(2));
+              }else{
+                return h('span','0.00')
               }
             }
           }
@@ -209,10 +211,10 @@ export default {
               return h("span", count.toFixed(2));
             } else {
               let winloseAmount = 0;
-              if (params.row.gameTypeMap["30000"] !== undefined) {
-                winloseAmount = params.row.gameTypeMap[
-                  "30000"
-                ].winloseAmount.toFixed(2);
+              if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["30000"]) {
+                  winloseAmount = params.row.gameTypeMap["30000"].winloseAmount.toFixed(2);
+                }
               }
               return h("span", winloseAmount);
             }
@@ -226,10 +228,10 @@ export default {
               return h("span", "0.00");
             } else {
               let submitAmount = 0;
-              if (params.row.gameTypeMap["30000"] !== undefined) {
-                submitAmount = params.row.gameTypeMap[
-                  "30000"
-                ].submitAmount.toFixed(2);
+              if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["30000"]) {
+                  submitAmount = params.row.gameTypeMap["30000"].submitAmount.toFixed(2);
+                }
               }
               return h("span", submitAmount);
             }
@@ -252,10 +254,10 @@ export default {
               return h("span", count.toFixed(2));
             } else {
               let winloseAmount = 0;
-              if (params.row.gameTypeMap["40000"] !== undefined) {
-                winloseAmount = params.row.gameTypeMap[
-                  "40000"
-                ].winloseAmount.toFixed(2);
+              if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["40000"]) {
+                  winloseAmount = params.row.gameTypeMap["40000"].winloseAmount.toFixed(2);
+                }
               }
               return h("span", winloseAmount);
             }
@@ -269,10 +271,10 @@ export default {
               return h("span", "0.00");
             } else {
               let submitAmount = 0;
-              if (params.row.gameTypeMap["40000"] !== undefined) {
-                submitAmount = params.row.gameTypeMap[
-                  "40000"
-                ].submitAmount.toFixed(2);
+               if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["40000"]) {
+                  submitAmount = params.row.gameTypeMap["40000"].submitAmount.toFixed(2);
+                }
               }
               return h("span", submitAmount);
             }
@@ -295,10 +297,10 @@ export default {
               return h("span", count.toFixed(2));
             } else {
               let winloseAmount = 0;
-              if (params.row.gameTypeMap["50000"] !== undefined) {
-                winloseAmount = params.row.gameTypeMap[
-                  "50000"
-                ].winloseAmount.toFixed(2);
+               if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["50000"]) {
+                  winloseAmount = params.row.gameTypeMap["50000"].winloseAmount.toFixed(2);
+                }
               }
               return h("span", winloseAmount);
             }
@@ -312,10 +314,10 @@ export default {
               return h("span", "0.00");
             } else {
               let submitAmount = 0;
-              if (params.row.gameTypeMap["50000"] !== undefined) {
-                submitAmount = params.row.gameTypeMap[
-                  "50000"
-                ].submitAmount.toFixed(2);
+              if(params.row.gameTypeMap){
+                if (params.row.gameTypeMap["50000"]) {
+                  submitAmount = params.row.gameTypeMap["50000"].submitAmount.toFixed(2);
+                }
               }
               return h("span", submitAmount);
             }
@@ -348,7 +350,7 @@ export default {
           key: "winloseAmount",
           render: (h, params) => {
             let winloseAmount = 0;
-            if (params.row.gameTypeMap["30000"] !== undefined) {
+            if (params.row.gameTypeMap["30000"] != undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "30000"
               ].winloseAmount.toFixed(2);
@@ -361,7 +363,7 @@ export default {
           key: "winloseAmount",
           render: (h, params) => {
             let winloseAmount = 0;
-            if (params.row.gameTypeMap["40000"] !== undefined) {
+            if (params.row.gameTypeMap["40000"] != undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "40000"
               ].winloseAmount.toFixed(2);
@@ -374,7 +376,7 @@ export default {
           key: "winloseAmount",
           render: (h, params) => {
             let winloseAmount = 0;
-            if (params.row.gameTypeMap["50000"] !== undefined) {
+            if (params.row.gameTypeMap["50000"] != undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "50000"
               ].winloseAmount.toFixed(2);
@@ -458,7 +460,18 @@ export default {
       } else {
         parent = userId;
       }
-      let req1 = this.$store.dispatch("getUserList", { userId });
+      let req1=null;
+      if (level == 0) {
+        let req1 = this.$store.dispatch("getUserList", { userId });
+      } else {
+        req1 = this.$store.dispatch("getUserList", {
+          userId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        });
+      }
       let req2 = this.$store.dispatch("getUserChild", {
         parent,
         gameType: this.gameType,
@@ -468,7 +481,17 @@ export default {
       });
       this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
-      this.spinShow = false;
+      this.$store
+        .dispatch("getPlayerList", {
+          parentId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        })
+        .then(res => {
+          this.playerList = res.payload;
+        });
       this.user = [];
       if (acct && acct.code == 0) {
         this.user.push(acct.payload);
@@ -476,6 +499,7 @@ export default {
       if (perms && perms.code == 0) {
         this.child = perms.payload;
       }
+      this.spinShow = false;
     }
   },
   created() {

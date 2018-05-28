@@ -31,12 +31,12 @@
             </Row>
           </FormItem>
         </Form>
-        <Spin size="large" fix v-if="spin">
+      </section>
+    </Modal>
+        <Spin size="large" fix v-if="spinShow">
           <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
           <div>加载中...</div>
         </Spin>
-      </section>
-    </Modal>
   </div>
 </template>
 <script>
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       dayjs: dayjs,
-      spin: false,
+      spinShow: false,
       modal: false,
       subRoleList: [],
       admin: {
@@ -444,11 +444,11 @@ export default {
       this.init();
     },
     init() {
-      this.spin = true;
+      this.spinShow = true;
       getsbuRole().then(res => {
         if (res.code == 0) {
           this.subRoleList = res.payload.Items;
-          this.spin = false;
+          this.spinShow = false;
         }
       });
     }

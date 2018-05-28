@@ -315,6 +315,7 @@ export default {
     margin: 10px auto 20px;
     table {
       width: 100%;
+      border-collapse:collapse;
       td {
         border: 1px solid #e9eaec;
         width: 32%;

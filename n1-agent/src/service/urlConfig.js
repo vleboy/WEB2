@@ -1,31 +1,12 @@
 // console.log(process.env.NODE_ENV);
 // export const URL='d3rqtlfdd4m9wd.cloudfront.net'
-export let URL = type => {
-  if (process.env.NODE_ENV == 'production') {
-    switch (type) {
-      case 'game':
-        return 'n1game.na12345.com'
-        break
-      default:
-        return 'n1admin.na12345.com'
-        break
-    }
-  } else {
-    switch (type) {
-      case 'game':
-        return 'dgjmusja39cm2.cloudfront.net'
-        break
-      default:
-        return 'd3prd6rbitzqm3.cloudfront.net'
-        break
-    }
-  }
-}
+export const URL =process.env.NODE_ENV == 'production'?'n1agent.na12345.com':'d3prd6rbitzqm3.cloudfront.net'
+
 // console.log(URL);
 
 export const httpType = 'https://'
-
+//登录页,验证码
 export const api = {
-  getVaptcha: httpType + URL() + '/vaptcha/getVaptcha',
-  getDownTime: httpType + URL() + '/vaptcha/getDownTime'
+  getVaptcha: httpType + URL + '/vaptcha/getVaptcha',
+  getDownTime: httpType + URL + '/vaptcha/getDownTime'
 }
