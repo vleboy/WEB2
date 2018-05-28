@@ -1,6 +1,9 @@
 <template>
   <div class="personalcenter">
     <div class="manangeinfo">
+      <div class="reload">
+        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+      </div>
       <table cellspacing="0">
         <tr>
           <td>
@@ -36,7 +39,7 @@
       </table>
     </div>
     <div class="manager-copertion">
-      <Table :columns="columns1" :data="showData" size="small" ></Table>
+      <Table :columns="columns1" :data="showData" size="small"></Table>
       <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
     <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
@@ -64,7 +67,7 @@
   </div>
 </template>
 <script>
-import {agentOne,getWaterfall} from '@/service/index'
+import { agentOne, getWaterfall } from "@/service/index";
 import dayjs from "dayjs";
 export default {
   data() {
@@ -73,14 +76,14 @@ export default {
       password: "",
       repassword: "",
       dayjs: dayjs,
-      agentDetail:{},
-      waterfall:[],
-      pageSize:50,
+      agentDetail: {},
+      waterfall: [],
+      pageSize: 50,
       showData: [], //
       columns1: [
         {
           title: "序号",
-          type: "index",
+          type: "index"
         },
         {
           title: "账户余额",
@@ -93,7 +96,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          minWidth:80,
+          minWidth: 80,
           render: (h, params) => {
             return h(
               "span",
@@ -104,7 +107,7 @@ export default {
         {
           title: "交易对象",
           key: "toUser",
-          minWidth:120,
+          minWidth: 120,
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
@@ -175,7 +178,7 @@ export default {
   computed: {
     total() {
       return this.waterfall.length;
-    },
+    }
   },
   methods: {
     handlePage() {
@@ -187,13 +190,16 @@ export default {
       }
     },
     changepage(index) {
-      let size=this.pageSize
+      let size = this.pageSize;
       var _start = (index - 1) * size;
       var _end = index * size;
       this.showData = this.waterfall.slice(_start, _end);
     },
     newPassword() {
       this.modal = true;
+    },
+    reset(){
+      this.init()
     },
     ok() {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
@@ -233,18 +239,18 @@ export default {
       this.password = "";
       this.repassword = "";
     },
-    async init(){
+    async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      this.$store.commit('changeLoading',{params:true})
-      let req1=agentOne(userId);
-      let req2=getWaterfall(userId);
-      let [agent,waterfall]=await this.axios.all([req1,req2]);
-      this.$store.commit('changeLoading',{params:false})
+      this.$store.commit("changeLoading", { params: true });
+      let req1 = agentOne(userId);
+      let req2 = getWaterfall(userId);
+      let [agent, waterfall] = await this.axios.all([req1, req2]);
+      this.$store.commit("changeLoading", { params: false });
       if (agent && agent.code == 0) {
-        this.agentDetail=agent.payload;
+        this.agentDetail = agent.payload;
       }
       if (waterfall && waterfall.code == 0) {
-        this.waterfall=waterfall.payload;
+        this.waterfall = waterfall.payload;
       }
       this.handlePage();
     },
@@ -280,7 +286,7 @@ export default {
   },
   filters: {},
   created() {
-    this.init()
+    this.init();
   }
 };
 </script>
@@ -290,8 +296,12 @@ export default {
   .manangeinfo {
     width: 100%;
     margin: 10px auto 20px;
+    .reload{
+      text-align: right;
+      margin-bottom: 10px;
+    }
     table {
-      border-collapse:collapse;
+      border-collapse: collapse;
       width: 100%;
       td {
         border: 1px solid #e9eaec;

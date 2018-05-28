@@ -6,7 +6,7 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false' :options="option" v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false'  v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
@@ -51,11 +51,11 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      option: {
-        disabledDate(date) {
-          return date && date.valueOf() > Date.now() - 180000;
-        }
-      },
+      // option: {
+      //   disabledDate(date) {
+      //     return date && date.valueOf() > Date.now() - 180000;
+      //   }
+      // },
       columns1: [
         {
           title: "序号",
@@ -330,9 +330,13 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      time = time.map(item => {
+      time = time.map((item, index) => {
+        if (index == 1 && item.getTime() > Date.now() - 180000) {
+          return Date.now() - 180000;
+        }
         return item.getTime();
       });
+      this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     }
   },
