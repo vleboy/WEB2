@@ -200,7 +200,6 @@
 import {
   checkExit,
   gameBigType,
-  getBill,
   msnRandom,
   checkMsn,
   oneManagers

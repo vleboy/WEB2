@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import { checkExit, gameBigType, getBill, oneManagers } from "@/service/index";
+import { checkExit, gameBigType, oneManagers } from "@/service/index";
 import _ from "lodash";
 export default {
   data() {
