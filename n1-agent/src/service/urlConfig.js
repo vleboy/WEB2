@@ -1,7 +1,6 @@
 // console.log(process.env.NODE_ENV);
 // export const URL='d3rqtlfdd4m9wd.cloudfront.net'
-// export const URL =process.env.NODE_ENV == 'production'?'n1agent.na12345.com':'d3prd6rbitzqm3.cloudfront.net'
-export const URL =process.env.NODE_ENV == 'production'?'fgfob9kau9.execute-api.ap-southeast-1.amazonaws.com/staging/':'d3prd6rbitzqm3.cloudfront.net'
+export const URL =process.env.NODE_ENV == 'production'?'n1agent.na12345.com':'d3prd6rbitzqm3.cloudfront.net'
 
 // console.log(URL);
 

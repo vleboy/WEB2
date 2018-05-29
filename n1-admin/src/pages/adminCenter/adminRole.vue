@@ -134,26 +134,22 @@ export default {
                   },
                   on: {
                     click: () => {
-                      let newTree=_.clone(this.treeData)
                       this.admin.name = params.row.name;
                       this.admin.remark = params.row.remark;
                       let permissions = params.row.permissions;
                       let tree = this.treeData[0];
-                      if (permissions.includes(tree.title)) {
-                        tree.checked = true;
-                      }
                       let second = tree.children;
                       for (let item of second) {
                         if (permissions.includes(item.title)) {
                           item.checked = true;
                         }
-                        if (item.children != undefined) {
+                        if (item.children) {
                           let third = item.children;
                           for (let thirdItem of third) {
                             if (permissions.includes(thirdItem.title)) {
                               thirdItem.checked = true;
                             }
-                            if (thirdItem.children != undefined) {
+                            if (thirdItem.children) {
                               let four = thirdItem.children;
                               for (let fourItem of four) {
                                 if (permissions.includes(fourItem.title)) {
