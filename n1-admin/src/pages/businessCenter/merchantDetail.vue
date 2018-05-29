@@ -415,7 +415,7 @@ export default {
           key: "action",
           render: (h, params) => {
             let row = params.row;
-            if (row.amount > 0) {
+            if (row.amount < 0) {
               return h("span", "减点");
             } else {
               return h("span", "加点");

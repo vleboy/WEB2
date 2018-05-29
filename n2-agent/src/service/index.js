@@ -182,3 +182,10 @@ export async function agentUpdate(params){
 export async function frozen(params){
     return http(post('/player/forzen',params))
 }
+//限红 chip
+export async function chip(params){
+    return http(post('/agent/chip',params))
+}//更新chip
+export async function updateChip(params){
+    return http(post('/updateChip',params))
+}

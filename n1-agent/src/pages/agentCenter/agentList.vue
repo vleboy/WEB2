@@ -32,11 +32,11 @@
         <span class="title left">
           所属玩家列表
         </span>
-        <div class="search">
+        <!-- <div class="search">
           <Input v-model.trim="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
           <Button type="primary" @click="searchPlayer">搜索</Button>
           <Button type="ghost" @click="resetplayer">重置</Button>
-        </div>
+        </div> -->
       </div>
       <div class="table">
         <Table :columns="columns2" :data="playerList" size="small"></Table>
@@ -320,7 +320,7 @@ export default {
       point: "",
       remark: "",
       userName: "",
-      search2: "",
+      // search2: "",
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -1330,16 +1330,16 @@ export default {
         sortkey: "createdAt"
       });
     },
-    searchPlayer() {
-      console.log(1);
-    },
+    // searchPlayer() {
+    //   console.log(1);
+    // },
     reset() {
       this.userName = "";
       this.init();
     },
-    resetplayer() {
-      this.search2 = "";
-    },
+    // resetplayer() {
+    //   this.search2 = "";
+    // },
     selectParent(id) {
       //代理
       if (id) {

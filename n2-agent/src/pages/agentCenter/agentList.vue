@@ -32,11 +32,11 @@
         <span class="title left">
           所属玩家列表
         </span>
-        <div class="search">
+        <!-- <div class="search">
           <Input v-model.trim="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
           <Button type="primary" @click="searchPlayer">搜索</Button>
           <Button type="ghost" @click="resetplayer">重置</Button>
-        </div>
+        </div> -->
       </div>
       <div class="table">
         <Table :columns="columns2" :data="playerList" size="small"></Table>
@@ -160,6 +160,17 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="redModal" @on-ok="confirmRed" title="玩家限红">
+      <ul id="redList">
+        <CheckboxGroup v-model="redCheck">
+          <li v-for="(item,index) in chipList" :key='index'>
+            <Checkbox :label='item.id'>
+              &nbsp;&nbsp;{{item.gameId==1?'百家乐':'轮盘'}}, 最大: {{item.max}}, 最小: {{item.min}} , 筹码: {{item.jtton}}
+            </Checkbox>
+          </li>
+        </CheckboxGroup>
+      </ul>
+    </Modal>
   </div>
 </template>
 <script>
@@ -174,7 +185,9 @@ import {
   agentOne,
   agentNew,
   creatPlayer,
-  frozen
+  frozen,
+  chip,
+  updateChip
 } from "@/service/index";
 export default {
   data() {
@@ -314,13 +327,17 @@ export default {
       }
     };
     return {
+      redCheck: [],
+      redModal: false, //限红
+      chipList: [], //chip
+      userId: "",
       plus: null,
       userInfo: [],
       modal: false,
       point: "",
       remark: "",
       userName: "",
-      search2: "",
+      // search2: "",
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -814,6 +831,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.parent == "00") {
+              //管理员
               return h("div", [
                 h(
                   "span",
@@ -849,9 +867,9 @@ export default {
                 )
               ]);
             } else {
-              let currentId = JSON.parse(localStorage.getItem("userInfo"))
-                .userId;
+              let currentId = localStorage.userId;
               if (params.row.userId == currentId) {
+                //第一个表格
                 return h("div", [
                   h(
                     "span",
@@ -937,6 +955,7 @@ export default {
               let text = "";
               let status = null;
               if (params.row.status == 1) {
+                //正常
                 text = "锁定";
                 color = "#f30";
                 status = 0;
@@ -1031,7 +1050,8 @@ export default {
                     {
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer"
+                        cursor: "pointer",
+                        marginRight: "10px"
                       },
                       on: {
                         click: () => {
@@ -1050,9 +1070,32 @@ export default {
                       }
                     },
                     "创建玩家"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          this.userId = params.row.userId;
+                          let chip = params.row.chip;
+                          let arr = [];
+                          for (let item of chip) {
+                            arr.push(item.id);
+                          }
+                          this.redCheck = arr;
+                          this.redModal = true;
+                        }
+                      }
+                    },
+                    "限红"
                   )
                 ]);
               } else {
+                //锁定
                 text = "解锁";
                 color = "#19be6b";
                 status = 1;
@@ -1113,6 +1156,28 @@ export default {
                       }
                     },
                     text
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          this.userId = params.row.userId;
+                          let chip = params.row.chip;
+                          let arr = [];
+                          for (let item of chip) {
+                            arr.push(item.id);
+                          }
+                          this.redCheck = arr;
+                          this.redModal = true;
+                        }
+                      }
+                    },
+                    "限红"
                   )
                 ]);
               }
@@ -1330,16 +1395,16 @@ export default {
         sortkey: "createdAt"
       });
     },
-    searchPlayer() {
-      console.log(1);
-    },
+    // searchPlayer() {
+    //   console.log(1);
+    // },
     reset() {
       this.userName = "";
       this.init();
     },
-    resetplayer() {
-      this.search2 = "";
-    },
+    // resetplayer() {
+    //   this.search2 = "";
+    // },
     selectParent(id) {
       //代理
       if (id) {
@@ -1510,6 +1575,26 @@ export default {
       this.remark = "";
       this.playerPoint = false;
     },
+    confirmRed() {
+      let checked = this.redCheck;
+      let chip = [];
+      let chipList = this.chipList;
+      let userId = this.userId;
+      for (let item of chipList) {
+        if (checked.includes(item.id)) {
+          chip.push(item);
+        }
+      }
+      updateChip({
+        userId,
+        chip
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+          this.init();
+        }
+      });
+    },
     passwordLevel(password) {
       var Modes = 0;
       for (let i = 0; i < password.length; i++) {
@@ -1643,6 +1728,13 @@ export default {
   },
   created() {
     this.init();
+  },
+  mounted() {
+    chip({}).then(res => {
+      if (res.code == 0) {
+        this.chipList = res.list;
+      }
+    });
   }
 };
 </script>
@@ -1691,5 +1783,12 @@ export default {
   color: #20a0ff;
   margin-left: 15px;
   cursor: pointer;
+}
+#redList {
+  li {
+    list-style: none;
+    line-height: 26px;
+    font-size: 14px;
+  }
 }
 </style>
