@@ -38,7 +38,6 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
-      dayjs: dayjs,
       username: "",
       displayName: "",
       firstPage: true,
@@ -66,7 +65,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.lastLogin).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.lastLogin).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },

@@ -15,7 +15,7 @@
                         输赢报表
                     </template>
                     <MenuItem name="allreport">公司输赢总报表</MenuItem>
-                    <Submenu name='ugreport'>
+                    <Submenu name='nareport'>
                         <template slot="title">NA游戏报表</template>
                         <MenuItem name="naAll">NA游戏总报表</MenuItem>
                         <MenuItem name="navideo">NA电子游戏报表</MenuItem>
@@ -80,62 +80,6 @@
                     </template>
                     <MenuItem name="gameConfig">包房代理游戏配置</MenuItem>
                 </Submenu>
-                <!--
-                <Submenu name="9">
-                    <template slot="title">
-                        玩家中心
-                    </template>
-                    <MenuItem name="9-1">玩家列表</MenuItem>
-                </Submenu>
-                <Submenu name="10">
-                    <template slot="title">
-                        游戏中心
-                    </template>
-                    <MenuItem name="10-1">游戏列表</MenuItem>
-                </Submenu>
-                <Submenu name="11">
-                    <template slot="title">
-                        运营中心
-                    </template>
-                    <Submenu name='24'>
-                        <template slot="title">公告管理</template>
-                        <MenuItem name="aac">游戏公告列表</MenuItem>
-                        <MenuItem name="bbba">跑马灯列表</MenuItem>
-                    </Submenu>
-                    <Submenu name='25'>
-                        <template slot="title">邮件管理</template>
-                        <MenuItem name="322">游戏邮件列表</MenuItem>
-                    </Submenu>
-                    <Submenu name='26'>
-                        <template slot="title">展位管理</template>
-                        <MenuItem name="3">展位列表</MenuItem>
-                    </Submenu>
-                    <MenuItem name="11-1">商户运营记录</MenuItem>
-                    <MenuItem name="11-2">道具造价</MenuItem>
-                </Submenu>
-                <Submenu name="12">
-                    <template slot="title">
-                        系统设置
-                    </template>
-                    <Submenu name='27'>
-                        <template slot="title">登录日志</template>
-                        <MenuItem name="271">线路商登录日志</MenuItem>
-                        <MenuItem name="272">商户登录日志</MenuItem>
-                    </Submenu>
-                    <Submenu name='28'>
-                        <template slot="title">操作日志</template>
-                        <MenuItem name="281">管理员操作日志</MenuItem>
-                    </Submenu>
-                    <Submenu name='29'>
-                        <template slot="title">管理员管理</template>
-                        <MenuItem name="291">管理员列表</MenuItem>
-                        <MenuItem name="292">添加管理员</MenuItem>
-                        <MenuItem name="293">管理员角色列表</MenuItem>
-                        <MenuItem name="294">新增管理员角色</MenuItem>
-                    </Submenu>
-                    <MenuItem name="12-1">线路号列表</MenuItem>
-                    <MenuItem name="12-2">Debug操作日志</MenuItem>
-                </Submenu> -->
             </Menu>
         </Sider>
     </div>

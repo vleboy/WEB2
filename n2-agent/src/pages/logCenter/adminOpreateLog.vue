@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 export default {
   data() {
     return {
-      dayjs: dayjs,
       firstPage: true,
       columns1: [
         {
@@ -39,7 +38,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },

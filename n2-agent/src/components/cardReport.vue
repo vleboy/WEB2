@@ -86,8 +86,8 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    let userId = localStorage.userId;
-                    if (params.row.userId == userId) {
+                    if (params.row.level == 0) {
+                      //第一级
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
@@ -97,12 +97,12 @@ export default {
                           }
                         })
                         .then(res => {
-                          // console.log(res);
                           this.child = res.payload;
+                          this.reportChild = [];
                           this.spinShow = false;
                         });
                     } else {
-                      // console.log(params.row);
+                      //
                       this.userName = params.row.displayName;
                       this.showName = true;
                       let userId = params.row.userId;
@@ -139,11 +139,10 @@ export default {
                       var anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
                     }
-                    // console.log(params.row);
                   }
                 }
               },
-              params.row.username
+              params.row.uname
             );
           }
         },
@@ -156,7 +155,7 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            let userId = localStorage.userId;
+            let userId = localStorage.getItem("userId");
             if (params.row.userId == userId) {
               return h("span", count);
             } else {
@@ -165,7 +164,7 @@ export default {
           }
         },
         {
-          title: "投注金额",
+          title: "交易金额",
           key: "betAmount",
           render: (h, params) => {
             let arr = this.child;
@@ -173,133 +172,11 @@ export default {
             for (let item of arr) {
               count += item.betAmount;
             }
-            let userId = localStorage.userId;
+            let userId = localStorage.getItem("userId");
             if (params.row.userId == userId) {
               return h("span", count.toFixed(2));
             } else {
-              return h("span", params.row.betAmount);
-            }
-          }
-        },
-        {
-          title: "输赢金额",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.winloseAmount;
-            }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              return h("span", count.toFixed(2));
-            } else {
-              return h("span", params.row.winloseAmount);
-            }
-          }
-        },
-        {
-          title: "返水比例",
-          key: "",
-          render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              return h("span", 0);
-            } else {
-              let arr = params.row.gameList;
-              let mix = 0;
-              for (let item of arr) {
-                for (let key in item) {
-                  if (item.code == this.gameType) {
-                    mix = parseFloat(item.mix);
-                  }
-                }
-              }
-              return h("span", mix.toFixed(2) + "%");
-            }
-          }
-        },
-        {
-          title: "佣金",
-          key: "",
-          render: (h, params) => {
-            let arr = this.child;
-            let boundsSum = 0;
-            for (let item of arr) {
-              boundsSum += item.boundsSum;
-            }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              return h("span", boundsSum.toFixed(2));
-            } else {
-              return h("span", params.row.boundsSum.toFixed(2));
-            }
-          }
-        },
-        {
-          title: "代理总金额",
-          key: "",
-          render: (h, params) => {
-            let arr = this.child;
-            let totalSum = 0;
-            for (let item of arr) {
-              totalSum += item.totalSum;
-            }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              return h("span", totalSum.toFixed(2));
-            } else {
-              return h("span", params.row.totalSum.toFixed(2));
-            }
-          }
-        },
-        {
-          title: "代理占成",
-          key: "",
-          render: (h, params) => {
-            let rate = params.row.rate + "%";
-            return h("span", rate);
-          }
-        },
-        {
-          title: "代理交公司",
-          key: "submitAmount",
-          render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              return h("span", 0);
-            } else {
-              return h("span", params.row.submitAmount);
-            }
-          }
-        },
-        {
-          title: "获利比例",
-          key: "rate",
-          render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
-              let totalSum = 0;
-              let betAmount = 0;
-              let arr = this.child;
-              for (let item of arr) {
-                betAmount += item.betAmount;
-                totalSum += item.totalSum;
-              }
-              let result = "";
-              if (totalSum != 0) {
-                result = (100 * totalSum / betAmount).toFixed(2) + "%";
-              } else {
-                result = 0;
-              }
-              return h("span", result);
-            } else {
-              return h(
-                "span",
-                (100 * (params.row.totalSum / params.row.betAmount)).toFixed(
-                  2
-                ) + "%"
-              );
+              return h("span", params.row.betAmount.toFixed(2));
             }
           }
         }
@@ -322,16 +199,8 @@ export default {
           key: "betCount"
         },
         {
-          title: "投注金额",
+          title: "交易金额",
           key: "betAmount"
-        },
-        {
-          title: "输赢金额",
-          key: "winloseAmount"
-        },
-        {
-          title: "洗码量",
-          key: "mixAmount"
         }
       ]
     };
@@ -351,13 +220,16 @@ export default {
   },
   methods: {
     confirm() {
+      this.reportChild = [];
       this.init();
     },
     reset() {
       this.defaultTime = getDefaultTime();
+      this.reportChild = [];
       this.init();
     },
     search() {
+      this.reportChild = [];
       this.init();
     },
     types(value) {

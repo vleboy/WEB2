@@ -6,30 +6,30 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false'  v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ></Table>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
       </p>
-      <Table :columns="columns1" :data="child" size="small" ></Table>
+      <Table :columns="columns1" :data="child" size="small"></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" ></Table>
+      <Table :columns="columns1" :data="item" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ></Table>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -86,7 +86,8 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.level == 0) {
+                    let userId = localStorage.userId;
+                    if (params.row.userId == userId) {
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
@@ -155,7 +156,8 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", count);
             } else {
               return h("span", params.row.betCount);
@@ -171,7 +173,8 @@ export default {
             for (let item of arr) {
               count += item.betAmount;
             }
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.betAmount);
@@ -187,7 +190,8 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", count.toFixed(2));
             } else {
               return h("span", params.row.winloseAmount);
@@ -198,7 +202,8 @@ export default {
           title: "返水比例",
           key: "",
           render: (h, params) => {
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", 0);
             } else {
               let arr = params.row.gameList;
@@ -223,7 +228,8 @@ export default {
             for (let item of arr) {
               boundsSum += item.boundsSum;
             }
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", boundsSum.toFixed(2));
             } else {
               return h("span", params.row.boundsSum.toFixed(2));
@@ -239,7 +245,8 @@ export default {
             for (let item of arr) {
               totalSum += item.totalSum;
             }
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", totalSum.toFixed(2));
             } else {
               return h("span", params.row.totalSum.toFixed(2));
@@ -258,7 +265,8 @@ export default {
           title: "代理交公司",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               return h("span", 0);
             } else {
               return h("span", params.row.submitAmount);
@@ -269,7 +277,8 @@ export default {
           title: "获利比例",
           key: "rate",
           render: (h, params) => {
-            if (params.row.level == 0) {
+            let userId = localStorage.userId;
+            if (params.row.userId == userId) {
               let totalSum = 0;
               let betAmount = 0;
               let arr = this.child;
@@ -392,10 +401,29 @@ export default {
       });
     },
     async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let req1 = this.$store.dispatch("getUserList", { userId: userId });
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
+      let req1 = null;
+      if (level == 0) {
+        req1 = this.$store.dispatch("getUserList", { userId: userId });
+      } else {
+        req1 = this.$store.dispatch("getUserList", {
+          userId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        });
+      }
       let req2 = this.$store.dispatch("getUserChild", {
-        parent: "01",
+        parent,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime

@@ -463,7 +463,7 @@ export default {
       }
       let req1=null;
       if (level == 0) {
-        let req1 = this.$store.dispatch("getUserList", { userId });
+       req1 = this.$store.dispatch("getUserList", { userId });
       } else {
         req1 = this.$store.dispatch("getUserList", {
           userId: userId,

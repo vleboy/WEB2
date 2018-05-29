@@ -1,17 +1,17 @@
 <template>
   <div class="naCard">
-    <report :gameType='3'></report>
+    <cardReport :gameType='3'></cardReport>
   </div>
 </template>
 <script>
-import report from '@/components/report'
+import cardReport from '@/components/cardReport'
 export default {
   data(){
     return {
 
     }
   },
-  components:{report}
+  components:{cardReport}
 }
 </script>
 <style lang="less" scoped>

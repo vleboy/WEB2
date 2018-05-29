@@ -86,7 +86,6 @@ export default {
       }
     };
     return {
-      dayjs: dayjs,
       modal: false, //修改密码modal
       password: "",
       repassword: "",
@@ -137,7 +136,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },

@@ -92,30 +92,6 @@
                     <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
                     <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
                 </Submenu>
-                <!--
-                <Submenu name="12">
-                    <template slot="title">
-                        系统设置
-                    </template>
-                    <Submenu name='27'>
-                        <template slot="title">登录日志</template>
-                        <MenuItem name="271">线路商登录日志</MenuItem>
-                        <MenuItem name="272">商户登录日志</MenuItem>
-                    </Submenu>
-                    <Submenu name='28'>
-                        <template slot="title">操作日志</template>
-                        <MenuItem name="281">管理员操作日志</MenuItem>
-                    </Submenu>
-                    <Submenu name='29'>
-                        <template slot="title">管理员管理</template>
-                        <MenuItem name="291">管理员列表</MenuItem>
-                        <MenuItem name="292">添加管理员</MenuItem>
-                        <MenuItem name="293">管理员角色列表</MenuItem>
-                        <MenuItem name="294">新增管理员角色</MenuItem>
-                    </Submenu>
-                    <MenuItem name="12-1">线路号列表</MenuItem>
-                    <MenuItem name="12-2">Debug操作日志</MenuItem>
-                </Submenu> -->
             </Menu>
         </Sider>
     </div>

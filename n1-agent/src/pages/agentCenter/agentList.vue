@@ -322,7 +322,6 @@ export default {
       userName: "",
       search2: "",
       parentDisplayName: "",
-      dayjs: dayjs,
       playerPoint: false,
       agentChild: [],
       currentLevel: null,
@@ -533,7 +532,7 @@ export default {
                   },
                   on: {
                     click: async () => {
-                     this.init()
+                      this.init();
                     }
                   }
                 },
@@ -740,7 +739,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },
@@ -756,6 +755,7 @@ export default {
                   "Tag",
                   {
                     props: {
+                      type: "border",
                       color: "green"
                     }
                   },
@@ -766,6 +766,7 @@ export default {
                   "Tag",
                   {
                     props: {
+                      type: "border",
                       color: "red"
                     }
                   },
@@ -1192,7 +1193,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.updateAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.updateAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },
@@ -1205,6 +1206,7 @@ export default {
                 "Tag",
                 {
                   props: {
+                    type: "border",
                     color: "green"
                   }
                 },
@@ -1215,6 +1217,7 @@ export default {
                 "Tag",
                 {
                   props: {
+                    type: "border",
                     color: "red"
                   }
                 },
@@ -1250,7 +1253,13 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(1);
+                      localStorage.setItem("playerName", params.row.userName);
+                      this.$router.push({
+                        name: "playDetail",
+                        query: {
+                          name: params.row.userName
+                        }
+                      });
                     }
                   }
                 },

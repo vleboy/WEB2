@@ -61,7 +61,6 @@ export default {
       userId: "",
       role: "", //
       spinShow: false,
-      dayjs: dayjs,
       topAmount: null,
       winloseAmount: null,
       newAmount: null,
@@ -362,7 +361,7 @@ export default {
       if (this.endTime == 0 || this.endTime == "") {
         return "";
       } else {
-        return this.dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
+        return dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
       }
     }
   },

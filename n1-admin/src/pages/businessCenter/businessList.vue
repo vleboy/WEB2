@@ -86,7 +86,6 @@ import { userChangeStatus } from "@/service/index";
 export default {
   data() {
     return {
-      dayjs: dayjs,
       sn: "", //标识
       msn: "", //线路号
       displayName: "",
@@ -273,7 +272,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },
@@ -284,7 +283,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.loginAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.loginAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },

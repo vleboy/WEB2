@@ -91,7 +91,6 @@ export default {
       fromUserId: "", //id
       toRole: " ",
       toUser: "",
-      dayjs: dayjs,
       displayName: "",
       suffix: "", //前缀
       disabled: true, //加点禁用
@@ -264,7 +263,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },

@@ -275,7 +275,6 @@ export default {
       }
     ];
     return {
-      dayjs: dayjs,
       spinShow: false,
       modal: false,
       subRoleList: [],
@@ -314,7 +313,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              this.dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
         },
