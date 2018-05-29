@@ -42,238 +42,238 @@
 <script>
 import dayjs from "dayjs";
 import _ from "lodash";
-const oldTree = [
-  {
-    title: "所有权限",
-    expand: true,
-    checked: false,
-    children: [
-      {
-        title: "个人中心",
-        expand: true,
-        checked: false
-      },
-      {
-        title: "输赢报表",
-        expand: true,
-        checked: false,
-        children: [
-          {
-            title: "公司输赢总报表",
-            checked: false
-          },
-          {
-            title: "NA游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "NA游戏总报表",
-                checked: false
-              },
-              {
-                title: "NA电子游戏报表",
-                checked: false
-              },
-              {
-                title: "NA街机游戏报表",
-                checked: false
-              },
-              {
-                title: "NA棋牌游戏报表",
-                checked: false
-              },
-              {
-                title: "NA真人游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "TTG游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "TTG电子游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "SA游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "SA游戏总报表",
-                checked: false
-              },
-              {
-                title: "SA真人游戏报表",
-                checked: false
-              },
-              {
-                title: "SA捕鱼游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "MG游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "MG电子游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "AG游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "AG真人游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "UG游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "UG体育游戏报表",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "YSB游戏报表",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "YSB体育游戏报表",
-                checked: false
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: "商户中心",
-        expand: true,
-        checked: false,
-        children: [
-          {
-            title: "线路商列表",
-            checked: false
-          },
-          {
-            title: "商户列表",
-            checked: false
-          },
-          {
-            title: "接入商点数警告列表",
-            checked: false
-          }
-        ]
-      },
-      {
-        title: "管理员中心",
-        checked: false,
-        expand: true,
-        children: [
-          {
-            title: "管理员列表",
-            checked: false
-          },
-          {
-            title: "线路号列表",
-            checked: false
-          },
-          {
-            title: "管理员角色列表",
-            checked: false
-          }
-        ]
-      },
-      {
-        title: "玩家中心",
-        expand: true,
-        checked: false,
-        children: [
-          {
-            title: "玩家列表",
-            checked: false
-          }
-        ]
-      },
-      {
-        title: "日志中心",
-        expand: true,
-        checked: false,
-        children: [
-          {
-            title: "线路商登录日志",
-            checked: false
-          },
-          {
-            title: "商户登录日志",
-            checked: false
-          },
-          {
-            title: "管理员操作日志",
-            checked: false
-          },
-          {
-            title: "DEBUG日志",
-            checked: false
-          }
-        ]
-      },
-      {
-        title: "运营中心",
-        expand: true,
-        checked: false,
-        children: [
-          {
-            title: "游戏公告列表",
-            checked: false
-          },
-          {
-            title: "游戏邮件列表",
-            checked: false
-          },
-          {
-            title: "跑马灯列表",
-            checked: false
-          },
-          {
-            title: "商户运营记录",
-            checked: false
-          },
-          {
-            title: "展位列表",
-            checked: false
-          },
-          {
-            title: "道具定价",
-            checked: false
-          }
-        ]
-      }
-    ]
-  }
-];
 import { getsbuRole, subRoleDelete, subRoleUpdate } from "@/service/index";
 export default {
   data() {
+    const oldTree = [
+      {
+        title: "所有权限",
+        expand: true,
+        checked: false,
+        children: [
+          {
+            title: "个人中心",
+            expand: true,
+            checked: false
+          },
+          {
+            title: "输赢报表",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "公司输赢总报表",
+                checked: false
+              },
+              {
+                title: "NA游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "NA游戏总报表",
+                    checked: false
+                  },
+                  {
+                    title: "NA电子游戏报表",
+                    checked: false
+                  },
+                  {
+                    title: "NA街机游戏报表",
+                    checked: false
+                  },
+                  {
+                    title: "NA棋牌游戏报表",
+                    checked: false
+                  },
+                  {
+                    title: "NA真人游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "TTG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "TTG电子游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "SA游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "SA游戏总报表",
+                    checked: false
+                  },
+                  {
+                    title: "SA真人游戏报表",
+                    checked: false
+                  },
+                  {
+                    title: "SA捕鱼游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "MG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "MG电子游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "AG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "AG真人游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "UG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "UG体育游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "YSB游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "YSB体育游戏报表",
+                    checked: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: "商户中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "线路商列表",
+                checked: false
+              },
+              {
+                title: "商户列表",
+                checked: false
+              },
+              {
+                title: "接入商点数警告列表",
+                checked: false
+              }
+            ]
+          },
+          {
+            title: "管理员中心",
+            checked: false,
+            expand: true,
+            children: [
+              {
+                title: "管理员列表",
+                checked: false
+              },
+              {
+                title: "线路号列表",
+                checked: false
+              },
+              {
+                title: "管理员角色列表",
+                checked: false
+              }
+            ]
+          },
+          {
+            title: "玩家中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "玩家列表",
+                checked: false
+              }
+            ]
+          },
+          {
+            title: "日志中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "线路商登录日志",
+                checked: false
+              },
+              {
+                title: "商户登录日志",
+                checked: false
+              },
+              {
+                title: "管理员操作日志",
+                checked: false
+              },
+              {
+                title: "DEBUG日志",
+                checked: false
+              }
+            ]
+          },
+          {
+            title: "运营中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "游戏公告列表",
+                checked: false
+              },
+              {
+                title: "游戏邮件列表",
+                checked: false
+              },
+              {
+                title: "跑马灯列表",
+                checked: false
+              },
+              {
+                title: "商户运营记录",
+                checked: false
+              },
+              {
+                title: "展位列表",
+                checked: false
+              },
+              {
+                title: "道具定价",
+                checked: false
+              }
+            ]
+          }
+        ]
+      }
+    ];
     return {
       dayjs: dayjs,
       spinShow: false,
