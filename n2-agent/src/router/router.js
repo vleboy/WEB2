@@ -43,27 +43,6 @@ export const appRouter = [
         children:[{path:'index',title:'个人中心', name:'ownspace-index',component:()=>import('@/pages/ownSpace.vue')}]
     },
     {
-        path:'/allreport',
-        title:'公司输赢总报表',
-        name:'all',
-        component:main,
-        children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:()=>import('@/pages/reports/allReport.vue')}]
-    },
-    {
-        path:'/aggame',
-        title:'AG游戏报表',
-        name:'aggame',
-        component:main,
-        children:[{path:'true',title:'AG真人游戏报表',name:'agtrue',component:()=>import('@/pages/reports/agTrueGame.vue')}]
-    },
-    {
-        path:'/mggame',
-        title:'MG游戏报表',
-        name:'mggame',
-        component:main,
-        children:[{path:'video',title:'MG电子游戏报表',name:'mgvideo',component:()=>import('@/pages/reports/mgVideoGame.vue')}]
-    },
-    {
         path:'/nagame',
         title:'NA游戏报表',
         name:'nagame',
@@ -75,31 +54,6 @@ export const appRouter = [
             {path:'video',title:'NA电子游戏报表',name:'navideo',component:()=>import('@/pages/reports/naVideoGame.vue')},
             {path:'all',title:'NA游戏总报表',name:'naAll',component:()=>import('@/pages/reports/naAllReport.vue')}
         ]
-    },
-    {
-        path:'/sagame',
-        title:'SA游戏报表',
-        name:'sagame',
-        component:main,
-        children:[
-            {path:'all',title:'SA游戏总报表',name:'saAll',component:()=>import('@/pages/reports/saAllReport.vue')},
-            {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:()=>import('@/pages/reports/saFishingGame.vue')},
-            {path:'true',title:'SA真人游戏报表',name:'satrue',component:()=>import('@/pages/reports/saTrueGame.vue')},
-        ]
-    },
-    {
-        path:'/ttggame',
-        title:'TTG游戏报表',
-        name:'ttggame',
-        component:main,
-        children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:()=>import('@/pages/reports/ttgVideoGame.vue')}]
-    },
-    {
-        path:'/uggame',
-        title:'UG游戏报表',
-        name:'uggame',
-        component:main,
-        children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:()=>import('@/pages/reports/ugSportGame.vue')}]
     },
     {
         path:'/agent',
