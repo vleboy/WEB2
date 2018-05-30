@@ -511,7 +511,6 @@
       float: right;
       width: 70%;
       max-width: 70%;
-      display: inline-block;
     }
 
     .right-number{
