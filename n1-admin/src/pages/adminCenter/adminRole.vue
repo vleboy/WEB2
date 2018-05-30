@@ -281,6 +281,7 @@ export default {
               {
                 title: "游戏公告列表",
                 checked: false,
+                expand: true,
                 children: [
                   {
                     title: "创建公告",
@@ -291,6 +292,7 @@ export default {
               {
                 title: "游戏邮件列表",
                 checked: false,
+                expand: true,
                 children: [
                   {
                     title: "创建邮件",
@@ -301,6 +303,7 @@ export default {
               {
                 title: "跑马灯列表",
                 checked: false,
+                expand: true,
                 children: [
                   {
                     title: "创建跑马灯",
@@ -315,6 +318,7 @@ export default {
               {
                 title: "展位列表",
                 checked: false,
+                expand: true,
                 children: [
                   {
                     title: "物品上架",
