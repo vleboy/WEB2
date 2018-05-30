@@ -47,7 +47,7 @@ export const appRouter = [
     {
         path:'/board',
         title:'看板',
-        name:'board',
+        name:'boards',
         component:main,
         children:[{path:'board',title:'看板', name:'board',component:()=>import('@/pages/board/board.vue')}]
     },
