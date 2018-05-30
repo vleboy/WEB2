@@ -122,7 +122,7 @@ export default {
             let adminId = admininfo.userId;
             let userName = admininfo.username;
             let permission = this.permission;
-            if (permission.includes("加减点")) {
+            if (permission.includes("线路商加减点")) {
               return h("div", [
                 h("p", params.row.balance.toFixed(2)),
                 h("p", [
@@ -191,7 +191,6 @@ export default {
                               userName: params.row.parentName
                             };
                             option.push(another);
-                            console.log(option);
                           }
                           this.options = option;
                           this.fromUserId = params.row.userId;

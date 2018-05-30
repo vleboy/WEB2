@@ -275,7 +275,7 @@ export default {
           render: (h, params) => {
             let permission = this.permission;
             if (
-              permission.includes("停用启用") &&
+              permission.includes("接入商停启用") &&
               permission.includes("设定点数告警上限")
             ) {
               let companyList = params.row.companyList;
@@ -351,7 +351,7 @@ export default {
                   );
                 })
               );
-            } else if (permission.includes("停用启用")) {
+            } else if (permission.includes("接入商停启用")) {
               let companyList = params.row.companyList;
               return h(
                 "div",
