@@ -116,8 +116,8 @@ export const appRouter = [
         name:'business',
         component:main,
         children:[
-            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessCenter/businessList.vue')},
-            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineBusiness.vue')},
+            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessCenter/merchantList.vue')},
+            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineList.vue')},
             {path:'warn',title:'接入商点数警告列表',name:'warnList',component:()=>import('@/pages/businessCenter/warnList.vue')}
     ]
     },
