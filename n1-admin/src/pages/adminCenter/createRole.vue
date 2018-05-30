@@ -145,41 +145,31 @@ export default {
               expand: true,
               children: [
                 {
-                  title: "线路商列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "线路商加减点"
-                    },
-                    {
-                      title: "创建线路商"
-                    }
-                  ]
+                  title: "线路商列表"
                 },
                 {
-                  title: "商户列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "商户加减点"
-                    },
-                    {
-                      title: "创建商户"
-                    }
-                  ]
+                  title: "线路商加减点"
                 },
                 {
-                  title: "接入商点数警告列表",
-                  checked: false,
-                  expand: true,
-                  children: [
-                    {
-                      title: "接入商停启用"
-                    },
-                    {
-                      title: "设定点数告警上限"
-                    }
-                  ]
+                  title: "创建线路商"
+                },
+                {
+                  title: "商户列表"
+                },
+                {
+                  title: "商户加减点"
+                },
+                {
+                  title: "创建商户"
+                },
+                {
+                  title: "接入商点数警告列表"
+                },
+                {
+                  title: "接入商停启用"
+                },
+                {
+                  title: "设定接入商告警上限"
                 }
               ]
             },
@@ -230,43 +220,31 @@ export default {
               expand: true,
               children: [
                 {
-                  title: "游戏公告列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "创建公告"
-                    }
-                  ]
+                  title: "游戏公告列表"
                 },
                 {
-                  title: "游戏邮件列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "创建邮件"
-                    }
-                  ]
+                  title: "创建公告"
                 },
                 {
-                  title: "跑马灯列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "创建跑马灯"
-                    }
-                  ]
+                  title: "游戏邮件列表"
+                },
+                {
+                  title: "创建邮件"
+                },
+                {
+                  title: "跑马灯列表"
+                },
+                {
+                  title: "创建跑马灯"
                 },
                 {
                   title: "商户运营记录"
                 },
                 {
-                  title: "展位列表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "物品上架"
-                    }
-                  ]
+                  title: "展位列表"
+                },
+                {
+                  title: "物品上架"
                 },
                 {
                   title: "道具定价"
