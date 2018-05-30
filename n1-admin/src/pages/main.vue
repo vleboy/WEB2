@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     pageTagsList() {
-      return this.$store.state.home.pageOpenedList; // 打开的页面的页面对象
+      return this.$store.state.home.pageOpenedList; //打开的页面的页面对象
     }
   },
   methods: {
