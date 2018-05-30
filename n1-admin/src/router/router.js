@@ -45,6 +45,13 @@ export const appRouter = [
         children:[{path:'index',title:'个人中心', name:'ownspace-index',component:()=>import('@/pages/ownSpace.vue')}]
     },
     {
+        path:'/board',
+        title:'看板',
+        name:'board',
+        component:main,
+        children:[{path:'board',title:'看板', name:'board',component:()=>import('@/pages/board/board.vue')}]
+    },
+    {
         path:'/allreport',
         title:'公司输赢总报表',
         name:'all',

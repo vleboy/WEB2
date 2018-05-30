@@ -28,6 +28,8 @@
       openName = ["playerCenter"];
     } else if (name == "boothList" || name == "gameMailList" || name == "businessRecord" || name == "propPrice" || name == "horseRaceLampList" || name == "gameNoticeList" ) {
       openName = ["operation"];
+    } else if (name == "board") {
+      openName = ["board"];
     }
     return openName
   }
