@@ -52,8 +52,11 @@ export default {
         checked: false,
         children: [
           {
+            title: "看板",
+            checked: false
+          },
+           {
             title: "个人中心",
-            expand: true,
             checked: false
           },
           {
