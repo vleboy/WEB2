@@ -2,7 +2,7 @@
   <div class="p-horseRaceLampList">
     <div class="-p-m-header">
       <Col :span="11">
-        <Button type="primary" class="justfy1" @click="openModal()">创建跑马灯</Button>
+        <Button type="primary" class="justfy1" @click="openModal()" v-if="permission.includes('创建跑马灯')">创建跑马灯</Button>
       </Col>
       <Col :span="13" class="g-text-right">
         <Input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.content"></Input>
@@ -197,6 +197,9 @@ export default {
       } else {
         return this.horseRaceLampList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   methods: {

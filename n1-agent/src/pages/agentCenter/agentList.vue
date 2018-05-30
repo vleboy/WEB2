@@ -1465,6 +1465,7 @@ export default {
       this.agent.remark = "";
     },
     ok() {
+      //bill
       if (this.playerPoint == false) {
         this.$store
           .dispatch("transferBill", {
@@ -1479,6 +1480,7 @@ export default {
             this.remark = "";
           });
       } else {
+        //player
         if (this.plus == true) {
           this.$store
             .dispatch("playAddBill", {
@@ -1595,7 +1597,7 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       });
-    },
+    }, //添加玩家
     addPlayerConfirm() {
       this.$refs["playerForm"].validate(valid => {
         if (valid) {

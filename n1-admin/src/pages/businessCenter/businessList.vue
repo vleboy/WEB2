@@ -26,7 +26,7 @@
     </div>
     <div class="option">
       <p class="create">
-        <Button type="primary" @click="addMerchant">创建商户</Button>
+        <Button type="primary" @click="addMerchant" v-if="permission.includes('创建商户')">创建商户</Button>
       </p>
     </div>
     <div class="table">
@@ -131,6 +131,8 @@ export default {
             let admin = admininfo.username.substr(9);
             let adminId = admininfo.userId;
             let userName = admininfo.username;
+            let permission=this.permission;
+            if(permission.includes('加减点')){
             return h("div", [
               h("p", params.row.balance.toFixed(2)),
               h("p", [
@@ -208,6 +210,9 @@ export default {
                 )
               ])
             ]);
+            }else{
+              return h('p',params.row.balance.toFixed(2))
+            }
           }
         },
         {
@@ -536,6 +541,9 @@ export default {
     },
     spinShow() {
       return this.$store.state.merchants.spinShow;
+    },
+    permission(){
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   created() {

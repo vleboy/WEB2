@@ -19,7 +19,7 @@
         </Col>
       </Row>
     </div>
-    <Button class="searchResult" type="primary"  @click="openModal()">创建公告</Button>
+    <Button class="searchResult" type="primary" v-if="permission.includes('创建公告')"  @click="openModal()">创建公告</Button>
     <div class="gameNoticeList">
       <Table :columns="columns" :data="getItems"></Table>
       <div class="page">
@@ -274,6 +274,9 @@ export default {
       } else {
         return this.gameNoticeList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   methods: {

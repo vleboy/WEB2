@@ -27,7 +27,7 @@
         <!--</el-radio-group>-->
       <!--</Col>-->
       <Col :span="24">
-        <Button type="primary" @click="openModal()">物品上架</Button>
+        <Button type="primary" @click="openModal()" v-if="permission.includes('物品上架')">物品上架</Button>
       </Col>
     </div>
     <div>
@@ -279,6 +279,9 @@ export default {
       } else {
         return this.boothList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   methods: {

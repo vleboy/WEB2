@@ -1,48 +1,48 @@
 <template>
-    <div class="warn">
-        <div class="head">
-            <p>
-                <span class="title">管理员直管接入商 </span>
-                <span class="endtime">统计截止时间:{{countTime}}</span>
-                <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
-            </p>
-            <Table :columns="columns" :data="warnList" size="small"></Table>
-        </div>
-        <div class="childLists" v-for="(item,index) in childList" :key="index">
-            <p class="title">
-                ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
-            </p>
-            <Table :columns="columns" :data="item" size="small"></Table>
-        </div>
-        <Modal v-model="pointModal" title="预警点数" :width='450' @on-ok="changePoint" @on-cancel='cancel'>
-            <p class='gameTitle'>{{gameType}}游戏</p>
-            <p class="current">当前值 {{winloseAmount}}/{{topAmount}}</p>
-            <Row class="current">
-                <Col span="8"> 设定值:{{winloseAmount}}/
-                </Col>
-                <Col span="12">
-                <Input v-model="newAmount" :number='true' size="small" placeholder="请输入"></Input>
-                </Col>
-            </Row>
-        </Modal>
-        <Modal v-model="opreateModal" :width='450' @on-ok="handleOpreate">
-            <div class="open" v-if="open">
-                <p slot="header" class="modalHead">启用</p>
-                <p class="content">确认要启用该接入商的{{gameType}}游戏吗？</p>
-            </div>
-            <div class="close" v-else>
-                <p slot="header" class="modalHead">停用</p>
-                <p class="content">确认要停用该接入商的{{gameType}}游戏吗？</p>
-                <p class="red content">
-                    告警: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。
-                </p>
-            </div>
-        </Modal>
-        <Spin size="large" fix v-if="spinShow">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+  <div class="warn">
+    <div class="head">
+      <p>
+        <span class="title">管理员直管接入商 </span>
+        <span class="endtime">统计截止时间:{{countTime}}</span>
+        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+      </p>
+      <Table :columns="columns" :data="warnList" size="small"></Table>
     </div>
+    <div class="childLists" v-for="(item,index) in childList" :key="index">
+      <p class="title">
+        ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+      </p>
+      <Table :columns="columns" :data="item" size="small"></Table>
+    </div>
+    <Modal v-model="pointModal" title="预警点数" :width='450' @on-ok="changePoint" @on-cancel='cancel'>
+      <p class='gameTitle'>{{gameType}}游戏</p>
+      <p class="current">当前值 {{winloseAmount}}/{{topAmount}}</p>
+      <Row class="current">
+        <Col span="8"> 设定值:{{winloseAmount}}/
+        </Col>
+        <Col span="12">
+        <Input v-model="newAmount" :number='true' size="small" placeholder="请输入"></Input>
+        </Col>
+      </Row>
+    </Modal>
+    <Modal v-model="opreateModal" :width='450' @on-ok="handleOpreate">
+      <div class="open" v-if="open">
+        <p slot="header" class="modalHead">启用</p>
+        <p class="content">确认要启用该接入商的{{gameType}}游戏吗？</p>
+      </div>
+      <div class="close" v-else>
+        <p slot="header" class="modalHead">停用</p>
+        <p class="content">确认要停用该接入商的{{gameType}}游戏吗？</p>
+        <p class="red content">
+          告警: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。
+        </p>
+      </div>
+    </Modal>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import _ from "lodash";
@@ -60,7 +60,7 @@ export default {
       opreate: null,
       userId: "",
       role: "", //
-      spinShow:false,
+      spinShow: false,
       topAmount: null,
       winloseAmount: null,
       newAmount: null,
@@ -273,7 +273,11 @@ export default {
           title: "操作",
           key: "",
           render: (h, params) => {
-            if (params.row.companyList) {
+            let permission = this.permission;
+            if (
+              permission.includes("停用启用") &&
+              permission.includes("设定点数告警上限")
+            ) {
               let companyList = params.row.companyList;
               return h(
                 "div",
@@ -347,8 +351,89 @@ export default {
                   );
                 })
               );
-            } else {
-              return h("span", "");
+            } else if (permission.includes("停用启用")) {
+              let companyList = params.row.companyList;
+              return h(
+                "div",
+                companyList.map(item => {
+                  let text = "";
+                  let open = false;
+                  let opreate = null;
+                  if (item.status == 1) {
+                    text = "停用";
+                    opreate = 0;
+                  } else {
+                    text = "启用";
+                    open = true;
+                    opreate = 1;
+                  }
+                  return h(
+                    "p",
+                    {
+                      style: {
+                        margin: "5px 0",
+                        height: "26px",
+                        lineHeight: "26px"
+                      }
+                    },
+                    [
+                      h(
+                        "span",
+                        {
+                          style: {
+                            color: "#20a0ff",
+                            cursor: "pointer",
+                            marginRight: "5px"
+                          },
+                          on: {
+                            click: () => {
+                              this.opreateModal = true;
+                              this.gameType = item.company;
+                              this.open = open;
+                              this.opreate = opreate;
+                              this.companyList = params.row.companyList;
+                              this.userId = params.row.userId;
+                              this.role = params.row.role;
+                            }
+                          }
+                        },
+                        text
+                      )
+                    ]
+                  );
+                })
+              );
+            } else if (permission.includes("设定点数告警上限")) {
+              let companyList = params.row.companyList;
+              return h(
+                "div",
+                companyList.map(item => {
+                  return h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "5px"
+                      },
+                      on: {
+                        click: () => {
+                          this.winloseAmount = item.winloseAmount;
+                          this.topAmount = item.topAmount;
+                          this.gameType = item.company;
+                          this.pointModal = true;
+                          this.companyList = params.row.companyList;
+                          this.userId = params.row.userId;
+                          this.role = params.row.role;
+                        }
+                      }
+                    },
+                    "设定点数告警上限"
+                  );
+                })
+              );
+            }else{
+              return h('span','')
             }
           }
         }
@@ -363,6 +448,9 @@ export default {
       } else {
         return dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
       }
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   methods: {
@@ -381,13 +469,13 @@ export default {
       if (userStat && userStat.code == 0) {
         this.warnList = userStat.payload;
       }
-      this.childList=[]
+      this.childList = [];
       this.spinShow = false;
     },
     cancel() {
       this.newAmount = null;
     },
-    reset(){
+    reset() {
       this.init();
     },
     changePoint() {
@@ -469,7 +557,7 @@ export default {
       .endtime {
         font-size: 16px;
       }
-      .searchbtn{
+      .searchbtn {
         float: right;
         margin-right: 10px;
       }

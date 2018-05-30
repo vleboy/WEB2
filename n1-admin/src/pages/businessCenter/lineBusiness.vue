@@ -20,11 +20,11 @@
     </div>
     <div class="option">
       <p class="create">
-        <Button type="primary" @click="createLine">创建线路商</Button>
+        <Button type="primary" @click="createLine" v-if="permission.includes('创建线路商')">创建线路商</Button>
       </p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="showData" size="small" ></Table>
+      <Table :columns="columns1" :data="showData" size="small"></Table>
       <!-- <Page :total="total" class="page" show-elevator :page-size='50' show-total @on-change="changepage"></Page> -->
     </div>
     <Spin size="large" fix v-if="spinShow">
@@ -121,84 +121,90 @@ export default {
             let admin = admininfo.username.substr(9);
             let adminId = admininfo.userId;
             let userName = admininfo.username;
-            return h("div", [
-              h("p", params.row.balance.toFixed(2)),
-              h("p", [
-                h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer"
-                    },
-                    on: {
-                      click: () => {
-                        this.plus = true;
-                        this.modal = true;
-                        this.disabled = true;
-                        this.uname = params.row.uname;
-                        let option = [
-                          {
-                            value: adminId,
-                            label: "【管理员】" + admin
+            let permission = this.permission;
+            if (permission.includes("加减点")) {
+              return h("div", [
+                h("p", params.row.balance.toFixed(2)),
+                h("p", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          this.plus = true;
+                          this.modal = true;
+                          this.disabled = true;
+                          this.uname = params.row.uname;
+                          let option = [
+                            {
+                              value: adminId,
+                              label: "【管理员】" + admin
+                            }
+                          ];
+                          if (params.row.parent != "01") {
+                            let another = {
+                              value: params.row.parent,
+                              label: "【线路商】" + params.row.parentDisplayName
+                            };
+                            option.push(another);
                           }
-                        ];
-                        if (params.row.parent != "01") {
-                          let another = {
-                            value: params.row.parent,
-                            label: "【线路商】" + params.row.parentDisplayName
-                          };
-                          option.push(another);
+                          this.options = option;
+                          this.toRole = "10";
+                          this.toUser = params.row.username;
                         }
-                        this.options = option;
-                        this.toRole = "10";
-                        this.toUser = params.row.username;
                       }
-                    }
-                  },
-                  "加点"
-                ),
-                h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer",
-                      paddingLeft: "10px"
                     },
-                    on: {
-                      click: () => {
-                        this.plus = false;
-                        this.modal = true;
-                        this.disabled = true;
-                        this.uname = params.row.uname;
-                        let option = [
-                          {
-                            value: adminId,
-                            label: "【管理员】" + admin,
-                            role: "1",
-                            userName: userName
+                    "加点"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        paddingLeft: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          this.plus = false;
+                          this.modal = true;
+                          this.disabled = true;
+                          this.uname = params.row.uname;
+                          let option = [
+                            {
+                              value: adminId,
+                              label: "【管理员】" + admin,
+                              role: "1",
+                              userName: userName
+                            }
+                          ];
+                          if (params.row.parent != "01") {
+                            let another = {
+                              value: params.row.parent,
+                              label:
+                                "【线路商】" + params.row.parentDisplayName,
+                              role: params.row.parentRole,
+                              userName: params.row.parentName
+                            };
+                            option.push(another);
+                            console.log(option);
                           }
-                        ];
-                        if (params.row.parent != "01") {
-                          let another = {
-                            value: params.row.parent,
-                            label: "【线路商】" + params.row.parentDisplayName,
-                            role: params.row.parentRole,
-                            userName: params.row.parentName
-                          };
-                          option.push(another);
-                          console.log(option);
+                          this.options = option;
+                          this.fromUserId = params.row.userId;
                         }
-                        this.options = option;
-                        this.fromUserId = params.row.userId;
                       }
-                    }
-                  },
-                  "减点"
-                )
-              ])
-            ]);
+                    },
+                    "减点"
+                  )
+                ])
+              ]);
+            } else {
+              return h("p", params.row.balance.toFixed(2));
+            }
           }
         },
         {
@@ -359,7 +365,7 @@ export default {
                       let userId = params.row.userId;
                       let displayName = params.row.displayName;
                       let username = params.row.username;
-                      let parent=params.row.parent;
+                      let parent = params.row.parent;
                       this.$router.push({
                         path: "/lineDetail",
                         query: {
@@ -480,10 +486,10 @@ export default {
       this.suffix = "";
       this.displayName = "";
       this.$store.dispatch("getManagerList", {
-      query: {},
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+        query: {},
+        sortkey: "createdAt",
+        sort: "desc"
+      });
     },
     search() {
       let query = {
@@ -509,6 +515,9 @@ export default {
     },
     spinShow() {
       return this.$store.state.merchants.spinShow;
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   created() {
@@ -583,5 +592,4 @@ export default {
   padding: 30px 20px;
   font-size: 14px;
 }
-
 </style>

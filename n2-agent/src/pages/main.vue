@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <sidebar :openName='openName'></sidebar>
+    <sidebar :openName='openName'/>
     <Layout :style="{marginLeft: '256px'}">
       <Header class="main_header">
         <div class="tags-con">
-          <tag-close :pageTagsList="pageTagsList"></tag-close>
+          <tag-close :pageTagsList="pageTagsList"/>
         </div>
         <div class="user-dropdown-menu-con">
           <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">

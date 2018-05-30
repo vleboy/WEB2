@@ -175,15 +175,48 @@ export default {
             children: [
               {
                 title: "线路商列表",
-                checked: false
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "加减点",
+                    checked: false
+                  },
+                  {
+                    title: "创建线路商",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "商户列表",
-                checked: false
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "加减点",
+                    checked: false
+                  },
+                  {
+                    title: "创建商户",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "接入商点数警告列表",
-                checked: false
+                checked: false,
+                expand: true,
+                children: [
+                  {
+                    title: "停用启用",
+                    checked: false
+                  },
+                  {
+                    title: "设定点数告警上限",
+                    checked: false
+                  }
+                ]
               }
             ]
           },
@@ -247,15 +280,33 @@ export default {
             children: [
               {
                 title: "游戏公告列表",
-                checked: false
+                checked: false,
+                children: [
+                  {
+                    title: "创建公告",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "游戏邮件列表",
-                checked: false
+                checked: false,
+                children: [
+                  {
+                    title: "创建邮件",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "跑马灯列表",
-                checked: false
+                checked: false,
+                children: [
+                  {
+                    title: "创建跑马灯",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "商户运营记录",
@@ -263,7 +314,13 @@ export default {
               },
               {
                 title: "展位列表",
-                checked: false
+                checked: false,
+                children: [
+                  {
+                    title: "物品上架",
+                    checked: false
+                  }
+                ]
               },
               {
                 title: "道具定价",
