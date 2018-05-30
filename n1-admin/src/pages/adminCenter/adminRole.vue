@@ -179,7 +179,7 @@ export default {
                 checked: false,
                 children: [
                   {
-                    title: "加减点",
+                    title: "线路商加减点",
                     checked: false
                   },
                   {
@@ -194,7 +194,7 @@ export default {
                 checked: false,
                 children: [
                   {
-                    title: "加减点",
+                    title: "商户加减点",
                     checked: false
                   },
                   {
@@ -209,7 +209,7 @@ export default {
                 expand: true,
                 children: [
                   {
-                    title: "停用启用",
+                    title: "接入商停启用",
                     checked: false
                   },
                   {

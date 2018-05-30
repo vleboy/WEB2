@@ -149,7 +149,7 @@ export default {
                   expand: true,
                   children: [
                     {
-                      title: "加减点"
+                      title: "线路商加减点"
                     },
                     {
                       title: "创建线路商"
@@ -161,7 +161,7 @@ export default {
                   expand: true,
                   children: [
                     {
-                      title: "加减点"
+                      title: "商户加减点"
                     },
                     {
                       title: "创建商户"
@@ -174,7 +174,7 @@ export default {
                   expand: true,
                   children: [
                     {
-                      title: "停用启用"
+                      title: "接入商停启用"
                     },
                     {
                       title: "设定点数告警上限"
