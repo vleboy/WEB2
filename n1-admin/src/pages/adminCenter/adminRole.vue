@@ -55,7 +55,7 @@ export default {
             title: "看板",
             checked: false
           },
-           {
+          {
             title: "个人中心",
             checked: false
           },

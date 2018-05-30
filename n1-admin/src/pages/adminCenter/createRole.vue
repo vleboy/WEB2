@@ -47,10 +47,10 @@ export default {
           expand: true,
           children: [
             {
-              title: "看板",
+              title: "看板"
             },
-             {
-              title: "个人中心",
+            {
+              title: "个人中心"
             },
             {
               title: "输赢报表",
