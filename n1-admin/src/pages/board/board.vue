@@ -79,7 +79,7 @@
             <div>
               <div class="content-top">
                 <Col class="g-text-right">
-                  <RadioGroup v-model="dateTypeTwo" size="small" @on-change="changeDateTypeTwo">
+                  <RadioGroup v-model="dateTypeTwo" size="small" type="button" @on-change="changeDateTypeTwo">
                     <Radio label="1">本周</Radio>
                     <Radio label="2">本月</Radio>
                     <Radio label="3">三月</Radio>
@@ -269,7 +269,7 @@
             this.consumeList = result.data
             this.dynamicNum = this.consumeList.sum
             this.drawAllPie()
-            myChart.hideLoading()
+
           }
         )
       }, // 获取游戏消耗点数总
@@ -285,7 +285,6 @@
           .then(result => {
             this.consumeAndIncomeList = result.data
             this.drawAllLine()
-            myChart.hideLoading()
           }
         )
       }, // 获取售出，收益
@@ -355,6 +354,7 @@
           color: ['#D32F2F', '#FFCDD2', '#7b1fa2', '#212121', '#757575', '#FFEB3B', '#F57C00', '#795548', '#64ffda', '#03A9F4', '#388E3C', '#FF4081', '#607D8B', '#536DFE']
 
         })
+        myChart.hideLoading()
       }, // 多栏柱状图
       drawAllLine () {
         // 基于准备好的dom，初始化echarts实例
@@ -398,6 +398,7 @@
           color: ['#49a9ee', '#98d87d', '#ffd86e', '#f3857b', '#8996e6']
 
         })
+        myChart.hideLoading()
       }, // 折线图
       changeDateType () {
         let nowDate = new Date()
@@ -477,6 +478,14 @@
     beforeDestroy (){
       this.isSetInterval = false
       clearInterval(this.intervalid)
+    },
+    watch:{
+      '$route': function (_new,_old) {
+       if(_new.name == 'board') {
+         this.drawAllPie()
+         this.drawAllLine()
+       }
+      }
     }
   }
 </script>
@@ -560,6 +569,9 @@
     .content-bar{
       width: 100%;
       height: 340px;
+    }
+    .g-text-right{
+      text-align: right;
     }
   }
 
