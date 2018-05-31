@@ -1,41 +1,41 @@
 <template>
-    <div class="naAll">
-        <div class="nowList">
-            <div class="top">
-                <p class="title">
-                    当前用户列表
-                </p>
-                <div class="right">
-                    <DatePicker type="datetimerange" :editable='false'  v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
-                    <Button type="primary" @click="search">搜索</Button>
-                    <Button type="ghost" @click="reset">重置</Button>
-                </div>
-            </div>
-            <Table :columns="columns1" :data="user" size="small" ></Table>
+  <div class="naAll">
+    <div class="nowList">
+      <div class="top">
+        <p class="title">
+          当前用户列表
+        </p>
+        <div class="right">
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <Button type="primary" @click="search">搜索</Button>
+          <Button type="ghost" @click="reset">重置</Button>
         </div>
-        <div class="childList">
-            <p class="title">
-                直属下级列表
-            </p>
-            <Table :columns="columns1" :data="child" size="small" ></Table>
-        </div>
-        <div class="childList" v-for="(item,index) in reportChild" :key="index">
-            <p class="title">
-                ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
-            </p>
-            <Table :columns="columns1" :data="item" size="small" ></Table>
-        </div>
-        <div class="playerList" id="playerList">
-            <p class="title">
-                <span v-show="showName"> ({{ userName }})</span>所属玩家列表
-            </p>
-            <Table :columns="columns2" :data="playerList" size="small" ></Table>
-        </div>
-        <Spin size="large" fix v-if="spinShow">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+      </div>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
+    <div class="childList">
+      <p class="title">
+        直属下级列表
+      </p>
+      <Table :columns="columns1" :data="child" size="small"></Table>
+    </div>
+    <div class="childList" v-for="(item,index) in reportChild" :key="index">
+      <p class="title">
+        ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+      </p>
+      <Table :columns="columns1" :data="item" size="small"></Table>
+    </div>
+    <div class="playerList" id="playerList">
+      <p class="title">
+        <span v-show="showName"> ({{ userName }})</span>所属玩家列表
+      </p>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
+    </div>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import _ from "lodash";
@@ -51,7 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType:[3,30000,40000,50000],
+      gameType: [3, 30000, 40000, 50000],
       columns1: [
         {
           title: "序号",
@@ -148,9 +148,9 @@ export default {
                         this.reportChild,
                         userId
                       );
-                       showList = _.filter(showList, function(o) {
+                      showList = _.filter(showList, function(o) {
                         return o.length;
-                      });                      
+                      });
                       this.reportChild = showList;
                     }
                   }
@@ -185,10 +185,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              return h("span", params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -210,20 +229,41 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              for(let key in item.gameTypeMap){
-                if(key=='30000'){
-                  count+=item.gameTypeMap[key].winloseAmount;
+              for (let key in item.gameTypeMap) {
+                if (key == "30000") {
+                  count += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              let winloseAmount=0;
-              if(params.row.gameTypeMap['30000']!==undefined){
-                winloseAmount=params.row.gameTypeMap['30000'].winloseAmount.toFixed(2)
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["30000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "30000"
+                ].winloseAmount.toFixed(2);
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -232,11 +272,13 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-               let submitAmount=0;
-              if(params.row.gameTypeMap['30000']!==undefined){
-                submitAmount=params.row.gameTypeMap['30000'].submitAmount.toFixed(2)
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["30000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "30000"
+                ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
             }
@@ -249,20 +291,41 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              for(let key in item.gameTypeMap){
-                if(key=='40000'){
-                  count+=item.gameTypeMap[key].winloseAmount;
+              for (let key in item.gameTypeMap) {
+                if (key == "40000") {
+                  count += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-               let winloseAmount=0;
-              if(params.row.gameTypeMap['40000']!==undefined){
-                winloseAmount=params.row.gameTypeMap['40000'].winloseAmount.toFixed(2)
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["40000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "40000"
+                ].winloseAmount.toFixed(2);
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -271,11 +334,13 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-              let submitAmount=0;
-              if(params.row.gameTypeMap['40000']!==undefined){
-                submitAmount=params.row.gameTypeMap['40000'].submitAmount.toFixed(2)
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["40000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "40000"
+                ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
             }
@@ -288,20 +353,41 @@ export default {
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
-              for(let key in item.gameTypeMap){
-                if(key=='50000'){
-                  count+=item.gameTypeMap[key].winloseAmount;
+              for (let key in item.gameTypeMap) {
+                if (key == "50000") {
+                  count += item.gameTypeMap[key].winloseAmount;
                 }
               }
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              let winloseAmount=0;
-              if(params.row.gameTypeMap['50000']!==undefined){
-                winloseAmount=params.row.gameTypeMap['50000'].winloseAmount.toFixed(2)
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["50000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "50000"
+                ].winloseAmount.toFixed(2);
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -310,11 +396,13 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.role == "1") {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
-              let submitAmount=0;
-              if(params.row.gameTypeMap['50000']!==undefined){
-                submitAmount=params.row.gameTypeMap['50000'].submitAmount.toFixed(2)
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["50000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "50000"
+                ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
             }
@@ -340,39 +428,84 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = params.row.winloseAmount ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "NA真人游戏(输赢金额)",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let winloseAmount=0;
-            if(params.row.gameTypeMap['30000']!==undefined){
-              winloseAmount=params.row.gameTypeMap['30000'].winloseAmount.toFixed(2)
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["30000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "30000"
+              ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         },
         {
           title: "NA电子游戏(输赢金额)",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let winloseAmount=0;
-            if(params.row.gameTypeMap['40000']!==undefined){
-              winloseAmount=params.row.gameTypeMap['40000'].winloseAmount.toFixed(2)
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["40000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "40000"
+              ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount.toFixed(2)
+            );
           }
         },
         {
           title: "NA街机游戏(输赢金额)",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let winloseAmount=0;
-            if(params.row.gameTypeMap['50000']!==undefined){
-              winloseAmount=params.row.gameTypeMap['50000'].winloseAmount.toFixed(2)
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["50000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "50000"
+              ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         }
       ]
@@ -396,15 +529,15 @@ export default {
       this.reportChild = [];
       this.init();
     },
-    reset(){
-      this.defaultTime=getDefaultTime();
+    reset() {
+      this.defaultTime = getDefaultTime();
       this.reportChild = [];
-      
-      this.init()
+
+      this.init();
     },
-    search(){
+    search() {
       this.reportChild = [];
-      this.init()
+      this.init();
     },
     types(value) {
       switch (value) {
@@ -446,7 +579,7 @@ export default {
           });
       });
     },
-    async init(){
+    async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let req1 = this.$store.dispatch("getUserList", { userId: userId });
       let req2 = this.$store.dispatch("getUserChild", {
@@ -469,8 +602,8 @@ export default {
     }
   },
   created() {
-   this.init()
-  },
+    this.init();
+  }
 };
 </script>
 <style lang="less" scoped>

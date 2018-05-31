@@ -108,7 +108,7 @@
           </Row>
         </FormItem>
         <FormItem v-if="selected" prop='balance' :required='true'>
-          <label for="" slot="label">{{game}}商家占成(%)</label>
+          <label for="" slot="label">{{game}}洗码比(%)</label>
           <Row>
             <Col span="10">
             <Tooltip :content="tipContent">

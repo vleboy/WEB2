@@ -199,10 +199,21 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             } else {
-              return h("span", params.row.winloseAmount);
+              color=params.row.winloseAmount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, params.row.winloseAmount);
             }
           }
         },
@@ -230,18 +241,28 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
-              // console.log(obj);
               let count = 0;
               for (let key in obj) {
                 if (["3", "30000", "40000", "50000"].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -276,8 +297,14 @@ export default {
                 }
               }
             }
+            let color=''
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -286,7 +313,12 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+               return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -321,8 +353,14 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -331,7 +369,12 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -366,8 +409,14 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -376,7 +425,12 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -411,8 +465,14 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+               color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -421,7 +481,12 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -456,8 +521,14 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -466,7 +537,12 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+               color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -501,8 +577,14 @@ export default {
                 }
               }
             }
+            let color='';
             if (params.row.role == "1") {
-              return h("span", allCount.toFixed(2));
+              color=allCount<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, allCount.toFixed(2));
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -511,7 +593,12 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+               color=count<0?'#f30':'#0c0';
+              return h("span",{
+                style:{
+                  color:color
+                }
+              }, count.toFixed(2));
             }
           }
         },
@@ -553,7 +640,15 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render:(h,params)=>{
+            let color=params.row.winloseAmount<0?'#f30':'#0c0';
+            return h('span',{
+              style:{
+                color:color
+              }
+            },params.row.winloseAmount)
+          }
         },
         {
           title: "NA游戏(输赢金额)",
@@ -566,7 +661,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
         {
@@ -580,7 +680,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
         {
@@ -594,7 +699,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
         {
@@ -608,7 +718,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
         {
@@ -622,7 +737,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
         {
@@ -636,7 +756,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         },
          {
@@ -650,7 +775,12 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color=count<0?'#f30':'#0c0';
+            return h("span",{
+              style:{
+                color:color
+              }
+            }, count.toFixed(2));
           }
         }
       ]
