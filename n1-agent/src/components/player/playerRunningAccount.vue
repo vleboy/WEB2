@@ -42,6 +42,7 @@ $
             <Radio label="3">下注</Radio>
             <Radio label="11">中心钱包</Radio>
             <Radio label="4">返奖</Radio>
+            <Radio label="6">冻结</Radio>
             <Radio label="13">商城</Radio>
           </RadioGroup>
         </div>
@@ -110,6 +111,7 @@ $
           '3': '下注',
           '4': '返奖',
           '5': '返还',
+          '6': '冻结',
           '10': '系统升级原账结余',
           '11': '中心钱包',
           '12': '代理操作',
