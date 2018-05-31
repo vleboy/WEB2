@@ -150,6 +150,9 @@ export default {
                   title: "线路商列表"
                 },
                 {
+                  title: "停启用线路商"
+                },
+                {
                   title: "线路商加减点"
                 },
                 {
@@ -157,6 +160,9 @@ export default {
                 },
                 {
                   title: "商户列表"
+                },
+                {
+                  title:'停启用商户'
                 },
                 {
                   title: "商户加减点"

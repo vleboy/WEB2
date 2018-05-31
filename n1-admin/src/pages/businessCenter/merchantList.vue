@@ -30,7 +30,7 @@
       </p>
     </div>
     <div class="table">
-      <Table :columns="columns1" :data="showData" size="small" ></Table>
+      <Table :columns="columns1" :data="showData" size="small"></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -131,87 +131,88 @@ export default {
             let admin = admininfo.username.substr(9);
             let adminId = admininfo.userId;
             let userName = admininfo.username;
-            let permission=this.permission;
-            if(permission.includes('商户加减点')){
-            return h("div", [
-              h("p", params.row.balance.toFixed(2)),
-              h("p", [
-                h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer"
-                    },
-                    on: {
-                      click: () => {
-                        this.plus = true;
-                        this.modal = true;
-                        this.disabled = true;
-                        this.uname = params.row.uname;
-                        let option = [
-                          {
-                            value: adminId,
-                            label: "【管理员】" + admin
+            let permission = this.permission;
+            if (permission.includes("商户加减点")) {
+              return h("div", [
+                h("p", params.row.balance.toFixed(2)),
+                h("p", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
+                      },
+                      on: {
+                        click: () => {
+                          this.plus = true;
+                          this.modal = true;
+                          this.disabled = true;
+                          this.uname = params.row.uname;
+                          let option = [
+                            {
+                              value: adminId,
+                              label: "【管理员】" + admin
+                            }
+                          ];
+                          if (params.row.parent != "01") {
+                            let another = {
+                              value: params.row.parent,
+                              label: "【线路商】" + params.row.parentDisplayName
+                            };
+                            option.push(another);
                           }
-                        ];
-                        if (params.row.parent != "01") {
-                          let another = {
-                            value: params.row.parent,
-                            label: "【线路商】" + params.row.parentDisplayName
-                          };
-                          option.push(another);
+                          this.options = option;
+                          this.toRole = "100";
+                          this.toUser = params.row.username;
                         }
-                        this.options = option;
-                        this.toRole = "100";
-                        this.toUser = params.row.username;
                       }
-                    }
-                  },
-                  "加点"
-                ),
-                h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer",
-                      paddingLeft: "10px"
                     },
-                    on: {
-                      click: () => {
-                        this.plus = false;
-                        this.modal = true;
-                        this.disabled = true;
-                        this.uname = params.row.uname;
-                        let option = [
-                          {
-                            value: adminId,
-                            label: "【管理员】" + admin,
-                            role: "1",
-                            userName: userName
+                    "加点"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        paddingLeft: "10px"
+                      },
+                      on: {
+                        click: () => {
+                          this.plus = false;
+                          this.modal = true;
+                          this.disabled = true;
+                          this.uname = params.row.uname;
+                          let option = [
+                            {
+                              value: adminId,
+                              label: "【管理员】" + admin,
+                              role: "1",
+                              userName: userName
+                            }
+                          ];
+                          if (params.row.parent != "01") {
+                            let another = {
+                              value: params.row.parent,
+                              label:
+                                "【线路商】" + params.row.parentDisplayName,
+                              role: params.row.parentRole,
+                              userName: params.row.parentName
+                            };
+                            option.push(another);
                           }
-                        ];
-                        if (params.row.parent != "01") {
-                          let another = {
-                            value: params.row.parent,
-                            label: "【线路商】" + params.row.parentDisplayName,
-                            role: params.row.parentRole,
-                            userName: params.row.parentName
-                          };
-                          option.push(another);
+                          this.options = option;
+                          this.fromUserId = params.row.userId;
                         }
-                        this.options = option;
-                        this.fromUserId = params.row.userId;
                       }
-                    }
-                  },
-                  "减点"
-                )
-              ])
-            ]);
-            }else{
-              return h('p',params.row.balance.toFixed(2))
+                    },
+                    "减点"
+                  )
+                ])
+              ]);
+            } else {
+              return h("p", params.row.balance.toFixed(2));
             }
           }
         },
@@ -368,8 +369,80 @@ export default {
               status = 1;
               color = "#20a0ff";
             }
-            return h("div", [
-              h(
+            if (this.permission.includes("停启用商户")) {
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: "#20a0ff"
+                    },
+                    on: {
+                      click: () => {
+                        let userId = params.row.userId;
+                        let displayName = params.row.displayName;
+                        let parent = params.row.parent;
+                        let username = params.row.username;
+                        let parentDisplayName = params.row.parentDisplayName;
+                        this.$router.push({
+                          path: "/merchantDetail",
+                          query: {
+                            userId,
+                            displayName,
+                            username,
+                            parent,
+                            parentDisplayName
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "查看"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: color
+                    },
+                    on: {
+                      click: () => {
+                        this.$Modal.confirm({
+                          title: "提示!",
+                          content: `<p>是否${text}商户</p>`,
+                          onOk: () => {
+                            userChangeStatus({
+                              role: "100",
+                              status,
+                              userId: params.row.userId
+                            }).then(res => {
+                              if (res.code == 0) {
+                                this.$Message.success(`${text}成功`);
+                                this.$store.dispatch("getMerchantsList", {
+                                  query: {},
+                                  sortkey: "createdAt",
+                                  sort: "desc"
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    }
+                  },
+                  text
+                )
+              ]);
+            } else {
+              return h(
                 "Button",
                 {
                   props: {
@@ -400,45 +473,8 @@ export default {
                   }
                 },
                 "查看"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: color
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: "提示!",
-                        content: `<p>是否${text}商户</p>`,
-                        onOk: () => {
-                          userChangeStatus({
-                            role: "100",
-                            status,
-                            userId: params.row.userId
-                          }).then(res => {
-                            if (res.code == 0) {
-                              this.$Message.success(`${text}成功`);
-                              this.$store.dispatch("getMerchantsList", {
-                                query: {},
-                                sortkey: "createdAt",
-                                sort: "desc"
-                              });
-                            }
-                          });
-                        }
-                      });
-                    }
-                  }
-                },
-                text
-              )
-            ]);
+              );
+            }
           }
         }
       ]
@@ -508,7 +544,7 @@ export default {
       this.displayName = "";
       this.msn = "";
       this.$store.dispatch("getMerchantsList", {
-        query: { },
+        query: {},
         sortkey: "createdAt",
         sort: "desc"
       });
@@ -542,7 +578,7 @@ export default {
     spinShow() {
       return this.$store.state.merchants.spinShow;
     },
-    permission(){
+    permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },

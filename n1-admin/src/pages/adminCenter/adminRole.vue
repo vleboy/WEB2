@@ -181,6 +181,10 @@ export default {
                 checked: false
               },
               {
+                title:'停启用线路商',
+                checked:false
+              },
+              {
                 title: "线路商加减点",
                 checked: false
               },
@@ -191,6 +195,10 @@ export default {
               {
                 title: "商户列表",
                 checked: false
+              },
+              {
+                title:'停启用商户',
+                checked:false
               },
               {
                 title: "商户加减点",

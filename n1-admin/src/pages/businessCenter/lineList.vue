@@ -348,8 +348,78 @@ export default {
               status = 1;
               color = "#20a0ff";
             }
-            return h("div", [
-              h(
+            if (this.permission.includes("停启用线路商")) {
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: "#20a0ff"
+                    },
+                    on: {
+                      click: () => {
+                        let userId = params.row.userId;
+                        let displayName = params.row.displayName;
+                        let username = params.row.username;
+                        let parent = params.row.parent;
+                        this.$router.push({
+                          path: "/lineDetail",
+                          query: {
+                            userId,
+                            displayName,
+                            username,
+                            parent
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "查看"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: color
+                    },
+                    on: {
+                      click: () => {
+                        this.$Modal.confirm({
+                          title: "提示!",
+                          content: `<p>是否${text}线路商</p>`,
+                          onOk: () => {
+                            userChangeStatus({
+                              role: "10",
+                              status,
+                              userId: params.row.userId
+                            }).then(res => {
+                              if (res.code == 0) {
+                                this.$Message.success(`${text}成功`);
+                                this.$store.dispatch("getManagerList", {
+                                  query: {},
+                                  sortkey: "createdAt",
+                                  sort: "desc"
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    }
+                  },
+                  text
+                )
+              ]);
+            } else {
+              return h(
                 "Button",
                 {
                   props: {
@@ -378,45 +448,8 @@ export default {
                   }
                 },
                 "查看"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: color
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: "提示!",
-                        content: `<p>是否${text}线路商</p>`,
-                        onOk: () => {
-                          userChangeStatus({
-                            role: "10",
-                            status,
-                            userId: params.row.userId
-                          }).then(res => {
-                            if (res.code == 0) {
-                              this.$Message.success(`${text}成功`);
-                              this.$store.dispatch("getManagerList", {
-                                query: {},
-                                sortkey: "createdAt",
-                                sort: "desc"
-                              });
-                            }
-                          });
-                        }
-                      });
-                    }
-                  }
-                },
-                text
-              )
-            ]);
+              );
+            }
           }
         }
       ]
