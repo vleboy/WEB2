@@ -188,10 +188,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              return h("span", params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -219,8 +238,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
               let winloseAmount = 0;
               if (params.row.gameTypeMap["1060000"] !== undefined) {
@@ -228,7 +257,16 @@ export default {
                   "1060000"
                 ].winloseAmount.toFixed(2);
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -262,8 +300,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
               let winloseAmount = 0;
               if (params.row.gameTypeMap["1110000"] !== undefined) {
@@ -271,7 +319,16 @@ export default {
                   "1110000"
                 ].winloseAmount.toFixed(2);
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -312,7 +369,19 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "SA真人游戏(输赢金额)",
@@ -324,7 +393,16 @@ export default {
                 "1060000"
               ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         },
         {
@@ -337,7 +415,16 @@ export default {
                 "1110000"
               ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         }
       ]

@@ -6,7 +6,7 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false'  v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
@@ -185,10 +185,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              return h("span", params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -201,8 +220,8 @@ export default {
             } else {
               if (params.row.submitAmount) {
                 return h("span", params.row.submitAmount.toFixed(2));
-              }else{
-                return h('span','0.00')
+              } else {
+                return h("span", "0.00");
               }
             }
           }
@@ -220,8 +239,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -230,7 +259,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -265,8 +303,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -275,7 +323,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -310,8 +367,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -320,7 +387,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -355,8 +431,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -365,7 +451,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -400,8 +495,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -410,7 +515,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -445,8 +559,18 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -455,7 +579,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -497,7 +630,19 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "NA游戏(输赢金额)",
@@ -510,7 +655,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -524,7 +678,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -538,7 +701,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -552,7 +724,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -566,7 +747,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -580,7 +770,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         }
       ]
@@ -589,7 +788,7 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-       time = time.map((item, index) => {
+      time = time.map((item, index) => {
         if (index == 1 && item.getTime() > Date.now() - 180000) {
           return Date.now() - 180000;
         }

@@ -191,10 +191,29 @@ export default {
               count += item.winloseAmount;
             }
             let userId = localStorage.userId;
+            let color = "";
             if (params.row.userId == userId) {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              return h("span", params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -327,7 +346,19 @@ export default {
         },
         {
           title: "输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "洗码量",

@@ -6,30 +6,30 @@
           当前用户列表
         </p>
         <div class="right">
-          <DatePicker type="datetimerange" :editable='false'  v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px"  @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ></Table>
+      <Table :columns="columns1" :data="user" size="small"></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
       </p>
-      <Table :columns="columns1" :data="child" size="small" ></Table>
+      <Table :columns="columns1" :data="child" size="small"></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
       </p>
-      <Table :columns="columns1" :data="item" size="small" ></Table>
+      <Table :columns="columns1" :data="item" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ></Table>
+      <Table :columns="columns2" :data="playerList" size="small"></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -51,7 +51,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      userId:localStorage.getItem('userId'),
+      userId: localStorage.getItem("userId"),
       gameType: [1060000, 1110000],
       // option: {
       //   disabledDate(date) {
@@ -175,10 +175,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              return h("span", params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -189,10 +208,10 @@ export default {
             if (params.row.level == 0) {
               return h("span", 0);
             } else {
-              if(params.row.submitAmount){
+              if (params.row.submitAmount) {
                 return h("span", params.row.submitAmount.toFixed(2));
-              }else{
-              return h("span", 0);
+              } else {
+                return h("span", 0);
               }
             }
           }
@@ -212,16 +231,37 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
               let winloseAmount = 0;
-              if(params.row.gameTypeMap){
+              if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1060000"]) {
-                  winloseAmount = params.row.gameTypeMap["1060000"].winloseAmount.toFixed(2);
+                  winloseAmount = params.row.gameTypeMap[
+                    "1060000"
+                  ].winloseAmount.toFixed(2);
                 }
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -230,12 +270,14 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let submitAmount = 0;
-              if(params.row.gameTypeMap){
+              if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1060000"]) {
-                  submitAmount = params.row.gameTypeMap["1060000"].submitAmount.toFixed(2);
+                  submitAmount = params.row.gameTypeMap[
+                    "1060000"
+                  ].submitAmount.toFixed(2);
                 }
               }
               return h("span", submitAmount);
@@ -257,16 +299,37 @@ export default {
                 }
               }
             }
+            let color = "";
             if (params.row.level == 0) {
-              return h("span", count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
               let winloseAmount = 0;
-              if(params.row.gameTypeMap){
+              if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1110000"]) {
-                  winloseAmount = params.row.gameTypeMap["1110000"].winloseAmount.toFixed(2);
+                  winloseAmount = params.row.gameTypeMap[
+                    "1110000"
+                  ].winloseAmount.toFixed(2);
                 }
               }
-              return h("span", winloseAmount);
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                winloseAmount
+              );
             }
           }
         },
@@ -275,12 +338,14 @@ export default {
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-              return h("span", '0.00');
+              return h("span", "0.00");
             } else {
               let submitAmount = 0;
-              if(params.row.gameTypeMap){
+              if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1110000"]) {
-                  submitAmount = params.row.gameTypeMap["1110000"].submitAmount.toFixed(2);
+                  submitAmount = params.row.gameTypeMap[
+                    "1110000"
+                  ].submitAmount.toFixed(2);
                 }
               }
               return h("span", submitAmount);
@@ -307,7 +372,19 @@ export default {
         },
         {
           title: "总游戏输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "SA真人游戏(输赢金额)",
@@ -319,7 +396,16 @@ export default {
                 "1060000"
               ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         },
         {
@@ -332,7 +418,16 @@ export default {
                 "1110000"
               ].winloseAmount.toFixed(2);
             }
-            return h("span", winloseAmount);
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              winloseAmount
+            );
           }
         }
       ]
@@ -341,7 +436,7 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-       time = time.map((item, index) => {
+      time = time.map((item, index) => {
         if (index == 1 && item.getTime() > Date.now() - 180000) {
           return Date.now() - 180000;
         }
