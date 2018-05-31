@@ -152,7 +152,6 @@ export default {
         {
           title: '操作',
           key: '',
-          width: 150,
           align: 'center',
           render: (h, params) => {
             return h('div',[
@@ -183,7 +182,21 @@ export default {
                     this.delItem(params.row)
                   }
                 }
-              }, '删除')
+              }, '删除'),
+              //  h('Button', {
+              //   props: {
+              //     type: 'text',
+              //     size: 'small'
+              //   },
+              //   style: {
+              //     color:'#20a0ff'
+              //   },
+              //   on: {
+              //     click: () => {
+              //       console.log(1);
+              //     }
+              //   }
+              // }, '停用'),
             ])
           }
         }
