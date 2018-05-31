@@ -91,7 +91,19 @@ export default {
         },
         {
           title: "交易点数",
-          key: "amount"
+          key: "amount",
+          render: (h, params) => {
+            let color = params.row.amount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.amount
+            );
+          }
         },
         {
           title: "交易时间",
@@ -129,9 +141,25 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.amount > 0) {
-              return h("span", "减点");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#f30"
+                  }
+                },
+                "减点"
+              );
             } else {
-              return h("span", "加点");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#0c0"
+                  }
+                },
+                "加点"
+              );
             }
           }
         },
@@ -198,8 +226,8 @@ export default {
     newPassword() {
       this.modal = true;
     },
-    reset(){
-      this.init()
+    reset() {
+      this.init();
     },
     ok() {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
@@ -296,7 +324,7 @@ export default {
   .manangeinfo {
     width: 100%;
     margin: 10px auto 20px;
-    .reload{
+    .reload {
       text-align: right;
       margin-bottom: 10px;
     }

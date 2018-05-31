@@ -81,11 +81,6 @@ export default {
           this.$store.commit('changeLoading',{params:false});
         }
       });
-      // if (name === "ownSpace") {
-      //   // this.$router.push({ name: "ownspace-index" });
-      // } else if (name === "loginout") {
-      //   // 退出登录
-      // }
     }
   },
   components: { sidebar, tagClose },

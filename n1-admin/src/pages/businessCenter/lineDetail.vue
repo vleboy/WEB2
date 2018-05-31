@@ -705,7 +705,15 @@ export default {
         },
         {
           title: "交易点数",
-          key: "amount"
+          key: "amount",
+          render:(h,params)=>{
+            let color=params.row.amount<0?'#f30':'#0c0';
+            return h('span',{
+              style:{
+                color:color
+              }
+            },params.row.amount)
+          }
         },
         {
           title: "交易时间",
@@ -742,11 +750,18 @@ export default {
           key: "action",
           render: (h, params) => {
             let row = params.row;
-            if (row.fromLevel > row.toLevel) {
-              return h("span", "减点");
-            }
-            if (row.fromLevel < row.toLevel) {
-              return h("span", "加点");
+             if (row.fromLevel > row.toLevel) {
+              return h("span",{
+                style:{
+                  color:'#f30'
+                }
+              }, "减点");
+            }else{
+              return h("span",{
+                style:{
+                  color:'#0c0'
+                }
+              }, "加点");
             }
           }
         },

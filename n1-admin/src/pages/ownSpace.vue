@@ -89,7 +89,19 @@ export default {
         },
         {
           title: "交易点数",
-          key: "amount"
+          key: "amount",
+          render: (h, params) => {
+            let color = params.row.amount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.amount
+            );
+          }
         },
         {
           title: "交易时间",
@@ -127,9 +139,25 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.amount > 0) {
-              return h("span", "减点");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#f30"
+                  }
+                },
+                "减点"
+              );
             } else {
-              return h("span", "加点");
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#0c0"
+                  }
+                },
+                "加点"
+              );
             }
           }
         },
@@ -238,7 +266,7 @@ export default {
             adminCenter().then(res => {
               self.admin = res.payload;
               self.$store.commit("updateLoading", { params: false });
-              self.$Message.success('修改成功');
+              self.$Message.success("修改成功");
             });
           }
         });
@@ -315,7 +343,7 @@ export default {
     margin: 10px auto 20px;
     table {
       width: 100%;
-      border-collapse:collapse;
+      border-collapse: collapse;
       td {
         border: 1px solid #e9eaec;
         width: 32%;
