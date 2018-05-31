@@ -22,6 +22,10 @@
         <Col span="4">
         <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
+        <Col span="2">商户ID</Col>
+        <Col span="4">
+        <Input v-model="displayId" placeholder="请输入"></Input>
+        </Col>
       </Row>
     </div>
     <div class="option">
@@ -89,6 +93,7 @@ export default {
       sn: "", //标识
       msn: "", //线路号
       displayName: "",
+      displayId:'',
       uname: "", //modal增加账户
       point: "", //点数
       note: "", //备注
@@ -106,6 +111,10 @@ export default {
           title: "序号",
           type: "index",
           maxWidth: 80
+        },
+        {
+          title:'商户ID',
+          key:'displayId'
         },
         {
           title: "商户标识",
@@ -553,7 +562,8 @@ export default {
       let query = {
         sn: this.sn,
         msn: this.msn,
-        displayName: this.displayName
+        displayName: this.displayName,
+        displayId:this.displayId
       };
       if (!query.sn) {
         delete query.sn;
@@ -563,6 +573,9 @@ export default {
       }
       if (!query.msn) {
         delete query.msn;
+      }
+      if (!query.displayId) {
+        delete query.displayId;
       }
       this.$store.dispatch("getMerchantsList", {
         query,

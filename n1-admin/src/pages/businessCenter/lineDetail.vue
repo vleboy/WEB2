@@ -277,28 +277,20 @@ export default {
           key: "balance"
         },
         {
-          title: "操作人",
+          title: "创建时间",
           key: "",
           render: (h, params) => {
-            return h("span", params.row.lastBill.operator);
-          }
-        },
-        {
-          title: "操作时间",
-          key: "",
-          render: (h, params) => {
-            let time = params.row.lastBill.updateAt;
+            let time = params.row.createdAt;
             return h("span", this.dayjs(time).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
         {
           title: "备注",
           key: "remark",
-          maxWidth: 80,
           render: (h, params) => {
             if (
-              params.row.lastBill.remark == "NULL!" ||
-              params.row.lastBill.remark == null
+              params.row.remark == "NULL!" ||
+              params.row.remark == null
             ) {
               return h("span", "");
             } else {
@@ -306,7 +298,7 @@ export default {
                 "Tooltip",
                 {
                   props: {
-                    content: params.row.lastBill.remark
+                    content: params.row.remark
                   }
                 },
                 [
@@ -474,24 +466,16 @@ export default {
           key: "balance"
         },
         {
-          title: "操作人",
+          title: "创建时间",
           key: "",
           render: (h, params) => {
-            return h("span", params.row.lastBill.operator);
-          }
-        },
-        {
-          title: "操作时间",
-          key: "",
-          render: (h, params) => {
-            let time = params.row.lastBill.updateAt;
+            let time = params.row.createdAt;
             return h("span", this.dayjs(time).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
         {
           title: "备注",
           key: "",
-          maxWidth: 80,
           render: (h, params) => {
             if (
               params.row.lastBill.remark == "NULL!" ||
@@ -779,7 +763,6 @@ export default {
         {
           title: "备注",
           key: "remark",
-          maxWidth: 80,
           render: (h, params) => {
             if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");
