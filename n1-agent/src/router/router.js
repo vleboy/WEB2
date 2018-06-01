@@ -36,7 +36,7 @@ export const loginRouter = {
     name: 'login',
     // meta: {
     //     title: 'Login - 登录'
-    // },
+    // }
     meta: {
         requireAuth: false
       },
