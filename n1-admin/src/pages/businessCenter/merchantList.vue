@@ -126,7 +126,7 @@ export default {
         },
         {
           title: "商户账号",
-          key: "username"
+          key: "uname"
         },
         {
           title: "上级线路商",
@@ -561,7 +561,7 @@ export default {
     search() {
       let query = {
         sn: this.sn,
-        username: this.username,
+        uname: this.username,
         displayName: this.displayName,
         displayId:this.displayId
       };
@@ -571,8 +571,8 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-      if (!query.username) {
-        delete query.username;
+      if (!query.uname) {
+        delete query.uname;
       }
       if (!query.displayId) {
         delete query.displayId;
