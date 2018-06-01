@@ -6,9 +6,9 @@
         <Col span="4">
         <Input v-model="sn" placeholder="请输入"></Input>
         </Col>
-        <Col span="2">商户线路号</Col>
+        <Col span="2">商户账号</Col>
         <Col span="4">
-        <Input v-model="msn" placeholder="请输入"></Input>
+        <Input v-model="username" placeholder="请输入"></Input>
         </Col>
         <Col span="5">
         <div class="btns">
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       sn: "", //标识
-      msn: "", //线路号
+      username: "", //
       displayName: "",
       displayId:'',
       uname: "", //modal增加账户
@@ -125,8 +125,8 @@ export default {
           key: "displayName"
         },
         {
-          title: "线路号",
-          key: "msn"
+          title: "商户账号",
+          key: "username"
         },
         {
           title: "上级线路商",
@@ -561,7 +561,7 @@ export default {
     search() {
       let query = {
         sn: this.sn,
-        msn: this.msn,
+        username: this.username,
         displayName: this.displayName,
         displayId:this.displayId
       };
@@ -571,8 +571,8 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-      if (!query.msn) {
-        delete query.msn;
+      if (!query.username) {
+        delete query.username;
       }
       if (!query.displayId) {
         delete query.displayId;
@@ -625,11 +625,11 @@ export default {
 .row {
   line-height: 32px;
   text-align: center;
-  padding: 15px 10px;
+  padding: 10px 10px;
 }
 .search {
   // background-color: #f2f2f2;
-  height: 126px;
+  height: 110px;
 }
 .option {
   .create {

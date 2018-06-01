@@ -45,6 +45,10 @@
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport">UG体育游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='ysbReport' >
+                        <template slot="title">YSB游戏报表</template>
+                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="agentCenter">
                     <template slot="title">

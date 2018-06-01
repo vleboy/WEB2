@@ -1,6 +1,6 @@
 import main from '@/pages/main'
 
-export const loginRouter = {
+const loginRouter = {
     path: '/login',
     name: 'login',
     meta: {
@@ -8,7 +8,7 @@ export const loginRouter = {
       },
     component: () => import('@/pages/login.vue')
 };
-export const page404 = {
+const page404 = {
     path: '*',
     name: 'error-404',
     meta: {
