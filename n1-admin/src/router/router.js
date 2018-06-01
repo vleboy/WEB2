@@ -2,9 +2,17 @@ import main from '@/pages/main'
 import login from '@/pages/login'
 import err404 from '@/pages/404'
 //otherRouter
-
 import home from '@/pages/home'
-//report
+import createRole from '@/pages/adminCenter/createRole'
+import addAdmin from '@/pages/adminCenter/addAdmin'
+import addMerchant from '@/pages/businessCenter/addMerchant'
+import addLineMerchant from '@/pages/businessCenter/addLineMerchant'
+import lineDetail from '@/pages/businessCenter/lineDetail'
+import merchantDetail from '@/pages/businessCenter/merchantDetail'
+import playerDetail from '@/pages/player/playerdetail'
+// appRouter
+import ownSpace from '@/pages/ownSpace'
+import board from '@/pages/board/board'
 import allReport from '@/pages/reports/allReport'
 import agtrue from '@/pages/reports/agTrueGame'
 import mgvideo from '@/pages/reports/mgVideoGame'
@@ -20,10 +28,23 @@ import ttgvideo from '@/pages/reports/ttgVideoGame'
 import ugsport from '@/pages/reports/ugSportGame'
 import ysbSport from '@/pages/reports/ysbSport'
  
+import businessList from '@/pages/businessCenter/merchantList'
+import lineBusiness from '@/pages/businessCenter/lineList'
+import warnList from '@/pages/businessCenter/warnList'
+import adminList from '@/pages/adminCenter/adminList'
+import adminRole from '@/pages/adminCenter/adminRole'
+import lineNumList from '@/pages/adminCenter/lineNumList'
 import lineLoginLog from '@/pages/log/lineLoginLog'
 import merchantLog from '@/pages/log/merchantLog'
 import adminLog from '@/pages/log/adminLog'
 import debugLog from '@/pages/log/debugLog'
+import playerlist from '@/pages/player/playerlist'
+import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
+import gameMailList from '@/pages/operation/mailMgr/gameMailList'
+import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampList'
+import businessRecordList from '@/pages/operation/businessRecord/businessRecordList'
+import boothList from '@/pages/operation/booth/boothList'
+import propPrizeList from '@/pages/operation/propPrize/propPrizeList'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -50,13 +71,13 @@ export const otherRouter = {
     component: main,
     children: [
         { path: 'home', name: 'home',title:'首页', component: home},
-        { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: () => import('@/pages/adminCenter/addAdmin.vue')},
-        { path: 'createRole', name: 'createRole',title:'创建新角色', component: () => import('@/pages/adminCenter/createRole.vue')},
-        { path: 'addMerchant', name: 'addMerchant',title:'创建商户', component: () => import('@/pages/businessCenter/addMerchant.vue')},
-        { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: () => import('@/pages/businessCenter/addLineMerchant.vue')},
-        { path: 'lineDetail', name: 'lineDetail',title:'线路商详情', component: () => import('@/pages/businessCenter/lineDetail.vue')},
-        { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: () => import('@/pages/businessCenter/merchantDetail.vue')},
-        { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:()=>import('@/pages/player/playerdetail.vue')},
+        { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: addAdmin},
+        { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
+        { path: 'addMerchant', name: 'addMerchant',title:'创建商户', component: addMerchant},
+        { path: 'addLineMerchant', name: 'addLineMerchant',title:'创建线路商', component: addLineMerchant},
+        { path: 'lineDetail', name: 'lineDetail',title:'线路商详情', component: lineDetail},
+        { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: merchantDetail},
+        { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:playerDetail},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -66,14 +87,14 @@ export const appRouter = [
         title:'个人中心',
         name:'ownspace',
         component:main,
-        children:[{path:'index',title:'个人中心', name:'ownspace-index',component:()=>import('@/pages/ownSpace.vue')}]
+        children:[{path:'index',title:'个人中心', name:'ownspace-index',component:ownSpace}]
     },
     {
         path:'/boards',
         title:'看板',
         name:'boards',
         component:main,
-        children:[{path:'board',title:'看板', name:'board',component:()=>import('@/pages/board/board.vue')}]
+        children:[{path:'board',title:'看板', name:'board',component:board}]
     },
     {
         path:'/allreport',
@@ -147,9 +168,9 @@ export const appRouter = [
         name:'business',
         component:main,
         children:[
-            {path:'list',title:'商户列表',name:'businessList',component:()=>import('@/pages/businessCenter/merchantList.vue')},
-            {path:'line',title:'线路商列表',name:'lineBusiness',component:()=>import('@/pages/businessCenter/lineList.vue')},
-            {path:'warn',title:'接入商点数警告列表',name:'warnList',component:()=>import('@/pages/businessCenter/warnList.vue')}
+            {path:'list',title:'商户列表',name:'businessList',component:businessList},
+            {path:'line',title:'线路商列表',name:'lineBusiness',component:lineBusiness},
+            {path:'warn',title:'接入商点数警告列表',name:'warnList',component:warnList}
     ]
     },
     {
@@ -158,9 +179,9 @@ export const appRouter = [
         name:'admin',
         component:main,
         children:[
-            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminCenter/adminList.vue')},
-            {path:'role',title:'管理员角色列表',name:'adminRole',component:()=>import('@/pages/adminCenter/adminRole.vue')},
-            {path:'line',title:'线路号列表',name:'lineNumList',component:()=>import('@/pages/adminCenter/lineNumList.vue')},
+            {path:'list',title:'管理员列表',name:'adminList',component:adminList},
+            {path:'role',title:'管理员角色列表',name:'adminRole',component:adminRole},
+            {path:'line',title:'线路号列表',name:'lineNumList',component:lineNumList},
     ]
     },
     {
@@ -181,7 +202,7 @@ export const appRouter = [
       name:'play',
       component:main,
       children:[
-          {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
+          {path:'list',title:'玩家列表',name:'playList',component:playerlist}
         ]
     },
     {
@@ -190,12 +211,12 @@ export const appRouter = [
       name:'operation',
       component:main,
       children:[
-          {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:()=>import('@/pages/operation/gameNoticeMgr/gameNoticeList.vue')},
-          {path:'gameMailList',title:'游戏邮件列表',name:'gameMailList',component:()=>import('@/pages/operation/mailMgr/gameMailList.vue')},
-          {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:()=>import('@/pages/operation/horseRaceLampMgr/horseRaceLampList.vue')},
-          {path:'businessRecord',title:'商户运营记录',name:'businessRecord',component:()=>import('@/pages/operation/businessRecord/businessRecordList.vue')},
-          {path:'boothList',title:'展位列表',name:'boothList',component:()=>import('@/pages/operation/booth/boothList.vue')},
-          {path:'propPrice',title:'道具定价',name:'propPrice',component:()=>import('@/pages/operation/propPrize/propPrizeList.vue')}
+          {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:gameNoticeList},
+          {path:'gameMailList',title:'游戏邮件列表',name:'gameMailList',component:gameMailList},
+          {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:horseRaceLampList},
+          {path:'businessRecord',title:'商户运营记录',name:'businessRecord',component:businessRecordList},
+          {path:'boothList',title:'展位列表',name:'boothList',component:boothList},
+          {path:'propPrice',title:'道具定价',name:'propPrice',component:propPrizeList}
         ]
     }
 ]
@@ -205,4 +226,4 @@ export const routers = [
     loginRouter,
     otherRouter,
     ...appRouter,
-];
+]

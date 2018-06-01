@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {router} from '@/router/index';
+// import {router} from '@/router/index';
 import {Message} from 'iview'
 axios.interceptors.request.use(config => config, error => Promise.reject(error))
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
@@ -32,11 +32,11 @@ export const http = config => {
   return axios(config).then(response => checkStatus(response)).catch((err) => {
     let routerUrl = ['gameNoticeList','merchantDetail']
 
-    let isPass = routerUrl.some((item)=>{
-        return item === router.history.current.name
-    })
+    // let isPass = routerUrl.some((item)=>{
+    //     return item === router.history.current.name
+    // })
 
-    if(isPass) return // 处理上传图片未知错误信息
+    // if(isPass) return // 处理上传图片未知错误信息
 
     Message.warning('网络连接不稳定');
   })
