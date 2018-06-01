@@ -883,7 +883,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .allreport {
-  min-height: 90vh;
+  min-height: 87vh;
+  width: 150%;
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;

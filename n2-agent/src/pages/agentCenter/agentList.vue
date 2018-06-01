@@ -1192,7 +1192,30 @@ export default {
         },
         {
           title: "用户名",
-          key: "userName"
+          key: "userName",
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor: "pointer"
+                },
+                on: {
+                  click: () => {
+                    localStorage.setItem("playerName", params.row.userName);
+                    this.$router.push({
+                      name: "playDetail",
+                      query: {
+                        name: params.row.userName
+                      }
+                    });
+                  }
+                }
+              },
+              params.row.userName
+            );
+          }
         },
         {
           title: "点数",

@@ -421,7 +421,7 @@
               endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
               startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
             }
-            console.log(this.consumeDataTime)
+            // console.log(this.consumeDataTime)
             break
         }
         this.isGoConsume = false

@@ -216,7 +216,7 @@ export default {
       edit: true, //可编辑
       game: "",
       role: "",
-      pageSize:100,//分页
+      pageSize: 100, //分页
       showData: [], //分页显示的data
       isedit: true,
       spinShow: false,
@@ -270,7 +270,36 @@ export default {
         },
         {
           title: "线路商昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor: "pointer"
+                },
+                on: {
+                  click: () => {
+                    let userId = params.row.userId;
+                    let displayName = params.row.displayName;
+                    let username = params.row.username;
+                    let parent = params.row.parent;
+                    this.$router.push({
+                      path: "/lineDetail",
+                      query: {
+                        userId,
+                        displayName,
+                        username,
+                        parent
+                      }
+                    });
+                  }
+                }
+              },
+              params.row.displayName
+            );
+          }
         },
         {
           title: "剩余点数",
@@ -288,10 +317,7 @@ export default {
           title: "备注",
           key: "remark",
           render: (h, params) => {
-            if (
-              params.row.remark == "NULL!" ||
-              params.row.remark == null
-            ) {
+            if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");
             } else {
               return h(
@@ -459,7 +485,38 @@ export default {
         },
         {
           title: "商户昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor: "pointer"
+                },
+                on: {
+                  click: () => {
+                    let userId = params.row.userId;
+                    let displayName = params.row.displayName;
+                    let parent = params.row.parent;
+                    let username = params.row.username;
+                    let parentDisplayName = params.row.parentDisplayName;
+                    this.$router.push({
+                      path: "/merchantDetail",
+                      query: {
+                        userId,
+                        displayName,
+                        username,
+                        parent,
+                        parentDisplayName
+                      }
+                    });
+                  }
+                }
+              },
+              params.row.displayName
+            );
+          }
         },
         {
           title: "剩余点数",
@@ -477,17 +534,14 @@ export default {
           title: "备注",
           key: "",
           render: (h, params) => {
-            if (
-              params.row.lastBill.remark == "NULL!" ||
-              params.row.lastBill.remark == null
-            ) {
+            if (params.row.remark == "NULL!" || params.row.remark == null) {
               return h("span", "");
             } else {
               return h(
                 "Tooltip",
                 {
                   props: {
-                    content: params.row.lastBill.remark
+                    content: params.row.remark
                   }
                 },
                 [
@@ -690,13 +744,17 @@ export default {
         {
           title: "交易点数",
           key: "amount",
-          render:(h,params)=>{
-            let color=params.row.amount<0?'#f30':'#0c0';
-            return h('span',{
-              style:{
-                color:color
-              }
-            },params.row.amount)
+          render: (h, params) => {
+            let color = params.row.amount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.amount
+            );
           }
         },
         {
@@ -734,18 +792,26 @@ export default {
           key: "action",
           render: (h, params) => {
             let row = params.row;
-             if (row.fromLevel > row.toLevel) {
-              return h("span",{
-                style:{
-                  color:'#f30'
-                }
-              }, "减点");
-            }else{
-              return h("span",{
-                style:{
-                  color:'#0c0'
-                }
-              }, "加点");
+            if (row.fromLevel > row.toLevel) {
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#f30"
+                  }
+                },
+                "减点"
+              );
+            } else {
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#0c0"
+                  }
+                },
+                "加点"
+              );
             }
           }
         },
@@ -793,7 +859,7 @@ export default {
   created() {
     this.init();
   },
-   computed: {
+  computed: {
     total() {
       return this.waterfall.length;
     }
@@ -806,7 +872,7 @@ export default {
     }
   },
   methods: {
-     handlePage() {
+    handlePage() {
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
       if (this.total < this.pageSize) {
         this.showData = this.waterfall;
@@ -922,7 +988,7 @@ export default {
       });
     },
     selectCompany(value) {
-      let userId=this.parent;
+      let userId = this.parent;
       let params = { companyIden: value, userId };
       if (userId == "01") {
         delete params.userId;
@@ -951,8 +1017,8 @@ export default {
         gameItem.rate = this.gameForm.balance;
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
-      }else{
-        this.$Message.warning('占成为0-100数字')
+      } else {
+        this.$Message.warning("占成为0-100数字");
       }
     }, //生成密码
     createPass() {
@@ -1056,7 +1122,7 @@ export default {
   line-height: 36px;
   margin-bottom: 22px;
 }
-.page{
+.page {
   text-align: right;
 }
 #textRow {
