@@ -2,7 +2,7 @@
   <div class="p-playerlist">
     <div class="propList-search">
       <Row class="row -search-row">
-        <Col span="2" offset="4">用户名</Col>
+        <Col span="2" offset="4">玩家账号</Col>
         <Col span="4">
         <Input v-model="searchInfo.userName" placeholder="请输入"></Input>
         </Col>
@@ -96,7 +96,7 @@
             key: 'userId'
           },
           {
-            title: '用户名',
+            title: '玩家账号',
             key: 'userName'
           },
           {
