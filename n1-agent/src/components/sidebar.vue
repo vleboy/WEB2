@@ -3,10 +3,9 @@
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
-                <!-- <MenuItem name="home">
-                <span>看板</span>
+                <MenuItem name="board">
+                  <span>看板</span>
                 </MenuItem>
-                -->
                 <MenuItem name="ownspace-index">
                 <span>个人中心</span>
                 </MenuItem>
