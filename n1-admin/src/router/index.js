@@ -7,7 +7,6 @@ const RouterConfig = {
   // mode: 'history',
   routes: routers
 };
-
 export const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
   let token = window.localStorage.getItem('n1token')

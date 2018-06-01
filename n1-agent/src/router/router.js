@@ -1,5 +1,36 @@
 import main from '@/pages/main'
+import login from '@/pages/login'
+import err404 from '@/pages/404'
 
+import home from '@/pages/home'
+import playerDetail from '@/pages/player/playerdetail'
+import agentDetail from '@/pages/agentCenter/agentDetail'
+//report
+import ownSpace from '@/pages/ownSpace'
+import board from '@/pages/board/board'
+import allReport from '@/pages/reports/allReport'
+import agtrue from '@/pages/reports/agTrueGame'
+import mgvideo from '@/pages/reports/mgVideoGame'
+import nacard from '@/pages/reports/naCardGame'
+import nastreet from '@/pages/reports/naStreetGame'
+import natrue from '@/pages/reports/naTrueGame'
+import navideo from '@/pages/reports/naVideoGame'
+import naAll from '@/pages/reports/naAllReport'
+import saAll from '@/pages/reports/saAllReport'
+import safishing from '@/pages/reports/saFishingGame'
+import satrue from '@/pages/reports/saTrueGame'
+import ttgvideo from '@/pages/reports/ttgVideoGame'
+import ugsport from '@/pages/reports/ugSportGame'
+import ysbSport from '@/pages/reports/ysbSport'
+
+import agentList from '@/pages/agentCenter/agentList'
+import warnList from '@/pages/agentCenter/warnList'
+import adminLoginLog from '@/pages/logCenter/adminLoginLog'
+import agentLoginLog from '@/pages/logCenter/agentLoginLog'
+import adminOpreateLog from '@/pages/logCenter/adminOpreateLog'
+import adminList from '@/pages/adminCenter/adminList'
+import gameConfig from '@/pages/gameCenter/gameConfig'
+import playerList from '@/pages/player/playerlist'
 export const loginRouter = {
     path: '/login',
     name: 'login',
@@ -9,7 +40,7 @@ export const loginRouter = {
     meta: {
         requireAuth: false
       },
-    component: () => import('@/pages/login.vue')
+    component: login
 };
 export const page404 = {
     path: '*',
@@ -18,7 +49,7 @@ export const page404 = {
         title: '404-页面不存在',
         requireAuth: false
     },
-    component: () => import('@/pages/404.vue')
+    component: err404
 };
 // 作为main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
 export const otherRouter = {
@@ -28,9 +59,9 @@ export const otherRouter = {
     title:'other',
     component: main,
     children: [
-        { path: 'home', name: 'home',title:'首页', component: () => import('@/pages/home.vue')},
-        { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: () => import('@/pages/agentCenter/agentDetail.vue')},
-        { path: 'detail', name:'playDetail', title:'玩家详情', component:()=>import('@/pages/player/playerdetail.vue')}
+        { path: 'home', name: 'home',title:'首页', component: home},
+        { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: agentDetail},
+        { path: 'detail', name:'playDetail', title:'玩家详情', component:playerDetail}
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -40,35 +71,35 @@ export const appRouter = [
         title:'个人中心',
         name:'ownspace',
         component:main,
-        children:[{path:'index',title:'个人中心', name:'ownspace-index',component:()=>import('@/pages/ownSpace.vue')}]
+        children:[{path:'index',title:'个人中心', name:'ownspace-index',component:ownSpace}]
     },
     {
       path:'/boards',
       title:'看板',
       name:'boards',
       component:main,
-      children:[{path:'board',title:'看板', name:'board',component:()=>import('@/pages/board/board.vue')}]
+      children:[{path:'board',title:'看板', name:'board',component:board}]
     },
     {
         path:'/allreport',
         title:'公司输赢总报表',
         name:'all',
         component:main,
-        children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:()=>import('@/pages/reports/allReport.vue')}]
+        children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:allReport}]
     },
     {
         path:'/aggame',
         title:'AG游戏报表',
         name:'aggame',
         component:main,
-        children:[{path:'true',title:'AG真人游戏报表',name:'agtrue',component:()=>import('@/pages/reports/agTrueGame.vue')}]
+        children:[{path:'true',title:'AG真人游戏报表',name:'agtrue',component:agtrue}]
     },
     {
         path:'/mggame',
         title:'MG游戏报表',
         name:'mggame',
         component:main,
-        children:[{path:'video',title:'MG电子游戏报表',name:'mgvideo',component:()=>import('@/pages/reports/mgVideoGame.vue')}]
+        children:[{path:'video',title:'MG电子游戏报表',name:'mgvideo',component:mgvideo}]
     },
     {
         path:'/nagame',
@@ -76,11 +107,11 @@ export const appRouter = [
         name:'nagame',
         component:main,
         children:[
-            {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:()=>import('@/pages/reports/naCardGame.vue')},
-            {path:'street',title:'NA街机游戏报表',name:'nastreet',component:()=>import('@/pages/reports/naStreetGame.vue')},
-            {path:'true',title:'NA真人游戏报表',name:'natrue',component:()=>import('@/pages/reports/naTrueGame.vue')},
-            {path:'video',title:'NA电子游戏报表',name:'navideo',component:()=>import('@/pages/reports/naVideoGame.vue')},
-            {path:'all',title:'NA游戏总报表',name:'naAll',component:()=>import('@/pages/reports/naAllReport.vue')}
+            {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
+            {path:'street',title:'NA街机游戏报表',name:'nastreet',component:nastreet},
+            {path:'true',title:'NA真人游戏报表',name:'natrue',component:natrue},
+            {path:'video',title:'NA电子游戏报表',name:'navideo',component:navideo},
+            {path:'all',title:'NA游戏总报表',name:'naAll',component:naAll}
         ]
     },
     {
@@ -89,9 +120,9 @@ export const appRouter = [
         name:'sagame',
         component:main,
         children:[
-            {path:'all',title:'SA游戏总报表',name:'saAll',component:()=>import('@/pages/reports/saAllReport.vue')},
-            {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:()=>import('@/pages/reports/saFishingGame.vue')},
-            {path:'true',title:'SA真人游戏报表',name:'satrue',component:()=>import('@/pages/reports/saTrueGame.vue')},
+            {path:'all',title:'SA游戏总报表',name:'saAll',component:saAll},
+            {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:safishing},
+            {path:'true',title:'SA真人游戏报表',name:'satrue',component:satrue},
         ]
     },
     {
@@ -99,21 +130,21 @@ export const appRouter = [
         title:'TTG游戏报表',
         name:'ttggame',
         component:main,
-        children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:()=>import('@/pages/reports/ttgVideoGame.vue')}]
+        children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:ttgvideo}]
     },
     {
         path:'/uggame',
         title:'UG游戏报表',
         name:'uggame',
         component:main,
-        children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:()=>import('@/pages/reports/ugSportGame.vue')}]
+        children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:ugsport}]
     },
     {
         path:'/ysb',
         title:'YSB体育游戏',
         name:'ysb',
         component:main,
-        children:[{path:'sport',title:'YSB体育游戏报表',name:'ysbSport',component:()=>import('@/pages/reports/ysbSport.vue')}]
+        children:[{path:'sport',title:'YSB体育游戏报表',name:'ysbSport',component:ysbSport}]
     },
     {
         path:'/agent',
@@ -121,8 +152,8 @@ export const appRouter = [
         name:'agent',
         component:main,
         children:[
-            {path:'list',title:'代理列表',name:'agentList',component:()=>import('@/pages/agentCenter/agentList.vue')},
-            {path:'warn',title:'警告列表',name:'warnList',component:()=>import('@/pages/agentCenter/warnList.vue')}
+            {path:'list',title:'代理列表',name:'agentList',component:agentList},
+            {path:'warn',title:'警告列表',name:'warnList',component:warnList}
         ]
     },
     {
@@ -131,9 +162,9 @@ export const appRouter = [
         name:'log',
         component:main,
         children:[
-            {path:'adminLogin',title:'管理员登录日志',name:'adminLoginLog',component:()=>import('@/pages/logCenter/adminLoginLog.vue')},
-            {path:'agentLogin',title:'代理登录日志',name:'agentLoginLog',component:()=>import('@/pages/logCenter/agentLoginLog.vue')},
-            {path:'adminOpreate',title:'管理员操作日志',name:'adminOpreateLog',component:()=>import('@/pages/logCenter/adminOpreateLog.vue')},
+            {path:'adminLogin',title:'管理员登录日志',name:'adminLoginLog',component:adminLoginLog},
+            {path:'agentLogin',title:'代理登录日志',name:'agentLoginLog',component:agentLoginLog},
+            {path:'adminOpreate',title:'管理员操作日志',name:'adminOpreateLog',component:adminOpreateLog},
         ]
     },
     {
@@ -142,7 +173,7 @@ export const appRouter = [
         name:'admin',
         component:main,
         children:[
-            {path:'list',title:'管理员列表',name:'adminList',component:()=>import('@/pages/adminCenter/adminList.vue')},
+            {path:'list',title:'管理员列表',name:'adminList',component:adminList},
         ]
     },
     {
@@ -151,7 +182,7 @@ export const appRouter = [
         name:'game',
         component:main,
         children:[
-            {path:'config',title:'包房代理游戏配置',name:'gameConfig',component:()=>import('@/pages/gameCenter/gameConfig.vue')},
+            {path:'config',title:'包房代理游戏配置',name:'gameConfig',component:gameConfig},
         ]
     },
     {
@@ -160,7 +191,7 @@ export const appRouter = [
       name:'play',
       component:main,
       children:[
-        {path:'list',title:'玩家列表',name:'playList',component:()=>import('@/pages/player/playerlist.vue')}
+        {path:'list',title:'玩家列表',name:'playList',component:playerList}
       ]
     }
 

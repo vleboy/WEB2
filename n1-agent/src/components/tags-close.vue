@@ -1,6 +1,6 @@
 <template>
     <div ref="scrollCon" class="tags-outer-scroll-con">
-        <div ref="scrollBody" class="tags-inner-scroll-body" :style="{left: tagBodyLeft + 'px'}" >   <!--  :style="{left: tagBodyLeft + 'px'}"-->
+        <div ref="scrollBody" class="tags-inner-scroll-body" >   <!--  :style="{left: tagBodyLeft + 'px'}"-->
             <transition-group name="taglist-moving-animation">
                 <Tag 
                     type="dot"
@@ -24,8 +24,6 @@ export default {
     data () {
         return {
             currentPageName: this.$route.name,
-            tagBodyLeft: 0,
-            refsTag: [],
         };
     },
     props: {
@@ -60,7 +58,7 @@ export default {
                 }
             } else {
                 let tagWidth = event.target.parentNode.offsetWidth;
-                this.tagBodyLeft = Math.min(this.tagBodyLeft + tagWidth, 0);
+                // this.tagBodyLeft = Math.min(this.tagBodyLeft + tagWidth, 0);
             }
             this.$store.commit('removeTag', name);
             this.$store.commit('closePage', name);
@@ -82,18 +80,18 @@ export default {
                 this.$router.push(routerObj);
             }
         },
-        moveToView (tag) {
-            if (tag.offsetLeft < -this.tagBodyLeft) {
-                // 标签在可视区域左侧
-                this.tagBodyLeft = -tag.offsetLeft + 10;
-            } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100) {
-                // 标签在可视区域
-                this.tagBodyLeft = Math.min(0, this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth - tag.offsetLeft - 20);
-            } else {
-                // 标签在可视区域右侧
-                this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth) + 20);
-            }
-        }
+        // moveToView (tag) {
+        //     if (tag.offsetLeft < -this.tagBodyLeft) {
+        //         // 标签在可视区域左侧
+        //         this.tagBodyLeft = -tag.offsetLeft + 10;
+        //     } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100) {
+        //         // 标签在可视区域
+        //         this.tagBodyLeft = Math.min(0, this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth - tag.offsetLeft - 20);
+        //     } else {
+        //         // 标签在可视区域右侧
+        //         this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth) + 20);
+        //     }
+        // }
     },
     mounted () {
         // // console.log(this.$refs.tagsPageOpened);
@@ -109,16 +107,18 @@ export default {
     },
     watch: {
         '$route' (to) {
-            this.refsTag = this.$refs.tagsPageOpened;
+            // this.refsTag = this.$refs.tagsPageOpened;
             this.currentPageName = to.name;
-            this.$nextTick(() => {
-                this.refsTag.forEach((item, index) => {
-                    if (to.name === item.name) {
-                        let tag = this.refsTag[index].$el;
-                        this.moveToView(tag);
-                    }
-                });
-            });
+            // this.$nextTick(() => {
+            //     if(this.refsTag){
+            //         this.refsTag.forEach((item, index) => {
+            //             if (to.name === item.name) {
+            //                 let tag = this.refsTag[index].$el;
+            //                 this.moveToView(tag);
+            //             }
+            //         });
+            //     }
+            // });
         }
     }
 };
