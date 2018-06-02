@@ -42,7 +42,7 @@
       <div class="admin">
         <h2>线路商后台管理员</h2>
         <Form ref='adminform' :model="admin" :label-width="110" :rules="adminValidate">
-          <FormItem label="管理员用户名" prop="username">
+          <FormItem label="管理员账号" prop="username">
             <Row>
               <Col span="20">
               <Input v-model="admin.username" placeholder="5~16位,只能输入英文及数字"></Input>

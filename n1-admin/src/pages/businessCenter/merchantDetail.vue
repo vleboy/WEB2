@@ -424,17 +424,21 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
-              return h("span",{
-                style:{
-                  color:'#f30'
-                }
-              }, "减点");
+              return h("span",
+              // {
+              //   style:{
+              //     color:'#f30'
+              //   }
+              // },
+               "减点");
             }else{
-              return h("span",{
-                style:{
-                  color:'#0c0'
-                }
-              }, "加点");
+              return h("span",
+              // {
+              //   style:{
+              //     color:'#0c0'
+              //   }
+              // },
+               "加点");
             }
           }
         },

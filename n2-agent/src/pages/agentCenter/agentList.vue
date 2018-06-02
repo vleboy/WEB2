@@ -81,7 +81,7 @@
           <p v-if='defaultSn'>{{parentSn}}</p>
           <Input v-else v-model="agent.sn" placeholder="3~5位,只能包含中英文、数字、@、_"></Input>
         </FormItem>
-        <FormItem label="代理用户名" prop='username'>
+        <FormItem label="代理账号" prop='username'>
           <Input v-model="agent.username" placeholder="5~16位,只能包含英文或数字"></Input>
         </FormItem>
         <FormItem label="代理密码" prop='password'>

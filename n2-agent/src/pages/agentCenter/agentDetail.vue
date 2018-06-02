@@ -584,10 +584,10 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
-              return h("span", { style: { color: "#f30" } }, "减点");
+              return h("span",  "减点");//{ style: { color: "#f30" } },
             }
             if (row.fromLevel < row.toLevel) {
-              return h("span", { style: { color: "#0c0" } }, "加点");
+              return h("span", "加点"); //{ style: { color: "#0c0" } }, 
             }
           }
         },

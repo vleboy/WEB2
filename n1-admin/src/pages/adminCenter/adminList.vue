@@ -79,7 +79,7 @@ export default {
           maxWidth: 80
         },
         {
-          title: "用户名",
+          title: "账号",
           key: "uname"
         },
         {

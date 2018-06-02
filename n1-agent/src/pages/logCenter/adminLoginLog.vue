@@ -2,15 +2,15 @@
   <div class="merchantLog">
     <div class="search">
       <Row class="row">
-        <Col span='2' offset='4'> 代理昵称:
-        </Col>
-        <Col span="4">
-        <Input v-model.trim="displayName" placeholder="请输入"></Input>
-        </Col>
-        <Col span='2'> 代理账号:
+        <Col span='2' offset='4'> 代理账号:
         </Col>
         <Col span="4">
         <Input v-model.trim="username" placeholder="请输入"></Input>
+        </Col>
+        <Col span='2'> 代理昵称:
+        </Col>
+        <Col span="4">
+        <Input v-model.trim="displayName" placeholder="请输入"></Input>
         </Col>
         <Col span="4">
         <div class="btns">
@@ -49,12 +49,12 @@ export default {
           maxWidth: 80
         },
         {
-          title: "代理管理员昵称",
-          key: "displayName"
-        },
-        {
           title: "代理管理员账号",
           key: "username"
+        },
+        {
+          title: "代理管理员昵称",
+          key: "displayName"
         },
         {
           title: "最后登录IP",
@@ -165,8 +165,8 @@ export default {
         role: "1000",
         type: "login",
         pageSize: "50",
-        level:0,
-        startKey: null,
+        level: 0,
+        startKey: null
       });
     },
     init() {
@@ -175,7 +175,7 @@ export default {
         type: "login",
         pageSize: "50",
         startKey: null,
-        level:0,
+        level: 0,
         query: {}
       });
     },

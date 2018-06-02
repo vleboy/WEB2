@@ -29,7 +29,7 @@
         </Modal>
         <Modal v-model="adminModal" title="添加管理员" :width='400' @on-ok="add" @on-cancel='addcancel'>
             <Form ref='addform' :model="adminInfo" label-position='left' :label-width="90" :rules="ruleValidate">
-                <FormItem label="管理员用户名" prop="username">
+                <FormItem label="管理员账号" prop="username">
                     <Input v-model="adminInfo.username" placeholder="请输入"></Input>
                 </FormItem>
                 <FormItem label="管理员密码" prop="password">
@@ -55,7 +55,7 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value == "") {
-        callback(new Error("用户名不能为空"));
+        callback(new Error("账号不能为空"));
       } else {
         let nameReg = /^[a-zA-Z0-9]{5,16}$/;
         if (!nameReg.test(value)) {
@@ -67,7 +67,7 @@ export default {
             if (res.payload == true) {
               callback();
             } else {
-              callback(new Error("用户名不可用,请重新输入"));
+              callback(new Error("账号不可用,请重新输入"));
             }
           });
         }
@@ -118,7 +118,7 @@ export default {
           maxWidth: 80
         },
         {
-          title: "用户名",
+          title: "账号",
           key: "uname"
         },
         {

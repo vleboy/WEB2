@@ -93,7 +93,7 @@ export default {
       sn: "", //标识
       username: "", //
       displayName: "",
-      displayId:'',
+      displayId: "",
       uname: "", //modal增加账户
       point: "", //点数
       note: "", //备注
@@ -113,20 +113,20 @@ export default {
           maxWidth: 80
         },
         {
-          title:'商户ID',
-          key:'displayId'
+          title: "商户ID",
+          key: "displayId"
         },
         {
           title: "商户标识",
           key: "sn"
         },
         {
-          title: "商户昵称",
-          key: "displayName"
-        },
-        {
           title: "商户账号",
           key: "uname"
+        },
+        {
+          title: "商户昵称",
+          key: "displayName"
         },
         {
           title: "上级线路商",
@@ -563,7 +563,7 @@ export default {
         sn: this.sn,
         uname: this.username,
         displayName: this.displayName,
-        displayId:this.displayId
+        displayId: this.displayId
       };
       if (!query.sn) {
         delete query.sn;

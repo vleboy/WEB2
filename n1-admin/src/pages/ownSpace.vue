@@ -141,21 +141,21 @@ export default {
             if (row.amount > 0) {
               return h(
                 "span",
-                {
-                  style: {
-                    color: "#f30"
-                  }
-                },
+                // {
+                //   style: {
+                //     color: "#f30"
+                //   }
+                // },
                 "减点"
               );
             } else {
               return h(
                 "span",
-                {
-                  style: {
-                    color: "#0c0"
-                  }
-                },
+                // {
+                //   style: {
+                //     color: "#0c0"
+                //   }
+                // },
                 "加点"
               );
             }

@@ -2,15 +2,15 @@
   <div class="lineLog">
     <div class="search">
       <Row class="row">
-        <Col span='2' offset='4'> 线路商昵称:
-        </Col>
-        <Col span="4">
-        <Input v-model="displayName" placeholder="请输入"></Input>
-        </Col>
-        <Col span='2'> 线路商账号:
+        <Col span='2' offset='4'> 线路商账号:
         </Col>
         <Col span="4">
         <Input v-model="username" placeholder="请输入"></Input>
+        </Col>
+        <Col span='2'> 线路商昵称:
+        </Col>
+        <Col span="4">
+        <Input v-model="displayName" placeholder="请输入"></Input>
         </Col>
         <Col span="4">
         <div class="btns">
@@ -47,13 +47,13 @@ export default {
           type: "index",
           maxWidth: 80
         },
+          {
+            title: "线路商账号",
+            key: "username"
+          },
         {
           title: "线路商昵称",
           key: "displayName"
-        },
-        {
-          title: "线路商账号",
-          key: "username"
         },
         {
           title: "最后登录IP",

@@ -49,7 +49,7 @@
       <div class="admin">
         <h2>管理账号</h2>
         <Form ref='adminform' :model="admin" :label-width="120" :rules="adminValidate">
-          <FormItem label="商户管理员用户名" prop="username">
+          <FormItem label="商户管理员账号" prop="username">
             <Row>
               <Col span="20">
               <Input v-model="admin.username" placeholder="5~16位,只能输入英文及数字"></Input>

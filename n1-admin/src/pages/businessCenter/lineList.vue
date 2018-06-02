@@ -102,12 +102,12 @@ export default {
           maxWidth: 80
         },
         {
-          title:'线路商账号',
-          key:'uname'
-        },
-        {
           title: "线路商前缀",
           key: "suffix"
+        },
+        {
+          title: "线路商账号",
+          key: "uname"
         },
         {
           title: "线路商昵称",
