@@ -297,7 +297,7 @@ export default {
     };
     const validateUserName = (rule, value, callback) => {
       if (value == "") {
-        callback(new Error("用户名不能为空"));
+        callback(new Error("账号不能为空"));
       } else {
         let testReg = /^[a-zA-Z0-9]{5,16}$/;
         if (!testReg.test(value)) {

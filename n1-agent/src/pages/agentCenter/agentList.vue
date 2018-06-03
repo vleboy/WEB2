@@ -518,7 +518,7 @@ export default {
       ],
       columns1: [
         {
-          title: "管理员账号",
+          title: "代理账号",
           key: "username",
           render: (h, params) => {
             let currentId = JSON.parse(localStorage.getItem("userInfo")).userId;
