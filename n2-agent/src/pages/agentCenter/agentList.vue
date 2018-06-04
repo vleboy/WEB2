@@ -1629,6 +1629,7 @@ export default {
           this.point = "";
           this.remark = "";
           this.playerPoint = false;
+          this.maxBalance=''
         }
       }
     },
@@ -1636,6 +1637,7 @@ export default {
       this.point = "";
       this.remark = "";
       this.playerPoint = false;
+      this.maxBalance=''
     },
     confirmRed() {
       let checked = this.redCheck;
