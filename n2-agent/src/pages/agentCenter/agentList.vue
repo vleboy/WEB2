@@ -50,9 +50,15 @@
       <h2 v-if='plus'>加点操作</h2>
       <h2 v-else>减点操作</h2>
       <Form :label-width="100">
-        <FormItem label="存入点数">
-          <Input type="text" v-model="point" placeholder="请输入点数" style="width: 280px">
-          </Input>
+        <FormItem label="存入点数" v-if="plus">
+          <Tooltip :content="maxBalance">
+            <Input type="text" v-model="point" placeholder="请输入点数" style="width: 280px"></Input>
+          </Tooltip>
+        </FormItem>
+        <FormItem label="减少点数" v-else>
+          <Tooltip :content="maxBalance">
+            <Input type="text" v-model="point" placeholder="请输入点数" style="width: 280px"></Input>
+          </Tooltip>
         </FormItem>
         <FormItem label="起始账户" v-if="plus">
           {{parentDisplayName}}
@@ -338,6 +344,7 @@ export default {
       remark: "",
       userName: "",
       // search2: "",
+      maxBalance: "",
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -706,6 +713,14 @@ export default {
                             params.row.parentDisplayName +
                             "】" +
                             params.row.parentName;
+                          let id =
+                            params.row.parent == "01"
+                              ? localStorage.userId
+                              : params.row.parent;
+                          agentOne(id).then(res => {
+                            this.maxBalance =
+                              "上级代理余额为:" + res.payload.balance;
+                          });
                           if (params.row.parent == "01") {
                             this.fromUserId = JSON.parse(
                               localStorage.getItem("userInfo")
@@ -732,6 +747,14 @@ export default {
                         click: () => {
                           this.modal = true;
                           this.plus = false;
+                          let id =
+                            params.row.parent == "01"
+                              ? localStorage.userId
+                              : params.row.parent;
+                          agentOne(id).then(res => {
+                            this.maxBalance =
+                              "上级代理余额为:" + res.payload.balance;
+                          });
                           this.parentDisplayName =
                             "【" +
                             params.row.parentDisplayName +
@@ -1234,6 +1257,14 @@ export default {
                     on: {
                       click: () => {
                         this.modal = true;
+                        let id =
+                          params.row.parent == "01"
+                            ? localStorage.userId
+                            : params.row.parent;
+                        agentOne(id).then(res => {
+                          this.maxBalance =
+                            "上级代理余额为:" + res.payload.balance;
+                        });
                         this.playerPoint = true;
                         this.plus = true;
                         this.parentDisplayName =
@@ -1256,6 +1287,14 @@ export default {
                     on: {
                       click: () => {
                         this.modal = true;
+                        let id =
+                          params.row.parent == "01"
+                            ? localStorage.userId
+                            : params.row.parent;
+                        agentOne(id).then(res => {
+                          this.maxBalance =
+                            "上级代理余额为:" + res.payload.balance;
+                        });
                         this.playerPoint = true;
                         this.plus = false;
                         this.parentDisplayName =
