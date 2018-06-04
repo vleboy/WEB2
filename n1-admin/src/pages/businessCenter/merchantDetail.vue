@@ -700,6 +700,7 @@ export default {
       })
     }, // 亚马逊上传Logo
     beforeUploadLogo (file) {
+      localStorage.setItem("nowUrl", 'merchantDetail');
       let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 2
       const suffix = fileName[1].toLowerCase()
@@ -765,6 +766,7 @@ export default {
       })
     }, // 亚马逊上传Name
     beforeUploadName (file) {
+      localStorage.setItem("nowUrl", 'merchantDetail');
       let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 2
       const suffix = fileName[1].toLowerCase()
