@@ -6,9 +6,9 @@
         <Col span="4">
         <Input v-model="searchInfo.userName" placeholder="请输入"></Input>
         </Col>
-        <Col span="2" >商户昵称</Col>
+        <Col span="2">玩家昵称</Col>
         <Col span="4">
-        <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.nickname" placeholder="请输入"></Input>
         </Col>
         <Col span="5">
         <div class="btns">
@@ -18,20 +18,22 @@
         </Col>
       </Row>
       <Row class="row -search-row" v-if="role!='100'">
-        <Col span="2" offset="4">商户ID</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.buId" placeholder="请输入"></Input>
-        </Col>
-        <Col span="2">玩家昵称</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.nickname" placeholder="请输入"></Input>
-        </Col>
-      </Row>
-      <Row class="row ">
         <Col span="2" offset="4">玩家ID</Col>
         <Col span="4">
         <Input v-model="searchInfo.userId" placeholder="请输入"></Input>
         </Col>
+        <Col span="2" >商户昵称</Col>
+        <Col span="4">
+        <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
+        </Col>
+
+      </Row>
+      <Row class="row ">
+        <Col span="2" offset="4">商户ID</Col>
+        <Col span="4">
+        <Input v-model="searchInfo.buId" placeholder="请输入"></Input>
+        </Col>
+
 
         <Col span="2" >游戏状态</Col>
         <Col span="4">
