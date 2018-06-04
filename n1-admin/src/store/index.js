@@ -8,6 +8,17 @@ import {admin} from './modules/admin'
 import {add} from './modules/add'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
+    state:{
+        loading:false
+    },
+    mutations:{
+     globalLoading(state,{params}){
+        state.loading=params
+        },
+    },
+    actions:{
+
+    },
     modules: {
         login,
         home,

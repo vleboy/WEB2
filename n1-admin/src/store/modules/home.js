@@ -1,4 +1,4 @@
-import {otherRouter,appRouter} from '@/router/router'
+import {otherRouter,appRouter,routers} from '@/router/router'
 import Util from '@/libs/util';
 import {gameSign} from '@/service/index'
 export const home={
@@ -51,11 +51,13 @@ export const home={
             }
             state.pageOpenedList.splice(get.index, 1, openedPage);
         },
-        setOpenedList (state) {
-            state.pageOpenedList = [];
-        },
-        initCachepage (state) {
-            state.cachePage=[];
+        setOpenedList (state,params) {
+            routers.map(item=>{
+                if(item.children&&item.children.name==params.currentPageName){
+                    console.log(item);
+                    state.pageOpenedList=[item]
+                }
+            })
         },
         increateTag (state, tagObj) {
             if (!Util.oneOf(tagObj.name, state.dontCache)) {
