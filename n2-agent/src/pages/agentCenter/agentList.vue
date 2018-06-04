@@ -189,6 +189,7 @@ import {
   gameBigType,
   checkExit,
   agentOne,
+  getBill,
   agentNew,
   creatPlayer,
   frozen,
@@ -344,7 +345,7 @@ export default {
       remark: "",
       userName: "",
       // search2: "",
-      maxBalance: "",
+      maxBalance: "上级代理余额为:",
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -717,7 +718,7 @@ export default {
                             params.row.parent == "01"
                               ? localStorage.userId
                               : params.row.parent;
-                          agentOne(id).then(res => {
+                          getBill(id).then(res => {
                             this.maxBalance =
                               "上级代理余额为:" + res.payload.balance;
                           });
@@ -751,7 +752,7 @@ export default {
                             params.row.parent == "01"
                               ? localStorage.userId
                               : params.row.parent;
-                          agentOne(id).then(res => {
+                          getBill(id).then(res => {
                             this.maxBalance =
                               "上级代理余额为:" + res.payload.balance;
                           });
@@ -1261,7 +1262,7 @@ export default {
                           params.row.parent == "01"
                             ? localStorage.userId
                             : params.row.parent;
-                        agentOne(id).then(res => {
+                        getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
                         });
@@ -1291,7 +1292,7 @@ export default {
                           params.row.parent == "01"
                             ? localStorage.userId
                             : params.row.parent;
-                        agentOne(id).then(res => {
+                        getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
                         });
@@ -1629,7 +1630,7 @@ export default {
           this.point = "";
           this.remark = "";
           this.playerPoint = false;
-          this.maxBalance=''
+          this.maxBalance='上级代理余额为:'
         }
       }
     },
@@ -1637,7 +1638,7 @@ export default {
       this.point = "";
       this.remark = "";
       this.playerPoint = false;
-      this.maxBalance=''
+      this.maxBalance='上级代理余额为:'
     },
     confirmRed() {
       let checked = this.redCheck;

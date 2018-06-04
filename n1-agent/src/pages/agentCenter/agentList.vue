@@ -180,6 +180,7 @@ import {
   agentOne,
   agentNew,
   creatPlayer,
+  getBill,
   frozen
 } from "@/service/index";
 export default {
@@ -334,7 +335,7 @@ export default {
       fromUserId: "", //modal data
       toRole: "",
       toUser: "",
-      maxBalance: "",
+      maxBalance: "上级代理余额为:",
       //创建agnet
       agentModal: false,
       Topdisabled: false,
@@ -693,7 +694,7 @@ export default {
                           this.plus = true;
                           this.parentDisplayName ="【" + params.row.parentDisplayName + "】" + params.row.parentName;
                           let id=params.row.parent=='01'?localStorage.userId:params.row.parent;
-                          agentOne(id).then(res=>{
+                          getBill(id).then(res=>{
                             this.maxBalance = "上级代理余额为:" + res.payload.balance;
                           })
                           if (params.row.parent == "01") {
@@ -721,7 +722,7 @@ export default {
                           this.modal = true;
                           this.plus = false;
                           let id=params.row.parent=='01'?localStorage.userId:params.row.parent;
-                          agentOne(id).then(res=>{
+                          getBill(id).then(res=>{
                             this.maxBalance = "上级代理余额为:" + res.payload.balance;
                           })
                           this.parentDisplayName =
@@ -1178,7 +1179,7 @@ export default {
                       click: () => {
                         this.modal = true;
                         let id=params.row.parent=='01'?localStorage.userId:params.row.parent;
-                          agentOne(id).then(res=>{
+                          getBill(id).then(res=>{
                             this.maxBalance = "上级代理余额为:" + res.payload.balance;
                           })
                         this.playerPoint = true;
@@ -1205,7 +1206,7 @@ export default {
                         this.modal = true;
                         this.playerPoint = true;
                         let id=params.row.parent=='01'?localStorage.userId:params.row.parent;
-                          agentOne(id).then(res=>{
+                          getBill(id).then(res=>{
                             this.maxBalance = "上级代理余额为:" + res.payload.balance;
                           })
                         this.plus = false;
@@ -1543,7 +1544,7 @@ export default {
           this.point = "";
           this.remark = "";
           this.playerPoint = false;
-          this.maxBalance = "";
+          this.maxBalance = "上级代理余额为:";
         }
       }
     },
@@ -1551,7 +1552,7 @@ export default {
       this.point = "";
       this.remark = "";
       this.playerPoint = false;
-      this.maxBalance = "";
+      this.maxBalance = "上级代理余额为:";
     },
     passwordLevel(password) {
       var Modes = 0;
