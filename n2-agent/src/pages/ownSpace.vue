@@ -69,6 +69,7 @@
 <script>
 import { agentOne, getWaterfall } from "@/service/index";
 import dayjs from "dayjs";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -87,7 +88,10 @@ export default {
         },
         {
           title: "账户余额",
-          key: "oldBalance"
+          key: "oldBalance",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
+          }
         },
         {
           title: "交易点数",
@@ -165,7 +169,10 @@ export default {
         },
         {
           title: "交易后余额",
-          key: "balance"
+          key: "balance",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
+          }
         },
         {
           title: "操作人",
@@ -226,8 +233,8 @@ export default {
     newPassword() {
       this.modal = true;
     },
-    reset(){
-      this.init()
+    reset() {
+      this.init();
     },
     ok() {
       let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
@@ -324,7 +331,7 @@ export default {
   .manangeinfo {
     width: 100%;
     margin: 10px auto 20px;
-    .reload{
+    .reload {
       text-align: right;
       margin-bottom: 10px;
     }
