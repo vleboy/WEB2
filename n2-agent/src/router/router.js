@@ -82,7 +82,7 @@ export const appRouter = [
         name:'agent',
         component:main,
         children:[
-            {path:'list',title:'代理列表',name:'agentList',component:agentDetail},
+            {path:'list',title:'代理列表',name:'agentList',component:agentList},
             {path:'warn',title:'警告列表',name:'warnList',component:warnList}
         ]
     },
