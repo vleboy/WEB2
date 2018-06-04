@@ -5,7 +5,7 @@ import { URL,httpType } from './urlConfig'
 // get请求 (url拼接参数，请求域名类别）
 // 域名类别为: 不传域名默认为n1, 游戏相关接口为game
 const get = (urls, type) => {
-  let token=localStorage.getItem('n1token');
+  let token=localStorage.getItem('n2agentToken');
   let headers={
     "Content-Type": "application/json; charset=utf-8",
     "Authorization":token
@@ -21,8 +21,8 @@ const get = (urls, type) => {
 const post = (urls, datas, type) => {
   let TOKEN='';
   let headers={};
-  if(window.localStorage.getItem('n1token')) {
-    TOKEN = window.localStorage.getItem('n1token')
+  if(window.localStorage.getItem('n2agentToken')) {
+    TOKEN = window.localStorage.getItem('n2agentToken')
     headers={
       "Content-Type": "application/json; charset=utf-8",
       "Authorization":TOKEN

@@ -250,8 +250,8 @@ export default {
         return;
       }
       let userId = "";
-      if (localStorage.userInfo) {
-        userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      if (localStorage.userId) {
+        userId = localStorage.userId;
       }
       this.$store
         .dispatch("changePassword", {
@@ -268,7 +268,7 @@ export default {
       this.repassword = "";
     },
     async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let userId = localStorage.userId;
       this.$store.commit("changeLoading", { params: true });
       let req1 = agentOne(userId);
       let req2 = getWaterfall(userId);

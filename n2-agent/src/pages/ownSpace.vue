@@ -250,8 +250,8 @@ export default {
         return;
       }
       let userId = "";
-      if (localStorage.userInfo) {
-        userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      if (localStorage.userId) {
+        userId = localStorage.userId;
       }
       this.$store
         .dispatch("changePassword", {

@@ -538,7 +538,7 @@ export default {
           title: "管理员账号",
           key: "username",
           render: (h, params) => {
-            let currentId = JSON.parse(localStorage.getItem("userInfo")).userId;
+            let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
               return h(
                 "span",
@@ -683,7 +683,7 @@ export default {
           title: "剩余点数",
           key: "balance",
           render: (h, params) => {
-            let currentId = JSON.parse(localStorage.getItem("userInfo")).userId;
+            let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
               return h("span", params.row.balance);
             } else {

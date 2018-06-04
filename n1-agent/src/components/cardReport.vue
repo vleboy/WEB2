@@ -273,7 +273,7 @@ export default {
       });
     },
     async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+      let userId = localStorage.userId;
       let req1 = this.$store.dispatch("getUserList", { userId: userId });
       let req2 = this.$store.dispatch("getUserChild", {
         parent: "01",

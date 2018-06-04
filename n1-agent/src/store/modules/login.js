@@ -29,13 +29,13 @@ export const login = {
             logIn(role,username,password,challenge,vid).then(res=>{
                 // console.log(res);
                 if(res.code==0){
-                    if(localStorage.getItem('n1token')) {
-                        localStorage.removeItem('n1token');
-                        localStorage.setItem('n1token', res.payload.token)
+                    if(localStorage.getItem('agentToken')) {
+                        localStorage.removeItem('agentToken');
+                        localStorage.setItem('agentToken', res.payload.token)
                     }else{
-                        localStorage.setItem('n1token', res.payload.token);
+                        localStorage.setItem('agentToken', res.payload.token);
                     }
-                    setTimeout(()=>localStorage.removeItem('n1token'),259200000);
+                    setTimeout(()=>localStorage.removeItem('agentToken'),259200000);
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
                     localStorage.setItem('userId',res.payload.userId)
@@ -48,7 +48,7 @@ export const login = {
             })
         },
         changePassword({commit},params){
-         let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
+         let userId = localStorage.userId;
             updatePassword(params).then(res=>{
                 if(res.code==0){
                     Message.success('修改成功');
