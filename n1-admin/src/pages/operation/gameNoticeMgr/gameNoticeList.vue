@@ -408,6 +408,7 @@ export default {
       })
     }, // 删除公告
     uploadAli () {
+      localStorage.setItem("nowUrl", 'gameNoticeList');
       this.actionUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
