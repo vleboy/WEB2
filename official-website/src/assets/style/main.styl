@@ -1,0 +1,107 @@
+html
+  font-size 16px
+  word-spacing 1px
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
+  -moz-osx-font-smoothing grayscale
+  -webkit-font-smoothing antialiased
+  -webkit-box-sizing border-box
+          box-sizing border-box
+
+*, *before, *after
+  -webkit-box-sizing border-box
+          box-sizing border-box
+  margin 0
+body
+  font 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+  text-rendering optimizeLegibility
+  -webkit-font-smoothing antialiased
+
+.container 
+  max-width 1200px
+  margin 0 auto
+  padding 0 10px
+
+.flex
+  display -webkit-box
+  display -ms-flexbox
+  display flex
+  -webkit-box-orient horizontal
+  -webkit-box-direction normal
+      -ms-flex-direction row
+          flex-direction row
+a
+  text-decoration none
+  color #ffffff
+a:hover, a:visited, a:link, a:active {
+  color #ffffff
+}
+::selection 
+    background #ffcb16
+    color #fff
+
+#nprogress .bar
+  background #29d
+  height: 2px
+
+.animate
+  -webkit-animation Wanimate 1.5s ease both
+  -moz-animation Wanimate 1.5s ease both
+  -o-animation Wanimate 1.5s ease both
+  animation Wanimate 1.5s ease both
+
+@keyframes Wanimate
+  0% 
+    opacity 0
+    transform translateY(50%)
+    -webkit-transform translateY(50%)
+  20%
+    opacity 0
+    transform translateY(40%)
+    -webkit-transform:translateY(40%)
+  100%
+    opacity 1 
+    transform translateY(0)
+    -webkit-transform translateY(0)
+
+@-webkit-keyframes Wanimate
+  0% 
+    opacity 0
+    transform translateY(50%)
+    -webkit-transform translateY(50%)
+  20%
+    opacity 0
+    transform translateY(40%)
+    -webkit-transform:translateY(40%)
+  100%
+    opacity 1 
+    transform translateY(0)
+    -webkit-transform translateY(0)
+
+@-moz-keyframes Wanimate
+  0% 
+    opacity 0
+    transform translateY(50%)
+    -webkit-transform translateY(50%)
+  20%
+    opacity 0
+    transform translateY(40%)
+    -webkit-transform:translateY(40%)
+  100%
+    opacity 1 
+    transform translateY(0)
+    -webkit-transform translateY(0)
+
+@-o-keyframes Wanimate
+  0% 
+    opacity 0
+    transform translateY(50%)
+    -webkit-transform translateY(50%)
+  20%
+    opacity 0
+    transform translateY(40%)
+    -webkit-transform:translateY(40%)
+  100%
+    opacity 1 
+    transform translateY(0)
+    -webkit-transform translateY(0)
