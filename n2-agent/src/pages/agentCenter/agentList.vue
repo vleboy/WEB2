@@ -545,6 +545,7 @@ export default {
         {
           title: "管理员账号",
           key: "username",
+          sortable:true,
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
@@ -608,11 +609,13 @@ export default {
         },
         {
           title: "代理昵称",
-          key: "displayName"
+          key: "displayName",
+          sortable:true,
         },
         {
           title: "上级代理",
           key: "parentDisplayName",
+          sortable:true,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("span", "");
@@ -683,6 +686,7 @@ export default {
         {
           title: "代理成数",
           key: "rate",
+          sortable:true,
           render: (h, params) => {
             return h("span", params.row.rate + "%");
           }
@@ -690,6 +694,7 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
+          sortable:true,
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
@@ -777,6 +782,7 @@ export default {
         {
           title: "创建时间",
           key: "createdAt",
+          sortable:true,
           render: (h, params) => {
             return h(
               "span",
@@ -787,6 +793,7 @@ export default {
         {
           title: "状态",
           key: "status",
+          sortable:true,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("span", "");
@@ -1217,6 +1224,7 @@ export default {
         {
           title: "用户名",
           key: "userName",
+          sortable:true,
           render: (h, params) => {
             return h(
               "span",
@@ -1244,6 +1252,7 @@ export default {
         {
           title: "点数",
           key: "balance",
+          sortable:true,
           render: (h, params) => {
             return h("div", [
               h("p", params.row.balance),
@@ -1313,11 +1322,13 @@ export default {
         },
         {
           title: "直属代理",
-          key: "parentName"
+          key: "parentName",
+          sortable:true,
         },
         {
           title: "最后登录时间",
           key: "updateAt",
+          sortable:true,
           render: (h, params) => {
             return h(
               "span",
@@ -1328,6 +1339,7 @@ export default {
         {
           title: "状态",
           key: "state",
+          sortable:true,
           render: (h, params) => {
             if (params.row.state == 1) {
               return h(

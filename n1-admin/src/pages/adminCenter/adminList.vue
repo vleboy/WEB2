@@ -80,23 +80,28 @@ export default {
         },
         {
           title: "账号",
-          key: "uname"
+          key: "uname",
+          sortable:true
         },
         {
           title: "真实姓名",
-          key: "adminName"
+          key: "adminName",
+          sortable:true
         },
         {
           title: "管理员角色",
-          key: "subRole"
+          key: "subRole",
+          sortable:true
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          sortable:true
         },
         {
           title: "创建时间",
           key: "createdAt",
+          sortable:true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -107,7 +112,8 @@ export default {
         },
         {
           title: "邮箱",
-          key: "adminEmail"
+          key: "adminEmail",
+          sortable:true
         },
         {
           title: "操作",

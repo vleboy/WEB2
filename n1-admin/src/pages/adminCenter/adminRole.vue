@@ -342,6 +342,7 @@ export default {
         {
           title: "角色名",
           key: "name",
+          sortable:true,
           maxWidth: 160
         },
         {
@@ -359,7 +360,8 @@ export default {
         },
         {
           title: "创建时间",
-          key: "",
+          key: "createdAt",
+          sortable:true,
           maxWidth: 180,
           render: (h, params) => {
             return h(

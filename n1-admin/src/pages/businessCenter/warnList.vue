@@ -73,8 +73,9 @@ export default {
         },
         {
           title: "类型",
-          key: "",
+          key: "role",
           maxWidth: 80,
+          sortable: true,
           render: (h, params) => {
             return h("span", this.types(params.row.role));
           }
@@ -82,7 +83,7 @@ export default {
         {
           title: "接入商标识",
           key: "",
-          maxWidth: 100,
+          maxWidth: 120,
           render: (h, params) => {
             if (params.row.role == "10") {
               return h("span", params.row.suffix);
@@ -94,6 +95,7 @@ export default {
         {
           title: "接入商昵称",
           key: "displayName",
+          sortable: true,
           maxWidth: 140,
           render: (h, params) => {
             if (params.row.role == "10") {

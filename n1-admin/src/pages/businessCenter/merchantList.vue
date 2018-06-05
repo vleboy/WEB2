@@ -114,27 +114,33 @@ export default {
         },
         {
           title: "商户ID",
-          key: "displayId"
+          key: "displayId",
+          sortable: true,
         },
         {
           title: "商户标识",
-          key: "sn"
+          key: "sn",
+          sortable: true,
         },
         {
           title: "商户账号",
-          key: "uname"
+          key: "uname",
+          sortable: true,
         },
         {
           title: "商户昵称",
-          key: "displayName"
+          key: "displayName",
+          sortable: true,
         },
         {
           title: "上级线路商",
-          key: "parentDisplayName"
+          key: "parentDisplayName",
+          sortable: true,
         },
         {
           title: "剩余点数",
-          key: "",
+          key: "balance",
+          sortable: true,
           render: (h, params) => {
             let admininfo = JSON.parse(localStorage.getItem("userInfo"));
             let admin = admininfo.username.substr(9);
@@ -282,7 +288,8 @@ export default {
         },
         {
           title: "创建时间",
-          key: "",
+          key: "createdAt",
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -293,7 +300,8 @@ export default {
         },
         {
           title: "最后登录时间",
-          key: "",
+          key: "loginAt",
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -304,7 +312,8 @@ export default {
         },
         {
           title: "状态",
-          key: "",
+          key: "status",
+          sortable: true,
           render: (h, params) => {
             if (params.row.status == 1) {
               return h(

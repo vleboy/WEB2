@@ -103,23 +103,28 @@ export default {
         },
         {
           title: "线路商前缀",
-          key: "suffix"
+          key: "suffix",
+          sortable: true
         },
         {
           title: "线路商账号",
-          key: "uname"
+          key: "uname",
+          sortable: true
         },
         {
           title: "线路商昵称",
-          key: "displayName"
+          key: "displayName",
+          sortable: true
         },
         {
           title: "上级线路商",
-          key: "parentDisplayName"
+          key: "parentDisplayName",
+          sortable: true
         },
         {
           title: "剩余点数",
-          key: "",
+          key: "balance",
+          sortable: true,
           render: (h, params) => {
             let admininfo = JSON.parse(localStorage.getItem("userInfo"));
             let admin = admininfo.username.substr(9);
@@ -212,7 +217,7 @@ export default {
         },
         {
           title: "线路商游戏",
-          key: "",
+          key: "gameList",
           render: (h, params) => {
             let column = [
               {
@@ -267,7 +272,8 @@ export default {
         },
         {
           title: "创建时间",
-          key: "",
+          key: "createdAt",
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -278,7 +284,8 @@ export default {
         },
         {
           title: "状态",
-          key: "",
+          key: "status",
+          sortable: true,
           render: (h, params) => {
             if (params.row.status == 1) {
               return h(

@@ -31,7 +31,7 @@ export default {
       columns1: [
         {
           title: "线路号",
-          key: "msn"
+          key: "msn",
         },
         {
           title: "状态",
