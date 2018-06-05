@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import {router} from '@/router/index';
 import {Message} from 'iview'
 axios.interceptors.request.use(config => config, error => Promise.reject(error))
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
