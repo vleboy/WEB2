@@ -55,10 +55,11 @@
       </Row>
     </div>
 
-    <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
-      <OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>
-      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
-      <ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>
+    <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="800" cancel-text="">
+      <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
+      <!--<RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>-->
+      <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
+      <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
 
     <Modal title="流水详情"  v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
@@ -81,9 +82,10 @@
   import RealLifeModal from '@/components/record/realLifeModal'
   import OneArmBanditModal from '@/components/record/oneArmBanditModal'
   import oneRunningAccount from '@/components/player/oneRunningAccount'
+  import SportsModal from '@/components/record/sportsModal'
 
   export default {
-    components: { oneRunningAccount,OneArmBanditModal,ArcadeModal,RealLifeModal },
+    components: { oneRunningAccount,OneArmBanditModal,ArcadeModal,RealLifeModal, SportsModal},
     name: 'transactionRecord',
     props:['dataProp'],
     data () {
@@ -99,33 +101,6 @@
         isOpenModalRunning: false,
         radioInfo: '',
         amountDate: [],
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近三天',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
-            }
-          },{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-              picker.$emit('pick', [start, end]);
-            }
-          },{
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
         companyList: [],
         gameTypeList: [],
         companyInfo: '全部厂商',
@@ -205,21 +180,21 @@
             render: (h, params) => {
               if (params.row.gameType != 1 && params.row.gameType != 2 && params.row.gameType != 3) {
                 return h('div', [
-                  // h('Button', {
-                  //   props: {
-                  //     type: 'text',
-                  //     size: 'small'
-                  //   },
-                  //   style: {
-                  //     color:'#20a0ff',
-                  //     marginRight: '5px'
-                  //   },
-                  //   on: {
-                  //     click: () => {
-                  //       this.openModalBill(params.row)
-                  //     }
-                  //   }
-                  // }, '查看战绩'),
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    style: {
+                      color:'#20a0ff',
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.openModalBill(params.row)
+                      }
+                    }
+                  }, '查看战绩'),
                   h('Button', {
                     props: {
                       type: 'text',
@@ -273,20 +248,26 @@
       },
       openModalBill (data) {
         this.propChild = data;
-        if (this.propChild.gameType == '40000') {
-          this.isOpenModalBill = true
-          setTimeout(()=>{
-            this.$refs.childMethod.getOneArmBandit()
-          },0)
-        } else if (this.propChild.gameType == '30000') {
+        // if (this.propChild.gameType == '40000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getOneArmBandit()
+        //   },0)
+        // } else if (this.propChild.gameType == '30000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getRealLife()
+        //   },0)
+        // } else if (this.propChild.gameType == '50000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getRecordSLXY()
+        //   },0)
+        // } else
+        if (this.propChild.gameType == '1130000') {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()
-          },0)
-        } else if (this.propChild.gameType == '50000') {
-          this.isOpenModalBill = true
-          setTimeout(()=>{
-            this.$refs.childMethod.getRecordSLXY()
           },0)
         } else {
           this.$Message.error('对不起，该游戏不支持查看战绩')
