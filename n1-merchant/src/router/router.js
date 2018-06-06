@@ -21,13 +21,13 @@ import satrue from '@/pages/reports/saTrueGame'
 import ttgvideo from '@/pages/reports/ttgVideoGame'
 import ugsport from '@/pages/reports/ugSportGame'
 import ysbSport from '@/pages/reports/ysbSport'
- 
+
 import opreateLog from '@/pages/log/opreateLog'
 import playerlist from '@/pages/player/playerlist'
-// import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
-// import gameMailList from '@/pages/operation/mailMgr/gameMailList'
-// import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampList'
-// import boothList from '@/pages/operation/booth/boothList'
+import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
+import gameMailList from '@/pages/operation/mailMgr/gameMailList'
+import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampList'
+import boothList from '@/pages/operation/booth/merchantBoothList'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -157,18 +157,18 @@ export const appRouter = [
           {path:'list',title:'玩家列表',name:'playList',component:playerlist}
         ]
     },
-    // {
-    //   path:'/operation',
-    //   title:'运营中心',
-    //   name:'operation',
-    //   component:main,
-    //   children:[
-    //       {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:gameNoticeList},
-    //       {path:'gameMailList',title:'游戏邮件列表',name:'gameMailList',component:gameMailList},
-    //       {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:horseRaceLampList},
-    //       {path:'boothList',title:'展位列表',name:'boothList',component:boothList},
-    //     ]
-    // }
+    {
+      path:'/operation',
+      title:'运营中心',
+      name:'operation',
+      component:main,
+      children:[
+          {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:gameNoticeList},
+          {path:'gameMailList',title:'游戏邮件列表',name:'gameMailList',component:gameMailList},
+          {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:horseRaceLampList},
+          {path:'boothList',title:'展位列表',name:'boothList',component:boothList},
+        ]
+    }
 ]
 // 所有上面定义的路由都要写在下面的routers里
 export const routers = [

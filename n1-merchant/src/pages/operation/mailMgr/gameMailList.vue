@@ -3,7 +3,7 @@
     <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p>
     <div class="-p-m-header">
       <Col :span="11">
-        <Button type="primary" @click="openModal()" v-if="permission.includes('创建邮件')">创建邮件</Button>
+        <Button type="primary" @click="openModal()">创建邮件</Button>
       </Col>
       <Col :span="13" class="-search-right">
         <Input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></Input>

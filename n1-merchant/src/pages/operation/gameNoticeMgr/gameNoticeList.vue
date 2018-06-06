@@ -19,7 +19,7 @@
         </Col>
       </Row>
     </div>
-    <Button class="searchResult" type="primary" v-if="permission.includes('创建公告')"  @click="openModal()">创建公告</Button>
+    <Button class="searchResult" type="primary"  @click="openModal()">创建公告</Button>
     <div class="gameNoticeList">
       <Table :columns="columns" :data="getItems"></Table>
       <div class="page">
@@ -91,9 +91,6 @@
   import dayjs from "dayjs";
   import { pattern } from '@/config/regexp'
 export default {
-  created () {
-    this.getGameNoticeList()
-  },
   data () {
     return {
       nowSize: 20,
@@ -278,6 +275,9 @@ export default {
     permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
     }
+  },
+  mounted () {
+    this.getGameNoticeList()
   },
   methods: {
     getGameNoticeList () {

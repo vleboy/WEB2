@@ -62,7 +62,7 @@
                     </template>
                     <MenuItem name="opreateLog">操作日志</MenuItem>
                 </Submenu>
-                <!-- <Submenu name="operation" >
+                <Submenu name="operation">
                     <template slot="title">
                         运营中心
                     </template>
@@ -70,7 +70,7 @@
                     <MenuItem name="gameMailList">游戏邮件列表</MenuItem>
                     <MenuItem name="horseRaceLampList" >跑马灯列表</MenuItem>
                     <MenuItem name="boothList">展位列表</MenuItem>
-                </Submenu> -->
+                </Submenu>
             </Menu>
         </Sider>
     </div>

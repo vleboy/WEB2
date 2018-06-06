@@ -26,7 +26,7 @@
       openName = ["logCenter"];
     } else if (name == "playList") {
       openName = ["playerCenter"];
-    } else if (name == "boothList" || name == "gameMailList" || name == "businessRecord" || name == "propPrice" || name == "horseRaceLampList" || name == "gameNoticeList" ) {
+    } else if (name == "boothList" || name == "gameMailList" || name == "horseRaceLampList" || name == "gameNoticeList" ) {
       openName = ["operation"];
     } else if (name == "board") {
       openName = ["board"];
