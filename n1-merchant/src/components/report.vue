@@ -174,16 +174,13 @@ export default {
   },
   methods: {
     confirm() {
-      this.reportChild = [];
       this.init();
     },
     reset() {
       this.defaultTime = getDefaultTime();
-      this.reportChild = [];
       this.init();
     },
     search() {
-      this.reportChild = [];
       this.init();
     },
     types(value) {

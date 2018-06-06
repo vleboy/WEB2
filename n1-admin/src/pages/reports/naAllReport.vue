@@ -482,7 +482,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount.toFixed(2)
+              winloseAmount
             );
           }
         },

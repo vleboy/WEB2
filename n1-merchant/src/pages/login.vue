@@ -6,7 +6,7 @@
     <div class="login-center"></div>
     <div class="login-right">
       <Form label-position="left" :label-width="80">
-        <FormItem label="用户名">
+        <FormItem label="账号">
           <Row>
             <Col span="8">
             <Input v-model.trim="username" :maxlength='16'></Input>

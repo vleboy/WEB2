@@ -37,9 +37,9 @@
                         <template slot="title">MG游戏报表</template>
                         <MenuItem name="mgvideo" v-if="gameList.includes('MG电子游戏')">MG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='agreport' v-if="gameList.includes('AG真人游戏')">
+                    <Submenu name='agreport' v-if="gameStr.includes('AG真人')">
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="agtrue" v-if="gameList.includes('AG真人游戏')">AG真人游戏报表</MenuItem>
+                        <MenuItem name="agtrue" v-if="gameStr.includes('AG真人')">AG真人游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ugreport' v-if="gameList.includes('UG体育游戏')">
                         <template slot="title">UG游戏报表</template>
