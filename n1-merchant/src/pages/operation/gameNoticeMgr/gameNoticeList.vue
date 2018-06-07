@@ -110,6 +110,7 @@ export default {
       noticeInfo: {
         adName: '',
         url: '',
+        priority: 1,
         img: '',
         imgAli: '',
         remark: ''
@@ -345,6 +346,7 @@ export default {
           adName: '',
           url: '',
           img: '',
+          priority: 1,
           imgAli: '',
           remark: ''
         }

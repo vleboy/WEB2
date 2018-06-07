@@ -5,7 +5,7 @@
         <Button type="primary" class="justfy1" @click="openModal()">创建跑马灯</Button>
       </Col>
       <Col :span="13" class="g-text-right">
-        <Input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.content"></Input>
+        <Input placeholder="请输入跑马灯内容" class="input" v-model="searchInfo.content"></Input>
         <Button style="margin-left: 10px" type="primary" @click="getHorseRaceLampList">搜索</Button>
         <Button @click="resetSearch">重置</Button>
       </Col>

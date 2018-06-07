@@ -345,6 +345,7 @@ export default {
           adName: '',
           url: '',
           img: '',
+          priority: 1,
           imgAli: '',
           remark: ''
         }
