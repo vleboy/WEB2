@@ -417,7 +417,11 @@ export default {
         },
         {
           title: "玩家昵称",
-          key: "nickname"
+          key: "nickname",
+          render: (h, params) => {
+            let nick = params.row.nickname;
+            return h("span", nick == "NULL!" ? "" : nick);
+          }
         },
         {
           title: "剩余点数",
