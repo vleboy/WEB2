@@ -4,6 +4,7 @@ import err404 from '@/pages/404'
 import home from '@/pages/home'
 import playerDetail from '@/pages/player/playerdetail'
 import agentDetail from '@/pages/agentCenter/agentDetail'
+import board from '@/pages/board/board'
 //report
 import ownSpace from '@/pages/ownSpace'
 // import board from '@/pages/board/board'
@@ -56,6 +57,13 @@ export const otherRouter = {
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
+    {
+      path:'/boards',
+      title:'看板',
+      name:'boards',
+      component:main,
+      children:[{path:'board',title:'看板', name:'board',component:board}]
+    },
     {
         path:'/ownspace',
         title:'个人中心',
