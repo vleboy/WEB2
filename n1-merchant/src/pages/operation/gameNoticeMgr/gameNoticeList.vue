@@ -32,18 +32,18 @@
     </div>
 
     <Modal title="发布公告" v-model="isOpenModal">
-      <Form :model="noticeInfo" :label-width="60">
-        <FormItem label="公告名称"  >
+      <Form :model="noticeInfo" :label-width="70">
+        <FormItem label="公告名称"  class="ivu-form-item-required">
           <Input v-model="noticeInfo.adName" auto-complete="off" placeholder="请输入公告名称" :maxlength="20"></Input>
         </FormItem>
         <FormItem label="跳转链接" >
           <Input v-model="noticeInfo.url" auto-complete="off" placeholder="请输入跳转的链接 例（http://www.xxxx.com）" :maxlength="500"></Input>
         </FormItem>
-        <FormItem label="优先级" >
+        <FormItem label="优先级" class="ivu-form-item-required">
           <InputNumber style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min=1  :max=1000
                        placeholder="请输入（根据优先级确定公告排序）"></InputNumber>
         </FormItem>
-        <FormItem label="公告图标" style="text-align: left">
+        <FormItem label="公告图标" style="text-align: left" class="ivu-form-item-required">
           <Upload
             ref="upload"
             :show-upload-list="false"
@@ -305,6 +305,8 @@ export default {
       if(this.noticeInfo.url =='NULL!') this.noticeInfo.url = '';
       if (!this.noticeInfo.adName) {
         return this.$Message.error('请输入公告名称')
+      } else if (this.noticeInfo.adName.length>10) {
+        return this.$Message.error('公告长度不能10位')
       } else if (this.noticeInfo.url && !pattern.url.exec(this.noticeInfo.url)) {
         return this.$Message.error('请输入格式正确的跳转链接')
       } else if (!this.noticeInfo.img) {
