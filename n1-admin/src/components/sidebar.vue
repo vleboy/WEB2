@@ -72,15 +72,6 @@
                     <MenuItem name="adminRole" v-if='permission.includes("管理员角色列表")'>管理员角色列表</MenuItem>
                     <MenuItem name="lineNumList" v-if='permission.includes("线路号列表")'>线路号列表</MenuItem>
                 </Submenu>
-                <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
-                    <template slot="title">
-                        日志中心
-                    </template>
-                    <MenuItem name="lineLoginLog" v-if='permission.includes("线路商登录日志")'>线路商登录日志</MenuItem>
-                    <MenuItem name="merchantLog" v-if='permission.includes("商户登录日志")'>商户登录日志</MenuItem>
-                    <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
-                    <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
-                </Submenu>
                 <Submenu name="operation" v-if='authorityStr.includes("游戏公告列表")||authorityStr.includes("游戏邮件列表")||authorityStr.includes("跑马灯列表")||authorityStr.includes("商户运营记录")||authorityStr.includes("展位列表")||authorityStr.includes("道具定价")'>
                     <template slot="title">
                         运营中心
@@ -91,6 +82,15 @@
                     <MenuItem name="businessRecord" v-if='permission.includes("商户运营记录")'>商户运营记录</MenuItem>
                     <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
                     <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
+                </Submenu>
+                <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
+                    <template slot="title">
+                        日志中心
+                    </template>
+                    <MenuItem name="lineLoginLog" v-if='permission.includes("线路商登录日志")'>线路商登录日志</MenuItem>
+                    <MenuItem name="merchantLog" v-if='permission.includes("商户登录日志")'>商户登录日志</MenuItem>
+                    <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
+                    <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
