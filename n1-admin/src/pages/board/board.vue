@@ -55,6 +55,7 @@
                     style="width: 200px"
                     v-model="dateInterval"
                     type="daterange"
+                    placement='left-start'
                     :transfer='true'
                     @on-change="changeConsume"
                     placeholder="选择日期范围">
@@ -88,6 +89,7 @@
                     style="width: 200px"
                     v-model="dateIntervalTwo"
                     :transfer='true'
+                    placement='left-start'
                     type="daterange"
                     @on-change="changeConsumeTwo"
                     placeholder="选择日期范围">
