@@ -63,14 +63,6 @@
                   </template>
                   <MenuItem name="playList" >玩家列表</MenuItem>
                 </Submenu>
-                <Submenu name="logCenter">
-                    <template slot="title">
-                        日志中心
-                    </template>
-                    <MenuItem name="adminLoginLog" v-if="level==0">管理员登录日志</MenuItem>
-                    <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
-                    <MenuItem name="adminOpreateLog" v-if="level==0">管理员操作日志</MenuItem>
-                </Submenu>
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
                         管理中心
@@ -82,6 +74,14 @@
                         游戏中心
                     </template>
                     <MenuItem name="gameConfig">包房代理游戏配置</MenuItem>
+                </Submenu>
+                <Submenu name="logCenter">
+                    <template slot="title">
+                        日志中心
+                    </template>
+                    <MenuItem name="adminLoginLog" v-if="level==0">管理员登录日志</MenuItem>
+                    <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
+                    <MenuItem name="adminOpreateLog" v-if="level==0">管理员操作日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
