@@ -54,7 +54,7 @@
                   <Date-picker
                     style="width: 200px"
                     v-model="dateInterval"
-                    placement='left-start'
+                    placement='bottom-end'
                     type="daterange"
                     :transfer='true'
                     @on-change="changeConsume"
@@ -89,7 +89,7 @@
                     style="margin-left: 1rem"
                     v-model="dateIntervalTwo"
                     :transfer='true'
-                    placement='left-start'
+                    placement='bottom-end'
                     type="daterange"
                     @on-change="changeConsumeTwo"
                     placeholder="选择日期范围">
