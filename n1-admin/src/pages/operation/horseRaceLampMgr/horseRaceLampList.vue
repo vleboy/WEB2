@@ -5,7 +5,7 @@
         <Button type="primary" class="justfy1" @click="openModal()" v-if="permission.includes('创建跑马灯')">创建跑马灯</Button>
       </Col>
       <Col :span="13" class="g-text-right">
-        <Input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.content"></Input>
+        <Input placeholder="请输入跑马灯内容" class="input" v-model="searchInfo.content"></Input>
         <Button style="margin-left: 10px" type="primary" @click="getHorseRaceLampList">搜索</Button>
         <Button @click="resetSearch">重置</Button>
       </Col>
@@ -217,9 +217,14 @@ export default {
   },
   methods: {
     getHorseRaceLampList () {
+      if (this.searchInfo.content == '') {
+        delete this.searchInfo.content
+      }
       if(this.isFetching) return
       this.isFetching =  true
-      httpRequest('post', '/notice/list', this.searchInfo)
+      httpRequest('post', '/notice/list', {
+        query: this.searchInfo
+      })
       .then(
         result => {
           this.horseRaceLampList = result.list.Items

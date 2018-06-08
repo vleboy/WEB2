@@ -7,7 +7,7 @@
       </Col>
       <Col :span="13" class="-search-right">
         <Input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></Input>
-        <Button type="primary" @click="startSearch" style="margin-left: 10px">搜索</Button>
+        <Button type="primary" @click="getMailList" style="margin-left: 10px">搜索</Button>
         <Button @click="resetSearch">重置</Button>
       </Col>
     </div>
@@ -147,10 +147,8 @@ export default {
         tools: []
       },
       searchInfo: {
-        mailName: '',
-        mailId: ''
+        mailName: ''
       },
-      searchArray: [], // 暂时加储
       addToolInfo: {
         toolName: '',
         sum: '',
@@ -273,12 +271,16 @@ export default {
   },
   methods:  {
     getMailList () {
+      if (this.searchInfo.mailName == '') {
+        delete this.searchInfo.mailName
+      }
       if(this.isFetching) return
       this.isFetching = true
-      httpRequest('post', '/email/list', {})
+      httpRequest('post', '/email/list', {
+        query: this.searchInfo
+      })
         .then(result => {
           this.mailList = result.list
-          this.searchArray = result.list
         }).finally(()=>{
         this.isFetching = false
       })
@@ -325,31 +327,8 @@ export default {
       this.addToolList = []
       this.contentType = ''
     },
-    startSearch () {
-      let {mailId, mailName} = this.searchInfo
-      this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-      if ((!mailId && !mailName)) {
-        this.searchArray = []
-        this.getMailList()
-      } else if (mailName && mailId) {
-        this.mailList = this.arrayLocal.filter(item => {
-          return (item.title == this.searchInfo.mailName && item.emid == this.searchInfo.mailId)
-        })
-      } else {
-        if (mailName) {
-          this.mailList = this.arrayLocal.filter(item => {
-            return item.title == this.searchInfo.mailName
-          })
-        } else if (mailId) {
-          this.mailList = this.arrayLocal.filter(item => {
-            return item.emid == this.searchInfo.mailId
-          })
-        }
-      }
-    }, // 控制搜索条件
     resetSearch () {
       this.searchInfo = {}
-      this.searchArray = []
       this.getMailList()
     },
     getNowpage (page) {

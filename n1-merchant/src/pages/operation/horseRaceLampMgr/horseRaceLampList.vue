@@ -217,9 +217,14 @@ export default {
   },
   methods: {
     getHorseRaceLampList () {
+      if (this.searchInfo.content == '') {
+        delete this.searchInfo.content
+      }
       if(this.isFetching) return
       this.isFetching =  true
-      httpRequest('post', '/notice/list', this.searchInfo)
+      httpRequest('post', '/notice/list',  {
+        query: this.searchInfo
+      })
       .then(
         result => {
           this.horseRaceLampList = result.list.Items
