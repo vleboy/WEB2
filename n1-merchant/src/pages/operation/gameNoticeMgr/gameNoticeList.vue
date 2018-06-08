@@ -1,25 +1,16 @@
 <template>
   <div class="p-gameNoticeList">
-    <div class=" -search">
-      <Row class="row -search-row">
-        <Col class="-s-text" span="2" offset="4">公告ID</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.adId" placeholder="请输入"></Input>
-        </Col>
-        <Col class="-s-text" span="2">公告名称</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.adName" placeholder="请输入"></Input>
-        </Col>
-
-        <Col span="5">
-        <div class="btns">
-          <Button type="primary" @click="getGameNoticeList">搜索</Button>
-          <Button type="ghost" @click="resetSearch">重置</Button>
-        </div>
-        </Col>
-      </Row>
+    <div class="-p-m-header">
+      <Col :span="11">
+      <Button type="primary" @click="openModal()">创建公告</Button>
+      </Col>
+      <Col :span="13" class="g-text-right">
+      <Input placeholder="请输入公告名称" class="input" v-model="searchInfo.adName"></Input>
+      <Button style="margin-left: 10px" type="primary" @click="getGameNoticeList">搜索</Button>
+      <Button @click="resetSearch">重置</Button>
+      </Col>
     </div>
-    <Button class="searchResult" type="primary"  @click="openModal()">创建公告</Button>
+
     <div class="gameNoticeList">
       <Table :columns="columns" :data="getItems"></Table>
       <div class="page">
@@ -488,12 +479,15 @@ export default {
 <style scoped type="text/less" lang="less">
   .p-gameNoticeList{
     min-height: 89vh;
-    .-search{
+    .-p-m-header{
+      overflow: hidden;
       padding: 16px 0;
-      text-align: center
+      .g-text-right{
+        text-align: right;
+      }
     }
     .input{
-      width: 80%
+      width: 60%
     }
     .searchResult{
       margin: 16px 0;
