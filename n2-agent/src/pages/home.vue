@@ -14,9 +14,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .home-main {
-  height: 90vh;
+  height: 89vh;
   .contentBox {
-    margin-top: 100px;
+    padding-top: 100px;
     text-align: center;
     .test {
       font-size: 2rem;

@@ -343,7 +343,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .personalcenter {
-  min-height: 84vh;
+  min-height: 89vh;
   .manangeinfo {
     width: 100%;
     margin: 10px auto 20px;
