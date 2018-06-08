@@ -64,6 +64,7 @@ import dayjs from "dayjs";
 import { getWaterfall, adminCenter } from "@/service/index";
 import { thousandFormatter } from "@/config/format";
 export default {
+  name: "ownSpace",
   data() {
     return {
       modal: false,
@@ -83,7 +84,7 @@ export default {
         {
           title: "交易前余额",
           key: "oldBalance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.oldBalance));
           }
@@ -91,7 +92,7 @@ export default {
         {
           title: "交易点数",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let color = params.row.amount < 0 ? "#f30" : "#0c0";
             return h(
@@ -108,7 +109,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          sortable:true,
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -139,7 +140,7 @@ export default {
         {
           title: "交易类型",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let row = params.row;
             if (row.amount > 0) {
@@ -168,7 +169,7 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.balance));
           }
@@ -176,7 +177,7 @@ export default {
         {
           title: "操作人",
           key: "operator",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", params.row.operator.split("_")[1]);
           }

@@ -55,7 +55,7 @@
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">
-                        <Icon type="ios-navigate"></Icon>
+                        <Icon type="model-s"></Icon>
                         商户中心
                     </template>
                     <MenuItem name="lineBusiness" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
