@@ -11,7 +11,7 @@
             <!-- <Avatar :src="avatorPath" icon="person" style="background: #619fe7;margin-right: 10px;"></Avatar> -->
             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
               <a href="javascript:void(0)">
-                <span class="main-user-name">{{ userName }}</span>
+                <span class="main-user-name">{{ userName }} ({{ uname}})</span>
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
@@ -41,13 +41,16 @@ export default {
   data() {
     return {
       // avatorPath: "",
-      userName: localStorage.getItem("subRole"),
+      userName: localStorage.subRole,
       openName: []
     };
   },
   computed: {
     pageTagsList() {
       return this.$store.state.home.pageOpenedList; //打开的页面的页面对象
+    },
+    uname(){
+      return JSON.parse(localStorage.userInfo).uname;
     }
   },
   methods: {
@@ -126,7 +129,6 @@ export default {
   height: 100%;
   background: white;
   z-index: 10;
-  width: 120px;
   margin-right: 10px;
 }
 .ivu-layout-header {

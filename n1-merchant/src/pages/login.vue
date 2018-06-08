@@ -20,10 +20,10 @@
             </Col>
           </Row>
         </FormItem>
-        <FormItem label="线路号">
+        <FormItem label="标识">
           <Row>
             <Col span="8">
-            <Input v-model.trim="msn"></Input>
+            <Input v-model.trim="sn"></Input>
             </Col>
           </Row>
         </FormItem>
@@ -66,7 +66,7 @@ export default {
       username: "", // 用户名
       password: "", // 密码
       userdata: {},
-      msn:'',
+      sn:'',
       vaptchaObj: null
     };
   },
@@ -133,13 +133,19 @@ export default {
         });
         return;
       }
+      if(!this.sn){
+        this.$Message.warning({
+          content: "请输入标识"
+        });
+        return;
+      }
       this.$store.commit("updateLoading", { params: true });
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {
         role: "100",
         username: this.username,
         password: password,
-        msn:this.msn,
+        sn:this.sn,
         challenge: this.userdata.challenge,
         vid: this.userdata.token,
         cb: () => {

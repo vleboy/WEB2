@@ -263,7 +263,7 @@ export default {
       if (value == "") {
         callback(new Error("标识不能为空"));
       } else {
-        let testReg = /^[a-zA-Z0-9@、_]{3,5}$/;
+        let testReg = /^[\u4E00-\u9FA5A-Za-z0-9_@]{1,5}$/;
         if (!testReg.test(value)) {
           callback(new Error("3~5位,只能输入中英文、数字、@、_"));
         } else {

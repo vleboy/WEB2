@@ -72,8 +72,8 @@ export async function httpRequest(method,url,params,type) {
 }
 
 //登录
-export async function logIn(role,username,password,msn,challenge,vid,cb,err){
-    return http(post('/users/auth',{role,username,password,msn,challenge,vid,cb,err}))
+export async function logIn(role,username,password,sn,challenge,vid,cb,err){
+    return http(post('/users/auth',{role,username,password,sn,challenge,vid,cb,err}))
 }
 //查询平台用户账单统计
 export async function queryUserStat(params){
