@@ -89,7 +89,7 @@
           if (item.country === '中国') {
             this.ios = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${item.n1version}.plist`
             this.android = `http://app.risheng3d.com/apk/NAGame${item.n1version}.apk`
-            this.iosN2 = `itms-services://?action=download-manifest&amp;url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install${item.n2version}.plist`
+            this.iosN2 = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install${item.n2version}.plist`
             this.androidN2 = `http://app.risheng3d.com/n2apk/n2apk${item.n2version}.apk`
           } else {
             this.ios = `itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${item.n1version}.plist`
