@@ -4,13 +4,16 @@
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="board" v-if='permission.includes("看板")'>
+                <Icon type="stats-bars"></Icon>
                   <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index" v-if='permission.includes("个人中心")'>
+                <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
                 <Submenu name="report" v-if='authorityStr.includes("报表")'>
                     <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
                         输赢报表
                     </template>
                     <MenuItem name="allreport" v-if='permission.includes("公司输赢总报表")'>公司输赢总报表</MenuItem>
@@ -52,6 +55,7 @@
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">
+                        <Icon type="ios-navigate"></Icon>
                         商户中心
                     </template>
                     <MenuItem name="lineBusiness" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
@@ -60,12 +64,14 @@
                 </Submenu>
                 <Submenu name="playerCenter" v-if='authorityStr.includes("玩家列表")'>
                     <template slot="title">
+                        <Icon type="ios-game-controller-b"></Icon>
                         玩家中心
                     </template>
                     <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if='authorityStr.includes("管理员列表")||authorityStr.includes("线路号列表")||authorityStr.includes("管理员角色列表")'>
                     <template slot="title">
+                        <Icon type="ios-people"></Icon>
                         管理员中心
                     </template>
                     <MenuItem name="adminList" v-if='permission.includes("管理员列表")'>管理员列表</MenuItem>
@@ -74,6 +80,7 @@
                 </Submenu>
                 <Submenu name="operation" v-if='authorityStr.includes("游戏公告列表")||authorityStr.includes("游戏邮件列表")||authorityStr.includes("跑马灯列表")||authorityStr.includes("商户运营记录")||authorityStr.includes("展位列表")||authorityStr.includes("道具定价")'>
                     <template slot="title">
+                        <Icon type="gear-b"></Icon>
                         运营中心
                     </template>
                     <MenuItem name="gameNoticeList" v-if='permission.includes("游戏公告列表")'>游戏公告列表</MenuItem>
@@ -85,6 +92,7 @@
                 </Submenu>
                 <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
                     <template slot="title">
+                        <Icon type="bug"></Icon>
                         日志中心
                     </template>
                     <MenuItem name="lineLoginLog" v-if='permission.includes("线路商登录日志")'>线路商登录日志</MenuItem>
