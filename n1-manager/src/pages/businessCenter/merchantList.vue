@@ -81,7 +81,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { userChangeStatus } from "@/service/index";
+import { userChangeStatus,getBill } from "@/service/index";
 export default {
   data() {
     return {
