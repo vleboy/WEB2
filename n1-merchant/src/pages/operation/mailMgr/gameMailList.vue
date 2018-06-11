@@ -6,7 +6,7 @@
         <Button type="primary" @click="openModal()">创建邮件</Button>
       </Col>
       <Col :span="13" class="-search-right">
-        <Input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></Input>
+        <Input placeholder="请输入邮件内容" class="input" v-model="searchInfo.mailName"></Input>
         <Button type="primary" @click="getMailList" style="margin-left: 10px">搜索</Button>
         <Button @click="resetSearch">重置</Button>
       </Col>

@@ -1,4 +1,4 @@
-import { logIn, adminCenter,updatePassword } from '@/service/index'
+import { logIn,updatePassword } from '@/service/index'
 import { Message } from 'iview'
 export const login = {
     state: {
