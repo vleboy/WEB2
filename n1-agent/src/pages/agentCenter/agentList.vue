@@ -142,7 +142,8 @@
     <Modal v-model="playerModal" @on-ok="addPlayerConfirm" title="创建玩家" @on-cancel='cancelPlayer'>
       <Form :label-width="80" ref="playerForm" :model="player" :rules='playerValidate'>
         <FormItem label="用户名" prop='userName'>
-          <Input v-model="player.userName" placeholder="请输入6-16位中英文或者数字"></Input>
+          <!-- 6-16位中英文或者数字 -->
+          <Input v-model="player.userName" placeholder="请输入"></Input>
         </FormItem>
         <FormItem label="密码" prop='userPwd'>
           <Input v-model="player.userPwd" placeholder="密码由6-16位字母和数字组成"></Input>
