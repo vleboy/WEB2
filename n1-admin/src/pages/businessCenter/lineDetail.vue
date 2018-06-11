@@ -957,13 +957,14 @@ export default {
       if (password == "") {
         this.$Message.warning("密码不能为空");
         return;
-      } else {
-        let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
-        if (!testReg.test(password)) {
-          this.$Message.warning("密码为6~16位,包含字母、数字及符号");
-          return;
-        }
       }
+      //  else {
+      //   let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
+      //   if (!testReg.test(password)) {
+      //     this.$Message.warning("密码为6~16位,包含字母、数字及符号");
+      //     return;
+      //   }
+      // }
       this.edit = true;
       this.isedit = true;
       let userId = this.userId;

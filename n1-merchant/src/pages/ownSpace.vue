@@ -278,7 +278,7 @@ export default {
           if (res.code == 0) {
             self.password = "";
             self.repassword = "";
-            adminCenter().then(res => {
+            oneMerchants(userId).then(res => {
               self.admin = res.payload;
               self.$store.commit("updateLoading", { params: false });
               self.$Message.success("修改成功");

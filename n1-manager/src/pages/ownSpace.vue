@@ -1,39 +1,30 @@
 <template>
   <div class="personalcenter">
+    <div class="reload">
+      <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+    </div>
     <div class="manangeinfo">
-      <div class="reload">
-        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
-      </div>
       <table cellspacing="0">
-        <tr>
+         <tr>
           <td>
-            <span>代理管理员账号 : {{agentDetail.username}}</span>
+            <span>线路商账号 : {{admin.uname}}</span>
           </td>
-          <td>
-            <span>代理管理员密码 : {{agentDetail.password}}
+           <td>
+            <span>线路商密码 : {{admin.password}}
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
             </span>
           </td>
           <td>
-            <span>代理管理员成数 : {{ agentDetail.rate+'%' }}</span>
+            <span>线路商前缀 : {{admin.suffix}} </span>
           </td>
         </tr>
-        <tr>
+         <tr>
           <td>
-            <span>代理创建时间 : {{ dayjs(agentDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
+            <span>上次登录时间 : {{dayjs(admin.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
-            <span>上次登录时间 : {{dayjs(agentDetail.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            <span>上次登录IP : {{admin.lastIP}}</span>
           </td>
-          <td>
-            <span>上次登录IP : {{agentDetail.lastIP}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>剩余点数 : {{ agentDetail.balance }}</span>
-          </td>
-          <td></td>
           <td></td>
         </tr>
       </table>
@@ -67,8 +58,8 @@
   </div>
 </template>
 <script>
-import { agentOne, getWaterfall } from "@/service/index";
 import dayjs from "dayjs";
+import { getWaterfall, oneManagers } from "@/service/index";
 import { thousandFormatter } from "@/config/format";
 export default {
   data() {
@@ -77,17 +68,18 @@ export default {
       password: "",
       repassword: "",
       dayjs: dayjs,
-      agentDetail: {},
-      waterfall: [],
       pageSize: 50,
-      showData: [], //
+      admin: {},
+      waterfall: [],
+      showData: [],
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth: 80
         },
         {
-          title: "账户余额",
+          title: "交易前余额",
           key: "oldBalance",
           sortable:true,
           render: (h, params) => {
@@ -115,7 +107,7 @@ export default {
           title: "交易时间",
           key: "createdAt",
           sortable:true,
-          minWidth: 80,
+          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",
@@ -184,7 +176,7 @@ export default {
           key: "operator",
           sortable:true,
           render: (h, params) => {
-            return h("span", params.row.operator);
+            return h("span", params.row.operator.split("_")[1]);
           }
         },
         {
@@ -232,18 +224,16 @@ export default {
     },
     changepage(index) {
       let size = this.pageSize;
-      var _start = (index - 1) * size;
-      var _end = index * size;
+      let _start = (index - 1) * size;
+      let _end = index * size;
       this.showData = this.waterfall.slice(_start, _end);
+      // console.log(this.showData);
     },
     newPassword() {
       this.modal = true;
     },
-    reset() {
-      this.init();
-    },
     ok() {
-      let passReg = /^[a-zA-Z0-9@_-]{8,16}$/;
+      let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{8,16}$/;
       if (!passReg.test(this.password)) {
         this.$Message.warning({
           content: "密码为8-16位的(英文、数字、符号)"
@@ -262,44 +252,32 @@ export default {
         });
         return;
       }
-      let self=this;
       let userId = "";
-      if (localStorage.userId) {
-        userId = localStorage.userId;
+      if (localStorage.userInfo) {
+        userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       }
+      let self = this;
+      this.$store.commit("updateLoading", { params: true });
       this.$store
         .dispatch("changePassword", {
           userId: userId,
           password: this.repassword
         })
-        .then(() => {
-          this.password = "";
-          this.repassword = "";
-           agentOne(userId).then(res=>{
-             self.agentDetail=res.payload;
+        .then(res => {
+          if (res.code == 0) {
+            self.password = "";
+            self.repassword = "";
+            oneManagers(userId).then(res => {
+              self.admin = res.payload;
               self.$store.commit("updateLoading", { params: false });
               self.$Message.success("修改成功");
-           })
+            });
+          }
         });
     },
     cancel() {
       this.password = "";
       this.repassword = "";
-    },
-    async init() {
-      let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      this.$store.commit("changeLoading", { params: true });
-      let req1 = agentOne(userId);
-      let req2 = getWaterfall(userId);
-      let [agent, waterfall] = await this.axios.all([req1, req2]);
-      this.$store.commit("changeLoading", { params: false });
-      if (agent && agent.code == 0) {
-        this.agentDetail = agent.payload;
-      }
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
-      this.handlePage();
     },
     passwordLevel(password) {
       var Modes = 0;
@@ -329,9 +307,33 @@ export default {
         }
         return modes;
       }
+    },
+    reset() {
+      this.init();
+    },
+    async init() {
+      this.$store.commit("updateLoading", { params: true });
+      let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
+      let req1 = getWaterfall(userId);
+      let req2 = oneManagers(userId);
+      let [waterfall, admin] = await this.axios.all([req1, req2]);
+      this.$store.commit("updateLoading", { params: false });
+      if (waterfall && waterfall.code == 0) {
+        this.waterfall = waterfall.payload;
+      }
+      if (admin && admin.code == 0) {
+        this.admin = admin.payload;
+      }
+      this.handlePage();
     }
   },
-  filters: {},
+  filters: {
+    getName(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(9);
+    }
+  },
   created() {
     this.init();
   }
@@ -339,17 +341,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .personalcenter {
-  min-height: 88vh;
+  min-height: 89vh;
   .manangeinfo {
     width: 100%;
     margin: 10px auto 20px;
-    .reload {
-      text-align: right;
-      margin-bottom: 10px;
-    }
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
       td {
         border: 1px solid #e9eaec;
         width: 32%;
@@ -369,12 +367,19 @@ export default {
   .page {
     text-align: right;
   }
+  .reload {
+    text-align: right;
+  }
 }
 .modal_input {
   margin-bottom: 10px;
 }
 .label {
   line-height: 32px;
+}
+.page {
+  text-align: right;
+  margin-top: 20px;
 }
 </style>
 
