@@ -189,12 +189,12 @@ export default {
       if (value == "") {
         callback(new Error("用户名不能为空"));
       } else {
-        let nameReg = /^[A-Za-z0-9]{6,16}$/;
-        if (!nameReg.test(value)) {
-          callback(new Error("5~16位,只能包含英文或数字"));
-        } else {
+        // let nameReg = /^[\u4e00-\u9fa5A-Za-z0-9]{6,10}$/;
+        // if (!nameReg.test(value)) {
+        //   callback(new Error("6~16位,只能包含英文或数字"));
+        // } else {
           callback();
-        }
+        // }
       }
     };
     const validatePlayerPass = (rule, value, callback) => {

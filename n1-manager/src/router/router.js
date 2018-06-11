@@ -9,6 +9,8 @@ import ownSpace from '@/pages/ownSpace'
 import board from '@/pages/board/board'
 import managerList from '@/pages/businessCenter/managerList'
 import merchantList from '@/pages/businessCenter/merchantList'
+import managerDetail from '@/pages/businessCenter/managerDetail'
+import merchantDetail from '@/pages/businessCenter/merchantDetail'
 
 import opreateLog from '@/pages/log/opreateLog'
 import merchantLog from '@/pages/log/merchantLog'
@@ -41,6 +43,8 @@ export const otherRouter = {
     children: [
         { path: 'home', name: 'home',title:'首页', component: home},
         { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:playerDetail},
+        { path: 'managerDetail', name:'managerDetail', title:'线路商详情',  meta: {keepAlive: true}, component:managerDetail},
+        { path: 'merchantDetail', name:'merchantDetail', title:'商户详情',  meta: {keepAlive: true}, component:merchantDetail},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里

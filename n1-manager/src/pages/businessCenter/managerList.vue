@@ -367,7 +367,7 @@ export default {
                         let username = params.row.username;
                         let parent = params.row.parent;
                         this.$router.push({
-                          path: "/lineDetail",
+                          path: "/managerDetail",
                           query: {
                             userId,
                             displayName,
