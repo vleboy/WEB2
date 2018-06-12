@@ -102,12 +102,12 @@
         <FormItem label="代理拥有的游戏" :required='true'>
           <Row>
             <Col span="10">
-            <Select :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
+            <Select :disabled='disabled' v-model="agent.select" placeholder="请选择" @on-change="selectCompany">
               <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
             </Select>
             </Col>
             <Col span="10">
-            <Select placeholder="请选择" @on-change="selectGame" :label-in-value='true'>
+            <Select placeholder="请选择" v-model="agent.game" @on-change="selectGame" :label-in-value='true'>
               <Option v-for="item in gameList" :value="item.code" :key="item.name">{{ item.name }}</Option>
             </Select>
             </Col>
@@ -118,7 +118,7 @@
           <Row>
             <Col span="10">
             <Tooltip :content="tipContent">
-              <Input v-model="balance" placeholder="0~100,不超过上级洗码比"></Input>
+              <Input v-model="balance" placeholder="0~1,不超过上级洗码比"></Input>
             </Tooltip>
             </Col>
             <Col span="4">
@@ -194,7 +194,7 @@ export default {
         // if (!nameReg.test(value)) {
         //   callback(new Error("6~16位,只能包含英文或数字"));
         // } else {
-          callback();
+        callback();
         // }
       }
     };
@@ -376,7 +376,9 @@ export default {
         displayName: "",
         remark: "",
         points: "",
-        rate: ""
+        rate: "",
+        select: "",
+        game: ""
       },
       agentValidate: {
         sn: [
@@ -1433,15 +1435,17 @@ export default {
     },
     selectCompany(value) {
       let userId = this.agent.parent;
-      let params = { companyIden: value, userId };
-      if (userId == "01") {
-        delete params.userId;
-      }
-      gameBigType(params).then(res => {
-        if (res.code == 0) {
-          this.gameList = res.payload;
+      if (value) {
+       let params = { companyIden: value, userId };
+        if (userId == "01") {
+          delete params.userId;
         }
-      });
+        gameBigType(params).then(res => {
+          if (res.code == 0) {
+            this.gameList = res.payload;
+          }
+        });
+      }
     },
     selectGame(o) {
       this.selected = true;
@@ -1457,7 +1461,7 @@ export default {
           }
         }
       } else {
-        this.tipContent = `上级游戏洗码比为:100`;
+        this.tipContent = `上级游戏洗码比为:1`;
       }
     },
     addGame() {
@@ -1531,6 +1535,9 @@ export default {
       this.gameDetail = [];
       this.disabled = true;
       this.Topdisabled = false;
+      this.gameList = [];
+      this.agent.game = "";
+      this.agent.select = "";
       this.agentType = 1;
       this.agent.remark = "";
     },

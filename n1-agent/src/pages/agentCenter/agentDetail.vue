@@ -775,7 +775,7 @@ export default {
       if (password == "") {
         this.$Message.warning("密码不能为空");
         return;
-      } 
+      }
       // else {
       //   let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
       //   if (!testReg.test(password)) {
@@ -830,6 +830,9 @@ export default {
             this.maxMix = mix;
           }
         }
+      } else {
+        mix = 1;
+        this.maxMix = mix;
       }
       this.mixTip = `该上级代理${value}洗码比为${mix}%`;
     },
@@ -853,7 +856,7 @@ export default {
       if (balance <= 1 && balance <= this.maxMix) {
         gameItem.mix = this.gameForm.balance;
       } else {
-        this.$Message.warning("洗码比为0-1数字,且不超过上级游戏洗码比");
+        return this.$Message.warning("洗码比为0-1数字,且不超过上级游戏洗码比");
       }
       this.gameDetail.push(gameItem);
       this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
