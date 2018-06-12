@@ -11,6 +11,48 @@
                 <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
+                 <Submenu name="report" >
+                    <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
+                        输赢报表
+                    </template>
+                    <MenuItem name="allreport" >公司输赢总报表</MenuItem>
+                    <Submenu name='nareport' >
+                        <template slot="title">NA游戏报表</template>
+                        <MenuItem name="naAll" >NA游戏总报表</MenuItem>
+                        <MenuItem name="navideo" >NA电子游戏报表</MenuItem>
+                        <MenuItem name="nastreet" >NA街机游戏报表</MenuItem>
+                        <MenuItem name="natrue">NA真人游戏报表</MenuItem>
+                        <MenuItem name="jump" >NA真人游戏报表(跳转)</MenuItem>
+                        <MenuItem name="nacard" >NA棋牌游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='ttgreport' >
+                        <template slot="title">TTG游戏报表</template>
+                        <MenuItem name="ttgvideo" >TTG电子游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='sareport' >
+                        <template slot="title">SA游戏报表</template>
+                        <MenuItem name="saAll" >SA游戏总报表</MenuItem>
+                        <MenuItem name="satrue" >SA真人游戏报表</MenuItem>
+                        <MenuItem name="safishing" >SA捕鱼游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='mgreport' >
+                        <template slot="title">MG游戏报表</template>
+                        <MenuItem name="mgvideo" >MG电子游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='agreport' >
+                        <template slot="title">AG游戏报表</template>
+                        <MenuItem name="agtrue" >AG真人游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='ugreport' >
+                        <template slot="title">UG游戏报表</template>
+                        <MenuItem name="ugsport" >UG体育游戏报表</MenuItem>
+                    </Submenu>
+                    <Submenu name='ysbReport' >
+                        <template slot="title">YSB游戏报表</template>
+                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
+                    </Submenu>
+                </Submenu>
                 <Submenu name="businessCenter">
                     <template slot="title">
                         <Icon type="model-s"></Icon>

@@ -42,18 +42,16 @@
         <Col span="4" v-if='plus'>增加点数</Col>
         <Col span="4" v-else>减少点数</Col>
         <Col span="16">
-        <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
-          <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
+        <Tooltip :content="tooltip" placement="top" >
+          <Input v-model="point" placeholder="请输入点数"></Input>
         </Tooltip>
         </Col>
       </Row>
       <Row class-name='modalrow'>
         <Col span="4">起始账户</Col>
         <Col span="16">
-        <Select v-model="select" v-if='plus' @on-change='changeOption'>
-          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <p v-else>【商户】{{uname}}</p>
+       <p v-if="plus">【线路商】 {{parentAcount}} </p>
+        <p v-else>【商户】 {{uname}}</p>
         </Col>
       </Row>
       <Row v-if="plus" class-name='modalrow'>
@@ -65,9 +63,7 @@
       <Row v-else class-name='modalrow'>
         <Col span="4">转入账户</Col>
         <Col span="16">
-        <Select v-model="select" @on-change='changeOption'>
-          <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
+        <p>【线路商】 {{parentAcount}} </p>
         </Col>
       </Row>
       <Row class-name='textrow'>
@@ -92,14 +88,11 @@ export default {
       uname: "", //modal增加账户
       point: "", //点数
       note: "", //备注
-      options: [], //select
       plus: null, //加点
       modal: false, //加点弹窗
-      select: "", //加点select
       fromUserId: "", //id
       toRole: " ",
       toUser: "",
-      disabled: true, //加点禁用
       tooltip: "起始账户余额为", //tooltip content
       columns1: [
         {
@@ -137,10 +130,7 @@ export default {
           key: "balance",
           sortable: true,
           render: (h, params) => {
-            let admininfo = JSON.parse(localStorage.getItem("userInfo"));
-            let admin = admininfo.username.substr(9);
-            let adminId = admininfo.userId;
-            let userName = admininfo.username;
+            let adminId = localStorage.loginId
               return h("div", [
                 h("p", params.row.balance.toFixed(2)),
                 h("p", [
@@ -155,24 +145,13 @@ export default {
                         click: () => {
                           this.plus = true;
                           this.modal = true;
-                          this.disabled = true;
                           this.uname = params.row.uname;
-                          let option = [
-                            {
-                              value: adminId,
-                              label: "【管理员】" + admin
-                            }
-                          ];
-                          if (params.row.parent != "01") {
-                            let another = {
-                              value: params.row.parent,
-                              label: "【线路商】" + params.row.parentDisplayName
-                            };
-                            option.push(another);
-                          }
-                          this.options = option;
-                          this.toRole = "100";
+                          this.fromUserId=adminId;
                           this.toUser = params.row.username;
+                          this.toRole = "100";
+                          getBill(adminId).then(res=>{
+                            this.tooltip = "起始账户余额为" + res.payload.balance;
+                          })
                         }
                       }
                     },
@@ -188,30 +167,16 @@ export default {
                       },
                       on: {
                         click: () => {
+                          let userName=JSON.parse(localStorage.userInfo).username
                           this.plus = false;
                           this.modal = true;
-                          this.disabled = true;
                           this.uname = params.row.uname;
-                          let option = [
-                            {
-                              value: adminId,
-                              label: "【管理员】" + admin,
-                              role: "1",
-                              userName: userName
-                            }
-                          ];
-                          if (params.row.parent != "01") {
-                            let another = {
-                              value: params.row.parent,
-                              label:
-                                "【线路商】" + params.row.parentDisplayName,
-                              role: params.row.parentRole,
-                              userName: params.row.parentName
-                            };
-                            option.push(another);
-                          }
-                          this.options = option;
+                          this.toRole='10';
+                          this.toUser=userName;
                           this.fromUserId = params.row.userId;
+                          getBill(adminId).then(res=>{
+                            this.tooltip = "起始账户余额为" + res.payload.balance;
+                          })
                         }
                       }
                     },
@@ -467,29 +432,7 @@ export default {
     //     this.showData = this.waterfall.slice(0, 50);
     //   }
     // },
-    changeOption(id) {
-      this.disabled = false;
-      if (id != "") {
-        this.$store.dispatch("otherBill", id);
-      }
-    },
-    focus() {
-      this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
-    },
     ok() {
-      if (this.plus == true) {
-        this.fromUserId = this.select;
-      } else {
-        let selectId = this.select;
-        let option = this.options;
-        for (let key in option) {
-          if (option[key].value == selectId) {
-            this.toRole = option[key].role;
-            this.toUser = option[key].userName;
-          }
-        }
-      }
-      // console.log(this.toRole, this.select);
       this.$store
         .dispatch("transferBussnessBill", {
           fromUserId: this.fromUserId,
@@ -499,13 +442,11 @@ export default {
           remark: this.note
         })
         .then(() => {
-          this.select = "";
           this.note = "";
           this.point = "";
         });
     },
     cancel() {
-      this.select = "";
       this.note = "";
       this.point = "";
     },
@@ -552,6 +493,11 @@ export default {
     spinShow() {
       return this.$store.state.merchants.spinShow;
     },
+     parentAcount(){
+      let name= JSON.parse(localStorage.getItem("userInfo")).username;
+      name=name.split('_')[1]
+      return name
+    }
   },
   created() {
     this.$store.dispatch("getMerchantsList", {

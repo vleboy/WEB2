@@ -1,4 +1,4 @@
-import { getMerchants,getManagers,getBill,billTransfer } from '@/service/index'
+import { queryUserStat,queryPlayer, getMerchants,getManagers,getBill,billTransfer } from '@/service/index'
 import {Message} from 'iview'
 export const merchants = {
     state:{
@@ -71,6 +71,16 @@ export const merchants = {
                   });
             }
         })
+       },
+       //report
+       getUserList({commit},params){
+        return queryUserStat(params)
+       },
+       getUserChild({commit},params){
+        return queryUserStat(params)
+       },
+       getPlayerList({commit},params){
+         return queryPlayer(params)
        }
     }
 }

@@ -400,13 +400,11 @@ export default {
           remark: this.note
         })
         .then(() => {
-          this.select = "";
           this.note = "";
           this.point = "";
         });
     },
     cancel() {
-      this.select = "";
       this.note = "";
       this.point = "";
     },

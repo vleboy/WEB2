@@ -11,6 +11,21 @@ import managerList from '@/pages/businessCenter/managerList'
 import merchantList from '@/pages/businessCenter/merchantList'
 import managerDetail from '@/pages/businessCenter/managerDetail'
 import merchantDetail from '@/pages/businessCenter/merchantDetail'
+//report
+import allReport from '@/pages/reports/allReport'
+import agtrue from '@/pages/reports/agTrueGame'
+import mgvideo from '@/pages/reports/mgVideoGame'
+import nacard from '@/pages/reports/naCardGame'
+import nastreet from '@/pages/reports/naStreetGame'
+import natrue from '@/pages/reports/naTrueGame'
+import navideo from '@/pages/reports/naVideoGame'
+import naAll from '@/pages/reports/naAllReport'
+import saAll from '@/pages/reports/saAllReport'
+import safishing from '@/pages/reports/saFishingGame'
+import satrue from '@/pages/reports/saTrueGame'
+import ttgvideo from '@/pages/reports/ttgVideoGame'
+import ugsport from '@/pages/reports/ugSportGame'
+import ysbSport from '@/pages/reports/ysbSport'
 
 import opreateLog from '@/pages/log/opreateLog'
 import merchantLog from '@/pages/log/merchantLog'
@@ -62,6 +77,72 @@ export const appRouter = [
         name:'boards',
         component:main,
         children:[{path:'board',title:'看板', name:'board',component:board}]
+    },
+    {
+        path:'/allreport',
+        title:'公司输赢总报表',
+        name:'all',
+        component:main,
+        children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:allReport}]
+    },
+    {
+        path:'/aggame',
+        title:'AG游戏报表',
+        name:'aggame',
+        component:main,
+        children:[{path:'true',title:'AG真人游戏报表',name:'agtrue',component:agtrue}]
+    },
+    {
+        path:'/mggame',
+        title:'MG游戏报表',
+        name:'mggame',
+        component:main,
+        children:[{path:'video',title:'MG电子游戏报表',name:'mgvideo',component:mgvideo}]
+    },
+    {
+        path:'/nagame',
+        title:'NA游戏报表',
+        name:'nagame',
+        component:main,
+        children:[
+            {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
+            {path:'street',title:'NA街机游戏报表',name:'nastreet',component:nastreet},
+            {path:'true',title:'NA真人游戏报表',name:'natrue',component:natrue},
+            {path:'video',title:'NA电子游戏报表',name:'navideo',component:navideo},
+            {path:'all',title:'NA游戏总报表',name:'naAll',component:naAll}
+        ]
+    },
+    {
+        path:'/sagame',
+        title:'SA游戏报表',
+        name:'sagame',
+        component:main,
+        children:[
+            {path:'all',title:'SA游戏总报表',name:'saAll',component:saAll},
+            {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:safishing},
+            {path:'true',title:'SA真人游戏报表',name:'satrue',component:satrue},
+        ]
+    },
+    {
+        path:'/ttggame',
+        title:'TTG游戏报表',
+        name:'ttggame',
+        component:main,
+        children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:ttgvideo}]
+    },
+    {
+        path:'/uggame',
+        title:'UG游戏报表',
+        name:'uggame',
+        component:main,
+        children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:ugsport}]
+    },
+    {
+        path:'/ysb',
+        title:'YSB体育游戏',
+        name:'ysb',
+        component:main,
+        children:[{path:'sport',title:'YSB体育游戏报表',name:'ysbSport',component:ysbSport}]
     },
     {
         path:'/log',
