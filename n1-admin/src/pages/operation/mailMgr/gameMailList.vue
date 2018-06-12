@@ -6,7 +6,7 @@
         <Button type="primary" @click="openModal()" v-if="permission.includes('创建邮件')">创建邮件</Button>
       </Col>
       <Col :span="13" class="-search-right">
-        <Input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></Input>
+        <Input placeholder="请输入邮件内容" class="input" v-model="searchInfo.content"></Input>
         <Button type="primary" @click="getMailList" style="margin-left: 10px">搜索</Button>
         <Button @click="resetSearch">重置</Button>
       </Col>
@@ -147,7 +147,7 @@ export default {
         tools: []
       },
       searchInfo: {
-        mailName: ''
+        content: ''
       },
       addToolInfo: {
         toolName: '',
@@ -271,8 +271,8 @@ export default {
   },
   methods:  {
     getMailList () {
-      if (this.searchInfo.mailName == '') {
-        delete this.searchInfo.mailName
+      if (this.searchInfo.content == '') {
+        delete this.searchInfo.content
       }
       if(this.isFetching) return
       this.isFetching = true
