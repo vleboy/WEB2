@@ -869,6 +869,7 @@ export default {
                         }
                       });
                       this.parentRate = params.row.rate;
+                      this.selected = false;
                       this.rateContent = "上级代理成数为:" + params.row.rate;
                     }
                   }
@@ -925,9 +926,9 @@ export default {
                             }
                           });
                           // this.selectParent(userId);
+                          this.selected = false;
                           this.parentRate = params.row.rate;
-                          this.rateContent =
-                            "上级代理成数为:" + params.row.rate;
+                          this.rateContent = "上级代理成数为:" + params.row.rate;
                         }
                       }
                     },
@@ -1436,7 +1437,7 @@ export default {
     selectCompany(value) {
       let userId = this.agent.parent;
       if (value) {
-       let params = { companyIden: value, userId };
+        let params = { companyIden: value, userId };
         if (userId == "01") {
           delete params.userId;
         }
@@ -1448,9 +1449,11 @@ export default {
       }
     },
     selectGame(o) {
-      this.selected = true;
-      this.game = o.label;
-      this.code = o.value;
+      if (this.agent.game) {
+        this.selected = true;
+        this.game = o.label;
+        this.code = o.value;
+      }
       let parentGameList = this.parentGameList;
       let maxMix = null;
       if (parentGameList.length > 0) {
@@ -1458,7 +1461,7 @@ export default {
           if (item.code == o.value) {
             maxMix = item.mix;
             this.tipContent = `上级游戏洗码比为:${maxMix}`;
-          }
+          }  
         }
       } else {
         this.tipContent = `上级游戏洗码比为:1`;
@@ -1531,13 +1534,12 @@ export default {
       this.$refs["agentForm"].resetFields();
       this.$store.commit("agentLoading", { params: false });
       this.parentList = [];
-      this.selected = false;
-      this.balance='';
+      this.balance = "";
       this.gameDetail = [];
       this.disabled = true;
       this.Topdisabled = false;
       this.gameList = [];
-      this.selected=false;
+      this.selected = false;
       this.agent.game = "";
       this.agent.select = "";
       this.agentType = 1;
