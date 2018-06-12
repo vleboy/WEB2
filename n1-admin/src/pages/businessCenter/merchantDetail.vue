@@ -140,7 +140,7 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <Checkbox class="browser" v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
+              <Checkbox class="browser" :disabled='edit' v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
               </Col>
             </Row>
             <Row>
