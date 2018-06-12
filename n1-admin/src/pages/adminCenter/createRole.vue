@@ -123,15 +123,6 @@ export default {
                   ]
                 },
                 {
-                  title: "UG游戏报表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "UG体育游戏报表"
-                    }
-                  ]
-                },
-                {
                   title: "YSB游戏报表",
                   expand: true,
                   children: [

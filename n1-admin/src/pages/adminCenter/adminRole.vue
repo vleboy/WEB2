@@ -148,17 +148,6 @@ export default {
                 ]
               },
               {
-                title: "UG游戏报表",
-                expand: true,
-                checked: false,
-                children: [
-                  {
-                    title: "UG体育游戏报表",
-                    checked: false
-                  }
-                ]
-              },
-              {
                 title: "YSB游戏报表",
                 expand: true,
                 checked: false,
