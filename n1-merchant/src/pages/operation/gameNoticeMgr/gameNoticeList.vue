@@ -297,7 +297,7 @@ export default {
       if (!this.noticeInfo.adName) {
         return this.$Message.error('请输入公告名称')
       } else if (this.noticeInfo.adName.length>10) {
-        return this.$Message.error('公告长度不能10位')
+        return this.$Message.error('公告长度不能超过10位')
       } else if (this.noticeInfo.url && !pattern.url.exec(this.noticeInfo.url)) {
         return this.$Message.error('请输入格式正确的跳转链接')
       } else if (!this.noticeInfo.img) {
