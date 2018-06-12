@@ -82,22 +82,7 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.role == "1") {
-                      //管理员
-                      this.$store
-                        .dispatch("getUserChild", {
-                          parent: "01",
-                          gameType: this.gameType,
-                          query: {
-                            createdAt: this.changedTime
-                          }
-                        })
-                        .then(res => {
-                          this.child = res.payload;
-                          this.reportChild = [];
-                          this.spinShow = false;
-                        });
-                    } else if (params.row.role == "100") {
+                    if (params.row.role == "100") {
                       //商户
                       this.userName = params.row.displayName;
                       this.showName = true;
@@ -128,32 +113,48 @@ export default {
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
-                      this.playerList = [];
-                      this.showName = false;
-                      let userId = params.row.userId;
-                      let level = params.row.level;
-                      if (level == 1) {
-                        this.reportChild = [];
-                      }
-                      let oldArr = this.reportChild;
-                      let len = oldArr.length;
-                      if (len > 0) {
-                        while (len--) {
-                          if (oldArr[len][0].level > level + 1) {
-                            oldArr.splice(len, 1);
+                       let id = localStorage.loginId;
+                      if ((params.row.userId = id)) {
+                        this.$store
+                          .dispatch("getUserChild", {
+                            parent: id,
+                            gameType: this.gameType,
+                            query: {
+                              createdAt: this.changedTime
+                            }
+                          })
+                          .then(res => {
+                            this.child = res.payload;
+                            this.spinShow = false;
+                          });
+                      } else {
+                        this.playerList = [];
+                        this.showName = false;
+                        let userId = params.row.userId;
+                        let level = params.row.level;
+                        if (level == 1) {
+                          this.reportChild = [];
+                        }
+                        let oldArr = this.reportChild;
+                        let len = oldArr.length;
+                        if (len > 0) {
+                          while (len--) {
+                            if (oldArr[len][0].level > level + 1) {
+                              oldArr.splice(len, 1);
+                            }
                           }
                         }
+                        let showList = await this.getNextLevel(
+                          this.reportChild,
+                          userId
+                        );
+                        showList = _.filter(showList, function(o) {
+                          return o.length;
+                        });
+                        // console.log(showList);
+  
+                        this.reportChild = showList;
                       }
-                      let showList = await this.getNextLevel(
-                        this.reportChild,
-                        userId
-                      );
-                      showList = _.filter(showList, function(o) {
-                        return o.length;
-                      });
-                      // console.log(showList);
-
-                      this.reportChild = showList;
                     }
                     // console.log(params.row);
                   }
@@ -229,29 +230,9 @@ export default {
           title: "SA真人游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (key == "1060000") {
-                  count += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
             let color = "";
-            if (params.row.role == "1") {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                count.toFixed(2)
-              );
-            } else {
-              let winloseAmount = 0;
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap) {
               if (params.row.gameTypeMap["1060000"] !== undefined) {
                 winloseAmount = params.row.gameTypeMap[
                   "1060000"
@@ -267,6 +248,8 @@ export default {
                 },
                 winloseAmount
               );
+            } else {
+              return h("span", { style: { color: "#0c0" } }, 0);
             }
           }
         },
@@ -274,16 +257,16 @@ export default {
           title: "SA真人游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
-              let submitAmount = 0;
+            let submitAmount = 0;
+            if (params.row.gameTypeMap) {
               if (params.row.gameTypeMap["1060000"] !== undefined) {
                 submitAmount = params.row.gameTypeMap[
                   "1060000"
                 ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
+            } else {
+              return h("span", "0.00");
             }
           }
         },
@@ -291,29 +274,9 @@ export default {
           title: "SA捕鱼游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (key == "1110000") {
-                  count += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
             let color = "";
-            if (params.row.role == "1") {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                count.toFixed(2)
-              );
-            } else {
-              let winloseAmount = 0;
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap) {
               if (params.row.gameTypeMap["1110000"] !== undefined) {
                 winloseAmount = params.row.gameTypeMap[
                   "1110000"
@@ -329,6 +292,8 @@ export default {
                 },
                 winloseAmount
               );
+            } else {
+              return h("span", { style: { color: "#0c0" } }, 0);
             }
           }
         },
@@ -336,16 +301,16 @@ export default {
           title: "SA捕鱼游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
-              let submitAmount = 0;
+            let submitAmount = 0;
+            if (params.row.gameTypeMap) {
               if (params.row.gameTypeMap["1110000"] !== undefined) {
                 submitAmount = params.row.gameTypeMap[
                   "1110000"
                 ].submitAmount.toFixed(2);
               }
               return h("span", submitAmount);
+            } else {
+              return h("span", "0.00");
             }
           }
         }
@@ -499,7 +464,7 @@ export default {
     },
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-       let req1 = this.$store.dispatch("getUserList", {
+      let req1 = this.$store.dispatch("getUserList", {
         userId: userId,
         gameType: this.gameType,
         query: {

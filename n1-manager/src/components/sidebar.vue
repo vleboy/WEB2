@@ -44,10 +44,10 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue" >AG真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ugreport' >
+                    <!-- <Submenu name='ugreport' >
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport" >UG体育游戏报表</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name='ysbReport' >
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>

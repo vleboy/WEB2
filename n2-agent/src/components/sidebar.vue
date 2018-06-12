@@ -4,49 +4,57 @@
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="board">
-                  <span>看板</span>
+                <Icon type="stats-bars"></Icon>
+                <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index">
+                <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
                 <Submenu name="report">
                     <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
                         输赢报表
                     </template>
-                        <MenuItem name="naAll">NA游戏总报表</MenuItem>
-                        <MenuItem name="navideo">NA电子游戏报表</MenuItem>
-                        <MenuItem name="nastreet">NA街机游戏报表</MenuItem>
-                        <MenuItem name="natrue">NA真人游戏报表</MenuItem>
-                        <MenuItem name="jump">NA真人游戏报表(跳转)</MenuItem>
-                        <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
+                    <MenuItem name="naAll">NA游戏总报表</MenuItem>
+                    <MenuItem name="navideo">NA电子游戏报表</MenuItem>
+                    <MenuItem name="nastreet">NA街机游戏报表</MenuItem>
+                    <MenuItem name="natrue">NA真人游戏报表</MenuItem>
+                    <MenuItem name="jump">NA真人游戏报表(跳转)</MenuItem>
+                    <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
                 </Submenu>
                 <Submenu name="agentCenter">
                     <template slot="title">
+                        <Icon type="model-s"></Icon>
                         代理中心
                     </template>
                     <MenuItem name="agentList">代理列表</MenuItem>
                     <MenuItem name="warnList">点数警告列表</MenuItem>
                 </Submenu>
                 <Submenu name="playerCenter">
-                  <template slot="title">
-                    玩家中心
-                  </template>
-                  <MenuItem name="playList" >玩家列表</MenuItem>
+                    <template slot="title">
+                        <Icon type="ios-game-controller-b"></Icon>
+                        玩家中心
+                    </template>
+                    <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
+                        <Icon type="ios-people"></Icon>
                         管理中心
                     </template>
                     <MenuItem name="adminList">管理员列表</MenuItem>
                 </Submenu>
                 <Submenu name="gameCenter" v-if="level==0">
                     <template slot="title">
+                        <Icon type="gear-b"></Icon>
                         游戏中心
                     </template>
                     <MenuItem name="gameConfig">包房代理游戏配置</MenuItem>
                 </Submenu>
                 <Submenu name="logCenter">
                     <template slot="title">
+                        <Icon type="bug"></Icon>
                         日志中心
                     </template>
                     <MenuItem name="adminLoginLog" v-if="level==0">管理员登录日志</MenuItem>
@@ -62,10 +70,10 @@ export default {
   data() {
     return {};
   },
-  computed:{
-      level(){
-          return JSON.parse(localStorage.getItem('userInfo')).level
-      }
+  computed: {
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
+    }
   },
   methods: {
     selectMenu(name) {

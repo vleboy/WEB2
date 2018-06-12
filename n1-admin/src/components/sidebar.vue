@@ -44,10 +44,10 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue" v-if='permission.includes("AG真人游戏报表")'>AG真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ugreport' v-if='authorityStr.includes("UG")'>
+                    <!-- <Submenu name='ugreport' v-if='authorityStr.includes("UG")'>
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport" v-if='permission.includes("UG体育游戏报表")'>UG体育游戏报表</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name='ysbReport' v-if='authorityStr.includes("YSB")'>
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>

@@ -86,22 +86,7 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.role == "1") {
-                      //管理员
-                      this.$store
-                        .dispatch("getUserChild", {
-                          parent: "01",
-                          gameType: this.gameType,
-                          query: {
-                            createdAt: this.changedTime
-                          }
-                        })
-                        .then(res => {
-                          this.child = res.payload;
-                          this.reportChild = [];
-                          this.spinShow = false;
-                        });
-                    } else if (params.row.role == "100") {
+                    if (params.row.role == "100") {
                       //商户
                       this.userName = params.row.displayName;
                       this.showName = true;
@@ -132,30 +117,46 @@ export default {
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
-                      this.playerList = [];
-                      this.showName = false;
-                      let userId = params.row.userId;
-                      let level = params.row.level;
-                      if (level == 1) {
-                        this.reportChild = [];
-                      }
-                      let oldArr = this.reportChild;
-                      let len = oldArr.length;
-                      if (len > 0) {
-                        while (len--) {
-                          if (oldArr[len][0].level > level + 1) {
-                            oldArr.splice(len, 1);
+                       let id = localStorage.loginId;
+                      if ((params.row.userId = id)) {
+                        this.$store
+                          .dispatch("getUserChild", {
+                            parent: id,
+                            gameType: this.gameType,
+                            query: {
+                              createdAt: this.changedTime
+                            }
+                          })
+                          .then(res => {
+                            this.child = res.payload;
+                            this.spinShow = false;
+                          });
+                      } else {
+                        this.playerList = [];
+                        this.showName = false;
+                        let userId = params.row.userId;
+                        let level = params.row.level;
+                        if (level == 1) {
+                          this.reportChild = [];
+                        }
+                        let oldArr = this.reportChild;
+                        let len = oldArr.length;
+                        if (len > 0) {
+                          while (len--) {
+                            if (oldArr[len][0].level > level + 1) {
+                              oldArr.splice(len, 1);
+                            }
                           }
                         }
+                        let showList = await this.getNextLevel(
+                          this.reportChild,
+                          userId
+                        );
+                        showList = _.filter(showList, function(o) {
+                          return o.length;
+                        });
+                        this.reportChild = showList;
                       }
-                      let showList = await this.getNextLevel(
-                        this.reportChild,
-                        userId
-                      );
-                      showList = _.filter(showList, function(o) {
-                        return o.length;
-                      });
-                      this.reportChild = showList;
                     }
                   }
                 }

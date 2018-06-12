@@ -19,7 +19,7 @@ import saAll from '@/pages/reports/saAllReport'
 import safishing from '@/pages/reports/saFishingGame'
 import satrue from '@/pages/reports/saTrueGame'
 import ttgvideo from '@/pages/reports/ttgVideoGame'
-import ugsport from '@/pages/reports/ugSportGame'
+// import ugsport from '@/pages/reports/ugSportGame'
 import ysbSport from '@/pages/reports/ysbSport'
 
 import opreateLog from '@/pages/log/opreateLog'
@@ -125,13 +125,13 @@ export const appRouter = [
         component:main,
         children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:ttgvideo}]
     },
-    {
-        path:'/uggame',
-        title:'UG游戏报表',
-        name:'uggame',
-        component:main,
-        children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:ugsport}]
-    },
+    // {
+    //     path:'/uggame',
+    //     title:'UG游戏报表',
+    //     name:'uggame',
+    //     component:main,
+    //     children:[{path:'sport',title:'UG体育游戏报表',name:'ugsport',component:ugsport}]
+    // },
     {
         path:'/ysb',
         title:'YSB体育游戏',

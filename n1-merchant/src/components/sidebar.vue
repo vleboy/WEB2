@@ -4,13 +4,16 @@
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="board">
+                <Icon type="stats-bars"></Icon>
                 <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index">
+                <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
                 <Submenu name="report" v-if="gameList.length>0">
                     <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
                         输赢报表
                     </template>
                     <MenuItem name="allreport" v-if="gameList.length>0">公司输赢总报表</MenuItem>
@@ -41,10 +44,10 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue" v-if="gameStr.includes('AG真人')">AG真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ugreport' v-if="gameList.includes('UG体育游戏')">
+                    <!-- <Submenu name='ugreport' v-if="gameList.includes('UG体育游戏')">
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport" v-if="gameList.includes('UG体育游戏')">UG体育游戏报表</MenuItem>
-                    </Submenu>
+                    </Submenu> -->
                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport" v-if="gameList.includes('YSB体育游戏')">YSB体育游戏报表</MenuItem>
@@ -52,12 +55,14 @@
                 </Submenu>
                 <Submenu name="playerCenter">
                     <template slot="title">
+                        <Icon type="ios-game-controller-b"></Icon>
                         玩家中心
                     </template>
                     <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="operation">
                     <template slot="title">
+                        <Icon type="gear-b"></Icon>
                         运营中心
                     </template>
                     <MenuItem name="gameNoticeList">游戏公告列表</MenuItem>
@@ -67,6 +72,7 @@
                 </Submenu>
                 <Submenu name="logCenter">
                     <template slot="title">
+                        <Icon type="bug"></Icon>
                         日志中心
                     </template>
                     <MenuItem name="opreateLog">操作日志</MenuItem>

@@ -68,7 +68,7 @@ export default {
         {
           title: "序号",
           type: "index",
-          maxWidth:60
+          maxWidth: 60
         },
         {
           title: "类型",
@@ -95,23 +95,8 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if (params.row.role == "1") {
-                      //管理员
-                      this.$store
-                        .dispatch("getUserChild", {
-                          parent: "01",
-                          gameType: this.gameType,
-                          query: {
-                            createdAt: this.changedTime
-                          }
-                        })
-                        .then(res => {
-                          // console.log(res);
-                          this.child = res.payload;
-                          this.reportChild = [];
-                          this.spinShow = false;
-                        });
-                    } else if (params.row.role == "100") {
+                    let userId = localStorage.loginId;
+                    if (params.row.role == "100") {
                       //商户
                       this.userName = params.row.displayName;
                       this.showName = true;
@@ -142,30 +127,46 @@ export default {
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
-                      this.playerList = [];
-                      this.showName = false;
-                      let userId = params.row.userId;
-                      let level = params.row.level;
-                      if (level == 1) {
-                        this.reportChild = [];
-                      }
-                      let oldArr = this.reportChild;
-                      let len = oldArr.length;
-                      if (len > 0) {
-                        while (len--) {
-                          if (oldArr[len][0].level > level + 1) {
-                            oldArr.splice(len, 1);
+                      let id = localStorage.loginId;
+                      if ((params.row.userId = id)) {
+                        this.$store
+                          .dispatch("getUserChild", {
+                            parent: id,
+                            gameType: this.gameType,
+                            query: {
+                              createdAt: this.changedTime
+                            }
+                          })
+                          .then(res => {
+                            this.child = res.payload;
+                            this.spinShow = false;
+                          });
+                      } else {
+                        this.playerList = [];
+                        this.showName = false;
+                        let userId = params.row.userId;
+                        let level = params.row.level;
+                        if (level == 1) {
+                          this.reportChild = [];
+                        }
+                        let oldArr = this.reportChild;
+                        let len = oldArr.length;
+                        if (len > 0) {
+                          while (len--) {
+                            if (oldArr[len][0].level > level + 1) {
+                              oldArr.splice(len, 1);
+                            }
                           }
                         }
+                        let showList = await this.getNextLevel(
+                          this.reportChild,
+                          userId
+                        );
+                        showList = _.filter(showList, function(o) {
+                          return o.length;
+                        });
+                        this.reportChild = showList;
                       }
-                      let showList = await this.getNextLevel(
-                        this.reportChild,
-                        userId
-                      );
-                      showList = _.filter(showList, function(o) {
-                        return o.length;
-                      });
-                      this.reportChild = showList;
                     }
                   }
                 }
@@ -199,21 +200,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              color=params.row.winloseAmount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -241,14 +250,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -257,12 +270,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -297,14 +314,18 @@ export default {
                 }
               }
             }
-            let color=''
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -313,12 +334,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-               return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -353,14 +378,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -369,12 +398,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -409,14 +442,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -425,12 +462,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -465,14 +506,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-               color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -481,12 +526,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -508,63 +557,71 @@ export default {
             }
           }
         },
+        // {
+        //   title: "UG游戏(输赢金额)",
+        //   key: "winloseAmount",
+        //   render: (h, params) => {
+        //     let arr = this.child;
+        //     let allCount = 0;
+        //     for (let item of arr) {
+        //       for (let key in item.gameTypeMap) {
+        //         if (["1100000"].includes(key)) {
+        //           allCount += item.gameTypeMap[key].winloseAmount;
+        //         }
+        //       }
+        //     }
+        //     let color = "";
+        //     if (params.row.role == "1") {
+        //       color = allCount < 0 ? "#f30" : "#0c0";
+        //       return h(
+        //         "span",
+        //         {
+        //           style: {
+        //             color: color
+        //           }
+        //         },
+        //         allCount.toFixed(2)
+        //       );
+        //     } else {
+        //       let obj = params.row.gameTypeMap;
+        //       let count = 0;
+        //       for (let key in obj) {
+        //         if (key == "1100000") {
+        //           count = obj[key].winloseAmount;
+        //         }
+        //       }
+        //       color = count < 0 ? "#f30" : "#0c0";
+        //       return h(
+        //         "span",
+        //         {
+        //           style: {
+        //             color: color
+        //           }
+        //         },
+        //         count.toFixed(2)
+        //       );
+        //     }
+        //   }
+        // },
+        // {
+        //   title: "UG游戏(商家交公司)",
+        //   key: "submitAmount",
+        //   render: (h, params) => {
+        //     if (params.row.role == "1") {
+        //       return h("span", "0.00");
+        //     } else {
+        //       let obj = params.row.gameTypeMap;
+        //       let count = 0;
+        //       for (let key in obj) {
+        //         if (key == "1100000") {
+        //           count = obj[key].submitAmount;
+        //         }
+        //       }
+        //       return h("span", count.toFixed(2));
+        //     }
+        //   }
+        // },
         {
-          title: "UG游戏(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["1100000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color='';
-            if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
-            } else {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key == "1100000") {
-                  count = obj[key].winloseAmount;
-                }
-              }
-               color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
-            }
-          }
-        },
-        {
-          title: "UG游戏(商家交公司)",
-          key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key == "1100000") {
-                  count = obj[key].submitAmount;
-                }
-              }
-              return h("span", count.toFixed(2));
-            }
-          }
-        },
-         {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -577,14 +634,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -593,12 +654,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-               color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -641,13 +706,17 @@ export default {
         {
           title: "总游戏输赢金额",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let color=params.row.winloseAmount<0?'#f30':'#0c0';
-            return h('span',{
-              style:{
-                color:color
-              }
-            },params.row.winloseAmount)
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
           }
         },
         {
@@ -661,12 +730,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -680,12 +753,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -699,12 +776,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -718,12 +799,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -737,34 +822,42 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
+        // {
+        //   title: "UG游戏(输赢金额)",
+        //   key: "winloseAmount",
+        //   render: (h, params) => {
+        //     let obj = params.row.gameTypeMap;
+        //     let count = 0;
+        //     for (let key in obj) {
+        //       if (["1100000"].includes(key)) {
+        //         count += obj[key].winloseAmount;
+        //       }
+        //     }
+        //     let color = count < 0 ? "#f30" : "#0c0";
+        //     return h(
+        //       "span",
+        //       {
+        //         style: {
+        //           color: color
+        //         }
+        //       },
+        //       count.toFixed(2)
+        //     );
+        //   }
+        // },
         {
-          title: "UG游戏(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let obj = params.row.gameTypeMap;
-            let count = 0;
-            for (let key in obj) {
-              if (["1100000"].includes(key)) {
-                count += obj[key].winloseAmount;
-              }
-            }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
-          }
-        },
-         {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -775,12 +868,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         }
       ]
@@ -855,7 +952,7 @@ export default {
     },
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-       let req1 = this.$store.dispatch("getUserList", {
+      let req1 = this.$store.dispatch("getUserList", {
         userId: userId,
         gameType: this.gameType,
         query: {

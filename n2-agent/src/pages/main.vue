@@ -8,7 +8,7 @@
         </div>
         <div class="user-dropdown-menu-con">
           <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
-            <!-- <Avatar :src="avatorPath" style="background: #619fe7;margin-right: 10px;"></Avatar> -->
+            <Avatar icon="person" size="small" style="background: #619fe7;margin-right: 10px;"></Avatar>
             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
               <a href="javascript:void(0)">
                 <span class="main-user-name">{{ userName }}</span>
