@@ -1532,10 +1532,12 @@ export default {
       this.$store.commit("agentLoading", { params: false });
       this.parentList = [];
       this.selected = false;
+      this.balance='';
       this.gameDetail = [];
       this.disabled = true;
       this.Topdisabled = false;
       this.gameList = [];
+      this.selected=false;
       this.agent.game = "";
       this.agent.select = "";
       this.agentType = 1;
