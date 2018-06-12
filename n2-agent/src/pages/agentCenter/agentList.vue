@@ -1490,7 +1490,7 @@ export default {
             this.gameType = res.payload.companyArr;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
-            this.parentGameList = res.payload.gameList;
+            this.parentGameList = res.payload.gameList||[];
             this.$store.commit("agentLoading", { params: false });
           }
         });
