@@ -289,10 +289,10 @@ export default {
       edit: true, //可编辑
       isedit: true,
       spinShow: false,
-      defaultBrower: false,
       pageSize: 100,
       showData: [], //分页显示的data
       gameDetail: [],
+      defaultBrower:false,
       gameValidate: {
         balance: [
           {
@@ -505,7 +505,7 @@ export default {
   computed: {
     total() {
       return this.waterfall.length;
-    }
+    },
   },
   methods: {
     editBtn() {
@@ -655,6 +655,7 @@ export default {
       }
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
+        this.defaultBrower=merchant.payload.isOpenBrowser==1?true:false;
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {
