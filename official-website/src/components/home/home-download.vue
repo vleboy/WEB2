@@ -6,6 +6,7 @@
         <div class="download-desc">
           <p>NA提供IOS与安卓两个版本的APP</p>
           <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
+          <p style="color: red">由于IOS证书限制，我们不推荐使用IOS设备进行游戏！</p>
         </div>
         <div class="download-button boxs" v-if="ios">
           <a :href="ios">
@@ -36,6 +37,7 @@
         <div class="download-desc">
           <p>NA提供IOS与安卓两个版本的APP</p>
           <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
+          <p style="color: red">由于IOS证书限制，我们不推荐使用IOS设备进行游戏！</p>
         </div>
         <div class="download-button boxs" v-if="iosN2">
           <a :href="iosN2">
@@ -125,7 +127,7 @@
       margin-bottom 26px
     .download-desc
       width 50%
-      margin 0 auto 100px
+      margin 0 auto 80px
       font-size 1rem
     .download-button
       display flex
