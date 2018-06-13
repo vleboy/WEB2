@@ -23,9 +23,11 @@
             <span>上次登录时间 : {{dayjs(admin.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
+            <span>创建时间 : {{dayjs(admin.createdAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </td>
+          <td>
             <span>上次登录IP : {{admin.lastIP}}</span>
           </td>
-          <td></td>
         </tr>
       </table>
     </div>
