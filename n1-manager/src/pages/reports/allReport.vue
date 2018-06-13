@@ -178,42 +178,12 @@ export default {
         {
           title: "交易次数",
           key: "betCount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.betCount;
-            }
-            if (params.row.role == "1") {
-              return h("span", count);
-            } else {
-              return h("span", params.row.betCount);
-            }
-          }
         },
         {
           title: "总游戏输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.winloseAmount;
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                count.toFixed(2)
-              );
-            } else {
-              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -223,46 +193,16 @@ export default {
                 },
                 params.row.winloseAmount
               );
-            }
           }
         },
         {
           title: "总游戏交公司",
           key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
-              return h("span", params.row.submitAmount.toFixed(2));
-            }
-          }
         },
         {
           title: "NA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["3", "30000", "40000", "50000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -270,7 +210,7 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+              let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -281,15 +221,11 @@ export default {
                 count.toFixed(2)
               );
             }
-          }
         },
         {
           title: "NA游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -298,35 +234,12 @@ export default {
                 }
               }
               return h("span", count.toFixed(2));
-            }
           }
         },
         {
           title: "TTG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["1010000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -334,7 +247,7 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+             let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -345,15 +258,11 @@ export default {
                 count.toFixed(2)
               );
             }
-          }
         },
         {
           title: "TTG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -363,34 +272,11 @@ export default {
               }
               return h("span", count.toFixed(2));
             }
-          }
         },
         {
           title: "SA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["1060000", "1110000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -398,7 +284,7 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+              let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -408,16 +294,12 @@ export default {
                 },
                 count.toFixed(2)
               );
-            }
           }
         },
         {
           title: "SA游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -427,34 +309,11 @@ export default {
               }
               return h("span", count.toFixed(2));
             }
-          }
         },
         {
           title: "MG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["10300000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -462,7 +321,7 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+              let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -472,16 +331,12 @@ export default {
                 },
                 count.toFixed(2)
               );
-            }
           }
         },
         {
           title: "MG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -491,34 +346,11 @@ export default {
               }
               return h("span", count.toFixed(2));
             }
-          }
         },
         {
           title: "AG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["1050000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -526,7 +358,7 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+              let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -536,16 +368,12 @@ export default {
                 },
                 count.toFixed(2)
               );
-            }
           }
         },
         {
           title: "AG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -555,7 +383,6 @@ export default {
               }
               return h("span", count.toFixed(2));
             }
-          }
         },
         // {
         //   title: "UG游戏(输赢金额)",
@@ -625,28 +452,6 @@ export default {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let allCount = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (["1130000"].includes(key)) {
-                  allCount += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = allCount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                allCount.toFixed(2)
-              );
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -654,7 +459,7 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color = count < 0 ? "#f30" : "#0c0";
+              let color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -664,16 +469,12 @@ export default {
                 },
                 count.toFixed(2)
               );
-            }
           }
         },
         {
           title: "YSB游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", "0.00");
-            } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
@@ -682,7 +483,6 @@ export default {
                 }
               }
               return h("span", count.toFixed(2));
-            }
           }
         }
       ],

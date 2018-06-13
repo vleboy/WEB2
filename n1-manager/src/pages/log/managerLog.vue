@@ -70,7 +70,7 @@ export default {
           }
         },
         {
-          title: "账号详情",
+          title: "详情",
           key: "",
           render: (h, params) => {
             if (params.row.ret == "Y") {

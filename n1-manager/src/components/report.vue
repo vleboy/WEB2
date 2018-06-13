@@ -168,58 +168,16 @@ export default {
         {
           title: "交易次数",
           key: "betCount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.betCount;
-            }
-            if (params.row.role == "1") {
-              return h("span", count);
-            } else {
-              return h("span", params.row.betCount);
-            }
-          }
         },
         {
           title: "投注金额",
           key: "betAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.betAmount;
-            }
-            if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
-            } else {
-              return h("span", params.row.betAmount);
-            }
-          }
         },
         {
           title: "输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.winloseAmount;
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                count.toFixed(2)
-              );
-            } else {
-              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            let  color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -229,7 +187,6 @@ export default {
                 },
                 params.row.winloseAmount
               );
-            }
           }
         },
         {
@@ -238,7 +195,7 @@ export default {
           render: (h, params) => {
             if (params.row.role != "1") {
               let arr = params.row.gameList;
-              let result = null;
+              let result = 0;
               for (let item of arr) {
                 if (item.code == this.gameType) {
                   result = item.rate;
@@ -253,13 +210,6 @@ export default {
         {
           title: "商家交公司",
           key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", 0);
-            } else {
-              return h("span", params.row.submitAmount);
-            }
-          }
         },
         {
           title: "获利比例",

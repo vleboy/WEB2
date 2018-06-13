@@ -164,42 +164,12 @@ export default {
         {
           title: "交易次数",
           key: "betCount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.betCount;
-            }
-            if (params.row.role == "1") {
-              return h("span", count);
-            } else {
-              return h("span", params.row.betCount);
-            }
-          }
         },
         {
           title: "总游戏输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.winloseAmount;
-            }
-            let color = "";
-            if (params.row.role == "1") {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                count.toFixed(2)
-              );
-            } else {
-              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
                 {
@@ -209,19 +179,11 @@ export default {
                 },
                 params.row.winloseAmount
               );
-            }
           }
         },
         {
           title: "总游戏交公司",
           key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.role == "1") {
-              return h("span", 0);
-            } else {
-              return h("span", params.row.submitAmount.toFixed(2));
-            }
-          }
         },
         {
           title: "NA真人游戏(输赢金额)",
@@ -377,7 +339,7 @@ export default {
           title: "总游戏输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
-            let color = params.row.winloseAmount ? "#f30" : "#0c0";
+            let color = params.row.winloseAmount<0 ? "#f30" : "#0c0";
             return h(
               "span",
               {

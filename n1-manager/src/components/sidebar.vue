@@ -11,46 +11,46 @@
                 <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
-                 <Submenu name="report" >
+                <Submenu name="report" v-if="gameList.length>0">
                     <template slot="title">
                         <Icon type="ios-paper-outline"></Icon>
                         输赢报表
                     </template>
-                    <MenuItem name="allreport" >公司输赢总报表</MenuItem>
-                    <Submenu name='nareport' >
+                    <MenuItem name="allreport" v-if="gameList.length>0">公司输赢总报表</MenuItem>
+                    <Submenu name='nareport' v-if="gameStr.includes('NA')">
                         <template slot="title">NA游戏报表</template>
-                        <MenuItem name="naAll" >NA游戏总报表</MenuItem>
-                        <MenuItem name="navideo" >NA电子游戏报表</MenuItem>
-                        <MenuItem name="nastreet" >NA街机游戏报表</MenuItem>
-                        <MenuItem name="natrue">NA真人游戏报表</MenuItem>
-                        <MenuItem name="jump" >NA真人游戏报表(跳转)</MenuItem>
-                        <MenuItem name="nacard" >NA棋牌游戏报表</MenuItem>
+                        <MenuItem name="naAll" v-if="gameStr.includes('NA')">NA游戏总报表</MenuItem>
+                        <MenuItem name="navideo" v-if="gameList.includes('NA电子游戏')">NA电子游戏报表</MenuItem>
+                        <MenuItem name="nastreet" v-if="gameList.includes('NA街机游戏')">NA街机游戏报表</MenuItem>
+                        <MenuItem name="natrue" v-if="gameStr.includes('NA真人')">NA真人游戏报表</MenuItem>
+                        <MenuItem name="jump" v-if="gameStr.includes('NA真人')">NA真人游戏报表(跳转)</MenuItem>
+                        <MenuItem name="nacard" v-if="gameList.includes('NA棋牌游戏')">NA棋牌游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ttgreport' >
+                    <Submenu name='ttgreport' v-if="gameList.includes('TTG电子游戏')">
                         <template slot="title">TTG游戏报表</template>
-                        <MenuItem name="ttgvideo" >TTG电子游戏报表</MenuItem>
+                        <MenuItem name="ttgvideo" v-if="gameList.includes('TTG电子游戏')">TTG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='sareport' >
+                    <Submenu name='sareport' v-if="gameStr.includes('SA')">
                         <template slot="title">SA游戏报表</template>
-                        <MenuItem name="saAll" >SA游戏总报表</MenuItem>
-                        <MenuItem name="satrue" >SA真人游戏报表</MenuItem>
-                        <MenuItem name="safishing" >SA捕鱼游戏报表</MenuItem>
+                        <MenuItem name="saAll" v-if="gameStr.includes('SA')">SA游戏总报表</MenuItem>
+                        <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
+                        <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='mgreport' >
-                        <template slot="title">MG游戏报表</template>
-                        <MenuItem name="mgvideo" >MG电子游戏报表</MenuItem>
+                        <template slot="title" v-if="gameList.includes('MG电子游戏')">MG游戏报表</template>
+                        <MenuItem name="mgvideo" v-if="gameList.includes('MG电子游戏')">MG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='agreport' >
+                    <Submenu name='agreport' v-if="gameStr.includes('AG真人')">
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="agtrue" >AG真人游戏报表</MenuItem>
+                        <MenuItem name="agtrue" v-if="gameStr.includes('AG真人')">AG真人游戏报表</MenuItem>
                     </Submenu>
                     <!-- <Submenu name='ugreport' >
                         <template slot="title">UG游戏报表</template>
                         <MenuItem name="ugsport" >UG体育游戏报表</MenuItem>
                     </Submenu> -->
-                    <Submenu name='ysbReport' >
+                    <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
-                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
+                        <MenuItem name="ysbSport" v-if="gameList.includes('YSB体育游戏')">YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="businessCenter">
