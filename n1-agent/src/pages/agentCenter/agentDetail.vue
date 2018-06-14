@@ -801,9 +801,14 @@ export default {
           this.$Message.success("修改成功");
           this.spinShow = false;
         } else {
-          this.$Message.success("修改有误");
+          this.$Message.error("修改有误");
           this.spinShow = false;
         }
+        this.gameForm.gameType='';
+        this.gameForm.gamelist='';
+        this.gameList=[];
+        this.selected=false;
+        this.gameForm.balance=''
       });
     },
     selectCompany(value) {
