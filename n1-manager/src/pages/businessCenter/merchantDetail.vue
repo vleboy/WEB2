@@ -180,14 +180,9 @@
             <Row>
               <Col span="8">
               <FormItem label="LOGO">
-                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo" >
+                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
                 <div v-if="!edit">
-                  <Upload
-                    ref="upload"
-                    :show-upload-list="false"
-                    :before-upload="beforeUploadLogo"
-                    :action="actionUrl"
-                    style="display: inline-block;width:58px;">
+                  <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadLogo" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusLogo">请选择需要上传文件</Button>
                   </Upload>
                 </div>
@@ -197,12 +192,7 @@
               <FormItem label="NAME">
                 <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
                 <div v-if="!edit">
-                  <Upload
-                    ref="upload"
-                    :show-upload-list="false"
-                    :before-upload="beforeUploadName"
-                    :action="actionUrl"
-                    style="display: inline-block;width:58px;">
+                  <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadName" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusName">请选择需要上传文件</Button>
                   </Upload>
                 </div>
@@ -235,7 +225,7 @@
               <Row>
                 <Col span="4">
                 <Tooltip :content="rateTip" placement="top">
-                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                  <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
                 </Tooltip>
                 </Col>
                 <Col span="2">
@@ -288,8 +278,8 @@ export default {
     return {
       parent: "",
       value: "",
-      rateTip:'',//tip
-      parentGame:[],
+      rateTip: "", //tip
+      parentGame: [],
       dayjs: dayjs,
       edit: true, //可编辑
       isedit: true,
@@ -384,13 +374,17 @@ export default {
         {
           title: "交易点数",
           key: "amount",
-          render:(h,params)=>{
-            let color=params.row.amount<0?'#f30':'#0c0';
-            return h('span',{
-              style:{
-                color:color
-              }
-            },params.row.amount)
+          render: (h, params) => {
+            let color = params.row.amount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.amount
+            );
           }
         },
         {
@@ -429,21 +423,25 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
-              return h("span",
-              // {
-              //   style:{
-              //     color:'#f30'
-              //   }
-              // },
-               "减点");
-            }else{
-              return h("span",
-              // {
-              //   style:{
-              //     color:'#0c0'
-              //   }
-              // },
-               "加点");
+              return h(
+                "span",
+                // {
+                //   style:{
+                //     color:'#f30'
+                //   }
+                // },
+                "减点"
+              );
+            } else {
+              return h(
+                "span",
+                // {
+                //   style:{
+                //     color:'#0c0'
+                //   }
+                // },
+                "加点"
+              );
             }
           }
         },
@@ -489,11 +487,11 @@ export default {
       waterfall: [],
       loadingStatusLogo: false,
       loadingStatusName: false,
-      actionUrl: '',
-      imgFileLogo: '',
-      imgFileName: '',
-      uploadActionLogo: '',
-      uploadActionName: '',
+      actionUrl: "",
+      imgFileLogo: "",
+      imgFileName: "",
+      uploadActionLogo: "",
+      uploadActionName: ""
     };
   },
   created() {
@@ -524,6 +522,12 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
+      // reset
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameForm.balance = "";
+      this.gameList = [];
+      this.selected = false;
     },
     handlePage() {
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
@@ -581,17 +585,10 @@ export default {
         } else {
           this.spinShow = false;
         }
-        this.gameForm.gameType='';
-        this.gameForm.gamelist='';
-        this.gameForm.balance='';
-        this.rateTip='';
-        this.gameList=[];
-        this.selected=false;
-        this.game=''
       });
     },
     selectCompany(value) {
-      let userId=this.parent;
+      let userId = this.parent;
       let params = { companyIden: value, userId };
       if (userId == "01") {
         delete params.userId;
@@ -630,7 +627,7 @@ export default {
           gameItem = item;
         }
       }
-       let oldGame = this.gameDetail;
+      let oldGame = this.gameDetail;
       for (let item of oldGame) {
         if (item.name == gameName) {
           this.$Message.warning("已选择该游戏");
@@ -642,8 +639,8 @@ export default {
         gameItem.rate = this.gameForm.balance;
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
-      }else{
-        this.$Message.warning('占成为0-100数字')
+      } else {
+        this.$Message.warning("占成为0-100数字");
       }
     }, //生成密码
     createPass() {
@@ -691,149 +688,174 @@ export default {
       if (company && company.code == 0) {
         this.gameType = company.payload;
       }
-      oneManagers(parent).then(res=>{
-         if (res.code == 0) {
+      oneManagers(parent).then(res => {
+        if (res.code == 0) {
           this.parentGame = res.payload.gameList || [];
         }
-      })
+      });
       this.handlePage();
     },
-    uploadAliLogo () {
-      this.actionUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+    uploadAliLogo() {
+      this.actionUrl = "http://assetdownload.oss-cn-hangzhou.aliyuncs.com";
       let mi = new OSS.Wrapper({
-        region: 'oss-cn-hangzhou',
+        region: "oss-cn-hangzhou",
         accessKeyId: this.uploadActionLogo[1].ali.AccessKeyId,
         accessKeySecret: this.uploadActionLogo[1].ali.AccessKeySecret,
         stsToken: this.uploadActionLogo[1].ali.SecurityToken,
-        bucket: 'assetdownload'
-      })
-      // console.log(this.imgFile.name)
-      let suffix = this.suffixFun(this.imgFileLogo.name)
-      let date = new Date().getTime()
-      let fileName = `image/${suffix[0]+date}.${suffix[1]}`
-      mi.multipartUpload(fileName, this.imgFileLogo, {
-      }).then((results) => {
-        this.$Message.success('上传成功')
-        this.loadingStatusLogo = false
-        this.merchantDetail.launchImg.logo[1] = `http://app.risheng3d.com/${results.name}` || results.url
-        // console.log(results,this.noticeInfo.img, 'src')
-      }).catch((err) => {
-        this.loadingStatusLogo = false
-        // console.log(err);
+        bucket: "assetdownload"
       });
-    }, // 阿里云上传Logo
-    uploadAwsLogo () {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFileLogo.fileName}` //测试环境
-      const prod = `http://img.na77.com/${this.imgFileLogo.fileName}` //开发环境
-
-      httpRequest('put',`${this.uploadActionLogo[0].aws}`, this.imgFileLogo)
-        .then(res => {
-          this.$Message.success('上传成功')
-          this.merchantDetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-        },err=>{
-          this.$Message.error('上传失败')
-          }).finally(()=>{
-        this.loadingStatusLogo = false
-      })
-    }, // 亚马逊上传Logo
-    beforeUploadLogo (file) {
-      localStorage.setItem("nowUrl", 'merchantDetail');
-      let fileName = this.suffixFun(file.name)
-      const isLt1M = file.size / 1024 / 1024 < 2
-      const suffix = fileName[1].toLowerCase()
-      const fileType = ['png', 'jpg']
-      this.imgFileLogo = file
-      this.imgFileLogo.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
-      if (!(fileType.indexOf(suffix) > -1)) {
-        return this.$Message.error('上传图片只能是 JPG或者PNG 格式!')
-      } else if (!isLt1M) {
-        return this.$Message.error('大小不能超过 2MB!')
-      }
-      return new Promise((resolve, reject) =>{
-        this.loadingStatusLogo = true
-        httpRequest('post','/upload', {
-          contentType: 'image',
-          filePath: this.imgFileLogo.fileName
-        }).then(res => {
-          this.uploadActionLogo = res.payload
-          this.actionUrl = res.payload[0].aws
-          this.uploadAliLogo()
-          this.uploadAwsLogo()
-          resolve(true)
-        }).catch(err => {
-          reject(false)
+      // console.log(this.imgFile.name)
+      let suffix = this.suffixFun(this.imgFileLogo.name);
+      let date = new Date().getTime();
+      let fileName = `image/${suffix[0] + date}.${suffix[1]}`;
+      mi
+        .multipartUpload(fileName, this.imgFileLogo, {})
+        .then(results => {
+          this.$Message.success("上传成功");
+          this.loadingStatusLogo = false;
+          this.merchantDetail.launchImg.logo[1] =
+            `http://app.risheng3d.com/${results.name}` || results.url;
+          // console.log(results,this.noticeInfo.img, 'src')
         })
-      })
+        .catch(err => {
+          this.loadingStatusLogo = false;
+          // console.log(err);
+        });
+    }, // 阿里云上传Logo
+    uploadAwsLogo() {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${
+        this.imgFileLogo.fileName
+      }`; //测试环境
+      const prod = `http://img.na77.com/${this.imgFileLogo.fileName}`; //开发环境
+
+      httpRequest("put", `${this.uploadActionLogo[0].aws}`, this.imgFileLogo)
+        .then(
+          res => {
+            this.$Message.success("上传成功");
+            this.merchantDetail.launchImg.logo[0] =
+              process.env.NODE_ENV == "development" ? dev : prod;
+          },
+          err => {
+            this.$Message.error("上传失败");
+          }
+        )
+        .finally(() => {
+          this.loadingStatusLogo = false;
+        });
+    }, // 亚马逊上传Logo
+    beforeUploadLogo(file) {
+      localStorage.setItem("nowUrl", "merchantDetail");
+      let fileName = this.suffixFun(file.name);
+      const isLt1M = file.size / 1024 / 1024 < 2;
+      const suffix = fileName[1].toLowerCase();
+      const fileType = ["png", "jpg"];
+      this.imgFileLogo = file;
+      this.imgFileLogo.fileName = `${fileName[0] + new Date().getTime()}.${
+        fileName[1]
+      }`;
+      if (!(fileType.indexOf(suffix) > -1)) {
+        return this.$Message.error("上传图片只能是 JPG或者PNG 格式!");
+      } else if (!isLt1M) {
+        return this.$Message.error("大小不能超过 2MB!");
+      }
+      return new Promise((resolve, reject) => {
+        this.loadingStatusLogo = true;
+        httpRequest("post", "/upload", {
+          contentType: "image",
+          filePath: this.imgFileLogo.fileName
+        })
+          .then(res => {
+            this.uploadActionLogo = res.payload;
+            this.actionUrl = res.payload[0].aws;
+            this.uploadAliLogo();
+            this.uploadAwsLogo();
+            resolve(true);
+          })
+          .catch(err => {
+            reject(false);
+          });
+      });
     }, // 上传前的检验Logo
 
-    uploadAliName () {
-      this.actionUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+    uploadAliName() {
+      this.actionUrl = "http://assetdownload.oss-cn-hangzhou.aliyuncs.com";
       let mi = new OSS.Wrapper({
-        region: 'oss-cn-hangzhou',
+        region: "oss-cn-hangzhou",
         accessKeyId: this.uploadActionName[1].ali.AccessKeyId,
         accessKeySecret: this.uploadActionName[1].ali.AccessKeySecret,
         stsToken: this.uploadActionName[1].ali.SecurityToken,
-        bucket: 'assetdownload'
-      })
-      // console.log(this.imgFile.name)
-      let suffix = this.suffixFun(this.imgFileName.name)
-      let date = new Date().getTime()
-      let fileName = `image/${suffix[0]+date}.${suffix[1]}`
-      mi.multipartUpload(fileName, this.imgFileName, {
-      }).then((results) => {
-        this.$Message.success('上传成功')
-        this.loadingStatusName = false
-        this.merchantDetail.launchImg.name[1] = `http://app.risheng3d.com/${results.name}` || results.url
-        // console.log(results,this.noticeInfo.img, 'src')
-      }).catch((err) => {
-        this.loadingStatusName = false
-        // console.log(err);
+        bucket: "assetdownload"
       });
-    }, // 阿里云上传Name
-    uploadAwsName () {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFileName.fileName}` //测试环境
-      const prod = `http://img.na77.com/${this.imgFileName.fileName}` //开发环境
-
-      httpRequest('put',`${this.uploadActionName[0].aws}`, this.imgFileName)
-        .then(res => {
-          this.$Message.success('上传成功')
-          this.merchantDetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-        }).finally(()=>{
-        this.loadingStatusName = false
-      })
-    }, // 亚马逊上传Name
-    beforeUploadName (file) {
-      localStorage.setItem("nowUrl", 'merchantDetail');
-      let fileName = this.suffixFun(file.name)
-      const isLt1M = file.size / 1024 / 1024 < 2
-      const suffix = fileName[1].toLowerCase()
-      const fileType = ['png', 'jpg']
-      this.imgFileName = file
-      this.imgFileName.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
-      if (!(fileType.indexOf(suffix) > -1)) {
-        return this.$Message.error('上传图片只能是 JPG或者PNG 格式!')
-      } else if (!isLt1M) {
-        return this.$Message.error('大小不能超过 2MB!')
-      }
-      return new Promise((resolve, reject) =>{
-        this.loadingStatusName = true
-        httpRequest('post','/upload', {
-          contentType: 'image',
-          filePath: this.imgFileName.fileName
-        }).then(res => {
-          this.uploadActionName = res.payload
-          this.actionUrl = res.payload[0].aws
-          this.uploadAliName()
-          this.uploadAwsName()
-          resolve(true)
-        }).catch(err => {
-          reject(false)
+      // console.log(this.imgFile.name)
+      let suffix = this.suffixFun(this.imgFileName.name);
+      let date = new Date().getTime();
+      let fileName = `image/${suffix[0] + date}.${suffix[1]}`;
+      mi
+        .multipartUpload(fileName, this.imgFileName, {})
+        .then(results => {
+          this.$Message.success("上传成功");
+          this.loadingStatusName = false;
+          this.merchantDetail.launchImg.name[1] =
+            `http://app.risheng3d.com/${results.name}` || results.url;
+          // console.log(results,this.noticeInfo.img, 'src')
         })
-      })
+        .catch(err => {
+          this.loadingStatusName = false;
+          // console.log(err);
+        });
+    }, // 阿里云上传Name
+    uploadAwsName() {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${
+        this.imgFileName.fileName
+      }`; //测试环境
+      const prod = `http://img.na77.com/${this.imgFileName.fileName}`; //开发环境
+
+      httpRequest("put", `${this.uploadActionName[0].aws}`, this.imgFileName)
+        .then(res => {
+          this.$Message.success("上传成功");
+          this.merchantDetail.launchImg.name[0] =
+            process.env.NODE_ENV == "development" ? dev : prod;
+        })
+        .finally(() => {
+          this.loadingStatusName = false;
+        });
+    }, // 亚马逊上传Name
+    beforeUploadName(file) {
+      localStorage.setItem("nowUrl", "merchantDetail");
+      let fileName = this.suffixFun(file.name);
+      const isLt1M = file.size / 1024 / 1024 < 2;
+      const suffix = fileName[1].toLowerCase();
+      const fileType = ["png", "jpg"];
+      this.imgFileName = file;
+      this.imgFileName.fileName = `${fileName[0] + new Date().getTime()}.${
+        fileName[1]
+      }`;
+      if (!(fileType.indexOf(suffix) > -1)) {
+        return this.$Message.error("上传图片只能是 JPG或者PNG 格式!");
+      } else if (!isLt1M) {
+        return this.$Message.error("大小不能超过 2MB!");
+      }
+      return new Promise((resolve, reject) => {
+        this.loadingStatusName = true;
+        httpRequest("post", "/upload", {
+          contentType: "image",
+          filePath: this.imgFileName.fileName
+        })
+          .then(res => {
+            this.uploadActionName = res.payload;
+            this.actionUrl = res.payload[0].aws;
+            this.uploadAliName();
+            this.uploadAwsName();
+            resolve(true);
+          })
+          .catch(err => {
+            reject(false);
+          });
+      });
     }, // 上传前的检验Name
-    suffixFun (o) {
-      let arr = o.split('.')
-      return arr
+    suffixFun(o) {
+      let arr = o.split(".");
+      return arr;
     } // 截取文件名的后缀
   }
 };

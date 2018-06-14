@@ -119,12 +119,12 @@ export default {
         });
         return;
       }
-      if (!passReg.test(this.password)) {
-        this.$Message.warning({
-          content: "密码为8-16位的(英文、数字、符号)"
-        });
-        return;
-      }
+      // if (!passReg.test(this.password)) {
+      //   this.$Message.warning({
+      //     content: "密码为8-16位的(英文、数字、符号)"
+      //   });
+      //   return;
+      // }
       this.$store.commit("updateLoading", { params: true });
       let password = bcrypt.hashSync(this.password, 10);
       this.$store.dispatch("userlogin", {

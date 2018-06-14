@@ -111,7 +111,7 @@
               <Row>
                 <Col span="4">
                 <Tooltip :content="rateTip" placement="top">
-                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                  <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
                 </Tooltip>
                 </Col>
                 <Col span="2">
@@ -218,8 +218,8 @@ export default {
       edit: true, //可编辑
       game: "",
       role: "",
-      rateTip:'',
-      parentGame:[],
+      rateTip: "",
+      parentGame: [],
       pageSize: 100, //分页
       showData: [], //分页显示的data
       isedit: true,
@@ -897,6 +897,12 @@ export default {
       this.value = ["1", "2", "3"];
       this.basic.password = this.lineDetail.password;
       this.basic.remark = this.lineDetail.remark;
+      // reset
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameForm.balance = "";
+      this.gameList = [];
+      this.selected = false;
     },
     changeOption(id) {
       this.disabled = false;
@@ -990,13 +996,6 @@ export default {
         } else {
           this.spinShow = false;
         }
-        this.gameForm.gameType='';
-        this.gameForm.gamelist='';
-        this.gameForm.balance='';
-        this.rateTip='';
-        this.gameList=[];
-        this.selected=false;
-        this.game=''
       });
     },
     selectCompany(value) {
@@ -1107,11 +1106,11 @@ export default {
       if (ownBusiness && ownBusiness.code == 0) {
         this.ownedbusiness = ownBusiness.payload;
       }
-      oneManagers(parent).then(res=>{
-         if (res.code == 0) {
+      oneManagers(parent).then(res => {
+        if (res.code == 0) {
           this.parentGame = res.payload.gameList || [];
         }
-      })
+      });
       this.handlePage();
     }
   }

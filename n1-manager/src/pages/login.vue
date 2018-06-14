@@ -115,12 +115,12 @@ export default {
       let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{7,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      // if (!this.userdata.challenge) {
-      //   this.$Message.warning({
-      //     content: "请进行人机验证"
-      //   });
-      //   return;
-      // }
+      if (!this.userdata.challenge) {
+        this.$Message.warning({
+          content: "请进行人机验证"
+        });
+        return;
+      }
       if (!nameReg.test(this.username)) {
         this.$Message.warning({
           content: "用户名为5-16位的（英文、数字、@、_、-）"
@@ -146,8 +146,8 @@ export default {
         username: this.username,
         password: password,
         suffix:this.suffix,
-        challenge:'a',// this.userdata.challenge,
-        vid:'b',// this.userdata.token,
+        challenge: this.userdata.challenge,// 'a',//
+        vid:this.userdata.token,//'b',// 
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
