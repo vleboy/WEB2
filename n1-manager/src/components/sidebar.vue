@@ -36,7 +36,7 @@
                         <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='mgreport' >
+                    <Submenu name='mgreport' v-if="gameStr.includes('MG')">
                         <template slot="title" v-if="gameList.includes('MG电子游戏')">MG游戏报表</template>
                         <MenuItem name="mgvideo" v-if="gameList.includes('MG电子游戏')">MG电子游戏报表</MenuItem>
                     </Submenu>

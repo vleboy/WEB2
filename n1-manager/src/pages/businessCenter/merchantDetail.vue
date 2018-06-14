@@ -234,7 +234,9 @@
               <label slot="label">{{game}}商家占成(%)</label>
               <Row>
                 <Col span="4">
+                <Tooltip :content="rateTip" placement="top">
                 <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                </Tooltip>
                 </Col>
                 <Col span="2">
                 <span class="add" @click="addGame">添加</span>
@@ -264,7 +266,8 @@ import {
   companySelect,
   gameBigType,
   updateMerchant,
-  httpRequest
+  httpRequest,
+  oneManagers
 } from "@/service/index";
 import dayjs from "dayjs";
 import _ from "lodash";
@@ -285,6 +288,8 @@ export default {
     return {
       parent: "",
       value: "",
+      rateTip:'',//tip
+      parentGame:[],
       dayjs: dayjs,
       edit: true, //可编辑
       isedit: true,
@@ -576,6 +581,13 @@ export default {
         } else {
           this.spinShow = false;
         }
+        this.gameForm.gameType='';
+        this.gameForm.gamelist='';
+        this.gameForm.balance='';
+        this.rateTip='';
+        this.gameList=[];
+        this.selected=false;
+        this.game=''
       });
     },
     selectCompany(value) {
@@ -593,6 +605,18 @@ export default {
     selectGame(value) {
       this.selected = true;
       this.game = value;
+      let rate = 0;
+      let parentGame = this.parentGame;
+      if (parentGame.length > 0) {
+        for (let item of parentGame) {
+          if (item.name == value) {
+            rate = item.rate;
+          }
+        }
+      } else {
+        rate = 100;
+      }
+      this.rateTip = `该上级线路商${value}占成为${rate}%`;
     },
     reload() {
       this.init();
@@ -604,6 +628,13 @@ export default {
       for (let item of gamelist) {
         if (item.name == gameName) {
           gameItem = item;
+        }
+      }
+       let oldGame = this.gameDetail;
+      for (let item of oldGame) {
+        if (item.name == gameName) {
+          this.$Message.warning("已选择该游戏");
+          return;
         }
       }
       let re = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
@@ -660,6 +691,11 @@ export default {
       if (company && company.code == 0) {
         this.gameType = company.payload;
       }
+      oneManagers(parent).then(res=>{
+         if (res.code == 0) {
+          this.parentGame = res.payload.gameList || [];
+        }
+      })
       this.handlePage();
     },
     uploadAliLogo () {
