@@ -677,6 +677,12 @@ export default {
       this.basic.password = this.agentDetail.password;
       this.basic.remark = this.agentDetail.remark;
       this.basic.rate = this.agentDetail.rate;
+      //reset
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameList = [];
+      this.selected = false;
+      this.gameForm.balance = "";
     },
     reload() {
       this.init();

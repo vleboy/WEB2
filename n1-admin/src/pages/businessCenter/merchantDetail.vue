@@ -519,6 +519,12 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
+      //reset
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameList = [];
+      this.selected = false;
+      this.gameForm.balance = "";
     },
     handlePage() {
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示

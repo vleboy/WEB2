@@ -893,6 +893,12 @@ export default {
       this.value = ["1", "2", "3"];
       this.basic.password = this.lineDetail.password;
       this.basic.remark = this.lineDetail.remark;
+      //reset
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameList = [];
+      this.selected = false;
+      this.gameForm.balance = "";
     },
     changeOption(id) {
       this.disabled = false;
