@@ -696,6 +696,12 @@ export default {
       this.basic.password = this.agentDetail.password;
       this.basic.remark = this.agentDetail.remark;
       this.basic.rate = this.agentDetail.rate;
+      //重置game
+      this.gameForm.gameType = "";
+      this.gameForm.gamelist = "";
+      this.gameList = [];
+      this.selected = false;
+      this.gameForm.balance = "";
     },
     reload() {
       this.init();
@@ -804,11 +810,6 @@ export default {
           this.$Message.error("修改有误");
           this.spinShow = false;
         }
-        this.gameForm.gameType='';
-        this.gameForm.gamelist='';
-        this.gameList=[];
-        this.selected=false;
-        this.gameForm.balance=''
       });
     },
     selectCompany(value) {
