@@ -37,6 +37,18 @@ $
       </Row>
       <Row v-if="isShowSearch">
         <div class="from-search">
+          厂商：
+          <RadioGroup v-model="companyInfo" type="button" @on-change="changeCompany">
+            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
+          </RadioGroup>
+        </div>
+        <div class="from-search">
+          游戏：
+          <RadioGroup v-model="radioInfo" type="button">
+            <Radio v-for="(item,index) of gameTypeList" :key="index" :label="item.code">{{item.name}}</Radio>
+          </RadioGroup>
+        </div>
+        <div class="from-search">
           类型：
           <RadioGroup v-model="radioType" type="button">
             <Radio label="3">下注</Radio>
@@ -59,12 +71,7 @@ $
         </div>
       </Row>
     </div>
-    <div class="-p-total">
-      <div class="total-check -p-red" v-if="checkedArray.length">
-        <i class="el-icon-information" style="color: #f7ba2a;"></i> &ensp;已选中{{checkedArray.length || 0}}笔数据 &emsp;总计：
-        <span style="font-weight: bold">{{checkFormatNum}} </span>元
-      </div>
-    </div>
+
     <div class="-p-table">
       <div class="-t-form">
         <Table :columns="columns" :data="dataList"></Table>
@@ -79,6 +86,11 @@ $
         </Row>
       </div>
     </div>
+
+    <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="800" cancel-text="">
+      <SportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></SportsModal>
+    </Modal>
+
     <Spin size="large" fix v-if="isFetching">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -89,8 +101,10 @@ $
   import {formatUserName, thousandFormatter} from '@/config/format'
   import {httpRequest} from '@/service/index'
   import dayjs from "dayjs";
+  import SportsModal from '@/components/record/sportsModal'
 
   export default {
+    components: {SportsModal},
     data() {
       return {
         nowSize: 20,
@@ -117,7 +131,6 @@ $
           '12': '代理操作',
           '13': '商城'
         },
-        checkedArray: [], // 选中的数据数组
         amountDate: [], // 时间日期选择
         playerAccountList: [], // 玩家流水账列表
         playerRecordList: [], // 玩家战绩列表
@@ -187,12 +200,47 @@ $
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.balance))
             }
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 90,
+            align: 'center',
+            render: (h, params) => {
+
+              if (params.row.type == '3' && params.row.gameType == '1130000') {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    style: {
+                      color:'#20a0ff',
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.openModalBill(params.row)
+                      }
+                    }
+                  }, '查看战绩')
+                ])
+              }
+            }
           }
         ],
+        companyList: [],
+        gameTypeList: [],
+        radioInfo: '',
+        companyInfo: '全部厂商',
+        propChild: {},
+        isOpenModalBill: false
       }
     },
     mounted() {
       this.changeTime()
+      this.companySelectList()
     },
     computed: {
       dataList() {
@@ -229,6 +277,8 @@ $
           userName: localStorage.playerName,
           type: this.radioType,
           action: this.radioMoney,
+          company: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo,
+          gameType: this.radioInfo,
           startTime: this.amountDate ? this.startDate : '',
           endTime: this.amountDate ? this.endDate : '',
           startKey: this.playerAccountListStartKey,
@@ -289,14 +339,6 @@ $
           this.changeDate()
         }
       }, // 月份联动
-      selectionChange(val) {
-        this.checkedArray = val;
-        this.checkFormatNum = 0;
-        for (let item of this.checkedArray) {
-          this.checkFormatNum += Number(item.amount)
-        }
-        this.checkFormatNum = thousandFormatter(this.checkFormatNum)
-      }, //多选
       searchData(bool) {
         !bool && (this.radioMoney = '', this.radioType = '');
         this.initData()
@@ -312,7 +354,41 @@ $
       exportData() {
         let url = process.env.NODE_ENV == 'production' ? 'https://n1admin.na12345.com' : 'https://d3rqtlfdd4m9wd.cloudfront.net'
         window.open(`${url}/player/bill/flow/download?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
-      }
+      },
+      companySelectList () {
+        httpRequest('post','/companySelect',{
+          parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
+        },'game').then(
+          result => {
+            this.companyList = result.payload || []
+            this.companyList.unshift({
+              company: '全部厂商',
+            })
+            this.changeCompany()
+          }
+        )
+      }, //获取运营商列表
+      changeCompany () {
+        httpRequest('post','/gameBigType',{
+          companyIden: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo
+        },'game').then(
+          result => {
+            this.gameTypeList = result.payload
+            this.gameTypeList.unshift({
+              code: '',
+              name: '全部'
+            })
+            this.radioInfo = ''
+          }
+        )
+      },
+      openModalBill (data) {
+        this.propChild = data;
+        this.isOpenModalBill = true
+        setTimeout(()=>{
+          this.$refs.childMethod.getRealLife()
+        },0)
+      },
     },
     watch: {
       '$route': function (_new, _old) {
@@ -347,7 +423,7 @@ $
 
       .form-button {
         position: absolute;
-        top: 25%;
+        top: 78%;
         right: 0;
       }
     }

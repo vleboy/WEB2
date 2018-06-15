@@ -3,13 +3,6 @@
     <div class="-p-header">
       <Row>
         <Col class="-p-h-bottom">
-          <RadioGroup v-model="companyInfo" @on-change="changeCompany" type="button">
-            <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
-          </RadioGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col class="-p-h-bottom">
           <RadioGroup v-model="radioInfo" @on-change="changeRadio" type="button">
             <Radio v-for="(item,index) of gameTypeList" :key="index" :label="item.code">{{item.name}}</Radio>
           </RadioGroup>
@@ -105,7 +98,6 @@
         amountDate: [],
         companyList: [],
         gameTypeList: [],
-        companyInfo: '全部厂商',
         playerDetailList: [],
         playerDetailListStorage: [],
         playerDetailStartKey: '',
@@ -239,7 +231,7 @@
     },
     mounted () {
       // this.getTransactionRecord()
-      this.companySelectList()
+      this.changeCompany()
     },
     methods:{
       getNowpage (page) {
@@ -307,7 +299,6 @@
 
         httpRequest('post','/player/bill/detail',{
           userName: name,
-          company: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo,
           gameType: this.radioInfo,
           startTime: startTime,
           endTime: endTime,
@@ -324,24 +315,9 @@
           }
         )
       },
-      companySelectList () {
-        this.isFetching = true
-        httpRequest('post','/companySelect',{
-          parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
-        },'game').then(
-          result => {
-            this.companyList = result.payload || []
-            this.companyList.unshift({
-              company: '全部厂商',
-            })
-            this.changeCompany()
-            // this.$store.commit('closeLoading')
-          }
-        )
-      }, //获取运营商列表
       changeCompany () {
         httpRequest('post','/gameBigType',{
-          companyIden: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo
+          companyIden: '-1'
         },'game').then(
           result => {
             this.gameTypeList = result.payload
@@ -387,7 +363,7 @@
         let [startTime, endTime] = this.amountDate
         startTime = new Date(startTime).getTime()
         endTime = new Date(endTime).getTime()
-        window.open(`${url}/player/bill/detail/download?userName=${localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
+        window.open(`${url}/player/bill/detail/download?userName=${localStorage.playerName}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
       }
     }
   }

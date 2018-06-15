@@ -142,7 +142,7 @@ export default {
         password: password,
         suffix:this.suffix,
         challenge: this.userdata.challenge,// 'a',//
-        vid:this.userdata.token,//'b',// 
+        vid:this.userdata.token,//'b',//
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
