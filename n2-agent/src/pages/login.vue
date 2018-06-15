@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login-left">
-      <p class="title-big">NA代理管理系统</p>
+      <p class="title-big">N2代理管理系统</p>
     </div>
     <div class="login-center"></div>
     <div class="login-right">
