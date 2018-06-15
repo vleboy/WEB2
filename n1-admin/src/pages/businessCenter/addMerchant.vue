@@ -555,7 +555,6 @@ export default {
       }else{
         maxRate=100
       }
-      console.log(maxRate);
       if (balance > maxRate && maxRate != null) {
         this.$Message.warning({
           content: `不能超过上级占成`,
