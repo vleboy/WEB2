@@ -329,6 +329,7 @@ export default {
       remark: "",
       userName: "",
       // search2: "",
+      admin: false, //代理管理员创建代理
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -856,6 +857,7 @@ export default {
                   on: {
                     click: () => {
                       //代理管理员
+                      this.admin = true;
                       this.defaultSn = false;
                       this.agentModal = true;
                       this.agentType = 2;
@@ -928,7 +930,8 @@ export default {
                           // this.selectParent(userId);
                           this.selected = false;
                           this.parentRate = params.row.rate;
-                          this.rateContent = "上级代理成数为:" + params.row.rate;
+                          this.rateContent =
+                            "上级代理成数为:" + params.row.rate;
                         }
                       }
                     },
@@ -1421,7 +1424,7 @@ export default {
             this.gameType = res.payload.companyArr;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
-            this.parentGameList = res.payload.gameList||[];
+            this.parentGameList = res.payload.gameList || [];
             this.$store.commit("agentLoading", { params: false });
           }
         });
@@ -1461,7 +1464,7 @@ export default {
           if (item.code == o.value) {
             maxMix = item.mix;
             this.tipContent = `上级游戏洗码比为:${maxMix}`;
-          }  
+          }
         }
       } else {
         this.tipContent = `上级游戏洗码比为:1`;
@@ -1501,6 +1504,15 @@ export default {
     },
     createAgent() {
       this.$refs["agentForm"].validate(valid => {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        let userId = userInfo.userId;
+        let level = userInfo.level;
+        let parent = "";
+        if (level == 0) {
+          parent = "01";
+        } else {
+          parent = userId;
+        }
         if (valid) {
           if (_.isEmpty(this.gameDetail)) {
             this.$Message.error("尚未选择游戏");
@@ -1522,6 +1534,14 @@ export default {
           }).then(res => {
             if (res.code == 0) {
               this.$Message.success("创建成功");
+              if (this.admin) {
+                this.$store.dispatch("getAgentList", {
+                  parent,
+                  query: {},
+                  sort: "desc",
+                  sortkey: "createdAt"
+                });
+              }
               this.resetAgent();
             }
           });
