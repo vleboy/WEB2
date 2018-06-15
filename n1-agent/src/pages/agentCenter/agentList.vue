@@ -879,90 +879,6 @@ export default {
                 "创建代理"
               );
             } else {
-              let currentId = localStorage.userId;
-              if (params.row.userId == currentId) {
-                return h("div", [
-                  h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer",
-                        marginRight: "10px"
-                      },
-                      on: {
-                        click: () => {
-                          let userId = params.row.userId;
-                          let username = params.row.username;
-                          let parent = params.row.parent;
-                          this.$router.push({
-                            path: "/agentDetail",
-                            query: {
-                              userId,
-                              username,
-                              parent
-                            }
-                          });
-                        }
-                      }
-                    },
-                    "查看"
-                  ),
-                  h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer",
-                        marginRight: "10px"
-                      },
-                      on: {
-                        click: () => {
-                          this.agentModal = true;
-                          this.parentSn = params.row.sn;
-                          let userId = params.row.userId;
-                          this.agent.parent = userId;
-                          availableAgents({ parent: userId }).then(res => {
-                            if (res.code == 0) {
-                              this.parentList = res.payload;
-                            }
-                          });
-                          // this.selectParent(userId);
-                          this.selected = false;
-                          this.parentRate = params.row.rate;
-                          this.rateContent =
-                            "上级代理成数为:" + params.row.rate;
-                        }
-                      }
-                    },
-                    "创建代理"
-                  ),
-                  h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer"
-                      },
-                      on: {
-                        click: () => {
-                          this.playerModal = true;
-                          let parent =
-                            params.row.level == 0 ? "01" : params.row.userId;
-                          this.player.parentId = parent;
-                          availableAgents({ parent }).then(res => {
-                            if (res.code == 0) {
-                              this.parentList = res.payload;
-                            }
-                          });
-                          // this.selectPlayerParent(parent);
-                        }
-                      }
-                    },
-                    "创建玩家"
-                  )
-                ]);
-              }
               let color = "";
               let text = "";
               let status = null;
@@ -1066,16 +982,17 @@ export default {
                       on: {
                         click: () => {
                           this.playerModal = true;
-                          let userId =
-                            params.row.level == 0 ? "01" : params.row.userId;
-                          this.player.parentId = userId;
+                          let userId = params.row.userId;
+                          if(this.player.parentId==userId){
+                            this.selectPlayerParent(userId);
+                          }else{
+                            this.player.parentId = userId;
+                          }
                           availableAgents({ userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
                           });
-                          let parent = params.row.parent;
-                          // this.selectPlayerParent(parent);
                         }
                       }
                     },

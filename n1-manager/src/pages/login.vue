@@ -80,11 +80,6 @@ export default {
     this.initVaptcha();
   },
   methods: {
-    clearData(msg) {
-      this.$Message.warning({
-        content: msg
-      });
-    },
     initVaptcha() {
       let self = this;
       this.axios.post(api.getVaptcha, {}).then(function(r) {
@@ -101,7 +96,7 @@ export default {
             self.userdata.challenge = challenge;
           },
           fail: function() {
-            self.clearData("人机验证失败");
+            self.initVaptcha();
           }
         };
         //vaptcha对象初始化
