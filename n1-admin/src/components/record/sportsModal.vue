@@ -159,7 +159,7 @@ export default {
           this.sportsInfo = result.data.record
           this.isShow = this.sportsInfo.content.bet.length
           this.roundResult = JSON.parse(result.data.record.anotherGameData)
-          this.sportsInfo.betAmount = this.sportsInfo.content.bet.length ? Math.abs(this.sportsInfo.content.bet[0].amount) : ''
+          this.sportsInfo.betAmount = this.sportsInfo.content.bet.length ? Math.abs(this.sportsInfo.content.bet[0].amount) : Math.abs(this.dataProp.amount)
           this.sportsInfo.winAmount = this.sportsInfo.content.ret.length ? Math.abs(this.sportsInfo.content.ret[0].amount) : ''
           this.sportsInfo.winloseAmount = (this.sportsInfo.winAmount - this.sportsInfo.betAmount).toFixed(2)
           if (this.sportsInfo.winloseAmount > 0) {
