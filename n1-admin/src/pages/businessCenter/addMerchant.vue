@@ -99,7 +99,7 @@
             <Row>
               <Col span="10">
               <Tooltip :content="tipContent">
-                <Input v-model="detail.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                <Input v-model.number="detail.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
               </Tooltip>
               </Col>
               <Col span="4">
@@ -535,6 +535,8 @@ export default {
             this.tipContent = `上级游戏占成为:${maxRate}`;
           }
         }
+      }else{
+         this.tipContent = `上级游戏占成为:100`;
       }
     },
     addGame() {
@@ -550,7 +552,10 @@ export default {
             maxRate = item.rate;
           }
         }
+      }else{
+        maxRate=100
       }
+      console.log(maxRate);
       if (balance > maxRate && maxRate != null) {
         this.$Message.warning({
           content: `不能超过上级占成`,
