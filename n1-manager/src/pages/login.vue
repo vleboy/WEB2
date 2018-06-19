@@ -82,7 +82,7 @@ export default {
   methods: {
     initVaptcha() {
       let self = this;
-      this.axios.post(api.getVaptcha, {}).then(function(r) {
+      this.axios.post(api.getVaptcha).then(function(r) {
         const options = {
           vid: r.data.vid,
           challenge: r.data.challenge,
@@ -104,6 +104,9 @@ export default {
           self.vaptchaObj = obj;
           self.vaptchaObj.init();
         });
+      })
+      .catch(function(err){
+          self.initVaptcha();     
       });
     },
     login() {

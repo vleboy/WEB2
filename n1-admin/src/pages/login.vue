@@ -59,7 +59,7 @@ export default {
       username: "", // 用户名
       password: "", // 密码
       userdata: {},
-      vaptchaObj: null
+      vaptchaObj: {}
     };
   },
   watch: {},
@@ -74,21 +74,21 @@ export default {
   methods: {
     initVaptcha() {
       let self = this;
-      this.axios.post(api.getVaptcha, {}).then(function(r) {
+      this.axios.post(api.getVaptcha).then(function(r) {
         const options = {
           vid: r.data.vid,
           challenge: r.data.challenge,
           type: "float", //验证码类型,string,默认float,可选择float,popup,embed,
           checkingAnimation: "display", //是否显示智能检测动画，"hide"则为隐藏
-          outage: api.getDownTime,
+          outage: api.getDownTime, //服务器端配置的宕机模式接口地址
           container: "#vaptcha_container",
           success: function(token, challenge) {
             //当验证成功时执行回调,function,参数token为string,必选
             self.userdata.token = token;
             self.userdata.challenge = challenge;
           },
-          fail: function() {
-            self.initVaptcha();      
+          fail: function() {//验证失败回调函数  
+            self.initVaptcha();     
           }
         };
         //vaptcha对象初始化
@@ -96,6 +96,9 @@ export default {
           self.vaptchaObj = obj;
           self.vaptchaObj.init();
         });
+      })
+      .catch(function(err){
+          self.initVaptcha();     
       });
     },
     login() {
@@ -126,8 +129,8 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        challenge: this.userdata.challenge,
-        vid: this.userdata.token,
+        challenge: this.userdata.challenge,//'b',
+        vid: this.userdata.token,//'b',
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
