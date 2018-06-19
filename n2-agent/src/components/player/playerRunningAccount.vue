@@ -45,6 +45,7 @@ $
         <div class="from-search">
           类型：
           <RadioGroup v-model="radioType" type="button">
+            <Radio label="">全部</Radio>
             <Radio label="3">下注</Radio>
             <Radio label="11">中心钱包</Radio>
             <Radio label="4">返奖</Radio>
@@ -54,6 +55,7 @@ $
         <div class="from-search">
           资金流向：
           <RadioGroup v-model="radioMoney" type="button">
+            <Radio label="">全部</Radio>
             <Radio label="1">本次发生金额（入）</Radio>
             <Radio label="-1">本次发生金额（出）</Radio>
           </RadioGroup>
