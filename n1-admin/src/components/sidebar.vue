@@ -99,6 +99,7 @@
                     <MenuItem name="merchantLog" v-if='permission.includes("商户登录日志")'>商户登录日志</MenuItem>
                     <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
                     <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
+                    <MenuItem name="dataRepair" v-if='permission.includes("DEBUG日志")'>数据修正</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>

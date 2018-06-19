@@ -38,6 +38,7 @@ import lineLoginLog from '@/pages/log/lineLoginLog'
 import merchantLog from '@/pages/log/merchantLog'
 import adminLog from '@/pages/log/adminLog'
 import debugLog from '@/pages/log/debugLog'
+import dataRepair from '@/pages/log/dataRepair'
 import playerlist from '@/pages/player/playerlist'
 import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
 import gameMailList from '@/pages/operation/mailMgr/gameMailList'
@@ -194,6 +195,7 @@ export const appRouter = [
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:merchantLog},
             {path:'admin',title:'管理员操作日志',name:'adminLog',component:adminLog},
             {path:'debug',title:'DEBUG日志',name:'debugLog',component:debugLog},
+            {path:'dataRepair',title:'数据修复',name:'dataRepair',component:dataRepair},
         ]
     },
     {
