@@ -107,7 +107,7 @@
             </Select>
             </Col>
             <Col span="10">
-            <Select placeholder="请选择" @on-change="selectGame" :label-in-value='true'>
+            <Select placeholder="请选择" v-model="agentGame" @on-change="selectGame" :label-in-value='true'>
               <Option v-for="item in gameList" :value="item.code" :key="item.name">{{ item.name }}</Option>
             </Select>
             </Col>
@@ -345,6 +345,7 @@ export default {
       remark: "",
       userName: "",
       // search2: "",
+      agentGame: "",
       maxBalance: "上级代理余额为:",
       parentDisplayName: "",
       playerPoint: false,
@@ -1422,15 +1423,17 @@ export default {
     },
     selectCompany(value) {
       let userId = this.agent.parent;
-      let params = { companyIden: value, userId };
-      if (userId == "01") {
-        delete params.userId;
-      }
-      gameBigType(params).then(res => {
-        if (res.code == 0) {
-          this.gameList = res.payload;
+      if (value) {
+        let params = { companyIden: value, userId };
+        if (userId == "01") {
+          delete params.userId;
         }
-      });
+        gameBigType(params).then(res => {
+          if (res.code == 0) {
+            this.gameList = res.payload;
+          }
+        });
+      }
     },
     selectGame(o) {
       this.selected = true;
@@ -1529,6 +1532,7 @@ export default {
       this.disabled = true;
       this.Topdisabled = false;
       this.agentType = 1;
+      this.agentGame = "";
       this.agent.remark = "";
     },
     ok() {
