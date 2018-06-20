@@ -1525,7 +1525,6 @@ export default {
     },
     resetAgent() {
       this.$refs["agentForm"].resetFields();
-      this.$store.commit("agentLoading", { params: false });
       this.parentList = [];
       this.selected = false;
       this.gameDetail = [];
@@ -1534,6 +1533,7 @@ export default {
       this.agentType = 1;
       this.agentGame = "";
       this.agent.remark = "";
+      this.balance=''
     },
     ok() {
       if (this.playerPoint == false) {
@@ -1707,7 +1707,6 @@ export default {
     },
     cancelPlayer() {
       this.$refs["playerForm"].resetFields();
-      this.$store.commit("agentLoading", { params: false });
       this.playerMix = [];
       this.player.remark = "";
     },

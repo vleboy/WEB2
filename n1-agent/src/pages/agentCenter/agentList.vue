@@ -1471,7 +1471,6 @@ export default {
     },
     resetAgent() {
       this.$refs["agentForm"].resetFields();
-      this.$store.commit("agentLoading", { params: false });
       this.parentList = [];
       this.balance = "";
       this.gameDetail = [];
@@ -1638,7 +1637,6 @@ export default {
     },
     cancelPlayer() {
       this.$refs["playerForm"].resetFields();
-      this.$store.commit("agentLoading", { params: false });
       this.playerMix = [];
       this.player.remark = "";
     },
