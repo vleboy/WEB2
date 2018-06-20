@@ -238,7 +238,7 @@ export default {
       toRole: " ",
       toUser: "",
       tipContent: "上级游戏占成为:",
-      code:'',
+      code: "",
       gameForm: {
         gameType: "",
         gamelist: "",
@@ -1021,6 +1021,9 @@ export default {
           if (item.code == o.value) {
             maxRate = item.rate;
             this.tipContent = `上级游戏占成为:${maxRate}`;
+            break;
+          } else {
+            this.tipContent = `上级游戏占成为:100`;
           }
         }
       } else {
@@ -1040,10 +1043,10 @@ export default {
             maxRate = item.rate;
           }
         }
-      }else{
-        maxRate=100;
+      } else {
+        maxRate = 100;
       }
-       if (balance > maxRate && maxRate != null) {
+      if (balance > maxRate && maxRate != null) {
         this.$Message.warning({
           content: `不能超过上级占成`,
           duration: 2.5
