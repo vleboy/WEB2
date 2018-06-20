@@ -100,8 +100,8 @@
                 </Select>
                 </Col>
                 <Col span="3">
-                <Select v-model="gameForm.gamelist" placeholder="请选择" @on-change="selectGame">
-                  <Option v-for="item in gameList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+                <Select v-model="gameForm.gamelist" placeholder="请选择" @on-change="selectGame" :label-in-value='true'>
+                  <Option v-for="item in gameList" :value="item.code" :key="item.name">{{ item.name }}</Option>
                 </Select>
                 </Col>
               </Row>
@@ -110,7 +110,9 @@
               <label slot="label">{{game}}商家占成(%)</label>
               <Row>
                 <Col span="4">
-                <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                <Tooltip :content="tipContent">
+                  <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                </Tooltip>
                 </Col>
                 <Col span="2">
                 <span class="add" @click="addGame">添加</span>
@@ -235,6 +237,8 @@ export default {
       fromUserId: "",
       toRole: " ",
       toUser: "",
+      tipContent: "上级游戏占成为:",
+      code:'',
       gameForm: {
         gameType: "",
         gamelist: "",
@@ -1006,22 +1010,60 @@ export default {
         }
       });
     },
-    selectGame(value) {
+    selectGame(o) {
       this.selected = true;
-      this.game = value;
+      this.game = o.label;
+      this.code = o.value;
+      let gameDetail = this.gameDetail;
+      let maxRate = 0;
+      if (gameDetail.length > 0) {
+        for (let item of gameDetail) {
+          if (item.code == o.value) {
+            maxRate = item.rate;
+            this.tipContent = `上级游戏占成为:${maxRate}`;
+          }
+        }
+      } else {
+        this.tipContent = `上级游戏占成为:100`;
+      }
     },
     addGame() {
       let gamelist = this.gameList;
       let gameName = this.game;
       let gameItem = {};
+      let gameDetail = this.gameDetail;
+      let balance = this.gameForm.balance;
+      let maxRate = null;
+      if (gameDetail.length > 0) {
+        for (let item of gameDetail) {
+          if (item.code == this.code) {
+            maxRate = item.rate;
+          }
+        }
+      }else{
+        maxRate=100;
+      }
+       if (balance > maxRate && maxRate != null) {
+        this.$Message.warning({
+          content: `不能超过上级占成`,
+          duration: 2.5
+        });
+        return;
+      }
       for (let item of gamelist) {
         if (item.name == gameName) {
           gameItem = item;
         }
       }
+      for (let item of gameDetail) {
+        if (item.code == this.code) {
+          this.$Message.warning("已选择该游戏");
+          return;
+        }
+      }
       let re = /^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/;
-      if (re.test(this.gameForm.balance)) {
-        gameItem.rate = this.gameForm.balance;
+      if (re.test(balance)) {
+        gameItem.rate = balance;
         this.gameDetail.push(gameItem);
         this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
       } else {

@@ -1,6 +1,6 @@
 <template>
   <div class="repair">
-    <Alert type="warning">该页面功能涉及底层系统数据修复，请务必在技术人员的协作下慎重使用</Alert>
+    <Alert type="warning" class="alert">该页面功能涉及底层系统数据修复，请务必在技术人员的协作下慎重使用</Alert>
     <Row class="row">
       <Col span="12" offset='12'>
       <Button type="primary" @click="checkLog">日志检查</Button>
@@ -100,6 +100,9 @@ export default {
   .warning {
     padding-left: 20px;
     color: #f00;
+  }
+  .alert{
+    text-align: center;
   }
 }
 </style>
