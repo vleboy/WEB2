@@ -1400,10 +1400,12 @@ export default {
             maxMix = item.mix;
           }
         }
+      }else{
+        maxMix=1
       }
       if (balance > maxMix && maxMix != null) {
         this.$Message.warning({
-          content: "不能超过上级占成",
+          content: "不能超过上级洗码比",
           duration: 2.5
         });
         return;

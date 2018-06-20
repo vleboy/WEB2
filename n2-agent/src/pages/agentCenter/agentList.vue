@@ -118,7 +118,7 @@
           <Row>
             <Col span="10">
             <Tooltip :content="tipContent">
-              <Input v-model="balance" placeholder="0~100,不超过上级洗码比"></Input>
+              <Input v-model="balance" placeholder="0~1,不超过上级洗码比"></Input>
             </Tooltip>
             </Col>
             <Col span="4">
@@ -545,7 +545,7 @@ export default {
         {
           title: "管理员账号",
           key: "username",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
@@ -610,12 +610,12 @@ export default {
         {
           title: "代理昵称",
           key: "displayName",
-          sortable:true,
+          sortable: true
         },
         {
           title: "上级代理",
           key: "parentDisplayName",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("span", "");
@@ -686,7 +686,7 @@ export default {
         {
           title: "代理成数",
           key: "rate",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", params.row.rate + "%");
           }
@@ -694,7 +694,7 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
@@ -782,7 +782,7 @@ export default {
         {
           title: "创建时间",
           key: "createdAt",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h(
               "span",
@@ -793,7 +793,7 @@ export default {
         {
           title: "状态",
           key: "status",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             if (params.row.parent == "00") {
               return h("span", "");
@@ -888,7 +888,7 @@ export default {
                             this.parentList = res.payload;
                           }
                         });
-                        this.selectParent(parent);
+                        // this.selectParent(parent);
                         this.parentRate = params.row.rate;
                         this.rateContent = "上级代理成数为:" + params.row.rate;
                       }
@@ -983,7 +983,7 @@ export default {
                               this.parentList = res.payload;
                             }
                           });
-                          this.selectParent(userId);
+                          // this.selectParent(userId);
                           this.parentRate = params.row.rate;
                           this.rateContent =
                             "上级代理成数为:" + params.row.rate;
@@ -1004,9 +1004,9 @@ export default {
                         click: () => {
                           this.playerModal = true;
                           let userId = params.row.userId;
-                          if(this.player.parentId==userId){
+                          if (this.player.parentId == userId) {
                             this.selectPlayerParent(userId);
-                          }else{
+                          } else {
                             this.player.parentId = userId;
                           }
                           availableAgents({ userId }).then(res => {
@@ -1141,7 +1141,7 @@ export default {
         {
           title: "用户名",
           key: "userName",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h(
               "span",
@@ -1169,7 +1169,7 @@ export default {
         {
           title: "点数",
           key: "balance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("div", [
               h("p", params.row.balance),
@@ -1240,12 +1240,12 @@ export default {
         {
           title: "直属代理",
           key: "parentName",
-          sortable:true,
+          sortable: true
         },
         {
           title: "最后登录时间",
           key: "updateAt",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h(
               "span",
@@ -1256,7 +1256,7 @@ export default {
         {
           title: "状态",
           key: "state",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             if (params.row.state == 1) {
               return h(
@@ -1407,7 +1407,7 @@ export default {
             this.gameType = res.payload.companyArr;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
-            this.parentGameList = res.payload.gameList||[];
+            this.parentGameList = res.payload.gameList || [];
             this.$store.commit("agentLoading", { params: false });
           }
         });
@@ -1445,6 +1445,8 @@ export default {
             this.tipContent = `上级游戏占成为:${maxMix}`;
           }
         }
+      } else {
+        this.tipContent = `上级游戏洗码比为:1`;
       }
     },
     addGame() {
@@ -1460,10 +1462,12 @@ export default {
             maxMix = item.mix;
           }
         }
+      } else {
+        maxMix = 1;
       }
       if (balance > maxMix && maxMix != null) {
         this.$Message.warning({
-          content: "不能超过上级占成",
+          content: "不能超过上级洗码比",
           duration: 2.5
         });
         return;
@@ -1503,6 +1507,12 @@ export default {
             if (res.code == 0) {
               this.$Message.success("创建成功");
               this.resetAgent();
+              this.$store.dispatch("getAgentList", {
+                parent,
+                query: {},
+                sort: "desc",
+                sortkey: "createdAt"
+              });
             }
           });
         } else {
@@ -1559,7 +1569,7 @@ export default {
           this.point = "";
           this.remark = "";
           this.playerPoint = false;
-          this.maxBalance='上级代理余额为:'
+          this.maxBalance = "上级代理余额为:";
         }
       }
     },
@@ -1567,7 +1577,7 @@ export default {
       this.point = "";
       this.remark = "";
       this.playerPoint = false;
-      this.maxBalance='上级代理余额为:'
+      this.maxBalance = "上级代理余额为:";
     },
     confirmRed() {
       let checked = this.redCheck;
