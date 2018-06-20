@@ -195,7 +195,7 @@ export const appRouter = [
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:merchantLog},
             {path:'admin',title:'管理员操作日志',name:'adminLog',component:adminLog},
             {path:'debug',title:'DEBUG日志',name:'debugLog',component:debugLog},
-            {path:'dataRepair',title:'数据修复',name:'dataRepair',component:dataRepair},
+            {path:'dataRepair',title:'DEBUG修正',name:'dataRepair',component:dataRepair},
         ]
     },
     {

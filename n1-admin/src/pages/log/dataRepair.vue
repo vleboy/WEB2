@@ -36,31 +36,30 @@ export default {
     };
   },
   computed: {
-    changedTime() {
-      let time = this.range;
-      time = time.map(item => {
-        return item.getTime();
-      });
-      return time;
-    }
   },
   methods: {
     checkLog() {
-      httpRequest("post", "/checkRound", {}, "data").then(res => {
-        console.log(res);
+      httpRequest("post", "/checkRound").then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+        }
       });
     },
     rangeCount() {
-      console.log(this.changedTime);
-      let time = this.changedTime;
-         httpRequest('post','/fixRound',{
-        start:time[0],
-          end:time[1]
-        },'data').then(
-          res => {
-              console.log(res);
+      let time = this.range;
+      if(time[0]!=''){
+         time = time.map(item => {
+          return item.getTime();
+        });
+        httpRequest("post", "/fixRound", {
+          start: time[0],
+          end: time[1]
+        }).then(res => {
+          if (res.code == 0) {
+            this.$Message.success("操作成功");
           }
-        )
+        });
+      }
     },
     dayCount() {
       let time = this.day;
@@ -75,12 +74,15 @@ export default {
         d = "0" + d;
       }
       let str = y + m + d;
-      console.log(str);
-         httpRequest("post", "/fixRoundDay", {
-             updateDay:str
-         }, "data").then(res => {
-          console.log(res);
+      if (str) {
+        httpRequest("post", "/fixRoundDay", {
+          updateDay: str
+        }).then(res => {
+          if (res.code == 0) {
+            this.$Message.success("操作成功");
+          }
         });
+      }
     }
   }
 };
