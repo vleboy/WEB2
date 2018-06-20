@@ -1487,6 +1487,15 @@ export default {
       }
     },
     createAgent() {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = userInfo.userId;
+      let level = userInfo.level;
+      let parent = "";
+      if (level == 0) {
+        parent = "01";
+      } else {
+        parent = userId;
+      }
       this.$refs["agentForm"].validate(valid => {
         if (valid) {
           if (_.isEmpty(this.gameDetail)) {
