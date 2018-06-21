@@ -59,7 +59,7 @@
     <playerRecharge v-if="isOpenModal" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
-      <!--<RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>-->
+      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
       <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
       <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
@@ -81,14 +81,14 @@
   import { httpRequest } from '@/service/index'
   // import api from '@/api/api'
   // import ArcadeModal from '@/components/record/arcadeModal'
-  // import RealLifeModal from '@/components/record/realLifeModal'
+  import RealLifeModal from '@/components/player/realLifeModal'
   // import OneArmBanditModal from '@/components/record/oneArmBanditModal'
   import SportsModal from '@/components/player/sportsModal'
   import oneRunningAccount from '@/components/player/oneRunningAccount'
   import playerRecharge from '@/components/player/playerRecharge'
 
   export default {
-    components: { oneRunningAccount, playerRecharge, SportsModal },
+    components: { oneRunningAccount, playerRecharge, RealLifeModal, SportsModal },
     name: 'transactionRecord',
     props:['dataProp'],
     data () {
@@ -290,6 +290,11 @@
         //   },0)
         // }
         if (this.propChild.gameType == '1130000') {
+          this.isOpenModalBill = true
+          setTimeout(()=>{
+            this.$refs.childMethod.getRealLife()
+          },0)
+        } else if (this.propChild.gameType == '30000') {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()

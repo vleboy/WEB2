@@ -57,7 +57,7 @@
 
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="800" cancel-text="">
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
-      <!--<RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>-->
+      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
       <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
       <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
@@ -265,6 +265,11 @@
         //   },0)
         // } else
         if (this.propChild.gameType == '1130000') {
+          this.isOpenModalBill = true
+          setTimeout(()=>{
+            this.$refs.childMethod.getRealLife()
+          },0)
+        } else if (this.propChild.gameType == '30000') {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()

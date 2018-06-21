@@ -56,9 +56,9 @@
     </div>
 
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
-      <OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>
+      <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
       <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
-      <ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>
+      <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
     </Modal>
 
     <Modal title="流水详情"  v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
@@ -76,14 +76,14 @@
   import { thousandFormatter } from '@/config/format'
   import dayjs from "dayjs";
   import { httpRequest } from '@/service/index'
-  // import api from '@/api/api'
-  import ArcadeModal from '@/components/record/arcadeModal'
+
+  // import ArcadeModal from '@/components/record/arcadeModal'
   import RealLifeModal from '@/components/record/realLifeModal'
-  import OneArmBanditModal from '@/components/record/oneArmBanditModal'
+  // import OneArmBanditModal from '@/components/record/oneArmBanditModal'
   import oneRunningAccount from '@/components/player/oneRunningAccount'
 
   export default {
-    components: { oneRunningAccount,OneArmBanditModal,ArcadeModal,RealLifeModal },
+    components: { oneRunningAccount,RealLifeModal },
     name: 'transactionRecord',
     props:['dataProp'],
     data () {
@@ -205,21 +205,21 @@
             render: (h, params) => {
               if (params.row.gameType != 1 && params.row.gameType != 2 && params.row.gameType != 3) {
                 return h('div', [
-                  // h('Button', {
-                  //   props: {
-                  //     type: 'text',
-                  //     size: 'small'
-                  //   },
-                  //   style: {
-                  //     color:'#20a0ff',
-                  //     marginRight: '5px'
-                  //   },
-                  //   on: {
-                  //     click: () => {
-                  //       this.openModalBill(params.row)
-                  //     }
-                  //   }
-                  // }, '查看战绩'),
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    style: {
+                      color:'#20a0ff',
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.openModalBill(params.row)
+                      }
+                    }
+                  }, '查看战绩'),
                   h('Button', {
                     props: {
                       type: 'text',
@@ -273,20 +273,26 @@
       },
       openModalBill (data) {
         this.propChild = data;
-        if (this.propChild.gameType == '40000') {
-          this.isOpenModalBill = true
-          setTimeout(()=>{
-            this.$refs.childMethod.getOneArmBandit()
-          },0)
-        } else if (this.propChild.gameType == '30000') {
+        // if (this.propChild.gameType == '40000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getOneArmBandit()
+        //   },0)
+        // } else if (this.propChild.gameType == '30000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getRealLife()
+        //   },0)
+        // } else if (this.propChild.gameType == '50000') {
+        //   this.isOpenModalBill = true
+        //   setTimeout(()=>{
+        //     this.$refs.childMethod.getRecordSLXY()
+        //   },0)
+        // }
+        if (this.propChild.gameType == '30000') {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()
-          },0)
-        } else if (this.propChild.gameType == '50000') {
-          this.isOpenModalBill = true
-          setTimeout(()=>{
-            this.$refs.childMethod.getRecordSLXY()
           },0)
         } else {
           this.$Message.error('对不起，该游戏不支持查看战绩')
