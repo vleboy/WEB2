@@ -1545,6 +1545,7 @@ export default {
       this.agentCompany='';
       this.agent.remark = "";
       this.balance=''
+      this.gameList=[]
     },
     ok() {
       if (this.playerPoint == false) {
