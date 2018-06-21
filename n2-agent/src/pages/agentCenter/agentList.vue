@@ -102,7 +102,7 @@
         <FormItem label="代理拥有的游戏" :required='true'>
           <Row>
             <Col span="10">
-            <Select :disabled='disabled' placeholder="请选择" @on-change="selectCompany">
+            <Select :disabled='disabled' placeholder="请选择" v-model="agentCompany" @on-change="selectCompany">
               <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
             </Select>
             </Col>
@@ -356,6 +356,7 @@ export default {
       toUser: "",
       //创建agnet
       agentModal: false,
+      agentCompany:'',
       Topdisabled: false,
       code: "",
       agentType: 1,
@@ -1541,6 +1542,7 @@ export default {
       this.Topdisabled = false;
       this.agentType = 1;
       this.agentGame = "";
+      this.agentCompany='';
       this.agent.remark = "";
       this.balance=''
     },
