@@ -52,7 +52,7 @@
     <playerRecharge v-if="isOpenModal" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
-      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
+      <RealLifeModal ref="childMethod" v-if="isRealLife" :dataProp="propChild"></RealLifeModal>
       <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
     </Modal>
 
@@ -208,10 +208,18 @@
             }
           }
         ],
-        balanceInfo: {}
+        balanceInfo: {},
+        realTypeIds: ['30000', '1050000', '1060000']
       }
     },
     computed:{
+      isRealLife () {
+        let array = this.realTypeIds.some(item=>{
+          return item == this.propChild.gameType
+        })
+
+        return array
+      },
       dataList () {
         if (this.nowPage === 1) {
           return this.playerDetailList.slice(0, this.nowSize)
@@ -279,7 +287,7 @@
         //     this.$refs.childMethod.getRecordSLXY()
         //   },0)
         // }
-         if (this.propChild.gameType == '30000') {
+         if (this.isRealLife) {
             this.isOpenModalBill = true
             setTimeout(()=>{
               this.$refs.childMethod.getRealLife()

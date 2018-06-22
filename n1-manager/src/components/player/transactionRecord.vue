@@ -57,7 +57,7 @@
 
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
-      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
+      <RealLifeModal ref="childMethod" v-if="isRealLife" :dataProp="propChild"></RealLifeModal>
       <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
     </Modal>
 
@@ -99,33 +99,6 @@
         isOpenModalRunning: false,
         radioInfo: '',
         amountDate: [],
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近三天',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
-              picker.$emit('pick', [start, end]);
-            }
-          },{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-              picker.$emit('pick', [start, end]);
-            }
-          },{
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
         companyList: [],
         gameTypeList: [],
         companyInfo: '全部厂商',
@@ -239,9 +212,17 @@
             }
           }
         ],
+        realTypeIds: ['30000', '1050000', '1060000']
       }
     },
     computed:{
+      isRealLife () {
+        let array = this.realTypeIds.some(item=>{
+          return item == this.propChild.gameType
+        })
+
+        return array
+      },
       dataList () {
         if (this.nowPage === 1) {
           return this.playerDetailList.slice(0, this.nowSize)
@@ -289,7 +270,7 @@
         //     this.$refs.childMethod.getRecordSLXY()
         //   },0)
         // }
-        if (this.propChild.gameType == '30000') {
+        if (this.isRealLife) {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()

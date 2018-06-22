@@ -10,21 +10,20 @@
     </Row>
     <Row class="record-row">
       <Col :span="12">会员：{{recordInfo.userName}}</Col>
-      <Col :span="12" class="-row-left">游戏：{{recordInfo.gameTable}}</Col>
+      <Col :span="12" class="-row-left">玩家下注：{{recordInfo.betNum || '无'}}</Col>
     </Row>
     <Row class="record-row">
       <Col :span="12" v-if="gameType!='30003'">游戏结果：{{brandResult[recordInfo.bpresult]}}（庄：
-      <span v-for="(item,index) in recordInfo.b" :key="index">
+      <span v-for="(item,index) in recordInfo.b">
               <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
             </span> 闲：
-      <span v-for="(item,index) in recordInfo.p" :key="index">
+      <span v-for="(item,index) in recordInfo.p">
               <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
             </span>）
       </Col>
       <Col v-else :span="12">
         游戏结果：{{recordInfo.roundResult}}
       </Col>
-      <Col :span="12" class="-row-left">玩家下注：{{recordInfo.betNum}}</Col>
     </Row>
   </div>
 </template>
@@ -93,8 +92,9 @@ export default {
       }).then(
         result => {
           this.gameType =  result.data.gameId
-          this.recordInfo = result.data.record
-          this.recordInfo.roundResult = JSON.parse(result.data.record.roundResult)
+          this.recordInfo = result.data
+          this.recordInfo.roundResult = JSON.parse(this.recordInfo.roundResult)
+          this.recordInfo.betNum = this.recordInfo.betDetail && this.recordInfo.betDetail.betNum
           this.recordInfo.p = this.recordInfo.roundResult.p
           this.recordInfo.b = this.recordInfo.roundResult.b
           this.recordInfo.bpresult  = this.recordInfo.roundResult.bpresult
