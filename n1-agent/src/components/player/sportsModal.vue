@@ -22,9 +22,9 @@
     </Row>
     <Row class="record-row">
       <Col :span="12">投注金额：{{sportsInfo.betAmount}}</Col>
-      <Col :span="12" class="-row-left" v-if="isShow">返奖金额：{{sportsInfo.winAmount}}</Col>
+      <Col :span="12" class="-row-left" v-if="sportsInfo.betAmount">返奖金额：{{sportsInfo.winAmount}}</Col>
     </Row>
-    <Row class="record-row" v-if="isShow">
+    <Row class="record-row" v-if="sportsInfo.betAmount">
       <Col :span="12">输赢金额：
         <span :class="{'-p-green': sportsInfo.winloseAmount>0, '-p-red':sportsInfo.winloseAmount<0}">
           {{sportsInfo.winloseAmount}}
@@ -48,7 +48,6 @@ export default {
   data () {
     return {
       dialogLoading: false,
-      isShow: false,
       sportsInfo: {}, // 获取战绩所有对象
       roundResult: {}, // 获取战绩所有对象
       propInfo: {}, // 组件信息
@@ -156,12 +155,8 @@ export default {
         betId: this.dataProp.businessKey
       }).then(
         result => {
-          this.sportsInfo = result.data.record
-          this.isShow = this.sportsInfo.content.bet.length
-          this.roundResult = JSON.parse(result.data.record.anotherGameData)
-          this.sportsInfo.betAmount = this.sportsInfo.content.bet.length ? Math.abs(this.sportsInfo.content.bet[0].amount) : Math.abs(this.dataProp.amount)
-          this.sportsInfo.winAmount = this.sportsInfo.content.ret.length ? Math.abs(this.sportsInfo.content.ret[0].amount) : ''
-          this.sportsInfo.winloseAmount = (this.sportsInfo.winAmount - this.sportsInfo.betAmount).toFixed(2)
+          this.sportsInfo = result.data
+          this.roundResult = this.sportsInfo.betDetail
           if (this.sportsInfo.winloseAmount > 0) {
             this.sportsInfo.roundStatus = '2'
           } else if (this.sportsInfo.winloseAmount < 0) {
