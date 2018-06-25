@@ -33,7 +33,7 @@
     <div class="-p-content">
       <Table :columns="columns" :data="dataList"></Table>
       <Row  style="padding: 20px 0">
-        <Col span="12" class="g-text-right">
+        <Col span="12" class="g-text-left">
           <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
               <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">
                 {{formatPoints(allAmountFun)}}
@@ -396,6 +396,9 @@
 
     .-p-green{color: #00CC00}
     .-p-red{color: #FF3300}
+    .g-text-left{
+      text-align: left;
+    }
   }
 
 </style>
