@@ -38,6 +38,13 @@
                     </template>
                     <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
+                <Submenu name="operation">
+                  <template slot="title">
+                    <Icon type="gear-b"></Icon>
+                    运营中心
+                  </template>
+                  <MenuItem name="gameNoticeList">游戏公告列表</MenuItem>
+                </Submenu>
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="ios-people"></Icon>

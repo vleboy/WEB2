@@ -16,6 +16,8 @@ export const menuOpen = function (name) {
     openName = ['adminCenter']
   } else if (name == "board") {
     openName = ["board"];
+  } else if (name == "boothList") {
+    openName = ["operation"];
   }
   return openName
 }

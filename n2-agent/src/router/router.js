@@ -22,6 +22,7 @@ import adminOpreateLog from '@/pages/logCenter/adminOpreateLog'
 import adminList from '@/pages/adminCenter/adminList'
 import gameConfig from '@/pages/gameCenter/gameConfig'
 import playerList from '@/pages/player/playerlist'
+import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
 export const loginRouter = {
     path: '/login',
     name: 'login',
@@ -130,6 +131,15 @@ export const appRouter = [
       component:main,
       children:[
         {path:'list',title:'玩家列表',name:'playList',component:playerList}
+      ]
+    },
+    {
+      path:'/operation',
+      title:'运营中心',
+      name:'operation',
+      component:main,
+      children:[
+        {path:'gameNoticeList',title:'游戏公告列表',name:'gameNoticeList',component:gameNoticeList}
       ]
     }
 
