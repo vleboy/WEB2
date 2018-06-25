@@ -172,39 +172,37 @@
             width: 90,
             align: 'center',
             render: (h, params) => {
-              if (params.row.gameType != 1 && params.row.gameType != 2 && params.row.gameType != 3) {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    style: {
-                      color:'#20a0ff',
-                      marginRight: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.openModalBill(params.row)
-                      }
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  style: {
+                    color:'#20a0ff',
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.openModalBill(params.row)
                     }
-                  }, '查看战绩'),
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    style: {
-                      color:'#20a0ff'
-                    },
-                    on: {
-                      click: () => {
-                        this.openModalRunning(params.row)
-                      }
+                  }
+                }, '查看战绩'),
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  style: {
+                    color:'#20a0ff'
+                  },
+                  on: {
+                    click: () => {
+                      this.openModalRunning(params.row)
                     }
-                  }, '流水详情')
-                ])
-              }
+                  }
+                }, '流水详情')
+              ])
             }
           }
         ],
