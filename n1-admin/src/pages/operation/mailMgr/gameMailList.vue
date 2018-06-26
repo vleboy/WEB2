@@ -24,13 +24,27 @@
     <Modal title="发布邮件" v-model="isAddMail" width="700">
       <Form :model="mailInfo" :label-width="80">
         <FormItem label="发送对象" style="text-align: left">
-          <RadioGroup v-model="radioInfo">
-            <Radio label="1">所有人</Radio>
+          <RadioGroup v-model="sendObj" @on-change="changeSendObj">
+            <Radio label="1">商户</Radio>
             <Radio label="2">玩家</Radio>
+            <Radio label="3">所有人（玩家）</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="玩家昵称"  v-if="radioInfo == 2">
-          <Input v-model="mailInfo.nickname" placeholder="请输入玩家昵称" :maxlength='20'></Input>
+        <FormItem label="商户列表" style="text-align: left" v-show="sendObj=='1'">
+          <Select v-model="mailInfo.mNames" placeholder="请选择商户列表（支持多选）" filterable multiple style="width: 100%">
+            <Option v-for="(item, index) in merchantList" :key="index" :value="item.username">{{item.username}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="商户列表" style="text-align: left" v-show="sendObj=='2'">
+          <Select v-model="merchantInfo" placeholder="请选择商户列表（只能单选）" filterable style="width: 100%"
+                  @on-change="changeMerchant">
+            <Option v-for="(item, index) in merchantList" :key="index" :value="item.userId">{{item.username}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="玩家列表" style="text-align: left" v-if="sendObj == '2'">
+          <Select v-model="mailInfo.names" placeholder="请选择" style="width: 100%" filterable multiple not-found-text="没有匹配的玩家">
+            <Option v-for="(item, index) in playerList" :key="index" :value="item.userName">{{item.userName}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="邮件主题"  >
           <Input v-model="mailInfo.title" placeholder="请输入邮件主题" :maxlength='20'></Input>
@@ -116,6 +130,7 @@ export default {
     this.getMailList()
     this.getPackageList()
     this.getPropList()
+    this.getMerchantList()
   },
   data () {
     return {
@@ -125,25 +140,28 @@ export default {
       isAddMail: false,
       isSending: false,
       isFetching: false,
-      radioInfo: '1',
       checkTime: '1',
+      merchantInfo: '',
       isEditPackage: false, // 新增礼包道具编辑状态控制
       contentType: '', // 选择物品的类型
       mailList: [],
       packageList: [],
-      goodsType: [{
+      goodsType: [
+        {
         code: 1,
         name: '道具列表'
-      },
-      {
-        code: 2,
-        name: '礼包列表'
-      }],
+        },
+        {
+          code: 2,
+          name: '礼包列表'
+        }
+      ],
       mailInfo: {
-        nickname: '',
         title: '',
         sendTime: '',
         content: '',
+        mNames: [], // 商户数组
+        names: [], // 玩家数组
         tools: []
       },
       searchInfo: {
@@ -156,11 +174,9 @@ export default {
       }, // 暂加新增的道具
       propList: [], // 获取道具列表
       addToolList: [], // 添加新增道具列表（本地暂加）
-      dateOption: {
-        disabledDate (time) {
-          return time.getTime() < Date.now() - 3600 * 1000 * 24
-        }
-      },
+      merchantList: [], // 获取商户列表（单选）
+      playerList: [], // 获取玩家列表
+      sendObj:'', // 发送对象
       role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
       columns: [
         {
@@ -190,7 +206,17 @@ export default {
           title: '发送对象',
           key: 'msn',
           render: (h, params) => {
-            return h('span', params.row.nickname === 'NULL!' ? '所有人' : params.row.nickname)
+            let nameMerchant = ''
+            let namePlayer = ''
+
+            if(params.row.mNames && params.row.mNames.length) {
+              nameMerchant = params.row.mNames.join(',')
+            }
+            if(params.row.names && params.row.names.length) {
+              nameMerchant = params.row.names.join(',')
+            }
+
+            return h('span', nameMerchant || namePlayer || '所有玩家')
           }
         },
         {
@@ -287,8 +313,12 @@ export default {
     },
     submitProp () {
       this.mailInfo.tools = this.addToolList
-      if (!this.mailInfo.nickname && (this.radioInfo == 2)) {
-        return this.$Message.error('请输入玩家昵称')
+      if(this.sendObj == '1' && !this.mailInfo.mNames.length) {
+        return this.$Message.error('请选择发送的商户')
+      } else if(this.sendObj == '2' && !this.mailInfo.names.length) {
+        return this.$Message.error('请选择发送的玩家')
+      } else if(this.sendObj == '') {
+        return this.$Message.error('请选择发送对象')
       } else if (!this.mailInfo.title) {
         return this.$Message.error('请输入邮件标题')
       } else if (!this.mailInfo.content) {
@@ -297,7 +327,6 @@ export default {
         return this.$Message.error('请选择发送时间')
       }
       this.mailInfo.sendTime = this.mailInfo.sendTime ? new Date(this.mailInfo.sendTime).getTime() : new Date().getTime()
-      this.mailInfo.nickname = this.radioInfo == 2 ? this.mailInfo.nickname : ''
       if (this.isSending) return // 防止重复提交
       this.isSending = true
       httpRequest('post', '/email/add', this.mailInfo).then(
@@ -313,11 +342,14 @@ export default {
     openModal () {
       this.isAddMail = true
       this.isEditPackage = false
+      this.merchantInfo = ''
+      this.sendObj = ''
       this.mailInfo = {
-        nickname: '',
         title: '',
         sendTime: '',
         content: '',
+        mNames: [],
+        names: [],
         tools: []
       }
       this.addToolInfo = {
@@ -353,6 +385,22 @@ export default {
         }
       )
     }, // 获取礼包列表
+    getMerchantList () {
+      httpRequest('post', '/merchants').then(
+        result => {
+          this.merchantList = result.payload
+        }
+      )
+    }, // 获取商户列表
+    getPlayerList () {
+      httpRequest('post', '/merchant/player/list',{
+        userId: this.merchantInfo
+      }).then(
+        result => {
+          this.playerList = result.list
+        }
+      )
+    }, // 获取商户下玩家列表
     addProp () {
       let reg = new RegExp(/^[0-9]*[1-9][0-9]*$/)
       if (!this.addToolInfo.toolName) {
@@ -434,6 +482,17 @@ export default {
           toolName: '',
           sum: ''
         }
+      }
+    },
+    changeSendObj () {
+      this.merchantInfo = ''
+      this.mailInfo.names = []
+      this.mailInfo.mNames = []
+    },
+    changeMerchant () {
+      if(this.sendObj == '2') {
+        this.getPlayerList()
+        this.mailInfo.names = []
       }
     }
   }
