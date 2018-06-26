@@ -31,18 +31,19 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="商户列表" style="text-align: left" v-show="sendObj=='1'">
-          <Select v-model="mailInfo.mNames" placeholder="请选择商户列表（支持多选）" filterable multiple style="width: 100%">
+          <Select v-model="mailInfo.mNames" placeholder="请选择商户列表（支持多选 / 搜索）" filterable multiple style="width: 100%">
             <Option v-for="(item, index) in merchantList" :key="index" :value="item.username">{{item.username}}</Option>
           </Select>
         </FormItem>
         <FormItem label="商户列表" style="text-align: left" v-show="sendObj=='2'">
-          <Select v-model="merchantInfo" placeholder="请选择商户列表（只能单选）" filterable style="width: 100%"
+          <Select v-model="merchantInfo" placeholder="请选择商户列表（只能单选 / 搜索）" filterable style="width: 100%"
                   @on-change="changeMerchant">
             <Option v-for="(item, index) in merchantList" :key="index" :value="item.userId">{{item.username}}</Option>
           </Select>
         </FormItem>
         <FormItem label="玩家列表" style="text-align: left" v-if="sendObj == '2'">
-          <Select v-model="mailInfo.names" placeholder="请选择" style="width: 100%" filterable multiple not-found-text="没有匹配的玩家">
+          <Select v-model="mailInfo.names" placeholder="请选择玩家（支持多选 / 搜索）" style="width: 100%" filterable multiple
+                  not-found-text="没有匹配的玩家" :loading=isFetchPlayer loading-text="获取玩家中...">
             <Option v-for="(item, index) in playerList" :key="index" :value="item.userName">{{item.userName}}</Option>
           </Select>
         </FormItem>
@@ -140,6 +141,7 @@ export default {
       isAddMail: false,
       isSending: false,
       isFetching: false,
+      isFetchPlayer: false,
       checkTime: '1',
       merchantInfo: '',
       isEditPackage: false, // 新增礼包道具编辑状态控制
@@ -393,13 +395,18 @@ export default {
       )
     }, // 获取商户列表
     getPlayerList () {
+      this.playerList = []
+      if(this.isFetchPlayer) return
+      this.isFetchPlayer = true
       httpRequest('post', '/merchant/player/list',{
         userId: this.merchantInfo
       }).then(
         result => {
           this.playerList = result.list
         }
-      )
+      ).finally(()=>{
+        this.isFetchPlayer = false
+      })
     }, // 获取商户下玩家列表
     addProp () {
       let reg = new RegExp(/^[0-9]*[1-9][0-9]*$/)
