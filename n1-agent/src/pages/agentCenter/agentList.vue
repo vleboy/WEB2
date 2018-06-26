@@ -1463,7 +1463,10 @@ export default {
               }
               this.resetAgent();
             }
-          });
+          })
+          .finally(()=>{
+              this.$store.commit('agentLoading',{params:false})
+          })
         } else {
           this.$Message.error("请检查输入项");
         }
