@@ -955,7 +955,7 @@ export default {
                       on: {
                         click: () => {
                           this.agentModal = true;
-                          this.parentSn = params.row.sn;
+                          this.parentSn = params.row.sn||'NA369';
                           let userId = params.row.userId;
                           this.agent.parent = userId;
                           availableAgents({ parent: userId }).then(res => {
