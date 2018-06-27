@@ -178,7 +178,7 @@ export default {
           sortable: true,
           render: (h, params) => {
             let admininfo = JSON.parse(localStorage.getItem("userInfo"));
-            let admin = admininfo.username.substr(9);
+            let admin = admininfo.uname
             let adminId = admininfo.userId;
             let userName = admininfo.username;
             let permission = this.permission;
