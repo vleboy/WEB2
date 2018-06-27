@@ -4,6 +4,11 @@
       <div class="top">
         <p class="title">
           当前用户列表
+          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -51,6 +56,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
+      source: "正式",
       gameType: [
         3,
         30000,
@@ -68,7 +74,7 @@ export default {
         {
           title: "序号",
           type: "index",
-          maxWidth:60
+          maxWidth: 60
         },
         {
           title: "类型",
@@ -199,21 +205,29 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             } else {
-              color=params.row.winloseAmount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, params.row.winloseAmount);
+              color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                params.row.winloseAmount
+              );
             }
           }
         },
@@ -241,14 +255,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -257,12 +275,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -297,14 +319,18 @@ export default {
                 }
               }
             }
-            let color=''
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -313,12 +339,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-               return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -353,14 +383,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -369,12 +403,16 @@ export default {
                   count += obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -409,14 +447,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -425,12 +467,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -465,14 +511,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-               color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -481,12 +531,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-              color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -564,7 +618,7 @@ export default {
         //     }
         //   }
         // },
-         {
+        {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -577,14 +631,18 @@ export default {
                 }
               }
             }
-            let color='';
+            let color = "";
             if (params.row.role == "1") {
-              color=allCount<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, allCount.toFixed(2));
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                allCount.toFixed(2)
+              );
             } else {
               let obj = params.row.gameTypeMap;
               let count = 0;
@@ -593,12 +651,16 @@ export default {
                   count = obj[key].winloseAmount;
                 }
               }
-               color=count<0?'#f30':'#0c0';
-              return h("span",{
-                style:{
-                  color:color
-                }
-              }, count.toFixed(2));
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                count.toFixed(2)
+              );
             }
           }
         },
@@ -641,13 +703,17 @@ export default {
         {
           title: "总游戏输赢金额",
           key: "winloseAmount",
-          render:(h,params)=>{
-            let color=params.row.winloseAmount<0?'#f30':'#0c0';
-            return h('span',{
-              style:{
-                color:color
-              }
-            },params.row.winloseAmount)
+          render: (h, params) => {
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
           }
         },
         {
@@ -661,12 +727,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -680,12 +750,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -699,12 +773,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -718,12 +796,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         {
@@ -737,12 +819,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         },
         // {
@@ -764,7 +850,7 @@ export default {
         //     }, count.toFixed(2));
         //   }
         // },
-         {
+        {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -775,12 +861,16 @@ export default {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, count.toFixed(2));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              count.toFixed(2)
+            );
           }
         }
       ]
@@ -797,12 +887,25 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
     confirm() {
       this.reportChild = [];
       this.init();
+    },
+    changeSource(){
+      this.init()
     },
     reset() {
       this.defaultTime = getDefaultTime();
@@ -855,14 +958,21 @@ export default {
     },
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let req1 = this.$store.dispatch("getUserList", { userId: userId });
-      let req2 = this.$store.dispatch("getUserChild", {
+      let params1 = { userId: userId, isTest: this.isTest };
+      let params2 = {
         parent: "01",
+        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      });
+      };
+      if (this.isTest == 2) {
+        delete params1.isTest;
+        delete params2.isTest;
+      }
+      let req1 = this.$store.dispatch("getUserList", params1);
+      let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.spinShow = false;
@@ -892,9 +1002,9 @@ export default {
     display: inline-block;
   }
   .top {
-    clear: both;
     .right {
-      float: right;
+      display: inline-block;
+      padding-left: 20px;
     }
   }
   .demo-spin-icon-load {

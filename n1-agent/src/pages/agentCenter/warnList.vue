@@ -4,6 +4,11 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
+         <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+          <Radio label="正式"></Radio>
+          <Radio label="测试"></Radio>
+          <Radio label="全部"></Radio>
+        </RadioGroup>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
       <Table :columns="columns" :data="warnList" size="small"></Table>
@@ -55,6 +60,7 @@ export default {
       open: false,
       opreateModal: false,
       pointModal: false,
+      source: "正式",
       companyList: [],
       gameType: "",
       opreate: null,
@@ -142,7 +148,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -172,7 +178,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -212,7 +218,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -276,7 +282,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -365,6 +371,16 @@ export default {
       } else {
         return dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
       }
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
@@ -375,9 +391,12 @@ export default {
       let level = userInfo.level;
       let params = {};
       if (level == 0) {
-        params = { parent: "01" };
+        params = { parent: "01" ,isTest: this.isTest};
       } else {
-        params = { parent: userId };
+        params = { parent: userId ,isTest: this.isTest};
+      }
+      if (this.isTest == 2) {
+        delete params.isTest;
       }
       let req1 = configOne({
         code: "roundLast"
@@ -395,6 +414,9 @@ export default {
     },
     cancel() {
       this.newAmount = null;
+    },
+     changeSource(value) {
+      this.init();
     },
     reset() {
       this.init();

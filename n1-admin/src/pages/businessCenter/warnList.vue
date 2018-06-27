@@ -4,6 +4,11 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
+        <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+          <Radio label="正式"></Radio>
+          <Radio label="测试"></Radio>
+          <Radio label="全部"></Radio>
+        </RadioGroup>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
       <Table :columns="columns" :data="warnList" size="small"></Table>
@@ -60,6 +65,7 @@ export default {
       opreate: null,
       userId: "",
       role: "", //
+      source: "正式",
       spinShow: false,
       topAmount: null,
       winloseAmount: null,
@@ -142,7 +148,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -172,7 +178,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -212,7 +218,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -280,7 +286,7 @@ export default {
               permission.includes("接入商停启用") &&
               permission.includes("设定接入商告警上限")
             ) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -354,7 +360,7 @@ export default {
                 })
               );
             } else if (permission.includes("接入商停启用")) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -406,7 +412,7 @@ export default {
                 })
               );
             } else if (permission.includes("设定接入商告警上限")) {
-              let companyList = params.row.companyList;
+              let companyList = params.row.companyList||[];
               return h(
                 "div",
                 companyList.map(item => {
@@ -434,8 +440,8 @@ export default {
                   );
                 })
               );
-            }else{
-              return h('span','')
+            } else {
+              return h("span", "");
             }
           }
         }
@@ -453,6 +459,16 @@ export default {
     },
     permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
@@ -461,9 +477,11 @@ export default {
       let req1 = configOne({
         code: "roundLast"
       });
-      let req2 = queryUserStat({
-        parent: "01"
-      });
+      let params = { parent: "01", isTest: this.isTest };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      let req2 = queryUserStat(params);
       let [config, userStat] = await this.axios.all([req1, req2]);
       if (config && config.code == 0) {
         this.endTime = config.payload.lastAllAmountTime;
@@ -476,6 +494,9 @@ export default {
     },
     cancel() {
       this.newAmount = null;
+    },
+    changeSource(value) {
+      this.init();
     },
     reset() {
       this.init();

@@ -4,6 +4,11 @@
       <div class="top">
         <p class="title">
           当前用户列表
+          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -51,6 +56,7 @@ export default {
       reportChild: [], //点击渲染的下级
       playerList: [], //玩家列表
       user: [], //当前管理员
+      source: "正式",
       child: [], //管理员下级
       gameType: [10000, 30000, 40000, 50000],
       // option: {
@@ -525,6 +531,16 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
@@ -533,6 +549,9 @@ export default {
     },
     reset() {
       this.defaultTime = getDefaultTime();
+      this.init();
+    },
+    changeSource() {
       this.init();
     },
     search() {
@@ -588,25 +607,33 @@ export default {
       } else {
         parent = userId;
       }
-      let req1 = null;
+      let params1 = {};
       if (level == 0) {
-        req1 = this.$store.dispatch("getUserList", { userId });
+        params1 = { userId: userId, isTest: this.isTest };
       } else {
-        req1 = this.$store.dispatch("getUserList", {
+        params1 = {
           userId: userId,
+          isTest: this.isTest,
           gameType: this.gameType,
           query: {
             createdAt: this.changedTime
           }
-        });
+        };
       }
-      let req2 = this.$store.dispatch("getUserChild", {
-        parent,
+      let params2 = {
+        parent: parent,
+        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      });
+      };
+      if (this.isTest == 2) {
+        delete params1.isTest;
+        delete params2.isTest;
+      }
+      let req1 = this.$store.dispatch("getUserList", params1);
+      let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.$store

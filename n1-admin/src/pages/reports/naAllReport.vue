@@ -4,6 +4,11 @@
       <div class="top">
         <p class="title">
           当前用户列表
+          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -52,6 +57,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       gameType: [3, 30000, 40000, 50000],
+      source: "正式",
       columns1: [
         {
           title: "序号",
@@ -522,11 +528,24 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
     confirm() {
       this.reportChild = [];
+      this.init();
+    },
+    changeSource() {
       this.init();
     },
     reset() {
@@ -581,14 +600,21 @@ export default {
     },
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let req1 = this.$store.dispatch("getUserList", { userId: userId });
-      let req2 = this.$store.dispatch("getUserChild", {
+      let params1 = { userId: userId, isTest: this.isTest };
+      let params2 = {
         parent: "01",
+        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      });
+      };
+      if (this.isTest == 2) {
+        delete params1.isTest;
+        delete params2.isTest;
+      }
+      let req1 = this.$store.dispatch("getUserList", params1);
+      let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.spinShow = false;

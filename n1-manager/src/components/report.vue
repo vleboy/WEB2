@@ -4,6 +4,11 @@
       <div class="top">
         <p class="title">
           当前用户列表
+          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -51,6 +56,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
+      source: "正式",
       // option: {
       //   disabledDate(date) {
       //     return date && date.valueOf() > Date.now() - 180000;
@@ -86,7 +92,7 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
-                    if  (params.row.role == "100") {
+                    if (params.row.role == "100") {
                       //商户
                       this.userName = params.row.displayName;
                       this.showName = true;
@@ -117,7 +123,7 @@ export default {
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
-                       let id = localStorage.loginId;
+                      let id = localStorage.loginId;
                       if ((params.row.userId = id)) {
                         this.$store
                           .dispatch("getUserChild", {
@@ -167,26 +173,26 @@ export default {
         },
         {
           title: "交易次数",
-          key: "betCount",
+          key: "betCount"
         },
         {
           title: "投注金额",
-          key: "betAmount",
+          key: "betAmount"
         },
         {
           title: "输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
-            let  color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                params.row.winloseAmount
-              );
+            let color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
           }
         },
         {
@@ -209,13 +215,13 @@ export default {
         },
         {
           title: "商家交公司",
-          key: "submitAmount",
+          key: "submitAmount"
         },
         {
           title: "获利比例",
           key: "rate",
           render: (h, params) => {
-            let userId=localStorage.loginId
+            let userId = localStorage.loginId;
             if (params.row.userId == userId) {
               let arr = this.child;
               let winloseAmount = 0;
@@ -298,11 +304,24 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
     confirm() {
       this.reportChild = [];
+      this.init();
+    },
+    changeSource() {
       this.init();
     },
     reset() {
@@ -357,20 +376,28 @@ export default {
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       this.spinShow = true;
-      let req1 = this.$store.dispatch("getUserList", {
+      let params1 = {
         userId: userId,
+        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      });
-      let req2 = this.$store.dispatch("getUserChild", {
+      };
+      let params2 = {
         parent: userId,
+        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      });
+      };
+      if (this.isTest == 2) {
+        delete params1.isTest;
+        delete params2.isTest;
+      }
+      let req1 = this.$store.dispatch("getUserList", params1);
+      let req2 = this.$store.dispatch("getUserChild", params2);
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.spinShow = false;
