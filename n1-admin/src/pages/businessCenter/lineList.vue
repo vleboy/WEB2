@@ -21,6 +21,11 @@
     <div class="option">
       <p class="create">
         <Button type="primary" @click="createLine" v-if="permission.includes('创建线路商')">创建线路商</Button>
+        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+          <Radio label="正式"></Radio>
+          <Radio label="测试"></Radio>
+          <Radio label="全部"></Radio>
+        </RadioGroup>
       </p>
     </div>
     <div class="table">
@@ -90,6 +95,7 @@ export default {
       select: "", //加点select
       fromUserId: "", //id
       toRole: " ",
+      source: "正式",
       toUser: "",
       displayName: "",
       suffix: "", //前缀
@@ -135,7 +141,7 @@ export default {
                         type: "help-circled"
                       },
                       style: {
-                        paddingLeft: "8px",
+                        paddingLeft: "8px"
                       }
                     })
                   ]
@@ -162,7 +168,7 @@ export default {
           sortable: true,
           render: (h, params) => {
             let admininfo = JSON.parse(localStorage.getItem("userInfo"));
-            let admin = admininfo.uname
+            let admin = admininfo.uname;
             let adminId = admininfo.userId;
             let userName = admininfo.username;
             let permission = this.permission;
@@ -449,11 +455,7 @@ export default {
                             }).then(res => {
                               if (res.code == 0) {
                                 this.$Message.success(`${text}成功`);
-                                this.$store.dispatch("getManagerList", {
-                                  query: {},
-                                  sortkey: "createdAt",
-                                  sort: "desc"
-                                });
+                                this.init()
                               }
                             });
                           }
@@ -563,11 +565,22 @@ export default {
     reset() {
       this.suffix = "";
       this.displayName = "";
-      this.$store.dispatch("getManagerList", {
+      this.init()
+    },
+    changeSource(value) {
+      this.init()
+    },
+    init() {
+      let params={
         query: {},
+        isTest:this.isTest,
         sortkey: "createdAt",
         sort: "desc"
-      });
+      }
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getManagerList", params );
     },
     search() {
       let query = {
@@ -596,26 +609,25 @@ export default {
     },
     permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   created() {
-    this.$store.dispatch("getManagerList", {
-      query: {
-        // suffix: "a",
-        // displayName: "a"
-      },
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+    this.init()
   },
   watch: {
     $route(to, from) {
       if (from.name == "addLineMerchant") {
-        this.$store.dispatch("getManagerList", {
-          query: {},
-          sortkey: "createdAt",
-          sort: "desc"
-        });
+       this.init()
       }
     }
   }
@@ -644,7 +656,9 @@ export default {
     }
   }
 }
-
+.radioGroup {
+  padding-left: 20px;
+}
 #textRow {
   display: block;
   resize: vertical;
