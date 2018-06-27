@@ -4,7 +4,7 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
-        <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+        <RadioGroup v-model="source" type="button" class="radioGroup" @on-change='changeSource'>
           <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
           <Radio label="全部"></Radio>
@@ -599,6 +599,9 @@ export default {
   margin: 20px auto;
   font-size: 14px;
   text-indent: 1em;
+}
+.radioGroup{
+  padding-left: 20px
 }
 .modalHead {
   font-size: 18px;
