@@ -10,9 +10,17 @@
             <span>线路商账号 : {{admin.uname}}</span>
           </td>
            <td>
-            <span>线路商密码 : {{admin.password}}
+             <Row>
+              <Col span="10">线路商密码 :
+              <span v-if="showPass">{{admin.password}}</span>
+              <span v-else>********</span>
+              </Col>
+              <Col span="12">
+              <span class="newPassword" @click="showPass=!showPass" v-if="!showPass">显示</span>
+              <span class="newPassword" @click="showPass=!showPass" v-else>隐藏</span>
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
-            </span>
+              </Col>
+            </Row>
           </td>
           <td>
             <span>线路商前缀 : {{admin.suffix}} </span>
@@ -68,6 +76,7 @@ export default {
     return {
       modal: false,
       password: "",
+      showpass:false,
       repassword: "",
       dayjs: dayjs,
       pageSize: 50,

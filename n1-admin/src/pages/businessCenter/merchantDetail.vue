@@ -75,6 +75,9 @@
                 {{merchantDetail.lastIP}}
               </FormItem>
               </Col>
+              <Col span="8">
+              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
+              </Col>
             </Row>
             <Row>
               <Col span="8">
@@ -276,6 +279,7 @@ export default {
     };
     return {
       parent: "",
+      isTest: false, //测试号
       value: "",
       dayjs: dayjs,
       edit: true, //可编辑
@@ -571,6 +575,7 @@ export default {
       params.loginWhiteList = this.basic.loginWhiteList;
       params.isOpenBrowser = this.defaultBrower;
       params.launchImg = this.merchantDetail.launchImg;
+      params.isTest = this.isTest == true ? 1 : 0;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -580,10 +585,8 @@ export default {
       updateMerchant(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-          this.spinShow = false;
-        } else {
-          this.spinShow = false;
         }
+        this.spinShow = false;
       });
     },
     selectCompany(value) {
@@ -702,6 +705,7 @@ export default {
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
         this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false;
+        this.isTest=merchant.payload.isTest==1?true:false;
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {

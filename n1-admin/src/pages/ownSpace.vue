@@ -10,9 +10,17 @@
             <span>管理员账号 : {{admin.username | getName}}</span>
           </td>
           <td>
-            <span>管理员密码 : {{admin.password}}
+            <Row>
+              <Col span="10">管理员密码 :
+              <span v-if="showPass">{{admin.password}}</span>
+              <span v-else>********</span>
+              </Col>
+              <Col span="12">
+              <span class="newPassword" @click="showPass=!showPass" v-if="!showPass">显示</span>
+              <span class="newPassword" @click="showPass=!showPass" v-else>隐藏</span>
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
-            </span>
+              </Col>
+            </Row>
           </td>
           <td>
             <span>管理员余额 : {{ admin.balance }}</span>
@@ -68,6 +76,7 @@ export default {
   data() {
     return {
       modal: false,
+      showPass: false,
       password: "",
       repassword: "",
       dayjs: dayjs,

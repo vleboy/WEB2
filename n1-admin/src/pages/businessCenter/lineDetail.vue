@@ -42,6 +42,7 @@
               </FormItem>
               </Col>
               <Col span="8">
+              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
               </Col>
             </Row>
             <Row>
@@ -213,6 +214,7 @@ export default {
     };
     return {
       parent: "",
+      isTest: false,
       value: "3",
       dayjs: dayjs,
       edit: true, //可编辑
@@ -983,6 +985,7 @@ export default {
       params.password = password;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
+      params.isTest = this.isTest == true ? 1 : 0;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -992,10 +995,8 @@ export default {
       updateManagers(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-          this.spinShow = false;
-        } else {
-          this.spinShow = false;
         }
+        this.spinShow = false;
       });
     },
     selectCompany(value) {
@@ -1117,6 +1118,7 @@ export default {
       }
       if (managers && managers.code == 0) {
         this.lineDetail = managers.payload;
+        this.isTest = managers.payload.isTest == 1 ? true : false;
         this.gameDetail = managers.payload.gameList;
       }
       if (company && company.code == 0) {

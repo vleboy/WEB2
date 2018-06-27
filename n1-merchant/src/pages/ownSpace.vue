@@ -5,7 +5,7 @@
     </div>
     <div class="manangeinfo">
       <table cellspacing="0">
-         <tr>
+        <tr>
           <td>
             <span>商户密匙 : {{admin.apiKey}}</span>
           </td>
@@ -21,15 +21,23 @@
             <span>管理员账号 : {{admin.uname}}</span>
           </td>
           <td>
-            <span>管理员密码 : {{admin.password}}
+            <Row>
+              <Col span="10">管理员密码 :
+              <span v-if="showPass">{{admin.password}}</span>
+              <span v-else>********</span>
+              </Col>
+              <Col span="12">
+              <span class="newPassword" @click="showPass=!showPass" v-if="!showPass">显示</span>
+              <span class="newPassword" @click="showPass=!showPass" v-else>隐藏</span>
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
-            </span>
+              </Col>
+            </Row>
           </td>
-           <td>
+          <td>
             <span>商户线路号 : {{ admin.msn }}</span>
           </td>
         </tr>
-         <tr>
+        <tr>
           <td>
             <span>上次登录时间 : {{dayjs(admin.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
@@ -77,6 +85,7 @@ export default {
     return {
       modal: false,
       password: "",
+      showPass: false,
       repassword: "",
       dayjs: dayjs,
       pageSize: 50,
@@ -92,7 +101,7 @@ export default {
         {
           title: "交易前余额",
           key: "oldBalance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.oldBalance));
           }
@@ -100,7 +109,7 @@ export default {
         {
           title: "交易点数",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let color = params.row.amount < 0 ? "#f30" : "#0c0";
             return h(
@@ -117,7 +126,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          sortable:true,
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -148,7 +157,7 @@ export default {
         {
           title: "交易类型",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let row = params.row;
             if (row.amount > 0) {
@@ -177,7 +186,7 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.balance));
           }
@@ -185,7 +194,7 @@ export default {
         {
           title: "操作人",
           key: "operator",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", params.row.operator.split("_")[1]);
           }

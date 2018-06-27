@@ -10,9 +10,17 @@
             <span>代理管理员账号 : {{agentDetail.username}}</span>
           </td>
           <td>
-            <span>代理管理员密码 : {{agentDetail.password}}
+             <Row>
+              <Col span="10">代理管理员密码 :
+              <span v-if="showPass">{{agentDetail.password}}</span>
+              <span v-else>********</span>
+              </Col>
+              <Col span="12">
+              <span class="newPassword" @click="showPass=!showPass" v-if="!showPass">显示</span>
+              <span class="newPassword" @click="showPass=!showPass" v-else>隐藏</span>
               <h5 class="newPassword" @click="newPassword">修改密码</h5>
-            </span>
+              </Col>
+            </Row>
           </td>
           <td>
             <span>代理管理员成数 : {{ agentDetail.rate+'%' }}</span>
@@ -75,6 +83,7 @@ export default {
     return {
       modal: false,
       password: "",
+      showPass:false,
       repassword: "",
       dayjs: dayjs,
       agentDetail: {},

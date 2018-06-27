@@ -115,27 +115,62 @@ export default {
         {
           title: "商户ID",
           key: "displayId",
-          sortable: true,
+          sortable: true
         },
         {
           title: "商户标识",
           key: "sn",
-          sortable: true,
+          sortable: true
         },
         {
           title: "商户账号",
           key: "uname",
           sortable: true,
+          render: (h, params) => {
+            if (params.row.isTest == 1) {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#ff9900"
+                    }
+                  },
+                  params.row.uname
+                ),
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: "测试帐号，在看板和报表统计中可选显示"
+                    }
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "help-circled"
+                      },
+                      style: {
+                        paddingLeft: "8px",
+                      }
+                    })
+                  ]
+                )
+              ]);
+            } else {
+              return h("span", params.row.uname);
+            }
+          }
         },
         {
           title: "商户昵称",
           key: "displayName",
-          sortable: true,
+          sortable: true
         },
         {
           title: "上级线路商",
           key: "parentDisplayName",
-          sortable: true,
+          sortable: true
         },
         {
           title: "剩余点数",
@@ -341,7 +376,7 @@ export default {
         {
           title: "备注",
           key: "remark",
-          maxWidth: 80,
+          maxWidth: 60,
           render: (h, params) => {
             let remark = params.row.remark;
             let result = Object.prototype.toString.call(remark);

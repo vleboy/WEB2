@@ -109,7 +109,42 @@ export default {
         {
           title: "线路商账号",
           key: "uname",
-          sortable: true
+          sortable: true,
+          render: (h, params) => {
+            if (params.row.isTest == 1) {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#ff9900"
+                    }
+                  },
+                  params.row.uname
+                ),
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: "测试帐号，在看板和报表统计中可选显示"
+                    }
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "help-circled"
+                      },
+                      style: {
+                        paddingLeft: "8px",
+                      }
+                    })
+                  ]
+                )
+              ]);
+            } else {
+              return h("span", params.row.uname);
+            }
+          }
         },
         {
           title: "线路商昵称",
