@@ -3,6 +3,11 @@
     <div class="nowList">
       <p class="title">
         当前代理
+        <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+          <Radio label="正式"></Radio>
+          <Radio label="测试"></Radio>
+          <Radio label="全部"></Radio>
+        </RadioGroup>
       </p>
       <Table :columns="columns1" :data="userInfo" size="small"></Table>
     </div>
@@ -336,6 +341,7 @@ export default {
       currentLevel: null,
       fromUserId: "", //modal data
       toRole: "",
+      source: "正式",
       toUser: "",
       maxBalance: "上级代理余额为:",
       //创建agnet
@@ -955,7 +961,7 @@ export default {
                       on: {
                         click: () => {
                           this.agentModal = true;
-                          this.parentSn = params.row.sn||'NA369';
+                          this.parentSn = params.row.sn || "NA369";
                           let userId = params.row.userId;
                           this.agent.parent = userId;
                           availableAgents({ parent: userId }).then(res => {
@@ -983,9 +989,9 @@ export default {
                         click: () => {
                           this.playerModal = true;
                           let userId = params.row.userId;
-                          if(this.player.parentId==userId){
+                          if (this.player.parentId == userId) {
                             this.selectPlayerParent(userId);
-                          }else{
+                          } else {
                             this.player.parentId = userId;
                           }
                           availableAgents({ userId }).then(res => {
@@ -1400,8 +1406,8 @@ export default {
             maxMix = item.mix;
           }
         }
-      }else{
-        maxMix=1
+      } else {
+        maxMix = 1;
       }
       if (balance > maxMix && maxMix != null) {
         this.$Message.warning({
@@ -1450,23 +1456,24 @@ export default {
             rate: agent.rate,
             role: "1000",
             gameList: this.gameDetail
-          }).then(res => {
-            if (res.code == 0) {
-              this.$Message.success("创建成功");
-              if (this.admin) {
-                this.$store.dispatch("getAgentList", {
-                  parent,
-                  query: {},
-                  sort: "desc",
-                  sortkey: "createdAt"
-                });
+          })
+            .then(res => {
+              if (res.code == 0) {
+                this.$Message.success("创建成功");
+                if (this.admin) {
+                  this.$store.dispatch("getAgentList", {
+                    parent,
+                    query: {},
+                    sort: "desc",
+                    sortkey: "createdAt"
+                  });
+                }
+                this.resetAgent();
               }
-              this.resetAgent();
-            }
-          })
-          .finally(()=>{
-              this.$store.commit('agentLoading',{params:false})
-          })
+            })
+            .finally(() => {
+              this.$store.commit("agentLoading", { params: false });
+            });
         } else {
           this.$Message.error("请检查输入项");
         }
@@ -1535,6 +1542,9 @@ export default {
       this.remark = "";
       this.playerPoint = false;
       this.maxBalance = "上级代理余额为:";
+    },
+     changeSource(value) {
+      this.init();
     },
     passwordLevel(password) {
       var Modes = 0;
@@ -1615,12 +1625,17 @@ export default {
           this.userInfo = arr;
         }
       });
-      this.$store.dispatch("getAgentList", {
+      let params={
         parent,
+        isTest:this.isTest,
         query: {},
         sort: "desc",
         sortkey: "createdAt"
-      });
+      }
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getAgentList",params );
     }, //添加玩家
     addPlayerConfirm() {
       this.$refs["playerForm"].validate(valid => {
@@ -1664,6 +1679,16 @@ export default {
     },
     playerList() {
       return this.$store.state.agent.playerList;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   created() {
