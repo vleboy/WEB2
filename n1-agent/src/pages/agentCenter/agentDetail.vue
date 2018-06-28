@@ -73,6 +73,9 @@
                 </Row>
               </FormItem>
               </Col>
+              <Col span="8">
+              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
+              </Col>
             </Row>
             <Row>
               <Col span="16">
@@ -214,6 +217,7 @@ export default {
       maxMix: 0,
       edit: true, //可编辑
       game: "",
+      isTest:false,
       role: "",
       mixTip: "",
       pageSize: 100, //分页
@@ -796,6 +800,7 @@ export default {
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       params.rate = this.basic.rate;
+      params.isTest = this.isTest == true ? 1 : 0;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -914,6 +919,7 @@ export default {
       }
       if (agentInfo && agentInfo.code == 0) {
         this.agentDetail = agentInfo.payload;
+        this.isTest = agentInfo.payload.isTest == 1 ? true : false;
         this.gameDetail = agentInfo.payload.gameList;
       }
       if (agentChild && agentChild.code == 0) {

@@ -3,11 +3,6 @@
     <div class="nowList">
       <p class="title">
         当前代理
-        <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-          <Radio label="正式"></Radio>
-          <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
-        </RadioGroup>
       </p>
       <Table :columns="columns1" :data="userInfo" size="small"></Table>
     </div>
@@ -15,6 +10,11 @@
       <div class="top">
         <span class="title left">
           下级代理列表
+          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </span>
         <div class="search">
           <Input v-model.trim="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
@@ -603,7 +603,42 @@ export default {
         {
           title: "代理昵称",
           key: "displayName",
-          sortable: true
+          sortable: true,
+           render: (h, params) => {
+            if (params.row.isTest == 1) {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#ff9900"
+                    }
+                  },
+                  params.row.displayName
+                ),
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: "测试帐号，在看板和报表统计中可选显示"
+                    }
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "help-circled"
+                      },
+                      style: {
+                        paddingLeft: "8px"
+                      }
+                    })
+                  ]
+                )
+              ]);
+            } else {
+              return h("span", params.row.displayName);
+            }
+          }
         },
         {
           title: "上级代理",
@@ -1543,7 +1578,7 @@ export default {
       this.playerPoint = false;
       this.maxBalance = "上级代理余额为:";
     },
-     changeSource(value) {
+    changeSource(value) {
       this.init();
     },
     passwordLevel(password) {
@@ -1625,17 +1660,17 @@ export default {
           this.userInfo = arr;
         }
       });
-      let params={
+      let params = {
         parent,
-        isTest:this.isTest,
+        isTest: this.isTest,
         query: {},
         sort: "desc",
         sortkey: "createdAt"
-      }
+      };
       if (this.isTest == 2) {
         delete params.isTest;
       }
-      this.$store.dispatch("getAgentList",params );
+      this.$store.dispatch("getAgentList", params);
     }, //添加玩家
     addPlayerConfirm() {
       this.$refs["playerForm"].validate(valid => {
@@ -1710,6 +1745,9 @@ export default {
       line-height: 40px;
       padding-top: 4px;
     }
+  }
+  .radioGroup {
+    padding-left: 20px;
   }
   .title {
     font-size: 1.2rem;
