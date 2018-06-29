@@ -76,7 +76,7 @@ export default {
     return {
       modal: false,
       password: "",
-      showpass:false,
+      showPass:false,
       repassword: "",
       dayjs: dayjs,
       pageSize: 50,
