@@ -311,8 +311,8 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -531,8 +531,8 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -752,7 +752,10 @@ export default {
         },
         {
           title: "交易前余额",
-          key: "oldBalance"
+          key: "oldBalance",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
+          }
         },
         {
           title: "交易点数",
@@ -766,7 +769,7 @@ export default {
                   color: color
                 }
               },
-              params.row.amount
+              thousandFormatter(params.row.amount)
             );
           }
         },
@@ -830,7 +833,10 @@ export default {
         },
         {
           title: "交易后余额",
-          key: "balance"
+          key: "balance",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
+          }
         },
         {
           title: "操作人",
