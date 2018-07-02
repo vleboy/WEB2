@@ -92,6 +92,7 @@
 <script>
 import dayjs from "dayjs";
 import { userChangeStatus } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -190,7 +191,7 @@ export default {
             let permission = this.permission;
             if (permission.includes("商户加减点")) {
               return h("div", [
-                h("p", params.row.balance.toFixed(2)),
+                h("p", thousandFormatter(params.row.balance.toFixed(2))),
                 h("p", [
                   h(
                     "span",

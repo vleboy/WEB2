@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <td>
-            <span>剩余点数 : {{ agentDetail.balance }}</span>
+            <span>剩余点数 : {{ thousandFormatter(agentDetail.balance) }}</span>
           </td>
           <td></td>
           <td></td>
@@ -83,6 +83,7 @@ export default {
     return {
       modal: false,
       password: "",
+      thousandFormatter:thousandFormatter,
       showPass:false,
       repassword: "",
       dayjs: dayjs,

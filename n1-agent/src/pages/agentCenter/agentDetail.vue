@@ -194,6 +194,7 @@ import {
   reduceBill
 } from "@/service/index";
 import dayjs from "dayjs";
+import { thousandFormatter } from "@/config/format";
 import _ from "lodash";
 export default {
   data() {
@@ -269,7 +270,10 @@ export default {
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",
@@ -429,7 +433,10 @@ export default {
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",

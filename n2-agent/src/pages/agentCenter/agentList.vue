@@ -10,6 +10,11 @@
       <div class="top">
         <span class="title left">
           下级代理列表
+           <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+            <Radio label="正式"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="全部"></Radio>
+          </RadioGroup>
         </span>
         <div class="search">
           <Input v-model.trim="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
@@ -354,6 +359,7 @@ export default {
       fromUserId: "", //modal data
       toRole: "",
       toUser: "",
+      source:'正式',
       //创建agnet
       agentModal: false,
       agentCompany:'',
@@ -612,7 +618,42 @@ export default {
         {
           title: "代理昵称",
           key: "displayName",
-          sortable: true
+          sortable: true,
+           render: (h, params) => {
+            if (params.row.isTest == 1) {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#ff9900"
+                    }
+                  },
+                  params.row.displayName
+                ),
+                h(
+                  "Tooltip",
+                  {
+                    props: {
+                      content: "测试帐号，在看板和报表统计中可选显示"
+                    }
+                  },
+                  [
+                    h("Icon", {
+                      props: {
+                        type: "help-circled"
+                      },
+                      style: {
+                        paddingLeft: "8px"
+                      }
+                    })
+                  ]
+                )
+              ]);
+            } else {
+              return h("span", params.row.displayName);
+            }
+          }
         },
         {
           title: "上级代理",
@@ -1396,6 +1437,9 @@ export default {
       this.userName = "";
       this.init();
     },
+    changeSource(value) {
+      this.init();
+    },
     // resetplayer() {
     //   this.search2 = "";
     // },
@@ -1694,12 +1738,17 @@ export default {
           this.userInfo = arr;
         }
       });
-      this.$store.dispatch("getAgentList", {
+      let params = {
         parent,
+        isTest: this.isTest,
         query: {},
         sort: "desc",
         sortkey: "createdAt"
-      });
+      };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getAgentList",params);
     },
     addPlayerConfirm() {
       this.$refs["playerForm"].validate(valid => {
@@ -1743,6 +1792,16 @@ export default {
     },
     playerList() {
       return this.$store.state.agent.playerList;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   created() {

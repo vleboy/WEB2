@@ -189,6 +189,7 @@ import {
   getBill,
   frozen
 } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     const validatePlayerName = (rule, value, callback) => {
@@ -314,7 +315,7 @@ export default {
       if (value == "") {
         callback(new Error("成数不能为空"));
       } else {
-        let testReg = /^[1-9]\d*$/;
+        let testReg = /^\d*$/;
         if (!testReg.test(value)) {
           callback(new Error("成数需为数字"));
         } else {
@@ -726,10 +727,10 @@ export default {
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
-              return h("span", params.row.balance);
+              return h("span", thousandFormatter(params.row.balance));
             } else {
               return h("div", [
-                h("p", params.row.balance),
+                h("p", thousandFormatter(params.row.balance)),
                 h("p", [
                   h(
                     "span",

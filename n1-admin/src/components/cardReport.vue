@@ -45,6 +45,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -196,9 +197,9 @@ export default {
               count += item.betAmount;
             }
             if (params.row.role == "1") {
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             } else {
-              return h("span", params.row.betAmount.toFixed(2));
+              return h("span", thousandFormatter(params.row.betAmount.toFixed(2)));
             }
           }
         },
@@ -222,7 +223,10 @@ export default {
         },
         {
           title: "交易金额",
-          key: "betAmount"
+          key: "betAmount",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.betAmount))
+          }
         },
       ]
     };

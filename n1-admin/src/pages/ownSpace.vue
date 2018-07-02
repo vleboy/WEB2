@@ -23,7 +23,7 @@
             </Row>
           </td>
           <td>
-            <span>管理员余额 : {{ admin.balance }}</span>
+            <span>管理员余额 : {{ thousandFormatter(admin.balance) }}</span>
           </td>
         </tr>
         <tr>
@@ -77,6 +77,7 @@ export default {
     return {
       modal: false,
       showPass: false,
+      thousandFormatter:thousandFormatter,
       password: "",
       repassword: "",
       dayjs: dayjs,

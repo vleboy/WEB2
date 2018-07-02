@@ -61,6 +61,7 @@
 <script>
 import dayjs from "dayjs";
 import { getsbuRole, adminUpdate } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -96,7 +97,10 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          sortable:true
+          sortable:true,
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",

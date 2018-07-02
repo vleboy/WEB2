@@ -45,6 +45,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -202,7 +203,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
@@ -213,7 +214,7 @@ export default {
                     color: color
                   }
                 },
-                params.row.winloseAmount
+                thousandFormatter(params.row.winloseAmount)
               );
             }
           }

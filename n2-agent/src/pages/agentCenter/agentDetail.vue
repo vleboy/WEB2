@@ -73,6 +73,9 @@
                 </Row>
               </FormItem>
               </Col>
+              <Col span="8">
+              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
+              </Col>
             </Row>
             <Row>
               <Col span="16">
@@ -225,6 +228,7 @@ export default {
       modal: false, //加减点modal
       plus: true,
       point: "",
+      isTest:false,
       note: "",
       fromUserId: "",
       toRole: " ",
@@ -584,10 +588,10 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
-              return h("span",  "减点");//{ style: { color: "#f30" } },
+              return h("span", "减点"); //{ style: { color: "#f30" } },
             }
             if (row.fromLevel < row.toLevel) {
-              return h("span", "加点"); //{ style: { color: "#0c0" } }, 
+              return h("span", "加点"); //{ style: { color: "#0c0" } },
             }
           }
         },
@@ -762,7 +766,7 @@ export default {
       if (password == "") {
         this.$Message.warning("密码不能为空");
         return;
-      } 
+      }
       // else {
       //   let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
       //   if (!testReg.test(password)) {
@@ -777,6 +781,7 @@ export default {
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
       params.rate = this.basic.rate;
+      params.isTest = this.isTest == true ? 1 : 0;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -892,6 +897,7 @@ export default {
       }
       if (agentInfo && agentInfo.code == 0) {
         this.agentDetail = agentInfo.payload;
+        this.isTest = agentInfo.payload.isTest == 1 ? true : false;
         this.gameDetail = agentInfo.payload.gameList;
       }
       if (agentChild && agentChild.code == 0) {
