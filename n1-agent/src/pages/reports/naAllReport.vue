@@ -189,7 +189,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
@@ -200,7 +200,7 @@ export default {
                     color: color
                   }
                 },
-                params.row.winloseAmount
+                thousandFormatter(params.row.winloseAmount)
               );
             }
           }
@@ -243,7 +243,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               let winloseAmount = 0;
@@ -262,7 +262,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             }
           }
@@ -309,7 +309,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               let winloseAmount = 0;
@@ -328,7 +328,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             }
           }
@@ -375,7 +375,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               let winloseAmount = 0;
@@ -394,7 +394,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             }
           }
@@ -448,7 +448,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -492,7 +492,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount
+              thousandFormatter(winloseAmount)
             );
           }
         },
@@ -514,7 +514,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount
+              thousandFormatter(winloseAmount)
             );
           }
         }

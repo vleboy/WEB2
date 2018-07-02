@@ -201,6 +201,7 @@ import {
   chip,
   updateChip
 } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     const validatePlayerName = (rule, value, callback) => {
@@ -741,10 +742,10 @@ export default {
           render: (h, params) => {
             let currentId = localStorage.userId;
             if (params.row.userId == currentId) {
-              return h("span", params.row.balance);
+              return h("span", thousandFormatter(params.row.balance));
             } else {
               return h("div", [
-                h("p", params.row.balance),
+                h("p", thousandFormatter(params.row.balance)),
                 h("p", [
                   h(
                     "span",
@@ -1215,7 +1216,7 @@ export default {
           sortable: true,
           render: (h, params) => {
             return h("div", [
-              h("p", params.row.balance),
+              h("p", thousandFormatter(params.row.balance)),
               h("p", [
                 h(
                   "span",

@@ -117,7 +117,7 @@ export default {
                   color: color
                 }
               },
-              params.row.amount
+              thousandFormatter(params.row.amount)
             );
           }
         },

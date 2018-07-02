@@ -77,6 +77,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
+import { thousandFormatter } from "@/config/format";
 import { userChangeStatus,getBill } from "@/service/index";
 export default {
   data() {
@@ -132,7 +133,7 @@ export default {
           render: (h, params) => {
             let adminId = localStorage.loginId
               return h("div", [
-                h("p", params.row.balance.toFixed(2)),
+                h("p", thousandFormatter(params.row.balance.toFixed(2))),
                 h("p", [
                   h(
                     "span",

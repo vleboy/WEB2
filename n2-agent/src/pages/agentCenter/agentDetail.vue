@@ -195,6 +195,7 @@ import {
 } from "@/service/index";
 import dayjs from "dayjs";
 import _ from "lodash";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     const validateRate = (rule, value, callback) => {
@@ -269,7 +270,10 @@ export default {
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",
@@ -425,7 +429,10 @@ export default {
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",
@@ -534,7 +541,10 @@ export default {
         },
         {
           title: "交易前余额",
-          key: "oldBalance"
+          key: "oldBalance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.oldBalance))
+          }
         },
         {
           title: "交易点数",
@@ -548,7 +558,7 @@ export default {
                   color: color
                 }
               },
-              params.row.amount
+              thousandFormatter(params.row.amount)
             );
           }
         },
@@ -597,7 +607,10 @@ export default {
         },
         {
           title: "交易后余额",
-          key: "balance"
+          key: "balance",
+           render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "操作人",

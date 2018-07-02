@@ -45,6 +45,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -177,7 +178,10 @@ export default {
         },
         {
           title: "交易金额",
-          key: "betAmount"
+          key: "betAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
+          }
         }
       ],
       columns2: [
@@ -199,7 +203,10 @@ export default {
         },
         {
           title: "交易金额",
-          key: "betAmount"
+          key: "betAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
+          }
         }
       ]
     };

@@ -45,6 +45,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -183,7 +184,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -211,7 +212,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             } else {
               return h("span", { style: { color: "#0c0" } }, 0);
@@ -255,7 +256,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             } else {
               return h("span", { style: { color: "#0c0" } }, 0);
@@ -299,7 +300,7 @@ export default {
                     color: color
                   }
                 },
-                winloseAmount
+                thousandFormatter(winloseAmount)
               );
             } else {
               return h("span", { style: { color: "#0c0" } }, 0);
@@ -353,7 +354,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -375,7 +376,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount
+              thousandFormatter(winloseAmount)
             );
           }
         },
@@ -397,7 +398,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount
+              thousandFormatter(winloseAmount)
             );
           }
         },
@@ -419,7 +420,7 @@ export default {
                   color: color
                 }
               },
-              winloseAmount
+              thousandFormatter(winloseAmount)
             );
           }
         }

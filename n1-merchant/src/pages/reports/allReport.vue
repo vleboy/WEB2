@@ -33,6 +33,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -91,7 +92,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -121,7 +122,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -164,7 +165,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -207,7 +208,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -250,7 +251,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -293,7 +294,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -379,7 +380,7 @@ export default {
                   color: color
                 }
               },
-              count
+              thousandFormatter(count)
             );
           }
         },
@@ -430,7 +431,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -453,7 +454,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -476,7 +477,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -499,7 +500,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -522,7 +523,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -545,7 +546,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -591,7 +592,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         }

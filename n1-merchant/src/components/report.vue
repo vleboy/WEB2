@@ -33,6 +33,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -67,7 +68,10 @@ export default {
         },
         {
           title: "投注金额",
-          key: "betAmount"
+          key: "betAmount",
+           render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.betAmount))
+          }
         },
         {
           title: "输赢金额",
@@ -81,7 +85,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -140,7 +144,10 @@ export default {
         },
         {
           title: "投注金额",
-          key: "betAmount"
+          key: "betAmount",
+           render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.betAmount))
+          }
         },
         {
           title: "输赢金额",
@@ -154,7 +161,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },

@@ -45,6 +45,7 @@
 <script>
 import _ from "lodash";
 import { getDefaultTime } from "@/config/getDefaultTime";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
@@ -179,9 +180,9 @@ export default {
             }
             let userId = localStorage.userId;
             if (params.row.userId == userId) {
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             } else {
-              return h("span", params.row.betAmount);
+              return h("span",thousandFormatter(params.row.betAmount));
             }
           }
         },
@@ -205,7 +206,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             } else {
               color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
@@ -216,7 +217,7 @@ export default {
                     color: color
                   }
                 },
-                params.row.winloseAmount
+                thousandFormatter(params.row.winloseAmount)
               );
             }
           }
@@ -366,7 +367,10 @@ export default {
         },
         {
           title: "投注金额",
-          key: "betAmount"
+          key: "betAmount",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.betAmount))
+          }
         },
         {
           title: "输赢金额",
@@ -380,7 +384,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },

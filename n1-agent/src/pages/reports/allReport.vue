@@ -257,7 +257,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+               thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -275,7 +275,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -321,7 +321,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -339,7 +339,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -385,7 +385,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -403,7 +403,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -449,7 +449,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -467,7 +467,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -513,7 +513,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -531,7 +531,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -641,7 +641,7 @@ export default {
                     color: color
                   }
                 },
-                allCount.toFixed(2)
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -659,7 +659,7 @@ export default {
                     color: color
                   }
                 },
-                count.toFixed(2)
+                thousandFormatter(count.toFixed(2))
               );
             }
           }
@@ -712,7 +712,7 @@ export default {
                   color: color
                 }
               },
-              params.row.winloseAmount
+              thousandFormatter(params.row.winloseAmount)
             );
           }
         },
@@ -735,7 +735,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -758,7 +758,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -781,7 +781,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -804,7 +804,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -827,7 +827,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         },
@@ -873,7 +873,7 @@ export default {
                   color: color
                 }
               },
-              count.toFixed(2)
+              thousandFormatter(count.toFixed(2))
             );
           }
         }

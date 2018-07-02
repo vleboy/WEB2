@@ -51,6 +51,7 @@ import {
   agentAdminNew,
   checkExit
 } from "@/service/index";
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -127,7 +128,10 @@ export default {
         },
         {
           title: "剩余点数",
-          key: "balance"
+          key: "balance",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.balance))
+          }
         },
         {
           title: "创建时间",
