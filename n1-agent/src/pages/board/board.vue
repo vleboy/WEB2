@@ -36,7 +36,7 @@
               <div class="content-top">
                 <Col :span="24" class="g-text-right" style="margin-bottom: 10px">
                   <RadioGroup v-model="companyInfo" @on-change="changeCompany()" size="small" type="button">
-                    <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.companyName}}</Radio>
+                    <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
                   </RadioGroup>
                 </Col>
                 <Col :span="6">
@@ -137,7 +137,7 @@
         isSetInterval: false, // 是否是定时刷新,
         dynamicNum: '', // 动态渲染游戏消耗总点数
         companyList: [], // 厂商列表
-        companyInfo: '-1' // 厂商单独信息
+        companyInfo: '全部厂商' // 厂商单独信息
       }
     },
     mounted () {
@@ -244,7 +244,7 @@
         httpRequest('post','/statistics/consume',{
           startTime: this.consumeDataTime.startTime,
           endTime: this.consumeDataTime.endTime,
-          company: this.companyInfo
+          company: this.companyInfo == '全部厂商' ? '-1' : this.companyInfo
         }).then(
           result => {
             this.consumeList = result.data
@@ -453,8 +453,7 @@
           result => {
             this.companyList = result.payload
             this.companyList.unshift({
-              company: '-1',
-              companyName: '全部厂商'
+              company: '全部厂商'
             })
             this.changeCompany()
           }
