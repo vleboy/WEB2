@@ -232,12 +232,9 @@ export default {
             } else {
               let obj = params.row.gameList;
               let mix = 0;
-              let arr = this.child;
-              for (let item of arr) {
-                for (let key in item) {
+              for (let item of obj) {
                   if (item.code == this.gameType) {
                     mix = parseFloat(item.mix);
-                  }
                 }
               }
               return h("span", mix.toFixed(2) + "%");

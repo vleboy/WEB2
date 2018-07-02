@@ -4,7 +4,7 @@
       <div class="top">
         <p class="title">
           当前用户列表
-           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
             <Radio label="正式"></Radio>
             <Radio label="测试"></Radio>
             <Radio label="全部"></Radio>
@@ -232,13 +232,11 @@ export default {
             if (params.row.userId == userId) {
               return h("span", 0);
             } else {
-              let arr = params.row.gameList;
+              let obj = params.row.gameList;
               let mix = 0;
-              for (let item of arr) {
-                for (let key in item) {
-                  if (item.code == this.gameType) {
-                    mix = parseFloat(item.mix);
-                  }
+              for (let item of obj) {
+                if (item.code == this.gameType) {
+                  mix = parseFloat(item.mix);
                 }
               }
               return h("span", mix.toFixed(2) + "%");
@@ -275,7 +273,10 @@ export default {
             if (params.row.userId == userId) {
               return h("span", thousandFormatter(totalSum.toFixed(2)));
             } else {
-              return h("span", thousandFormatter(params.row.totalSum.toFixed(2)));
+              return h(
+                "span",
+                thousandFormatter(params.row.totalSum.toFixed(2))
+              );
             }
           }
         },
@@ -350,8 +351,8 @@ export default {
         {
           title: "投注金额",
           key: "betAmount",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
           }
         },
         {
@@ -405,7 +406,7 @@ export default {
       this.init();
     },
     changeSource(value) {
-      this.init()
+      this.init();
     },
     reset() {
       this.defaultTime = getDefaultTime();
@@ -464,26 +465,26 @@ export default {
       } else {
         parent = userId;
       }
-      let params1={}
-      let params2={
+      let params1 = {};
+      let params2 = {
         parent,
         isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
-      }
+      };
       if (level == 0) {
-        params1 =  { userId: userId, isTest: this.isTest };
+        params1 = { userId: userId, isTest: this.isTest };
       } else {
-        params1 =  {
+        params1 = {
           userId: userId,
-          isTest:this.isTest,
+          isTest: this.isTest,
           gameType: this.gameType,
           query: {
             createdAt: this.changedTime
           }
-        }
+        };
       }
       if (this.isTest == 2) {
         delete params1.isTest;

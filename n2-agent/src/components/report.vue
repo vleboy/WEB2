@@ -232,13 +232,11 @@ export default {
             if (params.row.userId == userId) {
               return h("span", 0);
             } else {
-              let arr = params.row.gameList;
+              let obj = params.row.gameList;
               let mix = 0;
-              for (let item of arr) {
-                for (let key in item) {
-                  if (item.code == this.gameType) {
-                    mix = parseFloat(item.mix);
-                  }
+              for (let item of obj) {
+                if (item.code == this.gameType) {
+                  mix = parseFloat(item.mix);
                 }
               }
               return h("span", mix.toFixed(2) + "%");
@@ -275,7 +273,10 @@ export default {
             if (params.row.userId == userId) {
               return h("span", thousandFormatter(totalSum.toFixed(2)));
             } else {
-              return h("span", thousandFormatter(params.row.totalSum.toFixed(2)));
+              return h(
+                "span",
+                thousandFormatter(params.row.totalSum.toFixed(2))
+              );
             }
           }
         },
@@ -350,8 +351,8 @@ export default {
         {
           title: "投注金额",
           key: "betAmount",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
           }
         },
         {
