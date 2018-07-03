@@ -31,7 +31,11 @@
       <Row :gutter="20">
         <Col :span="24">
           <div class="content-border">
-            <div class="content-title">平台游戏点数消耗分布</div>
+            <div class="content-title">平台游戏点数消耗分布
+              <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">
+                <Radio label="0">正式</Radio>
+                <Radio label="1">测试</Radio>
+              </RadioGroup></div>
             <div>
               <div class="content-top">
                 <!--<Col :span="24" class="g-text-right" style="margin-bottom: 10px">-->
@@ -137,7 +141,8 @@
         isSetInterval: false, // 是否是定时刷新,
         dynamicNum: '', // 动态渲染游戏消耗总点数
         companyList: [], // 厂商列表
-        companyInfo: '-1' // 厂商单独信息
+        companyInfo: '-1', // 厂商单独信息
+        testInfo: '0'
       }
     },
     mounted () {
@@ -210,6 +215,7 @@
     methods: {
       getStatisticalNum (index) {
         httpRequest('post','/statistics/overview',{
+          isTest: +this.testInfo,
           type: index+1
         }).then(
           result => {
@@ -242,6 +248,7 @@
           zlevel: 0
         })
         httpRequest('post','/statistics/consume',{
+          isTest: +this.testInfo,
           startTime: this.consumeDataTime.startTime,
           endTime: this.consumeDataTime.endTime,
           company: this.companyInfo
@@ -261,6 +268,7 @@
           textColor: '#000',
           zlevel: 0
         })
+        this.consumeAndIncomeDataTime.isTest = +this.testInfo
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
         .then(result => {
           this.consumeAndIncomeList = result.data
@@ -462,6 +470,16 @@
       }, //获取运营商列表
       changeCompany(){
         this.getStatisticsConsume()
+      },
+      changeTest () {
+        this.isSetInterval = true
+        for (let i = 0; i < 4; i++){
+          this.getStatisticalNum(i)
+        }
+        this.getStatisticsConsume(),
+          this.getConsumeAndIncome()
+        this.changeDateType()
+        this.changeDateTypeTwo()
       }
     },
     beforeDestroy (){
