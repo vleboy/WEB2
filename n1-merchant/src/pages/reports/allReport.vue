@@ -4,11 +4,6 @@
       <div class="top">
         <p class="title">
           当前用户列表
-          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-            <Radio label="正式"></Radio>
-            <Radio label="测试"></Radio>
-            <Radio label="全部"></Radio>
-          </RadioGroup>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -41,7 +36,6 @@ export default {
       spinShow: false, //加载spin
       playerList: [], //玩家列表
       user: [], //当前商户
-      source: "正式",
       gameType: [
         3,
         30000,
@@ -611,22 +605,9 @@ export default {
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
-    }
   },
   methods: {
     confirm() {
-      this.init();
-    },
-    changeSource() {
       this.init();
     },
     reset() {
@@ -663,7 +644,6 @@ export default {
       this.spinShow = true;
       let params1 = {
         userId: userId,
-        isTest: this.isTest,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
@@ -676,9 +656,6 @@ export default {
           createdAt: this.changedTime
         }
       };
-      if (this.isTest == 2) {
-        delete params1.isTest;
-      }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getPlayerList", params2);
       let [acct, perms] = await this.axios.all([req1, req2]);

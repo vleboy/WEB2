@@ -28,6 +28,13 @@
         </Col>
       </Row>
     </div>
+    <div class="option">
+      <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+        <Radio label="正式"></Radio>
+        <Radio label="测试"></Radio>
+        <Radio label="全部"></Radio>
+      </RadioGroup>
+    </div>
     <div class="table">
       <Table :columns="columns1" :data="showData" size="small"></Table>
     </div>
@@ -42,7 +49,7 @@
         <Col span="4" v-if='plus'>增加点数</Col>
         <Col span="4" v-else>减少点数</Col>
         <Col span="16">
-        <Tooltip :content="tooltip" placement="top" >
+        <Tooltip :content="tooltip" placement="top">
           <Input v-model="point" placeholder="请输入点数"></Input>
         </Tooltip>
         </Col>
@@ -50,7 +57,7 @@
       <Row class-name='modalrow'>
         <Col span="4">起始账户</Col>
         <Col span="16">
-       <p v-if="plus">【线路商】 {{parentAcount}} </p>
+        <p v-if="plus">【线路商】 {{parentAcount}} </p>
         <p v-else>【商户】 {{uname}}</p>
         </Col>
       </Row>
@@ -78,7 +85,7 @@
 <script>
 import dayjs from "dayjs";
 import { thousandFormatter } from "@/config/format";
-import { userChangeStatus,getBill } from "@/service/index";
+import { userChangeStatus, getBill } from "@/service/index";
 export default {
   data() {
     return {
@@ -92,6 +99,7 @@ export default {
       plus: null, //加点
       modal: false, //加点弹窗
       fromUserId: "", //id
+      source: "正式",
       toRole: " ",
       toUser: "",
       tooltip: "起始账户余额为", //tooltip content
@@ -104,87 +112,88 @@ export default {
         {
           title: "商户ID",
           key: "displayId",
-          sortable: true,
+          sortable: true
         },
         {
           title: "商户标识",
           key: "sn",
-          sortable: true,
+          sortable: true
         },
         {
           title: "商户账号",
           key: "uname",
-          sortable: true,
+          sortable: true
         },
         {
           title: "商户昵称",
           key: "displayName",
-          sortable: true,
+          sortable: true
         },
         {
           title: "上级线路商",
           key: "parentDisplayName",
-          sortable: true,
+          sortable: true
         },
         {
           title: "剩余点数",
           key: "balance",
           sortable: true,
           render: (h, params) => {
-            let adminId = localStorage.loginId
-              return h("div", [
-                h("p", thousandFormatter(params.row.balance.toFixed(2))),
-                h("p", [
-                  h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer"
-                      },
-                      on: {
-                        click: () => {
-                          this.plus = true;
-                          this.modal = true;
-                          this.uname = params.row.uname;
-                          this.fromUserId=adminId;
-                          this.toUser = params.row.username;
-                          this.toRole = "100";
-                          getBill(adminId).then(res=>{
-                            this.tooltip = "起始账户余额为" + res.payload.balance;
-                          })
-                        }
-                      }
+            let adminId = localStorage.loginId;
+            return h("div", [
+              h("p", thousandFormatter(params.row.balance.toFixed(2))),
+              h("p", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer"
                     },
-                    "加点"
-                  ),
-                  h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer",
-                        paddingLeft: "10px"
-                      },
-                      on: {
-                        click: () => {
-                          let userName=JSON.parse(localStorage.userInfo).username
-                          this.plus = false;
-                          this.modal = true;
-                          this.uname = params.row.uname;
-                          this.toRole='10';
-                          this.toUser=userName;
-                          this.fromUserId = params.row.userId;
-                          getBill(adminId).then(res=>{
-                            this.tooltip = "起始账户余额为" + res.payload.balance;
-                          })
-                        }
+                    on: {
+                      click: () => {
+                        this.plus = true;
+                        this.modal = true;
+                        this.uname = params.row.uname;
+                        this.fromUserId = adminId;
+                        this.toUser = params.row.username;
+                        this.toRole = "100";
+                        getBill(adminId).then(res => {
+                          this.tooltip = "起始账户余额为" + res.payload.balance;
+                        });
                       }
+                    }
+                  },
+                  "加点"
+                ),
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer",
+                      paddingLeft: "10px"
                     },
-                    "减点"
-                  )
-                ])
-              ]);
+                    on: {
+                      click: () => {
+                        let userName = JSON.parse(localStorage.userInfo)
+                          .username;
+                        this.plus = false;
+                        this.modal = true;
+                        this.uname = params.row.uname;
+                        this.toRole = "10";
+                        this.toUser = userName;
+                        this.fromUserId = params.row.userId;
+                        getBill(adminId).then(res => {
+                          this.tooltip = "起始账户余额为" + res.payload.balance;
+                        });
+                      }
+                    }
+                  },
+                  "减点"
+                )
+              ])
+            ]);
           }
         },
         {
@@ -343,77 +352,77 @@ export default {
               status = 1;
               color = "#20a0ff";
             }
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "text",
-                      size: "small"
-                    },
-                    style: {
-                      color: "#20a0ff"
-                    },
-                    on: {
-                      click: () => {
-                        let userId = params.row.userId;
-                        let displayName = params.row.displayName;
-                        let parent = params.row.parent;
-                        let username = params.row.username;
-                        let parentDisplayName = params.row.parentDisplayName;
-                        this.$router.push({
-                          path: "/merchantDetail",
-                          query: {
-                            userId,
-                            displayName,
-                            username,
-                            parent,
-                            parentDisplayName
-                          }
-                        });
-                      }
-                    }
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "text",
+                    size: "small"
                   },
-                  "查看"
-                ),
-                h(
-                  "Button",
-                  {
-                    props: {
-                      type: "text",
-                      size: "small"
-                    },
-                    style: {
-                      color: color
-                    },
-                    on: {
-                      click: () => {
-                        this.$Modal.confirm({
-                          title: "提示!",
-                          content: `<p>是否${text}商户</p>`,
-                          onOk: () => {
-                            userChangeStatus({
-                              role: "100",
-                              status,
-                              userId: params.row.userId
-                            }).then(res => {
-                              if (res.code == 0) {
-                                this.$Message.success(`${text}成功`);
-                                this.$store.dispatch("getMerchantsList", {
-                                  query: {},
-                                  sortkey: "createdAt",
-                                  sort: "desc"
-                                });
-                              }
-                            });
-                          }
-                        });
-                      }
-                    }
+                  style: {
+                    color: "#20a0ff"
                   },
-                  text
-                )
-              ]);
+                  on: {
+                    click: () => {
+                      let userId = params.row.userId;
+                      let displayName = params.row.displayName;
+                      let parent = params.row.parent;
+                      let username = params.row.username;
+                      let parentDisplayName = params.row.parentDisplayName;
+                      this.$router.push({
+                        path: "/merchantDetail",
+                        query: {
+                          userId,
+                          displayName,
+                          username,
+                          parent,
+                          parentDisplayName
+                        }
+                      });
+                    }
+                  }
+                },
+                "查看"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "text",
+                    size: "small"
+                  },
+                  style: {
+                    color: color
+                  },
+                  on: {
+                    click: () => {
+                      this.$Modal.confirm({
+                        title: "提示!",
+                        content: `<p>是否${text}商户</p>`,
+                        onOk: () => {
+                          userChangeStatus({
+                            role: "100",
+                            status,
+                            userId: params.row.userId
+                          }).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success(`${text}成功`);
+                              this.$store.dispatch("getMerchantsList", {
+                                query: {},
+                                sortkey: "createdAt",
+                                sort: "desc"
+                              });
+                            }
+                          });
+                        }
+                      });
+                    }
+                  }
+                },
+                text
+              )
+            ]);
           }
         }
       ]
@@ -455,11 +464,7 @@ export default {
       this.sn = "";
       this.displayName = "";
       this.msn = "";
-      this.$store.dispatch("getMerchantsList", {
-        query: {},
-        sortkey: "createdAt",
-        sort: "desc"
-      });
+      this.init();
     },
     search() {
       let query = {
@@ -485,6 +490,21 @@ export default {
         sortkey: "createdAt",
         sort: "desc"
       });
+    },
+    init() {
+      let params = {
+        query: {},
+        isTest: this.isTest,
+        sortkey: "createdAt",
+        sort: "desc"
+      };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getMerchantsList", params);
+    },
+    changeSource() {
+      this.init();
     }
   },
   computed: {
@@ -494,30 +514,29 @@ export default {
     spinShow() {
       return this.$store.state.merchants.spinShow;
     },
-     parentAcount(){
-      let name= JSON.parse(localStorage.getItem("userInfo")).username;
-      name=name.split('_')[1]
-      return name
+    parentAcount() {
+      let name = JSON.parse(localStorage.getItem("userInfo")).username;
+      name = name.split("_")[1];
+      return name;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   created() {
-    this.$store.dispatch("getMerchantsList", {
-      query: {
-        // suffix: "a",
-        // displayName: "a"
-      },
-      sortkey: "createdAt",
-      sort: "desc"
-    });
+    this.init();
   },
   watch: {
     $route(to, from) {
       if (from.name == "addMerchant") {
-        this.$store.dispatch("getMerchantsList", {
-          query: {},
-          sortkey: "createdAt",
-          sort: "desc"
-        });
+        this.init();
       }
     }
   }
@@ -568,5 +587,8 @@ export default {
 }
 .ivu-modal-footer {
   text-align: center;
+}
+.option {
+  padding-bottom: 10px;
 }
 </style>
