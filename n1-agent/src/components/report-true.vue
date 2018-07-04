@@ -141,7 +141,7 @@ export default {
                           this.spinShow = false;
                           // console.log(res);
                         });
-                      var anchor = this.$el.querySelector("#playerList");
+                      const anchor = this.$el.querySelector("#playerList");
                       document.documentElement.scrollTop = anchor.offsetTop;
                     }
                     // console.log(params.row);

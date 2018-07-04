@@ -242,8 +242,8 @@ export default {
     },
     changepage(index) {
       let size = this.pageSize;
-      var _start = (index - 1) * size;
-      var _end = index * size;
+      let _start = (index - 1) * size;
+      let _end = index * size;
       this.showData = this.waterfall.slice(_start, _end);
     },
     newPassword() {
@@ -312,7 +312,7 @@ export default {
       this.handlePage();
     },
     passwordLevel(password) {
-      var Modes = 0;
+      let Modes = 0;
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
       }

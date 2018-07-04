@@ -291,7 +291,7 @@ export default {
       this.repassword = "";
     },
     passwordLevel(password) {
-      var Modes = 0;
+      let Modes = 0;
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
       }
