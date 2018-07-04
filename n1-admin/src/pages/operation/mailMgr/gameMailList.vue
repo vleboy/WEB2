@@ -21,7 +21,7 @@
               @on-change="getNowpage"></Page>
       </div>
     </div>
-    <Modal title="发布邮件" v-model="isAddMail" width="700">
+    <Modal title="发布邮件" v-model="isAddMail" width="700" :mask-closable="false">
       <Form :model="mailInfo" :label-width="80">
         <FormItem label="发送对象" style="text-align: left">
           <RadioGroup v-model="sendObj" @on-change="changeSendObj">
