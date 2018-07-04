@@ -310,7 +310,7 @@ export default {
             if (params.row.userId == userId) {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", thousandFormatter(params.row.submitAmount));
             }
           }
         },

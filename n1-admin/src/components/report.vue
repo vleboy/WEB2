@@ -263,7 +263,7 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", thousandFormatter(params.row.submitAmount));
             }
           }
         },

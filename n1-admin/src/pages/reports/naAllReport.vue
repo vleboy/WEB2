@@ -225,7 +225,7 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount.toFixed(2));
+              return h("span", thousandFormatter(params.row.submitAmount.toFixed(2)));
             }
           }
         },
@@ -287,7 +287,7 @@ export default {
                   "30000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             }
           }
         },
@@ -349,7 +349,7 @@ export default {
                   "40000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             }
           }
         },
@@ -411,7 +411,7 @@ export default {
                   "50000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             }
           }
         }

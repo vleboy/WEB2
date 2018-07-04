@@ -190,7 +190,10 @@ export default {
         },
         {
           title: "总游戏交公司",
-          key: "submitAmount"
+          key: "submitAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.submitAmount));
+          }
         },
         {
           title: "NA真人游戏(输赢金额)",
@@ -230,7 +233,7 @@ export default {
                   "30000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             } else {
               return h("span", "0.00");
             }
@@ -274,7 +277,7 @@ export default {
                   "40000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             } else {
               return h("span", "0.00");
             }
@@ -318,7 +321,7 @@ export default {
                   "50000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             } else {
               return h("span", "0.00");
             }

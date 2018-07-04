@@ -227,7 +227,7 @@ export default {
               return h("span", "0.00");
             } else {
               if (params.row.submitAmount) {
-                return h("span", params.row.submitAmount.toFixed(2));
+                return h("span", thousandFormatter(params.row.submitAmount.toFixed(2)));
               } else {
                 return h("span", "0.00");
               }
@@ -294,7 +294,7 @@ export default {
                   count += obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         },
@@ -358,7 +358,7 @@ export default {
                   count = obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         },
@@ -422,7 +422,7 @@ export default {
                   count += obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         },
@@ -486,7 +486,7 @@ export default {
                   count = obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         },
@@ -550,7 +550,7 @@ export default {
                   count = obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         },
@@ -678,7 +678,7 @@ export default {
                   count = obj[key].submitAmount;
                 }
               }
-              return h("span", count.toFixed(2));
+              return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
         }

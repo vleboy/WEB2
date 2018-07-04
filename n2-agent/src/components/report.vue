@@ -254,9 +254,12 @@ export default {
             }
             let userId = localStorage.userId;
             if (params.row.userId == userId) {
-              return h("span", boundsSum.toFixed(2));
+              return h("span", thousandFormatter(boundsSum.toFixed(2)));
             } else {
-              return h("span", params.row.boundsSum.toFixed(2));
+              return h(
+                "span",
+                thousandFormatter(params.row.boundsSum.toFixed(2))
+              );
             }
           }
         },
@@ -296,7 +299,7 @@ export default {
             if (params.row.userId == userId) {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", thousandFormatter(params.row.submitAmount));
             }
           }
         },

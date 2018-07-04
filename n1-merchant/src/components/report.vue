@@ -63,8 +63,8 @@ export default {
         {
           title: "投注金额",
           key: "betAmount",
-           render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
           }
         },
         {
@@ -87,19 +87,22 @@ export default {
           title: "商家占成",
           key: "rate",
           render: (h, params) => {
-              let arr = params.row.gameList;
-              let result = '';
-              for (let item of arr) {
-                if (item.code == this.gameType) {
-                  result = item.rate;
-                }
+            let arr = params.row.gameList;
+            let result = "";
+            for (let item of arr) {
+              if (item.code == this.gameType) {
+                result = item.rate;
               }
-              return h("span", result + "%");
+            }
+            return h("span", result + "%");
           }
         },
         {
           title: "商家交公司",
-          key: "submitAmount"
+          key: "submitAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.submitAmount));
+          }
         },
         {
           title: "获利比例",
@@ -139,8 +142,8 @@ export default {
         {
           title: "投注金额",
           key: "betAmount",
-           render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
           }
         },
         {
@@ -177,7 +180,7 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
-    },
+    }
   },
   methods: {
     confirm() {

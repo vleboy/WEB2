@@ -204,7 +204,10 @@ export default {
         },
         {
           title: "总游戏交公司",
-          key: "submitAmount"
+          key: "submitAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.submitAmount));
+          }
         },
         {
           title: "NA游戏(输赢金额)",
@@ -240,7 +243,7 @@ export default {
                 count += obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         },
         {
@@ -277,7 +280,7 @@ export default {
                 count = obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         },
         {
@@ -314,7 +317,7 @@ export default {
                 count += obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         },
         {
@@ -351,7 +354,7 @@ export default {
                 count = obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         },
         {
@@ -388,7 +391,7 @@ export default {
                 count = obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         },
         // {
@@ -489,7 +492,7 @@ export default {
                 count = obj[key].submitAmount;
               }
             }
-            return h("span", count.toFixed(2));
+            return h("span", thousandFormatter(count.toFixed(2)));
           }
         }
       ],

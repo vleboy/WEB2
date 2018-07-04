@@ -182,7 +182,7 @@ export default {
             if (params.row.userId == userId) {
               return h("span", thousandFormatter(count.toFixed(2)));
             } else {
-              return h("span",thousandFormatter(params.row.betAmount));
+              return h("span", thousandFormatter(params.row.betAmount));
             }
           }
         },
@@ -233,8 +233,8 @@ export default {
               let obj = params.row.gameList;
               let mix = 0;
               for (let item of obj) {
-                  if (item.code == this.gameType) {
-                    mix = parseFloat(item.mix);
+                if (item.code == this.gameType) {
+                  mix = parseFloat(item.mix);
                 }
               }
               return h("span", mix.toFixed(2) + "%");
@@ -271,9 +271,12 @@ export default {
             }
             let userId = localStorage.userId;
             if (params.row.userId == userId) {
-              return h("span", boundsSum.toFixed(2));
+              return h("span", thousandFormatter(boundsSum.toFixed(2)));
             } else {
-              return h("span", params.row.boundsSum.toFixed(2));
+              return h(
+                "span",
+                thousandFormatter(params.row.boundsSum.toFixed(2))
+              );
             }
           }
         },
@@ -288,9 +291,12 @@ export default {
             }
             let userId = localStorage.userId;
             if (params.row.userId == userId) {
-              return h("span", totalSum.toFixed(2));
+              return h("span", thousandFormatter(totalSum.toFixed(2)));
             } else {
-              return h("span", params.row.totalSum.toFixed(2));
+              return h(
+                "span",
+                thousandFormatter(params.row.totalSum.toFixed(2))
+              );
             }
           }
         },
@@ -310,7 +316,7 @@ export default {
             if (params.row.userId == userId) {
               return h("span", 0);
             } else {
-              return h("span", params.row.submitAmount);
+              return h("span", thousandFormatter(params.row.submitAmount));
             }
           }
         },
@@ -365,8 +371,8 @@ export default {
         {
           title: "投注金额",
           key: "betAmount",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.betAmount));
           }
         },
         {

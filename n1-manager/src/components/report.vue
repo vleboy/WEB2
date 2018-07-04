@@ -219,7 +219,10 @@ export default {
         },
         {
           title: "商家交公司",
-          key: "submitAmount"
+          key: "submitAmount",
+          render:(h,params)=>{
+            return h('span',thousandFormatter(params.row.submitAmount))
+          }
         },
         {
           title: "获利比例",

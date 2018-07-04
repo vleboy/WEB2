@@ -193,7 +193,10 @@ export default {
         },
         {
           title: "总游戏交公司",
-          key: "submitAmount"
+          key: "submitAmount",
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.submitAmount));
+          }
         },
         {
           title: "SA真人游戏(输赢金额)",
@@ -233,7 +236,7 @@ export default {
                   "1060000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             } else {
               return h("span", "0.00");
             }
@@ -277,7 +280,7 @@ export default {
                   "1110000"
                 ].submitAmount.toFixed(2);
               }
-              return h("span", submitAmount);
+              return h("span", thousandFormatter(submitAmount));
             } else {
               return h("span", "0.00");
             }
