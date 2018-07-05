@@ -39,6 +39,15 @@
         <FormItem label="公告名称"  class="ivu-form-item-required">
           <Input v-model="noticeInfo.adName" auto-complete="off" placeholder="请输入公告名称" :maxlength="20"></Input>
         </FormItem>
+        <FormItem label="发布时间" >
+          <DatePicker
+            v-model="publishTime"
+            type="datetime"
+            :transfer='true'
+            style="width: 300px"
+            placeholder="选择日期时间范围">
+          </DatePicker>
+        </FormItem>
         <FormItem label="跳转链接" >
           <Input v-model="noticeInfo.url" auto-complete="off" placeholder="请输入跳转的链接 例（http://www.xxxx.com）" :maxlength="500"></Input>
         </FormItem>
@@ -117,6 +126,7 @@ export default {
       imgFile: '',
       noticeStatus: ['已停用', '正常'],
       gameNoticeList: [],
+      publishTime:'',
       noticeInfo: {
         adName: '',
         url: '',
@@ -124,6 +134,7 @@ export default {
         imgAli: '',
         type: '',
         model: '',
+        publishTime: '',
         remark: ''
       },
       searchInfo: {
@@ -183,11 +194,11 @@ export default {
           }
         },
         {
-          title: '创建时间',
+          title: '发布时间',
           key: '',
           width:180,
           render: (h, params) => {
-            return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
+            return h("span", params.row.publishTime ? dayjs(params.row.publishTime).format("YYYY-MM-DD HH:mm:ss") : dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
         {
@@ -355,6 +366,7 @@ export default {
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
+      this.noticeInfo.publishTime = this.publishTime!='' ? new Date(this.publishTime).getTime() : ''
       httpRequest('post',`${id ? '/adUpdate' : '/adNew'}`,this.noticeInfo)
         .then(
         result => {
@@ -389,6 +401,7 @@ export default {
           model: '',
           priority: 1,
           imgAli: '',
+          publishTime: '',
           remark: ''
         }
         this.fileList = []
