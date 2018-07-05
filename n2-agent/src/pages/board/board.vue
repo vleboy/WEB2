@@ -35,6 +35,7 @@
               <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">
                 <Radio label="0">正式</Radio>
                 <Radio label="1">测试</Radio>
+                <Radio label="2">全部</Radio>
               </RadioGroup></div>
             <div>
               <div class="content-top">
