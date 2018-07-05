@@ -346,7 +346,7 @@
       getHorseRaceLampList() {
         if(this.isFetching) return
         this.isFetching = true
-        httpRequest('post', '/notice/list', {
+        httpRequest('post', '/notice/operate/list', {
           operatorRole: '100',
           query: this.searchInfo
         }).then(
@@ -374,7 +374,7 @@
       getMailList() {
         if(this.isFetching) return
         this.isFetching = true
-        httpRequest('post', '/email/list', {
+        httpRequest('post', '/email/operate/list', {
           operatorRole: '100',
           query: this.searchInfo
         }).then(
