@@ -88,7 +88,7 @@ export const appRouter = [
         title:'个人中心',
         name:'ownspace',
         component:main,
-        children:[{path:'index',title:'个人中心', name:'personal',component:ownSpace}]
+        children:[{path:'index',title:'个人中心', name:'ownspace-index',component:ownSpace}]
     },
     {
         path:'/boards',
@@ -170,7 +170,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'merchant',title:'商户列表',name:'merchantList',component:businessList},
-            {path:'manager',title:'线路商列表',name:'managerList',component:lineBusiness},
+            {path:'manager',title:'线路商列表',name:'lineDealer',component:lineBusiness},
             {path:'warn',title:'接入商点数警告列表',name:'warnList',component:warnList}
     ]
     },

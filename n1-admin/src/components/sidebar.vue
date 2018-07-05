@@ -7,7 +7,7 @@
                 <Icon type="stats-bars"></Icon>
                   <span>看板</span>
                 </MenuItem>
-                <MenuItem name="personal" v-if='permission.includes("个人中心")'>
+                <MenuItem name="ownspace-index" v-if='permission.includes("个人中心")'>
                 <Icon type="person"></Icon>
                 <span>个人中心</span>
                 </MenuItem>
@@ -58,7 +58,7 @@
                         <Icon type="model-s"></Icon>
                         商户中心
                     </template>
-                    <MenuItem name="managerList" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
+                    <MenuItem name="lineDealer" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
                     <MenuItem name="merchantList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
