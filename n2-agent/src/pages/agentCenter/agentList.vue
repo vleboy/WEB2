@@ -10,7 +10,7 @@
       <div class="top">
         <span class="title left">
           下级代理列表
-           <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
             <Radio label="正式"></Radio>
             <Radio label="测试"></Radio>
             <Radio label="全部"></Radio>
@@ -360,10 +360,10 @@ export default {
       fromUserId: "", //modal data
       toRole: "",
       toUser: "",
-      source:'正式',
+      source: "正式",
       //创建agnet
       agentModal: false,
-      agentCompany:'',
+      agentCompany: "",
       Topdisabled: false,
       code: "",
       agentType: 1,
@@ -620,7 +620,7 @@ export default {
           title: "代理昵称",
           key: "displayName",
           sortable: true,
-           render: (h, params) => {
+          render: (h, params) => {
             if (params.row.isTest == 1) {
               return h("div", [
                 h(
@@ -1424,12 +1424,17 @@ export default {
       } else {
         parent = userId;
       }
-      this.$store.dispatch("getAgentList", {
+      let params = {
         parent,
+        isTest: this.isTest,
         query: { username },
         sort: "desc",
         sortkey: "createdAt"
-      });
+      };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getAgentList", params);
     },
     // searchPlayer() {
     //   console.log(1);
@@ -1587,10 +1592,10 @@ export default {
       this.Topdisabled = false;
       this.agentType = 1;
       this.agentGame = "";
-      this.agentCompany='';
+      this.agentCompany = "";
       this.agent.remark = "";
-      this.balance=''
-      this.gameList=[]
+      this.balance = "";
+      this.gameList = [];
     },
     ok() {
       if (this.playerPoint == false) {
@@ -1749,7 +1754,7 @@ export default {
       if (this.isTest == 2) {
         delete params.isTest;
       }
-      this.$store.dispatch("getAgentList",params);
+      this.$store.dispatch("getAgentList", params);
     },
     addPlayerConfirm() {
       this.$refs["playerForm"].validate(valid => {

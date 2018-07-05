@@ -447,7 +447,7 @@ export default {
         },
         sortkey: "createdAt",
         sort: "desc",
-        isTest:this.isTest
+        isTest: this.isTest
       };
       if (this.isTest == 2) {
         delete params.isTest;
@@ -465,11 +465,16 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-      this.$store.dispatch("getManagerList", {
+      let params = {
         query,
+        isTest: this.isTest,
         sortkey: "createdAt",
         sort: "desc"
-      });
+      };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getManagerList", params);
     }
   },
   computed: {
@@ -551,7 +556,7 @@ export default {
   padding: 30px 20px;
   font-size: 14px;
 }
-.option{
+.option {
   padding-bottom: 10px;
 }
 </style>

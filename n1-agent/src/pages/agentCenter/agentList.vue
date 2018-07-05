@@ -605,7 +605,7 @@ export default {
           title: "代理昵称",
           key: "displayName",
           sortable: true,
-           render: (h, params) => {
+          render: (h, params) => {
             if (params.row.isTest == 1) {
               return h("div", [
                 h(
@@ -1356,12 +1356,17 @@ export default {
       } else {
         parent = userId;
       }
-      this.$store.dispatch("getAgentList", {
+      let params = {
         parent,
+        isTest: this.isTest,
         query: { username },
         sort: "desc",
         sortkey: "createdAt"
-      });
+      };
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getAgentList", params);
     },
     // searchPlayer() {
     //   console.log(1);

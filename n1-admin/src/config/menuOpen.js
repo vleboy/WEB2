@@ -16,9 +16,9 @@
       openName = ["report", "ugreport"];
     } else if (name == "allreport") {
       openName = ["report"];
-    } else if (name == "businessList" || name == "lineBusiness" || name == "warnList") {
+    } else if (name == "managerList" || name == "merchantList" || name == "warnList") {
       openName = ["businessCenter"];
-    } else if (name == "ownspace-index") {
+    } else if (name == "personal") {
       openName = [];
     } else if (name == "adminList" || name == "lineNumList" || name == "adminRole") {
       openName = ["adminCenter"];

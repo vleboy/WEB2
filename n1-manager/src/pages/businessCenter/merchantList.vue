@@ -485,11 +485,16 @@ export default {
       if (!query.displayId) {
         delete query.displayId;
       }
-      this.$store.dispatch("getMerchantsList", {
+       let params={
         query,
+        isTest:this.isTest,
         sortkey: "createdAt",
         sort: "desc"
-      });
+      }
+      if (this.isTest == 2) {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getMerchantsList", params);
     },
     init() {
       let params = {
