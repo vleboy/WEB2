@@ -24,8 +24,29 @@
 
     <Modal title="发布公告" v-model="isOpenModal">
       <Form :model="noticeInfo" :label-width="70">
+        <FormItem label="公告类型"  class="ivu-form-item-required">
+          <RadioGroup v-model="noticeInfo.type" size="small" type="button">
+            <Radio label="normal">普通公告</Radio>
+            <Radio label="activity">活动公告</Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="公告模式"  class="ivu-form-item-required">
+          <RadioGroup v-model="noticeInfo.model" size="small" type="button">
+            <Radio label="image">图片</Radio>
+            <Radio label="text">文字</Radio>
+          </RadioGroup>
+        </FormItem>
         <FormItem label="公告名称"  class="ivu-form-item-required">
           <Input v-model="noticeInfo.adName" auto-complete="off" placeholder="请输入公告名称" :maxlength="20"></Input>
+        </FormItem>
+        <FormItem label="发布时间" >
+          <DatePicker
+            v-model="publishTime"
+            type="datetime"
+            :transfer='true'
+            style="width: 300px"
+            placeholder="选择日期时间范围">
+          </DatePicker>
         </FormItem>
         <FormItem label="跳转链接" >
           <Input v-model="noticeInfo.url" auto-complete="off" placeholder="请输入跳转的链接 例（http://www.xxxx.com）" :maxlength="500"></Input>
@@ -34,7 +55,7 @@
           <InputNumber style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min=1  :max=1000
                        placeholder="请输入（根据优先级确定公告排序）"></InputNumber>
         </FormItem>
-        <FormItem label="公告图标" style="text-align: left" class="ivu-form-item-required">
+        <FormItem label="公告图标" style="text-align: left" class="ivu-form-item-required" v-if="this.noticeInfo.model == 'image'">
           <Upload
             ref="upload"
             :show-upload-list="false"
@@ -46,6 +67,10 @@
           </Upload>
           <div style="padding: 16px 0">只能上传一张jpg/png文件，且不超过2M</div>
           <div style="overflow: hidden"><img style="width: 80%" :src="noticeInfo.img"></div>
+        </FormItem>
+        <FormItem label="公告内容"  class="ivu-form-item-required" v-if="this.noticeInfo.model == 'text'">
+          <Input v-model="noticeInfo.text" type="textarea" :rows="4" auto-complete="off" placeholder="请输入文字公告"
+                 :maxlength="200"></Input>
         </FormItem>
         <FormItem label="备注" >
           <Input v-model="noticeInfo.remark" type="textarea" :rows="4" auto-complete="off" placeholder="请输入备注"
@@ -96,6 +121,7 @@ export default {
       fileList: [],
       uploadAction: '',
       imgFile: '',
+      publishTime: '',
       noticeStatus: ['已停用', '正常'],
       gameNoticeList: [],
       noticeInfo: {
@@ -104,16 +130,14 @@ export default {
         priority: 1,
         img: '',
         imgAli: '',
+        type: '',
+        model: '',
+        publishTime: '',
         remark: ''
       },
       searchInfo: {
         adId: '',
         adName: ''
-      },
-      dateOption: {
-        disabledDate (time) {
-          return time.getTime() < Date.now() - 3600 * 1000 * 24
-        }
       },
       columns: [
         {
@@ -125,26 +149,48 @@ export default {
           key: 'adName'
         },
         {
-          title: '图片',
-          key: '',
+          title: '公告类型',
           render: (h,params) => {
-            return h('img', {
-              attrs: {
-                src: params.row.img
-              },
-              style: {
-                width: '40px',
-                height: '40px'
-              }
-            })
+            return h('span', params.row.type== 'normal' ? '普通公告' : '活动公告')
           }
         },
         {
-          title: '创建时间',
+          title: '公告模式',
+          render: (h,params) => {
+            return h('span', params.row.model== 'text' ? '文字' : '图片')
+          }
+        },
+        {
+          title: '公告内容',
+          render: (h,params) => {
+            return h('span', params.row.text || '无')
+          }
+        },
+        {
+          title: '图片',
+          key: '',
+          render: (h,params) => {
+            if(params.row.model== 'text') {
+              return h('span','无')
+            } else {
+              return h('img', {
+                attrs: {
+                  src: params.row.img
+                },
+                style: {
+                  width: '40px',
+                  height: '40px'
+                }
+              })
+            }
+          }
+        },
+        {
+          title: '发布时间',
           key: '',
           width:180,
           render: (h, params) => {
-            return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
+            return h("span", params.row.publishTime ? dayjs(params.row.publishTime).format("YYYY-MM-DD HH:mm:ss") : dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
           }
         },
         {
@@ -296,12 +342,18 @@ export default {
       if(this.noticeInfo.url =='NULL!') this.noticeInfo.url = '';
       if (!this.noticeInfo.adName) {
         return this.$Message.error('请输入公告名称')
+      } else if (!this.noticeInfo.type) {
+        return this.$Message.error('请选择公告类型')
+      } else if (!this.noticeInfo.model) {
+        return this.$Message.error('请选择公告模式')
       } else if (this.noticeInfo.adName.length>10) {
         return this.$Message.error('公告长度不能超过10位')
       } else if (this.noticeInfo.url && !pattern.url.exec(this.noticeInfo.url)) {
         return this.$Message.error('请输入格式正确的跳转链接')
-      } else if (!this.noticeInfo.img) {
+      } else if (this.noticeInfo.model == 'image' && !this.noticeInfo.img) {
         return this.$Message.error('请选择上传图片')
+      } else if (this.noticeInfo.model == 'text' && !this.noticeInfo.text) {
+        return this.$Message.error('请输入公告内容')
       } else if (!this.noticeInfo.priority) {
         return this.$Message.error('请输入优先级')
       } else if (!pattern.positiveInteger.exec(this.noticeInfo.priority)) {
@@ -309,6 +361,7 @@ export default {
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
+      this.noticeInfo.publishTime = this.publishTime!='' ? new Date(this.publishTime).getTime() : ''
       httpRequest('post',`${id ? '/adUpdate' : '/adNew'}`,this.noticeInfo)
         .then(
         result => {
@@ -341,7 +394,10 @@ export default {
           img: '',
           priority: 1,
           imgAli: '',
-          remark: ''
+          remark: '',
+          publishTime: '',
+          type: '',
+          model: ''
         }
         this.fileList = []
       }

@@ -29,8 +29,11 @@
             <Radio label="2">玩家</Radio>
           </RadioGroup>
         </FormItem>
-        <FormItem label="玩家昵称"  v-if="radioInfo == 2">
-          <Input v-model="mailInfo.nickname" placeholder="请输入玩家昵称" :maxlength='20'></Input>
+        <FormItem label="玩家列表" style="text-align: left" v-if="radioInfo == '2'">
+          <Select v-model="mailInfo.names" placeholder="请选择玩家（支持多选 / 搜索）" style="width: 100%" filterable multiple
+                  not-found-text="没有匹配的玩家" :loading=isFetchPlayer loading-text="获取玩家中...">
+            <Option v-for="(item, index) in playerList" :key="index" :value="item.userName">{{item.userName}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="邮件主题"  >
           <Input v-model="mailInfo.title" placeholder="请输入邮件主题" :maxlength='20'></Input>
@@ -114,8 +117,9 @@ export default {
   name: 'app',
   created () {
     this.getMailList()
-    this.getPackageList()
-    this.getPropList()
+    // this.getPackageList()
+    // this.getPropList()
+    this.getPlayerList()
   },
   data () {
     return {
@@ -125,12 +129,14 @@ export default {
       isAddMail: false,
       isSending: false,
       isFetching: false,
+      isFetchPlayer: false,
       radioInfo: '1',
       checkTime: '1',
       isEditPackage: false, // 新增礼包道具编辑状态控制
       contentType: '', // 选择物品的类型
       mailList: [],
       packageList: [],
+      playerList: [],
       goodsType: [{
         code: 1,
         name: '道具列表'
@@ -140,11 +146,11 @@ export default {
         name: '礼包列表'
       }],
       mailInfo: {
-        nickname: '',
         title: '',
         sendTime: '',
         content: '',
-        tools: []
+        tools: [],
+        names: []
       },
       searchInfo: {
         content: ''
@@ -190,14 +196,13 @@ export default {
           title: '发送对象',
           key: 'msn',
           render: (h, params) => {
-            return h('span', params.row.nickname === 'NULL!' ? '所有人' : params.row.nickname)
-          }
-        },
-        {
-          title: '创建时间',
-          key: '',
-          render: (h, params) => {
-            return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
+            let namePlayer = ''
+
+            if(params.row.names && params.row.names.length) {
+              namePlayer = params.row.names.join(',')
+            }
+
+            return h('span', namePlayer || '所有玩家')
           }
         },
         {
@@ -287,8 +292,8 @@ export default {
     },
     submitProp () {
       this.mailInfo.tools = this.addToolList
-      if (!this.mailInfo.nickname && (this.radioInfo == 2)) {
-        return this.$Message.error('请输入玩家昵称')
+      if(this.radioInfo == '2' && !this.mailInfo.names.length) {
+        return this.$Message.error('请选择发送的玩家')
       } else if (!this.mailInfo.title) {
         return this.$Message.error('请输入邮件标题')
       } else if (!this.mailInfo.content) {
@@ -297,7 +302,7 @@ export default {
         return this.$Message.error('请选择发送时间')
       }
       this.mailInfo.sendTime = this.mailInfo.sendTime ? new Date(this.mailInfo.sendTime).getTime() : new Date().getTime()
-      this.mailInfo.nickname = this.radioInfo == 2 ? this.mailInfo.nickname : ''
+      this.mailInfo.names = this.radioInfo == '2' ? this.mailInfo.names : []
       if (this.isSending) return // 防止重复提交
       this.isSending = true
       httpRequest('post', '/email/add', this.mailInfo).then(
@@ -314,11 +319,11 @@ export default {
       this.isAddMail = true
       this.isEditPackage = false
       this.mailInfo = {
-        nickname: '',
         title: '',
         sendTime: '',
         content: '',
-        tools: []
+        tools: [],
+        names: []
       }
       this.addToolInfo = {
         toolName: '',
@@ -353,6 +358,20 @@ export default {
         }
       )
     }, // 获取礼包列表
+    getPlayerList () {
+      this.playerList = []
+      if(this.isFetchPlayer) return
+      this.isFetchPlayer = true
+      httpRequest('post', '/merchant/player/list',{
+        userId: localStorage.loginId
+      }).then(
+        result => {
+          this.playerList = result.list
+        }
+      ).finally(()=>{
+        this.isFetchPlayer = false
+      })
+    }, // 获取商户下玩家列表
     addProp () {
       let reg = new RegExp(/^[0-9]*[1-9][0-9]*$/)
       if (!this.addToolInfo.toolName) {
