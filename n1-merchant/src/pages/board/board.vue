@@ -36,41 +36,42 @@
                 <Radio label="0">正式</Radio>
                 <Radio label="1">测试</Radio>
                 <Radio label="2">全部</Radio>
-              </RadioGroup></div></div>
-            <div>
-              <div class="content-top">
-                <Col :span="24" class="g-text-right" style="margin-bottom: 10px">
-                  <RadioGroup v-model="companyInfo" @on-change="changeCompany()" size="small" type="button">
-                    <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
-                  </RadioGroup>
-                </Col>
-                <Col :span="6">
-                  <div class="left-content-head">
-                    <span class="strong">{{consumeNum}}点</span>
-                    <span class="color-gery">总消耗</span>
-                  </div>
-                </Col>
-                <Col :span="18" class="g-text-right">
-                  <RadioGroup v-model="dateType" size="small" @on-change="changeDateType" type="button">
-                    <Radio label="1">本周</Radio>
-                    <Radio label="2">本月</Radio>
-                    <Radio label="3">三月</Radio>
-                  </RadioGroup>
-                  <DatePicker
-                    style="width: 200px"
-                    v-model="dateInterval"
-                    type="daterange"
-                    placement='bottom-end'
-                    :transfer='true'
-                    @on-change="changeConsume"
-                    placeholder="选择日期范围">
-                  </DatePicker>
-                </Col>
+              </RadioGroup>
+            </div>
+          </div>
+          <div>
+            <div class="content-top">
+              <Col :span="24" class="g-text-right" style="margin-bottom: 10px">
+              <RadioGroup v-model="companyInfo" @on-change="changeCompany()" size="small" type="button">
+                <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
+              </RadioGroup>
+              </Col>
+              <Col :span="6">
+              <div class="left-content-head">
+                <span class="strong">{{consumeNum}}点</span>
+                <span class="color-gery">总消耗</span>
               </div>
-              <div>
-                <div class="content-bottom">
-                  <div id="myChartAllPie" class="content-bar"></div>
-                </div>
+              </Col>
+              <Col :span="18" class="g-text-right">
+              <RadioGroup v-model="dateType" size="small" @on-change="changeDateType" type="button">
+                <Radio label="1">本周</Radio>
+                <Radio label="2">本月</Radio>
+                <Radio label="3">三月</Radio>
+              </RadioGroup>
+              <DatePicker
+                style="width: 200px"
+                v-model="dateInterval"
+                type="daterange"
+                placement='bottom-end'
+                :transfer='true'
+                @on-change="changeConsume"
+                placeholder="选择日期范围">
+              </DatePicker>
+              </Col>
+            </div>
+            <div>
+              <div class="content-bottom">
+                <div id="myChartAllPie" class="content-bar"></div>
               </div>
             </div>
           </div>
