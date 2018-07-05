@@ -194,14 +194,6 @@ export default {
           }
         },
         {
-          title: '创建时间',
-          key: '',
-          width:180,
-          render: (h, params) => {
-            return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
-          }
-        },
-        {
           title: '发布时间',
           key: '',
           width:180,
