@@ -2,13 +2,13 @@
   <div class="businessRecordList">
     <div class="propList-search propList">
       <Row class="transition-box">
-        <Col span="2" offset="4">线路号</Col>
+        <Col span="2" offset="4">商户ID</Col>
         <Col span="4">
-        <Input v-model="searchInfo.operatorMsn" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.operatorDisplayId" placeholder="请输入"></Input>
         </Col>
-        <Col span="2">商户昵称</Col>
+        <Col span="2">商户标识</Col>
         <Col span="4">
-        <Input v-model="searchInfo.operatorDisplayName" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.operatorSn" placeholder="请输入"></Input>
         </Col>
 
         <Col span="5">
@@ -71,8 +71,12 @@
         searchInfo: {},
         columnsHorse: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -106,8 +110,12 @@
         ],
         columnsNotice: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -154,8 +162,12 @@
         ],
         columnsMail: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -169,7 +181,16 @@
             title: '发送对象',
             key: '',
             render: (h,params) => {
-              return h('img', params.row.nickname === 'NULL!' ? '所有人' : params.row.nickname)
+              let nameMerchant = ''
+
+              if(params.row.mNames && params.row.mNames.length) {
+                nameMerchant = params.row.mNames.join(',')
+              }
+              if(params.row.names && params.row.names.length) {
+                nameMerchant = params.row.names.join(',')
+              }
+
+              return h('span', nameMerchant || '所有玩家')
             }
           },
           {
@@ -182,8 +203,12 @@
         ],
         columnsBooth: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
