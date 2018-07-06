@@ -14,7 +14,7 @@
       </el-form-item>
       <el-form-item label="所属供应商" prop="companyName" class="is-required">
         <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany">
-          <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyName" class="select-width"></el-option>
+          <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyIden" class="select-width"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="游戏类别" prop="gameType">
@@ -347,7 +347,7 @@
       changeCompany () {
         if (this.managerInfo.companyName) {
           for(let item of this.companyOptions) {
-            if (item.companyName === this.managerInfo.companyName) {
+            if (item.companyIden === this.managerInfo.companyName) {
               this.companyKey = item.companyKey
               this.companyIden = item.companyIden
             }
