@@ -68,7 +68,7 @@
           <div style="padding: 16px 0">只能上传一张jpg/png文件，且不超过2M</div>
           <div style="overflow: hidden"><img style="width: 80%" :src="noticeInfo.img"></div>
         </FormItem>
-        <FormItem label="公告内容"  class="ivu-form-item-required" v-if="this.noticeInfo.model == 'text'">
+        <FormItem label="文字"  class="ivu-form-item-required" v-if="this.noticeInfo.model == 'text'">
           <Input v-model="noticeInfo.text" type="textarea" :rows="4" auto-complete="off" placeholder="请输入文字公告"
                  :maxlength="200"></Input>
         </FormItem>
@@ -161,7 +161,7 @@ export default {
           }
         },
         {
-          title: '公告内容',
+          title: '文字',
           render: (h,params) => {
             return h('span', params.row.text || '无')
           }

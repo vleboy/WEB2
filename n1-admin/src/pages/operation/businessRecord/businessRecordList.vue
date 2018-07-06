@@ -129,18 +129,40 @@
             key: 'adName'
           },
           {
+            title: '公告类型',
+            render: (h,params) => {
+              return h('span', params.row.type== 'normal' ? '普通公告' : '活动公告')
+            }
+          },
+          {
+            title: '公告模式',
+            render: (h,params) => {
+              return h('span', params.row.model== 'text' ? '文字' : '图片')
+            }
+          },
+          {
+            title: '文字',
+            render: (h,params) => {
+              return h('span', params.row.text || '无')
+            }
+          },
+          {
             title: '图片',
             key: '',
             render: (h,params) => {
-              return h('img', {
-                attrs: {
-                  src: params.row.img
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              if(params.row.model== 'text') {
+                return h('span','无')
+              } else {
+                return h('img', {
+                  attrs: {
+                    src: params.row.img
+                  },
+                  style: {
+                    width: '40px',
+                    height: '40px'
+                  }
+                })
+              }
             }
           },
           {
