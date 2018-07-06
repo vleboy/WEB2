@@ -68,7 +68,10 @@
         businessRecordList: [],
         noticeStatus: ['已停用', '正常'],
         radioType: '1',
-        searchInfo: {},
+        searchInfo: {
+          operatorDisplayId: '',
+          operatorSn: ''
+        },
         columnsHorse: [
           {
             title: '商户ID',
@@ -328,7 +331,7 @@
               }
             }
           }
-        ],
+        ]
       }
     },
     created() {
@@ -345,11 +348,11 @@
     },
     methods: {
       changeRadio() {
-        if (this.searchInfo.operatorDisplayName == '') {
-          delete this.searchInfo.operatorDisplayName
+        if (!this.searchInfo.operatorDisplayId) {
+          delete this.searchInfo.operatorDisplayId
         }
-        if (this.searchInfo.operatorMsn == '') {
-          delete this.searchInfo.operatorMsn
+        if (!this.searchInfo.operatorSn) {
+          delete this.searchInfo.operatorSn
         }
 
         this.businessRecordList = []
@@ -425,8 +428,9 @@
             for (let item of this.businessRecordList) {
               for (let i = 0; i < (10 - item.length); i++) {
                 item.push({
+                  operatorDisplayId: '',
+                  operatorSn: '',
                   operatorDisplayName: '',
-                  operatorMsn: '',
                   prop: '',
                   price: '0',
                   remark: 'NULL!',
@@ -438,8 +442,9 @@
 
             for (let items of this.businessRecordList) {
               this.storageObj.push({
-                operatorMsn: items[0].operatorMsn,
+                operatorDisplayId: items[0].operatorDisplayId,
                 operatorDisplayName: items[0].operatorDisplayName,
+                operatorSn: items[0].operatorSn,
                 name0: items[0].prop,
                 status0: items[0].seatStatus,
                 sum0: items[0].sum,
@@ -480,8 +485,8 @@
       },
       resultSearch() {
         this.searchInfo = {
-          operatorDisplayName: '',
-          operatorMsn: ''
+          operatorDisplayId: '',
+          operatorSn: ''
         }
         this.changeRadio()
       }
