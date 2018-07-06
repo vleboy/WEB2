@@ -1445,6 +1445,8 @@ export default {
     },
     changeSource(value) {
       this.init();
+      this.agentChild=[]
+      this.$store.commit('changePlayer',{params:[]})
     },
     // resetplayer() {
     //   this.search2 = "";

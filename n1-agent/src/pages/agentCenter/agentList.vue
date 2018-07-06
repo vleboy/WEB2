@@ -1586,6 +1586,8 @@ export default {
     },
     changeSource(value) {
       this.init();
+      this.agentChild=[]
+      this.$store.commit('changePlayer',{params:[]})
     },
     passwordLevel(password) {
       let Modes = 0;

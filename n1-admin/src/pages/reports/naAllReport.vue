@@ -548,6 +548,9 @@ export default {
     },
     changeSource() {
       this.init();
+      this.reportChild=[]
+      this.playerList=[]
+      this.showName=false
     },
     reset() {
       this.defaultTime = getDefaultTime();

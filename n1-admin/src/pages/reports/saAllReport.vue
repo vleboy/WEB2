@@ -448,6 +448,16 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    isTest() {
+      let source = this.source;
+      if (source == "正式") {
+        return 0;
+      } else if (source == "测试") {
+        return 1;
+      } else {
+        return 2;
+      }
     }
   },
   methods: {
@@ -457,6 +467,9 @@ export default {
     },
     changeSource(value) {
       this.init()
+      this.reportChild=[]
+      this.playerList=[]
+      this.showName=false
     },
     reset() {
       this.reportChild = [];
