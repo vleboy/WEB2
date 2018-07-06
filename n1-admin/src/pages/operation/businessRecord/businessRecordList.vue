@@ -2,13 +2,13 @@
   <div class="businessRecordList">
     <div class="propList-search propList">
       <Row class="transition-box">
-        <Col span="2" offset="4">线路号</Col>
+        <Col span="2" offset="4">商户ID</Col>
         <Col span="4">
-        <Input v-model="searchInfo.operatorMsn" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.operatorDisplayId" placeholder="请输入"></Input>
         </Col>
-        <Col span="2">商户昵称</Col>
+        <Col span="2">商户标识</Col>
         <Col span="4">
-        <Input v-model="searchInfo.operatorDisplayName" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.operatorSn" placeholder="请输入"></Input>
         </Col>
 
         <Col span="5">
@@ -68,11 +68,18 @@
         businessRecordList: [],
         noticeStatus: ['已停用', '正常'],
         radioType: '1',
-        searchInfo: {},
+        searchInfo: {
+          operatorDisplayId: '',
+          operatorSn: ''
+        },
         columnsHorse: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -106,8 +113,12 @@
         ],
         columnsNotice: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -118,18 +129,40 @@
             key: 'adName'
           },
           {
+            title: '公告类型',
+            render: (h,params) => {
+              return h('span', params.row.type== 'normal' ? '普通公告' : '活动公告')
+            }
+          },
+          {
+            title: '公告模式',
+            render: (h,params) => {
+              return h('span', params.row.model== 'text' ? '文字' : '图片')
+            }
+          },
+          {
+            title: '文字',
+            render: (h,params) => {
+              return h('span', params.row.text || '无')
+            }
+          },
+          {
             title: '图片',
             key: '',
             render: (h,params) => {
-              return h('img', {
-                attrs: {
-                  src: params.row.img
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              if(params.row.model== 'text') {
+                return h('span','无')
+              } else {
+                return h('img', {
+                  attrs: {
+                    src: params.row.img
+                  },
+                  style: {
+                    width: '40px',
+                    height: '40px'
+                  }
+                })
+              }
             }
           },
           {
@@ -154,8 +187,12 @@
         ],
         columnsMail: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -169,7 +206,16 @@
             title: '发送对象',
             key: '',
             render: (h,params) => {
-              return h('img', params.row.nickname === 'NULL!' ? '所有人' : params.row.nickname)
+              let nameMerchant = ''
+
+              if(params.row.mNames && params.row.mNames.length) {
+                nameMerchant = params.row.mNames.join(',')
+              }
+              if(params.row.names && params.row.names.length) {
+                nameMerchant = params.row.names.join(',')
+              }
+
+              return h('span', nameMerchant || '所有玩家')
             }
           },
           {
@@ -182,8 +228,12 @@
         ],
         columnsBooth: [
           {
-            title: '线路号',
-            key: 'operatorMsn'
+            title: '商户ID',
+            key: 'operatorDisplayId'
+          },
+          {
+            title: '商户标识',
+            key: 'operatorSn'
           },
           {
             title: '商户昵称',
@@ -303,7 +353,7 @@
               }
             }
           }
-        ],
+        ]
       }
     },
     created() {
@@ -320,11 +370,11 @@
     },
     methods: {
       changeRadio() {
-        if (this.searchInfo.operatorDisplayName == '') {
-          delete this.searchInfo.operatorDisplayName
+        if (!this.searchInfo.operatorDisplayId) {
+          delete this.searchInfo.operatorDisplayId
         }
-        if (this.searchInfo.operatorMsn == '') {
-          delete this.searchInfo.operatorMsn
+        if (!this.searchInfo.operatorSn) {
+          delete this.searchInfo.operatorSn
         }
 
         this.businessRecordList = []
@@ -346,7 +396,7 @@
       getHorseRaceLampList() {
         if(this.isFetching) return
         this.isFetching = true
-        httpRequest('post', '/notice/list', {
+        httpRequest('post', '/notice/operate/list', {
           operatorRole: '100',
           query: this.searchInfo
         }).then(
@@ -374,7 +424,7 @@
       getMailList() {
         if(this.isFetching) return
         this.isFetching = true
-        httpRequest('post', '/email/list', {
+        httpRequest('post', '/email/operate/list', {
           operatorRole: '100',
           query: this.searchInfo
         }).then(
@@ -400,8 +450,9 @@
             for (let item of this.businessRecordList) {
               for (let i = 0; i < (10 - item.length); i++) {
                 item.push({
+                  operatorDisplayId: '',
+                  operatorSn: '',
                   operatorDisplayName: '',
-                  operatorMsn: '',
                   prop: '',
                   price: '0',
                   remark: 'NULL!',
@@ -413,8 +464,9 @@
 
             for (let items of this.businessRecordList) {
               this.storageObj.push({
-                operatorMsn: items[0].operatorMsn,
+                operatorDisplayId: items[0].operatorDisplayId,
                 operatorDisplayName: items[0].operatorDisplayName,
+                operatorSn: items[0].operatorSn,
                 name0: items[0].prop,
                 status0: items[0].seatStatus,
                 sum0: items[0].sum,
@@ -455,8 +507,8 @@
       },
       resultSearch() {
         this.searchInfo = {
-          operatorDisplayName: '',
-          operatorMsn: ''
+          operatorDisplayId: '',
+          operatorSn: ''
         }
         this.changeRadio()
       }

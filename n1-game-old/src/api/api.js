@@ -28,7 +28,7 @@ const api = {
 
   companyOne: front.game + '/companyOne', // 查询单个供应商
 
-  addCompanyNew: front.test + '/companyNew', // 新增游戏供应商
+  addCompanyNew: front.game + '/companyNew', // 新增游戏供应商
 
   companyUpdate: front.game + '/companyUpdate', // 修改游戏供应商
 
