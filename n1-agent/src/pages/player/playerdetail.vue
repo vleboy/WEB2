@@ -7,11 +7,11 @@
       <h4>基本信息</h4>
       <div class="-b-form">
         <Row>
-          <Col span="4"><span class="-span-base">所属代理：{{detailInfo.merchantName}}</span></Col>
-          <Col span="4"><span class="-span-base">用户名：{{detailInfo.userName}}</span></Col>
-          <Col span="4"><span class="-span-base">昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</span></Col>
+          <Col span="6"><span class="-span-base">代理ID：{{detailInfo.buId}}</span></Col>
+          <Col span="6"><span class="-span-base">所属代理：{{detailInfo.merchantName}}</span></Col>
+          <Col span="6"><span class="-span-base">代理标识：{{detailInfo.sn}}</span></Col>
           <Col span="4">
-            <span class="-span-base">
+          <span class="-span-base">
               <div class="-player-title" >
                 密码：
                 <span v-if="!editPassword">{{detailInfo.password}}</span>
@@ -24,7 +24,12 @@
               </div>
             </span>
           </Col>
-          <Col span="8"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
+        </Row>
+        <Row>
+          <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
+          <Col span="6"><span class="-span-base">玩家昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</span></Col>
+          <Col span="6"><span class="-span-base">游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
+          <Col span="6"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
         </Row>
         <Row>
           <Col span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
@@ -73,7 +78,12 @@ export default {
       isFetching: false,
       balanceInfo: {},
       playerDetailInfo: '',
-      reportType: '1'
+      reportType: '1',
+      gameStatus: {
+        '1': '离线',
+        '2': '在线',
+        '3': '游戏中'
+      }
     }
   },
   computed: {
