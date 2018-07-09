@@ -28,7 +28,7 @@
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
-        <!-- ({{item.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : ''}}) 下级代理列表 -->
+        ({{item.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : ''}}) 下级代理列表
         <RadioGroup v-model="item.isTest" class="radioGroup" type="button" @on-change='changeChildType(item)'>
           <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
