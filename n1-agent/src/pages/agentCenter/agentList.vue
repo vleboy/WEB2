@@ -379,7 +379,6 @@ export default {
       ],
       disabled: true,
       gameType: [],
-      storageChildList: [],
       gameList: [],
       gameDetail: [],
       agent: {
@@ -586,9 +585,9 @@ export default {
                         this.agentChild,
                         userId
                       );
-                      //去无id
+                      //去空数组
                       showList = _.filter(showList, function(o) {
-                        return o.id;
+                        return o.childItem.length;
                       });
                       //去下级
                       let len = showList.length;
@@ -1751,6 +1750,7 @@ export default {
       } else {
         delete params.isTest;
       }
+      this.$store.commit("agentLoading", { params: true });
       this.$store.dispatch("getAgentNext", params).then(res => {
         let agentList = this.agentChild;
         for (let item of agentList) {
@@ -1758,7 +1758,9 @@ export default {
             item.childItem = res.payload;
           }
         }
-      });
+      }).finally(()=>{
+        this.$store.commit("agentLoading", { params: false });
+      })
     }
   },
   computed: {
