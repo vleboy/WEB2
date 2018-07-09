@@ -258,6 +258,7 @@ import {
   oneMerchants,
   companySelect,
   gameBigType,
+  oneManagers,
   updateMerchant,
   httpRequest
 } from "@/service/index";
@@ -289,6 +290,7 @@ export default {
       pageSize: 100,
       showData: [], //分页显示的data
       gameDetail: [],
+      parentGameList:[],
       defaultBrower: false,
       tipContent: "上级游戏占成为:",
       code: "",
@@ -612,7 +614,8 @@ export default {
       this.selected = true;
       this.game = o.label;
       this.code = o.value;
-      let gameDetail = this.gameDetail;
+      let gameDetail = this.parentGameList;
+      console.log(gameDetail);
       let maxRate = 0;
       if (gameDetail.length > 0) {
         for (let item of gameDetail) {
@@ -718,6 +721,9 @@ export default {
       if (company && company.code == 0) {
         this.gameType = company.payload;
       }
+      oneManagers(parent).then(res=>{
+        this.parentGameList=res.payload.gameList
+      })
       this.handlePage();
     },
     uploadAliLogo() {
