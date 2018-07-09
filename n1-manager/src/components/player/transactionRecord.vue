@@ -59,6 +59,7 @@
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
       <RealLifeModal ref="childMethod" v-if="isRealLife" :dataProp="propChild"></RealLifeModal>
       <!--<ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>-->
+      <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
 
     <Modal title="流水详情"  v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
@@ -81,9 +82,10 @@
   import RealLifeModal from '@/components/record/realLifeModal'
   // import OneArmBanditModal from '@/components/record/oneArmBanditModal'
   import oneRunningAccount from '@/components/player/oneRunningAccount'
+  import SportsModal from '@/components/record/sportsModal'
 
   export default {
-    components: { oneRunningAccount,RealLifeModal },
+    components: { oneRunningAccount,RealLifeModal, SportsModal },
     name: 'transactionRecord',
     props:['dataProp'],
     data () {
@@ -271,6 +273,11 @@
         //   },0)
         // }
         if (this.isRealLife) {
+          this.isOpenModalBill = true
+          setTimeout(()=>{
+            this.$refs.childMethod.getRealLife()
+          },0)
+        } else if (this.propChild.gameType == '1130000') {
           this.isOpenModalBill = true
           setTimeout(()=>{
             this.$refs.childMethod.getRealLife()
