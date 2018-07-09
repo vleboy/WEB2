@@ -28,7 +28,7 @@
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
-        () 下级代理列表
+        <!-- ({{item.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : ''}}) 下级代理列表 -->
         <RadioGroup v-model="item.isTest" class="radioGroup" type="button" @on-change='changeChildType(item)'>
           <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
@@ -584,36 +584,20 @@ export default {
                         this.agentChild,
                         userId
                       );
+                      //去无id
                       showList = _.filter(showList, function(o) {
-                        return o.length;
+                        return o.id;
                       });
+                      //去下级
                       let len = showList.length;
                       if (len > 0) {
                         while (len--) {
-                          if (showList[len][0].level > level + 1) {
+                          if (showList[len].childItem[0].level > level + 1) {
                             showList.splice(len, 1);
                           }
                         }
                       }
-
-                      for (let item of showList) {
-                        this.storageChildList.push({
-                          id: item[0].parent,
-                          isTest: '正式',
-                          childItem: item
-                        })
-                      }
-
-                      let array = JSON.parse(JSON.stringify(this.storageChildList))
-
-                      for (let [index, data] of this.storageChildList.entries()) {
-                        if(!data.isTest) {
-                          array.splice(index, 1);
-                        }
-                      }
-
-                      this.agentChild = array
-
+                      this.agentChild = showList;
                       this.$store.dispatch("getAgentPlayer", {
                         fromUserId: userId
                       });
@@ -1610,8 +1594,8 @@ export default {
     },
     changeSource(value) {
       this.init();
-      this.agentChild=[]
-      this.$store.commit('changePlayer',{params:[]})
+      this.agentChild = [];
+      this.$store.commit("changePlayer", { params: [] });
     },
     passwordLevel(password) {
       let Modes = 0;
@@ -1649,6 +1633,7 @@ export default {
         this.$store
           .dispatch("getAgentNext", {
             parent: userId,
+            isTest: 0,
             sort: "desc",
             sortkey: "createdAt",
             query: {}
@@ -1660,10 +1645,18 @@ export default {
                 if (showList[len].childItem[0].level >= level) {
                   showList.splice(len, 1);
                 }
-                showList.push(res.payload);
+                showList.push({
+                          id: userId,
+                          isTest: "正式",
+                          childItem: res.payload
+                        });
               }
             } else {
-              showList.push(res.payload);
+              showList.push({
+                          id: userId,
+                          isTest: "正式",
+                          childItem: res.payload
+                        });
             }
             showList = _.uniqWith(showList, _.isEqual); //去重
             resolve(showList);
@@ -1739,8 +1732,31 @@ export default {
         });
       }
     },
-    changeChildType (list) {
-      console.log(list)
+    changeChildType(list) {
+      let isTest = list.isTest;
+      let parent = list.id;
+      let params = {
+        parent: parent,
+        isTest: 0,
+        sort: "desc",
+        sortkey: "createdAt",
+        query: {}
+      };
+      if (isTest == "测试") {
+        params.isTest = 1;
+      } else if (isTest == "正式") {
+        params.isTest = 0;
+      } else {
+        delete params.isTest;
+      }
+      this.$store.dispatch("getAgentNext", params).then(res => {
+        let agentList = this.agentChild;
+        for (let item of agentList) {
+          if (item.id == parent) {
+            item.childItem = res.payload;
+          }
+        }
+      });
     }
   },
   computed: {
