@@ -7,8 +7,14 @@
       <h4>基本信息</h4>
       <div class="-b-form">
         <Row>
+          <Col span="6"><span class="-span-base">商户ID：{{detailInfo.buId}}</span></Col>
           <Col span="6"><span class="-span-base">所属商户：{{detailInfo.merchantName}}</span></Col>
+          <Col span="6"><span class="-span-base">商户标识：{{detailInfo.sn}}</span></Col>
           <Col span="6"><span class="-span-base">线路号：{{detailInfo.msn}}</span></Col>
+        </Row>
+        <Row>
+          <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
+          <Col span="6"><span class="-span-base" >游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
           <Col span="12"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
         </Row>
         <Row>
@@ -57,7 +63,12 @@ export default {
     return {
       isFetching: false,
       playerDetailInfo: '',
-      reportType: '1'
+      reportType: '1',
+      gameStatus: {
+        '1': '离线',
+        '2': '在线',
+        '3': '游戏中'
+      }
     }
   },
   mounted () {
