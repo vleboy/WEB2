@@ -120,7 +120,7 @@ export default {
       // if (!passReg.test(this.password)) {
       //   this.$Message.warning({
       //     content: "密码为8-16位的(英文、数字、符号)"
-      //   });
+      //   }); 
       //   return;
       // }
       this.$store.commit("updateLoading", { params: true });
