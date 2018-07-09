@@ -28,7 +28,7 @@
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
-        ({{item.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : ''}}) 下级代理列表
+        ({{item.childItem.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : parentNameChild}}) 下级代理列表
         <RadioGroup v-model="item.isTest" class="radioGroup" type="button" @on-change='changeChildType(item)'>
           <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
@@ -502,6 +502,7 @@ export default {
       ],
       playerMix: [],
       playerMixClone: [],
+      parentNameChild:'',
       columns: [
         {
           title: "公司",
@@ -579,6 +580,7 @@ export default {
                       });
                       let userId = params.row.userId;
                       let level = params.row.level;
+                      this.parentNameChild = params.row.displayName
                       this.currentLevel = level + 1;
                       let showList = await this.getNextAgent(
                         this.agentChild,
@@ -592,7 +594,7 @@ export default {
                       let len = showList.length;
                       if (len > 0) {
                         while (len--) {
-                          if (showList[len].childItem[0].level > level + 1) {
+                          if (showList[len].childItem.length && (showList[len].childItem[0].level > level + 1)) {
                             showList.splice(len, 1);
                           }
                         }
@@ -1642,7 +1644,7 @@ export default {
             let len = showList.length;
             if (len > 0) {
               while (len--) {
-                if (showList[len].childItem[0].level >= level) {
+                if (showList[len].childItem.length && (showList[len].childItem[0].level >= level)) {
                   showList.splice(len, 1);
                 }
                 showList.push({
