@@ -28,9 +28,14 @@
     </div>
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
-        ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级代理列表
+        () 下级代理列表
+        <RadioGroup v-model="item.isTest" class="radioGroup" type="button" @on-change='changeChildType(item)'>
+          <Radio label="正式"></Radio>
+          <Radio label="测试"></Radio>
+          <Radio label="全部"></Radio>
+        </RadioGroup>
       </p>
-      <Table :columns="columns1" :data="item" size="small"></Table>
+      <Table :columns="columns1" :data="item.childItem" size="small"></Table>
     </div>
     <div class="playerList" id="playerList">
       <div class="top">
@@ -374,6 +379,7 @@ export default {
       ],
       disabled: true,
       gameType: [],
+      storageChildList: [],
       gameList: [],
       gameDetail: [],
       agent: {
@@ -589,7 +595,25 @@ export default {
                           }
                         }
                       }
-                      this.agentChild = showList;
+
+                      for (let item of showList) {
+                        this.storageChildList.push({
+                          id: item[0].parent,
+                          isTest: '正式',
+                          childItem: item
+                        })
+                      }
+
+                      let array = JSON.parse(JSON.stringify(this.storageChildList))
+
+                      for (let [index, data] of this.storageChildList.entries()) {
+                        if(!data.isTest) {
+                          array.splice(index, 1);
+                        }
+                      }
+
+                      this.agentChild = array
+
                       this.$store.dispatch("getAgentPlayer", {
                         fromUserId: userId
                       });
@@ -1633,7 +1657,7 @@ export default {
             let len = showList.length;
             if (len > 0) {
               while (len--) {
-                if (showList[len][0].level >= level) {
+                if (showList[len].childItem[0].level >= level) {
                   showList.splice(len, 1);
                 }
                 showList.push(res.payload);
@@ -1714,6 +1738,9 @@ export default {
           }
         });
       }
+    },
+    changeChildType (list) {
+      console.log(list)
     }
   },
   computed: {
