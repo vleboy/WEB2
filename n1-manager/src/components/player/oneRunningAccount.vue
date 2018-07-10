@@ -90,7 +90,7 @@
             }
           },
           {
-            title: '发生后金额',
+            title: '帐变后金额',
             key: '',
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.balance))
