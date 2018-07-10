@@ -141,7 +141,12 @@ $
           {
             title: '流水号',
             key: 'sn',
-            width: 210
+            width: 140
+          },
+          {
+            title: '交易号',
+            key: 'businessKey',
+            width: 130
           },
           {
             title: '日期',
@@ -196,7 +201,7 @@ $
             }
           },
           {
-            title: '发生后金额',
+            title: '帐变后金额',
             key: '',
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.balance))
