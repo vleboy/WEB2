@@ -79,7 +79,8 @@ export default {
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:60
         },
         {
           title: "类型",
@@ -235,6 +236,22 @@ export default {
           }
         },
         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+               let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.mixAmount;
+            }
+              return h("span",  thousandFormatter(count) );
+            } else {
+              return h("span", thousandFormatter(params.row.mixAmount));
+            }
+          }
+        },
+        {
           title: "NA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -295,6 +312,33 @@ export default {
                 }
               }
               return h("span", thousandFormatter(count.toFixed(2)));
+            }
+          }
+        },
+        {
+          title: "NA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (["3", "30000", "40000", "50000"].includes(key)) {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
             }
           }
         },
@@ -363,6 +407,33 @@ export default {
           }
         },
         {
+          title: "TTG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key=='1010000') {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1010000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
+        {
           title: "SA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -423,6 +494,33 @@ export default {
                 }
               }
               return h("span", thousandFormatter(count.toFixed(2)));
+            }
+          }
+        },
+        {
+          title: "SA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (["1060000", "1110000"].includes(key)) {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
             }
           }
         },
@@ -491,6 +589,33 @@ export default {
           }
         },
         {
+          title: "MG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "10300000") {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "10300000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
+        {
           title: "AG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -551,6 +676,33 @@ export default {
                 }
               }
               return h("span", thousandFormatter(count.toFixed(2)));
+            }
+          }
+        },
+        {
+          title: "AG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1050000") {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1050000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
             }
           }
         },
@@ -681,7 +833,34 @@ export default {
               return h("span", thousandFormatter(count.toFixed(2)));
             }
           }
-        }
+        },
+        {
+          title: "YSB游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1130000") {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1130000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
       ],
       columns2: [
         {
@@ -717,6 +896,13 @@ export default {
           }
         },
         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            return h( "span", thousandFormatter(params.row.mixAmount) );
+          }
+        },
+        {
           title: "NA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -738,6 +924,20 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
+        },
+        {
+          title: "NA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["3", "30000", "40000", "50000"].includes(key)) {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
         },
         {
           title: "TTG游戏(输赢金额)",
@@ -763,6 +963,20 @@ export default {
           }
         },
         {
+          title: "TTG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='1010000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
+        {
           title: "SA游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -784,6 +998,20 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
+        },
+        {
+          title: "SA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["1060000", "1110000"].includes(key)) {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
         },
         {
           title: "MG游戏(输赢金额)",
@@ -809,6 +1037,20 @@ export default {
           }
         },
         {
+          title: "MG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='10300000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
+        {
           title: "AG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -830,6 +1072,20 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
+        },
+        {
+          title: "AG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='1050000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
         },
         // {
         //   title: "UG游戏(输赢金额)",
@@ -876,7 +1132,21 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
-        }
+        },
+        {
+          title: "YSB游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='1130000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
       ]
     };
   },

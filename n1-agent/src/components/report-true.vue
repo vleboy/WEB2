@@ -66,7 +66,8 @@ export default {
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:70
         },
         {
           title: "类型",
@@ -219,6 +220,23 @@ export default {
                 },
                 thousandFormatter(params.row.winloseAmount)
               );
+            }
+          }
+        },
+         {
+          title: "洗码量",
+          key: "mixAmount",
+          render:(h,params)=>{
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.mixAmount;
+            }
+            let userId = localStorage.userId;
+             if (params.row.userId == userId) {
+              return h("span", thousandFormatter(count));
+            } else {
+              return h('span',thousandFormatter(params.row.mixAmount))
             }
           }
         },

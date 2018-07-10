@@ -68,7 +68,8 @@ export default {
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:60
         },
         {
           title: "类型",
@@ -221,6 +222,22 @@ export default {
           }
         },
         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+               let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.mixAmount;
+            }
+              return h("span",  thousandFormatter(count) );
+            } else {
+              return h("span", thousandFormatter(params.row.mixAmount));
+            }
+          }
+        },
+        {
           title: "NA真人游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -283,6 +300,34 @@ export default {
                 }
               }
               return h("span", thousandFormatter(submitAmount));
+            }
+          }
+        },
+        {
+          title: "NA真人游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "30000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h('span',thousandFormatter(count))
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["30000"]) {
+                  mixAmount = params.row.gameTypeMap[
+                    "30000"
+                  ].mixAmount
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
             }
           }
         },
@@ -353,6 +398,34 @@ export default {
           }
         },
         {
+          title: "NA电子游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "40000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h('span',thousandFormatter(count))
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["40000"]) {
+                  mixAmount = params.row.gameTypeMap[
+                    "40000"
+                  ].mixAmount
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
+            }
+          }
+        },
+        {
           title: "NA街机游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -417,7 +490,35 @@ export default {
               return h("span", thousandFormatter(submitAmount));
             }
           }
-        }
+        },
+          {
+          title: "NA街机游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "50000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h('span',thousandFormatter(count))
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["50000"]) {
+                  mixAmount = params.row.gameTypeMap[
+                    "50000"
+                  ].mixAmount
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
+            }
+          }
+        },
       ],
       columns2: [
         {
@@ -452,6 +553,13 @@ export default {
             );
           }
         },
+         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            return h( "span", thousandFormatter(params.row.mixAmount) );
+          }
+        },
         {
           title: "NA真人游戏(输赢金额)",
           key: "winloseAmount",
@@ -473,6 +581,20 @@ export default {
               winloseAmount
             );
           }
+        },
+        {
+          title: "NA真人游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='30000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
         },
         {
           title: "NA电子游戏(输赢金额)",
@@ -497,6 +619,20 @@ export default {
           }
         },
         {
+          title: "NA电子游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='40000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
+        {
           title: "NA街机游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -517,7 +653,21 @@ export default {
               thousandFormatter(winloseAmount)
             );
           }
-        }
+        },
+        {
+          title: "NA街机游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='50000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
       ]
     };
   },
