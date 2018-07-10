@@ -12,7 +12,7 @@
       <Panel name="1">
         基本信息
         <div slot="content">
-          <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
+          <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
               <FormItem label="代理ID">
@@ -25,13 +25,8 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="代理成数" v-if="edit">
-                {{agentDetail.rate}}
-              </FormItem>
-              <FormItem label="代理成数" v-else prop='rate'>
-                <Tooltip :content="tipContent">
-                  <Input v-model="basic.rate" placeholder="0~100,不超过上级代理成数"></Input>
-                </Tooltip>
+              <FormItem label="管理员账号">
+                {{ agentDetail.username}}
               </FormItem>
               </Col>
             </Row>
@@ -52,15 +47,26 @@
               </FormItem>
               </Col>
             </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2">
+        配置信息
+        <div slot="content">
+          <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
             <Row>
               <Col span="8">
-              <FormItem label="管理员账号">
-                {{ agentDetail.username}}
-              </FormItem>
-              </Col>
-              <Col span="8">
               <FormItem label="管理员密码" v-if="edit">
-                {{agentDetail.password}}
+                <Row>
+                  <Col span="6">
+                  <span v-if="showPass">{{agentDetail.password}}</span>
+                  <span v-else>********</span>
+                  </Col>
+                  <Col span="6">
+                  <span class="showpass" @click="showPass=!showPass" v-if="!showPass">显示</span>
+                  <span class="showpass" @click="showPass=!showPass" v-else>隐藏</span>
+                  </Col>
+                </Row>
               </FormItem>
               <FormItem label="管理员密码" prop="password" v-else>
                 <Row>
@@ -71,6 +77,16 @@
                   <span class="create" @click="createPass">生成</span>
                   </Col>
                 </Row>
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="代理成数" v-if="edit">
+                {{agentDetail.rate}}
+              </FormItem>
+              <FormItem label="代理成数" v-else prop='rate'>
+                <Tooltip :content="tipContent">
+                  <Input v-model="basic.rate" placeholder="0~100,不超过上级代理成数"></Input>
+                </Tooltip>
               </FormItem>
               </Col>
               <Col span="8">
@@ -94,7 +110,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="2">
+      <Panel name="3">
         游戏信息
         <div slot="content">
           <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
@@ -212,9 +228,10 @@ export default {
     };
     return {
       parent: "",
-      value: "",
+      value: "3",
       dayjs: dayjs,
       parentGame: [],
+      showPass: false,
       maxMix: 0,
       edit: true, //可编辑
       game: "",
@@ -229,7 +246,7 @@ export default {
       modal: false, //加减点modal
       plus: true,
       point: "",
-      isTest:false,
+      isTest: false,
       note: "",
       fromUserId: "",
       toRole: " ",
@@ -271,8 +288,8 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -430,8 +447,8 @@ export default {
         {
           title: "剩余点数",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -542,8 +559,8 @@ export default {
         {
           title: "交易前余额",
           key: "oldBalance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.oldBalance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
           }
         },
         {
@@ -608,8 +625,8 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-           render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -690,7 +707,7 @@ export default {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["1", "2"];
+      this.value = ["2","3"];
       this.basic.password = this.agentDetail.password;
       this.basic.remark = this.agentDetail.remark;
       this.basic.rate = this.agentDetail.rate;
@@ -946,6 +963,14 @@ export default {
   .edit {
     float: right;
     margin-right: 20px;
+  }
+  .showpass {
+    margin-left: 0.5rem;
+    color: #20a0ff;
+    display: inline-block;
+    // font-size: 1rem;
+    font-weight: normal;
+    cursor: pointer;
   }
   .logo {
     width: 200px;

@@ -12,7 +12,7 @@
       <Panel name="1">
         基本信息 所属线路商: {{$route.query.parentDisplayName}}
         <div slot="content">
-          <Form :model="basic" label-position="left" :label-width="100">
+          <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
               <FormItem label="商户ID">
@@ -33,7 +33,16 @@
             <Row>
               <Col span="8">
               <FormItem label="商户密匙">
-                {{merchantDetail.apiKey}}
+                <Row>
+                  <Col span="18">
+                  <span v-if="showKey">{{merchantDetail.apiKey}}</span>
+                  <span v-else>********</span>
+                  </Col>
+                  <Col span="4">
+                  <span class="show" @click="showKey=!showKey" v-if="!showKey">显示</span>
+                  <span class="show" @click="showKey=!showKey" v-else>隐藏</span>
+                  </Col>
+                </Row>
               </FormItem>
               </Col>
               <Col span="8">
@@ -76,7 +85,48 @@
               </FormItem>
               </Col>
               <Col span="8">
+              <FormItem label="管理员账号">
+                {{ merchantDetail.uname}}
+              </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2">
+        配置信息
+        <div slot="content">
+          <Form :model="basic" label-position="left" :label-width="100">
+            <Row>
+              <Col span="8">
+              <FormItem label="管理员密码" v-if="edit">
+                <Row>
+                  <Col span="6">
+                  <span v-if="showPass">{{merchantDetail.password}}</span>
+                  <span v-else>********</span>
+                  </Col>
+                  <Col span="6">
+                  <span class="show" @click="showPass=!showPass" v-if="!showPass">显示</span>
+                  <span class="show" @click="showPass=!showPass" v-else>隐藏</span>
+                  </Col>
+                </Row>
+              </FormItem>
+              <FormItem label="管理员密码" prop="password" v-else>
+                <Row>
+                  <Col span="10">
+                  <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
+                  </Col>
+                  <Col span="4">
+                  <span class="create" @click="createPass">生成</span>
+                  </Col>
+                </Row>
+              </FormItem>
+              </Col>
+              <Col span="8">
               <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
+              </Col>
+              <Col span="8">
+              <Checkbox class="browser" :disabled='edit' v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
               </Col>
             </Row>
             <Row>
@@ -143,31 +193,6 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <Checkbox class="browser" :disabled='edit' v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="管理员账号">
-                {{ merchantDetail.uname}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="管理员密码" v-if="edit">
-                {{merchantDetail.password}}
-              </FormItem>
-              <FormItem label="管理员密码" prop="password" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
-                  </Col>
-                  <Col span="4">
-                  <span class="create" @click="createPass">生成</span>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-              <Col span="8">
               <FormItem label="备注" v-if="edit">
                 {{merchantDetail.remark}}
               </FormItem>
@@ -205,7 +230,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="2">
+      <Panel name="3">
         游戏信息
         <div slot="content">
           <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
@@ -281,8 +306,10 @@ export default {
     };
     return {
       parent: "",
+      showKey: false,
+      showPass: false,
       isTest: false, //测试号
-      value: "",
+      value: "3",
       dayjs: dayjs,
       edit: true, //可编辑
       isedit: true,
@@ -290,7 +317,7 @@ export default {
       pageSize: 100,
       showData: [], //分页显示的data
       gameDetail: [],
-      parentGameList:[],
+      parentGameList: [],
       defaultBrower: false,
       tipContent: "上级游戏占成为:",
       code: "",
@@ -376,8 +403,8 @@ export default {
         {
           title: "交易前余额",
           key: "oldBalance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.oldBalance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
           }
         },
         {
@@ -457,8 +484,8 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -526,7 +553,7 @@ export default {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["1", "2"];
+      this.value = ["2", "3"];
       this.basic.password = this.merchantDetail.password;
       this.basic.remark = this.merchantDetail.remark;
       this.basic.frontURL = this.merchantDetail.frontURL;
@@ -715,15 +742,15 @@ export default {
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
         this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false;
-        this.isTest=merchant.payload.isTest==1?true:false;
+        this.isTest = merchant.payload.isTest == 1 ? true : false;
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {
         this.gameType = company.payload;
       }
-      oneManagers(parent).then(res=>{
-        this.parentGameList=res.payload.gameList
-      })
+      oneManagers(parent).then(res => {
+        this.parentGameList = res.payload.gameList;
+      });
       this.handlePage();
     },
     uploadAliLogo() {
@@ -900,6 +927,14 @@ export default {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
+  }
+  .show {
+    margin-left: 1rem;
+    color: #20a0ff;
+    display: inline-block;
+    // font-size: 1rem;
+    font-weight: normal;
+    cursor: pointer;
   }
   .edit {
     float: right;

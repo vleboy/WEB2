@@ -12,7 +12,7 @@
       <Panel name="1">
         基本信息
         <div slot="content">
-          <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
+          <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
               <FormItem label="线路商ID">
@@ -42,18 +42,36 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
               <FormItem label="管理员账号">
                 {{ lineDetail.uname}}
               </FormItem>
               </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+              <FormItem label="上次登录IP">
+                {{lineDetail.lastIP}}
+              </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2">
+        配置信息
+        <div slot="content">
+          <Form ref='basicform' :model="basic" label-position="left" :label-width="100">
+            <Row>
               <Col span="8">
               <FormItem label="管理员密码" v-if="edit">
-                {{lineDetail.password}}
+                <Col span="6">
+                <span v-if="showPass">{{lineDetail.password}}</span>
+                <span v-else>********</span>
+                </Col>
+                <Col span="6">
+                <span class="showpass" @click="showPass=!showPass" v-if="!showPass">显示</span>
+                <span class="showpass" @click="showPass=!showPass" v-else>隐藏</span>
+                </Col>
               </FormItem>
               <FormItem label="管理员密码" prop="password" v-else>
                 <Row>
@@ -67,9 +85,7 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="上次登录IP">
-                {{lineDetail.lastIP}}
-              </FormItem>
+              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
               </Col>
             </Row>
             <Row>
@@ -89,7 +105,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="2">
+      <Panel name="3">
         游戏信息
         <div slot="content">
           <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
@@ -228,7 +244,8 @@ export default {
       spinShow: false,
       defaultBrower: false,
       gameDetail: [],
-      iaTest:false,
+      iaTest: false,
+      showPass: false,
       selected: false,
       modal: false, //加减点modal
       plus: true,
@@ -909,7 +926,7 @@ export default {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["1", "2", "3"];
+      this.value = ["2", "3"];
       this.basic.password = this.lineDetail.password;
       this.basic.remark = this.lineDetail.remark;
       // reset
@@ -1111,7 +1128,7 @@ export default {
       }
       if (managers && managers.code == 0) {
         this.lineDetail = managers.payload;
-        this.isTest=managers.payload.isTest==1?true:false;
+        this.isTest = managers.payload.isTest == 1 ? true : false;
         this.gameDetail = managers.payload.gameList;
       }
       if (company && company.code == 0) {
@@ -1142,6 +1159,14 @@ export default {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
+  }
+  .showpass {
+    margin-left: 0.5rem;
+    color: #20a0ff;
+    display: inline-block;
+    // font-size: 1rem;
+    font-weight: normal;
+    cursor: pointer;
   }
   .finance {
     margin-top: 15px;
