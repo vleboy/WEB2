@@ -68,7 +68,8 @@ export default {
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          maxWidth:70
         },
         {
           title: "类型",
@@ -224,6 +225,22 @@ export default {
           }
         },
         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+               let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              count += item.mixAmount;
+            }
+              return h("span",  thousandFormatter(count) );
+            } else {
+              return h("span", thousandFormatter(params.row.mixAmount));
+            }
+          }
+        },
+        {
           title: "SA真人游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -288,6 +305,34 @@ export default {
                 }
               }
               return h("span", thousandFormatter(submitAmount));
+            }
+          }
+        },
+        {
+          title: "SA真人游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1060000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h('span',thousandFormatter(count))
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["1060000"]) {
+                  mixAmount = params.row.gameTypeMap[
+                    "1060000"
+                  ].mixAmount
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
             }
           }
         },
@@ -358,7 +403,35 @@ export default {
               return h("span", thousandFormatter(submitAmount));
             }
           }
-        }
+        },
+        {
+          title: "SA捕鱼游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1110000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h('span',thousandFormatter(count))
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["1110000"]) {
+                  mixAmount = params.row.gameTypeMap[
+                    "1110000"
+                  ].mixAmount
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
+            }
+          }
+        },
       ],
       columns2: [
         {
@@ -394,6 +467,13 @@ export default {
           }
         },
         {
+          title: "总游戏洗码量",
+          key: "mixAmount",
+          render: (h, params) => {
+            return h( "span", thousandFormatter(params.row.mixAmount) );
+          }
+        },
+        {
           title: "SA真人游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -414,6 +494,20 @@ export default {
               thousandFormatter(winloseAmount)
             );
           }
+        },
+         {
+          title: "SA真人游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='1060000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
         },
         {
           title: "SA捕鱼游戏(输赢金额)",
@@ -436,7 +530,21 @@ export default {
               thousandFormatter(winloseAmount)
             );
           }
-        }
+        },
+        {
+          title: "SA捕鱼游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key=='1110000') {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+        },
       ]
     };
   },
