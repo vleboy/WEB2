@@ -175,29 +175,15 @@ $
             }
           },
           {
-            title: '金额（入）',
+            title: '帐变金额',
             key: '',
             render: (h, params) => {
-              if(params.row.amount >= 0) {
-                return h('span', {
-                  class: {
-                    '-p-green': params.row.amount >= 0
-                  },
-                }, thousandFormatter(params.row.amount))
-              }
-            }
-          },
-          {
-            title: '金额（出）',
-            key: '',
-            render: (h, params) => {
-              if(params.row.amount < 0) {
-                return h('span', {
-                  class: {
-                    '-p-red': params.row.amount < 0
-                  },
-                }, thousandFormatter(params.row.amount))
-              }
+              return h('span', {
+                class: {
+                  '-p-green': params.row.amount >= 0,
+                  '-p-red': params.row.amount < 0
+                },
+              }, thousandFormatter(params.row.amount))
             }
           },
           {
