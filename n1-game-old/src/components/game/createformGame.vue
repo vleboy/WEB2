@@ -30,13 +30,11 @@
       </el-form-item>
       <el-form-item label="游戏LOGO" prop="gameImg" class="is-required">
         <el-upload
-          :action="uploadAction"
+          :action="url"
           class="g-avatar-uploader"
           ref="upload"
           :http-request="requestHeader"
           :show-file-list="false"
-          :on-success="handleSuccess"
-          :on-error="handleError"
           :before-upload="beforeUpload">
           <img v-if="managerInfo.gameImg" :src="managerInfo.gameImg" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -125,31 +123,6 @@
           this.isfinish.gameRecommend = true
         }
       } // 游戏简介
-//      var validateIp = (rule, value, callback) => {
-//        var ip = new RegExp(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
-//        if (value === '') {
-//          callback(new Error('请输入服务器'))
-//          this.isfinish.ip = false
-//        } else if (!ip.exec(value)) {
-//          callback(new Error('请输入正确的服务器格式'))
-//          this.isfinish.ip = false
-//        } else {
-//          callback()
-//          this.isfinish.ip = true
-//        }
-//      } // 服务器
-//      var validatePort = (rule, value, callback) => {
-//        if (value === '') {
-//          callback(new Error('请输入端口'))
-//          this.isfinish.port = false
-//        } else if (value < 1 || value > 65535) {
-//          callback(new Error('端口必须小于65535，大于1'))
-//          this.isfinish.port = false
-//        } else {
-//          callback()
-//          this.isfinish.port = true
-//        }
-//      } // 端口
       var validateKindId = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入KindId'))
@@ -195,6 +168,7 @@
           kindId: '', // kindId
           gameRecommend: '', // 简介
           gameImg: '', // 游戏logo
+          gameImgAli: '', // 游戏logoAli
           gameLink: '', // 网页游戏链接
           isWebGame: '', // 网页游戏标识
           gameIden: '', // 标识
@@ -230,6 +204,7 @@
         options: [],
         fileList: [],
         uploadAction: '',
+        url: '',
         imgFile:{},
         form: {
           key: '',
@@ -337,6 +312,7 @@
 //          ip: '', // 服务器
           gameRecommend: '', // 简介
           gameImg: '', // 图片上传 （暂不实现）
+          gameImgAli: '', // 图片上传 （暂不实现）
           gameLink: '', // 网页游戏链接
           isWebGame: '', // 网页游戏标识
           gameIden: '', // 标识
@@ -379,34 +355,57 @@
         })
       },
       requestHeader () {
+        this.uploadAli ()
+        this.uploadAws ()
+      },
+      uploadAli () {
+        this.url = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+        let mi = new OSS.Wrapper({
+          region: 'oss-cn-hangzhou',
+          accessKeyId: this.uploadAction[1].ali.AccessKeyId,
+          accessKeySecret: this.uploadAction[1].ali.AccessKeySecret,
+          stsToken: this.uploadAction[1].ali.SecurityToken,
+          bucket: 'assetdownload'
+        })
+        // console.log(this.imgFile.name)
+        let suffix = this.suffixFun(this.imgFile.name)
+        let date = new Date().getTime()
+        let fileName = `image/${suffix[0]+date}.${suffix[1]}`
+        mi.multipartUpload(fileName, this.imgFile, {
+        }).then((results) => {
+          this.$message.success('上传阿里云成功')
+          this.dialogLoading = false
+          this.managerInfo.gameImgAli =  `http://app.risheng3d.com/${results.name}` || results.url
+          // console.log(results,this.managerInfo.img, 'src')
+        }).catch((err) => {
+          this.dialogLoading = false
+          console.log(err);
+        });
+      },
+      uploadAws () {
         const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
         const prod = `http://img.na77.com/${this.imgFile.name}` //开发环境
         invoke({
-          url: this.uploadAction,
+          url: this.uploadAction[0].aws,
           method: 'put',
           data: this.imgFile,
           isToken: 'false'
         }).then(res => {
           const [err, ret] = res
           if (err) {
+            this.dialogLoading = false
             this.$message({
               message: err.msg,
               type: 'error'
             })
           } else {
             this.dialogLoading = false
-            this.$message.success('上传成功')
+            this.$message.success('上传亚马逊成功')
             this.managerInfo.gameImg = (process.env.NODE_ENV == 'development') ? dev : prod
-//            console.log(this.managerInfo.gameImg, 'this.managerInfo')
+//           console.log(this.managerInfo.img, 'this.managerInfo.img')
           }
         })
       },
-      handleSuccess (response, file, fileList) {
-        this.dialogLoading = false
-        this.$message.success('图片上传成功')
-        this.fileList = fileList
-        this.managerInfo.gameImg = `https://ouef62ous.bkt.clouddn.com/${response.key}`
-      }, // 图片上传成功回调
       beforeUpload (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
         const isLt1M = file.size / 1024 / 1024 < 1
@@ -440,7 +439,7 @@
                 type: 'error'
               })
             } else {
-              this.uploadAction = ret.data.payload[0].aws
+              this.uploadAction = ret.data.payload
               resolve(true)
             }
           }).catch(err => {
@@ -449,10 +448,6 @@
           })
         })
       }, // 上传前的检验 格式、大小等
-      handleError () {
-        this.dialogLoading = false
-        this.$message.error('上传失败，请重新选择')
-      }, // 错误回调
       suffixFun (o) {
         let arr = o.split('.')
         return arr
