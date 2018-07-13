@@ -141,10 +141,10 @@ export const appRouter = [
     },
     {
         path:'/rtg',
-        title:'RTG体育游戏',
+        title:'RTG游戏',
         name:'rtg',
         component:main,
-        children:[{path:'game',title:'RTG体育游戏报表',name:'rtgGame',component:rtgGame}]
+        children:[{path:'game',title:'RTG电子游戏报表',name:'rtgGame',component:rtgGame}]
     },
     {
         path:'/agent',
