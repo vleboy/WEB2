@@ -16,6 +16,7 @@
             {{scope.row.isWebGame!='0' ? '是' : '否' }}
           </template>
         </el-table-column>
+        <el-table-column label="游戏链接" prop="gameLink" align="center" width="320"></el-table-column>
         <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150"></el-table-column>
         <el-table-column label="状态" align="center">
           <template scope="scope">
