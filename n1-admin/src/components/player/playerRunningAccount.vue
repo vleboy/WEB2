@@ -37,6 +37,16 @@ $
       </Row>
       <Row v-if="isShowSearch">
         <div class="from-search">
+          <div class="-search-input">
+            流水号：<Input v-model="sn" placeholder="请输入流水号" style="width: 70%;"></Input>
+          </div>
+        </div>
+        <div class="from-search">
+          <div class="-search-input">
+            交易号：<Input v-model="betId" placeholder="请输入交易号" style="width: 70%;"></Input>
+          </div>
+        </div>
+        <div class="from-search">
           厂商：
           <RadioGroup v-model="companyInfo" type="button" @on-change="changeCompany">
             <Radio v-for="(item,index) of companyList" :key="index" :label="item.company">{{item.company}}</Radio>
@@ -118,6 +128,8 @@ $
         monthDate: '', // 月份快捷选择
         startDate: '', // 开始时间搓
         endDate: '', // 结束时间搓
+        betId: '', // 交易号
+        sn: '', // 流水号
         allAmount: 0,
         isShowSearch: false,
         isFetching: false,
@@ -274,7 +286,9 @@ $
           startTime: this.amountDate ? this.startDate : '',
           endTime: this.amountDate ? this.endDate : '',
           startKey: this.playerAccountListStartKey,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          sn: this.sn,
+          betId: this.betId,
         }).then(result => {
             this.isLastMessage = result.list < this.pageSize
             this.playerAccountList = result.list
@@ -332,7 +346,7 @@ $
         }
       }, // 月份联动
       searchData(bool) {
-        !bool && (this.radioMoney = '', this.radioType = '');
+        !bool && (this.radioMoney = '', this.radioType = '', this.sn = '', this.betId = '');
         this.initData()
         this.getPlayerAccount()
       }, // 重置筛选条件
@@ -410,7 +424,13 @@ $
 
       .from-search {
         font-size: 0.8rem;
-        margin-top: 10px
+        margin-top: 10px;
+        overflow: hidden;
+      }
+
+      .-search-input{
+        display: inline-block;
+        width: 50%;
       }
 
       .form-button {

@@ -16,8 +16,9 @@
         </Col>
       </Row>
       <Row>
-        <Col span="12" style="float: right; text-align: right">
-          <DatePicker
+        <Col span="17" style="float: right; text-align: right">
+        <Input v-model="betId" placeholder="请输入交易号" style="width: 30%;"></Input>
+        <DatePicker
             v-model="amountDate"
             type="datetimerange"
             :transfer='true'
@@ -28,7 +29,7 @@
           <Button type="primary" @click="searchAmount">搜索</Button>
           <Button type="primary" @click="exportData">导出数据</Button>
         </Col>
-        <Col span="12">
+        <Col span="7">
           <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span>
           <Button type="text" @click="resultGetPlayerDetail">刷新</Button>
         </Col>
@@ -108,6 +109,7 @@
         playerDetailListStorage: [],
         playerDetailStartKey: '',
         balance: '',
+        betId: '',
         propChild: {},
         runningDetail: {},
         columns: [
@@ -310,7 +312,8 @@
           startTime: startTime,
           endTime: endTime,
           startKey: this.playerDetailStartKey,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          betId: this.betId
         }).then(
           result => {
             this.isLastMessage = result.list < this.pageSize
