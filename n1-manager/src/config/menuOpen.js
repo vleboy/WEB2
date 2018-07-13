@@ -26,6 +26,8 @@
       openName = ["report", "ugreport"];
     } else if (name == "allreport") {
       openName = ["report"];
+    }else if (name == 'rtgGame') {
+      openName = ["report", "rtgReport"];
     }
     return openName
   }

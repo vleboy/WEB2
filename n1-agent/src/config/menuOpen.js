@@ -8,6 +8,8 @@ export const menuOpen = function (name) {
     openName = ["report", "sareport"];
   } else if (name == "mgvideo") {
     openName = ["report", "mgreport"];
+  }else if (name == 'rtgGame') {
+    openName = ["report", "rtgReport"];
   } else if (name == "agtrue") {
     openName = ["report", "agreport"];
   } else if (name == "ugsport") {

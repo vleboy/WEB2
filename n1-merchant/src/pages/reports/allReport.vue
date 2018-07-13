@@ -312,49 +312,49 @@ export default {
             return h("span", thousandFormatter(count));
           }
         },
-        // {
-        //   title: "UG游戏(输赢金额)",
-        //   key: "winloseAmount",
-        //   render: (h, params) => {
-        //     let gameList = params.row.gameTypeMap;
-        //     let count = 0;
-        //     for (let key in gameList) {
-        //       if (key == "1100000") {
-        //         count = gameList[key].winloseAmount;
-        //       }
-        //     }
-        //     if (count) {
-        //       count = count.toFixed(2);
-        //     }
-        //     let color = count < 0 ? "#f30" : "#0c0";
-        //     return h(
-        //       "span",
-        //       {
-        //         style: {
-        //           color: color
-        //         }
-        //       },
-        //       count
-        //     );
-        //   }
-        // },
-        // {
-        //   title: "UG游戏(商家交公司)",
-        //   key: "submitAmount",
-        //   render: (h, params) => {
-        //     let gameList = params.row.gameTypeMap;
-        //     let count = 0;
-        //     for (let key in gameList) {
-        //       if (key == "1100000") {
-        //         count = gameList[key].submitAmount;
-        //       }
-        //     }
-        //     if (count) {
-        //       count = count.toFixed(2);
-        //     }
-        //     return h("span", count);
-        //   }
-        // },
+        {
+          title: "RTG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1140000") {
+                count = gameList[key].winloseAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "RTG游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1140000") {
+                count = gameList[key].submitAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
         {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
