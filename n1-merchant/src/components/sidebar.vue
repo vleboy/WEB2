@@ -46,7 +46,7 @@
                     </Submenu>
                     <Submenu name='rtgReport'  v-if="gameList.includes('RTG电子游戏')">
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame"  v-if="gameList.includes('RTG电子游戏')">RTG电子游戏报表</MenuItem>
+                        <MenuItem name="rtgGame" v-if="gameList.includes('RTG电子游戏')">RTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
