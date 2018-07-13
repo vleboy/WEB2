@@ -46,7 +46,7 @@
                     </Submenu>
                     <Submenu name='rtgReport' v-if='authorityStr.includes("RTG")'>
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame" v-if='permission.includes("RTG游戏报表")'>RTG游戏报表</MenuItem>
+                        <MenuItem name="rtgGame" v-if='permission.includes("RTG电子游戏报表")'>RTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ysbReport' v-if='authorityStr.includes("YSB")'>
                         <template slot="title">YSB游戏报表</template>

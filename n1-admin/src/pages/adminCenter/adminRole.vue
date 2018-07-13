@@ -164,7 +164,7 @@ export default {
                 checked: false,
                 children: [
                   {
-                    title: "RTG游戏报表",
+                    title: "RTG电子游戏报表",
                     checked: false
                   }
                 ]

@@ -46,7 +46,7 @@
                     </Submenu>
                      <Submenu name='rtgReport' >
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame">RTG游戏报表</MenuItem>
+                        <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
                      <Submenu name='ysbReport' >
                         <template slot="title">YSB游戏报表</template>
