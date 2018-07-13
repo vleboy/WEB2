@@ -547,29 +547,29 @@ export default {
             );
           }
         },
-        // {
-        //   title: "UG游戏(输赢金额)",
-        //   key: "winloseAmount",
-        //   render: (h, params) => {
-        //     let obj = params.row.gameTypeMap;
-        //     let count = 0;
-        //     for (let key in obj) {
-        //       if (["1100000"].includes(key)) {
-        //         count += obj[key].winloseAmount;
-        //       }
-        //     }
-        //     let color = count < 0 ? "#f30" : "#0c0";
-        //     return h(
-        //       "span",
-        //       {
-        //         style: {
-        //           color: color
-        //         }
-        //       },
-        //       count.toFixed(2)
-        //     );
-        //   }
-        // },
+        {
+          title: "RTG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1140000") {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
         {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",

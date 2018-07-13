@@ -624,7 +624,7 @@ export default {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (["1140000"].includes(key)) {
+              if (key == "1140000") {
                 count += obj[key].winloseAmount;
               }
             }

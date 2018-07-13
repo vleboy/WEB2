@@ -577,7 +577,7 @@ export default {
               }
             }
             let color = "";
-            if (params.row.level == 0) {
+            if (params.row.role == '1') {
               color = allCount < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
@@ -613,7 +613,7 @@ export default {
           title: "RTG游戏(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
-            if (params.row.level == 0) {
+            if (params.row.role == '1') {
               return h("span", "0.00");
             } else {
               let obj = params.row.gameTypeMap;
