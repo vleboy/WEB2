@@ -52,6 +52,10 @@
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='rtgReport' >
+                        <template slot="title">RTG游戏报表</template>
+                        <MenuItem name="rtgGame">RTG游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="agentCenter">
                     <template slot="title">

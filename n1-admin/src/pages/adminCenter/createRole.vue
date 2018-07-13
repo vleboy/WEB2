@@ -130,6 +130,15 @@ export default {
                       title: "YSB体育游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "RTG游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "RTG游戏报表"
+                    }
+                  ]
                 }
               ]
             },

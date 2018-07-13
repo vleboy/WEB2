@@ -157,6 +157,17 @@ export default {
                     checked: false
                   }
                 ]
+              },
+              {
+                title: "RTG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "RTG游戏报表",
+                    checked: false
+                  }
+                ]
               }
             ]
           },
