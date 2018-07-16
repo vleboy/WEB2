@@ -346,7 +346,14 @@ $
         }
       }, // 月份联动
       searchData(bool) {
-        !bool && (this.radioMoney = '', this.radioType = '', this.sn = '', this.betId = '');
+        if(!bool) {
+          this.companyInfo = '全部厂商'
+          this.radioMoney = ''
+          this.radioType = ''
+          this.sn = ''
+          this.betId = ''
+          this.changeCompany()
+        }
         this.initData()
         this.getPlayerAccount()
       }, // 重置筛选条件
