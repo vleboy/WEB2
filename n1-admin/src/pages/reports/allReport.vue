@@ -1007,7 +1007,7 @@ export default {
 <style lang="less" scoped>
 .allreport {
   min-height: 87vh;
-  width: 150%;
+  width: 180%;
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;
