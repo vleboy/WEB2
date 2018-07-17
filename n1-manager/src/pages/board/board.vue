@@ -46,8 +46,8 @@
                 </Col>
                 <Col :span="6">
                   <div class="left-content-head">
-                    <span class="strong">{{consumeNum}}点</span>
                     <span class="color-gery">总消耗</span>
+                    <span class="strong">{{consumeNum}}点</span>
                   </div>
                 </Col>
                 <Col :span="18" class="g-text-right">
@@ -84,6 +84,16 @@
             <div class="content-title">售出/收益</div>
             <div>
               <div class="content-top">
+                <Col span="10">
+                <div class="left-content-head" v-show="isSaleNum">
+                  <span class="color-gery">总售出</span>
+                  <span class="strong">{{saleNums}}点</span>
+                </div>
+                <div class="left-content-head"  v-show="isConNum">
+                  <span class="color-gery">总收益</span>
+                  <span class="strong">{{conNums}}点</span>
+                </div>
+                </Col>
                 <Col class="g-text-right">
                   <RadioGroup v-model="dateTypeTwo" size="small" type="button" @on-change="changeDateTypeTwo">
                     <Radio label="1">本周</Radio>
@@ -141,6 +151,10 @@
         isGoConsumeAndIncome: false, // 判断是否从搜索框跳转
         isSetInterval: false, // 是否是定时刷新,
         dynamicNum: '', // 动态渲染游戏消耗总点数
+        conNum: '0', // 动态渲染收益消耗总点数
+        saleNum: '0', // 动态渲染售出消耗总点数
+        isSaleNum: true, // 是否显示售出
+        isConNum: true, // 是否显示收益
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
@@ -212,6 +226,12 @@
       },
       consumeNum () {
         return thousandFormatter(this.dynamicNum)
+      },
+      saleNums () {
+        return thousandFormatter(this.saleNum)
+      },
+      conNums () {
+        return thousandFormatter(this.conNum)
       }
     },
     methods: {
@@ -283,6 +303,8 @@
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
           .then(result => {
             this.consumeAndIncomeList = result.data
+            this.saleNum = this.consumeAndIncomeList.sumSale
+            this.conNum = this.consumeAndIncomeList.sumConsume
             this.drawAllLine()
           }
         )
@@ -357,8 +379,15 @@
       }, // 多栏柱状图
       drawAllLine () {
         // 基于准备好的dom，初始化echarts实例
+        let self = this;
+        let legendArray = []
         let myChart = this.$echarts.init(document.getElementById('myChartAllLine'))
-        // 绘制图表
+        myChart.clear();
+        myChart.on('legendselectchanged', function (params) {
+          legendArray = Object.entries(params.selected)
+          self.isSaleNum = legendArray[0][1]
+          self.isConNum = legendArray[1][1]
+        });        // 绘制图表
         myChart.setOption({
           tooltip: {
             trigger: 'axis',
