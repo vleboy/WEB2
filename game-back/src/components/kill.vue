@@ -35,6 +35,9 @@ export default {
           type: "category",
           data: ["三挡", "二挡", "一档"]
         },
+        legend: {
+        data:['历史','今天']
+         },
         yAxis: {
           type: "value"
         },
