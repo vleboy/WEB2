@@ -15,25 +15,9 @@
                 </RadioGroup>
                 <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
             </div>
-        </div>
         <div class="clear"></div>
-        <div class="kill">
-            <div class="cirle">
-                <div class="history">
-                    <p class="killtitle">历史</p>
-                    <i-circle :percent="80" stroke-color="#5cb85c">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                    </i-circle>
-                </div>
-                <div class="today">
-                    <p class="killtitle">今天</p>
-                    <i-circle :percent="80" stroke-color="#5cb85c">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                    </i-circle>
-                </div>
-            </div>
-            <div id="lineChart" class="linechart"></div>
         </div>
+         <kill/>
         <div class="piechart">
             <Row>
                 <Col span="12">
@@ -106,18 +90,19 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="showmore">
+        <div class="showmore">
             <Button type="primary" class="morebtn" v-if='!showMore' @click="more">点击加载更多</Button>
-        </div> -->
+        </div>
         <basic-more v-if='showMore'></basic-more>
     </div>
 </template>
 <script>
 import basicMore from '@/components/basicMore'
+import kill from '@/components/kill'
 export default {
   data() {
     return {
-      showMore:true,
+      showMore:false,
       acount: "",
       id: "",
       source: "",
@@ -128,9 +113,8 @@ export default {
       hour4: 34
     };
   },
-  components:{basicMore},
+  components:{basicMore,kill},
   mounted() {
-    this.drawLineChart();
     this.drawPie("pie1");
     this.drawPie("pie2");
     this.drawPie("pie3");
@@ -146,35 +130,6 @@ export default {
     },
     more(){
         this.showMore=true;
-    },
-    drawLineChart() {
-      let option = {
-        xAxis: {
-          type: "category",
-          data: ["三挡", "二挡", "一档"]
-        },
-        yAxis: {
-          type: "value"
-        },
-        series: [
-          {
-            name: "历史",
-            data: [120, 200, 150],
-            type: "bar"
-          },
-          {
-            name: "今天",
-            data: [120, 200, 150],
-            type: "bar"
-          }
-        ],
-        tooltip: {
-          show: true
-        }
-      };
-      const lineChart = document.getElementById("lineChart");
-      let myChart = this.$echarts.init(lineChart);
-      myChart.setOption(option);
     },
     drawPie(id) {
       let option = {
@@ -255,21 +210,7 @@ export default {
           },
           {
             name: "今日在线人数",
-            data: [
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200,
               150,
               120,
               200,
@@ -298,13 +239,6 @@ export default {
 <style lang="less" scoped>
 .basic {
   min-height: 91vh;
-  #lineChart {
-    background-color: #fff;
-    height: 180px;
-    width: 45%;
-    float: left;
-    margin: 10px auto;
-  }
   .clear {
     clear: both;
   }
@@ -315,27 +249,7 @@ export default {
     .right {
       float: right;
     }
-  }
-  .kill {
-    background-color: #f5cccc;
-    height: 200px;
-    margin-top: 5px;
-    .cirle {
-      display: flex;
-      width: 50%;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      float: left;
-    }
-    .killtitle {
-      text-align: center;
-      line-height: 36px;
-    }
-    .history,
-    .today {
-      margin: auto 50px;
-    }
+    padding-bottom: 15px;
   }
   .pie {
     width: 400px;
@@ -388,6 +302,7 @@ export default {
       text-align: center;
       .morebtn{
           width: 250px;
+          margin-top: 20px;
       }
   }
   #barchart {

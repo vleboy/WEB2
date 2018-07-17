@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <sidebar :openName='openName' />
+        <sidebar/>
         <h2>老虎机数据统计后台</h2>
         <Layout :style="{marginLeft: '200px',marginRight:'300px'}">
             <Content>
@@ -20,7 +20,7 @@ import rank from '@/components/rank'
 export default {
   data() {
     return {
-      openName: []
+     
     };
   },
   components: { sidebar,rank }

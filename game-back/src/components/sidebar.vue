@@ -1,7 +1,7 @@
 <template>
     <div class="sider">
         <Sider width='200px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
+            <Menu ref="sideMenu" :active-name="$route.name" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="allGame">
                     <Icon type="stats-bars"></Icon>
                     <span>全部游戏—基本信息</span>
@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {},
-  props: ["openName"],
+//   props: ["openName"],
   updated() {
     this.$nextTick(() => {
       if (this.$refs.sideMenu) {
