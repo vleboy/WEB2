@@ -13,7 +13,7 @@ function checkStatus(response) {
         if(response.data.msg=='TOKEN已过期'){
           let host=location.href;
           host=host.split('#')[0]
-          window.location.href=host //+'#/login'
+          window.location.href=host +'#/login'
         }
     }
   if (response && (response.status == 200 || response.status == 304 || response.status == 400)) {
