@@ -9,6 +9,7 @@
             <Radio label="测试"></Radio>
             <Radio label="全部"></Radio>
           </RadioGroup>
+          <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -16,25 +17,28 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small"></Table>
+      <Table :columns="columns1" :data="user" size="small" ref='table_1'></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
+        <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="child" size="small"></Table>
+      <Table :columns="columns1" :data="child" size="small" ref='table_1'></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
+        <Button type="ghost" @click="exportdata(index)">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="item" size="small"></Table>
+      <Table :columns="columns1" :data="item" size="small" :ref="'table'+index"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
+        <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
       </p>
-      <Table :columns="columns2" :data="playerList" size="small"></Table>
+      <Table :columns="columns2" :data="playerList" size="small" ref='table_2'></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -69,7 +73,7 @@ export default {
         {
           title: "序号",
           type: "index",
-          maxWidth:70
+          maxWidth: 70
         },
         {
           title: "类型",
@@ -217,7 +221,10 @@ export default {
               return h("span", 0);
             } else {
               if (params.row.submitAmount) {
-                return h("span", thousandFormatter(params.row.submitAmount.toFixed(2)));
+                return h(
+                  "span",
+                  thousandFormatter(params.row.submitAmount.toFixed(2))
+                );
               } else {
                 return h("span", 0);
               }
@@ -229,12 +236,12 @@ export default {
           key: "mixAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-               let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.mixAmount;
-            }
-              return h("span",  thousandFormatter(count) );
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                count += item.mixAmount;
+              }
+              return h("span", thousandFormatter(count));
             } else {
               return h("span", thousandFormatter(params.row.mixAmount));
             }
@@ -322,14 +329,12 @@ export default {
                   }
                 }
               }
-              return h('span',thousandFormatter(count))
+              return h("span", thousandFormatter(count));
             } else {
               let mixAmount = 0;
               if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1060000"]) {
-                  mixAmount = params.row.gameTypeMap[
-                    "1060000"
-                  ].mixAmount
+                  mixAmount = params.row.gameTypeMap["1060000"].mixAmount;
                 }
               }
               return h("span", thousandFormatter(mixAmount));
@@ -418,20 +423,18 @@ export default {
                   }
                 }
               }
-              return h('span',thousandFormatter(count))
+              return h("span", thousandFormatter(count));
             } else {
               let mixAmount = 0;
               if (params.row.gameTypeMap) {
                 if (params.row.gameTypeMap["1110000"]) {
-                  mixAmount = params.row.gameTypeMap[
-                    "1110000"
-                  ].mixAmount
+                  mixAmount = params.row.gameTypeMap["1110000"].mixAmount;
                 }
               }
               return h("span", thousandFormatter(mixAmount));
             }
           }
-        },
+        }
       ],
       columns2: [
         {
@@ -470,7 +473,7 @@ export default {
           title: "总游戏洗码量",
           key: "mixAmount",
           render: (h, params) => {
-            return h( "span", thousandFormatter(params.row.mixAmount) );
+            return h("span", thousandFormatter(params.row.mixAmount));
           }
         },
         {
@@ -495,19 +498,19 @@ export default {
             );
           }
         },
-         {
+        {
           title: "SA真人游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1060000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1060000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "SA捕鱼游戏(输赢金额)",
@@ -535,16 +538,16 @@ export default {
           title: "SA捕鱼游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1110000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1110000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
-        },
+            return h("span", thousandFormatter(count));
+          }
+        }
       ]
     };
   },
@@ -575,11 +578,23 @@ export default {
     confirm() {
       this.init();
     },
+    exportdata(table) {
+      if (table == "table_0") {
+        this.$refs.table_0.exportCsv({ filename: "current" });
+      } else if (table == "table_1") {
+        this.$refs.table_1.exportCsv({ filename: "next" });
+      } else if (table == "table_2") {
+        this.$refs.table_2.exportCsv({ filename: "player" });
+      } else {
+        let ref = "table" + table;
+        this.$refs[ref][0].exportCsv({ filename: ref });
+      }
+    },
     changeSource() {
       this.init();
-      this.reportChild=[]
-      this.playerList=[]
-      this.showName=false
+      this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
     },
     reset() {
       this.defaultTime = getDefaultTime();

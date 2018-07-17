@@ -4,6 +4,7 @@
       <div class="top">
         <p class="title">
           当前用户列表
+          <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -11,13 +12,14 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small"></Table>
+      <Table :columns="columns1" :data="user" size="small" ref='table_0'></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         所属玩家列表
+        <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
-      <Table :columns="columns2" :data="playerList" size="small"></Table>
+      <Table :columns="columns2" :data="playerList" size="small" ref='table_1'></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -332,6 +334,13 @@ export default {
   methods: {
     confirm() {
       this.init();
+    },
+    exportdata(table) {
+      if (table == "table_0") {
+        this.$refs.table_0.exportCsv({ filename: "current" });
+      } else if (table == "table_1") {
+        this.$refs.table_1.exportCsv({ filename: "player" });
+      }
     },
     reset() {
       this.defaultTime = getDefaultTime();
