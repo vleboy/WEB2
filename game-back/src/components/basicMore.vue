@@ -1,7 +1,7 @@
 <template>
     <div class="more">
        <login-count></login-count>
-        <hit-rate/>
+        <hit-rate title="游戏命中率" @click.native="goRateDetail"></hit-rate>
         <div class="free">
             <p class="secTitle">免费模式次数与赔付</p>
             <div class="freeContent">
@@ -32,9 +32,9 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <price-count title="免费模式下大奖次数" num=1></price-count>
-        <price-count title="普通模式下大奖次数" num=2></price-count>
-        <free-count></free-count>
+        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail"></price-count>
+        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail"></price-count>
+        <free-count title="免费模式次数选择" @click.native="goCountDetail"></free-count>
     </div>
 </template>
 <script>
@@ -56,6 +56,15 @@ export default {
       goLogin(){
           this.$router.push({name:'loginDetail'})
       },
+      goPriceDetail(){
+          this.$router.push({name:'priceDetail'})
+      },
+      goRateDetail(){
+          this.$router.push({name:'rateDetail'})
+      },
+      goCountDetail(){
+          this.$router.push({name:'countDetail'})
+      }
   },
   
 };

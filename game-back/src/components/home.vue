@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <sidebar/>
-        <h2>老虎机数据统计后台</h2>
+        <h2>老虎机数据统计后台:{{$route.meta.title}}</h2>
         <Layout :style="{marginLeft: '200px',marginRight:'300px'}">
             <Content>
                 <Card>
@@ -22,6 +22,17 @@ export default {
     return {
      
     };
+  },
+  computed:{
+
+  },
+  created(){
+     
+  },
+  watch:{
+    $route(to, from) {
+    //  console.log(to);
+    }
   },
   components: { sidebar,rank }
 };

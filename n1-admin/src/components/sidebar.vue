@@ -48,6 +48,10 @@
                         <template slot="title">RTG游戏报表</template>
                         <MenuItem name="rtgGame" v-if='permission.includes("RTG电子游戏报表")'>RTG电子游戏报表</MenuItem>
                     </Submenu>
+                    <Submenu name='dtReport' v-if='authorityStr.includes("DT")'>
+                        <template slot="title">DT游戏报表</template>
+                        <MenuItem name="dtGame" v-if='permission.includes("DT电子游戏报表")'>DT电子游戏报表</MenuItem>
+                    </Submenu>
                     <Submenu name='ysbReport' v-if='authorityStr.includes("YSB")'>
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>

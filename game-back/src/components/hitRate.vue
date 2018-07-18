@@ -1,6 +1,6 @@
 <template>
      <div class="hitRate">
-            <p class="secTitle">游戏命中率</p>
+            <p class="secTitle">{{title}}</p>
             <div class="rateContent">
                 <div class="circle">
                     <div class="todayRate">
@@ -63,7 +63,8 @@ export default {
         return{
 
         }
-    }
+    },
+    props:['title']
 }
 </script>
 <style lang="less" scoped>

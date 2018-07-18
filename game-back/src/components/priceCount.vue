@@ -121,7 +121,7 @@ export default {
                   }
               }
           }
-          #pricePie1,#pricePie2{
+          .pie{
               width: 350px;
               height: 230px;
           }

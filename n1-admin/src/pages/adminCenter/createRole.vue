@@ -139,6 +139,15 @@ export default {
                       title: "RTG电子游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "DT游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "DT电子游戏报表"
+                    }
+                  ]
                 }
               ]
             },

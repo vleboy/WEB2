@@ -168,6 +168,17 @@ export default {
                     checked: false
                   }
                 ]
+              },
+               {
+                title: "DT游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "DT电子游戏报表",
+                    checked: false
+                  }
+                ]
               }
             ]
           },

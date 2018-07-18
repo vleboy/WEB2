@@ -50,7 +50,8 @@ export default {
         1100000,
         1110000,
         1130000,
-        1140000
+        1140000,
+        1150000
       ],
       columns1: [
         {
@@ -359,6 +360,49 @@ export default {
           }
         },
         {
+          title: "DT游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1150000") {
+                count = gameList[key].winloseAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "DT游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1150000") {
+                count = gameList[key].submitAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
+        {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -558,6 +602,29 @@ export default {
             let count = 0;
             for (let key in obj) {
               if (key == "1140000") {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "DT游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1150000") {
                 count += obj[key].winloseAmount;
               }
             }

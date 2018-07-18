@@ -1,6 +1,6 @@
 <template>
     <div class="freeCount">
-            <p class="secTitle">免费模式次数选择</p>
+            <p class="secTitle">{{title}}</p>
             <div class="freeCountContent">
                 <div class="item">
                      <Timeline>
@@ -56,7 +56,8 @@ export default {
         return{
 
         }
-    }
+    },
+    props:['title']
 }
 </script>
 <style lang="less" scoped>

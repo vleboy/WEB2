@@ -1,7 +1,7 @@
 <template>
     <div class="betamount">
         <p class="title">下注金额排名</p>
-        <Table :columns="columns" :data="data1"></Table>
+        <Table :columns="columns" :data="amoutRank"></Table>
     </div>
 </template>
 <script>
@@ -10,6 +10,11 @@ export default {
   data() {
     return {
       columns: [
+        {
+          title:'排名',
+          type:'index',
+          maxWidth:60
+        },
         {
           title: "游戏名",
           key: "name"
@@ -22,22 +27,10 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-         {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-         {
-          name: "熊猫传奇",
-          profit: 4356465
-        }
-      ]
+      
     };
-  }
+  },
+  props:['amoutRank']
 };
 </script>
 <style lang="less" scoped>

@@ -14,6 +14,8 @@
       openName = ["report", "ysbReport"];
     }else if (name == 'rtgGame') {
       openName = ["report", "rtgReport"];
+    }else if (name == 'dtGame') {
+      openName = ["report", "dtReport"];
     } else if (name == "ugsport") {
       openName = ["report", "ugreport"];
     } else if (name == "allreport") {

@@ -17,61 +17,8 @@
             </div>
         <div class="clear"></div>
         </div>
-         <kill/>
-        <div class="piechart">
-            <Row>
-                <Col span="12">
-                <div class="singlePie">
-                    <p class="pieTitle">盈利总和</p>
-                    <Row class="sumary">
-                        <Col span="12">
-                        <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                        <Col span="12">
-                        <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                    </Row>
-                    <div id="pie1" class="pie"></div>
-                </div>
-                </Col>
-                <Col span="12">
-                <div class="singlePie">
-                    <p class="pieTitle">下注总和</p>
-                    <Row class="sumary">
-                        <Col span="12">
-                        <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                        <Col span="12">
-                        <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                    </Row>
-                    <div id="pie2" class="pie"></div>
-                </div>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="12">
-                <div class="singlePie">
-                    <p class="pieTitle">赔付总和</p>
-                    <Row class="sumary">
-                        <Col span="12">
-                        <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                        <Col span="12">
-                        <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                    </Row>
-                    <div id="pie3" class="pie"></div>
-                </div>
-                </Col>
-                <Col span="12">
-                <div class="singlePie">
-                    <p class="pieTitle">游戏局数</p>
-                    <Row class="sumary">
-                        <Col span="12">
-                        <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                        <Col span="12">
-                        <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                    </Row>
-                    <div id="pie4" class="pie"></div>
-                </div>
-                </Col>
-            </Row>
-        </div>
+        <kill title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 />
+        <pie-charts></pie-charts>
         <div class="hour">
             <p>每小时在线人数</p>
             <div class="content">
@@ -99,6 +46,7 @@
 <script>
 import basicMore from '@/components/basicMore'
 import kill from '@/components/kill'
+import pieCharts from '@/components/pieCharts'
 export default {
   data() {
     return {
@@ -113,12 +61,8 @@ export default {
       hour4: 34
     };
   },
-  components:{basicMore,kill},
+  components:{basicMore,kill,pieCharts},
   mounted() {
-    this.drawPie("pie1");
-    this.drawPie("pie2");
-    this.drawPie("pie3");
-    this.drawPie("pie4");
     this.drawBar();
   },
   methods: {
@@ -131,39 +75,8 @@ export default {
     more(){
         this.showMore=true;
     },
-    drawPie(id) {
-      let option = {
-        title: {
-          text: "南丁格尔玫瑰图",
-          x: "center"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        calculable: true,
-        series: [
-          {
-            name: "面积模式",
-            type: "pie",
-            radius: [30, 110],
-            roseType: "area",
-            data: [
-              { value: 10, name: "rose1" },
-              { value: 5, name: "rose2" },
-              { value: 15, name: "rose3" },
-              { value: 25, name: "rose4" },
-              { value: 20, name: "rose5" },
-              { value: 35, name: "rose6" },
-              { value: 30, name: "rose7" },
-              { value: 40, name: "rose8" }
-            ]
-          }
-        ]
-      };
-      const pie1 = document.getElementById(id);
-      let myChart = this.$echarts.init(pie1);
-      myChart.setOption(option);
+    goKillDetail(){
+      this.$router.push({name:'killDetail'})
     },
     drawBar() {
       let option = {
@@ -180,48 +93,12 @@ export default {
         series: [
           {
             name: "7日平均人数",
-            data: [
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150
-            ],
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ],
             type: "bar"
           },
           {
             name: "今日在线人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150,
-              120,
-              200,
-              150
-            ],
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ],
             type: "bar"
           }
         ],
@@ -250,31 +127,6 @@ export default {
       float: right;
     }
     padding-bottom: 15px;
-  }
-  .pie {
-    width: 400px;
-    height: 300px;
-    background-color: #f3f3f3;
-  }
-  .piechart {
-    .singlePie {
-      width: 400px;
-      margin: 10px auto;
-    }
-    .pieTitle {
-      background-color: #d7d7d7;
-      line-height: 32px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .sumary {
-      line-height: 32px;
-      background-color: #f3f3f3;
-      .hisTitle {
-        font-size: 16px;
-        font-weight: bold;
-      }
-    }
   }
   .hour {
     width: 100%;

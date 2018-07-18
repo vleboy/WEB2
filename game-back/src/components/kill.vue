@@ -1,24 +1,24 @@
 <template>
-    <div class="kill">
-        <p>游戏杀数</p>
-        <div class="killcontent">
-            <div class="cirle">
-                <div class="history">
-                    <p class="killtitle">历史</p>
-                    <i-circle :percent="80" stroke-color="#5cb85c">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                    </i-circle>
-                </div>
-                <div class="today">
-                    <p class="killtitle">今天</p>
-                    <i-circle :percent="80" stroke-color="#5cb85c">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                    </i-circle>
-                </div>
-            </div>
-            <div id="lineChart" class="linechart"></div>
+  <div class="kill">
+    <p>{{title}}</p>
+    <div class="killcontent">
+      <div class="cirle">
+        <div class="history">
+          <p class="killtitle">{{date}}</p>
+          <i-circle :percent="80" stroke-color="#5cb85c">
+            <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+          </i-circle>
         </div>
+        <div class="today">
+          <p class="killtitle">今天</p>
+          <i-circle :percent="80" stroke-color="#5cb85c">
+            <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+          </i-circle>
+        </div>
+      </div>
+      <div :id="'linechart'+num" class="chart"></div>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -36,8 +36,8 @@ export default {
           data: ["三挡", "二挡", "一档"]
         },
         legend: {
-        data:['历史','今天']
-         },
+          data: ["历史", "今天"]
+        },
         yAxis: {
           type: "value"
         },
@@ -57,12 +57,13 @@ export default {
           show: true
         }
       };
-      const lineChart = document.getElementById("lineChart");
+      let dom = "linechart" + this.num;
+      const lineChart = document.getElementById(dom);
       let myChart = this.$echarts.init(lineChart);
       myChart.setOption(option);
     }
   },
-  props: {}
+  props: ["title", "date", "num"]
 };
 </script>
 <style lang="less" scoped>
@@ -91,13 +92,15 @@ export default {
     .today {
       margin: auto 50px;
     }
-  }
-    #lineChart {
-    background-color: #fff;
-    height: 180px;
-    width: 45%;
-    float: left;
-    margin: 10px auto;
+    .chart {
+      background-color: #fff;
+      height: 180px;
+      width: 450px;
+      position: relative;
+      right: 80px;
+      float: right;
+      margin: 10px auto;
+    }
   }
 }
 </style>

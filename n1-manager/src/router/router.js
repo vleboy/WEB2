@@ -26,6 +26,7 @@ import satrue from '@/pages/reports/saTrueGame'
 import ttgvideo from '@/pages/reports/ttgVideoGame'
 import rtgGame from '@/pages/reports/rtgGame'
 import ysbSport from '@/pages/reports/ysbSport'
+import dtGame from '@/pages/reports/dtReport'
 
 import opreateLog from '@/pages/log/opreateLog'
 import merchantLog from '@/pages/log/merchantLog'
@@ -136,6 +137,13 @@ export const appRouter = [
         name:'rtg',
         component:main,
         children:[{path:'game',title:'RTG电子游戏报表',name:'rtgGame',component:rtgGame}]
+    },
+    {
+        path:'/dt',
+        title:'dt',
+        name:'dt',
+        component:main,
+        children:[{path:'video',title:'DT电子游戏报表',name:'dtGame',component:dtGame}]
     },
     {
         path:'/ysb',

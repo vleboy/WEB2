@@ -48,6 +48,10 @@
                         <template slot="title">RTG游戏报表</template>
                         <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='dtReport'>
+                        <template slot="title">DT游戏报表</template>
+                        <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
+                    </Submenu>
                      <Submenu name='ysbReport' >
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>

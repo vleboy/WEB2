@@ -7,7 +7,11 @@ import err from '@/pages/404'
 import basic from '@/pages/basic'
 import loginDetail from '@/pages/loginDetail'
 import rankDetail from '@/pages/rankDetail'
-
+import killDetail from '@/pages/killDetail'
+import priceDetail from '@/pages/priceDetail'
+import rateDetail from '@/pages/rateDetail'
+import countDetail from '@/pages/countDetail'
+import profitDetail from '@/pages/profitDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -27,15 +31,13 @@ export default new Router({
       redirect: '/basic',
       component: home,
       children:[
-        {path:'basic',title:'基本信息',name:'allGame',component:basic}
-      ]
-    },
-    {
-      path: '/',
-      name: 'login',
-      component: home,
-      children:[
-        {path:'loginDetail',title:'登录详情',name:'loginDetail',component:loginDetail}
+        {path:'basic',meta: {title: '基本信息'},name:'allGame',component:basic},
+        {path:'profitDetail',meta: {title: '盈利详情'},name:'profitDetail',component:profitDetail},
+        {path:'loginDetail',meta: {title: '登录详情'},name:'loginDetail',component:loginDetail},
+        {path:'killDetail', meta: {title: '游戏杀数'},name:'killDetail',component:killDetail},
+        {path:'priceDetail',meta: {title: '大奖详情'},name:'priceDetail',component:priceDetail},
+        {path:'rateDetail', meta: {title: '游戏命中率'},name:'rateDetail',component:rateDetail},
+        {path:'countDetail',meta: {title: '次数详情'},name:'countDetail',component:countDetail},
       ]
     },
     {
@@ -43,9 +45,9 @@ export default new Router({
       name: 'rank',
       component: homeNoRank,
       children:[
-        {path:'rankDetail',title:'游戏排名',name:'rankDetail',component:rankDetail}
+        {path:'rankDetail',title:'游戏排名',name:'rankDetail',meta: {title: '游戏排名'},component:rankDetail}
       ]
-    }
+    },
   ]
 })
 
