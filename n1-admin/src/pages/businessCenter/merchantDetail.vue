@@ -642,7 +642,6 @@ export default {
       this.game = o.label;
       this.code = o.value;
       let gameDetail = this.parentGameList;
-      console.log(gameDetail);
       let maxRate = 0;
       if (gameDetail.length > 0) {
         for (let item of gameDetail) {
@@ -749,7 +748,7 @@ export default {
         this.gameType = company.payload;
       }
       oneManagers(parent).then(res => {
-        this.parentGameList = res.payload.gameList;
+        this.parentGameList = res.payload.gameList||[];
       });
       this.handlePage();
     },
