@@ -15,7 +15,6 @@
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
-                <!-- <DropdownItem name="ownSpace">个人中心</DropdownItem> -->
                 <DropdownItem name="loginout" divided>退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -126,7 +125,6 @@ export default {
   height: 100%;
   background: white;
   z-index: 10;
-  width: 120px;
   margin-right: 10px;
 }
 .ivu-layout-header {

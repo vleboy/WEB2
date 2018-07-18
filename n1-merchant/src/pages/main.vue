@@ -126,7 +126,6 @@ export default {
   height: 100%;
   background: white;
   z-index: 10;
-  width: 120px;
   margin-right: 10px;
 }
 .ivu-layout-header {
