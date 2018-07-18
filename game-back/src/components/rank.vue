@@ -25,10 +25,6 @@ export default {
           name: "熊猫传奇",
           profit: 4356465
         },
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        }
       ],
       countRank: [
         {

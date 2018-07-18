@@ -1,7 +1,7 @@
 <template>
-    <div class="profitDetail">
+    <div class="gameCount">
         <div class="sumary">
-            <p class="title">盈利总和</p>
+            <p class="title">游戏局数总和</p>
             <div class="sumary_content">
                 <Row>
                     <Col span="2">
@@ -186,7 +186,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.profitDetail {
+.gameCount {
   p {
     line-height: 36px;
     font-weight: bold;
@@ -202,7 +202,7 @@ export default {
     .num {
       border-bottom: 1px solid #3366ff;
     }
-    .number{
+     .number{
         padding-left: 30px;
         font-size: 16px;
     }

@@ -12,6 +12,11 @@ import priceDetail from '@/pages/priceDetail'
 import rateDetail from '@/pages/rateDetail'
 import countDetail from '@/pages/countDetail'
 import profitDetail from '@/pages/profitDetail'
+import payDetail from '@/pages/payDetail'
+import gameCountDetail from '@/pages/gameCountDetail'
+import betDetail from '@/pages/betDetail'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +38,9 @@ export default new Router({
       children:[
         {path:'basic',meta: {title: '基本信息'},name:'allGame',component:basic},
         {path:'profitDetail',meta: {title: '盈利详情'},name:'profitDetail',component:profitDetail},
+        {path:'payDetail',meta: {title: '赔付详情'},name:'payDetail',component:payDetail},
+        {path:'gameCountDetail',meta: {title: '游戏局数详情'},name:'gameCountDetail',component:gameCountDetail},
+        {path:'betDetail',meta: {title: '下注详情'},name:'betDetail',component:betDetail},
         {path:'loginDetail',meta: {title: '登录详情'},name:'loginDetail',component:loginDetail},
         {path:'killDetail', meta: {title: '游戏杀数'},name:'killDetail',component:killDetail},
         {path:'priceDetail',meta: {title: '大奖详情'},name:'priceDetail',component:priceDetail},

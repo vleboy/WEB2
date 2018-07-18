@@ -14,7 +14,7 @@
             </div>
             </Col>
             <Col span="12">
-            <div class="singlePie">
+            <div class="singlePie" @click="goDetail('betDetail')">
                 <p class="pieTitle">下注总和</p>
                 <Row class="sumary">
                     <Col span="12">
@@ -28,7 +28,7 @@
         </Row>
         <Row>
             <Col span="12">
-            <div class="singlePie">
+            <div class="singlePie" @click="goDetail('payDetail')">
                 <p class="pieTitle">赔付总和</p>
                 <Row class="sumary">
                     <Col span="12">
@@ -40,7 +40,7 @@
             </div>
             </Col>
             <Col span="12">
-            <div class="singlePie">
+            <div class="singlePie" @click="goDetail('gameCountDetail')">
                 <p class="pieTitle">游戏局数</p>
                 <Row class="sumary">
                     <Col span="12">
