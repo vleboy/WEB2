@@ -31,9 +31,9 @@
 
         <el-table-column label="操作" align="center" width="200">
           <template scope="scope">
-            <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
             <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
             <el-button type="text" class="myBtn" @click="goUpdate(scope.row)">编辑</el-button>
+            <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +66,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 20,
+      nowSize: 50,
       nowPage: 1,
       gameTypeList: [],
       gameStatus: ['下线', '正常']

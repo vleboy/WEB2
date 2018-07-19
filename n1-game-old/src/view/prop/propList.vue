@@ -114,7 +114,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 20,
+      nowSize: 50,
       nowPage: 1,
       isAddProp: false,
       isSending: false,

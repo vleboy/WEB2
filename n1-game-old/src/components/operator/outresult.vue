@@ -65,7 +65,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 20,
+      nowSize: 50,
       nowPage: 1,
       companyTypeArray: ['A类','B类'],
       status: ['锁定', '正常']
