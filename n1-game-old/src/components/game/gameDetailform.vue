@@ -11,7 +11,7 @@
             <span>游戏状态: {{gameDetail.gameStatus ? '正常' : '下线'}}</span>
           </el-col>
           <el-col :span="6">
-            <span>所属供应商: {{gameDetail.companyName}}</span>
+            <span>kindID: {{gameDetail.kindId}}</span>
           </el-col>
           <el-col :span="6">
             <span>供应商标识: {{gameDetail.companyIden}}</span>
@@ -22,22 +22,21 @@
             <span>创建时间: {{gameDetail.createdDate}}</span>
           </el-col>
           <el-col :span="6">
-            <span>kindID: {{gameDetail.kindId}}</span>
-          </el-col>
-          <el-col :span="6">
             <span>网页游戏 : {{gameDetail.isWebGame!='0' ? '是' : '否' }}</span><br>
           </el-col>
           <el-col :span="6">
             <span>网页地址: {{gameDetail.gameLink|| '暂无'}}</span>
           </el-col>
-        </el-row>
-        <el-row>
-
           <el-col :span="6">
             <span style="word-break: break-all">游戏简介: {{ gameDetail.gameRecommend == 'NULL!' ? '' : gameDetail.gameRecommend}}</span>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="6">
-            <span>游戏LOGO: <img style="width: 100%;margin-top: 1rem" :src="gameDetail.gameImg"></span>
+            <span>图片链接(阿里云): {{gameDetail.gameImgAli}}</span>
+          </el-col>
+          <el-col :span="6">
+            <span>图片链接(亚马逊): {{gameDetail.gameImg}}</span>
           </el-col>
         </el-row>
       </div>

@@ -71,7 +71,7 @@
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="packageList.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[50, 100]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
     </div>
