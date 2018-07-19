@@ -95,9 +95,6 @@
                   <Col span="10">
                   <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
                   </Col>
-                  <Col span="4">
-                  <span class="create" @click="createPass">生成</span>
-                  </Col>
                 </Row>
               </FormItem>
               </Col>
@@ -1104,24 +1101,6 @@ export default {
         this.$Message.warning("占成为0-100数字");
       }
     }, //生成密码
-    createPass() {
-      let text = [
-        "abcdefghijklmnopqrstuvwxyz",
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        "1234567890",
-        "@_#$%^&*!.~-"
-      ];
-      let rand = function(min, max) {
-        return Math.floor(Math.max(min, Math.random() * (max + 1)));
-      };
-      let len = rand(6, 16);
-      let pw = "";
-      for (let i = 0; i < len; ++i) {
-        let strpos = rand(0, 3);
-        pw += text[strpos].charAt(rand(0, text[strpos].length));
-      }
-      this.basic.password = pw;
-    },
     async init() {
       this.spinShow = true;
       let userId = this.$route.query.userId;

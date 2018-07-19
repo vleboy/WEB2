@@ -180,6 +180,9 @@ export default {
                   title: "创建商户"
                 },
                 {
+                  title: "编辑"
+                },
+                {
                   title: "接入商点数警告列表"
                 },
                 {
@@ -267,7 +270,22 @@ export default {
                   title: "道具定价"
                 }
               ]
-            }
+            },
+            {
+            title: "数据权限",
+            expand: true,
+            children: [
+              {
+                title: "正式数据"
+              },
+              {
+                title: "商户密码"
+              },
+              {
+                title: "商户密匙"
+              },
+            ]
+          },
           ]
         }
       ]

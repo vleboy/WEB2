@@ -220,6 +220,10 @@ export default {
                 checked: false
               },
               {
+                title: "编辑",
+                checked: false
+              },
+              {
                 title: "接入商点数警告列表",
                 checked: false
               },
@@ -332,7 +336,26 @@ export default {
                 checked: false
               }
             ]
-          }
+          },
+          {
+            title: "数据权限",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "正式数据",
+                checked: false
+              },
+              {
+                title: "商户密码",
+                checked: false
+              },
+              {
+                title: "商户密匙",
+                checked: false
+              },
+            ]
+          },
         ]
       }
     ];

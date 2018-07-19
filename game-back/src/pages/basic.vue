@@ -19,7 +19,7 @@
         </div>
         <kill title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 />
         <pie-charts></pie-charts>
-        <div class="hour">
+        <div class="hour" @click="goOnlineDetail">
             <p>每小时在线人数</p>
             <div class="content">
                 <div id="barchart" class="barchart"></div>
@@ -77,6 +77,9 @@ export default {
     },
     goKillDetail(){
       this.$router.push({name:'killDetail'})
+    },
+    goOnlineDetail(){
+      this.$router.push({name:'onlineDetail'})
     },
     drawBar() {
       let option = {

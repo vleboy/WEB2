@@ -5,9 +5,9 @@
         <p class="title">
           当前用户列表
           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-            <Radio label="正式"></Radio>
             <Radio label="测试"></Radio>
-            <Radio label="全部"></Radio>
+            <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
+            <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
           </RadioGroup>
           <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
@@ -66,7 +66,7 @@ export default {
       //     return date && date.valueOf() > Date.now() - 180000;
       //   }
       // },
-      source: "正式",
+      source: "测试",
       columns1: [
         {
           title: "序号",
@@ -360,6 +360,9 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    permission() {
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     },
     isTest() {
       let source = this.source;

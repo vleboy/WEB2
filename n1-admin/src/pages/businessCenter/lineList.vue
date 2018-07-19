@@ -22,9 +22,9 @@
       <p class="create">
         <Button type="primary" @click="createLine" v-if="permission.includes('创建线路商')">创建线路商</Button>
         <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
-          <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
+          <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
+          <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
         </RadioGroup>
       </p>
     </div>
@@ -96,7 +96,7 @@ export default {
       select: "", //加点select
       fromUserId: "", //id
       toRole: " ",
-      source: "正式",
+      source: "测试",
       toUser: "",
       displayName: "",
       suffix: "", //前缀
@@ -456,7 +456,7 @@ export default {
                             }).then(res => {
                               if (res.code == 0) {
                                 this.$Message.success(`${text}成功`);
-                                this.init()
+                                this.init();
                               }
                             });
                           }
@@ -566,22 +566,22 @@ export default {
     reset() {
       this.suffix = "";
       this.displayName = "";
-      this.init()
+      this.init();
     },
     changeSource(value) {
-      this.init()
+      this.init();
     },
     init() {
-      let params={
+      let params = {
         query: {},
-        isTest:this.isTest,
+        isTest: this.isTest,
         sortkey: "createdAt",
         sort: "desc"
-      }
+      };
       if (this.isTest == 2) {
         delete params.isTest;
       }
-      this.$store.dispatch("getManagerList", params );
+      this.$store.dispatch("getManagerList", params);
     },
     search() {
       let query = {
@@ -594,12 +594,12 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-       let params={
+      let params = {
         query,
-        isTest:this.isTest,
+        isTest: this.isTest,
         sortkey: "createdAt",
         sort: "desc"
-      }
+      };
       if (this.isTest == 2) {
         delete params.isTest;
       }
@@ -628,12 +628,12 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.init();
   },
   watch: {
     $route(to, from) {
       if (from.name == "addLineMerchant") {
-       this.init()
+        this.init();
       }
     }
   }

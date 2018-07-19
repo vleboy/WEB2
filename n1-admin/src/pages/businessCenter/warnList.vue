@@ -5,9 +5,9 @@
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
         <RadioGroup v-model="source" type="button" class="radioGroup" @on-change='changeSource'>
-          <Radio label="正式"></Radio>
-          <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
+           <Radio label="测试"></Radio>
+            <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
+            <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
         </RadioGroup>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
@@ -65,7 +65,7 @@ export default {
       opreate: null,
       userId: "",
       role: "", //
-      source: "正式",
+      source: "测试",
       spinShow: false,
       topAmount: null,
       winloseAmount: null,

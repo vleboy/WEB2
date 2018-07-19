@@ -32,9 +32,9 @@
       <p class="create">
         <Button type="primary" @click="addMerchant" v-if="permission.includes('创建商户')">创建商户</Button>
         <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
-          <Radio label="正式"></Radio>
-          <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
+            <Radio label="测试"></Radio>
+            <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
+            <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
         </RadioGroup>
       </p>
     </div>
@@ -105,7 +105,7 @@ export default {
       note: "", //备注
       options: [], //select
       plus: null, //加点
-      source: "正式",
+      source: "测试",
       modal: false, //加点弹窗
       select: "", //加点select
       fromUserId: "", //id

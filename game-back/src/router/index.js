@@ -15,7 +15,7 @@ import profitDetail from '@/pages/profitDetail'
 import payDetail from '@/pages/payDetail'
 import gameCountDetail from '@/pages/gameCountDetail'
 import betDetail from '@/pages/betDetail'
-
+import onlineDetail from '@/pages/onlineDetail'
 
 Vue.use(Router)
 
@@ -46,6 +46,7 @@ export default new Router({
         {path:'priceDetail',meta: {title: '大奖详情'},name:'priceDetail',component:priceDetail},
         {path:'rateDetail', meta: {title: '游戏命中率'},name:'rateDetail',component:rateDetail},
         {path:'countDetail',meta: {title: '次数详情'},name:'countDetail',component:countDetail},
+        {path:'onlineDetail',meta: {title: '在线详情'},name:'onlineDetail',component:onlineDetail},
       ]
     },
     {

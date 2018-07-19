@@ -23,7 +23,7 @@
                     </Col>
                     <Col span="4">
                     <i-circle :percent="80" :size="80" stroke-color="#54DA54" class="circles">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                        <span class="demo-Circle-inner" style="font-size:20px">80%</span>
                     </i-circle>
                     </Col>
                 </Row>
@@ -52,7 +52,7 @@
                     </Col>
                     <Col span="4">
                     <i-circle :percent="80" :size="80" stroke-color="#54DA54" class="circles">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                        <span class="demo-Circle-inner" style="font-size:20px">80%</span>
                     </i-circle>
                     </Col>
                 </Row>
@@ -83,7 +83,7 @@
                     </Col>
                     <Col span="4">
                     <i-circle :percent="80" :size="80" stroke-color="#54DA54" class="circles">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                        <span class="demo-Circle-inner" style="font-size:20px">80%</span>
                     </i-circle>
                     </Col>
                 </Row>
@@ -114,7 +114,7 @@
                     </Col>
                     <Col span="4">
                     <i-circle :percent="80" :size="80" stroke-color="#54DA54" class="circles">
-                        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                        <span class="demo-Circle-inner" style="font-size:20px">80%</span>
                     </i-circle>
                     </Col>
                 </Row>
@@ -207,7 +207,7 @@ export default {
         font-size: 16px;
     }
     .circles {
-      padding-top: 15px;
+      margin-top: 15px;
     }
   }
   .lineChart {
