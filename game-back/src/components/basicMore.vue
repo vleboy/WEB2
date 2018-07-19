@@ -2,7 +2,7 @@
     <div class="more">
        <login-count></login-count>
         <hit-rate title="游戏命中率" @click.native="goRateDetail"></hit-rate>
-        <div class="free">
+        <div class="free" @click="goFreeDetail">
             <p class="secTitle">免费模式次数与赔付</p>
             <div class="freeContent">
                 <div class="left">
@@ -11,7 +11,7 @@
                         <p><span class="bigFont">今日次数</span><span class="datas"><Icon type="pricetag"></Icon> 5,451</span></p>
                     </div>
                     <div class="circle">
-                        <i-circle :percent="80" stroke-color="#54DA54">
+                        <i-circle :percent="80" :size=100 stroke-color="#54DA54">
                         <span class="demo-Circle-inner" style="font-size:24px">80%</span>
                         </i-circle>
                         <p>占比</p>
@@ -23,7 +23,7 @@
                         <p><span class="bigFont">赔付额度</span><span class="datas"><Icon type="social-yen"></Icon> 5,451</span></p>
                     </div>
                     <div class="circle">
-                        <i-circle :percent="80" stroke-color="#54DA54">
+                        <i-circle :percent="80" :size=100 stroke-color="#54DA54">
                         <span class="demo-Circle-inner" style="font-size:24px">80%</span>
                         </i-circle>
                         <p>占比</p>
@@ -61,6 +61,9 @@ export default {
       },
       goRateDetail(){
           this.$router.push({name:'rateDetail'})
+      },
+      goFreeDetail(){
+          this.$router.push({name:'freeDetail'})
       },
       goCountDetail(){
           this.$router.push({name:'countDetail'})

@@ -563,6 +563,15 @@ export default {
         let ref='table'+table;
         this.$refs[ref][0].exportCsv({filename:ref})
       }
+       this.$Notice.config({
+        top: 200,
+        duration: 6
+      });
+      this.$Notice.success({
+        title: "温馨提示:",
+        desc:
+          "报表含有中文字符，请将导出文件转码,先用记事本打开,点击文件另存为,改编码为ASNI,覆盖原文件,再用excel打开"
+      });
     },
     reset() {
       this.defaultTime = getDefaultTime();

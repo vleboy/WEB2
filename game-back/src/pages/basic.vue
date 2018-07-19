@@ -26,12 +26,12 @@
                 <div class="sumary">
                     <p>玩家平均在线时长</p>
                     <p>
-                        <span class="sumItem">7日: {{hour1}}小时</span>
+                        <span class="sumItem"><Icon type="ios-clock-outline" size="18" color="#6699FF"></Icon>  7日: {{hour1}}小时</span>
                         <span class="sumItem">昨日: {{hour2}}小时</span>
                     </p>
                     <p>玩家每次登陆平均在线时长</p>
                     <p>
-                        <span class="sumItem">7日: {{hour3}}小时</span>
+                        <span class="sumItem"><Icon type="ios-clock-outline" size="18" color="#6699FF"></Icon>  7日: {{hour3}}小时</span>
                         <span class="sumItem">昨日: {{hour4}}小时</span>
                     </p>
                 </div>

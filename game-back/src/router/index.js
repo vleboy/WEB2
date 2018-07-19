@@ -16,7 +16,7 @@ import payDetail from '@/pages/payDetail'
 import gameCountDetail from '@/pages/gameCountDetail'
 import betDetail from '@/pages/betDetail'
 import onlineDetail from '@/pages/onlineDetail'
-
+import freeDetail from '@/pages/freeCountDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +47,7 @@ export default new Router({
         {path:'rateDetail', meta: {title: '游戏命中率'},name:'rateDetail',component:rateDetail},
         {path:'countDetail',meta: {title: '次数详情'},name:'countDetail',component:countDetail},
         {path:'onlineDetail',meta: {title: '在线详情'},name:'onlineDetail',component:onlineDetail},
+        {path:'freeDetail',meta: {title: '免费次数与赔付详情'},name:'freeDetail',component:freeDetail},
       ]
     },
     {
