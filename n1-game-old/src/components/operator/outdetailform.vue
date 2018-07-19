@@ -22,9 +22,13 @@
             <span>接入分成比: {{gameDetail.companyRatio || 0}}%</span>
           </el-col>
           <el-col :span="8">
-            <span>
-              游戏类型:<span v-for="item in gameTypeList" :key="item">{{item}}</span> &emsp;
-            </span>
+            游戏类型:<span v-for="item in gameTypeList" :key="item">{{item}}</span> &emsp;
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="10">
+            <span>供应商密钥: {{isShow ? gameDetail.companyKey : '*********'}}</span>
+            <el-button @click="isShow=!isShow" type="text">{{isShow ? '关闭' : '显示'}}</el-button>
           </el-col>
         </el-row>
       </div>
@@ -47,6 +51,7 @@ export default {
   data () {
     return {
       optionsList: [],
+      isShow: false,
       companyTypeArray:['A类（接入公司的游戏供应商）','B类（公司接入的游戏供应商）']
     }
   },

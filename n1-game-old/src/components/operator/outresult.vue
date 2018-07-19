@@ -11,7 +11,7 @@
       </el-table-column>
       <!--<el-table-column label="联系方式" prop="companyContactWay" align="center" width="120"></el-table-column>-->
       <!--<el-table-column label="供应商邮箱" prop="companyEmail" align="center" width="150"></el-table-column>-->
-      <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" width="150"></el-table-column>
+      <!--<el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" width="150"></el-table-column>-->
       <el-table-column label="状态" align="center" prop="companyStatus" >
         <template scope="scope">
           <el-tag :type="scope.row.companyStatus ? 'success' : 'danger'">
@@ -19,11 +19,11 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="key" align="center" prop="companyKey" width="350">
-        <template scope="scope">
-          {{scope.row.companyKey ? scope.row.companyKey : '暂无'}}
-        </template>
-      </el-table-column>
+      <!--<el-table-column label="key" align="center" prop="companyKey" width="350">-->
+        <!--<template scope="scope">-->
+          <!--{{scope.row.companyKey ? scope.row.companyKey : '暂无'}}-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column label="备注" align="center">
         <template scope="scope">
           <el-popover trigger="hover" placement="bottom-start" width="250">
@@ -44,7 +44,7 @@
     </el-table>
     <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.operatorList.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[50, 100]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
 
         </el-pagination>
     </div>
@@ -65,7 +65,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 20,
+      nowSize: 50,
       nowPage: 1,
       companyTypeArray: ['A类','B类'],
       status: ['锁定', '正常']

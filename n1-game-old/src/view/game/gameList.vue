@@ -6,18 +6,20 @@
     <div class="outresult">
       <el-table stripe :data="gameItems">
         <el-table-column label="游戏名称" prop="gameName" align="center" width="130"></el-table-column>
-        <el-table-column label="分类" :formatter="getType" align="center"></el-table-column>
-        <el-table-column label="游戏标识" prop="gameIden" align="center" width="130"></el-table-column>
+
+        <!--<el-table-column label="游戏标识" prop="gameIden" align="center" width="130"></el-table-column>-->
         <!--<el-table-column label="所属供应商" prop="company.companyName" align="center" width="150">-->
         <!--</el-table-column>-->
         <el-table-column label="供应商标识" prop="companyIden" align="center"></el-table-column>
-        <el-table-column label="网页游戏" prop="isWebGame" align="center" width="130">
-          <template scope="scope">
-            {{scope.row.isWebGame!='0' ? '是' : '否' }}
-          </template>
-        </el-table-column>
+        <el-table-column label="分类" :formatter="getType" align="center"></el-table-column>
+        <el-table-column label="kindId" prop="kindId" align="center" width="130"></el-table-column>
+        <!--<el-table-column label="网页游戏" prop="isWebGame" align="center" width="130">-->
+          <!--<template scope="scope">-->
+            <!--{{scope.row.isWebGame!='0' ? '是' : '否' }}-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column label="游戏链接" prop="gameLink" align="center" width="320"></el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150"></el-table-column>
+        <!--<el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150"></el-table-column>-->
         <el-table-column label="状态" align="center">
           <template scope="scope">
             <el-tag :type="scope.row.gameStatus ? 'success' : 'danger'">
@@ -26,18 +28,18 @@
           </template>
         </el-table-column>
         <!--<el-table-column label="服务器ip" prop="ip" align="center" width="130"></el-table-column>-->
-        <el-table-column label="kindId" prop="kindId" align="center" width="130"></el-table-column>
+
         <el-table-column label="操作" align="center" width="200">
           <template scope="scope">
-            <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
             <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
             <el-button type="text" class="myBtn" @click="goUpdate(scope.row)">编辑</el-button>
+            <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="counts.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[50, 100]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
     </div>
@@ -64,7 +66,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 20,
+      nowSize: 50,
       nowPage: 1,
       gameTypeList: [],
       gameStatus: ['下线', '正常']
