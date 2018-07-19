@@ -566,12 +566,12 @@ export default {
       }
        this.$Notice.config({
         top: 200,
-        duration: 6
+        duration: 10
       });
       this.$Notice.success({
         title: "温馨提示:",
         desc:
-          "报表含有中文字符，请将导出文件转码,先用记事本打开,点击文件另存为,改编码为ASNI,覆盖原文件,再用excel打开"
+          "因导出报表含中文字符,导出后请进行转码操作,方法是：1、先用记事本打开；2、点击文件-另存为-设置编码为ASNI-保存覆盖"
       });
     },
     changeSource() {
