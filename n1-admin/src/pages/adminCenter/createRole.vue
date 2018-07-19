@@ -279,7 +279,7 @@ export default {
                 title: "正式数据"
               },
               {
-                title: "商户密码"
+                title: "查看密码"
               },
               {
                 title: "商户密匙"

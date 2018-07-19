@@ -347,7 +347,7 @@ export default {
                 checked: false
               },
               {
-                title: "商户密码",
+                title: "查看密码",
                 checked: false
               },
               {

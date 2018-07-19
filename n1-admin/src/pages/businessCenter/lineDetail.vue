@@ -4,8 +4,10 @@
       <span>{{$route.query.displayName}} ({{$route.query.username }})</span>
       <span class="btns">
         <Button type="primary" class="edit" @click="reload">刷新</Button>
-        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
-        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+        <span v-if="permission.includes('编辑')">
+          <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
+          <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+        </span>
       </span>
     </div>
     <Collapse v-model="value">
@@ -84,7 +86,7 @@
                   <span v-if="showPass">{{lineDetail.password}}</span>
                   <span v-else>********</span>
                   </Col>
-                  <Col span="6">
+                  <Col span="6" v-if="permission.includes('查看密码')">
                   <span class="password" @click="showPass=!showPass" v-if="!showPass">显示</span>
                   <span class="password" @click="showPass=!showPass" v-else>隐藏</span>
                   </Col>
@@ -895,7 +897,10 @@ export default {
   computed: {
     total() {
       return this.waterfall.length;
-    }
+    },
+    permission() {
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
+    },
   },
   watch: {
     $route(to, from) {

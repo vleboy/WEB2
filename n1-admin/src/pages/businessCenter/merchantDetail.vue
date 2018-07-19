@@ -107,7 +107,7 @@
                   <span v-if="showPass">{{merchantDetail.password}}</span>
                   <span v-else>********</span>
                   </Col>
-                  <Col span="6" v-if="permission.includes('商户密码')">
+                  <Col span="6" v-if="permission.includes('查看密码')">
                   <span class="show" @click="showPass=!showPass" v-if="!showPass">显示</span>
                   <span class="show" @click="showPass=!showPass" v-else>隐藏</span>
                   </Col>
