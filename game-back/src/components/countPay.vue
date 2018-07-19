@@ -50,6 +50,9 @@ export default {
         yAxis: {
           type: "value"
         },
+        legend: {
+          data: ["历史次数", "今日次数"]
+        },
         series: [
           {
             name: "历史次数",

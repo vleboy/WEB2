@@ -32,8 +32,8 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail"></price-count>
-        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail"></price-count>
+        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail('priceFreeDetail')"></price-count>
+        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail('priceNormalDetail')"></price-count>
         <free-count title="免费模式次数选择" @click.native="goCountDetail"></free-count>
     </div>
 </template>
@@ -56,8 +56,8 @@ export default {
       goLogin(){
           this.$router.push({name:'loginDetail'})
       },
-      goPriceDetail(){
-          this.$router.push({name:'priceDetail'})
+      goPriceDetail(name){
+          this.$router.push({name:name})
       },
       goRateDetail(){
           this.$router.push({name:'rateDetail'})

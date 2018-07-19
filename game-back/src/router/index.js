@@ -8,7 +8,8 @@ import basic from '@/pages/basic'
 import loginDetail from '@/pages/loginDetail'
 import rankDetail from '@/pages/rankDetail'
 import killDetail from '@/pages/killDetail'
-import priceDetail from '@/pages/priceDetail'
+import priceFreeDetail from '@/pages/priceFreeDetail'
+import priceNormalDetail from '@/pages/priceNormalDetail'
 import rateDetail from '@/pages/rateDetail'
 import countDetail from '@/pages/countDetail'
 import profitDetail from '@/pages/profitDetail'
@@ -43,7 +44,8 @@ export default new Router({
         {path:'betDetail',meta: {title: '下注详情'},name:'betDetail',component:betDetail},
         {path:'loginDetail',meta: {title: '登录详情'},name:'loginDetail',component:loginDetail},
         {path:'killDetail', meta: {title: '游戏杀数'},name:'killDetail',component:killDetail},
-        {path:'priceDetail',meta: {title: '大奖详情'},name:'priceDetail',component:priceDetail},
+        {path:'priceNormalDetail',meta: {title: '普通模式大奖详情'},name:'priceNormalDetail',component:priceNormalDetail},
+        {path:'priceFreeDetail',meta: {title: '免费模式大奖详情'},name:'priceFreeDetail',component:priceFreeDetail},
         {path:'rateDetail', meta: {title: '游戏命中率'},name:'rateDetail',component:rateDetail},
         {path:'countDetail',meta: {title: '次数详情'},name:'countDetail',component:countDetail},
         {path:'onlineDetail',meta: {title: '在线详情'},name:'onlineDetail',component:onlineDetail},
