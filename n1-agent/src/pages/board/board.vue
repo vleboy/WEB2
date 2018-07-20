@@ -33,9 +33,9 @@
           <div class="content-border">
             <div class="content-title">平台游戏点数消耗分布
               <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">
-                <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+                <Radio label="0">正式</Radio>
                 <Radio label="1">测试</Radio>
-                <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
+                <Radio label="2">全部</Radio>
               </RadioGroup></div>
             <div>
               <div class="content-top">
@@ -231,9 +231,6 @@
       },
       conNums () {
         return thousandFormatter(this.conNum)
-      },
-      permission () {
-        return JSON.parse(localStorage.userInfo).subRolePermission;
       }
     },
     methods: {
