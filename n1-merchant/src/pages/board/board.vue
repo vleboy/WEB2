@@ -32,14 +32,14 @@
         <Col :span="24">
           <div class="content-border">
             <div class="content-title">平台游戏点数消耗分布
-              <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">
-                <Radio label="0">正式</Radio>
-                <Radio label="1">测试</Radio>
-                <Radio label="2">全部</Radio>
-              </RadioGroup>
+              <!--<RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">-->
+                <!--<Radio label="0">正式</Radio>-->
+                <!--<Radio label="1">测试</Radio>-->
+                <!--<Radio label="2">全部</Radio>-->
+              <!--</RadioGroup>-->
             </div>
           </div>
-          <div>
+          <div style="padding: 10px;">
             <div class="content-top">
               <Col :span="24" class="g-text-right" style="margin-bottom: 10px">
               <RadioGroup v-model="companyInfo" @on-change="changeCompany()" size="small" type="button">
@@ -83,7 +83,7 @@
         <Col :span="24">
           <div class="content-border">
             <div class="content-title">售出/收益</div>
-            <div>
+            <div style="padding: 10px;">
               <div class="content-top">
                 <Col span="10">
                 <div class="left-content-head" v-show="isSaleNum">
@@ -546,6 +546,9 @@
     .p-board-head, .p-board-content{
       margin-bottom: 2rem;
     }
+  .p-board-content{
+    border: 1px solid #e8e8e8;
+  }
     .head-item {
       border: 1px solid #e8e8e8;
       border-radius: 4px;
@@ -606,7 +609,6 @@
     }
     .content-border{
       border-radius: 4px;
-      border: 1px solid #e8e8e8;
     }
     .content-bottom{
       /*overflow: auto;*/
