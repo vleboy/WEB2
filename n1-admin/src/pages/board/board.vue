@@ -157,6 +157,7 @@
         saleNum: '0', // 动态渲染售出消耗总点数
         isSaleNum: true, // 是否显示售出
         isConNum: true, // 是否显示收益
+        isFirst: true, // 是否第一次获取
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
@@ -241,6 +242,9 @@
     },
     methods: {
       getStatisticalNum (index) {
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        console.log(this.testInfo)
+
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
           type: index + ((this.role == '100') ? 2 : 1)
@@ -281,6 +285,7 @@
           textColor: '#000',
           zlevel: 0
         })
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
 
         httpRequest('post','/statistics/consume',{
           isTest: +this.testInfo,
@@ -304,6 +309,9 @@
           textColor: '#000',
           zlevel: 0
         })
+
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+
         this.consumeAndIncomeDataTime.isTest = +this.testInfo
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
           .then(result => {
@@ -509,6 +517,7 @@
       },
       changeTest () {
         this.isSetInterval = true
+        this.isFirst = false
         for (let i = 0; i < 4; i++){
           this.getStatisticalNum(i)
         }
