@@ -15,9 +15,13 @@ const getters = {
 }
 const actions = {
   getGamelist (context) {
-    if(state.variable.getSearchGame.gameStatus == ''){
+    if(state.variable.getSearchGame.gameStatus == '' || state.variable.getSearchGame.gameStatus == '2'){
       delete state.variable.getSearchGame.gameStatus
     }
+    if(state.variable.getSearchGame.companyIden == '' || state.variable.getSearchGame.companyIden == '全部厂商'){
+      delete state.variable.getSearchGame.companyIden
+    }
+
     context.commit('startLoading')
     invoke({
       url: api.gameList,
