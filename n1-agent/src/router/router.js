@@ -18,6 +18,9 @@ import navideo from '@/pages/reports/naVideoGame'
 import naAll from '@/pages/reports/naAllReport'
 import saAll from '@/pages/reports/saAllReport'
 import safishing from '@/pages/reports/saFishingGame'
+import sbAll from '@/pages/reports/sbAllReport'
+import sbvideo from '@/pages/reports/sbVideoGame'
+import sbtrue from '@/pages/reports/sbTrueGame'
 import satrue from '@/pages/reports/saTrueGame'
 import ttgvideo from '@/pages/reports/ttgVideoGame'
 import ysbSport from '@/pages/reports/ysbSport'
@@ -30,6 +33,9 @@ import adminLoginLog from '@/pages/logCenter/adminLoginLog'
 import agentLoginLog from '@/pages/logCenter/agentLoginLog'
 import adminOpreateLog from '@/pages/logCenter/adminOpreateLog'
 import adminList from '@/pages/adminCenter/adminList'
+// import adminRole from '@/pages/adminCenter/adminRole'
+// import createRole from '@/pages/adminCenter/createRole'
+
 import gameConfig from '@/pages/gameCenter/gameConfig'
 import playerList from '@/pages/player/playerlist'
 export const loginRouter = {
@@ -62,7 +68,8 @@ export const otherRouter = {
     children: [
         { path: 'home', name: 'home',title:'首页', component: home},
         { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: agentDetail},
-        { path: 'detail', name:'playDetail', title:'玩家详情', component:playerDetail}
+        { path: 'detail', name:'playDetail', title:'玩家详情', component:playerDetail},
+        // { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -127,6 +134,17 @@ export const appRouter = [
         ]
     },
     {
+        path:'/sbgame',
+        title:'SB游戏报表',
+        name:'sbgame',
+        component:main,
+        children:[
+            {path:'all',title:'SB游戏总报表',name:'sbAll',component:sbAll},
+            {path:'video',title:'SB电子游戏报表',name:'sbvideo',component:sbvideo},
+            {path:'true',title:'SB真人游戏报表',name:'sbtrue',component:sbtrue},
+        ]
+    },
+    {
         path:'/ttggame',
         title:'TTG游戏报表',
         name:'ttggame',
@@ -182,6 +200,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'list',title:'管理员列表',name:'adminList',component:adminList},
+            // {path:'role',title:'管理员角色列表',name:'adminRole',component:adminRole},
         ]
     },
     {

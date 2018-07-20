@@ -62,21 +62,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       source: "测试",
-      gameType: [
-        3,
-        30000,
-        40000,
-        50000,
-        1010000,
-        10300000,
-        1050000,
-        1060000,
-        1100000,
-        1110000,
-        1130000,
-        1140000,
-        1150000
-      ],
+      gameType: [ 3, 30000, 40000, 50000, 1010000, 10300000, 1050000, 1060000, 1100000, 1110000, 1130000,1140000,1150000,1120000,1080000],
       columns1: [
         {
           title: "序号",
@@ -434,6 +420,70 @@ export default {
               let count = 0;
               for (let key in obj) {
                 if (["1060000", "1110000"].includes(key)) {
+                  count += obj[key].submitAmount;
+                }
+              }
+              return h("span", thousandFormatter(count.toFixed(2)));
+            }
+          }
+        },
+        {
+          title: "SB游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let allCount = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (["1120000", "1080000"].includes(key)) {
+                  allCount += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.role == "1") {
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(allCount.toFixed(2))
+              );
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["1080000", "1080000"].includes(key)) {
+                  count += obj[key].winloseAmount;
+                }
+              }
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count.toFixed(2))
+              );
+            }
+          }
+        },
+        {
+          title: "SB游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              return h("span", "0.00");
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (["1120000", "1080000"].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -849,6 +899,29 @@ export default {
             let count = 0;
             for (let key in obj) {
               if (["1060000", "1110000"].includes(key)) {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+         {
+          title: "SB游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1120000", "1080000"].includes(key)) {
                 count += obj[key].winloseAmount;
               }
             }

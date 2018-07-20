@@ -1,47 +1,58 @@
 <template>
-    <div class="adminList">
-        <div class="option">
-            <p class="create">
-                <Button type="primary" @click="addAdmin">创建管理员</Button>
-                <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
-            </p>
-        </div>
-        <div class="table">
-            <Table :columns="columns1" :data="adminList" size="small"></Table>
-        </div>
-        <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
-            <p class="modal_input">
-                <Row>
-                    <Col span="6" class="label">新密码</Col>
-                    <Col span="14">
-                    <Input v-model="password" placeholder="请输入新密码"></Input>
-                    </Col>
-                </Row>
-            </p>
-            <p class="modal_input">
-                <Row>
-                    <Col span="6" class="label">重复新密码</Col>
-                    <Col span="14">
-                    <Input v-model="repassword" placeholder="请重复新密码"></Input>
-                    </Col>
-                </Row>
-            </p>
-        </Modal>
-        <Modal v-model="adminModal" title="添加管理员" :width='400' @on-ok="add" @on-cancel='addcancel'>
-            <Form ref='addform' :model="adminInfo" label-position='left' :label-width="90" :rules="ruleValidate">
-                <FormItem label="管理员账号" prop="username">
-                    <Input v-model="adminInfo.username" placeholder="请输入"></Input>
-                </FormItem>
-                <FormItem label="管理员密码" prop="password">
-                    <Input v-model="adminInfo.password" placeholder="请输入"></Input>
-                </FormItem>
-            </Form>
-        </Modal>
-        <Spin size="large" fix v-if="spin">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+  <div class="adminList">
+    <div class="option">
+      <p class="create">
+        <Button type="primary" @click="addAdmin">创建管理员</Button>
+        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+      </p>
     </div>
+    <div class="table">
+      <Table :columns="columns1" :data="adminList" size="small"></Table>
+    </div>
+    <Modal v-model="modal" title="修改密码" :width='350' @on-ok="ok" @on-cancel='cancel'>
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">新密码</Col>
+          <Col span="14">
+          <Input v-model="password" placeholder="请输入新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+      <p class="modal_input">
+        <Row>
+          <Col span="6" class="label">重复新密码</Col>
+          <Col span="14">
+          <Input v-model="repassword" placeholder="请重复新密码"></Input>
+          </Col>
+        </Row>
+      </p>
+    </Modal>
+    <Modal v-model="roleModal" title="修改角色" :width='400' @on-ok="updateRole" @on-cancel='cancelRole'>
+      <p class="select">
+        <Row>
+          <Col span="14" offset="5">
+          <Select v-model="subRole" placeholder="请选择">
+            <Option v-for="item in subRoleList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+          </Select>
+          </Col>
+        </Row>
+      </p>
+    </Modal>
+    <Modal v-model="adminModal" title="添加管理员" :width='400' @on-ok="add" @on-cancel='addcancel'>
+      <Form ref='addform' :model="adminInfo" label-position='left' :label-width="90" :rules="ruleValidate">
+        <FormItem label="管理员账号" prop="username">
+          <Input v-model="adminInfo.username" placeholder="请输入"></Input>
+        </FormItem>
+        <FormItem label="管理员密码" prop="password">
+          <Input v-model="adminInfo.password" placeholder="请输入"></Input>
+        </FormItem>
+      </Form>
+    </Modal>
+    <Spin size="large" fix v-if="spin">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
@@ -98,6 +109,9 @@ export default {
       spin: false,
       adminList: [],
       userId: "",
+      subRole: "",
+      subRoleList: [],
+      roleModal: false,
       ruleValidate: {
         username: [
           {
@@ -127,10 +141,14 @@ export default {
           key: "displayName"
         },
         {
+          title: "管理员角色",
+          key: "subRole"
+        },
+        {
           title: "剩余点数",
           key: "balance",
-          render:(h,params)=>{
-            return h('span',thousandFormatter(params.row.balance))
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.balance));
           }
         },
         {
@@ -165,6 +183,25 @@ export default {
                   }
                 },
                 "修改密码"
+              ),
+              h("span", "|"),
+              h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff",
+                    cursor: "pointer",
+                    paddingLeft: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.userId = params.row.userId;
+                      this.subRole = params.row.subRole;
+                      this.roleModal = true;
+                    }
+                  }
+                },
+                "修改角色"
               )
             ]);
           }
@@ -237,6 +274,20 @@ export default {
     },
     reset() {
       this.init();
+    },
+    updateRole() {
+      // adminUpdate({
+      //   subRole: this.subRole,
+      //   userId: this.userId
+      // }).then(res => {
+      //   if (res.code == 0) {
+      //     this.$Message.success("修改成功");
+      //     this.init()
+      //   }
+      // });
+    },
+    cancelRole() {
+      this.subRole = "";
     },
     init() {
       this.spin = true;

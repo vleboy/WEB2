@@ -105,21 +105,6 @@ export default {
                   ]
                 },
                 {
-                  title: "SB游戏报表",
-                  expand: true,
-                  children: [
-                    {
-                      title: "SB游戏总报表"
-                    },
-                    {
-                      title: "SB真人游戏报表"
-                    },
-                    {
-                      title: "SB电子游戏报表"
-                    }
-                  ]
-                },
-                {
                   title: "MG游戏报表",
                   expand: true,
                   children: [
@@ -167,32 +152,23 @@ export default {
               ]
             },
             {
-              title: "商户中心",
+              title: "代理中心",
               expand: true,
               children: [
                 {
-                  title: "线路商列表"
+                  title: "代理列表"
                 },
                 {
-                  title: "停启用线路商"
+                  title: "停启用代理"
                 },
                 {
-                  title: "线路商加减点"
+                  title: "代理加减点"
                 },
                 {
-                  title: "创建线路商"
+                  title: "创建代理"
                 },
                 {
                   title: "商户列表"
-                },
-                {
-                  title:'停启用商户'
-                },
-                {
-                  title: "商户加减点"
-                },
-                {
-                  title: "创建商户"
                 },
                 {
                   title: "编辑"
@@ -225,9 +201,6 @@ export default {
                   title: "管理员列表"
                 },
                 {
-                  title: "线路号列表"
-                },
-                {
                   title: "管理员角色列表"
                 }
               ]
@@ -237,53 +210,14 @@ export default {
               expand: true,
               children: [
                 {
-                  title: "线路商登录日志"
+                  title: "代理登录日志"
                 },
                 {
-                  title: "商户登录日志"
+                  title: "管理员登录日志"
                 },
                 {
                   title: "管理员操作日志"
                 },
-                {
-                  title: "DEBUG日志"
-                }
-              ]
-            },
-            {
-              title: "运营中心",
-              expand: true,
-              children: [
-                {
-                  title: "游戏公告列表"
-                },
-                {
-                  title: "创建公告"
-                },
-                {
-                  title: "游戏邮件列表"
-                },
-                {
-                  title: "创建邮件"
-                },
-                {
-                  title: "跑马灯列表"
-                },
-                {
-                  title: "创建跑马灯"
-                },
-                {
-                  title: "商户运营记录"
-                },
-                {
-                  title: "展位列表"
-                },
-                {
-                  title: "物品上架"
-                },
-                {
-                  title: "道具定价"
-                }
               ]
             },
             {
@@ -348,4 +282,3 @@ export default {
   }
 }
 </style>
-

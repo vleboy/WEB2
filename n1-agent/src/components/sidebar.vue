@@ -36,6 +36,12 @@
                         <MenuItem name="satrue">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='sbreport'>
+                        <template slot="title">SB游戏报表</template>
+                        <MenuItem name="sbAll">SB游戏总报表</MenuItem>
+                        <MenuItem name="sbvideo">SB电子游戏报表</MenuItem>
+                        <MenuItem name="sbtrue">SB真人游戏报表</MenuItem>
+                    </Submenu>
                     <Submenu name='mgreport'>
                         <template slot="title">MG游戏报表</template>
                         <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
@@ -78,6 +84,7 @@
                         管理中心
                     </template>
                     <MenuItem name="adminList">管理员列表</MenuItem>
+                    <!-- <MenuItem name="adminRole">管理员角色列表</MenuItem> -->
                 </Submenu>
                 <Submenu name="gameCenter" v-if="level==0">
                     <template slot="title">

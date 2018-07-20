@@ -6,6 +6,8 @@
       openName = ["report", "ttgreport"];
     } else if (name.includes('sa')) {
       openName = ["report", "sareport"];
+    }else if (name == "sbvideo" || name == "sbtrue" || name == "sbAll") {
+      openName = ["report", "sbreport"];
     } else if (name == "mgvideo") {
       openName = ["report", "mgreport"];
     } else if (name == "agtrue") {

@@ -36,6 +36,12 @@
                         <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
+                    <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")'>
+                        <template slot="title">SB游戏报表</template>
+                        <MenuItem name="sbAll" v-if='gameList.includes("SB电子游戏")'>SB游戏总报表</MenuItem>
+                        <MenuItem name="sbvideo" v-if='gameList.includes("SB电子游戏")'>SB电子游戏报表</MenuItem>
+                        <MenuItem name="sbtrue" v-if='gameList.includes("SB真人游戏")'>SB真人游戏报表</MenuItem>
+                    </Submenu>
                     <Submenu name='mgreport' v-if="gameList.includes('MG电子游戏')">
                         <template slot="title">MG游戏报表</template>
                         <MenuItem name="mgvideo" v-if="gameList.includes('MG电子游戏')">MG电子游戏报表</MenuItem>

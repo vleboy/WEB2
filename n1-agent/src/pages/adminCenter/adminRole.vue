@@ -126,25 +126,6 @@ export default {
                 ]
               },
               {
-                title: "SB游戏报表",
-                expand: true,
-                checked: false,
-                children: [
-                  {
-                    title: "SB游戏总报表",
-                    checked: false
-                  },
-                  {
-                    title: "SB真人游戏报表",
-                    checked: false
-                  },
-                  {
-                    title: "SB电子游戏报表",
-                    checked: false
-                  }
-                ]
-              },
-              {
                 title: "MG游戏报表",
                 expand: true,
                 checked: false,
@@ -202,40 +183,24 @@ export default {
             ]
           },
           {
-            title: "商户中心",
+            title: "代理中心",
             expand: true,
             checked: false,
             children: [
               {
-                title: "线路商列表",
+                title: "代理列表",
                 checked: false
               },
               {
-                title:'停启用线路商',
+                title:'停启用代理',
                 checked:false
               },
               {
-                title: "线路商加减点",
+                title: "代理加减点",
                 checked: false
               },
               {
-                title: "创建线路商",
-                checked: false
-              },
-              {
-                title: "商户列表",
-                checked: false
-              },
-              {
-                title:'停启用商户',
-                checked:false
-              },
-              {
-                title: "商户加减点",
-                checked: false
-              },
-              {
-                title: "创建商户",
+                title: "创建代理",
                 checked: false
               },
               {
@@ -266,10 +231,6 @@ export default {
                 checked: false
               },
               {
-                title: "线路号列表",
-                checked: false
-              },
-              {
                 title: "管理员角色列表",
                 checked: false
               }
@@ -292,68 +253,17 @@ export default {
             checked: false,
             children: [
               {
-                title: "线路商登录日志",
+                title: "代理登录日志",
                 checked: false
               },
               {
-                title: "商户登录日志",
+                title: "管理员登录日志",
                 checked: false
               },
               {
                 title: "管理员操作日志",
                 checked: false
               },
-              {
-                title: "DEBUG日志",
-                checked: false
-              }
-            ]
-          },
-          {
-            title: "运营中心",
-            expand: true,
-            checked: false,
-            children: [
-              {
-                title: "游戏公告列表",
-                checked: false
-              },
-              {
-                title: "创建公告",
-                checked: false
-              },
-              {
-                title: "游戏邮件列表",
-                checked: false
-              },
-              {
-                title: "创建邮件",
-                checked: false
-              },
-              {
-                title: "跑马灯列表",
-                checked: false
-              },
-              {
-                title: "创建跑马灯",
-                checked: false
-              },
-              {
-                title: "商户运营记录",
-                checked: false
-              },
-              {
-                title: "展位列表",
-                checked: false
-              },
-              {
-                title: "物品上架",
-                checked: false
-              },
-              {
-                title: "道具定价",
-                checked: false
-              }
             ]
           },
           {

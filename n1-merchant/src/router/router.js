@@ -18,6 +18,9 @@ import naAll from '@/pages/reports/naAllReport'
 import saAll from '@/pages/reports/saAllReport'
 import safishing from '@/pages/reports/saFishingGame'
 import satrue from '@/pages/reports/saTrueGame'
+import sbAll from '@/pages/reports/sbAllReport'
+import sbvideo from '@/pages/reports/sbVideoGame'
+import sbtrue from '@/pages/reports/sbTrueGame'
 import ttgvideo from '@/pages/reports/ttgVideoGame'
 import ysbSport from '@/pages/reports/ysbSport'
 import rtgGame from '@/pages/reports/rtgGame'
@@ -117,6 +120,17 @@ export const appRouter = [
             {path:'all',title:'SA游戏总报表',name:'saAll',component:saAll},
             {path:'fishing',title:'SA捕鱼游戏报表',name:'safishing',component:safishing},
             {path:'true',title:'SA真人游戏报表',name:'satrue',component:satrue},
+        ]
+    },
+    {
+        path:'/sbgame',
+        title:'SB游戏报表',
+        name:'sbgame',
+        component:main,
+        children:[
+            {path:'all',title:'SB游戏总报表',name:'sbAll',component:sbAll},
+            {path:'video',title:'SB电子游戏报表',name:'sbvideo',component:sbvideo},
+            {path:'true',title:'SB真人游戏报表',name:'sbtrue',component:sbtrue},
         ]
     },
     {
