@@ -308,7 +308,7 @@ export default {
       showKey: false,
       showPass: false,
       isTest: false, //测试号
-      value: "3",
+      value: "",
       dayjs: dayjs,
       edit: true, //可编辑
       isedit: true,

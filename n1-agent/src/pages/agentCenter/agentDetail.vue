@@ -225,7 +225,7 @@ export default {
     };
     return {
       parent: "",
-      value: "3",
+      value: "",
       dayjs: dayjs,
       parentGame: [],
       maxMix: 0,

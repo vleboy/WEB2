@@ -303,7 +303,7 @@ export default {
     };
     return {
       parent: "",
-      value: "3",
+      value: "",
       rateTip: "", //tip
       parentGame: [],
       dayjs: dayjs,

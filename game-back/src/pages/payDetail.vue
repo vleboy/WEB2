@@ -138,13 +138,13 @@ export default {
     drwaLine(id) {
       let option = {
         title: {
-          text: "下注量"
+          text: "赔付"
         },
         tooltip: {
           trigger: "axis"
         },
         legend: {
-          data: ["每小时历史下注量", "今日下注量"]
+          data: ["每小时历史赔付", "今日赔付"]
         },
         grid: {
           left: "3%",
@@ -167,12 +167,12 @@ export default {
         },
         series: [
           {
-            name: "每小时历史下注量",
+            name: "每小时历史赔付",
             type: "line",
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: "今日下注量",
+            name: "今日赔付",
             type: "line",
             data: [220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310]
           },

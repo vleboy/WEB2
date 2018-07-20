@@ -231,7 +231,7 @@ export default {
     return {
       parent: "",
       isTest: false,
-      value: "3",
+      value: "",
       dayjs: dayjs,
       edit: true, //可编辑
       game: "",

@@ -228,7 +228,7 @@ export default {
     };
     return {
       parent: "",
-      value: "3",
+      value: "",
       dayjs: dayjs,
       edit: true, //可编辑
       game: "",
