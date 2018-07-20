@@ -15,14 +15,8 @@ const getters = {
 }
 const actions = {
   getGamelist (context) {
-    if(state.variable.getSearchGame.gameName == ''){
-      delete state.variable.getSearchGame.gameName
-    }
-    if (!state.variable.getSearchGame.createdDate || state.variable.getSearchGame.createdDate == null) {
-      delete state.variable.getSearchGame.createdDate
-    }
-    if(state.variable.getSearchGame.companyIden == '' || state.variable.getSearchGame.companyIden == '全部'){
-      delete state.variable.getSearchGame.companyIden
+    if(state.variable.getSearchGame.gameStatus == ''){
+      delete state.variable.getSearchGame.gameStatus
     }
     context.commit('startLoading')
     invoke({
