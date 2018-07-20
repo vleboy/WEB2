@@ -1,13 +1,15 @@
 <template>
   <div>
-    <searchbox></searchbox>
+    <el-radio-group v-model="companyInfo" @change="startSearch" class="searchbox">
+      <el-radio-button v-for="(item,index) of companyOptions" :key="index" :label="item.company">{{item.company}}</el-radio-button>
+    </el-radio-group>
     <p class="searchResult">共搜索到 {{counts.length||0}} 条数据</p>
     <el-row class="justfy1">
       <el-col :span="12">
         <el-button type="primary"  @click="goCreate">创建新游戏</el-button>
       </el-col>
       <el-col  :span="12" style="text-align: right">
-        <el-select v-model="statusInfo" placeholder="请选择状态" filterable clearable @change="getGameList">
+        <el-select v-model="searchInfo.gameStatus" placeholder="请选择状态" filterable clearable @change="startSearch">
           <el-option value="2" label="全部"></el-option>
           <el-option value="1" label="正常"></el-option>
           <el-option value="0" label="下线"></el-option>
@@ -59,7 +61,6 @@
 
 <script type="text/ecmascript-6">
 import dateformat from 'dateformat'
-import Searchbox from '@/components/game/searchGame'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -72,6 +73,7 @@ export default {
     })
   },
   created () {
+    this.getCompanyList() // 获取所属游戏商信息
     this.getGameType()
     this.$store.dispatch('getGamelist')
   },
@@ -80,8 +82,13 @@ export default {
       nowSize: 50,
       nowPage: 1,
       gameTypeList: [],
-      statusInfo: '2',
-      gameStatus: ['下线', '正常']
+      companyInfo: '全部厂商',
+      companyOptions: [],
+      gameStatus: ['下线', '正常'],
+      searchInfo: {
+        gameStatus: '2',
+        companyIden: '',
+      }
     }
   },
   computed: {
@@ -97,15 +104,6 @@ export default {
     }
   },
   methods: {
-    getGameList () {
-      this.$store.commit({
-        type: 'gerSearchcondition',
-        data: {
-          gameStatus: this.statusInfo == '2' ? '' : this.statusInfo
-        }
-      }) // 发送搜索条件
-      this.$store.dispatch('getGamelist')
-    },
     goCreate () {
       this.$router.push('addGame')
       this.$store.commit('isCloseEdit')
@@ -216,25 +214,43 @@ export default {
         })
       });
     },
-    changeRadio () {
-      this.$store.commit({
-        type: 'gerSearchcondition',
+    getCompanyList () {
+      invoke({
+        url: api.companySelect,
+        method: api.post,
         data: {
-          id:2,
-          val: this.companyInfo
+          parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
+        }
+      }).then((data) => {
+        let [err, res] = data
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.companyOptions = res.data.payload
+          this.companyOptions.unshift({
+            company:'全部厂商'
+          })
         }
       })
+    },
+    startSearch () {
+      this.searchInfo.companyIden = this.companyInfo == '全部厂商' ? '' : this.companyInfo
+      this.$store.commit({
+        type: 'gerSearchcondition',
+        data: JSON.parse(JSON.stringify(this.searchInfo))
+      }) // 发送搜索条件
       this.$store.dispatch('getGamelist')
     }
-  },
-  components: {
-    Searchbox
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .searchbox{    padding: 0 2rem;}
   .outresult{padding: 2rem; padding-top: 1rem}
   .searchResult{padding: 1rem 2rem}
   .justfy1{margin:0rem 2rem;}
