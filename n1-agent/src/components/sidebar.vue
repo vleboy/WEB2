@@ -50,7 +50,7 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='rtgReport' >
+                     <Submenu name='rtgReport'>
                         <template slot="title">RTG游戏报表</template>
                         <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>

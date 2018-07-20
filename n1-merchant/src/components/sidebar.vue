@@ -28,7 +28,7 @@
                     </Submenu>
                     <Submenu name='ttgreport' v-if="gameList.includes('TTG电子游戏')">
                         <template slot="title">TTG游戏报表</template>
-                        <MenuItem name="ttgvideo" v-if="gameList.includes('TTG电子游戏')">TTG电子游戏报表</MenuItem>
+                        <MenuItem name="ttgvideo">TTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='sareport' v-if="gameStr.includes('SA')">
                         <template slot="title">SA游戏报表</template>
@@ -36,7 +36,7 @@
                         <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")'>
+                    <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")||gameList.includes("SB真人游戏")'>
                         <template slot="title">SB游戏报表</template>
                         <MenuItem name="sbAll" v-if='gameList.includes("SB电子游戏")'>SB游戏总报表</MenuItem>
                         <MenuItem name="sbvideo" v-if='gameList.includes("SB电子游戏")'>SB电子游戏报表</MenuItem>
@@ -44,23 +44,23 @@
                     </Submenu>
                     <Submenu name='mgreport' v-if="gameList.includes('MG电子游戏')">
                         <template slot="title">MG游戏报表</template>
-                        <MenuItem name="mgvideo" v-if="gameList.includes('MG电子游戏')">MG电子游戏报表</MenuItem>
+                        <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='agreport' v-if="gameStr.includes('AG真人')">
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="agtrue" v-if="gameStr.includes('AG真人')">AG真人游戏报表</MenuItem>
+                        <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='rtgReport'  v-if="gameList.includes('RTG电子游戏')">
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame" v-if="gameList.includes('RTG电子游戏')">RTG电子游戏报表</MenuItem>
+                        <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
                      <Submenu name='dtReport' v-if='gameList.includes("DT电子游戏")'>
                         <template slot="title">DT游戏报表</template>
-                        <MenuItem name="dtGame" v-if='gameList.includes("DT电子游戏")'>DT电子游戏报表</MenuItem>
+                        <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
-                        <MenuItem name="ysbSport" v-if="gameList.includes('YSB体育游戏')">YSB体育游戏报表</MenuItem>
+                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="playerCenter">
