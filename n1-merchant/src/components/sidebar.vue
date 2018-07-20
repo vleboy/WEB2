@@ -16,10 +16,10 @@
                         <Icon type="ios-paper-outline"></Icon>
                         输赢报表
                     </template>
-                    <MenuItem name="allreport" v-if="gameList.length>0">公司输赢总报表</MenuItem>
+                    <MenuItem name="allreport">公司输赢总报表</MenuItem>
                     <Submenu name='nareport' v-if="gameStr.includes('NA')">
                         <template slot="title">NA游戏报表</template>
-                        <MenuItem name="naAll" v-if="gameStr.includes('NA')">NA游戏总报表</MenuItem>
+                        <MenuItem name="naAll">NA游戏总报表</MenuItem>
                         <MenuItem name="navideo" v-if="gameList.includes('NA电子游戏')">NA电子游戏报表</MenuItem>
                         <MenuItem name="nastreet" v-if="gameList.includes('NA街机游戏')">NA街机游戏报表</MenuItem>
                         <MenuItem name="natrue" v-if="gameStr.includes('NA真人')">NA真人游戏报表</MenuItem>
@@ -32,13 +32,13 @@
                     </Submenu>
                     <Submenu name='sareport' v-if="gameStr.includes('SA')">
                         <template slot="title">SA游戏报表</template>
-                        <MenuItem name="saAll" v-if="gameStr.includes('SA')">SA游戏总报表</MenuItem>
+                        <MenuItem name="saAll">SA游戏总报表</MenuItem>
                         <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")||gameList.includes("SB真人游戏")'>
                         <template slot="title">SB游戏报表</template>
-                        <MenuItem name="sbAll" v-if='gameList.includes("SB电子游戏")'>SB游戏总报表</MenuItem>
+                        <MenuItem name="sbAll">SB游戏总报表</MenuItem>
                         <MenuItem name="sbvideo" v-if='gameList.includes("SB电子游戏")'>SB电子游戏报表</MenuItem>
                         <MenuItem name="sbtrue" v-if='gameList.includes("SB真人游戏")'>SB真人游戏报表</MenuItem>
                     </Submenu>
