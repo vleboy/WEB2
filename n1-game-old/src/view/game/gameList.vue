@@ -2,7 +2,18 @@
   <div>
     <searchbox></searchbox>
     <p class="searchResult">共搜索到 {{counts.length||0}} 条数据</p>
-    <el-button type="primary" class="justfy1" @click="goCreate">创建新游戏</el-button>
+    <el-row class="justfy1">
+      <el-col :span="12">
+        <el-button type="primary"  @click="goCreate">创建新游戏</el-button>
+      </el-col>
+      <el-col  :span="12" style="text-align: right">
+        <el-select v-model="statusInfo" placeholder="请选择状态" filterable clearable @change="getGameList">
+          <el-option value="2" label="全部"></el-option>
+          <el-option value="1" label="正常"></el-option>
+          <el-option value="0" label="下线"></el-option>
+        </el-select>
+      </el-col>
+    </el-row>
     <div class="outresult">
       <el-table stripe :data="gameItems">
         <el-table-column label="游戏名称" prop="gameName" align="center" width="130"></el-table-column>
@@ -69,6 +80,7 @@ export default {
       nowSize: 50,
       nowPage: 1,
       gameTypeList: [],
+      statusInfo: '2',
       gameStatus: ['下线', '正常']
     }
   },
@@ -85,6 +97,15 @@ export default {
     }
   },
   methods: {
+    getGameList () {
+      this.$store.commit({
+        type: 'gerSearchcondition',
+        data: {
+          gameStatus: this.statusInfo == '2' ? '' : this.statusInfo
+        }
+      }) // 发送搜索条件
+      this.$store.dispatch('getGamelist')
+    },
     goCreate () {
       this.$router.push('addGame')
       this.$store.commit('isCloseEdit')
@@ -216,6 +237,6 @@ export default {
 <style scoped>
   .outresult{padding: 2rem; padding-top: 1rem}
   .searchResult{padding: 1rem 2rem}
-  .justfy1{margin:0 2rem;}
+  .justfy1{margin:0rem 2rem;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
 </style>
