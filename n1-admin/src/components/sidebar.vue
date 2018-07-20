@@ -26,9 +26,9 @@
                         <MenuItem name="jump" v-if='permission.includes("NA真人游戏报表")'>NA真人游戏报表(跳转)</MenuItem>
                         <MenuItem name="nacard" v-if='permission.includes("NA棋牌游戏报表")'>NA棋牌游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ttgreport' v-if='authorityStr.includes("TTG")'>
+                    <Submenu name='ttgreport' v-if='permission.includes("TTG电子游戏报表")'>
                         <template slot="title">TTG游戏报表</template>
-                        <MenuItem name="ttgvideo" v-if='permission.includes("TTG电子游戏报表")'>TTG电子游戏报表</MenuItem>
+                        <MenuItem name="ttgvideo">TTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='sareport' v-if='authorityStr.includes("SA")'>
                         <template slot="title">SA游戏报表</template>
@@ -36,31 +36,31 @@
                         <MenuItem name="satrue" v-if='permission.includes("SA真人游戏报表")'>SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if='permission.includes("SA捕鱼游戏报表")'>SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='sbreport' v-if='authorityStr.includes("SB")'>
+                    <Submenu name='sbreport' v-if='authorityStr.includes("SB游戏总报表")||authorityStr.includes("SB电子游戏报表")||authorityStr.includes("SB真人游戏报表")'>
                         <template slot="title">SB游戏报表</template>
                         <MenuItem name="sbAll" v-if='permission.includes("SB游戏总报表")'>SB游戏总报表</MenuItem>
                         <MenuItem name="sbvideo" v-if='permission.includes("SB电子游戏报表")'>SB电子游戏报表</MenuItem>
                         <MenuItem name="sbtrue" v-if='permission.includes("SB真人游戏报表")'>SB真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='mgreport' v-if='authorityStr.includes("MG")'>
+                    <Submenu name='mgreport' v-if='permission.includes("MG电子游戏报表")'>
                         <template slot="title">MG游戏报表</template>
-                        <MenuItem name="mgvideo" v-if='permission.includes("MG电子游戏报表")'>MG电子游戏报表</MenuItem>
+                        <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='agreport' v-if='authorityStr.includes("AG")'>
+                    <Submenu name='agreport' v-if='permission.includes("AG真人游戏报表")'>
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="agtrue" v-if='permission.includes("AG真人游戏报表")'>AG真人游戏报表</MenuItem>
+                        <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='rtgReport' v-if='authorityStr.includes("RTG")'>
+                    <Submenu name='rtgReport' v-if='permission.includes("RTG电子游戏报表")'>
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame" v-if='permission.includes("RTG电子游戏报表")'>RTG电子游戏报表</MenuItem>
+                        <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='dtReport' v-if='authorityStr.includes("DT")'>
+                    <Submenu name='dtReport' v-if='permission.includes("DT电子游戏报表")'>
                         <template slot="title">DT游戏报表</template>
-                        <MenuItem name="dtGame" v-if='permission.includes("DT电子游戏报表")'>DT电子游戏报表</MenuItem>
+                        <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
                     </Submenu>
-                    <Submenu name='ysbReport' v-if='authorityStr.includes("YSB")'>
+                    <Submenu name='ysbReport' v-if='permission.includes("YSB体育游戏报表")'>
                         <template slot="title">YSB游戏报表</template>
-                        <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>
+                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
@@ -72,12 +72,12 @@
                     <MenuItem name="merchantList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
-                <Submenu name="playerCenter" v-if='authorityStr.includes("玩家列表")'>
+                <Submenu name="playerCenter" v-if='permission.includes("玩家列表")'>
                     <template slot="title">
                         <Icon type="ios-game-controller-b"></Icon>
                         玩家中心
                     </template>
-                    <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
+                    <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if='authorityStr.includes("管理员列表")||authorityStr.includes("线路号列表")||authorityStr.includes("管理员角色列表")'>
                     <template slot="title">
