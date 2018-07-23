@@ -108,12 +108,27 @@ export default {
       this.$router.push('addGame')
       this.$store.commit('isCloseEdit')
     },
-    goUpdate(item){
-      this.$router.push('addGame')
-      this.$store.commit('isOpenEdit')
-      this.$store.commit({
-        type: 'storageGameOneItem',
-        data: item
+    goUpdate(row){
+      this.$store.commit('startLoading')
+      invoke({
+        url: `${api.gameOne}/${row.gameType}/${row.gameId}`,
+        method: api.get
+      }).then((data) => {
+        let [err, res] = data
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.$store.commit({
+            type: 'storageGameOneItem',
+            data: res.data.payload
+          })
+          this.$router.push('addGame')
+          this.$store.commit('isOpenEdit')
+        }
+        this.$store.commit('closeLoading')
       })
     },
     getAtime (row, col) {
