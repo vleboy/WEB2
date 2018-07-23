@@ -25,10 +25,10 @@
             <span>网页游戏 : {{gameDetail.isWebGame!='0' ? '是' : '否' }}</span><br>
           </el-col>
           <el-col :span="6">
-            <span>网页地址: {{gameDetail.gameLink|| '暂无'}}</span>
+            <span style="word-break: break-all">游戏简介: {{ gameDetail.gameRecommend == 'NULL!' ? '' : gameDetail.gameRecommend}}</span>
           </el-col>
           <el-col :span="6">
-            <span style="word-break: break-all">游戏简介: {{ gameDetail.gameRecommend == 'NULL!' ? '' : gameDetail.gameRecommend}}</span>
+            <span>网页地址: {{gameDetail.gameLink|| '暂无'}}</span>
           </el-col>
         </el-row>
         <el-row>
