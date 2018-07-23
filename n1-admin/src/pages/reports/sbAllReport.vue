@@ -4,10 +4,10 @@
       <div class="top">
         <p class="title">
           当前用户列表
-           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-             <Radio label="测试"></Radio>
-            <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
-            <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
+          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+            <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+            <Radio label="1">测试</Radio>
+            <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
           <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
@@ -22,7 +22,7 @@
     <div class="childList">
       <p class="title">
         直属下级列表
-          <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
+        <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
       <Table :columns="columns1" :data="child" size="small" ref='table_1'></Table>
     </div>
@@ -36,7 +36,7 @@
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
-          <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
+        <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
       </p>
       <Table :columns="columns2" :data="playerList" size="small" ref='table_2'></Table>
     </div>
@@ -62,7 +62,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       gameType: [1120000, 1080000],
-      source:'测试',
+      source: "1",
       columns1: [
         {
           title: "序号",
@@ -232,7 +232,10 @@ export default {
             if (params.row.role == "1") {
               return h("span", 0);
             } else {
-              return h("span", thousandFormatter(params.row.submitAmount.toFixed(2)));
+              return h(
+                "span",
+                thousandFormatter(params.row.submitAmount.toFixed(2))
+              );
             }
           }
         },
@@ -453,18 +456,8 @@ export default {
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     },
-     permission() {
+    permission() {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
-    },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
     }
   },
   methods: {
@@ -473,17 +466,17 @@ export default {
       this.init();
     },
     exportdata(table) {
-      if(table=='table_0'){
-        this.$refs.table_0.exportCsv({filename:'current'});
-      }else if(table=='table_1'){
-        this.$refs.table_1.exportCsv({filename:'next'});
-      }else if(table=='table_2'){
-        this.$refs.table_2.exportCsv({filename:'player'});
-      }else{
-        let ref='table'+table;
-        this.$refs[ref][0].exportCsv({filename:ref})
+      if (table == "table_0") {
+        this.$refs.table_0.exportCsv({ filename: "current" });
+      } else if (table == "table_1") {
+        this.$refs.table_1.exportCsv({ filename: "next" });
+      } else if (table == "table_2") {
+        this.$refs.table_2.exportCsv({ filename: "player" });
+      } else {
+        let ref = "table" + table;
+        this.$refs[ref][0].exportCsv({ filename: ref });
       }
-       this.$Notice.config({
+      this.$Notice.config({
         top: 200,
         duration: 10
       });
@@ -494,14 +487,17 @@ export default {
       });
     },
     changeSource(value) {
-      this.init()
-      this.reportChild=[]
-      this.playerList=[]
-      this.showName=false
+      this.init();
+      this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
     },
     reset() {
       this.reportChild = [];
       this.defaultTime = getDefaultTime();
+      if (this.permission.includes("正式数据")) {
+        this.source = "0";
+      }
       this.init();
     },
     search() {
@@ -550,19 +546,15 @@ export default {
     },
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
-      let params1 = { userId: userId, isTest: this.isTest };
+      let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
         parent: "01",
-        isTest: this.isTest,
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
       };
-      if (this.isTest == 2) {
-        delete params1.isTest;
-        delete params2.isTest;
-      }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;
@@ -578,7 +570,9 @@ export default {
     }
   },
   created() {
-    // console.log(this.defaultTime);
+    if (this.permission.includes("正式数据")) {
+      this.source = "0";
+    }
     this.init();
   }
 };

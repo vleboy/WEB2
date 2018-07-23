@@ -42,11 +42,6 @@
         <span class="title left">
           所属玩家列表
         </span>
-        <!-- <div class="search">
-          <Input v-model.trim="search2" placeholder="请输入搜索账号" style="width: 150px"></Input>
-          <Button type="primary" @click="searchPlayer">搜索</Button>
-          <Button type="ghost" @click="resetplayer">重置</Button>
-        </div> -->
       </div>
       <div class="table">
         <Table :columns="columns2" :data="playerList" size="small"></Table>
@@ -1696,6 +1691,7 @@ export default {
       if (this.isTest == 2) {
         delete params.isTest;
       }
+      console.log(params);
       this.$store.dispatch("getAgentList", params);
     }, //添加玩家
     addPlayerConfirm() {

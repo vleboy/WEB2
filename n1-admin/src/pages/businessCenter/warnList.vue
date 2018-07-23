@@ -4,10 +4,10 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
-        <RadioGroup v-model="source" type="button" class="radioGroup" @on-change='changeSource'>
-           <Radio label="测试"></Radio>
-            <Radio label="正式" v-if="permission.includes('正式数据')"></Radio>
-            <Radio label="全部" v-if="permission.includes('正式数据')"></Radio>
+        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+          <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+          <Radio label="1">测试</Radio>
+          <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
         </RadioGroup>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
@@ -65,7 +65,7 @@ export default {
       opreate: null,
       userId: "",
       role: "", //
-      source: "测试",
+      source: "1",
       spinShow: false,
       topAmount: null,
       winloseAmount: null,
@@ -148,7 +148,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -178,7 +178,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -218,7 +218,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -286,7 +286,7 @@ export default {
               permission.includes("接入商停启用") &&
               permission.includes("设定接入商告警上限")
             ) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -360,7 +360,7 @@ export default {
                 })
               );
             } else if (permission.includes("接入商停启用")) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -412,7 +412,7 @@ export default {
                 })
               );
             } else if (permission.includes("设定接入商告警上限")) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -460,16 +460,6 @@ export default {
     permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
-    }
   },
   methods: {
     async init() {
@@ -477,10 +467,7 @@ export default {
       let req1 = configOne({
         code: "roundLast"
       });
-      let params = { parent: "01", isTest: this.isTest };
-      if (this.isTest == 2) {
-        delete params.isTest;
-      }
+      let params = { parent: "01", isTest: +this.source };
       let req2 = queryUserStat(params);
       let [config, userStat] = await this.axios.all([req1, req2]);
       if (config && config.code == 0) {
@@ -499,6 +486,9 @@ export default {
       this.init();
     },
     reset() {
+      if (this.permission.includes("正式数据")) {
+        this.source = '0';
+      }
       this.init();
     },
     changePoint() {
@@ -563,6 +553,9 @@ export default {
     }
   },
   created() {
+    if (this.permission.includes("正式数据")) {
+      this.source = '0';
+    }
     this.init();
   }
 };
@@ -600,8 +593,8 @@ export default {
   font-size: 14px;
   text-indent: 1em;
 }
-.radioGroup{
-  padding-left: 20px
+.radioGroup {
+  padding-left: 20px;
 }
 .modalHead {
   font-size: 18px;
