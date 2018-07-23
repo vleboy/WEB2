@@ -168,10 +168,7 @@ export default {
                   title: "创建代理"
                 },
                 {
-                  title: "商户列表"
-                },
-                {
-                  title: "编辑"
+                  title: "编辑代理"
                 },
                 {
                   title: "接入商点数警告列表"
@@ -193,6 +190,15 @@ export default {
                 }
               ]
             },
+             {
+              title: "游戏中心",
+              expand: true,
+              children: [
+                {
+                  title: "包房代理游戏配置"
+                }
+              ]
+            },
             {
               title: "管理员中心",
               expand: true,
@@ -201,7 +207,7 @@ export default {
                   title: "管理员列表"
                 },
                 {
-                  title: "管理员角色列表"
+                  title: "代理角色列表"
                 }
               ]
             },
@@ -230,9 +236,6 @@ export default {
               {
                 title: "查看密码"
               },
-              {
-                title: "商户密匙"
-              },
             ]
           },
           ]
@@ -253,7 +256,7 @@ export default {
       }).then(res => {
         if (res.code == 0) {
           this.$Message.success("创建成功");
-          this.$router.push({ name: "adminRole" });
+          this.$router.push({ name: "agentRole" });
         }
       });
     },

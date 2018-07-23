@@ -33,8 +33,8 @@ import adminLoginLog from '@/pages/logCenter/adminLoginLog'
 import agentLoginLog from '@/pages/logCenter/agentLoginLog'
 import adminOpreateLog from '@/pages/logCenter/adminOpreateLog'
 import adminList from '@/pages/adminCenter/adminList'
-// import adminRole from '@/pages/adminCenter/adminRole'
-// import createRole from '@/pages/adminCenter/createRole'
+import agentRole from '@/pages/adminCenter/agentRole'
+import createRole from '@/pages/adminCenter/createRole'
 
 import gameConfig from '@/pages/gameCenter/gameConfig'
 import playerList from '@/pages/player/playerlist'
@@ -69,7 +69,7 @@ export const otherRouter = {
         { path: 'home', name: 'home',title:'首页', component: home},
         { path: 'agentDetail', name: 'agentDetail',title:'代理详情', component: agentDetail},
         { path: 'detail', name:'playDetail', title:'玩家详情', component:playerDetail},
-        // { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
+        { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
     ]
 };
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -200,7 +200,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'list',title:'管理员列表',name:'adminList',component:adminList},
-            // {path:'role',title:'管理员角色列表',name:'adminRole',component:adminRole},
+            {path:'role',title:'代理角色列表',name:'agentRole',component:agentRole},
         ]
     },
     {

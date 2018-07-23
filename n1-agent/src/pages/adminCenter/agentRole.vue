@@ -204,7 +204,7 @@ export default {
                 checked: false
               },
               {
-                title: "编辑",
+                title: "编辑代理",
                 checked: false
               },
               {
@@ -231,7 +231,7 @@ export default {
                 checked: false
               },
               {
-                title: "管理员角色列表",
+                title: "代理角色列表",
                 checked: false
               }
             ]
@@ -243,6 +243,17 @@ export default {
             children: [
               {
                 title: "玩家列表",
+                checked: false
+              }
+            ]
+          },
+           {
+            title: "游戏中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "包房代理游戏配置",
                 checked: false
               }
             ]
@@ -277,10 +288,6 @@ export default {
               },
               {
                 title: "查看密码",
-                checked: false
-              },
-              {
-                title: "商户密匙",
                 checked: false
               },
             ]

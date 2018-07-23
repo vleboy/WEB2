@@ -5,11 +5,11 @@
         <p class="title">
           当前用户列表
           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-            <Radio label="正式"></Radio>
-            <Radio label="测试"></Radio>
-            <Radio label="全部"></Radio>
+            <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+            <Radio label="1">测试</Radio>
+            <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
-        <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
+          <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -61,7 +61,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      source: "正式",
+      source: "1",
       // option: {
       //   disabledDate(date) {
       //     return date && date.valueOf() > Date.now() - 180000;
@@ -187,7 +187,10 @@ export default {
             if (params.row.userId == userId) {
               return h("span", thousandFormatter(count.toFixed(2)));
             } else {
-              return h("span", thousandFormatter(params.row.betAmount.toFixed(2)));
+              return h(
+                "span",
+                thousandFormatter(params.row.betAmount.toFixed(2))
+              );
             }
           }
         }
@@ -212,8 +215,8 @@ export default {
         {
           title: "交易金额",
           key: "betAmount",
-          render:(h,params)=>{
-            h('span',thousandFormatter(params.row.betAmount))
+          render: (h, params) => {
+            h("span", thousandFormatter(params.row.betAmount));
           }
         }
       ]
@@ -231,15 +234,8 @@ export default {
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
+    permission() {
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
   methods: {
@@ -248,17 +244,17 @@ export default {
       this.init();
     },
     exportdata(table) {
-      if(table=='table_0'){
-        this.$refs.table_0.exportCsv({filename:'current'});
-      }else if(table=='table_1'){
-        this.$refs.table_1.exportCsv({filename:'next'});
-      }else if(table=='table_2'){
-        this.$refs.table_2.exportCsv({filename:'player'});
-      }else{
-        let ref='table'+table;
-        this.$refs[ref][0].exportCsv({filename:ref})
+      if (table == "table_0") {
+        this.$refs.table_0.exportCsv({ filename: "current" });
+      } else if (table == "table_1") {
+        this.$refs.table_1.exportCsv({ filename: "next" });
+      } else if (table == "table_2") {
+        this.$refs.table_2.exportCsv({ filename: "player" });
+      } else {
+        let ref = "table" + table;
+        this.$refs[ref][0].exportCsv({ filename: ref });
       }
-       this.$Notice.config({
+      this.$Notice.config({
         top: 200,
         duration: 10
       });
@@ -269,14 +265,17 @@ export default {
       });
     },
     changeSource(value) {
-      this.init()
-      this.reportChild=[]
-      this.playerList=[]
-      this.showName=false
+      this.init();
+      this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
     },
     reset() {
       this.defaultTime = getDefaultTime();
       this.reportChild = [];
+      if (this.permission.includes("正式数据")) {
+        this.source = "0";
+      }
       this.init();
     },
     search() {
@@ -333,19 +332,15 @@ export default {
       } else {
         parent = userId;
       }
-      let params1 = { userId: userId, isTest: this.isTest };
+      let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
         parent: parent,
-        isTest: this.isTest,
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
       };
-      if (this.isTest == 2) {
-        delete params1.isTest;
-        delete params2.isTest;
-      }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;
@@ -362,7 +357,9 @@ export default {
     }
   },
   created() {
-    // console.log(this.defaultTime);
+    if (this.permission.includes("正式数据")) {
+      this.source = "0";
+    }
     this.init();
   },
   props: ["gameType"]

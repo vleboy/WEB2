@@ -60,7 +60,9 @@ import {
   agentAdminList,
   updatePassword,
   agentAdminNew,
-  checkExit
+  checkExit,
+  getsbuRole,
+  updateSubrole
 } from "@/service/index";
 import { thousandFormatter } from "@/config/format";
 export default {
@@ -276,15 +278,25 @@ export default {
       this.init();
     },
     updateRole() {
-      // adminUpdate({
-      //   subRole: this.subRole,
-      //   userId: this.userId
-      // }).then(res => {
-      //   if (res.code == 0) {
-      //     this.$Message.success("修改成功");
-      //     this.init()
-      //   }
-      // });
+      updateSubrole({
+        subRole: this.subRole,
+        userId: this.userId
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("修改成功");
+          this.spin = true;
+          agentAdminList({
+            query: {},
+            sortkey: "createdAt",
+            sort: "desc"
+          }).then(res => {
+            if (res.code == 0) {
+              this.adminList = res.payload;
+              this.spin = false;
+            }
+          });
+        }
+      });
     },
     cancelRole() {
       this.subRole = "";
@@ -299,6 +311,11 @@ export default {
         if (res.code == 0) {
           this.adminList = res.payload;
           this.spin = false;
+        }
+      });
+      getsbuRole().then(res => {
+        if (res.code == 0) {
+          this.subRoleList = res.payload.Items;
         }
       });
     },

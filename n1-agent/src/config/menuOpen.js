@@ -32,7 +32,7 @@ export const menuOpen = function (name) {
     openName = ["playerCenter"];
   } else if (name == 'gameConfig') {
     openName = ['gameCenter']
-  } else if (name == 'adminList') {
+  } else if (name == 'adminList'||name=='agentRole') {
     openName = ['adminCenter']
   } else if (name == "board") {
     openName = ["board"];

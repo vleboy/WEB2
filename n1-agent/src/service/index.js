@@ -182,3 +182,23 @@ export async function agentUpdate(params){
 export async function frozen(params){
     return http(post('/player/forzen',params))
 }
+//新增角色
+export async function subRoleNew(params) {
+    return http(post('/subRoleNew',params))
+}
+//删除角色
+export async function subRoleDelete(params) {
+    return http(post('/subRoleDelete',params))
+}
+//管理员角色列表更新角色
+export async function subRoleUpdate(params) {
+    return http(post('/subRoleUpdate',params))
+}
+//获取下级角色
+export async function getsbuRole(params){
+    return http(post('/subRoleList',params))
+}
+//管理员角色修改
+export async function updateSubrole(params){
+    return http(post('/updateSubrole',params))
+}

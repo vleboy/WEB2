@@ -156,10 +156,6 @@ export async function subRoleNew(params) {
 export async function subRoleDelete(params) {
     return http(post('/subRoleDelete',params))
 }
-//单个角色信息
-export async function subRoleOne(params) {
-    return http(post('/subRoleOne',params))
-}
 //管理员角色列表更新角色
 export async function subRoleUpdate(params) {
     return http(post('/subRoleUpdate',params))

@@ -5,11 +5,11 @@
         <p class="title">
           当前用户列表
           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-            <Radio label="正式"></Radio>
-            <Radio label="测试"></Radio>
-            <Radio label="全部"></Radio>
+            <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+            <Radio label="1">测试</Radio>
+            <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
-        <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
+          <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
         <div class="right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
@@ -62,7 +62,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      source: "正式",
+      source: "1",
       gameType: [
         3, //NA棋牌
         30000,
@@ -75,18 +75,15 @@ export default {
         1140000,
         1110000,
         1130000,
-        1150000,1120000,1080000
+        1150000,
+        1120000,
+        1080000
       ],
-      // option: {
-      //   disabledDate(date) {
-      //     return date && date.valueOf() > Date.now() - 180000;
-      //   }
-      // },
       columns1: [
         {
           title: "序号",
           type: "index",
-          maxWidth:60
+          maxWidth: 60
         },
         {
           title: "类型",
@@ -234,7 +231,10 @@ export default {
               return h("span", "0.00");
             } else {
               if (params.row.submitAmount) {
-                return h("span", thousandFormatter(params.row.submitAmount.toFixed(2)));
+                return h(
+                  "span",
+                  thousandFormatter(params.row.submitAmount.toFixed(2))
+                );
               } else {
                 return h("span", "0.00");
               }
@@ -246,12 +246,12 @@ export default {
           key: "mixAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
-               let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              count += item.mixAmount;
-            }
-              return h("span",  thousandFormatter(count) );
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                count += item.mixAmount;
+              }
+              return h("span", thousandFormatter(count));
             } else {
               return h("span", thousandFormatter(params.row.mixAmount));
             }
@@ -280,7 +280,7 @@ export default {
                     color: color
                   }
                 },
-               thousandFormatter(allCount.toFixed(2))
+                thousandFormatter(allCount.toFixed(2))
               );
             } else {
               let obj = params.row.gameTypeMap;
@@ -421,7 +421,7 @@ export default {
               let allCount = 0;
               for (let item of arr) {
                 for (let key in item.gameTypeMap) {
-                  if (key=='1010000') {
+                  if (key == "1010000") {
                     allCount += item.gameTypeMap[key].mixAmount;
                   }
                 }
@@ -811,7 +811,7 @@ export default {
             let allCount = 0;
             for (let item of arr) {
               for (let key in item.gameTypeMap) {
-                if (key=='1140000') {
+                if (key == "1140000") {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -902,7 +902,7 @@ export default {
             let allCount = 0;
             for (let item of arr) {
               for (let key in item.gameTypeMap) {
-                if (key=='1150000') {
+                if (key == "1150000") {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -1075,7 +1075,7 @@ export default {
               return h("span", thousandFormatter(count));
             }
           }
-        },
+        }
       ],
       columns2: [
         {
@@ -1114,7 +1114,7 @@ export default {
           title: "总游戏洗码量",
           key: "mixAmount",
           render: (h, params) => {
-            return h( "span", thousandFormatter(params.row.mixAmount) );
+            return h("span", thousandFormatter(params.row.mixAmount));
           }
         },
         {
@@ -1144,15 +1144,15 @@ export default {
           title: "NA游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (["3", "30000", "40000", "50000"].includes(key)) {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["3", "30000", "40000", "50000"].includes(key)) {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "TTG游戏(输赢金额)",
@@ -1181,15 +1181,15 @@ export default {
           title: "TTG游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1010000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1010000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "SA游戏(输赢金额)",
@@ -1218,15 +1218,15 @@ export default {
           title: "SA游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (["1060000", "1110000"].includes(key)) {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1060000", "1110000"].includes(key)) {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "SB游戏(输赢金额)",
@@ -1255,15 +1255,15 @@ export default {
           title: "SB游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (["1080000", "1120000"].includes(key)) {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1080000", "1120000"].includes(key)) {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "MG游戏(输赢金额)",
@@ -1292,15 +1292,15 @@ export default {
           title: "MG游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='10300000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "10300000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "AG游戏(输赢金额)",
@@ -1329,48 +1329,52 @@ export default {
           title: "AG游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1050000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1050000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
-         {
+        {
           title: "RTG游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (key=='1140000') {
+              if (key == "1140000") {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, thousandFormatter(count));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
           }
         },
-         {
+        {
           title: "RTG游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1140000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1140000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "DT游戏(输赢金额)",
@@ -1379,31 +1383,35 @@ export default {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (key=='1150000') {
+              if (key == "1150000") {
                 count += obj[key].winloseAmount;
               }
             }
-            let color=count<0?'#f30':'#0c0';
-            return h("span",{
-              style:{
-                color:color
-              }
-            }, thousandFormatter(count));
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
           }
         },
-         {
+        {
           title: "DT游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1150000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1150000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
+            return h("span", thousandFormatter(count));
+          }
         },
         {
           title: "YSB游戏(输赢金额)",
@@ -1432,16 +1440,16 @@ export default {
           title: "YSB游戏(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
-              let obj = params.row.gameTypeMap;
-              let count = 0;
-              for (let key in obj) {
-                if (key=='1130000') {
-                  count += obj[key].mixAmount;
-                }
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1130000") {
+                count += obj[key].mixAmount;
               }
-              return h("span", thousandFormatter(count));
             }
-        },
+            return h("span", thousandFormatter(count));
+          }
+        }
       ]
     };
   },
@@ -1457,15 +1465,8 @@ export default {
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
+    permission() {
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
   methods: {
@@ -1474,22 +1475,22 @@ export default {
     },
     changeSource() {
       this.init();
-      this.reportChild=[]
-      this.playerList=[]
-      this.showName=false
+      this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
     },
-     exportdata(table) {
-      if(table=='table_0'){
-        this.$refs.table_0.exportCsv({filename:'current'});
-      }else if(table=='table_1'){
-        this.$refs.table_1.exportCsv({filename:'next'});
-      }else if(table=='table_2'){
-        this.$refs.table_2.exportCsv({filename:'player'});
-      }else{
-        let ref='table'+table;
-        this.$refs[ref][0].exportCsv({filename:ref})
+    exportdata(table) {
+      if (table == "table_0") {
+        this.$refs.table_0.exportCsv({ filename: "current" });
+      } else if (table == "table_1") {
+        this.$refs.table_1.exportCsv({ filename: "next" });
+      } else if (table == "table_2") {
+        this.$refs.table_2.exportCsv({ filename: "player" });
+      } else {
+        let ref = "table" + table;
+        this.$refs[ref][0].exportCsv({ filename: ref });
       }
-       this.$Notice.config({
+      this.$Notice.config({
         top: 200,
         duration: 10
       });
@@ -1501,6 +1502,9 @@ export default {
     },
     reset() {
       this.defaultTime = getDefaultTime();
+      if (this.permission.includes("正式数据")) {
+        this.source = "0";
+      }
       this.init();
     },
     search() {
@@ -1561,27 +1565,23 @@ export default {
       let params1 = {};
       let params2 = {
         parent: parent,
-        isTest: this.isTest,
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
       };
       if (level == 0) {
-        params1 = { userId: userId, isTest: this.isTest };
+        params1 = { userId: userId, isTest: +this.source };
       } else {
         params1 = {
           userId: userId,
-          isTest: this.isTest,
+          isTest: +this.source,
           gameType: this.gameType,
           query: {
             createdAt: this.changedTime
           }
         };
-      }
-       if (this.isTest == 2) {
-        delete params1.isTest;
-        delete params2.isTest;
       }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
@@ -1609,7 +1609,9 @@ export default {
     }
   },
   created() {
-    // console.log(this.defaultTime);
+    if (this.permission.includes("正式数据")) {
+      this.source = "0";
+    }
     this.init();
   }
 };
