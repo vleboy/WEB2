@@ -136,10 +136,11 @@
         }
       } // kindID
       var validateGameIden = (rule, value, callback) => {
+        let reg = new RegExp(/^[0-9]*$/)
         if (value === '') {
           callback(new Error('请输入游戏标识'))
           this.isfinish.gameIden = false
-        } else if (!pattern.nonChinese.exec(value)|| (value.substring(0,1) != value.substring(0,1).toUpperCase())) {
+        } else if (reg.exec(value) || (value.substring(0,1) != value.substring(0,1).toUpperCase())) {
           callback(new Error('请输入字母或者数字（首位必须是大写字母）'))
           this.isfinish.gameIden = false
         } else if (value.length > 10) {
@@ -266,7 +267,7 @@
           })
         } else {
           this.$store.state.variable.operatorList.forEach((item) => {
-            if (item.companyName === this.managerInfo.companyName) {
+            if (item.companyIden === this.managerInfo.companyName) {
               this.managerInfo.company = item
               this.managerInfo.companyIden = item.companyIden
             }
