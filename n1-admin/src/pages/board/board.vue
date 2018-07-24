@@ -1,5 +1,10 @@
 <template>
   <div class="p-board">
+    <RadioGroup v-model="testInfo" @on-change="changeTest" type="button">
+      <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+      <Radio label="1">测试</Radio>
+      <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
+    </RadioGroup>
     <div class="p-board-head" v-if="totalItems.length">
       <Row :gutter="20">
         <Col :span="6" v-for="(item, index) in totalItems" :key="index" class="head-all-item">
@@ -10,9 +15,24 @@
             <div class="head-right">
               <div class="head-right-title color-gery">
                 <span class="left-text">{{item.oneText}}: </span>
-                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" placement="right">
+                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" >
                   <span class="right-number">{{item.oneNum}}</span>
                 </Tooltip>
+
+                <Poptip trigger="hover" title="在线玩家详情" content="content" placement="right-start" class="head-text" :transfer="true">
+                  <span v-if="item.type==3">查看</span>
+                  <div slot="content">
+                    <div v-for="data of item.playerDetail">
+                      <div style="margin-bottom: 10px">
+                        <label style="font-size: 15px;color: #2d8cf0;">{{data.gameTypeName}}</label>
+                        <div v-for="item2 of data.list">
+                          <span>{{item2.gameName}}在线玩家：{{item2.number}}</span>
+                        </div>
+                        <div v-if="!data.list.length">暂无在线玩家</div>
+                      </div>
+                    </div>
+                  </div>
+                </Poptip>
               </div>
               <div class="right-ratio">
                 <div class="head-right-title color-gery">
@@ -33,11 +53,6 @@
           <div class="content-border">
             <div class="content-title">
               平台游戏点数消耗分布
-              <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" style="margin-left: 10px">
-                <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
-                <Radio label="1">测试</Radio>
-                <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
-              </RadioGroup>
             </div>
             <div>
               <div class="content-top">
@@ -243,7 +258,6 @@
     methods: {
       getStatisticalNum (index) {
         this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
-        console.log(this.testInfo)
 
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
@@ -256,21 +270,17 @@
                 icon: this.statisticalIcon[index],
                 oneText: this.statisticalTextOne[index],
                 twoText: this.statisticalTextTwo[index],
+                type: result.type,
                 oneNum: result ? result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum) : '0.00',
-                twoNum: result ? result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) : '0.00'
+                twoNum: result ? result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) : '0.00',
+                playerDetail: result.detail ? result.detail : []
               })
             } else {
               for (let item of this.totalData) {
-                if(this.role == '100') {
-                  if (result && ((item.index+1) === result.type)) {
-                    item.oneNum = result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum)
-                    item.twoNum = result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) // 大于2是用来判断是否是显示玩家人数
-                  }
-                } else {
-                  if (result && ((item.index) === result.type)) {
-                    item.oneNum = result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum)
-                    item.twoNum = result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) // 大于2是用来判断是否是显示玩家人数
-                  }
+                if (result && ((item.index) === result.type)) {
+                  item.oneNum = result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum)
+                  item.twoNum = result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) // 大于2是用来判断是否是显示玩家人数
+                  item.playerDetail = result.detail ? result.detail : []
                 }
               }
             }
@@ -542,7 +552,7 @@
   }
 </script>
 
-<style scpoed lang="less">
+<style scpoed lang="less" type="text/less">
   .p-board{
     padding:1rem;
     .p-board-head, .p-board-content{
@@ -572,6 +582,18 @@
       float: right;
       width: 70%;
       max-width: 70%;
+    }
+
+    .head-right-title{
+      position: relative;
+    }
+
+    .head-text{
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+      color: #2d8cf0;
     }
 
     .right-number{
