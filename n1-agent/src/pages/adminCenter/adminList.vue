@@ -46,6 +46,11 @@
         <FormItem label="管理员密码" prop="password">
           <Input v-model="adminInfo.password" placeholder="请输入"></Input>
         </FormItem>
+         <FormItem label="管理员角色" prop="role">
+          <Select v-model="adminInfo.subRole" placeholder="请选择">
+            <Option v-for="item in subRoleList" :value="item.name" :key="item.name">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
       </Form>
     </Modal>
     <Spin size="large" fix v-if="spin">
@@ -106,7 +111,8 @@ export default {
       adminModal: false, //添加管理员modal
       adminInfo: {
         username: "",
-        password: ""
+        password: "",
+        subRole:''
       },
       spin: false,
       adminList: [],
@@ -273,6 +279,7 @@ export default {
     },
     addcancel() {
       this.$refs["addform"].resetFields();
+      this.adminInfo.subRole=''
     },
     reset() {
       this.init();
