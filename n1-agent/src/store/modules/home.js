@@ -34,7 +34,7 @@ export const home={
             state.currentPageName = name;
         },
         clearAllTag(state){
-            state.pageOpenedList=[]
+            state.pageOpenedList.splice(0)
         },
         removeTag (state, name) {
             state.pageOpenedList.map((item, index) => {
