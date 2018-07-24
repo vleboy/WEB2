@@ -4,10 +4,10 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
-         <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-          <Radio label="正式"></Radio>
-          <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
+        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+          <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
+          <Radio label="1">测试</Radio>
+          <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
         </RadioGroup>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </p>
@@ -58,6 +58,8 @@ export default {
     return {
       endTime: "",
       open: false,
+      warnTop: false,
+      startStop: false, //权限
       opreateModal: false,
       pointModal: false,
       source: "正式",
@@ -80,7 +82,7 @@ export default {
         {
           title: "类型",
           key: "role",
-          sortable:true,
+          sortable: true,
           maxWidth: 80,
           render: (h, params) => {
             return h("span", this.types(params.row.role));
@@ -101,7 +103,7 @@ export default {
         {
           title: "接入商昵称",
           key: "displayName",
-          sortable:true,
+          sortable: true,
           maxWidth: 140,
           render: (h, params) => {
             if (params.row.role == "1000") {
@@ -148,7 +150,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -178,7 +180,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -218,7 +220,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -282,7 +284,7 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.companyList) {
-              let companyList = params.row.companyList||[];
+              let companyList = params.row.companyList || [];
               return h(
                 "div",
                 companyList.map(item => {
@@ -313,7 +315,8 @@ export default {
                           style: {
                             color: "#20a0ff",
                             cursor: "pointer",
-                            marginRight: "5px"
+                            marginRight: "5px",
+                            display: this.warnTop ? "inline" : "none"
                           },
                           on: {
                             click: () => {
@@ -335,7 +338,8 @@ export default {
                           style: {
                             color: "#20a0ff",
                             cursor: "pointer",
-                            marginRight: "5px"
+                            marginRight: "5px",
+                            display: this.startStop ? "inline" : "none"
                           },
                           on: {
                             click: () => {
@@ -372,15 +376,8 @@ export default {
         return dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
       }
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
     }
   },
   methods: {
@@ -391,12 +388,9 @@ export default {
       let level = userInfo.level;
       let params = {};
       if (level == 0) {
-        params = { parent: "01" ,isTest: this.isTest};
+        params = { parent: "01", isTest: +this.source };
       } else {
-        params = { parent: userId ,isTest: this.isTest};
-      }
-      if (this.isTest == 2) {
-        delete params.isTest;
+        params = { parent: userId, isTest: +this.source };
       }
       let req1 = configOne({
         code: "roundLast"
@@ -415,10 +409,13 @@ export default {
     cancel() {
       this.newAmount = null;
     },
-     changeSource(value) {
+    changeSource(value) {
       this.init();
     },
     reset() {
+      if (this.permission.includes("正式数据")) {
+        this.source = "0";
+      }
       this.init();
     },
     changePoint() {
@@ -480,7 +477,16 @@ export default {
     }
   },
   created() {
+    if (this.permission.includes("正式数据")) {
+      this.source = "0";
+    }
     this.init();
+    if (this.permission.includes("设定接入商告警上限")) {
+      this.warnTop = true;
+    }
+    if (this.permission.includes("接入商停启用")) {
+      this.startStop = true;
+    }
   }
 };
 </script>

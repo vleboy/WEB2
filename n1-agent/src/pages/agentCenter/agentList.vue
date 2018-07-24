@@ -334,6 +334,9 @@ export default {
       point: "",
       remark: "",
       userName: "",
+      //权限
+      startStop: false,
+      createAgents: false,
       // search2: "",
       admin: false, //代理管理员创建代理
       parentDisplayName: "",
@@ -901,379 +904,225 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.parent == "00") {
-              if (this.permission.includes("创建代理")) {
-                return h(
-                  "span",
-                  {
-                    style: {
-                      color: "#20a0ff",
-                      cursor: "pointer"
-                    },
-                    on: {
-                      click: () => {
-                        //代理管理员
-                        this.admin = true;
-                        this.defaultSn = false;
-                        this.agentModal = true;
-                        this.agentType = 2;
-                        this.Topdisabled = true;
-                        let parent =
-                          params.row.level == 0 ? "01" : params.row.userId;
-                        this.agent.parent = parent;
-                        availableAgents({ parent }).then(res => {
-                          if (res.code == 0) {
-                            this.parentList = res.payload;
-                          }
-                        });
-                        this.parentRate = params.row.rate;
-                        this.selected = false;
-                        this.rateContent = "上级代理成数为:" + params.row.rate;
-                      }
-                    }
+              return h(
+                "span",
+                {
+                  style: {
+                    color: "#20a0ff",
+                    cursor: "pointer",
+                    display: this.createAgents ? 'inline':'none'
                   },
-                  "创建代理"
-                );
-              }
+                  on: {
+                    click: () => {
+                      //代理管理员
+                      this.admin = true;
+                      this.defaultSn = false;
+                      this.agentModal = true;
+                      this.agentType = 2;
+                      this.Topdisabled = true;
+                      let parent =
+                        params.row.level == 0 ? "01" : params.row.userId;
+                      this.agent.parent = parent;
+                      availableAgents({ parent }).then(res => {
+                        if (res.code == 0) {
+                          this.parentList = res.payload;
+                        }
+                      });
+                      this.parentRate = params.row.rate;
+                      this.selected = false;
+                      this.rateContent = "上级代理成数为:" + params.row.rate;
+                    }
+                  }
+                },
+                "创建代理"
+              );
             } else {
               let color = "";
               let text = "";
               let status = null;
-              if (this.permission.includes("创建代理")) {
-                if (params.row.status == 1) {
-                  text = "锁定";
-                  color = "#f30";
-                  status = 0;
-                  return h("div", [
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            let userId = params.row.userId;
-                            let username = params.row.username;
-                            let parent = params.row.parent;
-                            this.$router.push({
-                              path: "/agentDetail",
-                              query: {
-                                userId,
-                                username,
-                                parent
-                              }
-                            });
-                          }
-                        }
+              if (params.row.status == 1) {
+                text = "锁定";
+                color = "#f30";
+                status = 0;
+                return h("div", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
                       },
-                      "查看"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: color,
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            this.$Modal.confirm({
-                              title: "提示!",
-                              content: `<p>是否${text}该代理</p>`,
-                              onOk: () => {
-                                userChangeStatus({
-                                  role: "1000",
-                                  status,
-                                  userId: params.row.userId
-                                }).then(res => {
-                                  if (res.code == 0) {
-                                    this.$Message.success(`${text}成功`);
-                                    this.init();
-                                  }
-                                });
-                              }
-                            });
-                          }
-                        }
-                      },
-                      text
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            this.agentModal = true;
-                            this.parentSn = params.row.sn || "NA369";
-                            let userId = params.row.userId;
-                            this.agent.parent = userId;
-                            availableAgents({ parent: userId }).then(res => {
-                              if (res.code == 0) {
-                                this.parentList = res.payload;
-                              }
-                            });
-                            // this.selectParent(userId);
-                            this.parentRate = params.row.rate;
-                            this.rateContent =
-                              "上级代理成数为:" + params.row.rate;
-                          }
-                        }
-                      },
-                      "创建代理"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer"
-                        },
-                        on: {
-                          click: () => {
-                            this.playerModal = true;
-                            let userId = params.row.userId;
-                            if (this.player.parentId == userId) {
-                              this.selectPlayerParent(userId);
-                            } else {
-                              this.player.parentId = userId;
+                      on: {
+                        click: () => {
+                          let userId = params.row.userId;
+                          let username = params.row.username;
+                          let parent = params.row.parent;
+                          this.$router.push({
+                            path: "/agentDetail",
+                            query: {
+                              userId,
+                              username,
+                              parent
                             }
-                            availableAgents({ userId }).then(res => {
-                              if (res.code == 0) {
-                                this.parentList = res.payload;
-                              }
-                            });
-                          }
+                          });
                         }
+                      }
+                    },
+                    "查看"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: color,
+                        cursor: "pointer",
+                        marginRight: "10px",
+                        display: this.startStop ? 'inline':'none'
                       },
-                      "创建玩家"
-                    )
-                  ]);
-                } else {
-                  text = "解锁";
-                  color = "#19be6b";
-                  status = 1;
-                  return h("div", [
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            let userId = params.row.userId;
-                            let username = params.row.username;
-                            let parent = params.row.parent;
-                            this.$router.push({
-                              path: "/agentDetail",
-                              query: {
-                                userId,
-                                username,
-                                parent
-                              }
-                            });
-                          }
+                      on: {
+                        click: () => {
+                          this.$Modal.confirm({
+                            title: "提示!",
+                            content: `<p>是否${text}该代理</p>`,
+                            onOk: () => {
+                              userChangeStatus({
+                                role: "1000",
+                                status,
+                                userId: params.row.userId
+                              }).then(res => {
+                                if (res.code == 0) {
+                                  this.$Message.success(`${text}成功`);
+                                  this.init();
+                                }
+                              });
+                            }
+                          });
                         }
+                      }
+                    },
+                    text
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px",
+                        display: this.createAgents ? 'inline':'none'
                       },
-                      "查看"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: color,
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            this.$Modal.confirm({
-                              title: "提示!",
-                              content: `<p>是否${text}该代理</p>`,
-                              onOk: () => {
-                                userChangeStatus({
-                                  role: "1000",
-                                  status,
-                                  userId: params.row.userId
-                                }).then(res => {
-                                  if (res.code == 0) {
-                                    this.$Message.success(`${text}成功`);
-                                    this.init();
-                                  }
-                                });
-                              }
-                            });
-                          }
+                      on: {
+                        click: () => {
+                          this.agentModal = true;
+                          this.parentSn = params.row.sn || "NA369";
+                          let userId = params.row.userId;
+                          this.agent.parent = userId;
+                          availableAgents({ parent: userId }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
+                            }
+                          });
+                          // this.selectParent(userId);
+                          this.parentRate = params.row.rate;
+                          this.rateContent =
+                            "上级代理成数为:" + params.row.rate;
                         }
+                      }
+                    },
+                    "创建代理"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer"
                       },
-                      text
-                    )
-                  ]);
-                }
+                      on: {
+                        click: () => {
+                          this.playerModal = true;
+                          let userId = params.row.userId;
+                          if (this.player.parentId == userId) {
+                            this.selectPlayerParent(userId);
+                          } else {
+                            this.player.parentId = userId;
+                          }
+                          availableAgents({ userId }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
+                            }
+                          });
+                        }
+                      }
+                    },
+                    "创建玩家"
+                  )
+                ]);
               } else {
-                if (params.row.status == 1) {
-                  text = "锁定";
-                  color = "#f30";
-                  status = 0;
-                  return h("div", [
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            let userId = params.row.userId;
-                            let username = params.row.username;
-                            let parent = params.row.parent;
-                            this.$router.push({
-                              path: "/agentDetail",
-                              query: {
-                                userId,
-                                username,
-                                parent
-                              }
-                            });
-                          }
-                        }
+                text = "解锁";
+                color = "#19be6b";
+                status = 1;
+                return h("div", [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        marginRight: "10px"
                       },
-                      "查看"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: color,
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            this.$Modal.confirm({
-                              title: "提示!",
-                              content: `<p>是否${text}该代理</p>`,
-                              onOk: () => {
-                                userChangeStatus({
-                                  role: "1000",
-                                  status,
-                                  userId: params.row.userId
-                                }).then(res => {
-                                  if (res.code == 0) {
-                                    this.$Message.success(`${text}成功`);
-                                    this.init();
-                                  }
-                                });
-                              }
-                            });
-                          }
-                        }
-                      },
-                      text
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer"
-                        },
-                        on: {
-                          click: () => {
-                            this.playerModal = true;
-                            let userId = params.row.userId;
-                            if (this.player.parentId == userId) {
-                              this.selectPlayerParent(userId);
-                            } else {
-                              this.player.parentId = userId;
+                      on: {
+                        click: () => {
+                          let userId = params.row.userId;
+                          let username = params.row.username;
+                          let parent = params.row.parent;
+                          this.$router.push({
+                            path: "/agentDetail",
+                            query: {
+                              userId,
+                              username,
+                              parent
                             }
-                            availableAgents({ userId }).then(res => {
-                              if (res.code == 0) {
-                                this.parentList = res.payload;
-                              }
-                            });
-                          }
+                          });
                         }
+                      }
+                    },
+                    "查看"
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        color: color,
+                        cursor: "pointer",
+                        marginRight: "10px",
+                        display: this.startStop ? 'inline':'none'
                       },
-                      "创建玩家"
-                    )
-                  ]);
-                } else {
-                  text = "解锁";
-                  color = "#19be6b";
-                  status = 1;
-                  return h("div", [
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: "#20a0ff",
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            let userId = params.row.userId;
-                            let username = params.row.username;
-                            let parent = params.row.parent;
-                            this.$router.push({
-                              path: "/agentDetail",
-                              query: {
-                                userId,
-                                username,
-                                parent
-                              }
-                            });
-                          }
+                      on: {
+                        click: () => {
+                          this.$Modal.confirm({
+                            title: "提示!",
+                            content: `<p>是否${text}该代理</p>`,
+                            onOk: () => {
+                              userChangeStatus({
+                                role: "1000",
+                                status,
+                                userId: params.row.userId
+                              }).then(res => {
+                                if (res.code == 0) {
+                                  this.$Message.success(`${text}成功`);
+                                  this.init();
+                                }
+                              });
+                            }
+                          });
                         }
-                      },
-                      "查看"
-                    ),
-                    h(
-                      "span",
-                      {
-                        style: {
-                          color: color,
-                          cursor: "pointer",
-                          marginRight: "10px"
-                        },
-                        on: {
-                          click: () => {
-                            this.$Modal.confirm({
-                              title: "提示!",
-                              content: `<p>是否${text}该代理</p>`,
-                              onOk: () => {
-                                userChangeStatus({
-                                  role: "1000",
-                                  status,
-                                  userId: params.row.userId
-                                }).then(res => {
-                                  if (res.code == 0) {
-                                    this.$Message.success(`${text}成功`);
-                                    this.init();
-                                  }
-                                });
-                              }
-                            });
-                          }
-                        }
-                      },
-                      text
-                    )
-                  ]);
-                }
+                      }
+                    },
+                    text
+                  )
+                ]);
               }
             }
           }
@@ -1937,7 +1786,14 @@ export default {
       this.source = "0";
     }
     this.init();
-  }
+    if (this.permission.includes("创建代理")) {
+      this.createAgents = true;
+    }
+    if (this.permission.includes("停启用代理")) {
+      this.startStop = true;
+    }
+  },
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

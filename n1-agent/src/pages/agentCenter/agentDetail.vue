@@ -4,8 +4,10 @@
       <span> {{$route.query.username }}</span>
       <span class="btns">
         <Button type="primary" class="edit" @click="reload">刷新</Button>
-        <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
-        <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+         <span v-if="permission.includes('编辑代理')">
+          <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
+          <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
+        </span>
       </span>
     </div>
     <Collapse v-model="value">
@@ -72,7 +74,7 @@
                   <span v-if="showPass">{{agentDetail.password}}</span>
                   <span v-else>********</span>
                   </Col>
-                  <Col span="6">
+                  <Col span="6" v-if="permission.includes('查看密码')">
                   <span class="showpass" @click="showPass=!showPass" v-if="!showPass">显示</span>
                   <span class="showpass" @click="showPass=!showPass" v-else>隐藏</span>
                   </Col>
@@ -689,7 +691,10 @@ export default {
     },
     tooltip() {
       return "上级代理点数为" + this.agentDetail.balance;
-    }
+    },
+    permission() {
+      return JSON.parse(localStorage.userInfo).subRolePermission;
+    },
   },
   watch: {
     $route(to, from) {
