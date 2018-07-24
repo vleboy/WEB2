@@ -3,13 +3,13 @@
         <Sider width='256px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
-                <MenuItem name="board" v-if='permission.includes("看板")'>
-                <Icon type="stats-bars"></Icon>
-                <span>看板</span>
+                <MenuItem name="board" v-if='permission.includes("看板") || level!=0'>
+                    <Icon type="stats-bars"></Icon>
+                    <span>看板</span>
                 </MenuItem>
-                <MenuItem name="ownspace-index" v-if='permission.includes("个人中心")'>
-                <Icon type="person"></Icon>
-                <span>个人中心</span>
+                <MenuItem name="ownspace-index" v-if='permission.includes("个人中心")|| level!=0'>
+                    <Icon type="person"></Icon>
+                    <span>个人中心</span>
                 </MenuItem>
                 <Submenu name="report" v-if="level==0">
                     <template slot="title">
@@ -115,7 +115,7 @@
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                <Submenu name="agentCenter" v-if='permission.includes("代理列表")||permission.includes("接入商点数警告列表")'>
+                <Submenu name="agentCenter" v-if='level==0'>
                     <template slot="title">
                         <Icon type="model-s"></Icon>
                         代理中心
@@ -123,12 +123,27 @@
                     <MenuItem name="agentList" v-if='permission.includes("代理列表")'>代理列表</MenuItem>
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
-                <Submenu name="playerCenter" v-if='permission.includes("玩家列表")'>
+                <Submenu name="agentCenter" v-else>
+                    <template slot="title">
+                        <Icon type="model-s"></Icon>
+                        代理中心
+                    </template>
+                    <MenuItem name="agentList">代理列表</MenuItem>
+                    <MenuItem name="warnList">接入商点数警告列表</MenuItem>
+                </Submenu>
+                <Submenu name="playerCenter" v-if='level==0'>
                     <template slot="title">
                         <Icon type="ios-game-controller-b"></Icon>
                         玩家中心
                     </template>
                     <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
+                </Submenu>
+                <Submenu name="playerCenter" v-else>
+                    <template slot="title">
+                        <Icon type="ios-game-controller-b"></Icon>
+                        玩家中心
+                    </template>
+                    <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
@@ -145,14 +160,21 @@
                     </template>
                     <MenuItem name="gameConfig" v-if='permission.includes("包房代理游戏配置")'>包房代理游戏配置</MenuItem>
                 </Submenu>
-                <Submenu name="logCenter">
+                <Submenu name="logCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="bug"></Icon>
                         日志中心
                     </template>
-                    <MenuItem name="adminLoginLog" v-if="level==0">管理员登录日志</MenuItem>
+                    <MenuItem name="adminLoginLog" v-if='permission.includes("管理员登录日志")'>管理员登录日志</MenuItem>
                     <MenuItem name="agentLoginLog" v-if='permission.includes("代理登录日志")'>代理登录日志</MenuItem>
-                    <MenuItem name="adminOpreateLog" v-if="level==0">管理员操作日志</MenuItem>
+                    <MenuItem name="adminOpreateLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
+                </Submenu>
+                <Submenu name="logCenter" v-else>
+                    <template slot="title">
+                        <Icon type="bug"></Icon>
+                        日志中心
+                    </template>
+                    <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
