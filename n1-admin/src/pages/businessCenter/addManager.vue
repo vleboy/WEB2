@@ -458,7 +458,7 @@ export default {
                   if (res.code == 0) {
                     this.$store.commit("updateLoading", { params: false });
                     this.$Message.success("添加成功");
-                    this.$router.push({ name: "lineBusiness" });
+                    this.$router.push({ name: "managerList" });
                   } else {
                     this.$store.commit("updateLoading", { params: false });
                   }

@@ -1793,7 +1793,6 @@ export default {
       this.startStop = true;
     }
   },
-  mounted() {}
 };
 </script>
 <style lang="less" scoped>

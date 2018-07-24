@@ -68,7 +68,7 @@
                         <Icon type="model-s"></Icon>
                         商户中心
                     </template>
-                    <MenuItem name="lineDealer" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
+                    <MenuItem name="managerList" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
                     <MenuItem name="merchantList" v-if='permission.includes("商户列表")'>商户列表</MenuItem>
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>

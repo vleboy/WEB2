@@ -10,7 +10,7 @@
       openName = ["playerCenter"];
     } else if (name == "board") {
       openName = [];
-    }else if(name.includes('na')&&!name.includes('managerDetail') ) {
+    }else if(name.includes('na')&& name != 'managerDetail' ) {
       openName = ["report", "nareport"];
     } else if (name == "ttgvideo") {
       openName = ["report", "ttgreport"];

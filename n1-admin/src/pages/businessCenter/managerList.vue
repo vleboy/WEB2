@@ -420,7 +420,7 @@ export default {
                         let username = params.row.username;
                         let parent = params.row.parent;
                         this.$router.push({
-                          path: "/lineDetail",
+                          path: "/managerDetail",
                           query: {
                             userId,
                             displayName,
@@ -561,7 +561,7 @@ export default {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
     createLine() {
-      this.$router.push({ name: "addLineMerchant" });
+      this.$router.push({ name: "addManager" });
     },
     reset() {
       this.suffix = "";
@@ -622,7 +622,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (from.name == "addLineMerchant") {
+      if (from.name == "addManager") {
         if (this.permission.includes("正式数据")) {
           this.source = '0';
         }

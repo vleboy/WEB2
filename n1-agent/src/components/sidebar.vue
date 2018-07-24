@@ -5,7 +5,7 @@
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="board" v-if='permission.includes("看板")'>
                 <Icon type="stats-bars"></Icon>
-                  <span>看板</span>
+                <span>看板</span>
                 </MenuItem>
                 <MenuItem name="ownspace-index" v-if='permission.includes("个人中心")'>
                 <Icon type="person"></Icon>
@@ -36,7 +36,7 @@
                         <MenuItem name="satrue" v-if='permission.includes("SA真人游戏报表")'>SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if='permission.includes("SA捕鱼游戏报表")'>SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='sbreport' v-if='permission.includes("SB游戏总报表")||permission.includes("SB电子游戏报表")||permission.includes("SB真人游戏报表")'>
+                    <Submenu name='sbreport' v-if='permission.includes("SB游戏总报表")||permission.includes("SB电子游戏报表")||permission.includes("SB真人游戏报表")'>
                         <template slot="title">SB游戏报表</template>
                         <MenuItem name="sbAll" v-if='permission.includes("SB游戏总报表")'>SB游戏总报表</MenuItem>
                         <MenuItem name="sbvideo" v-if='permission.includes("SB电子游戏报表")'>SB电子游戏报表</MenuItem>
@@ -50,20 +50,20 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue" v-if='permission.includes("AG真人游戏报表")'>AG真人游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='rtgReport' v-if='permission.includes("RTG电子游戏报表")'>
+                    <Submenu name='rtgReport' v-if='permission.includes("RTG电子游戏报表")'>
                         <template slot="title">RTG游戏报表</template>
                         <MenuItem name="rtgGame" v-if='permission.includes("RTG电子游戏报表")'>RTG电子游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='dtReport' v-if='permission.includes("DT电子游戏报表")'>
+                    <Submenu name='dtReport' v-if='permission.includes("DT电子游戏报表")'>
                         <template slot="title">DT游戏报表</template>
                         <MenuItem name="dtGame" v-if='permission.includes("DT电子游戏报表")'>DT电子游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='ysbReport' v-if='permission.includes("YSB体育游戏报表")'>
+                    <Submenu name='ysbReport' v-if='permission.includes("YSB体育游戏报表")'>
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
-                 <Submenu name="report" v-else>
+                <Submenu name="report" v-else>
                     <template slot="title">
                         <Icon type="ios-paper-outline"></Icon>
                         输赢报表
@@ -88,7 +88,7 @@
                         <MenuItem name="satrue" v-if="gameStr.includes('SA真人')">SA真人游戏报表</MenuItem>
                         <MenuItem name="safishing" v-if="gameStr.includes('SA捕鱼')">SA捕鱼游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")||gameList.includes("SB真人游戏")'>
+                    <Submenu name='sbreport' v-if='gameList.includes("SB电子游戏")||gameList.includes("SB真人游戏")'>
                         <template slot="title">SB游戏报表</template>
                         <MenuItem name="sbAll">SB游戏总报表</MenuItem>
                         <MenuItem name="sbvideo" v-if='gameList.includes("SB电子游戏")'>SB电子游戏报表</MenuItem>
@@ -102,15 +102,15 @@
                         <template slot="title">AG游戏报表</template>
                         <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='rtgReport' v-if="gameList.includes('RTG电子游戏')">
+                    <Submenu name='rtgReport' v-if="gameList.includes('RTG电子游戏')">
                         <template slot="title">RTG游戏报表</template>
                         <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='dtReport' v-if='gameList.includes("DT电子游戏")'>
+                    <Submenu name='dtReport' v-if='gameList.includes("DT电子游戏")'>
                         <template slot="title">DT游戏报表</template>
                         <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
                     </Submenu>
-                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
+                    <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
@@ -124,11 +124,11 @@
                     <MenuItem name="warnList" v-if='permission.includes("接入商点数警告列表")'>接入商点数警告列表</MenuItem>
                 </Submenu>
                 <Submenu name="playerCenter" v-if='permission.includes("玩家列表")'>
-                  <template slot="title">
+                    <template slot="title">
                         <Icon type="ios-game-controller-b"></Icon>
-                    玩家中心
-                  </template>
-                  <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
+                        玩家中心
+                    </template>
+                    <MenuItem name="playList" v-if='permission.includes("玩家列表")'>玩家列表</MenuItem>
                 </Submenu>
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
@@ -163,17 +163,17 @@ export default {
   data() {
     return {};
   },
-  computed:{
-      level(){
-          return JSON.parse(localStorage.getItem('userInfo')).level
-      },
-      permission() {
+  computed: {
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
+    },
+    permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission;
     },
-    str(){
-        return this.permission.toString()
+    str() {
+      return this.permission.toString();
     },
-     gameList() {
+    gameList() {
       let games = JSON.parse(localStorage.userInfo).gameList;
       let arr = [];
       for (let item of games) {
@@ -181,8 +181,8 @@ export default {
       }
       return arr;
     },
-    gameStr(){
-        return this.gameList.toString()
+    gameStr() {
+      return this.gameList.toString();
     }
   },
   methods: {

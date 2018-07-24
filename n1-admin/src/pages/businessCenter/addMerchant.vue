@@ -91,6 +91,16 @@
               </Col>
             </Row>
           </FormItem>
+           <FormItem label="皮肤" prop="skin" :required='true'>
+            <Row>
+              <Col span="10">
+              <Select v-model="detail.skin" placeholder="请选择" @on-change="selectSkin">
+                <!-- <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option> -->
+                <Option value="1">默认</Option>
+              </Select>
+              </Col>
+            </Row>
+          </FormItem>
           <FormItem v-if="selected" prop='balance'>
             <label for="" slot="label">{{game}}商家占成(%)</label>
             <Row>
@@ -380,7 +390,8 @@ export default {
         registType: "http://",
         registUrl: "",
         serviceType: "http://",
-        serviceUrl: ""
+        serviceUrl: "",
+        skin:'1'
       },
       admin: {
         username: "",
@@ -467,6 +478,9 @@ export default {
     this.$store.dispatch("getSubrole");
   },
   methods: {
+    selectSkin(v){
+      console.log(v);
+    },
     reset() {
       this.$refs["basicform"].resetFields();
       this.$refs["adminform"].resetFields();
@@ -609,6 +623,7 @@ export default {
                   ...this.admin,
                   ...this.basic,
                   gameList: this.gameDetail,
+                  skin:this.detail.skin,
                   loginWhiteList: this.detail.loginWhiteList,
                   moneyURL: this.detail.chargeType + this.detail.chargeUrl,
                   registerURL: this.detail.registType + this.detail.registUrl,
@@ -620,7 +635,7 @@ export default {
                   if (res.code == 0) {
                     this.$store.commit("updateLoading", { params: false });
                     this.$Message.success("添加成功");
-                    this.$router.push({ name: "businessList" });
+                    this.$router.push({ name: "merchantList" });
                   } else {
                     this.$store.commit("updateLoading", { params: false });
                   }
