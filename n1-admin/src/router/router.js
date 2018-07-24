@@ -79,8 +79,8 @@ export const otherRouter = {
         { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: addAdmin},
         { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
         { path: 'addMerchant', name: 'addMerchant',title:'创建商户', component: addMerchant},
-        { path: 'addManager', name: 'addManager',title:'创建线路商', component: addManager},
-        { path: 'managerDetail', name: 'managerDetail',title:'线路商详情', component: managerDetail},
+        { path: 'addManager', name: 'addDealer',title:'创建线路商', component: addManager},
+        { path: 'dealerDetail', name: 'dealerDetail',title:'线路商详情', component: managerDetail},
         { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: merchantDetail},
         { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:playerDetail},
     ]
@@ -192,7 +192,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'merchant',title:'商户列表',name:'merchantList',component:merchantList},
-            {path:'manager',title:'线路商列表',name:'managerList',component:managerList},
+            {path:'manager',title:'线路商列表',name:'dealerList',component:managerList},
             {path:'warn',title:'接入商点数警告列表',name:'warnList',component:warnList}
     ]
     },

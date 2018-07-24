@@ -1,6 +1,6 @@
   export const menuOpen = function (name) {
     let openName = []
-    if (name.includes('na') && name != 'managerList'&& name!='managerDetail') {
+    if (name.includes('na')){
       openName = ["report", "nareport"];
     } else if (name == "ttgvideo") {
       openName = ["report", "ttgreport"];
@@ -22,7 +22,7 @@
       openName = ["report", "ugreport"];
     } else if (name == "allreport") {
       openName = ["report"];
-    } else if (name == "managerList" || name == "merchantList" || name == "warnList") {
+    } else if (name == "dealerList" || name == "merchantList" || name == "warnList") {
       openName = ["businessCenter"];
     } else if (name == "ownspace-index") {
       openName = [];

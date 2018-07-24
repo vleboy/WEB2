@@ -538,13 +538,6 @@ export default {
   created() {
     this.init();
   },
-  watch: {
-    $route(to, from) {
-      if (from.name == "addMerchant") {
-        this.init();
-      }
-    }
-  }
 };
 </script>
 <style lang="less" scoped>

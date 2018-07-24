@@ -68,7 +68,7 @@
                         <Icon type="model-s"></Icon>
                         商户中心
                     </template>
-                    <MenuItem name="managerList">线路商列表</MenuItem>
+                    <MenuItem name="dealerList">线路商列表</MenuItem>
                     <MenuItem name="merchantList">商户列表</MenuItem>
                 </Submenu>
                 <Submenu name="playerCenter">

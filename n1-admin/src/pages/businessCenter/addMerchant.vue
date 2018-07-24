@@ -94,9 +94,8 @@
            <FormItem label="皮肤" prop="skin" :required='true'>
             <Row>
               <Col span="10">
-              <Select v-model="detail.skin" placeholder="请选择" @on-change="selectSkin">
-                <!-- <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option> -->
-                <Option value="1">默认</Option>
+              <Select v-model="detail.skin" placeholder="请选择">
+                <Option v-for="item in skinList" :value="item.value" :key="item.value">{{item.name}}</Option>
               </Select>
               </Col>
             </Row>
@@ -334,6 +333,10 @@ export default {
         parent: "",
         points: null
       },
+      skinList:[{
+        value:'1',
+        name:'默认'
+      }],
       parentId: "",
       selected: false,
       tipContent: "上级游戏占成为:",
@@ -478,9 +481,6 @@ export default {
     this.$store.dispatch("getSubrole");
   },
   methods: {
-    selectSkin(v){
-      console.log(v);
-    },
     reset() {
       this.$refs["basicform"].resetFields();
       this.$refs["adminform"].resetFields();

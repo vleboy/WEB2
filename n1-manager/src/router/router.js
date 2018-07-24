@@ -62,7 +62,7 @@ export const otherRouter = {
     children: [
         { path: 'home', name: 'home',title:'首页', component: home},
         { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:playerDetail},
-        { path: 'managerDetail', name:'managerDetail', title:'线路商详情',  meta: {keepAlive: true}, component:managerDetail},
+        { path: 'dealerDetail', name:'dealerDetail', title:'线路商详情',  meta: {keepAlive: true}, component:managerDetail},
         { path: 'merchantDetail', name:'merchantDetail', title:'商户详情',  meta: {keepAlive: true}, component:merchantDetail},
     ]
 };
@@ -184,7 +184,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'merchant',title:'商户列表',name:'merchantList',component:merchantList},
-            {path:'manager',title:'线路商列表',name:'managerList',component:managerList},
+            {path:'manager',title:'线路商列表',name:'dealerList',component:managerList},
     ]
     },
     {

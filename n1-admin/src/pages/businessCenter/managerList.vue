@@ -420,7 +420,7 @@ export default {
                         let username = params.row.username;
                         let parent = params.row.parent;
                         this.$router.push({
-                          path: "/managerDetail",
+                          path: "/dealerDetail",
                           query: {
                             userId,
                             displayName,
@@ -485,7 +485,7 @@ export default {
                       let username = params.row.username;
                       let parent = params.row.parent;
                       this.$router.push({
-                        path: "/lineDetail",
+                        path: "/dealerDetail",
                         query: {
                           userId,
                           displayName,
@@ -561,7 +561,7 @@ export default {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
     createLine() {
-      this.$router.push({ name: "addManager" });
+      this.$router.push({ name: "addDealer" });
     },
     reset() {
       this.suffix = "";

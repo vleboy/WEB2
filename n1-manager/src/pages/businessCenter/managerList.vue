@@ -343,7 +343,7 @@ export default {
                       let username = params.row.username;
                       let parent = params.row.parent;
                       this.$router.push({
-                        path: "/managerDetail",
+                        path: "/dealerDetail",
                         query: {
                           userId,
                           displayName,
@@ -503,13 +503,6 @@ export default {
   created() {
     this.init();
   },
-  watch: {
-    $route(to, from) {
-      if (from.name == "addLineMerchant") {
-        this.init();
-      }
-    }
-  }
 };
 </script>
 <style lang="less" scoped>
