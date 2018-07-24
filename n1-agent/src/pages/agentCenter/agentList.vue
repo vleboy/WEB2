@@ -1517,6 +1517,7 @@ export default {
                 if (this.admin) {
                   this.$store.dispatch("getAgentList", {
                     parent,
+                    isTest: +this.source,
                     query: {},
                     sort: "desc",
                     sortkey: "createdAt"

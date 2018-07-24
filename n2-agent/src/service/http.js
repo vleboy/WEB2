@@ -11,6 +11,7 @@ function checkStatus(response) {
   if (response.data.code != '0') {
         Message.warning(response.data.msg);
         if(response.data.msg=='TOKEN已过期'){
+          localStorage.clear();
           let host=location.href;
           host=host.split('#')[0]
           window.location.href=host +'#/login'
