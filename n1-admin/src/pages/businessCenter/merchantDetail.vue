@@ -225,6 +225,13 @@
                 </div>
               </FormItem>
               </Col>
+              <Col span="4">
+              <FormItem label="皮肤">
+                 <Select v-model="basic.skin" placeholder="请选择" :disabled='edit'>
+                <Option v-for="item in skinList" :value="item.value" :key="item.value">{{item.name}}</Option>
+              </Select>
+              </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -336,7 +343,8 @@ export default {
         moneyURL: "",
         registerURL: "",
         feedbackURL: "",
-        loginWhiteList: ""
+        loginWhiteList: "",
+        skin:''
       },
       gameForm: {
         gameType: "",
@@ -350,6 +358,13 @@ export default {
           name: []
         }
       },
+      skinList:[{
+        value:'1',
+        name:'默认'
+      },{
+        value:'2',
+        name:'2'
+      }],
       gameType: [],
       gameList: [], //select
       columns1: [
@@ -555,6 +570,7 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
+      this.basic.skin=this.merchantDetail.skin;
       //reset
       this.gameForm.gameType = "";
       this.gameForm.gamelist = "";
@@ -598,6 +614,7 @@ export default {
       params.password = password;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
+      params.skin=this.basic.skin;
       params.frontURL = this.basic.frontURL;
       params.moneyURL = this.basic.moneyURL;
       params.registerURL = this.basic.registerURL;

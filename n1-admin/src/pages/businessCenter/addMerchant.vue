@@ -336,6 +336,9 @@ export default {
       skinList:[{
         value:'1',
         name:'默认'
+      },{
+        value:'2',
+        name:'2'
       }],
       parentId: "",
       selected: false,
