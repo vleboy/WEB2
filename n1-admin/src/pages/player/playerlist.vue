@@ -2,36 +2,30 @@
   <div class="p-playerlist">
     <div class="propList-search">
       <Row class="row -search-row">
-        <Col span="2" offset="4">玩家账号</Col>
+        <Col span="2" offset="2">玩家ID</Col>
         <Col span="4">
-        <Input v-model="searchInfo.userName" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.userId" placeholder="请输入"></Input>
         </Col>
+
         <Col span="2">玩家昵称</Col>
         <Col span="4">
         <Input v-model="searchInfo.nickname" placeholder="请输入"></Input>
         </Col>
-        <Col span="5">
-        <div class="btns">
-          <Button type="primary" @click="getSearch(true)">搜索</Button>
-          <Button type="ghost" @click="getSearch(false)">重置</Button>
-        </div>
+
+        <Col span="2">玩家账号</Col>
+        <Col span="4">
+        <Input v-model="searchInfo.userName" placeholder="请输入"></Input>
         </Col>
       </Row>
       <Row class="row -search-row" v-if="role!='100'">
-        <Col span="2" offset="4">玩家ID</Col>
+        <Col span="2" offset="2">商户ID</Col>
         <Col span="4">
-        <Input v-model="searchInfo.userId" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.buId" placeholder="请输入"></Input>
         </Col>
+
         <Col span="2">商户昵称</Col>
         <Col span="4">
         <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
-        </Col>
-
-      </Row>
-      <Row class="row ">
-        <Col span="2" offset="4">商户ID</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.buId" placeholder="请输入"></Input>
         </Col>
 
         <Col span="2">游戏状态</Col>
@@ -39,6 +33,12 @@
         <Select v-model="searchInfo.gameId" clearable placeholder="请选择游戏状态" style="text-align: left">
           <Option v-for="(item, index) in gameTypeList" :value="item.code" :key="index">{{ item.name }}</Option>
         </Select>
+        </Col>
+        <Col span="4">
+        <div class="btns">
+          <Button type="primary" @click="getSearch(true)">搜索</Button>
+          <Button type="ghost" @click="getSearch(false)">重置</Button>
+        </div>
         </Col>
       </Row>
     </div>
@@ -172,6 +172,17 @@ export default {
           sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.balance));
+          }
+        },
+        {
+          title: "注册时间",
+          key: "createAt",
+          sortable: true,
+          render: (h, params) => {
+            return h(
+              "span",
+              dayjs(params.row.createAt).format("YYYY-MM-DD HH:mm:ss")
+            );
           }
         },
         {

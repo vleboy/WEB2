@@ -163,6 +163,17 @@ export default {
           }
         },
         {
+          title: "注册时间",
+          key: "createAt",
+          sortable: true,
+          render: (h, params) => {
+            return h(
+              "span",
+              dayjs(params.row.createAt).format("YYYY-MM-DD HH:mm:ss")
+            );
+          }
+        },
+        {
           title: "最近登录游戏时间",
           key: "updateAt",
           sortable: true,
