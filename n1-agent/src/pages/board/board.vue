@@ -1,9 +1,9 @@
 <template>
   <div class="p-board">
     <RadioGroup v-model="testInfo" @on-change="changeTest" type="button">
-      <Radio label="0">正式</Radio>
+      <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
       <Radio label="1">测试</Radio>
-      <Radio label="2">全部</Radio>
+      <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
     </RadioGroup>
     <div class="p-board-head" v-if="totalItems.length">
       <Row :gutter="20">
@@ -170,6 +170,7 @@
         saleNum: '0', // 动态渲染售出消耗总点数
         isSaleNum: true, // 是否显示售出
         isConNum: true, // 是否显示收益
+        isFirst: true, // 是否第一次获取
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
         testInfo: '0'
@@ -246,10 +247,15 @@
       },
       conNums () {
         return thousandFormatter(this.conNum)
+      },
+      permission () {
+        return JSON.parse(localStorage.userInfo).subRolePermission;
       }
     },
     methods: {
       getStatisticalNum (index) {
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
           type: index+1
@@ -286,6 +292,9 @@
           textColor: '#000',
           zlevel: 0
         })
+
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+
         httpRequest('post','/statistics/consume',{
           isTest: +this.testInfo,
           startTime: this.consumeDataTime.startTime,
@@ -307,7 +316,9 @@
           textColor: '#000',
           zlevel: 0
         })
-        this.consumeAndIncomeDataTime.isTest = +this.testInfo
+
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
         .then(result => {
           this.consumeAndIncomeList = result.data
@@ -520,6 +531,7 @@
       },
       changeTest () {
         this.isSetInterval = true
+        this.isFirst = false
         for (let i = 0; i < 4; i++){
           this.getStatisticalNum(i)
         }
