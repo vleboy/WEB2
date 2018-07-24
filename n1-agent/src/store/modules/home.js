@@ -33,8 +33,8 @@ export const home={
         setCurrentPageName (state, name) {
             state.currentPageName = name;
         },
-        clearAllTag(state,params){
-            state.pageOpenedList=params
+        clearAllTag(state){
+            state.pageOpenedList=[]
         },
         removeTag (state, name) {
             state.pageOpenedList.map((item, index) => {
