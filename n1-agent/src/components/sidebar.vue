@@ -190,7 +190,7 @@ export default {
       return JSON.parse(localStorage.getItem("userInfo")).level;
     },
     permission() {
-      return JSON.parse(localStorage.userInfo).subRolePermission;
+      return JSON.parse(localStorage.userInfo).subRolePermission||[];
     },
     str() {
       return this.permission.toString();

@@ -1779,7 +1779,7 @@ export default {
       return this.$store.state.agent.playerList;
     },
     permission() {
-      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission ||[];
     }
   },
   created() {

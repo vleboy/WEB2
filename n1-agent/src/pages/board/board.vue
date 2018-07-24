@@ -249,7 +249,7 @@
         return thousandFormatter(this.conNum)
       },
       permission () {
-        return JSON.parse(localStorage.userInfo).subRolePermission;
+        return JSON.parse(localStorage.userInfo).subRolePermission||[];
       }
     },
     methods: {

@@ -685,7 +685,7 @@ export default {
       return time;
     },
     permission() {
-      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
+      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission ||[];
     }
   },
   methods: {

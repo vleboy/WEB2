@@ -693,7 +693,7 @@ export default {
       return "上级代理点数为" + this.agentDetail.balance;
     },
     permission() {
-      return JSON.parse(localStorage.userInfo).subRolePermission;
+      return JSON.parse(localStorage.userInfo).subRolePermission ||[];
     },
   },
   watch: {
