@@ -30,8 +30,9 @@ import dtGame from '@/pages/reports/dtReport'
 import agentList from '@/pages/agentCenter/agentList'
 import warnList from '@/pages/agentCenter/warnList'
 import adminLoginLog from '@/pages/logCenter/adminLoginLog'
-import agentLoginLog from '@/pages/logCenter/agentLoginLog'
 import adminOpreateLog from '@/pages/logCenter/adminOpreateLog'
+import agentLoginLog from '@/pages/logCenter/agentLoginLog'
+import agentOpreateLog from '@/pages/logCenter/agentOpreateLog'
 import adminList from '@/pages/adminCenter/adminList'
 import agentRole from '@/pages/adminCenter/agentRole'
 import createRole from '@/pages/adminCenter/createRole'
@@ -191,6 +192,7 @@ export const appRouter = [
             {path:'adminLogin',title:'管理员登录日志',name:'adminLoginLog',component:adminLoginLog},
             {path:'agentLogin',title:'代理登录日志',name:'agentLoginLog',component:agentLoginLog},
             {path:'adminOpreate',title:'管理员操作日志',name:'adminOpreateLog',component:adminOpreateLog},
+            {path:'agentOpreate',title:'代理操作日志',name:'agentOpreateLog',component:agentOpreateLog},
         ]
     },
     {

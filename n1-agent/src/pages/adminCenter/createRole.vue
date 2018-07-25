@@ -216,13 +216,16 @@ export default {
               expand: true,
               children: [
                 {
-                  title: "代理登录日志"
-                },
-                {
                   title: "管理员登录日志"
                 },
                 {
                   title: "管理员操作日志"
+                },
+                {
+                  title: "代理登录日志"
+                },
+                 {
+                  title: "代理操作日志"
                 },
               ]
             },

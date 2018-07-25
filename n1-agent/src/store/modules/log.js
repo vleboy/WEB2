@@ -5,7 +5,8 @@ export const log = {
        adminOpreateLog:[],
        startKey:{},
        adminLoginLog:[],
-       agentLoginLog:[]
+       agentLoginLog:[],
+       agentOpreateLog:[]
     },
     mutations:{
         logLoading(state,{params}){
@@ -22,6 +23,9 @@ export const log = {
         },
         changeAgentLog(state,{params}){
             state.agentLoginLog=params
+        },
+        changeAgentOpreateLog(state,{params}){
+            state.agentOpreateLog=params
         }
     },
     actions:{
@@ -35,15 +39,6 @@ export const log = {
             }
         })
       },
-      getAgentLoginLog({commit},params){
-        commit('logLoading',{params:true})
-          logList(params).then(res=>{
-              commit('changeAgentLog',{params:res.payload.Items})
-              commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
-              commit('logLoading',{params:false})
-              
-          })
-      },
       getAdminLoginLog({commit},params){
         commit('logLoading',{params:true})
           logList(params).then(res=>{
@@ -53,6 +48,25 @@ export const log = {
                   commit('logLoading',{params:false})
               }
           })
+      },
+      getAgentLoginLog({commit},params){
+        commit('logLoading',{params:true})
+          logList(params).then(res=>{
+              commit('changeAgentLog',{params:res.payload.Items})
+              commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
+              commit('logLoading',{params:false})
+              
+          })
+      },
+      getAgentOpreateLog({commit},params){
+        commit('logLoading',{params:true})
+          logList(params).then(res=>{
+              if(res.code==0){
+                  commit('changeAgentOpreateLog',{params:res.payload.Items})
+                  commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
+                }
+                commit('logLoading',{params:false})
+            })
       },
     }
 }

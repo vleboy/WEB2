@@ -166,8 +166,9 @@
                         日志中心
                     </template>
                     <MenuItem name="adminLoginLog" v-if='permission.includes("管理员登录日志")'>管理员登录日志</MenuItem>
-                    <MenuItem name="agentLoginLog" v-if='permission.includes("代理登录日志")'>代理登录日志</MenuItem>
                     <MenuItem name="adminOpreateLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
+                    <MenuItem name="agentLoginLog" v-if='permission.includes("代理登录日志")'>代理登录日志</MenuItem>
+                    <MenuItem name="agentOpreateLog" v-if='permission.includes("代理操作日志")'>代理操作日志</MenuItem>
                 </Submenu>
                 <Submenu name="logCenter" v-else>
                     <template slot="title">
@@ -175,6 +176,7 @@
                         日志中心
                     </template>
                     <MenuItem name="agentLoginLog">代理登录日志</MenuItem>
+                    <MenuItem name="agentOpreateLog">代理操作日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>

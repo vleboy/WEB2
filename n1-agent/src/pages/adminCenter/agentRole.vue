@@ -169,7 +169,7 @@ export default {
                   }
                 ]
               },
-               {
+              {
                 title: "DT游戏报表",
                 expand: true,
                 checked: false,
@@ -192,8 +192,8 @@ export default {
                 checked: false
               },
               {
-                title:'停启用代理',
-                checked:false
+                title: "停启用代理",
+                checked: false
               },
               {
                 title: "代理加减点",
@@ -247,7 +247,7 @@ export default {
               }
             ]
           },
-           {
+          {
             title: "游戏中心",
             expand: true,
             checked: false,
@@ -264,10 +264,6 @@ export default {
             checked: false,
             children: [
               {
-                title: "代理登录日志",
-                checked: false
-              },
-              {
                 title: "管理员登录日志",
                 checked: false
               },
@@ -275,6 +271,14 @@ export default {
                 title: "管理员操作日志",
                 checked: false
               },
+              {
+                title: "代理登录日志",
+                checked: false
+              },
+              {
+                title: "代理操作日志",
+                checked: false
+              }
             ]
           },
           {
@@ -289,9 +293,9 @@ export default {
               {
                 title: "查看密码",
                 checked: false
-              },
+              }
             ]
-          },
+          }
         ]
       }
     ];
@@ -312,7 +316,7 @@ export default {
         {
           title: "角色名",
           key: "name",
-          sortable:true,
+          sortable: true,
           maxWidth: 160
         },
         {
@@ -331,7 +335,7 @@ export default {
         {
           title: "创建时间",
           key: "createdAt",
-          sortable:true,
+          sortable: true,
           maxWidth: 180,
           render: (h, params) => {
             return h(
