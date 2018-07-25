@@ -3,24 +3,24 @@
         <Sider width='200px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <Menu ref="sideMenu" :active-name="$route.name" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="allGame">
-                    <span>全部游戏—基本信息</span>
+                    <span>全部游戏</span>
                 </MenuItem>
                 <MenuItem name="taluo">
                     <span>塔罗之谜</span>
                 </MenuItem>
-                <MenuItem name="chuliang">
+                <MenuItem name="chuniang">
                     <span>小厨娘</span>
                 </MenuItem>
                 <MenuItem name="xianglong">
                     <span>祥龙献瑞</span>
                 </MenuItem>
-                <MenuItem name="shengshou">
+                <MenuItem name="sifang">
                     <span>四方神兽</span>
                 </MenuItem>
                 <MenuItem name="caisheng">
                     <span>财神进宝</span>
                 </MenuItem>
-                <MenuItem name="hengtong">
+                <MenuItem name="fuyun">
                     <span>福运亨通</span>
                 </MenuItem>
                 <MenuItem name="panda">

@@ -62,8 +62,12 @@ export default {
     };
   },
   components:{basicMore,kill,pieCharts},
+  props:['gameType'],
   mounted() {
     this.drawBar();
+  },
+  created(){
+      console.log(this.gameType);
   },
   methods: {
     changeSource() {

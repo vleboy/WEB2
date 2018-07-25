@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import home from '@/components/home'
 import homeNoRank from '@/components/homeNoRank'
 import err from '@/pages/404'
-import basic from '@/pages/basic'
+//detail
 import loginDetail from '@/pages/loginDetail'
 import rankDetail from '@/pages/rankDetail'
 import killDetail from '@/pages/killDetail'
@@ -18,6 +18,18 @@ import gameCountDetail from '@/pages/gameCountDetail'
 import betDetail from '@/pages/betDetail'
 import onlineDetail from '@/pages/onlineDetail'
 import freeDetail from '@/pages/freeCountDetail'
+// games
+import allGame from '@/pages/games/allGame'
+import caisheng from '@/pages/games/caisheng'
+import chuniang from '@/pages/games/chuniang'
+import football from '@/pages/games/football'
+import fuyun from '@/pages/games/fuyun'
+import panda from '@/pages/games/panda'
+import sifang from '@/pages/games/sifang'
+import taluo from '@/pages/games/taluo'
+import xianglong from '@/pages/games/xianglong'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -34,10 +46,10 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      redirect: '/basic',
+      redirect: '/allGame',
       component: home,
       children:[
-        {path:'basic',meta: {title: '基本信息'},name:'allGame',component:basic},
+        {path:'allGame',meta: {title: '全部游戏'},name:'allGame',component:allGame},
         {path:'profitDetail',meta: {title: '盈利详情'},name:'profitDetail',component:profitDetail},
         {path:'payDetail',meta: {title: '赔付详情'},name:'payDetail',component:payDetail},
         {path:'gameCountDetail',meta: {title: '游戏局数详情'},name:'gameCountDetail',component:gameCountDetail},
@@ -50,6 +62,14 @@ export default new Router({
         {path:'countDetail',meta: {title: '次数详情'},name:'countDetail',component:countDetail},
         {path:'onlineDetail',meta: {title: '在线详情'},name:'onlineDetail',component:onlineDetail},
         {path:'freeDetail',meta: {title: '免费次数与赔付详情'},name:'freeDetail',component:freeDetail},
+        {path:'caisheng',meta: {title: '财神进宝'},name:'caisheng',component:caisheng},
+        {path:'taluo',meta: {title: '塔罗之谜'},name:'taluo',component:taluo},
+        {path:'chuniang',meta: {title: '小厨娘'},name:'chuniang',component:chuniang},
+        {path:'xianglong',meta: {title: '祥龙献瑞'},name:'xianglong',component:xianglong},
+        {path:'sifang',meta: {title: '四方神兽'},name:'sifang',component:sifang},
+        {path:'fuyun',meta: {title: '福运亨通'},name:'fuyun',component:fuyun},
+        {path:'panda',meta: {title: '熊猫传奇'},name:'panda',component:panda},
+        {path:'football',meta: {title: '幸运足球'},name:'football',component:football},
       ]
     },
     {
