@@ -53,16 +53,6 @@ export const agent = {
          billTransfer(params).then(res=>{
            if(res.code==0){
              Message.success('操作成功');
-                //刷新
-                dispatch("getAgentList", {
-                    parent:'01',
-                    query: {
-                    },
-                    sortkey: "createdAt",
-                    sort: "desc"
-                  }).finally(()=>{
-                    commit('agentLoading',{params:false})
-                  })
             }
         })
        },

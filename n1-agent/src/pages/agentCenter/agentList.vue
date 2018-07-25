@@ -740,7 +740,7 @@ export default {
               return h("span", thousandFormatter(params.row.balance));
             } else {
               let permission = this.permission;
-              if (permission.includes("代理加减点")||this.level!=0) {
+              if (permission.includes("代理加减点") || this.level != 0) {
                 return h("div", [
                   h("p", thousandFormatter(params.row.balance)),
                   h("p", [
@@ -910,7 +910,7 @@ export default {
                   style: {
                     color: "#20a0ff",
                     cursor: "pointer",
-                    display: this.createAgents ? 'inline':'none'
+                    display: this.createAgents ? "inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -978,7 +978,7 @@ export default {
                         color: color,
                         cursor: "pointer",
                         marginRight: "10px",
-                        display: this.startStop ? 'inline':'none'
+                        display: this.startStop ? "inline" : "none"
                       },
                       on: {
                         click: () => {
@@ -1010,7 +1010,7 @@ export default {
                         color: "#20a0ff",
                         cursor: "pointer",
                         marginRight: "10px",
-                        display: this.createAgents ? 'inline':'none'
+                        display: this.createAgents ? "inline" : "none"
                       },
                       on: {
                         click: () => {
@@ -1048,7 +1048,7 @@ export default {
                           } else {
                             this.player.parentId = userId;
                           }
-                          availableAgents({parent: userId }).then(res => {
+                          availableAgents({ parent: userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
@@ -1097,7 +1097,7 @@ export default {
                         color: color,
                         cursor: "pointer",
                         marginRight: "10px",
-                        display: this.startStop ? 'inline':'none'
+                        display: this.startStop ? "inline" : "none"
                       },
                       on: {
                         click: () => {
@@ -1382,8 +1382,8 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
-      if(level!=0){
-        params.isTest=0
+      if (level != 0) {
+        params.isTest = 0;
       }
       this.$store.dispatch("getAgentList", params);
     },
@@ -1553,6 +1553,17 @@ export default {
     },
     ok() {
       //bill
+      let parent = this.level == 0 ? "01" : localStorage.userId;
+      let params = {
+        parent,
+        isTest: +this.source,
+        query: {},
+        sort: "desc",
+        sortkey: "createdAt"
+      };
+      if (this.level != 0) {
+        params.isTest = 0;
+      }
       if (this.playerPoint == false) {
         this.$store
           .dispatch("transferBill", {
@@ -1563,8 +1574,11 @@ export default {
             remark: this.remark
           })
           .then(() => {
-            this.point = "";
-            this.remark = "";
+            setTimeout(() => {
+              this.$store.dispatch("getAgentList", params);
+              this.point = "";
+              this.remark = "";
+            }, 100);
           });
       } else {
         //player
@@ -1704,8 +1718,8 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
-      if(level!=0){
-        params.isTest=0
+      if (level != 0) {
+        params.isTest = 0;
       }
       this.$store.dispatch("getAgentList", params);
     }, //添加玩家
@@ -1788,7 +1802,9 @@ export default {
       return this.$store.state.agent.playerList;
     },
     permission() {
-      return JSON.parse(localStorage.getItem("userInfo")).subRolePermission ||[];
+      return (
+        JSON.parse(localStorage.getItem("userInfo")).subRolePermission || []
+      );
     }
   },
   created() {
@@ -1796,13 +1812,13 @@ export default {
       this.source = "0";
     }
     this.init();
-    if (this.permission.includes("创建代理")||this.level!=0) {
+    if (this.permission.includes("创建代理") || this.level != 0) {
       this.createAgents = true;
     }
-    if (this.permission.includes("停启用代理") ||this.level!=0) {
+    if (this.permission.includes("停启用代理") || this.level != 0) {
       this.startStop = true;
     }
-  },
+  }
 };
 </script>
 <style lang="less" scoped>

@@ -484,10 +484,10 @@ export default {
       this.source = "0";
     }
     this.init();
-    if (this.permission.includes("设定接入商告警上限")) {
+    if (this.permission.includes("设定接入商告警上限")||this.level!=0) {
       this.warnTop = true;
     }
-    if (this.permission.includes("接入商停启用")) {
+    if (this.permission.includes("接入商停启用")||this.level!=0) {
       this.startStop = true;
     }
   }
