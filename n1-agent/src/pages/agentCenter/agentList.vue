@@ -740,7 +740,7 @@ export default {
               return h("span", thousandFormatter(params.row.balance));
             } else {
               let permission = this.permission;
-              if (permission.includes("代理加减点")) {
+              if (permission.includes("代理加减点")||this.level!=0) {
                 return h("div", [
                   h("p", thousandFormatter(params.row.balance)),
                   h("p", [
