@@ -39,6 +39,7 @@ export const login = {
                     localStorage.setItem('displayName',res.payload.displayName);
                     localStorage.setItem('userInfo',JSON.stringify(res.payload))
                     localStorage.setItem('userId',res.payload.userId)
+                    localStorage.setItem('level',res.payload.level)
                     commit('saveInfo',{params:res.payload});
                     cb && cb()
                 }else{

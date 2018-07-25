@@ -1,6 +1,6 @@
 <template>
   <div class="p-board">
-    <RadioGroup v-model="testInfo" @on-change="changeTest" type="button">
+    <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" v-if="isAdmin">
       <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
       <Radio label="1">测试</Radio>
       <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -178,7 +178,8 @@
         isFirst: true, // 是否第一次获取
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
-        testInfo: '0'
+        testInfo: '0',
+        isAdmin: localStorage.level == '0' // 查看是否是代理和管理员
       }
     },
     mounted () {
@@ -259,7 +260,9 @@
     },
     methods: {
       getStatisticalNum (index) {
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
@@ -300,7 +303,9 @@
           zlevel: 0
         })
 
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/consume',{
           isTest: +this.testInfo,
@@ -324,7 +329,9 @@
           zlevel: 0
         })
 
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
         .then(result => {
