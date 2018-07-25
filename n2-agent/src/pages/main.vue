@@ -77,8 +77,8 @@ export default {
         content: "<p>是否确认退出</p>",
         onOk: () => {
           localStorage.clear();
+          this.$store.commit('clearAllTag')
           this.$router.push({ name: "login" });
-          this.$store.commit('changeLoading',{params:false});
         }
       });
     }

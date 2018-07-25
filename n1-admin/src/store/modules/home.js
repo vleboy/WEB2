@@ -34,6 +34,9 @@ export const home={
         setCurrentPageName (state, name) {
             state.currentPageName = name;
         },
+        clearAllTag(state){
+            state.pageOpenedList.splice(0)
+        },
         removeTag (state, name) {
             state.pageOpenedList.map((item, index) => {
                 if (item.name === name) {

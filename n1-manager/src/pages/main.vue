@@ -76,9 +76,8 @@ export default {
         onOk: () => {
           localStorage.clear();
           this.$store.commit("clearOpenedSubmenu");
-          let host = window.location.href;
-          host = host.split("#")[0];
-          window.location.href = host+ "#/login";
+          this.$store.commit('clearAllTag')
+          this.$router.push({ name: "login" });
         }
       });
     }
