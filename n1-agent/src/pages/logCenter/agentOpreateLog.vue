@@ -1,36 +1,36 @@
 <template>
-    <div class="agentLog">
-        <div class="reload">
-            <Row>
-                <Col span="5" offset="17">
-                <Row>
-                    <Col span="8">
-                    <span class="selectText">代理层级</span>
-                    </Col>
-                    <Col span="8">
-                    <Select v-model="level" placeholder="请选择代理层级" @on-change="changeLevel">
-                        <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
-                    </Select>
-                    </Col>
-                </Row>
-                </Col>
-                <Col span="2">
-                <Button type="primary" class="reset" @click="reset">刷新</Button>
-                </Col>
-            </Row>
-        </div>
-        <div class="table">
-            <Table :columns="columns1" :data="agentLog" size="small"></Table>
-        </div>
-        <div class="btn">
-            <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
-            <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
-        </div>
-        <Spin size="large" fix v-if="$store.state.log.loading">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
+  <div class="agentLog">
+    <div class="reload">
+      <Row>
+        <Col span="5" offset="17">
+        <Row>
+          <Col span="8">
+          <span class="selectText">代理层级</span>
+          </Col>
+          <Col span="8">
+          <Select v-model="level" placeholder="请选择代理层级" @on-change="changeLevel">
+            <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
+          </Select>
+          </Col>
+        </Row>
+        </Col>
+        <Col span="2">
+        <Button type="primary" class="reset" @click="reset">刷新</Button>
+        </Col>
+      </Row>
     </div>
+    <div class="table">
+      <Table :columns="columns1" :data="agentLog" size="small"></Table>
+    </div>
+    <div class="btn">
+      <Button type="primary" :disabled='firstPage' class="lastpage" @click="homePage">首页</Button>
+      <Button type="primary" class="nextpage" @click="nextPage">下一页</Button>
+    </div>
+    <Spin size="large" fix v-if="$store.state.log.loading">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+  </div>
 </template>
 <script>
 import dayjs from "dayjs";
@@ -41,7 +41,7 @@ export default {
       level: "1",
       levelList: [
         {
-          value: "1",
+          value: "1"
         },
         {
           value: "2"
@@ -158,8 +158,8 @@ export default {
     reset() {
       this.init();
     },
-    changeLevel(){
-        this.init()
+    changeLevel() {
+      this.init();
     }
   },
   created() {
@@ -177,10 +177,10 @@ export default {
     }
   }
   .reload {
-      margin-bottom: 10px;
-      .selectText{
-          line-height: 32px;
-      }
+    margin-bottom: 10px;
+    .selectText {
+      line-height: 32px;
+    }
   }
 }
 </style>
