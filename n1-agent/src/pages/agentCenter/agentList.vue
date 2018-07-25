@@ -10,7 +10,7 @@
       <div class="top">
         <span class="title left">
           下级代理列表
-          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+          <RadioGroup v-model="source" v-if="level==0" class="radioGroup" type="button" @on-change='changeSource'>
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -29,7 +29,7 @@
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
         ({{item.childItem.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : parentNameChild}}) 下级代理列表
-        <RadioGroup v-model="item.isTest" class="radioGroup" type="button" @on-change='changeChildType(item)'>
+        <RadioGroup v-model="item.isTest" v-if="level==0" class="radioGroup" type="button" @on-change='changeChildType(item)'>
           <Radio label="正式"></Radio>
           <Radio label="测试"></Radio>
           <Radio label="全部"></Radio>
@@ -1382,6 +1382,9 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
+      if(level!=0){
+        params.isTest=0
+      }
       this.$store.dispatch("getAgentList", params);
     },
     reset() {
@@ -1701,6 +1704,9 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
+      if(level!=0){
+        params.isTest=0
+      }
       this.$store.dispatch("getAgentList", params);
     }, //添加玩家
     addPlayerConfirm() {
@@ -1774,6 +1780,9 @@ export default {
   computed: {
     agentList() {
       return this.$store.state.agent.agentList;
+    },
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
     },
     playerList() {
       return this.$store.state.agent.playerList;

@@ -4,7 +4,7 @@
       <div class="top">
         <p class="title">
           当前用户列表
-          <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+          <RadioGroup v-if="level==0" v-model="source" type="button" @on-change='changeSource'>
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -434,7 +434,10 @@ export default {
     },
     permission() {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission ||[];
-    }
+    },
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
+    },
   },
   methods: {
     confirm() {
@@ -536,6 +539,10 @@ export default {
           createdAt: this.changedTime
         }
       };
+       if (level != 0) {
+        params1.isTest=0;
+        params2.isTest=0;
+       }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;

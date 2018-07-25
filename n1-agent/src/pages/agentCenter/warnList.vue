@@ -4,7 +4,7 @@
       <p>
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
-        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+        <RadioGroup v-if="level==0" v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
           <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
           <Radio label="1">测试</Radio>
           <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -378,7 +378,10 @@ export default {
     },
     permission() {
       return JSON.parse(localStorage.userInfo).subRolePermission||[];
-    }
+    },
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
+    },
   },
   methods: {
     async init() {
@@ -390,7 +393,7 @@ export default {
       if (level == 0) {
         params = { parent: "01", isTest: +this.source };
       } else {
-        params = { parent: userId, isTest: +this.source };
+        params = { parent: userId, isTest: 0 };
       }
       let req1 = configOne({
         code: "roundLast"
