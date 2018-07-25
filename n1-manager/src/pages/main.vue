@@ -77,6 +77,7 @@ export default {
           localStorage.clear();
           this.$store.commit('clearAllTag')
           this.$router.push({ name: "login" });
+          this.$store.commit('changeLoading',{params:false});
         }
       });
     }
