@@ -1048,7 +1048,7 @@ export default {
                           } else {
                             this.player.parentId = userId;
                           }
-                          availableAgents({ userId }).then(res => {
+                          availableAgents({parent: userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
                             }
@@ -1796,10 +1796,10 @@ export default {
       this.source = "0";
     }
     this.init();
-    if (this.permission.includes("创建代理")) {
+    if (this.permission.includes("创建代理")||this.level!=0) {
       this.createAgents = true;
     }
-    if (this.permission.includes("停启用代理")) {
+    if (this.permission.includes("停启用代理") ||this.level!=0) {
       this.startStop = true;
     }
   },

@@ -163,10 +163,6 @@ export default {
     }
   },
   created() {
-    let level=JSON.parse(localStorage.getItem("userInfo")).level;
-    this.level=level;
-    let list=this.levelList;
-    list.splice(0,level-1);
     this.init();
   }
 };
