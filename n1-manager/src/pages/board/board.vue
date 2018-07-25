@@ -19,9 +19,9 @@
                   <span class="right-number">{{item.oneNum}}</span>
                 </Tooltip>
 
-                <Poptip trigger="hover" title="在线玩家详情" content="content" placement="right-start" class="head-text" :transfer="true">
-                  <span v-if="item.type==3">查看</span>
-                  <div slot="content">
+                <Poptip trigger="hover" content="content" placement="right-start" class="head-text" :transfer="true">
+                  <span>详情</span>
+                  <div slot="content" v-if="item.type==3">
                     <div v-for="data of item.playerDetail">
                       <div style="margin-bottom: 10px">
                         <label style="font-size: 15px;color: #2d8cf0;">{{data.gameTypeName}}</label>
@@ -30,6 +30,11 @@
                         </div>
                         <div v-if="!data.list.length">暂无在线玩家</div>
                       </div>
+                    </div>
+                  </div>
+                  <div slot="content" v-else>
+                    <div v-for="data of item.record">
+                      {{data.name}}：{{data.number}}
                     </div>
                   </div>
                 </Poptip>
@@ -265,7 +270,8 @@
                 oneNum: result ? result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum) : '0.00',
                 twoNum: result ? result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) : '0.00',
                 type: result.type,
-                playerDetail: result.detail ? result.detail : []
+                playerDetail: result.detail ? result.detail : [],
+                record: result.records ? result.records : []
               })
             } else {
               for (let item of this.totalData) {
@@ -273,6 +279,7 @@
                   item.oneNum = result.type > 2 ? result.oneNum : thousandFormatter(result.oneNum)
                   item.twoNum = result.type > 2 ? result.twoNum : thousandFormatter(result.twoNum) // 大于2是用来判断是否是显示玩家人数
                   item.playerDetail = result.detail ? result.detail : []
+                  item.record = result.records ? result.records : []
                 }
               }
             }

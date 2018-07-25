@@ -1,6 +1,6 @@
 <template>
   <div class="p-board">
-    <RadioGroup v-model="testInfo" @on-change="changeTest" type="button">
+    <RadioGroup v-model="testInfo" @on-change="changeTest" type="button" v-if="isAdmin">
       <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
       <Radio label="1">测试</Radio>
       <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -19,9 +19,9 @@
                   <span class="right-number">{{item.oneNum}}</span>
                 </Tooltip>
 
-                <Poptip trigger="hover" title="在线玩家详情" content="content" placement="right-start" class="head-text" :transfer="true">
-                  <span v-if="item.type==3">查看</span>
-                  <div slot="content">
+                <Poptip trigger="hover" content="content" placement="right-start" class="head-text" :transfer="true">
+                  <span>详情</span>
+                  <div slot="content" v-if="item.type==3">
                     <div v-for="data of item.playerDetail">
                       <div style="margin-bottom: 10px">
                         <label style="font-size: 15px;color: #2d8cf0;">{{data.gameTypeName}}</label>
@@ -30,6 +30,11 @@
                         </div>
                         <div v-if="!data.list.length">暂无在线玩家</div>
                       </div>
+                    </div>
+                  </div>
+                  <div slot="content" v-else>
+                    <div v-for="data of item.record">
+                      {{data.name}}：{{data.number}}
                     </div>
                   </div>
                 </Poptip>
@@ -173,7 +178,8 @@
         isFirst: true, // 是否第一次获取
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
-        testInfo: '0'
+        testInfo: '0',
+        isAdmin: localStorage.level == '0' // 查看是否是代理和管理员
       }
     },
     mounted () {
@@ -254,7 +260,9 @@
     },
     methods: {
       getStatisticalNum (index) {
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
@@ -270,7 +278,8 @@
                 oneNum: result ? this.thousandFormatter(result.oneNum) : '0',
                 twoNum: result ? this.thousandFormatter(result.twoNum) : '0',
                 type: result.type,
-                playerDetail: result.detail ? result.detail : []
+                playerDetail: result.detail ? result.detail : [],
+                record: result.records ? result.records : []
               })
             } else {
               for (let item of this.totalData) {
@@ -278,6 +287,7 @@
                   item.oneNum = this.thousandFormatter(result.oneNum)
                   item.twoNum = this.thousandFormatter(result.twoNum)
                   item.playerDetail = result.detail ? result.detail : []
+                  item.record = result.records ? result.records : []
                 }
               }
             }
@@ -293,7 +303,9 @@
           zlevel: 0
         })
 
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/consume',{
           isTest: +this.testInfo,
@@ -317,7 +329,9 @@
           zlevel: 0
         })
 
-        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        if(this.isAdmin) {
+          this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+        }
 
         httpRequest('post','/statistics/consumeAndIncome',this.consumeAndIncomeDataTime)
         .then(result => {
