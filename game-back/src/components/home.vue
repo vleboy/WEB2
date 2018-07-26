@@ -4,7 +4,7 @@
         <div class="breadcrumb">
             <bread-crumb :currentPath="currentPath"></bread-crumb>
         </div>
-        <Layout :style="{marginLeft: '200px',marginRight:'300px'}">
+        <Layout :style="{marginLeft: '200px',marginRight:'310px'}">
             <Content>
                 <Card>
                     <keep-alive>
@@ -26,13 +26,34 @@ export default {
   },
   computed: {
     currentPath() {
-      return this.$store.state.app.currentPath; // 当前面包屑数组
+        let fromvuex=this.$store.state.app.currentPath
+        if(fromvuex.length!=0){
+            return fromvuex
+        }else{
+            return JSON.parse(localStorage.pathArr)
+        }
     }
   },
   created() {},
   watch: {
     $route(to, from) {
-       console.log(to);
+      let pathArr = [];
+      let current = {
+        title: to.meta.title,
+        path: to.path,
+        name: to.name
+      };
+      pathArr.push(current);
+      if (to.name.includes("Detail")) {
+        let prePath = {
+          title: from.meta.title,
+          path: from.path,
+          name: from.name
+        };
+        pathArr.unshift(prePath);
+      }
+      localStorage.pathArr=JSON.stringify(pathArr);
+      this.$store.commit("setCurrentPath", pathArr);
     }
   },
   components: { sidebar, rank, breadCrumb }
@@ -41,11 +62,9 @@ export default {
 <style lang="less" scoped>
 .home {
   .breadcrumb {
-    height: 36px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 200px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 210px;
   }
 }
 </style>

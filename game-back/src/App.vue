@@ -6,11 +6,28 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App",
+  watch: {
+    $route(to, from) {
+      let path = [
+        {
+          title: to.meta.title,
+          path: to.path,
+          name: to.name
+        }
+      ];
+      if (from.name == "rankDetail") {
+        this.$store.commit("setCurrentPath", path);
+      }
+      if (to.name == "rankDetail") {
+        this.$store.commit("setCurrentPath", path);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
-@import './assets/css/common.less';
+@import "./assets/css/common.less";
 </style>
 

@@ -67,7 +67,7 @@ export default {
     this.drawBar();
   },
   created(){
-      console.log(this.gameType);
+      // console.log(this.gameType);
   },
   methods: {
     changeSource() {

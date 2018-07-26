@@ -27,19 +27,15 @@ export default {
       return this.$store.state.app.currentPath; // 当前面包屑数组
     }
   },
-  components: { sidebar, breadCrumb },
-  watch: {
-    $route(to, from) {
-       console.log(to,from);
-    }
-  }
+  components: { sidebar, breadCrumb }
 };
 </script>
 <style lang="less" scoped>
 .home {
   .breadcrumb {
-    height: 36px;
-    margin-left: 200px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 210px;
   }
 }
 </style>

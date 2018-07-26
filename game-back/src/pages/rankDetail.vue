@@ -132,7 +132,9 @@ export default {
       }
       console.log(range);
     }
-  }
+  },
+  created() {
+  },
 };
 </script>
 <style lang="less" scoped>
