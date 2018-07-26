@@ -9,7 +9,7 @@
       </RadioGroup>
       <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
     </div>
-    <Button type="primary">今天</Button>
+    <Button type="primary">{{dateRange}}</Button>
     <Row>
       <Col span="8">
       <profit :profitRank="profitRank"></profit>
@@ -32,6 +32,7 @@ export default {
     return {
       range: "",
       source: "",
+      dateRange: "今天",
       amoutRank: [
         {
           name: "熊猫传奇",
@@ -99,30 +100,34 @@ export default {
   components: { profit, gameCount, betAmount },
   methods: {
     changeRange() {
-      let range=this.range.map(item=>{
-        return item.getTime()
-      })
+      let range = this.range.map(item => {
+        return item.getTime();
+      });
       console.log(range);
     },
     changeSource() {
       let range = {};
       switch (+this.source) {
         case 0:
-          range.endTiem = new Date().getTime();
+          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
+          this.dateRange = "1月";
           break;
         case 1:
-          range.endTiem = new Date().getTime();
+          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
+          this.dateRange = "7天";
           break;
         case 2:
-          range.endTiem = new Date().getTime();
+          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 3 * 24 * 60 * 60 * 1000;
+          this.dateRange = "3天";
           break;
         case 3:
-          let zero=new Date(new Date().setHours(0,0,0,0)).getTime()
-          range.endTiem = zero;
-          range.startTime = zero-86400000 
+          let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
+          range.endTime = zero;
+          range.startTime = zero - 86400000;
+          this.dateRange = "昨天";
           break;
       }
       console.log(range);

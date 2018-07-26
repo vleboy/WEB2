@@ -4,7 +4,7 @@
             <div class="left">
                 <Input v-model="acount" placeholder="输入账号" style="width: 200px"></Input>
                 <Input v-model="id" placeholder="输入ID" style="width: 200px"></Input>
-                <Button type="primary">搜索</Button>
+                <Button type="primary" @click="search">搜索</Button>
             </div>
             <div class="right">
                 <RadioGroup v-model="source" type="button" @on-change='changeSource'>
@@ -71,10 +71,41 @@ export default {
   },
   methods: {
     changeSource() {
-      console.log(this.source);
+      let range = {};
+      switch (+this.source) {
+        case 0:
+          range.endTime = new Date().getTime();
+          range.startTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
+          this.dateRange = "1月";
+          break;
+        case 1:
+          range.endTime = new Date().getTime();
+          range.startTime = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
+          this.dateRange = "7天";
+          break;
+        case 2:
+          range.endTime = new Date().getTime();
+          range.startTime = new Date().getTime() - 3 * 24 * 60 * 60 * 1000;
+          this.dateRange = "3天";
+          break;
+        case 3:
+          let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
+          range.endTime = zero;
+          range.startTime = zero - 86400000;
+          this.dateRange = "昨天";
+          break;
+      }
+      console.log(range);
+    },
+    search(){
+      console.log('id==>',this.id);
+      console.log('acount==>',this.acount);
     },
     changeRange() {
-      console.log(this.range);
+       let range = this.range.map(item => {
+        return item.getTime();
+      });
+      console.log(range);
     },
     more(){
         this.showMore=true;
@@ -100,17 +131,21 @@ export default {
         series: [
           {
             name: "7日平均人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ],
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,12],
             type: "bar"
           },
           {
             name: "今日在线人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ],
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,122].reverse(),
             type: "bar"
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
       };
       const chart = document.getElementById("barchart");

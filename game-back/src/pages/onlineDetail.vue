@@ -57,7 +57,7 @@ export default {
         series: [
           {
             name: "7日每小时平均人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ],
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ].reverse(),
             type: "bar"
           },
           {
@@ -67,7 +67,11 @@ export default {
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
       };
       const chart = document.getElementById('barChart1');
@@ -99,7 +103,11 @@ export default {
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
       };
       const chart = document.getElementById('barChart2');
@@ -131,7 +139,11 @@ export default {
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
       };
       const chart = document.getElementById('barChart3');

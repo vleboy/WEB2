@@ -904,7 +904,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (to.name == "lineDetail") {
+      if (to.name == "dealerDetail") {
         this.init();
       }
     }

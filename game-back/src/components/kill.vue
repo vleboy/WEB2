@@ -54,7 +54,11 @@ export default {
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
       };
       let dom = "linechart" + this.num;

@@ -1,7 +1,9 @@
 <template>
     <div class="home">
         <sidebar/>
-        <h2>老虎机数据统计后台:{{$route.meta.title}}</h2>
+        <div class="breadcrumb">
+            <bread-crumb :currentPath="currentPath"></bread-crumb>
+        </div>
         <Layout :style="{marginLeft: '200px',marginRight:'300px'}">
             <Content>
                 <Card>
@@ -16,32 +18,34 @@
 </template>
 <script>
 import sidebar from "@/components/sidebar";
-import rank from '@/components/rank'
+import breadCrumb from "@/components/bread-crumb";
+import rank from "@/components/rank";
 export default {
   data() {
-    return {
-     
-    };
+    return {};
   },
-  computed:{
-
-  },
-  created(){
-     
-  },
-  watch:{
-    $route(to, from) {
-    //  console.log(to);
+  computed: {
+    currentPath() {
+      return this.$store.state.app.currentPath; // 当前面包屑数组
     }
   },
-  components: { sidebar,rank }
+  created() {},
+  watch: {
+    $route(to, from) {
+       console.log(to);
+    }
+  },
+  components: { sidebar, rank, breadCrumb }
 };
 </script>
 <style lang="less" scoped>
 .home {
-  h2 {
-    text-align: center;
-    line-height: 50px;
+  .breadcrumb {
+    height: 36px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 200px;
   }
 }
 </style>
