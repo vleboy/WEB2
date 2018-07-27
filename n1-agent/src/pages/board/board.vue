@@ -141,6 +141,40 @@
         </Col>
       </Row>
     </div>
+    <div class="p-board-content">
+      <Row :gutter="20">
+        <Col :span="24">
+        <div class="content-border">
+          <div class="content-title">玩家注册人数</div>
+          <div>
+            <div class="content-top">
+              <Col class="g-text-right">
+              <RadioGroup v-model="dateTypeThree" size="small" type="button" @on-change="changeDateTypeThree">
+                <Radio label="1">本周</Radio>
+                <Radio label="2">本月</Radio>
+                <Radio label="3">三月</Radio>
+              </RadioGroup>
+              <DatePicker
+                style="width: 200px"
+                v-model="dateIntervalThree"
+                :transfer='true'
+                placement='bottom-end'
+                type="daterange"
+                @on-change="changeConsumeThree"
+                placeholder="选择日期范围">
+              </DatePicker>
+              </Col>
+            </div>
+            <div>
+              <div class="content-bottom">
+                <div id="playerNumChart" class="content-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </Col>
+      </Row>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -154,8 +188,10 @@
       return {
         dateType: '1',
         dateTypeTwo: '1',
+        dateTypeThree: '1',
         dateInterval: '',
         dateIntervalTwo: '',
+        dateIntervalThree: '',
         totalData: [],
         dataChess: [],
         dataVideo: [],
@@ -165,10 +201,13 @@
         dateTypeArray: [],
         consumeList: '',
         consumeAndIncomeList: '',
+        playerNumList: '',
         consumeDataTime: {},
         consumeAndIncomeDataTime: {},
+        playerDataTime: {},
         isGoConsume: false, // 判断是否从搜索框跳转
         isGoConsumeAndIncome: false, // 判断是否从搜索框跳转
+        isPlayerNum: false, // 判断是否从搜索框跳转
         isSetInterval: false, // 是否是定时刷新,
         dynamicNum: '', // 动态渲染游戏消耗总点数
         conNum: '0', // 动态渲染收益消耗总点数
@@ -189,6 +228,7 @@
       }
       self.changeDateType()
       self.changeDateTypeTwo()
+      self.changeDateTypeThree()
       self.companySelect()
       self.intervalid = setInterval(() => {
         self.isSetInterval = true
@@ -197,6 +237,7 @@
         }
         self.changeDateType()
         self.changeDateTypeTwo()
+        self.changeDateTypeThree()
       }, 60000*30);
     },
     computed: {
@@ -236,11 +277,29 @@
         ]
         return optionSeriesLine
       },
+      optionPlayerLine () {
+        let optionPlayerLine = [
+          {
+            name: '累计注册人数',
+            type: 'line',
+            data:  this.playerNumList.incr
+          },
+          {
+            name: '每日注册人数',
+            type: 'line',
+            data: this.playerNumList.sum
+          }
+        ]
+        return optionPlayerLine
+      },
       dateTypes () {
         return this.consumeList.keys
       },
       dateTypesLine () {
         return this.consumeAndIncomeList.keys
+      },
+      dateTypesPlayerLine () {
+        return this.playerNumList.keys
       },
       totalItems () {
         return this.totalData
@@ -342,6 +401,25 @@
           }
         )
       }, // 获取售出，收益
+      getPlayerNum () {
+        let myChart = this.$echarts.init(document.getElementById('playerNumChart'))
+        myChart.showLoading({
+          text: '图表加载中...',
+          color: '#20a0ff',
+          textColor: '#000',
+          zlevel: 0
+        })
+
+        this.testInfo = this.isFirst ? (this.permission.includes('正式数据') ? '0': '1') : this.testInfo
+
+        this.playerDataTime.isTest = +this.testInfo
+        httpRequest('post','/statistics/player',this.playerDataTime)
+          .then(result => {
+              this.playerNumList = result.data
+              this.drawPlayLine()
+            }
+          )
+      }, // 获取玩家注册人数
       changeConsume () {
         this.isGoConsume = true
         let [start, end] = this.dateInterval
@@ -366,6 +444,18 @@
           this.getConsumeAndIncome()
         }
       }, // 售出收益自选时间筛选
+      changeConsumeThree () {
+        this.isPlayerNum = true
+        let [start, end] = this.dateIntervalThree
+        if (start != null || end != null) {
+          this.dateTypeThree = ''
+          this.playerDataTime = {
+            startTime: start.getTime(),
+            endTime: end.getTime() + 24*3600*1000 - 1
+          }
+          this.getPlayerNum()
+        }
+      }, // 玩家注册人数自选时间筛选
       drawAllPie () {
         // 基于准备好的dom，初始化echarts实例
         let self = this;
@@ -459,6 +549,58 @@
         })
         myChart.hideLoading()
       }, // 折线图
+      drawPlayLine () {
+        // 基于准备好的dom，初始化echarts实例
+        let self = this;
+        let legendArray = []
+        let myChart = this.$echarts.init(document.getElementById('playerNumChart'))
+        myChart.clear();
+        myChart.on('legendselectchanged', function (params) {
+          legendArray = Object.entries(params.selected)
+          self.isSaleNum = legendArray[0][1]
+          self.isConNum = legendArray[1][1]
+        });
+        // 绘制图表
+        myChart.setOption({
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'line'
+            }
+          },
+          legend: {
+            data: [
+              {
+                name: '累计注册人数',
+                icon: 'circle'
+              },
+              {
+                name: '每日注册人数',
+                icon: 'circle'
+              }
+            ],
+            right: '3%'
+          },
+          xAxis: {
+            boundaryGap:  false,
+            axisTick: {
+              alignWithLabel: true
+            },
+            data: this.dateTypesPlayerLine
+          },
+          grid: {
+            left: '8%',
+            right: '3%',
+            bottom: '10%',
+            top: '16%'
+          },
+          yAxis: {},
+          series: this.optionPlayerLine,
+          color: ['#49a9ee', '#98d87d', '#ffd86e', '#f3857b', '#8996e6']
+
+        })
+        myChart.hideLoading()
+      }, // 玩家注册人数折线图
       changeDateType () {
         let nowDate = new Date()
         !this.isGoConsume && (this.dateInterval = '')
@@ -511,6 +653,32 @@
         this.isGoConsumeAndIncome = false
         this.getConsumeAndIncome()
       }, // 售出收益日期筛选过滤切换
+      changeDateTypeThree () {
+        let nowDate = new Date()
+        !this.isPlayerNum && (this.dateIntervalThree = '')
+        switch (+this.dateTypeThree) {
+          case 1:
+            this.playerDataTime = {
+              startTime: this.getWeek().setHours(0, 0, 0, 0),
+              endTime: this.getWeek().setHours(0, 0, 0, 0) + 7*24*3600*1000 - 1
+            }
+            break
+          case 2:
+            this.playerDataTime = {
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
+            }
+            break
+          case 3:
+            this.playerDataTime = {
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
+            }
+            break
+        }
+        this.isPlayerNum = false
+        this.getPlayerNum()
+      }, // 玩家注册人数统计
       thousandFormatter (num) {
         let toString = num.toString()
         let numOne = ''
@@ -549,10 +717,12 @@
         for (let i = 0; i < 4; i++){
           this.getStatisticalNum(i)
         }
-        this.getStatisticsConsume(),
-          this.getConsumeAndIncome()
+        this.getStatisticsConsume()
+        this.getPlayerNum()
+        this.getConsumeAndIncome()
         this.changeDateType()
         this.changeDateTypeTwo()
+        this.changeDateTypeThree()
       }
     },
     beforeDestroy (){
