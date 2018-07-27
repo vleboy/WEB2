@@ -925,9 +925,9 @@ export default {
                       availableAgents({ parent }).then(res => {
                         if (res.code == 0) {
                           this.parentList = res.payload;
+                        this.agent.parent = parent;
                         }
                       });
-                      // this.agent.parent = parent;
                       this.parentRate = params.row.rate;
                       this.selected = false;
                       this.rateContent = "上级代理成数为:" + params.row.rate;
@@ -1017,10 +1017,10 @@ export default {
                           this.agentModal = true;
                           this.parentSn = params.row.sn || "NA369";
                           let userId = params.row.userId;
-                          this.agent.parent = userId;
                           availableAgents({ parent: userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
+                              this.agent.parent = userId;
                             }
                           });
                           // this.selectParent(userId);
