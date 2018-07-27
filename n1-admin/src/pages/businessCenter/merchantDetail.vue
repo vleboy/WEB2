@@ -570,7 +570,6 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
-      this.basic.skin=this.merchantDetail.skin;
       //reset
       this.gameForm.gameType = "";
       this.gameForm.gamelist = "";
