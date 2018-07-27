@@ -16,10 +16,7 @@ export default {
           name: to.name
         }
       ];
-      if (from.name == "rankDetail") {
-        this.$store.commit("setCurrentPath", path);
-      }
-      if (to.name == "rankDetail") {
+      if (from.name == "rankDetail"||to.name == "rankDetail") {
         this.$store.commit("setCurrentPath", path);
       }
     }

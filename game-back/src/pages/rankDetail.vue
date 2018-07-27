@@ -103,6 +103,13 @@ export default {
       let range = this.range.map(item => {
         return item.getTime();
       });
+      let format=this.range.map(item=>{
+        let y=item.getFullYear();
+        let m=item.getMonth()+1;
+        let d=item.getDate();
+        return y+'-'+m+'-'+d
+      })
+      this.dateRange=format[0]+' 至 '+format[1];
       console.log(range);
     },
     changeSource() {

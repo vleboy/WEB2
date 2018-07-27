@@ -72,16 +72,14 @@ export default {
                 },
                 series : [
                     {
-                        name: '访问来源',
+                        name: '普通模式大奖次数',
                         type: 'pie',
                         radius : '55%',
                         center: ['50%', '50%'],
                         data:[
-                            {value:335, name:'直接访问'},
-                            {value:310, name:'邮件营销'},
-                            {value:234, name:'联盟广告'},
-                            {value:135, name:'视频广告'},
-                            {value:1548, name:'搜索引擎'}
+                            {value:335, name:'Bwin次数'},
+                            {value:310, name:'Mwin次数'},
+                            {value:234, name:'Swin次数'},
                         ],
                         itemStyle: {
                             emphasis: {
@@ -109,7 +107,7 @@ export default {
     font-weight: bold;
   }
       .freecontent{
-          background-color: rgb(15, 201, 214);
+          background-color: rgb(183, 240, 240);
           ul{
               padding-top: 60px;
               li{

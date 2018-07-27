@@ -97,7 +97,6 @@ export default {
       margin: auto 50px;
     }
     .chart {
-      background-color: #fff;
       height: 180px;
       width: 450px;
       position: relative;

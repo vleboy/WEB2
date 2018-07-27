@@ -87,14 +87,14 @@ export default {
             radius: [30, 110],
             roseType: "area",
             data: [
-              { value: 10, name: "rose1" },
-              { value: 5, name: "rose2" },
-              { value: 15, name: "rose3" },
-              { value: 25, name: "rose4" },
-              { value: 20, name: "rose5" },
-              { value: 35, name: "rose6" },
-              { value: 30, name: "rose7" },
-              { value: 40, name: "rose8" }
+              { value: 10, name: "塔罗之谜" },
+              { value: 5, name: "小厨娘" },
+              { value: 15, name: "祥龙献瑞" },
+              { value: 25, name: "四方神兽" },
+              { value: 20, name: "财神进宝" },
+              { value: 35, name: "福运亨通" },
+              { value: 30, name: "熊猫传奇" },
+              { value: 40, name: "幸运足球" }
             ]
           }
         ]
