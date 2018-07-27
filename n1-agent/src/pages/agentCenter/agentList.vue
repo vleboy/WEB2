@@ -922,12 +922,12 @@ export default {
                       this.Topdisabled = true;
                       let parent =
                         params.row.level == 0 ? "01" : params.row.userId;
-                      this.agent.parent = parent;
                       availableAgents({ parent }).then(res => {
                         if (res.code == 0) {
                           this.parentList = res.payload;
                         }
                       });
+                      // this.agent.parent = parent;
                       this.parentRate = params.row.rate;
                       this.selected = false;
                       this.rateContent = "上级代理成数为:" + params.row.rate;
