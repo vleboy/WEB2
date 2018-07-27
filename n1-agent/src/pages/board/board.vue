@@ -72,9 +72,9 @@
                 </Col>
                 <Col :span="18" class="g-text-right">
                   <RadioGroup v-model="dateType" size="small" @on-change="changeDateType" type="button" >
-                    <Radio label="1">本周</Radio>
-                    <Radio label="2">本月</Radio>
-                    <Radio label="3">三月</Radio>
+                    <Radio label="1">近一周</Radio>
+                    <Radio label="2">近一个月</Radio>
+                    <Radio label="3">近三个月</Radio>
                   </RadioGroup>
                   <Date-picker
                     style="width: 200px"
@@ -116,9 +116,9 @@
                 </Col>
                 <Col class="g-text-right">
                   <RadioGroup v-model="dateTypeTwo" size="small" @on-change="changeDateTypeTwo" type="button">
-                    <Radio label="1">本周</Radio>
-                    <Radio label="2">本月</Radio>
-                    <Radio label="3">三月</Radio>
+                    <Radio label="1">近一周</Radio>
+                    <Radio label="2">近一个月</Radio>
+                    <Radio label="3">近三个月</Radio>
                   </RadioGroup>
                   <Date-picker
                     style="margin-left: 1rem"
@@ -150,9 +150,9 @@
             <div class="content-top">
               <Col class="g-text-right">
               <RadioGroup v-model="dateTypeThree" size="small" type="button" @on-change="changeDateTypeThree">
-                <Radio label="1">本周</Radio>
-                <Radio label="2">本月</Radio>
-                <Radio label="3">三月</Radio>
+                <Radio label="1">近一周</Radio>
+                <Radio label="2">近一个月</Radio>
+                <Radio label="3">近三个月</Radio>
               </RadioGroup>
               <DatePicker
                 style="width: 200px"
@@ -607,20 +607,20 @@
         switch (+this.dateType) {
           case 1:
             this.consumeDataTime = {
-              startTime: this.getWeek().setHours(0, 0, 0, 0),
-              endTime: this.getWeek().setHours(0, 0, 0, 0) + 7*24*3600*1000 - 1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 6*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 2:
             this.consumeDataTime = {
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 29*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 3:
             this.consumeDataTime = {
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 89*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
         }
@@ -633,20 +633,20 @@
         switch (+this.dateTypeTwo) {
           case 1:
             this.consumeAndIncomeDataTime = {
-              startTime: this.getWeek().setHours(0, 0, 0, 0),
-              endTime: this.getWeek().setHours(0, 0, 0, 0) + 7*24*3600*1000 - 1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 6*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 2:
             this.consumeAndIncomeDataTime = {
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 29*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 3:
             this.consumeAndIncomeDataTime = {
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 89*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
         }
@@ -659,20 +659,20 @@
         switch (+this.dateTypeThree) {
           case 1:
             this.playerDataTime = {
-              startTime: this.getWeek().setHours(0, 0, 0, 0),
-              endTime: this.getWeek().setHours(0, 0, 0, 0) + 7*24*3600*1000 - 1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 6*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 2:
             this.playerDataTime = {
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 29*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
           case 3:
             this.playerDataTime = {
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
+              startTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) - 89*24*3600*1000,
+              endTime: new Date(nowDate.getTime()-24*3600*1000).setHours(0, 0, 0, 0) + 24*3600*1000-1
             }
             break
         }
