@@ -1,58 +1,58 @@
 <template>
-    <div class="piechart">
-        <Row>
-            <Col span="12">
-            <div class="singlePie" @click="goDetail('profitDetail')">
-                <p class="pieTitle">盈利总和</p>
-                <Row class="sumary">
-                    <Col span="12">
-                    <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                    <Col span="12">
-                    <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                </Row>
-                <div id="pie1" class="pie"></div>
-            </div>
-            </Col>
-            <Col span="12">
-            <div class="singlePie" @click="goDetail('betDetail')">
-                <p class="pieTitle">下注总和</p>
-                <Row class="sumary">
-                    <Col span="12">
-                    <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                    <Col span="12">
-                    <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                </Row>
-                <div id="pie2" class="pie"></div>
-            </div>
-            </Col>
+  <div class="piechart">
+    <Row>
+      <Col span="12">
+      <div class="singlePie" @click="goDetail('profitDetail')">
+        <p class="pieTitle">盈利总和</p>
+        <Row class="sumary">
+          <Col span="12">
+          <span class="hisTitle">历史</span> 85,474,571,548</Col>
+          <Col span="12">
+          <span class="hisTitle">今日</span> 85,474,571,548</Col>
         </Row>
-        <Row>
-            <Col span="12">
-            <div class="singlePie" @click="goDetail('payDetail')">
-                <p class="pieTitle">赔付总和</p>
-                <Row class="sumary">
-                    <Col span="12">
-                    <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                    <Col span="12">
-                    <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                </Row>
-                <div id="pie3" class="pie"></div>
-            </div>
-            </Col>
-            <Col span="12">
-            <div class="singlePie" @click="goDetail('gameCountDetail')">
-                <p class="pieTitle">游戏局数</p>
-                <Row class="sumary">
-                    <Col span="12">
-                    <span class="hisTitle">历史</span> 85,474,571,548</Col>
-                    <Col span="12">
-                    <span class="hisTitle">今日</span> 85,474,571,548</Col>
-                </Row>
-                <div id="pie4" class="pie"></div>
-            </div>
-            </Col>
+        <div id="pie1" class="pie"></div>
+      </div>
+      </Col>
+      <Col span="12">
+      <div class="singlePie" @click="goDetail('betDetail')">
+        <p class="pieTitle">下注总和</p>
+        <Row class="sumary">
+          <Col span="12">
+          <span class="hisTitle">历史</span> 85,474,571,548</Col>
+          <Col span="12">
+          <span class="hisTitle">今日</span> 85,474,571,548</Col>
         </Row>
-    </div>
+        <div id="pie2" class="pie"></div>
+      </div>
+      </Col>
+    </Row>
+    <Row>
+      <Col span="12">
+      <div class="singlePie" @click="goDetail('payDetail')">
+        <p class="pieTitle">赔付总和</p>
+        <Row class="sumary">
+          <Col span="12">
+          <span class="hisTitle">历史</span> 85,474,571,548</Col>
+          <Col span="12">
+          <span class="hisTitle">今日</span> 85,474,571,548</Col>
+        </Row>
+        <div id="pie3" class="pie"></div>
+      </div>
+      </Col>
+      <Col span="12">
+      <div class="singlePie" @click="goDetail('gameCountDetail')">
+        <p class="pieTitle">游戏局数</p>
+        <Row class="sumary">
+          <Col span="12">
+          <span class="hisTitle">历史</span> 85,474,571,548</Col>
+          <Col span="12">
+          <span class="hisTitle">今日</span> 85,474,571,548</Col>
+        </Row>
+        <div id="pie4" class="pie"></div>
+      </div>
+      </Col>
+    </Row>
+  </div>
 </template>
 <script>
 export default {
@@ -66,8 +66,8 @@ export default {
     this.drawPie("pie4");
   },
   methods: {
-    goDetail(name){
-      this.$router.push({name:name})
+    goDetail(name) {
+      this.$router.push({ name: name });
     },
     drawPie(id) {
       let option = {
@@ -101,7 +101,14 @@ export default {
       };
       const pie1 = document.getElementById(id);
       let myChart = this.$echarts.init(pie1);
+      myChart.showLoading({
+        text: "图表加载中...",
+        color: "#20a0ff",
+        textColor: "#000",
+        zlevel: 0
+      });
       myChart.setOption(option);
+      myChart.hideLoading();
     }
   }
 };
@@ -113,14 +120,14 @@ export default {
     margin: 10px auto;
   }
   .pieTitle {
-    background-color: #d7d7d7;
+    background-color: #f3ecec;
     line-height: 32px;
     font-size: 14px;
     font-weight: bold;
   }
   .sumary {
     line-height: 32px;
-    background-color: #f3f3f3;
+    background-color: #f7f8fa;
     .hisTitle {
       font-size: 16px;
       font-weight: bold;
@@ -128,8 +135,8 @@ export default {
   }
 }
 .pie {
-    width: 400px;
-    height: 300px;
-    background-color: #f3f3f3;
-  }
+  width: 400px;
+  height: 300px;
+  background-color: #f7f8fa;
+}
 </style>

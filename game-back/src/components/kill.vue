@@ -77,7 +77,7 @@ export default {
     font-weight: bold;
   }
   .killcontent {
-    background-color: #f5cccc;
+    background-color: rgb(68, 213, 241);
     height: 200px;
     margin-top: 5px;
     .cirle {

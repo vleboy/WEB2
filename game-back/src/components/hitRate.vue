@@ -74,7 +74,7 @@ export default {
         font-weight: bold;
     }
     .rateContent {
-      background-color: #fff5e0;
+      background-color: #dcf5f5;
       .circle {
         display: flex;
         justify-content: center;

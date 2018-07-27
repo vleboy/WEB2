@@ -344,7 +344,7 @@ export default {
         registerURL: "",
         feedbackURL: "",
         loginWhiteList: "",
-        skin:''
+        skin:'1'
       },
       gameForm: {
         gameType: "",
@@ -751,8 +751,9 @@ export default {
       }
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
-        this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false;
-        this.isTest = merchant.payload.isTest == 1 ? true : false;
+        this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false;//brower
+        this.isTest = merchant.payload.isTest == 1 ? true : false;//test
+        this.basic.skin=merchant.payload.skin||'1';//skin
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {

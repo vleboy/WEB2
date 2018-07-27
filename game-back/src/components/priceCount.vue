@@ -109,7 +109,7 @@ export default {
     font-weight: bold;
   }
       .freecontent{
-          background-color: #FFE1E1;
+          background-color: rgb(15, 201, 214);
           ul{
               padding-top: 60px;
               li{

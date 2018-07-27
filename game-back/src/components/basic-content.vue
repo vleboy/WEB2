@@ -173,7 +173,7 @@ export default {
   .hour {
     width: 100%;
     .content {
-      background-color: #ccfff5;
+      background-color: rgb(164, 233, 247);
       .sumary {
         text-indent: 2em;
         padding-bottom: 10px;

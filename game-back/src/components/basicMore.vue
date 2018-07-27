@@ -80,7 +80,7 @@ export default {
   }
   .free{
       .freeContent{
-          background-color: #D1FFE1;
+          background-color: rgb(175, 223, 230);
           .left{
               width: 50%;
               border-right: 1px solid #000;
@@ -111,6 +111,7 @@ export default {
           .circle{
               float: right;
               padding-right: 50px;
+              padding-top: 10px;
               p{
                   text-align: center;
               }

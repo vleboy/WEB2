@@ -67,7 +67,7 @@ export default {
             font-weight: bold;
         }
       .freeCountContent{
-          background-color: #ccc;
+          background-color: rgb(94, 182, 164);
           display: flex;
           justify-content: center;
           align-items: center;
