@@ -913,8 +913,9 @@ export default {
                     display: this.createAgents ? "inline" : "none"
                   },
                   on: {
-                    click: () => {
+                    click: async () => {
                       //代理管理员
+                      this.agent.parent = ''
                       this.admin = true;
                       this.defaultSn = false;
                       this.agentModal = true;
@@ -922,12 +923,12 @@ export default {
                       this.Topdisabled = true;
                       let parent =
                         params.row.level == 0 ? "01" : params.row.userId;
-                      availableAgents({ parent }).then(res => {
-                        if (res.code == 0) {
-                          this.parentList = res.payload;
-                        this.agent.parent = parent;
-                        }
-                      });
+                      let res = await availableAgents({ parent });
+                      if (res.code == 0) {
+                        this.parentList = res.payload;
+                        this.agent.parent = parent; //默认代理
+                        this.selectParent(parent);
+                      }
                       this.parentRate = params.row.rate;
                       this.selected = false;
                       this.rateContent = "上级代理成数为:" + params.row.rate;
@@ -1013,17 +1014,17 @@ export default {
                         display: this.createAgents ? "inline" : "none"
                       },
                       on: {
-                        click: () => {
+                        click: async () => {
+                          this.agent.parent = ''
                           this.agentModal = true;
                           this.parentSn = params.row.sn || "NA369";
                           let userId = params.row.userId;
-                          availableAgents({ parent: userId }).then(res => {
-                            if (res.code == 0) {
-                              this.parentList = res.payload;
-                              this.agent.parent = userId;
-                            }
-                          });
-                          // this.selectParent(userId);
+                          let res = await availableAgents({ parent: userId });
+                          if (res.code == 0) {
+                            this.parentList = res.payload;
+                            this.agent.parent = userId;
+                            this.selectParent(userId);
+                          }
                           this.parentRate = params.row.rate;
                           this.rateContent =
                             "上级代理成数为:" + params.row.rate;

@@ -130,7 +130,7 @@ export default {
         username: this.username,
         password: password,
         challenge: this.userdata.challenge,
-        vid:this.userdata.token,
+        vid: this.userdata.token,
         cb: () => {
           this.$router.push({ name: "home" });
         },
