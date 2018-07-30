@@ -54,6 +54,7 @@
         </div>
 </template>
 <script>
+import { thousandFormatter } from "@/config/format";
 export default {
     data(){
         return{

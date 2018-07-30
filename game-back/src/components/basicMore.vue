@@ -42,6 +42,7 @@ import hitRate from '@/components/hitRate'
 import priceCount from '@/components/priceCount'
 import freeCount from '@/components/freeCount'
 import loginCount from '@/components/loginCount'
+import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {

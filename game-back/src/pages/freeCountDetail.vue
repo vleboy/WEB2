@@ -52,6 +52,7 @@
     </div>
 </template>
 <script>
+import { thousandFormatter } from "@/config/format";
 import countPay from '@/components/countPay'
 export default {
   data() {
