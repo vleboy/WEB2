@@ -281,12 +281,12 @@
           {
             name: '累计注册人数',
             type: 'line',
-            data:  this.playerNumList.incr
+            data:  this.playerNumList.sum
           },
           {
             name: '每日注册人数',
             type: 'line',
-            data: this.playerNumList.sum
+            data: this.playerNumList.incr
           }
         ]
         return optionPlayerLine
