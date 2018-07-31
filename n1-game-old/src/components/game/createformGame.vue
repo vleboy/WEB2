@@ -234,6 +234,7 @@
           kindId: Number(storeInfo.kindId)-Number(storeInfo.gameType), // kindId
           gameType: storeInfo.gameType, // 游戏类别
           gameImg: storeInfo.gameImg, // logo
+          gameImgAli: storeInfo.gameImgAli, // logoAli
 //          ip: storeInfo.ip, // 服务器ip
           isWebGame: storeInfo.isWebGame, // 是否是网页游戏
 //          port: storeInfo.port, // 端口
