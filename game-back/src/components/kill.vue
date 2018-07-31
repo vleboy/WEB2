@@ -1,6 +1,6 @@
 <template>
   <div class="kill">
-    <p>{{title}}</p>
+    <p class="head_title">{{title}}</p>
     <div class="killcontent">
       <div class="cirle">
         <div class="history">
@@ -72,14 +72,14 @@ export default {
 </script>
 <style lang="less" scoped>
 .kill {
-  p {
+  .head_title{
     font-size: 14px;
     font-weight: bold;
+    line-height: 32px;
   }
   .killcontent {
-    background-color: rgb(68, 213, 241);
+    background-color: #fff;
     height: 200px;
-    margin-top: 5px;
     .cirle {
       display: flex;
       width: 50%;
@@ -91,6 +91,7 @@ export default {
     .killtitle {
       text-align: center;
       line-height: 36px;
+      
     }
     .history,
     .today {

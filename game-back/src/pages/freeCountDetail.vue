@@ -69,7 +69,7 @@ export default {
         font-weight: bold;
     }
   .freeContent {
-    background-color: #d1ffe1;
+    background-color: #fff;
     .left {
       width: 50%;
       border-right: 1px solid #000;

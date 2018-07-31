@@ -5,7 +5,7 @@
                 <div class="circle">
                     <div class="todayRate">
                         <p>今日</p>
-                        <i-circle :percent="80" stroke-color="#FF66CC">
+                        <i-circle :percent="80" stroke-color="#5cb85c">
                             <span class="demo-Circle-inner" style="font-size:24px">80%</span>
                         </i-circle>
                         <p>875746局</p>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="historyRate">
                         <p>历史</p>
-                        <i-circle :percent="80" stroke-color="#FF66CC">
+                        <i-circle :percent="80" stroke-color="#5cb85c">
                             <span class="demo-Circle-inner" style="font-size:24px">80%</span>
                         </i-circle>
                         <p>875746局</p>
@@ -45,15 +45,17 @@
                 </ul>
                 <div class="clear"></div>
                 <p class="rateTitle">线路命中次数</p>
-                <p><span class="continueline"><span class="continue">3连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="continueline"><span class="continue">4连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="continueline"><span class="continue">5连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p class="sepreate"><span class="linNum"><span class="line">2条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="linNum"><span class="line">3条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="linNum"><span class="line">4条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="linNum"><span class="line">5条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="linNum"><span class="line">6条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                <p><span class="linNum"><span class="line">6+条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                <div class="lineHit">
+                    <p><span class="continueline"><span class="continue">3连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="continueline"><span class="continue">4连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="continueline"><span class="continue">5连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p class="sepreate"><span class="linNum"><span class="line">2条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="linNum"><span class="line">3条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="linNum"><span class="line">4条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="linNum"><span class="line">5条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="linNum"><span class="line">6条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                    <p><span class="linNum"><span class="line">6+条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
+                </div>
             </div>
         </div>
 </template>
@@ -75,7 +77,12 @@ export default {
         font-weight: bold;
     }
     .rateContent {
-      background-color: #dcf5f5;
+      background-color: #fff;
+      .lineHit{
+          p{
+              text-indent: 1em;
+          }
+      }
       .circle {
         display: flex;
         justify-content: center;

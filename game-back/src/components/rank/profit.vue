@@ -33,7 +33,7 @@ export default {
   props: ["profitRank"]
 };
 </script>
-<style lang="less" >
+<style lang="less">
 .profit {
   width: 300px;
   .title {
@@ -46,6 +46,5 @@ export default {
  font-size: 16px;
  font-weight: bold;
  text-align: center;
- color: rgb(206, 6, 6)
 }
 </style>

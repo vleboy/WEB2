@@ -1,12 +1,12 @@
 <template>
-    <div ref="scrollCon" class="tags-outer-scroll-con">
-        <div ref="scrollBody" class="tags-inner-scroll-body">
-            <!--  :style="{left: tagBodyLeft + 'px'}"-->
-            <transition-group name="taglist-moving-animation">
-                <Tag type="dot" v-for="(item, index) in pageTagsList" ref="tagsPageOpened" :key="item.name" :name="item.name" @on-close="closePage" @click.native="linkTo(item)" :closable="true" :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')">{{ item.title }}</Tag>
-            </transition-group>
-        </div>
+  <div ref="scrollCon" class="tags-outer-scroll-con">
+    <div ref="scrollBody" class="tags-inner-scroll-body">
+      <!--  :style="{left: tagBodyLeft + 'px'}"-->
+      <transition-group name="taglist-moving-animation">
+        <Tag type="dot" v-for="(item, index) in pageTagsList" ref="tagsPageOpened" :key="item.name" :name="item.name" @on-close="closePage" @click.native="linkTo(item)" :closable="true" :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')">{{ item.title }}</Tag>
+      </transition-group>
     </div>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
   name: "tagsPageOpened",
   data() {
     return {
-      currentPageName: this.$route.name,
+      currentPageName: this.$route.name
     };
   },
   props: {
@@ -69,7 +69,7 @@ export default {
       if (this.beforePush(item)) {
         this.$router.push(routerObj);
       }
-    },
+    }
     // moveToView(tag) {
     //   if (tag.offsetLeft < -this.tagBodyLeft) {
     //     // 标签在可视区域左侧

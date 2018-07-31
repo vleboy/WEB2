@@ -42,7 +42,7 @@ export default {
       this.drawLine(1)
   },
   methods: {
-    drawLine(id) {
+    drawLine(index) {
       let option = {
         xAxis: {
           type: "category",
@@ -67,7 +67,7 @@ export default {
           }
         ]
       };
-      let name='lineChart'+this.num[id]
+      let name='lineChart'+this.num[index]
       const chart = document.getElementById(name);
       let myChart = this.$echarts.init(chart);
       myChart.setOption(option);
@@ -87,7 +87,7 @@ export default {
     font-weight: bold;
   }
   .content {
-    background-color: #d1ffe1;
+    background-color: #fff;
     .rowTitle{
         padding-top: 15px;
     }

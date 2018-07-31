@@ -14,6 +14,7 @@ export default {
           title: "排名",
           type: "index",
           maxWidth: 60,
+          className: "demo-table-info-column"
         },
         {
           title: "游戏名",

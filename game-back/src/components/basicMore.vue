@@ -81,7 +81,7 @@ export default {
   }
   .free{
       .freeContent{
-          background-color: rgb(175, 223, 230);
+          background-color: #fff;
           .left{
               width: 50%;
               border-right: 1px solid #000;

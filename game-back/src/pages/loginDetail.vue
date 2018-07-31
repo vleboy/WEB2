@@ -49,7 +49,8 @@ export default {
 <style lang="less" scoped>
 .login {
   .content {
-    background-color: #e1ffff;
+    background-color: #fff;
+    min-height: 90vh;
     .logincount {
       font-size: 16px;
       font-weight: bold;

@@ -6,7 +6,7 @@
         </div>
         <Layout :style="{marginLeft: '200px',marginRight:'310px'}">
             <Content>
-                <Card>
+                <Card :style="{backgroundColor:'#f5f5f5'}">
                     <keep-alive>
                         <router-view></router-view>
                     </keep-alive>

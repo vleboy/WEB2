@@ -58,7 +58,7 @@ export default {
     font-weight: bold;
   }
     .content {
-      background-color: #bbf5f5;
+      background-color: #fff;
       .logincount {
         font-size: 16px;
         font-weight: bold;

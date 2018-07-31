@@ -1,9 +1,21 @@
 <template>
   <div class="piechart">
     <Row>
-      <Col span="12">
-      <div class="singlePie" @click="goDetail('profitDetail')">
+      <Col span="16">
+      <div class="singleBar" @click="goDetail('profitDetail')">
         <p class="pieTitle">盈利总和</p>
+        <Row class="sumary">
+          <Col span="12">
+          <span class="hisTitle">历史</span> 85,474,571,548</Col>
+          <Col span="12">
+          <span class="hisTitle">今日</span> 85,474,571,548</Col>
+        </Row>
+        <div id="bar1" class="bar"></div>
+      </div>
+      </Col>
+      <Col span="8">
+      <div class="singlePie" @click="goDetail('betDetail')">
+        <p class="pieTitle">下注总和</p>
         <Row class="sumary">
           <Col span="12">
           <span class="hisTitle">历史</span> 85,474,571,548</Col>
@@ -13,22 +25,10 @@
         <div id="pie1" class="pie"></div>
       </div>
       </Col>
-      <Col span="12">
-      <div class="singlePie" @click="goDetail('betDetail')">
-        <p class="pieTitle">下注总和</p>
-        <Row class="sumary">
-          <Col span="12">
-          <span class="hisTitle">历史</span> 85,474,571,548</Col>
-          <Col span="12">
-          <span class="hisTitle">今日</span> 85,474,571,548</Col>
-        </Row>
-        <div id="pie2" class="pie"></div>
-      </div>
-      </Col>
     </Row>
     <Row>
-      <Col span="12">
-      <div class="singlePie" @click="goDetail('payDetail')">
+      <Col span="16">
+      <div class="singleBar" @click="goDetail('payDetail')">
         <p class="pieTitle">赔付总和</p>
         <Row class="sumary">
           <Col span="12">
@@ -36,10 +36,10 @@
           <Col span="12">
           <span class="hisTitle">今日</span> 85,474,571,548</Col>
         </Row>
-        <div id="pie3" class="pie"></div>
+        <div id="bar2" class="bar"></div>
       </div>
       </Col>
-      <Col span="12">
+      <Col span="8">
       <div class="singlePie" @click="goDetail('gameCountDetail')">
         <p class="pieTitle">游戏局数</p>
         <Row class="sumary">
@@ -48,7 +48,7 @@
           <Col span="12">
           <span class="hisTitle">今日</span> 85,474,571,548</Col>
         </Row>
-        <div id="pie4" class="pie"></div>
+        <div id="pie2" class="pie"></div>
       </div>
       </Col>
     </Row>
@@ -71,20 +71,12 @@ export default {
       { value: 30, name: "熊猫传奇" },
       { value: 40, name: "幸运足球" }
     ];
-    let data2 = [
-      { value: 20, name: "塔罗之谜" },
-      { value: 15, name: "小厨娘" },
-      { value: 5, name: "祥龙献瑞" },
-      { value: 25, name: "四方神兽" },
-      { value: 22, name: "财神进宝" },
-      { value: 30, name: "福运亨通" },
-      { value: 35, name: "熊猫传奇" },
-      { value: 20, name: "幸运足球" }
-    ];
+    let data2 = [100, 300, -233, 235, 500, -400, 106, -150];
+    let data3 = [1234, 342, -357, 457, 432, -453, 453, -657];
     this.drawPie("pie1", data1);
     this.drawPie("pie2", data1);
-    this.drawPie("pie3", data2);
-    this.drawPie("pie4", data2);
+    this.drawBar("bar1", data2, "盈利");
+    this.drawBar("bar2", data3, "赔付");
   },
   methods: {
     goDetail(name) {
@@ -121,6 +113,43 @@ export default {
       });
       myChart.setOption(option);
       myChart.hideLoading();
+    },
+    drawBar(id, data, name) {
+      let option = {
+        xAxis: {
+          type: "category",
+          data: [
+            "塔罗之谜",
+            "小厨娘",
+            "祥龙献瑞",
+            "四方神兽",
+            "财神进宝",
+            "福运亨通",
+            "熊猫传奇",
+            "幸运足球"
+          ]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            name: name,
+            data: data,
+            type: "bar"
+          }
+        ],
+        tooltip: {
+          show: true,
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          }
+        }
+      };
+      const chart = document.getElementById(id);
+      let myChart = this.$echarts.init(chart);
+      myChart.setOption(option);
     }
   }
 };
@@ -128,13 +157,17 @@ export default {
 <style lang="less" scoped>
 .piechart {
   .singlePie {
-    width: 400px;
-    margin: 10px auto;
+    width: 100%;
+    margin-left: 10px;
+  }
+  .singleBar {
+    width: 100%;
   }
   .pieTitle {
-    background-color: #f3ecec;
+    background-color: #d7d7d7;
     line-height: 32px;
     font-size: 14px;
+    text-indent: 1em;
     font-weight: bold;
   }
   .sumary {
@@ -147,8 +180,13 @@ export default {
   }
 }
 .pie {
-  width: 400px;
+  width: 100%;
   height: 300px;
-  background-color: #f7f8fa;
+  background-color: #fff;
+}
+.bar {
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
 }
 </style>

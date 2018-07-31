@@ -193,7 +193,7 @@ export default {
     font-weight: bold;
   }
   .sumary_content {
-    background-color: #99e3fa;
+    background-color: #fff;
     line-height: 80px;
     .bigfont {
       font-size: 18px;

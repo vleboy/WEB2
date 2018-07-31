@@ -173,12 +173,15 @@ export default {
   .hour {
     width: 100%;
     .content {
-      background-color: rgb(164, 233, 247);
+      background-color: #fff;
       .sumary {
-        text-indent: 2em;
+        text-indent: 1em;
         padding-bottom: 10px;
+        p{
+          line-height: 32px;
+        }
         .sumItem {
-          border: 3px solid #ffcc00;
+          border: 2px solid #2db7f5;
           width: 200px;
           height: 40px;
           line-height: 36px;

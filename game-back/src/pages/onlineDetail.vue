@@ -170,12 +170,13 @@ export default {
     font-weight: bold;
   }
   .content {
-    background-color: #ccfff5;
+    background-color: #fff;
     p{
         padding: 15px;
     }
     .sumItem {
-      border: 3px solid #ffcc00;
+      border: 2px solid #2db7f5;
+      text-indent: 1em;
       width: 200px;
       height: 40px;
       line-height: 36px;
