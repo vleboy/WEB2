@@ -61,16 +61,36 @@ export default {
     return {};
   },
   mounted() {
-    this.drawPie("pie1");
-    this.drawPie("pie2");
-    this.drawPie("pie3");
-    this.drawPie("pie4");
+    let data1 = [
+      { value: 10, name: "塔罗之谜" },
+      { value: 5, name: "小厨娘" },
+      { value: 15, name: "祥龙献瑞" },
+      { value: 25, name: "四方神兽" },
+      { value: 20, name: "财神进宝" },
+      { value: 35, name: "福运亨通" },
+      { value: 30, name: "熊猫传奇" },
+      { value: 40, name: "幸运足球" }
+    ];
+    let data2 = [
+      { value: 20, name: "塔罗之谜" },
+      { value: 15, name: "小厨娘" },
+      { value: 5, name: "祥龙献瑞" },
+      { value: 25, name: "四方神兽" },
+      { value: 22, name: "财神进宝" },
+      { value: 30, name: "福运亨通" },
+      { value: 35, name: "熊猫传奇" },
+      { value: 20, name: "幸运足球" }
+    ];
+    this.drawPie("pie1", data1);
+    this.drawPie("pie2", data1);
+    this.drawPie("pie3", data2);
+    this.drawPie("pie4", data2);
   },
   methods: {
     goDetail(name) {
       this.$router.push({ name: name });
     },
-    drawPie(id) {
+    drawPie(id, data) {
       let option = {
         title: {
           text: "南丁格尔玫瑰图",
@@ -87,16 +107,7 @@ export default {
             type: "pie",
             radius: [30, 110],
             roseType: "area",
-            data: [
-              { value: 10, name: "塔罗之谜" },
-              { value: 5, name: "小厨娘" },
-              { value: 15, name: "祥龙献瑞" },
-              { value: 25, name: "四方神兽" },
-              { value: 20, name: "财神进宝" },
-              { value: 35, name: "福运亨通" },
-              { value: 30, name: "熊猫传奇" },
-              { value: 40, name: "幸运足球" }
-            ]
+            data: data
           }
         ]
       };

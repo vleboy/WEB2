@@ -18,6 +18,7 @@ import gameCountDetail from '@/pages/gameCountDetail'
 import betDetail from '@/pages/betDetail'
 import onlineDetail from '@/pages/onlineDetail'
 import freeDetail from '@/pages/freeCountDetail'
+import playerDetail from '@/pages/playerDetail'
 // games
 import allGame from '@/pages/games/allGame'
 import caisheng from '@/pages/games/caisheng'
@@ -50,6 +51,7 @@ export default new Router({
       component: home,
       children:[
         {path:'allGame',meta: {title: '全部游戏'},name:'allGame',component:allGame},
+        {path:'playerDetail',meta: {title: '玩家详情'},name:'playerDetail',component:playerDetail},
         {path:'profitDetail',meta: {title: '盈利详情'},name:'profitDetail',component:profitDetail},
         {path:'payDetail',meta: {title: '赔付详情'},name:'payDetail',component:payDetail},
         {path:'gameCountDetail',meta: {title: '游戏局数详情'},name:'gameCountDetail',component:gameCountDetail},

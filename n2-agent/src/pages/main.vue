@@ -23,7 +23,7 @@
         </div>
       </Header>
       <Content>
-        <Card>
+        <Card style="overflow:auto">
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
