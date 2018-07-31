@@ -22,6 +22,9 @@ const actions = {
       delete state.variable.getSearchGame.companyIden
     }
 
+    if(JSON.stringify(state.variable.getSearchGame) == "{}"){
+      state.variable.getSearchGame = ''
+    }
     context.commit('startLoading')
     invoke({
       url: api.gameList,
