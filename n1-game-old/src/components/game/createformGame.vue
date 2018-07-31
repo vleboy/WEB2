@@ -268,7 +268,7 @@
           })
         } else {
           this.$store.state.variable.operatorList.forEach((item) => {
-            if (item.companyIden === this.managerInfo.companyName) {
+            if (item.companyIden === this.companyIden) {
               this.managerInfo.company = item
               this.managerInfo.companyIden = item.companyIden
             }
@@ -276,6 +276,8 @@
           if (this.isShowWebGame && !this.managerInfo.gameLink) {
             return this.$message.error('请输入网页游戏链接')
           }
+          console.log(this.managerInfo,1)
+          return
           this.managerInfo.isWebGame = this.isShowWebGame ? '1' : '0'
           this.managerInfo.gameLink = this.isShowWebGame ? this.managerInfo.gameLink : ''
           this.$store.commit('startLoading')
