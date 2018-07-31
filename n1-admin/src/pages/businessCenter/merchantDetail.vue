@@ -212,6 +212,7 @@
                   <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadLogo" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusLogo">请选择需要上传文件</Button>
                   </Upload>
+                  <p class="img_notice">分辨率不超过 825*155 </p>
                 </div>
               </FormItem>
               </Col>
@@ -222,6 +223,7 @@
                   <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadName" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusName">请选择需要上传文件</Button>
                   </Upload>
+                  <p class="img_notice">分辨率不超过 680*220 </p>
                 </div>
               </FormItem>
               </Col>
@@ -954,6 +956,10 @@ export default {
   .logo {
     width: 200px;
     height: 100px;
+  }
+  .img_notice{
+    line-height: 32px;
+    color:red;
   }
   .page {
     text-align: right;
