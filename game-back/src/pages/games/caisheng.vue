@@ -1,17 +1,17 @@
 <template>
   <div class="caisheng">
-    <basic-content :gameType="2"></basic-content>
+    <basic-content :gameType="2"/>
   </div>
 </template>
 <script>
-import basicContent from '@/components/basic-content'
+import BasicContent from '@/components/BasicContent'
 export default {
   data(){
     return{
 
     }
   },
-  components:{basicContent}
+  components:{BasicContent}
 }
 </script>
 <style lang="less" scoped>

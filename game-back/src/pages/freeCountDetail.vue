@@ -46,19 +46,19 @@
                 <div class="clear"></div>
             </div>
         </div>
-       <count-pay title="额度0.25-2.5" :num="[1,2]"></count-pay>
-       <count-pay title="额度5-50" :num="[3,4]"></count-pay>
-       <count-pay title="额度125-500" :num="[5,6]"></count-pay>
+       <count-pay title="额度0.25-2.5" :num="[1,2]"/>
+       <count-pay title="额度5-50" :num="[3,4]"/>
+       <count-pay title="额度125-500" :num="[5,6]"/>
     </div>
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
-import countPay from '@/components/countPay'
+import CountPay from '@/components/CountPay'
 export default {
   data() {
     return {};
   },
-  components:{countPay}
+  components:{CountPay}
 };
 </script>
 <style lang="less" scoped>

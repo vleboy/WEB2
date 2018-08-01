@@ -1,15 +1,16 @@
 <template>
     <div class="rank">
-        <profit :profitRank="profitRank" @click.native="toDetail"></profit>
-        <bet-amount :amoutRank="amoutRank" @click.native="toDetail"></bet-amount>
-        <game-count :countRank="countRank" @click.native="toDetail"></game-count>
+        <profit-rank :profitRank="profitRank" @click.native="toDetail"/>
+        <bet-amount :amoutRank="amoutRank" @click.native="toDetail"/>
+        <game-count :countRank="countRank" @click.native="toDetail"/>
     </div>
 </template>
 <script>
-import profit from "@/components/rank/profit";
-import gameCount from "@/components/rank/gameCount";
-import betAmount from "@/components/rank/betAmount";
+import ProfitRank from "@/components/rank/ProfitRank";
+import GameCount from "@/components/rank/GameCount";
+import BetAmount from "@/components/rank/BetAmount";
 export default {
+  components: { ProfitRank, BetAmount, GameCount },
   data() {
     return {
       amoutRank: [
@@ -61,7 +62,6 @@ export default {
           this.$router.push({name:'rankDetail'})
       }
   },
-  components: { profit, betAmount, gameCount }
 };
 </script>
 <style lang="less" scoped>

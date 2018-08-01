@@ -1,10 +1,10 @@
 <template>
     <div class="home">
-        <sidebar/>
+        <side-bar/>
         <div class="breadcrumb">
-            <bread-crumb :currentPath="currentPath"></bread-crumb>
+            <bread-crumb :currentPath="currentPath"/>
         </div>
-        <Layout :style="{marginLeft: '200px',marginRight:'310px'}">
+        <Layout :style="{marginLeft: '200px',marginRight:'300px'}">
             <Content>
                 <Card :style="{backgroundColor:'#f5f5f5'}">
                     <keep-alive>
@@ -13,13 +13,13 @@
                 </Card>
             </Content>
         </Layout>
-        <rank></rank>
+        <game-rank/>
     </div>
 </template>
 <script>
-import sidebar from "@/components/sidebar";
-import breadCrumb from "@/components/bread-crumb";
-import rank from "@/components/rank";
+import SideBar from "@/components/SideBar";
+import BreadCrumb from "@/components/BreadCrumb";
+import GameRank from "@/components/GameRank";
 export default {
   data() {
     return {};
@@ -56,7 +56,7 @@ export default {
       this.$store.commit("setCurrentPath", pathArr);
     }
   },
-  components: { sidebar, rank, breadCrumb }
+  components: { SideBar, GameRank, BreadCrumb }
 };
 </script>
 <style lang="less" scoped>

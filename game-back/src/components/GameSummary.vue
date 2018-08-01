@@ -158,7 +158,7 @@ export default {
 .piechart {
   .singlePie {
     width: 100%;
-    margin-left: 10px;
+    padding-left: 10px;
   }
   .singleBar {
     width: 100%;

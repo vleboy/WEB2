@@ -1,17 +1,17 @@
 <template>
   <div class="xianglong">
-    <basic-content :gameType="9"></basic-content>
+    <basic-content :gameType="9"/>
   </div>
 </template>
 <script>
-import basicContent from '@/components/basic-content'
+import BasicContent from '@/components/BasicContent'
 export default {
   data(){
     return{
 
     }
   },
-  components:{basicContent}
+  components:{BasicContent}
 }
 </script>
 <style lang="less" scoped>

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import home from '@/components/home'
-import homeNoRank from '@/components/homeNoRank'
+import Main from '@/components/Main'
+import MainNoRank from '@/components/MainNoRank'
 import err from '@/pages/404'
 //detail
 import loginDetail from '@/pages/loginDetail'
@@ -46,9 +46,9 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'home',
+      name: 'main',
       redirect: '/allGame',
-      component: home,
+      component: Main,
       children:[
         {path:'allGame',meta: {title: '全部游戏'},name:'allGame',component:allGame},
         {path:'playerDetail',meta: {title: '玩家详情'},name:'playerDetail',component:playerDetail},
@@ -77,7 +77,7 @@ export default new Router({
     {
       path: '/',
       name: 'rank',
-      component: homeNoRank,
+      component: MainNoRank,
       children:[
         {path:'rankDetail',title:'游戏排名',name:'rankDetail',meta: {title: '游戏排名'},component:rankDetail}
       ]

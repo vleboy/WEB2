@@ -17,8 +17,8 @@
             </div>
         <div class="clear"></div>
         </div>
-        <kill title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 />
-        <pie-charts></pie-charts>
+        <game-kills title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 />
+        <game-summary/>
         <div class="hour" @click="goOnlineDetail">
             <p>每小时在线人数</p>
             <div class="content">
@@ -40,14 +40,19 @@
         <div class="showmore">
             <Button type="primary" class="morebtn" v-if='!showMore' @click="more">点击加载更多</Button>
         </div>
-        <basic-more v-if='showMore'></basic-more>
+        <basic-more v-if='showMore'/>
     </div>
 </template>
 <script>
-import basicMore from '@/components/basicMore'
-import kill from '@/components/kill'
-import pieCharts from '@/components/pieCharts'
+import BasicMore from '@/components/BasicMore'
+import GameKills from '@/components/GameKills'
+import GameSummary from '@/components/GameSummary'
 export default {
+  name:'basicContent',
+  components:{BasicMore,GameKills,GameSummary},
+  props:{
+    gameType:Number
+  },
   data() {
     return {
       showMore:false,
@@ -61,13 +66,14 @@ export default {
       hour4: 34
     };
   },
-  components:{basicMore,kill,pieCharts},
-  props:['gameType'],
-  mounted() {
-    this.drawBar();
+  computed:{
+
   },
   created(){
-      // console.log(this.gameType);
+    console.log(this.gameType);
+  },
+  mounted() {
+    this.drawBar();
   },
   methods: {
     changeSource() {

@@ -7,6 +7,7 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
+  props: ["profitRank"],
   data() {
     return {
       columns: [
@@ -30,7 +31,9 @@ export default {
       ]
     };
   },
-  props: ["profitRank"]
+  methods:{
+    
+  }
 };
 </script>
 <style lang="less">

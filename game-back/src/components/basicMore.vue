@@ -1,7 +1,7 @@
 <template>
     <div class="more">
-       <login-count></login-count>
-        <hit-rate title="游戏命中率" @click.native="goRateDetail"></hit-rate>
+       <login-count/>
+        <hit-rate title="游戏命中率" @click.native="goRateDetail"/>
         <div class="free" @click="goFreeDetail">
             <p class="secTitle">免费模式次数与赔付</p>
             <div class="freeContent">
@@ -32,16 +32,16 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail('priceFreeDetail')"></price-count>
-        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail('priceNormalDetail')"></price-count>
-        <free-count title="免费模式次数选择" @click.native="goCountDetail"></free-count>
+        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail('priceFreeDetail')"/>
+        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail('priceNormalDetail')"/>
+        <free-count title="免费模式次数选择" @click.native="goCountDetail"/>
     </div>
 </template>
 <script>
-import hitRate from '@/components/hitRate'
-import priceCount from '@/components/priceCount'
-import freeCount from '@/components/freeCount'
-import loginCount from '@/components/loginCount'
+import HitRate from '@/components/HitRate'
+import PriceCount from '@/components/PriceCount'
+import FreeCount from '@/components/FreeCount'
+import LoginCount from '@/components/LoginCount'
 import { thousandFormatter } from "@/config/format";
 export default {
   data() {
@@ -52,7 +52,7 @@ export default {
   mounted(){
      
   },
-  components:{hitRate,priceCount,freeCount,loginCount},
+  components:{HitRate,PriceCount,FreeCount,LoginCount},
   methods:{
       goLogin(){
           this.$router.push({name:'loginDetail'})

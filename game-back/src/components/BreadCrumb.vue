@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name:'breadcrumb',
+    name:'BreadCrumb',
     props:{
         currentPath:Array
     },

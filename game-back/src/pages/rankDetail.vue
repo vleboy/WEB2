@@ -12,22 +12,23 @@
     <Button type="primary">{{dateRange}}</Button>
     <Row>
       <Col span="8">
-      <profit :profitRank="profitRank"></profit>
+      <profit-rank :profitRank="profitRank" />
       </Col>
       <Col span="8">
-      <bet-amount :amoutRank="amoutRank"></bet-amount>
+      <bet-amount :amoutRank="amoutRank" />
       </Col>
       <Col span="8">
-      <game-count :countRank="countRank"></game-count>
+      <game-count :countRank="countRank" />
       </Col>
     </Row>
   </div>
 </template>
 <script>
-import profit from "@/components/rank/profit";
-import gameCount from "@/components/rank/gameCount";
-import betAmount from "@/components/rank/betAmount";
+import ProfitRank from "@/components/rank/ProfitRank";
+import GameCount from "@/components/rank/GameCount";
+import BetAmount from "@/components/rank/BetAmount";
 export default {
+  components: { ProfitRank, GameCount, BetAmount },
   data() {
     return {
       range: "",
@@ -97,7 +98,6 @@ export default {
       ]
     };
   },
-  components: { profit, gameCount, betAmount },
   methods: {
     changeRange() {
       let range = this.range.map(item => {

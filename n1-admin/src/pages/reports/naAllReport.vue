@@ -81,7 +81,7 @@ export default {
         },
         {
           title: "管理员账号",
-          key: "username",
+          key: "uname",
           render: (h, params) => {
             return h(
               "span",

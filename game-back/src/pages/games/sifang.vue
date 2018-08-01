@@ -1,17 +1,17 @@
 <template>
   <div class="sifang">
-    <basic-content :gameType="7"></basic-content>
+    <basic-content :gameType="7"/>
   </div>
 </template>
 <script>
-import basicContent from '@/components/basic-content'
+import BasicContent from '@/components/BasicContent'
 export default {
   data(){
     return{
 
     }
   },
-  components:{basicContent}
+  components:{BasicContent}
 }
 </script>
 <style lang="less" scoped>

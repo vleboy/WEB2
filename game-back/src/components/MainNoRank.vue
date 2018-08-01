@@ -1,8 +1,8 @@
 <template>
     <div class="home">
-        <sidebar/>
+        <side-bar/>
         <div class="breadcrumb">
-            <bread-crumb :currentPath="currentPath"></bread-crumb>
+            <bread-crumb :currentPath="currentPath"/>
         </div>
         <Layout :style="{marginLeft: '200px'}">
             <Content>
@@ -16,8 +16,8 @@
     </div>
 </template>
 <script>
-import sidebar from "@/components/sidebar";
-import breadCrumb from "@/components/bread-crumb";
+import SideBar from "@/components/SideBar";
+import BreadCrumb from "@/components/BreadCrumb";
 export default {
   data() {
     return {};
@@ -27,7 +27,7 @@ export default {
       return this.$store.state.app.currentPath; // 当前面包屑数组
     }
   },
-  components: { sidebar, breadCrumb }
+  components: { SideBar, BreadCrumb }
 };
 </script>
 <style lang="less" scoped>
