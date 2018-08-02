@@ -13,7 +13,7 @@
         <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
       </el-form-item>
       <el-form-item label="所属供应商" prop="companyName" class="is-required">
-        <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany" :disabled="true">
+        <el-select v-model="managerInfo.companyIden" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany" :disabled="true">
           <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyIden" class="select-width"></el-option>
         </el-select>
       </el-form-item>
@@ -240,7 +240,8 @@
 //          port: storeInfo.port, // 端口
           gameLink: storeInfo.gameLink, // 链接
           company: storeInfo.company, // 游戏厂商规则
-          companyName: storeInfo.companyName // 游戏厂商规则
+          companyName: storeInfo.companyName, // 游戏厂商规则
+          companyIden: storeInfo.companyIden // 游戏厂商规则
         }
 //        console.log(this.managerInfo)
         this.isShowWebGame = storeInfo.isWebGame == '1'
