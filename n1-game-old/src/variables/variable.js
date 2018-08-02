@@ -41,7 +41,9 @@ const variable = {
 
   gameOneItem: '', // 游戏列表单条数据存储
 
-  isEdit: false
+  isEdit: false,
+
+  gameIden: '' // 供应商标识
 }
 
 export default {

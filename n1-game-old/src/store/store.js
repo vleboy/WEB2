@@ -258,6 +258,10 @@ const mutations = {
     state.variable.gameOneItem = payload.data
   }, // 单个游戏列表存储
 
+  gameOperatorIden (state, payload) {
+    state.variable.gameIden = payload.data
+  }, // 单个游戏列表存储
+
   resetTab (state) {
     state.variable.visitedViews = []
     state.variable.activeIndex = null

@@ -1,7 +1,7 @@
 <template>
   <div class="outresult">
     <el-table stripe :data="companyList">
-      <el-table-column label="序号" prop="companyName" align="center" width="65" type="index"></el-table-column>
+      <!--<el-table-column label="序号" prop="companyName" align="center" width="65" type="index"></el-table-column>-->
       <el-table-column label="供应商名称" prop="companyName" align="center" width="150"></el-table-column>
       <el-table-column label="供应商标识" prop="companyIden" align="center" width="150"></el-table-column>
       <el-table-column label="接入类型" prop="companyType" align="center" width="120">

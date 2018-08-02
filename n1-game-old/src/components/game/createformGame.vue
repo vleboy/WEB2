@@ -13,7 +13,7 @@
         <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
       </el-form-item>
       <el-form-item label="所属供应商" prop="companyName" class="is-required">
-        <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany">
+        <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany" :disabled="true">
           <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyIden" class="select-width"></el-option>
         </el-select>
       </el-form-item>
@@ -255,8 +255,12 @@
           gameRecommend: true,
           gameIden: true
         }
-        this.getGameType()
+      } else {
+        this.managerInfo.companyName = this.$store.state.variable.gameIden
+        this.managerInfo.companyIden = this.$store.state.variable.gameIden
+        this.companyIden = this.$store.state.variable.gameIden
       }
+      this.getGameType()
     },
     methods: {
       postCreateform () {
@@ -342,7 +346,7 @@
           url: api.gameBigType,
           method: api.post,
           data: {
-            companyIden: this.managerInfo.companyName ? this.companyIden : ''
+            companyIden: this.companyIden
           }
         })
         .then(res => {
