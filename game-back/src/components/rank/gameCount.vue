@@ -7,6 +7,7 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
+  props:['countRank'],
   data() {
     return {
       columns: [
@@ -21,7 +22,7 @@ export default {
           key: "name"
         },
         {
-          title: "今日游戏局数",
+          title: '游戏局数',
           key: "profit",
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.profit));
@@ -31,16 +32,17 @@ export default {
      
     };
   },
-  props:['countRank']
 };
 </script>
 <style lang="less" scoped>
 .gamecount {
   width: 300px;
+  margin:0 auto;
   .title {
     line-height: 36px;
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
   }
 }
 </style>

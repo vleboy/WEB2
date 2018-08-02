@@ -1,8 +1,8 @@
 <template>
     <div class="rank">
-        <profit-rank :profitRank="profitRank" @click.native="toDetail"/>
-        <bet-amount :amoutRank="amoutRank" @click.native="toDetail"/>
-        <game-count :countRank="countRank" @click.native="toDetail"/>
+        <profit-rank :profitRank="profitRank" @click.native="toDetail" :style="{'cursor':'pointer'}"/>
+        <bet-amount :amoutRank="amoutRank" @click.native="toDetail" :style="{'cursor':'pointer'}"/>
+        <game-count :countRank="countRank"  @click.native="toDetail" :style="{'cursor':'pointer'}"/>
     </div>
 </template>
 <script>

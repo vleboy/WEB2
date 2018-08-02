@@ -21,16 +21,19 @@ import SideBar from "@/components/SideBar";
 import BreadCrumb from "@/components/BreadCrumb";
 import GameRank from "@/components/GameRank";
 export default {
+  components: { SideBar, GameRank, BreadCrumb },
   data() {
     return {};
   },
   computed: {
     currentPath() {
-        let fromvuex=this.$store.state.app.currentPath
+        let fromvuex=this.$store.state.app.currentPath;
         if(fromvuex.length!=0){
             return fromvuex
-        }else{
+        }else if(localStorage.pathArr){
             return JSON.parse(localStorage.pathArr)
+        }else{
+          return [{title: "全部游戏", path: "/allGame", name: "allGame"}]
         }
     }
   },
@@ -56,7 +59,6 @@ export default {
       this.$store.commit("setCurrentPath", pathArr);
     }
   },
-  components: { SideBar, GameRank, BreadCrumb }
 };
 </script>
 <style lang="less" scoped>

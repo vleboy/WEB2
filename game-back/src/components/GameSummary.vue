@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     goDetail(name) {
-      this.$router.push({ name: name });
+      this.$router.push({ name });
     },
     drawPie(id, data) {
       let option = {

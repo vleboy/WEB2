@@ -17,9 +17,9 @@
             </div>
         <div class="clear"></div>
         </div>
-        <game-kills title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 />
-        <game-summary/>
-        <div class="hour" @click="goOnlineDetail">
+        <game-kills title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 :style="{'cursor':'pointer'}" />
+        <game-summary :style="{'cursor':'pointer'}"/>
+        <div class="hour" @click="goOnlineDetail" :style="{'cursor':'pointer'}">
             <p>每小时在线人数</p>
             <div class="content">
                 <div id="barchart" class="barchart"></div>
@@ -80,25 +80,21 @@ export default {
       let range = {};
       switch (+this.source) {
         case 0:
-          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
-          this.dateRange = "1月";
+          range.endTime = new Date().getTime();
           break;
         case 1:
-          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
-          this.dateRange = "7天";
+          range.endTime = new Date().getTime();
           break;
         case 2:
-          range.endTime = new Date().getTime();
           range.startTime = new Date().getTime() - 3 * 24 * 60 * 60 * 1000;
-          this.dateRange = "3天";
+          range.endTime = new Date().getTime();
           break;
         case 3:
           let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-          range.endTime = zero;
           range.startTime = zero - 86400000;
-          this.dateRange = "昨天";
+          range.endTime = zero;
           break;
       }
       console.log(range);

@@ -6,10 +6,11 @@
         <Radio label="1">7天</Radio>
         <Radio label="2">3天</Radio>
         <Radio label="3">昨天</Radio>
+        <Radio label="4">今天</Radio>
       </RadioGroup>
       <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
     </div>
-    <Button type="primary">{{dateRange}}</Button>
+    <!-- <Button type="primary">{{dateRange}}</Button> -->
     <Row>
       <Col span="8">
       <profit-rank :profitRank="profitRank" />
@@ -32,8 +33,7 @@ export default {
   data() {
     return {
       range: "",
-      source: "",
-      dateRange: "今天",
+      source: "4",
       amoutRank: [
         {
           name: "熊猫传奇",
@@ -98,50 +98,52 @@ export default {
       ]
     };
   },
+  computed: {},
   methods: {
     changeRange() {
       let range = this.range.map(item => {
         return item.getTime();
       });
-      let format=this.range.map(item=>{
-        let y=item.getFullYear();
-        let m=item.getMonth()+1;
-        let d=item.getDate();
-        return y+'-'+m+'-'+d
-      })
-      this.dateRange=format[0]+' 至 '+format[1];
+      let format = this.range.map(item => {
+        let y = item.getFullYear();
+        let m = item.getMonth() + 1;
+        let d = item.getDate();
+        return y + "-" + m + "-" + d;
+      });
+      this.source=''
       console.log(range);
     },
     changeSource() {
       let range = {};
+      let now=new Date().getTime()
+      let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
       switch (+this.source) {
         case 0:
-          range.endTime = new Date().getTime();
-          range.startTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
-          this.dateRange = "1月";
+          range.startTime = now - 30 * 24 * 60 * 60 * 1000;//1month
+          range.endTime = now;
           break;
         case 1:
-          range.endTime = new Date().getTime();
-          range.startTime = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
-          this.dateRange = "7天";
+          range.startTime = now - 7 * 24 * 60 * 60 * 1000;//7day
+          range.endTime = now;
           break;
         case 2:
-          range.endTime = new Date().getTime();
-          range.startTime = new Date().getTime() - 3 * 24 * 60 * 60 * 1000;
-          this.dateRange = "3天";
+          range.startTime = now - 3 * 24 * 60 * 60 * 1000;//3day
+          range.endTime = now;
           break;
         case 3:
-          let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-          range.endTime = zero;
+          //yestoday
           range.startTime = zero - 86400000;
-          this.dateRange = "昨天";
+          range.endTime = zero;
+          break;
+        case 4:
+          range.startTime = zero;//today
+          range.endTime = now;
           break;
       }
       console.log(range);
     }
   },
-  created() {
-  },
+  created() {}
 };
 </script>
 <style lang="less" scoped>
@@ -149,7 +151,7 @@ export default {
   min-height: 91vh;
   .search {
     text-align: right;
-    margin-right: 40px;
+    margin: 20px 30px;
   }
 }
 </style>

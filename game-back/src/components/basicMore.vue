@@ -1,8 +1,8 @@
 <template>
     <div class="more">
-       <login-count/>
-        <hit-rate title="游戏命中率" @click.native="goRateDetail"/>
-        <div class="free" @click="goFreeDetail">
+       <login-count :style="{'cursor':'pointer'}"/>
+        <hit-rate title="游戏命中率" @click.native="goRateDetail" :style="{'cursor':'pointer'}"/>
+        <div class="free" @click="goFreeDetail" :style="{'cursor':'pointer'}">
             <p class="secTitle">免费模式次数与赔付</p>
             <div class="freeContent">
                 <div class="left">
@@ -32,9 +32,9 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail('priceFreeDetail')"/>
-        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail('priceNormalDetail')"/>
-        <free-count title="免费模式次数选择" @click.native="goCountDetail"/>
+        <price-count title="免费模式下大奖次数" num=1 @click.native="goPriceDetail('priceFreeDetail')" :style="{'cursor':'pointer'}"/>
+        <price-count title="普通模式下大奖次数" num=2 @click.native="goPriceDetail('priceNormalDetail')" :style="{'cursor':'pointer'}"/>
+        <free-count title="免费模式次数选择" @click.native="goCountDetail" :style="{'cursor':'pointer'}"/>
     </div>
 </template>
 <script>

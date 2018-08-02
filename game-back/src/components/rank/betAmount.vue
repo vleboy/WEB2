@@ -7,6 +7,7 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
+  props: ["amoutRank"],
   data() {
     return {
       columns: [
@@ -22,7 +23,7 @@ export default {
            className: 'column-test'
         },
         {
-          title: "今日下注金额",
+          title: '下注金额',
           key: "profit",
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.profit));
@@ -31,12 +32,12 @@ export default {
       ]
     };
   },
-  props: ["amoutRank"]
 };
 </script>
 <style lang="less" scoped>
 .betamount {
   width: 300px;
+  margin:0 auto;
   .ivu-table td.column-test{
     background-color: #ff0;
   }
@@ -44,6 +45,7 @@ export default {
     line-height: 36px;
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
   }
 }
 </style>

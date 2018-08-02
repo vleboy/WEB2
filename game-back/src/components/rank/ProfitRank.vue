@@ -7,7 +7,9 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
-  props: ["profitRank"],
+  props: {
+    profitRank:Array,
+  },
   data() {
     return {
       columns: [
@@ -22,7 +24,7 @@ export default {
           key: "name",
         },
         {
-          title: "今日盈利",
+          title: '盈利',
           key: "profit",
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.profit));
@@ -39,10 +41,12 @@ export default {
 <style lang="less">
 .profit {
   width: 300px;
+  margin:0 auto;
   .title {
     line-height: 36px;
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
   }
 }
 .ivu-table td.demo-table-info-column {

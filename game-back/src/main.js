@@ -7,11 +7,13 @@ import iView from 'iview';
 import { store } from './store'
 import 'iview/dist/styles/iview.css'
 import axios from 'axios'
-import echarts from 'echarts'
+import echarts from 'echarts/dist/echarts.simple.js'
 
 Vue.config.productionTip = false
-Vue.prototype.axios = axios
+
+Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
+
 Vue.use(iView);
 
 /* eslint-disable no-new */

@@ -8,7 +8,7 @@ import { store } from './store'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css'
 import axios from 'axios'
-import echarts from 'echarts'
+import echarts from 'echarts/dist/echarts.simple.js'
 
 Vue.prototype.axios = axios
 Vue.prototype.$echarts = echarts
