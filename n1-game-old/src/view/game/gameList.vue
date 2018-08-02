@@ -75,14 +75,13 @@ export default {
   created () {
     this.getCompanyList() // 获取所属游戏商信息
     this.getGameType()
-    this.$store.dispatch('getGamelist')
   },
   data () {
     return {
       nowSize: 50,
       nowPage: 1,
       gameTypeList: [],
-      companyInfo: '全部厂商',
+      companyInfo: '',
       companyOptions: [],
       gameStatus: ['下线', '正常'],
       searchInfo: {
@@ -107,6 +106,10 @@ export default {
     goCreate () {
       this.$router.push('addGame')
       this.$store.commit('isCloseEdit')
+      this.$store.commit({
+        type: 'gameOperatorIden',
+        data: this.companyInfo
+      })
     },
     goUpdate(row){
       this.$store.commit('startLoading')
@@ -245,14 +248,22 @@ export default {
           })
         } else {
           this.companyOptions = res.data.payload
-          this.companyOptions.unshift({
-            company:'全部厂商'
-          })
+          this.companyInfo = this.$store.state.variable.gameIden ? this.$store.state.variable.gameIden : this.companyOptions[0].company
+          this.searchInfo.companyIden =  this.companyInfo
+          this.$store.commit({
+            type: 'gerSearchcondition',
+            data: JSON.parse(JSON.stringify(this.searchInfo))
+          }) // 发送搜索条件
+          this.$store.dispatch('getGamelist')
         }
       })
     },
     startSearch () {
       this.searchInfo.companyIden = this.companyInfo == '全部厂商' ? '' : this.companyInfo
+      this.$store.commit({
+        type: 'gameOperatorIden',
+        data: this.companyInfo
+      })
       this.$store.commit({
         type: 'gerSearchcondition',
         data: JSON.parse(JSON.stringify(this.searchInfo))
