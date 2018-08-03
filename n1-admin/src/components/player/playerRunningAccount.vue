@@ -9,16 +9,16 @@ $
             :editable='false'
             :transfer='true'
             v-model="amountDate"
-            type="daterange"
+            type="datetimerange"
             @on-change="changeDate"
-            placeholder="选择日期范围" style="width: 200px">
+            placeholder="选择日期范围" style="width: 300px">
           </DatePicker>
           <DatePicker
             v-model="monthDate"
             :transfer='true'
             type="month"
             @on-change="changeMonth"
-            placeholder="按月选择">
+            placeholder="按月选择" style="width:100px">
           </DatePicker>
           最近：
           <RadioGroup v-model="radioTime" @on-change="changeTime()" type="button">
