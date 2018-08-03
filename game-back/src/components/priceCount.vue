@@ -77,10 +77,10 @@ export default {
       { value: 310, name: "Mwin次数" },
       { value: 234, name: "Swin次数" }
     ];
-    this.drawPie("pricePie1", data);
+    this.drawPie(data);
   },
   methods: {
-    drawPie(id, data) {
+    drawPie(data) {
       let option = {
         tooltip: {
           trigger: "item",
