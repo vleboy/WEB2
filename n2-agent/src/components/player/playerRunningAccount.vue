@@ -315,8 +315,10 @@ $
       }, // 最近的时间快捷选择联动
       changeDate() {
         if (this.amountDate) {
-          this.startDate = new Date(this.amountDate[0].setMonth(this.amountDate[0].getMonth())).setHours(0, 0, 0, 0);
-          this.endDate = new Date(this.amountDate[1].setMonth(this.amountDate[1].getMonth())).setHours(0, 0, 0, 0) + 24 * 3600 * 1000 - 1;
+          // this.startDate = new Date(this.amountDate[0].setMonth(this.amountDate[0].getMonth())).setHours(0, 0, 0, 0);
+          // this.endDate = new Date(this.amountDate[1].setMonth(this.amountDate[1].getMonth())).setHours(0, 0, 0, 0) + 24 * 3600 * 1000 - 1;
+          this.startDate = new Date(this.amountDate[0]).getTime()
+          this.endDate = new Date(this.amountDate[1]).getTime()
         } else {
           this.radioTime = '';
           this.monthDate = '';
