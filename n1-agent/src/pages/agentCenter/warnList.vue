@@ -521,6 +521,9 @@ export default {
   margin: 10px auto;
   font-size: 16px;
 }
+.radioGroup {
+  padding-left: 20px;
+}
 .current {
   margin: 20px auto;
   font-size: 14px;
