@@ -15,7 +15,7 @@
             <div class="head-right">
               <div class="head-right-title color-gery">
                 <span class="left-text">{{item.oneText}}: </span>
-                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" placement="right">
+                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" placement="right" :transfer='true'>
                   <span class="right-number">{{item.oneNum}}</span>
                 </Tooltip>
 
@@ -42,7 +42,7 @@
               <div class="right-ratio">
                 <div class="head-right-title color-gery">
                   <span class="left-text">{{item.twoText}}: </span>
-                  <Tooltip class="item" effect="dark" :content="item.twoNum.toString()" placement="right">
+                  <Tooltip class="item" effect="dark" :content="item.twoNum.toString()" placement="right" :transfer='true'>
                     <span class="right-number">{{item.twoNum}}</span>
                   </Tooltip>
                 </div>

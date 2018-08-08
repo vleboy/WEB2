@@ -10,7 +10,7 @@
             <div class="head-right">
               <div class="head-right-title color-gery">
                 <span class="left-text">{{item.oneText}}: </span>
-                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" placement="right">
+                <Tooltip class="item" effect="dark" :content="item.oneNum.toString()" placement="right" :transfer='true'>
                   <span class="right-number">{{item.oneNum}}</span>
                 </Tooltip>
 
@@ -37,7 +37,7 @@
               <div class="right-ratio">
                 <div class="head-right-title color-gery">
                   <span class="left-text">{{item.twoText}}: </span>
-                  <Tooltip class="item" effect="dark" :content="item.twoNum.toString()" placement="right">
+                  <Tooltip class="item" effect="dark" :content="item.twoNum.toString()" placement="right" :transfer='true'>
                     <span class="right-number">{{item.twoNum}}</span>
                   </Tooltip>
                 </div>
@@ -196,9 +196,9 @@
         totalData: [],
         dataChess: [],
         dataVideo: [],
-        statisticalTextOne: localStorage.loginRole == '100' ? ['今日收益点数', '在线玩家'] : ['今日售出点数', '今日收益点数', '在线玩家', '今日签约数'],
-        statisticalTextTwo: localStorage.loginRole == '100' ? ['历史收益点数', '玩家总数'] : ['历史售出点数', '历史收益点数', '玩家总数', '历史签约数'],
-        statisticalIcon: localStorage.loginRole == '100' ? ['/static/icon-2.png', '/static/icon-3.png'] : ['/static/icon-1.png', '/static/icon-2.png', '/static/icon-3.png', '/static/icon-4.png'],
+        statisticalTextOne: ['今日收益点数', '在线玩家'] ,
+        statisticalTextTwo: ['历史收益点数', '玩家总数'],
+        statisticalIcon: ['/static/icon-2.png', '/static/icon-3.png'],
         dateTypeArray: [],
         consumeList: '',
         consumeAndIncomeList: '',
@@ -215,7 +215,6 @@
         saleNum: '0', // 动态渲染售出消耗总点数
         isSaleNum: true, // 是否显示售出
         isConNum: true, // 是否显示收益
-        role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         companyList: [], // 厂商列表
         companyInfo: '全部厂商', // 厂商单独信息
         testInfo: '0'
@@ -223,14 +222,8 @@
     },
     mounted () {
       let self = this
-      if (this.role == '100') {
-        for (let i = 0; i < 2; i++){
-          self.getStatisticalNum(i)
-        }
-      } else {
-        for (let i = 0; i < 4; i++){
-          self.getStatisticalNum(i)
-        }
+      for (let i = 0; i < 2; i++){
+        self.getStatisticalNum(i)
       }
       self.changeDateType()
       self.changeDateTypeTwo()
@@ -238,14 +231,8 @@
       self.companySelect()
       self.intervalid = setInterval(() => {
         self.isSetInterval = true
-        if (this.role == '100') {
-          for (let i = 0; i < 2; i++){
-            self.getStatisticalNum(i)
-          }
-        } else {
-          for (let i = 0; i < 4; i++){
-            self.getStatisticalNum(i)
-          }
+        for (let i = 0; i < 2; i++){
+          self.getStatisticalNum(i)
         }
         self.changeDateType()
         self.changeDateTypeTwo()
@@ -330,12 +317,12 @@
       getStatisticalNum (index) {
         httpRequest('post','/statistics/overview',{
           isTest: +this.testInfo,
-          type: index + ((this.role == '100') ? 2 : 1)
+          type: index + 2
         }).then(
           result => {
             if (!this.isSetInterval) {
               this.totalData.splice(index, 0, {
-                index: index+1,
+                index: index+2,
                 icon: this.statisticalIcon[index],
                 oneText: this.statisticalTextOne[index],
                 twoText: this.statisticalTextTwo[index],
