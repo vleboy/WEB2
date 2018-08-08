@@ -367,7 +367,7 @@ export default {
   computed: {
     countTime() {
       if (this.endTime == 0 || this.endTime == "") {
-        return "";
+        return dayjs(new Date().getTime()).format("YYYY-MM-DD HH:mm:ss");
       } else {
         return dayjs(this.endTime).format("YYYY-MM-DD HH:mm:ss");
       }
