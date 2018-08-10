@@ -212,7 +212,8 @@
                   <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadLogo" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusLogo">请选择需要上传文件</Button>
                   </Upload>
-                  <p class="img_notice">分辨率不超过 680*220 </p>
+                  <p class="img_notice">文件名只能包含英文和数字</p>
+                  <p class="img_notice">且分辨率不超过 680*220 </p>
                 </div>
               </FormItem>
               </Col>
@@ -223,7 +224,8 @@
                   <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadName" :action="actionUrl" style="display: inline-block;width:58px;">
                     <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusName">请选择需要上传文件</Button>
                   </Upload>
-                  <p class="img_notice">分辨率不超过 825*155 </p>
+                  <p class="img_notice">文件名只能包含英文和数字</p>
+                  <p class="img_notice">且分辨率不超过 825*155 </p>
                 </div>
               </FormItem>
               </Col>
