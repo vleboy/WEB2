@@ -817,6 +817,7 @@ export default {
     beforeUploadLogo(file) {
       localStorage.setItem("nowUrl", "merchantDetail");
       let fileName = this.suffixFun(file.name);
+      let reg = new RegExp(/^[0-9a-zA-Z]*$/)
       const isLt1M = file.size / 1024 / 1024 < 2;
       const suffix = fileName[1].toLowerCase();
       const fileType = ["png", "jpg"];
@@ -828,6 +829,8 @@ export default {
         return this.$Message.error("上传图片只能是 JPG或者PNG 格式!");
       } else if (!isLt1M) {
         return this.$Message.error("大小不能超过 2MB!");
+      } else if (!reg.exec(this.suffixFun(this.imgFileLogo.fileName)[0])) {
+        return this.$Message.error("文件名只能是英文或者数字！");
       }
       return new Promise((resolve, reject) => {
         this.loadingStatusLogo = true;
@@ -894,6 +897,7 @@ export default {
     beforeUploadName(file) {
       localStorage.setItem("nowUrl", "merchantDetail");
       let fileName = this.suffixFun(file.name);
+      let reg = new RegExp(/^[0-9a-zA-Z]*$/)
       const isLt1M = file.size / 1024 / 1024 < 2;
       const suffix = fileName[1].toLowerCase();
       const fileType = ["png", "jpg"];
@@ -905,6 +909,8 @@ export default {
         return this.$Message.error("上传图片只能是 JPG或者PNG 格式!");
       } else if (!isLt1M) {
         return this.$Message.error("大小不能超过 2MB!");
+      } else if (!reg.exec(this.suffixFun(this.imgFileName.fileName)[0])) {
+        return this.$Message.error("文件名只能是英文或者数字！");
       }
       return new Promise((resolve, reject) => {
         this.loadingStatusName = true;
