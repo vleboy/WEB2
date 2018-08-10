@@ -1,0 +1,65 @@
+<template>
+    <div class="sider">
+        <Sider width='200px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
+            <img class="logoimg" src="../../static/logo.png" alt="">
+            <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
+                <MenuItem name="giftList" >
+                  <span>供应商管理</span>
+                </MenuItem>
+                <MenuItem name="giftList" >
+                <span>游戏管理</span>
+                </MenuItem>
+                <MenuItem name="giftList" >
+                <span>游戏大厅管理</span>
+                </MenuItem>
+                <Submenu name="tool" >
+                    <template slot="title">
+                        道具管理
+                    </template>
+                    <MenuItem name="giftList" >道具列表</MenuItem>
+                    <MenuItem name="giftList" >礼包列表</MenuItem>
+                </Submenu>
+            </Menu>
+        </Sider>
+    </div>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  created() {
+    // let permission = this.permission;
+    // let str = permission.toString();
+    // console.log(str.includes("报表"));
+  },
+  methods: {
+    selectMenu(name) {
+        this.$router.push({ name: name });
+    }
+  },
+  computed: {
+  },
+  props: ["openName"],
+  updated() {
+    this.$nextTick(() => {
+      if (this.$refs.sideMenu) {
+        this.$refs.sideMenu.updateOpened();
+      }
+    });
+  }
+};
+</script>
+
+<style scoped>
+.layout-header-bar {
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.logoimg {
+  max-width: 180px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>
