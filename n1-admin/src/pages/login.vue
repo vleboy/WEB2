@@ -129,8 +129,8 @@ export default {
         role: "1",
         username: this.username,
         password: password,
-        challenge: this.userdata.challenge,//'b',
-        vid: this.userdata.token,//'b',
+        challenge: this.userdata.challenge,
+        vid: this.userdata.token,
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });

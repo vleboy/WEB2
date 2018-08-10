@@ -79,6 +79,12 @@ export default {
   created() {
     this.initVaptcha();
   },
+  mounted(){
+    let sn=this.$route.query.sn
+    let uname=this.$route.query.uname
+    this.username=uname;
+    this.sn=sn;
+  },
   methods: {
     initVaptcha() {
       let self = this;

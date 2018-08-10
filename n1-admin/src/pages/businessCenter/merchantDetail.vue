@@ -17,12 +17,7 @@
           <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
-              <FormItem label="商户ID">
-                {{ merchantDetail.displayId }}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="上级商户">
+              <FormItem label="上级">
                 {{ merchantDetail.parentDisplayName }}
               </FormItem>
               </Col>
@@ -31,9 +26,32 @@
                 {{merchantDetail.displayName}}
               </FormItem>
               </Col>
+              <Col span="8">
+              <FormItem label="商户ID">
+                {{ merchantDetail.displayId }}
+              </FormItem>
+              </Col>
             </Row>
             <Row>
               <Col span="8">
+              <FormItem label="管理员账号">
+                {{ merchantDetail.uname}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="标识">
+                {{merchantDetail.sn}}
+              </FormItem>
+              </Col>
+              <Col span="8">
+              <FormItem label="商户前缀">
+                {{merchantDetail.suffix}}
+              </FormItem>
+              </Col>
+
+            </Row>
+            <Row>
+               <Col span="8">
               <FormItem label="商户密匙">
                 <Row>
                   <Col span="18">
@@ -48,30 +66,13 @@
               </FormItem>
               </Col>
               <Col span="8">
+              <FormItem label="上次登录IP">
+                {{merchantDetail.lastIP}}
+              </FormItem>
+              </Col>
+              <Col span="8">
               <FormItem label="商户线路号">
                 {{merchantDetail.msn}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户前缀">
-                {{merchantDetail.suffix}}
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="创建时间">
-                {{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="最后登录时间">
-                {{dayjs(merchantDetail.updatedAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="标识">
-                {{merchantDetail.sn}}
               </FormItem>
               </Col>
             </Row>
@@ -82,13 +83,8 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="上次登录IP">
-                {{merchantDetail.lastIP}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="管理员账号">
-                {{ merchantDetail.uname}}
+              <FormItem label="创建时间">
+                {{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
             </Row>
@@ -231,9 +227,9 @@
               </Col>
               <Col span="4">
               <FormItem label="皮肤">
-                 <Select v-model="basic.skin" placeholder="请选择" :disabled='edit'>
-                <Option v-for="item in skinList" :value="item.value" :key="item.value">{{item.name}}</Option>
-              </Select>
+                <Select v-model="basic.skin" placeholder="请选择" :disabled='edit'>
+                  <Option v-for="item in skinList" :value="item.value" :key="item.value">{{item.name}}</Option>
+                </Select>
               </FormItem>
               </Col>
             </Row>
@@ -348,7 +344,7 @@ export default {
         registerURL: "",
         feedbackURL: "",
         loginWhiteList: "",
-        skin:'1'
+        skin: "1"
       },
       gameForm: {
         gameType: "",
@@ -362,13 +358,16 @@ export default {
           name: []
         }
       },
-      skinList:[{
-        value:'1',
-        name:'默认'
-      },{
-        value:'2',
-        name:'2'
-      }],
+      skinList: [
+        {
+          value: "1",
+          name: "默认"
+        },
+        {
+          value: "2",
+          name: "2"
+        }
+      ],
       gameType: [],
       gameList: [], //select
       columns1: [
@@ -476,17 +475,17 @@ export default {
           key: "action",
           render: (h, params) => {
             let row = params.row;
-            if(row.fromDisplayName==row.toDisplayName){
-              if(row.amount<0){
-                return h('span','玩家充值')
-              }else{
-                return h('span','玩家提现')
-              }
-            }else{
-              if (row.fromLevel > row.toLevel) {
-                return h("span","减点");
+            if (row.fromDisplayName == row.toDisplayName) {
+              if (row.amount < 0) {
+                return h("span", "玩家充值");
               } else {
-                return h("span","加点");
+                return h("span", "玩家提现");
+              }
+            } else {
+              if (row.fromLevel > row.toLevel) {
+                return h("span", "减点");
+              } else {
+                return h("span", "加点");
               }
             }
           }
@@ -560,7 +559,7 @@ export default {
     },
     permission() {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
-    },
+    }
   },
   methods: {
     editBtn() {
@@ -617,7 +616,7 @@ export default {
       params.password = password;
       params.remark = this.basic.remark;
       params.gameList = this.gameDetail;
-      params.skin=this.basic.skin;
+      params.skin = this.basic.skin;
       params.frontURL = this.basic.frontURL;
       params.moneyURL = this.basic.moneyURL;
       params.registerURL = this.basic.registerURL;
@@ -754,9 +753,9 @@ export default {
       }
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
-        this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false;//brower
-        this.isTest = merchant.payload.isTest == 1 ? true : false;//test
-        this.basic.skin=merchant.payload.skin||'1';//skin
+        this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false; //brower
+        this.isTest = merchant.payload.isTest == 1 ? true : false; //test
+        this.basic.skin = merchant.payload.skin || "1"; //skin
         this.gameDetail = merchant.payload.gameList;
       }
       if (company && company.code == 0) {
@@ -959,9 +958,9 @@ export default {
     width: 200px;
     height: 100px;
   }
-  .img_notice{
+  .img_notice {
     line-height: 32px;
-    color:red;
+    color: red;
   }
   .page {
     text-align: right;

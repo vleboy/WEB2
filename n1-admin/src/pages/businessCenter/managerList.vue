@@ -99,6 +99,8 @@ export default {
       source: "1",
       toUser: "",
       displayName: "",
+      stopManager:false,
+      goManager:false,
       suffix: "", //前缀
       disabled: true, //加点禁用
       tooltip: "起始账户余额为", //tooltip content
@@ -401,7 +403,6 @@ export default {
               status = 1;
               color = "#20a0ff";
             }
-            if (this.permission.includes("停启用线路商")) {
               return h("div", [
                 h(
                   "Button",
@@ -441,7 +442,8 @@ export default {
                       size: "small"
                     },
                     style: {
-                      color: color
+                      color: color,
+                      display: this.stopManager ? "inline" : "none"
                     },
                     on: {
                       click: () => {
@@ -465,40 +467,32 @@ export default {
                     }
                   },
                   text
+                ),
+                h(
+                   "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: '#20a0ff',
+                      display: this.goManager ? "inline" : "none"
+                    },
+                    on:{
+                      click:()=>{
+                        let url=process.env.NODE_ENV == 'production'?'http://sh.na12345.com/#/login':'http://dev-manager.na12345.com/#/login';
+                        //http://localhost:8080   http://dev-merchant.na12345.com/#/login
+                        let uname=params.row.uname;
+                        let suffix=params.row.suffix;
+                        url=url+'?uname='+uname+'&suffix='+suffix;
+                        window.open(url)
+                      }
+                    }
+                  },
+                  '前往线路商系统'
                 )
               ]);
-            } else {
-              return h(
-                "Button",
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: "#20a0ff"
-                  },
-                  on: {
-                    click: () => {
-                      let userId = params.row.userId;
-                      let displayName = params.row.displayName;
-                      let username = params.row.username;
-                      let parent = params.row.parent;
-                      this.$router.push({
-                        path: "/dealerDetail",
-                        query: {
-                          userId,
-                          displayName,
-                          username,
-                          parent
-                        }
-                      });
-                    }
-                  }
-                },
-                "查看"
-              );
-            }
           }
         }
       ]
@@ -617,6 +611,12 @@ export default {
   created() {
     if (this.permission.includes("正式数据")) {
       this.source = '0';
+    }
+    if (this.permission.includes("停启用线路商")) {
+       this.stopManager = true;
+    }
+    if (this.permission.includes("前往线路商系统")) {
+      this.goManager = true;
     }
     this.init();
   },

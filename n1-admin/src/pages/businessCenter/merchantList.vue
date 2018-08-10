@@ -111,6 +111,8 @@ export default {
       fromUserId: "", //id
       toRole: " ",
       toUser: "",
+      stopMerchant:false,
+      goMerchant:false,
       disabled: true, //加点禁用
       tooltip: "起始账户余额为", //tooltip content
       columns1: [
@@ -429,7 +431,6 @@ export default {
               status = 1;
               color = "#20a0ff";
             }
-            if (this.permission.includes("停启用商户")) {
               return h("div", [
                 h(
                   "Button",
@@ -471,7 +472,8 @@ export default {
                       size: "small"
                     },
                     style: {
-                      color: color
+                      color: color,
+                      display: this.stopMerchant ? "inline" : "none"
                     },
                     on: {
                       click: () => {
@@ -495,42 +497,32 @@ export default {
                     }
                   },
                   text
+                ),
+                h(
+                   "Button",
+                  {
+                    props: {
+                      type: "text",
+                      size: "small"
+                    },
+                    style: {
+                      color: '#20a0ff',
+                      display: this.goMerchant ? "inline" : "none"
+                    },
+                    on:{
+                      click:()=>{
+                        let url=process.env.NODE_ENV == 'production'?'http://sh.na12345.com/#/login':' http://dev-merchant.na12345.com/#/login';
+                        //http://localhost:8080   http://dev-merchant.na12345.com/#/login
+                        let uname=params.row.uname;
+                        let sn=params.row.sn;
+                        url=url+'?uname='+uname+'&sn='+sn;
+                        window.open(url)
+                      }
+                    }
+                  },
+                  '前往商户系统'
                 )
               ]);
-            } else {
-              return h(
-                "Button",
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: "#20a0ff"
-                  },
-                  on: {
-                    click: () => {
-                      let userId = params.row.userId;
-                      let displayName = params.row.displayName;
-                      let parent = params.row.parent;
-                      let username = params.row.username;
-                      let parentDisplayName = params.row.parentDisplayName;
-                      this.$router.push({
-                        path: "/merchantDetail",
-                        query: {
-                          userId,
-                          displayName,
-                          username,
-                          parent,
-                          parentDisplayName
-                        }
-                      });
-                    }
-                  }
-                },
-                "查看"
-              );
-            }
           }
         }
       ]
@@ -658,6 +650,12 @@ export default {
   created() {
     if (this.permission.includes("正式数据")) {
       this.source = '0';
+    }
+     if (this.permission.includes("停启用商户")) {
+       this.stopMerchant = true;
+    }
+    if (this.permission.includes("前往商户系统")) {
+      this.goMerchant = true;
     }
     this.init();
   },

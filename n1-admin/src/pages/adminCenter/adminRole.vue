@@ -214,6 +214,10 @@ export default {
                 title:'停启用线路商',
                 checked:false
               },
+               {
+                title:'前往线路商系统',
+                checked:false
+              },
               {
                 title: "线路商加减点",
                 checked: false
@@ -228,6 +232,10 @@ export default {
               },
               {
                 title:'停启用商户',
+                checked:false
+              },
+                {
+                title:'前往商户系统',
                 checked:false
               },
               {

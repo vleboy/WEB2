@@ -176,6 +176,9 @@ export default {
                 {
                   title: "停启用线路商"
                 },
+                 {
+                  title: "前往线路商系统"
+                },
                 {
                   title: "线路商加减点"
                 },
@@ -187,6 +190,9 @@ export default {
                 },
                 {
                   title:'停启用商户'
+                },
+                 {
+                  title:'前往商户系统'
                 },
                 {
                   title: "商户加减点"
