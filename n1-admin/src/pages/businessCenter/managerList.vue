@@ -481,7 +481,7 @@ export default {
                     },
                     on:{
                       click:()=>{
-                        let url=process.env.NODE_ENV == 'production'?'http://sh.na12345.com/#/login':'http://dev-manager.na12345.com/#/login';
+                        let url=process.env.NODE_ENV == 'production'?'http://xl.na12345.com/#/login':'http://dev-manager.na12345.com/#/login';
                         //http://localhost:8080   http://dev-merchant.na12345.com/#/login
                         let uname=params.row.uname;
                         let suffix=params.row.suffix;
