@@ -1,6 +1,7 @@
 <template>
     <div class="sider">
         <Sider width='200px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
+            <h2 class="sysName">老虎机数据管理后台</h2>
             <Menu ref="sideMenu" :active-name="$route.name" theme="dark" width="auto" @on-select='selectMenu'>
                 <MenuItem name="allGame">
                     <span>全部游戏</span>
@@ -28,6 +29,12 @@
                 </MenuItem>
                 <MenuItem name="football">
                     <span>幸运足球</span>
+                </MenuItem>
+                <MenuItem name="mysterySea">
+                    <span>神秘海域</span>
+                </MenuItem>
+                <MenuItem name="sepcialCount">
+                    <span>特殊统计</span>
                 </MenuItem>
             </Menu>
         </Sider>
@@ -64,5 +71,11 @@ export default {
 .layout-header-bar {
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.sysName{
+    text-align: center;
+    background-color: #fff;
+    line-height: 60px;
+    font-weight: bold;
 }
 </style>
