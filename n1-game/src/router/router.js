@@ -1,4 +1,4 @@
-import main from '@/pages/main'
+import main from '@/components/main'
 import err404 from '@/pages/404'
 import login from '@/pages/login'
 
