@@ -34,10 +34,10 @@
 <script>
 import SideBar from "@/components/SideBar";
 // import BreadCrumb from "@/components/BreadCrumb";
-import tagClose from "@/components/tags-close";
+import TagClose from "@/components/TagClose";
 import util from "@/libs/util.js";
 export default {
-  components: { SideBar, tagClose },
+  components: { SideBar, TagClose },
   data() {
     return {
       userName: localStorage.subRole,

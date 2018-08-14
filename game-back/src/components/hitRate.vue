@@ -1,156 +1,117 @@
 <template>
-     <div class="hitRate">
-            <p class="secTitle">{{title}}</p>
-            <div class="rateContent">
-                <div class="circle">
-                    <div class="todayRate">
-                        <p>今日</p>
-                        <i-circle :percent="80" stroke-color="#5cb85c">
-                            <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                        </i-circle>
-                        <p>875746局</p>
-                    </div>
-                    <div class="predict">
-                        预期:31.52%
-                    </div>
-                    <div class="historyRate">
-                        <p>历史</p>
-                        <i-circle :percent="80" stroke-color="#5cb85c">
-                            <span class="demo-Circle-inner" style="font-size:24px">80%</span>
-                        </i-circle>
-                        <p>875746局</p>
-                    </div>
-                </div>
-                <p class="rateTitle">图标命中次数</p>
-                <ul>
-                    <li><span class="red">Scat</span>  23次</li>
-                    <li><span class="red">Wild</span>  23次</li>
-                </ul>
-                <div class="clear"></div>
-                <ul>
-                    <li><span class="orange">SS0</span>  23次</li>
-                    <li><span class="orange">SS1</span>  23次</li>
-                    <li><span class="orange">SS2</span>  23次</li>
-                    <li><span class="orange">SS3</span>  23次</li>
-                    <li><span class="orange">SS4</span>  23次</li>
-                </ul>
-                <div class="clear"></div>
-                 <ul>
-                    <li><span class="blue">NS0</span>  23次</li>
-                    <li><span class="blue">NS1</span>  23次</li>
-                    <li><span class="blue">NS2</span>  23次</li>
-                    <li><span class="blue">NS3</span>  23次</li>
-                    <li><span class="blue">NS4</span>  23次</li>
-                    <li><span class="blue">NS5</span>  23次</li>
-                </ul>
-                <div class="clear"></div>
-                <p class="rateTitle">线路命中次数</p>
-                <div class="lineHit">
-                    <p><span class="continueline"><span class="continue">3连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="continueline"><span class="continue">4连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="continueline"><span class="continue">5连</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p class="sepreate"><span class="linNum"><span class="line">2条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="linNum"><span class="line">3条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="linNum"><span class="line">4条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="linNum"><span class="line">5条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="linNum"><span class="line">6条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                    <p><span class="linNum"><span class="line">6+条线</span>&nbsp;&nbsp;次数<span>12&nbsp;&nbsp;金额<span>156,454</span>&nbsp;&nbsp;占比:<span>43%</span></span></span></p>
-                </div>
+    <div class="hitRate">
+        <div class="search clear">
+            <div class="right">
+                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+                    <Radio label="0">1月</Radio>
+                    <Radio label="1">7天</Radio>
+                    <Radio label="2">3天</Radio>
+                    <Radio label="3">昨天</Radio>
+                </RadioGroup>
+                <DatePicker type="daterange" v-model="dateRange" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
             </div>
+         </div>
+        <div class="title">
+             <Row>
+                <Col span="10">
+                <p class="secTitle">游戏命中率</p>
+                </Col>
+                <Col span="5">
+                <p><span class="rate">{{rate}}</span></p>
+                <p class="count">{{count}} 局</p>
+                </Col>
+            </Row>
         </div>
+        <div id="hitrateChart" class="barchart"></div>
+    </div>
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
-    data(){
-        return{
-
+  props: {},
+  data() {
+    return {
+      rate: "43%",
+      source:'',
+      dateRange:'',
+      count: thousandFormatter(234554)
+    };
+  },
+  mounted(){
+      this.drawBar()
+  },
+  methods:{
+      changeSource(){
+          console.log(this.source);
+      },
+      changeRange(){
+          console.log(this.dateRange);
+      },
+       drawBar() {
+      let option = {
+        xAxis: {
+          type: "category",
+          data: ['Scat','Wild','SSO','SS1','SS2','SS3','SS4','NS0','NS1','NS2','NS3','NS4','NS5'],
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            name: "命中率",
+            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200],
+            type: "bar"
+          },
+        ],
+        tooltip: {
+          show: true,
+          trigger:'axis',
+          axisPointer: {
+              type: 'shadow'
+            }
         }
-    },
-    props:['title']
-}
+      };
+      const chart = document.getElementById("hitrateChart");
+      let myChart = this.$echarts.init(chart);
+      myChart.setOption(option);
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .hitRate {
-     .secTitle {
-        line-height: 36px;
-        font-weight: bold;
-    }
-    .rateContent {
-      background-color: #fff;
-      .lineHit{
-          p{
-              text-indent: 1em;
-          }
-      }
-      .circle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        line-height: 28px;
-        .predict {
-          background-color: #66ccff;
-          width: 160px;
-          height: 40px;
-          text-align: center;
-          line-height: 40px;
-          border-radius: 4px;
-          margin: auto 80px;
-        }
-      }
-      .rateTitle{
-          font-weight: bold;
-      }
-      .clear{
-          clear: both;
-      }
-      ul{
-          li{
-              width: 18%;
-              line-height: 32px;
-              border-bottom: 1px solid #3366FF;
-              margin: auto 5px;
-              float: left;
-              list-style-type: none;
-          }
-      }
-      .red{
-          color: #FF0033;
-          font-size: 16px;
-          font-weight: bold;
-      }
-      .orange{
-          color:#FF9900;
-          font-size: 16px;
-          font-weight: bold;
-      }
-      .blue{
-          color:#66CCFF;
-          font-size: 16px;
-          font-weight: bold;
-      }
-      .continueline{
-          line-height: 36px;
-          border-bottom: 1px solid #3366FF;
-          .continue{
-              color: #FF9900;
-              font-size: 18px;
-              font-weight: bold;
-          }
-      }
-      .sepreate{
-          margin-top: 10px;
-      }
-      .linNum{
-          line-height: 36px;
-          border-bottom: 1px solid #3366FF;
-          .line{
-              color: #6699FF;
-              font-size: 18px;
-              font-weight: bold;
-          }
-      }
-    }
+  background-color: #fff;
+  margin-top: 15px;
+  .secTitle {
+    line-height: 38px;
+    font-weight: bold;
+    font-size: 16px;
+    text-indent: 1em;
   }
+  .search{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+  .rate{
+      display: inline-block;
+      margin-top: 10px;
+      text-align: center;
+      line-height: 40px;
+      width: 150px;
+      height: 40px;
+      background-color: #00CCFF;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+  }
+  .count{
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 40px;
+  }
+  .barchart{
+      width: 100%;
+      height: 300px;
+  }
+}
 </style>

@@ -1,0 +1,93 @@
+<template>
+    <div class="hourChart">
+         <div :id="'hourChart'+hourId" class="hourChart"></div>
+    </div>
+</template>
+<script>
+export default {
+    name:'hourChart',
+    components:{},
+    filters:{
+
+    },
+    props:{
+        title:String,
+        legend:Array,
+        hourId:String
+    },
+    data(){
+        return{
+            
+        }
+    },
+    computed:{
+
+    },
+    watch:{
+
+    },
+    created(){
+
+    },
+    mounted(){
+        console.log(this.legend);
+        this.drwaLine()
+    },
+    updated() {
+    this.$nextTick(() => {
+      
+    });
+  },
+    methods:{
+       drwaLine() {
+        let option = {
+        title: {
+          text: this.title
+        },
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          data: this.legend// ["7日平均下注", "今日下注"]
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            name: this.legend[0],
+            type: "line",
+            data: [120, 132, 101, 134, 90, 230, 210]
+          },
+          {
+            name: this.legend[1],
+            type: "line",
+            data: [220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310]
+          },
+        ]
+      };
+      let dom='hourChart'+this.hourId
+      const chart = document.getElementById(dom);
+      let myChart = this.$echarts.init(chart);
+      myChart.setOption(option);
+    }
+    }
+}
+</script>
+<style lang="less" scoped>
+ .hourChart{
+            width: 100%;
+            height: 250px;
+        }
+</style>

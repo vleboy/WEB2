@@ -1,20 +1,5 @@
 import Main from '@/components/Main'
 import err from '@/pages/404'
-//detail
-import loginDetail from '@/pages/loginDetail'
-import rankDetail from '@/pages/rankDetail'
-import killDetail from '@/pages/killDetail'
-import priceFreeDetail from '@/pages/priceFreeDetail'
-import priceNormalDetail from '@/pages/priceNormalDetail'
-import rateDetail from '@/pages/rateDetail'
-import countDetail from '@/pages/countDetail'
-import profitDetail from '@/pages/profitDetail'
-import payDetail from '@/pages/payDetail'
-import gameCountDetail from '@/pages/gameCountDetail'
-import betDetail from '@/pages/betDetail'
-import onlineDetail from '@/pages/onlineDetail'
-import freeDetail from '@/pages/freeCountDetail'
-import playerDetail from '@/pages/playerDetail'
 // games
 import allGame from '@/pages/games/allGame'
 import caisheng from '@/pages/games/caisheng'
@@ -58,19 +43,6 @@ export const appRouter=[
         component: Main,
         children:[
           {path:'allGame',title: '全部游戏',name:'allGame',component:allGame},
-          {path:'playerDetail',title: '玩家详情',name:'playerDetail',component:playerDetail},
-          {path:'profitDetail',title: '盈利详情',name:'profitDetail',component:profitDetail},
-          {path:'payDetail',title: '赔付详情',name:'payDetail',component:payDetail},
-          {path:'gameCountDetail',title: '游戏局数详情',name:'gameCountDetail',component:gameCountDetail},
-          {path:'betDetail',title: '下注详情',name:'betDetail',component:betDetail},
-          {path:'loginDetail',title: '登录详情',name:'loginDetail',component:loginDetail},
-          {path:'killDetail', title: '游戏杀数',name:'killDetail',component:killDetail},
-          {path:'priceNormalDetail',title: '普通模式大奖详情',name:'priceNormalDetail',component:priceNormalDetail},
-          {path:'priceFreeDetail',title: '免费模式大奖详情',name:'priceFreeDetail',component:priceFreeDetail},
-          {path:'rateDetail', title: '游戏命中率',name:'rateDetail',component:rateDetail},
-          {path:'countDetail',title: '次数详情',name:'countDetail',component:countDetail},
-          {path:'onlineDetail',title: '在线详情',name:'onlineDetail',component:onlineDetail},
-          {path:'freeDetail',title: '免费次数与赔付详情',name:'freeDetail',component:freeDetail},
           {path:'caisheng',title: '财神进宝',name:'caisheng',component:caisheng},
           {path:'taluo',title: '塔罗之谜',name:'taluo',component:taluo},
           {path:'chuniang',title: '小厨娘',name:'chuniang',component:chuniang},

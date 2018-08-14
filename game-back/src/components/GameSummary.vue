@@ -1,64 +1,120 @@
 <template>
   <div class="piechart">
+    <div class="search clear">
+            <div class="right">
+                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+                    <Radio label="0">1月</Radio>
+                    <Radio label="1">7天</Radio>
+                    <Radio label="2">3天</Radio>
+                    <Radio label="3">昨天</Radio>
+                </RadioGroup>
+                <DatePicker type="daterange" v-model="dateRange" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+            </div>
+         </div>
     <Row>
-      <Col span="16">
-      <div class="singleBar" @click="goDetail('profitDetail')">
-        <p class="pieTitle">盈利总和</p>
-        <Row class="sumary">
-          <Col span="12">
-          <span class="hisTitle">历史</span> 85,474,571,548</Col>
-          <Col span="12">
-          <span class="hisTitle">今日</span> 85,474,571,548</Col>
-        </Row>
-        <div id="bar1" class="bar"></div>
-      </div>
+      <Col span="12">
+      <Row>
+        <Col span="18">
+        <div class="singlePie">
+          <p class="pieTitle">下注总和-今日 <span class="count">¥ {{count}}</span></p>
+          <div id="pie1" class="pie"></div>
+        </div>
+        </Col>
+        <Col span="5">
+        <rank-item range="今日" :rankList='rankList' />
+        </Col>
+      </Row>
       </Col>
-      <Col span="8">
-      <div class="singlePie" @click="goDetail('betDetail')">
-        <p class="pieTitle">下注总和</p>
-        <Row class="sumary">
-          <Col span="12">
-          <span class="hisTitle">历史</span> 85,474,571,548</Col>
-          <Col span="12">
-          <span class="hisTitle">今日</span> 85,474,571,548</Col>
-        </Row>
-        <div id="pie1" class="pie"></div>
-      </div>
+      <Col span="12">
+      <Row>
+        <Col span="18">
+        <div class="singlePie">
+          <p class="pieTitle">下注总和-历史 <span class="count">¥ {{count}}</span></p>
+          <div id="pie2" class="pie"></div>
+        </div>
+        </Col>
+        <Col span="5">
+        <rank-item range="今日" :rankList='rankList' />
+        </Col>
+      </Row>
       </Col>
     </Row>
+     <div class="btn">
+            <Button type="primary" class="morebtn" v-if='!showHourBet' @click="seeHourBet">点击查看每小时下注金额</Button>
+        </div>
+      <hour-chart title="每小时下注" hourId="2" :legend='["今日下注", "7日平均下注"]' v-if="showHourBet"/>
     <Row>
-      <Col span="16">
-      <div class="singleBar" @click="goDetail('payDetail')">
-        <p class="pieTitle">赔付总和</p>
-        <Row class="sumary">
-          <Col span="12">
-          <span class="hisTitle">历史</span> 85,474,571,548</Col>
-          <Col span="12">
-          <span class="hisTitle">今日</span> 85,474,571,548</Col>
-        </Row>
-        <div id="bar2" class="bar"></div>
-      </div>
+      <Col span="12">
+      <Row>
+        <Col span="18">
+        <div class="singlePie">
+          <p class="pieTitle">游戏局数-今日 <span class="count">¥ {{count}}</span></p>
+          <div id="pie3" class="pie"></div>
+        </div>
+        </Col>
+        <Col span="5">
+        <rank-item range="今日" :rankList='rankList' />
+        </Col>
+      </Row>
       </Col>
-      <Col span="8">
-      <div class="singlePie" @click="goDetail('gameCountDetail')">
-        <p class="pieTitle">游戏局数</p>
-        <Row class="sumary">
-          <Col span="12">
-          <span class="hisTitle">历史</span> 85,474,571,548</Col>
-          <Col span="12">
-          <span class="hisTitle">今日</span> 85,474,571,548</Col>
-        </Row>
-        <div id="pie2" class="pie"></div>
-      </div>
+      <Col span="12">
+      <Row>
+        <Col span="18">
+        <div class="singlePie">
+          <p class="pieTitle">游戏局数-历史 <span class="count">¥ {{count}}</span></p>
+          <div id="pie4" class="pie"></div>
+        </div>
+        </Col>
+        <Col span="5">
+        <rank-item range="今日" :rankList='rankList' />
+        </Col>
+      </Row>
       </Col>
     </Row>
+    <div class="btn">
+            <Button type="primary" class="morebtn" v-if='!showHourCount' @click="seeHourCount">点击查看每小时下注金额</Button>
+        </div>
+      <hour-chart title="每小时局数" hourId="3" :legend='["今日局数", "7日平均局数"]' v-if="showHourCount"/>
   </div>
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
+import RankItem from "@/components/RankItem";
+import HourChart from '@/components/HourChart'
 export default {
+  name: "gameSummary",
+  components: { RankItem,HourChart},
+  props: {},
   data() {
-    return {};
+    return {
+      count:thousandFormatter(234565),
+      showHourBet:false,
+      showHourCount:false,
+      source:'',
+      dateRange:'',
+      rankList: [
+        {
+          name: "熊猫传奇",
+          profit: 4356465
+        },
+        {
+          name: "熊猫传奇",
+          profit: 4356465
+        },
+        {
+          name: "熊猫传奇",
+          profit: 4356465
+        },
+        {
+          name: "熊猫传奇",
+          profit: 4356465
+        },
+        {
+          name: "熊猫传奇",
+          profit: 4356465
+        }
+      ]
+    };
   },
   mounted() {
     let data1 = [
@@ -69,18 +125,29 @@ export default {
       { value: 20, name: "财神进宝" },
       { value: 35, name: "福运亨通" },
       { value: 30, name: "熊猫传奇" },
-      { value: 40, name: "幸运足球" }
+      { value: 40, name: "幸运足球" },
+      { value: 18, name: "神秘海域" }
     ];
-    let data2 = [100, 300, -233, 235, 500, -400, 106, -150];
-    let data3 = [1234, 342, -357, 457, 432, -453, 453, -657];
     this.drawPie("pie1", data1);
     this.drawPie("pie2", data1);
-    this.drawBar("bar1", data2, "盈利");
-    this.drawBar("bar2", data3, "赔付");
+    this.drawPie("pie3", data1);
+    this.drawPie("pie4", data1);
   },
   methods: {
     goDetail(name) {
       this.$router.push({ name });
+    },
+    changeSource(){
+      console.log(this.source);
+    },
+    changeRange(){
+      console.log(this.dateRange);
+    },
+    seeHourBet(){
+      this.showHourBet=true;
+    },
+    seeHourCount(){
+      this.showHourCount=true
     },
     drawPie(id, data) {
       let option = {
@@ -113,49 +180,14 @@ export default {
       });
       myChart.setOption(option);
       myChart.hideLoading();
-    },
-    drawBar(id, data, name) {
-      let option = {
-        xAxis: {
-          type: "category",
-          data: [
-            "塔罗之谜",
-            "小厨娘",
-            "祥龙献瑞",
-            "四方神兽",
-            "财神进宝",
-            "福运亨通",
-            "熊猫传奇",
-            "幸运足球"
-          ]
-        },
-        yAxis: {
-          type: "value"
-        },
-        series: [
-          {
-            name: name,
-            data: data,
-            type: "bar"
-          }
-        ],
-        tooltip: {
-          show: true,
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          }
-        }
-      };
-      const chart = document.getElementById(id);
-      let myChart = this.$echarts.init(chart);
-      myChart.setOption(option);
     }
   }
 };
 </script>
 <style lang="less" scoped>
 .piechart {
+  background-color: #fff;
+  margin-top: 15px;
   .singlePie {
     width: 100%;
     padding-left: 10px;
@@ -163,28 +195,32 @@ export default {
   .singleBar {
     width: 100%;
   }
+  .search{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
   .pieTitle {
-    background-color: #d7d7d7;
+    background-color: #fff;
     line-height: 32px;
-    font-size: 14px;
+    font-size: 16px;
     text-indent: 1em;
     font-weight: bold;
-  }
-  .sumary {
-    line-height: 32px;
-    background-color: #f7f8fa;
-    .hisTitle {
-      font-size: 16px;
+    .count{
       font-weight: bold;
+      font-size: 14px;
+      padding-left: 15px;
     }
   }
+  .btn{
+            text-align: center;
+            .morebtn{
+                width: 250px;
+                margin-top: 10px;
+                margin-bottom: 15px;
+            }
+        }
 }
 .pie {
-  width: 100%;
-  height: 300px;
-  background-color: #fff;
-}
-.bar {
   width: 100%;
   height: 300px;
   background-color: #fff;

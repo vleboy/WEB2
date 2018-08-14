@@ -1,55 +1,28 @@
 <template>
     <div class="basic">
-        <div class="search">
+        <div class="search clear">
             <div class="left">
                 <Input v-model="acount" placeholder="输入账号" style="width: 200px"></Input>
                 <Input v-model="id" placeholder="输入ID" style="width: 200px"></Input>
                 <Button type="primary" @click="search">搜索</Button>
             </div>
-            <div class="right">
-                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-                    <Radio label="0">1月</Radio>
-                    <Radio label="1">7天</Radio>
-                    <Radio label="2">3天</Radio>
-                    <Radio label="3">昨天</Radio>
-                </RadioGroup>
-                <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
-            </div>
-        <div class="clear"></div>
         </div>
-        <game-kills title='游戏杀数' date="历史" @click.native="goKillDetail" num=1 :style="{'cursor':'pointer'}" />
-        <game-summary :style="{'cursor':'pointer'}"/>
-        <div class="hour" @click="goOnlineDetail" :style="{'cursor':'pointer'}">
-            <p>每小时在线人数</p>
-            <div class="content">
-                <div id="barchart" class="barchart"></div>
-                <div class="sumary">
-                    <p>玩家平均在线时长</p>
-                    <p>
-                        <span class="sumItem"><Icon type="ios-clock-outline" size="18" color="#6699FF"></Icon>  7日: {{hour1}}小时</span>
-                        <span class="sumItem">昨日: {{hour2}}小时</span>
-                    </p>
-                    <p>玩家每次登陆平均在线时长</p>
-                    <p>
-                        <span class="sumItem"><Icon type="ios-clock-outline" size="18" color="#6699FF"></Icon>  7日: {{hour3}}小时</span>
-                        <span class="sumItem">昨日: {{hour4}}小时</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="showmore">
-            <Button type="primary" class="morebtn" v-if='!showMore' @click="more">点击加载更多</Button>
-        </div>
-        <basic-more v-if='showMore'/>
+        <on-line/>
+        <kill-profit/>
+        <game-summary/>
+        <on-line-hour/>
+        <hit-rate/>
     </div>
 </template>
 <script>
-import BasicMore from '@/components/BasicMore'
-import GameKills from '@/components/GameKills'
+import HitRate from '@/components/HitRate'
+import OnLineHour from '@/components/OnlineHour'
+import KillProfit from '@/components/KillProfit'
+import OnLine from '@/components/Online'
 import GameSummary from '@/components/GameSummary'
 export default {
   name:'basicContent',
-  components:{BasicMore,GameKills,GameSummary},
+  components:{GameSummary,OnLine,KillProfit,OnLineHour,HitRate},
   props:{
     gameType:Number
   },
@@ -73,7 +46,7 @@ export default {
     console.log(this.gameType);
   },
   mounted() {
-    this.drawBar();
+    
   },
   methods: {
     changeSource() {
@@ -112,48 +85,6 @@ export default {
     more(){
         this.showMore=true;
     },
-    goKillDetail(){
-      this.$router.push({name:'killDetail'})
-    },
-    goOnlineDetail(){
-      this.$router.push({name:'onlineDetail'})
-    },
-    drawBar() {
-      let option = {
-        xAxis: {
-          type: "category",
-          data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
-        },
-        yAxis: {
-          type: "value"
-        },
-        legend: {
-          data: ["7日平均人数", "今日在线人数"]
-        },
-        series: [
-          {
-            name: "7日平均人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,12],
-            type: "bar"
-          },
-          {
-            name: "今日在线人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,122].reverse(),
-            type: "bar"
-          }
-        ],
-        tooltip: {
-          show: true,
-          trigger:'axis',
-          axisPointer: {
-              type: 'shadow'
-            }
-        }
-      };
-      const chart = document.getElementById("barchart");
-      let myChart = this.$echarts.init(chart);
-      myChart.setOption(option);
-    }
   }
 };
 </script>
@@ -203,10 +134,6 @@ export default {
           width: 250px;
           margin-top: 20px;
       }
-  }
-  #barchart {
-    width: 100%;
-    height: 400px;
   }
 }
 </style>
