@@ -100,21 +100,7 @@
             key: 'userName'
           },
           {
-            title: '玩家昵称',
-            key: 'nickname',
-            render: (h,params) => {
-              return h('span', params.row.nickname === 'NULL!' ? '-' : params.row.nickname)
-            }
-          },
-          {
-            title: '点数',
-            key: 'balance',
-            render: (h,params) => {
-              return h('span', thousandFormatter(params.row.balance))
-            }
-          },
-          {
-            title: '直属代理',
+            title: '所属代理',
             key: 'merchantName',
             render: (h,params)=>{
               return h('Button',{
@@ -134,21 +120,10 @@
             }
           },
           {
-            title: "注册时间",
-            key: "createAt",
-            sortable: true,
-            render: (h, params) => {
-              return h(
-                "span",
-                dayjs(params.row.createAt).format("YYYY-MM-DD HH:mm:ss")
-              );
-            }
-          },
-          {
-            title: '最近登录时间',
-            key: '',
-            render: (h, params) => {
-              return h("span", dayjs(params.row.updateAt).format("YYYY-MM-DD HH:mm:ss"));
+            title: '玩家昵称',
+            key: 'nickname',
+            render: (h,params) => {
+              return h('span', params.row.nickname === 'NULL!' ? '-' : params.row.nickname)
             }
           },
           {
@@ -176,32 +151,57 @@
             }
           },
           {
-            title: '备注',
-            key: '',
-            render: (h, params) => {
-              let remark = params.row.remark;
-              if (remark != "NULL!") {
-                return h(
-                  "Tooltip",
-                  {
-                    props: {
-                      content: remark
-                    }
-                  },
-                  [
-                    h("Icon", {
-                      props: {
-                        type: "search",
-                        color: "#20a0ff"
-                      }
-                    })
-                  ]
-                );
-              } else {
-                return h("span", "暂无");
-              }
+            title: '点数',
+            key: 'balance',
+            render: (h,params) => {
+              return h('span', thousandFormatter(params.row.balance))
             }
           },
+          {
+            title: "注册时间",
+            key: "createAt",
+            sortable: true,
+            render: (h, params) => {
+              return h(
+                "span",
+                dayjs(params.row.createAt).format("YYYY-MM-DD HH:mm:ss")
+              );
+            }
+          },
+          {
+            title: '最近登录时间',
+            key: '',
+            render: (h, params) => {
+              return h("span", dayjs(params.row.updateAt).format("YYYY-MM-DD HH:mm:ss"));
+            }
+          },
+          // {
+          //   title: '备注',
+          //   key: '',
+          //   render: (h, params) => {
+          //     let remark = params.row.remark;
+          //     if (remark != "NULL!") {
+          //       return h(
+          //         "Tooltip",
+          //         {
+          //           props: {
+          //             content: remark
+          //           }
+          //         },
+          //         [
+          //           h("Icon", {
+          //             props: {
+          //               type: "search",
+          //               color: "#20a0ff"
+          //             }
+          //           })
+          //         ]
+          //       );
+          //     } else {
+          //       return h("span", "暂无");
+          //     }
+          //   }
+          // },
           {
             title: '操作',
             key: 'action',
