@@ -318,7 +318,6 @@ export default {
           title: "创建时间",
           key: "createdAt",
           sortable: true,
-          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",

@@ -334,7 +334,6 @@ export default {
           title: "创建时间",
           key: "createdAt",
           sortable: true,
-          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",
@@ -346,7 +345,6 @@ export default {
           title: "最后登录时间",
           key: "loginAt",
           sortable: true,
-          minWidth: 100,
           render: (h, params) => {
             return h(
               "span",
