@@ -12,6 +12,7 @@
         <game-summary/>
         <on-line-hour/>
         <hit-rate/>
+        <price-mix/>
     </div>
 </template>
 <script>
@@ -20,23 +21,19 @@ import OnLineHour from '@/components/OnlineHour'
 import KillProfit from '@/components/KillProfit'
 import OnLine from '@/components/Online'
 import GameSummary from '@/components/GameSummary'
+import PriceMix from '@/components/PriceMix'
 export default {
   name:'basicContent',
-  components:{GameSummary,OnLine,KillProfit,OnLineHour,HitRate},
+  components:{GameSummary,OnLine,KillProfit,OnLineHour,HitRate,PriceMix},
   props:{
     gameType:Number
   },
   data() {
     return {
-      showMore:false,
       acount: "",
       id: "",
       source: "",
       range: "",
-      hour1: 123,
-      hour2: 443,
-      hour3: 121,
-      hour4: 34
     };
   },
   computed:{
@@ -76,24 +73,12 @@ export default {
       console.log('id==>',this.id);
       console.log('acount==>',this.acount);
     },
-    changeRange() {
-       let range = this.range.map(item => {
-        return item.getTime();
-      });
-      console.log(range);
-    },
-    more(){
-        this.showMore=true;
-    },
   }
 };
 </script>
 <style lang="less" scoped>
 .basic {
   min-height: 91vh;
-  .clear {
-    clear: both;
-  }
   .search {
     .left {
       float: left;
@@ -103,38 +88,7 @@ export default {
     }
     padding-bottom: 15px;
   }
-  .hour {
-    width: 100%;
-    .content {
-      background-color: #fff;
-      .sumary {
-        text-indent: 1em;
-        padding-bottom: 10px;
-        p{
-          line-height: 32px;
-        }
-        .sumItem {
-          border: 2px solid #2db7f5;
-          width: 200px;
-          height: 40px;
-          line-height: 36px;
-          display: inline-block;
-          background-color: #fff;
-        }
-      }
-    }
-    p {
-      font-size: 14px;
-      font-weight: bold;
-    }
-  }
-  .showmore{
-      text-align: center;
-      .morebtn{
-          width: 250px;
-          margin-top: 20px;
-      }
-  }
+
 }
 </style>
 

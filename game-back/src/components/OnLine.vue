@@ -91,7 +91,10 @@ export default {
     },
     methods:{
         changeRange(){
-            console.log(this.range);
+           let range = this.range.map(item => {
+            return item.getTime();
+            });
+            console.log(range);
         },
         changeSource(){
             console.log(this.source);

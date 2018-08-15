@@ -141,7 +141,10 @@ export default {
       console.log(this.source);
     },
     changeRange(){
-      console.log(this.dateRange);
+      let range = this.dateRange.map(item => {
+            return item.getTime();
+            });
+            console.log(range);
     },
     seeHourBet(){
       this.showHourBet=true;

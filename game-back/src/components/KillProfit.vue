@@ -56,7 +56,10 @@ export default {
            console.log(this.source);
        },
        changeRange(){
-           console.log(this.range);
+           let range = this.range.map(item => {
+            return item.getTime();
+            });
+            console.log(range);
        },
        seeHourChart(){
            this.showHour=true;

@@ -90,31 +90,6 @@ export default {
           maxWidth: 80
         },
         {
-          title: "交易前余额",
-          key: "oldBalance",
-          sortable:true,
-          render: (h, params) => {
-            return h("span", thousandFormatter(params.row.oldBalance));
-          }
-        },
-        {
-          title: "交易点数",
-          key: "amount",
-          sortable:true,
-          render: (h, params) => {
-            let color = params.row.amount < 0 ? "#f30" : "#0c0";
-            return h(
-              "span",
-              {
-                style: {
-                  color: color
-                }
-              },
-              thousandFormatter(params.row.amount)
-            );
-          }
-        },
-        {
           title: "交易时间",
           key: "createdAt",
           sortable:true,
@@ -154,24 +129,39 @@ export default {
             if (row.amount > 0) {
               return h(
                 "span",
-                // {
-                //   style: {
-                //     color: "#f30"
-                //   }
-                // },
                 "减点"
               );
             } else {
               return h(
                 "span",
-                // {
-                //   style: {
-                //     color: "#0c0"
-                //   }
-                // },
                 "加点"
               );
             }
+          }
+        },
+        {
+          title: "交易前余额",
+          key: "oldBalance",
+          sortable:true,
+          render: (h, params) => {
+            return h("span", thousandFormatter(params.row.oldBalance));
+          }
+        },
+        {
+          title: "交易点数",
+          key: "amount",
+          sortable:true,
+          render: (h, params) => {
+            let color = params.row.amount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(params.row.amount)
+            );
           }
         },
         {
