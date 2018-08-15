@@ -30,14 +30,14 @@ function checkStatus(response) {
 
 export const http = config => {
   return axios(config).then(response => checkStatus(response)).catch((err) => {
-    // let routerUrl = ['gameNoticeList','merchantDetail']
-    // let isPass = routerUrl.some((item)=>{
-    //     return item === localStorage.nowUrl
-    // })
+    let routerUrl = ['addGame','gameHallConfig']
+    let isPass = routerUrl.some((item)=>{
+        return item === localStorage.nowUrl
+    })
 
-    // if(isPass) {
-    //   return localStorage.removeItem('nowUrl')
-    // } // 处理上传图片未知错误信息
+    if(isPass) {
+      return localStorage.removeItem('nowUrl')
+    } // 处理上传图片未知错误信息
 
     Message.warning('网络连接不稳定');
   })
