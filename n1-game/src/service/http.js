@@ -30,7 +30,7 @@ function checkStatus(response) {
 
 export const http = config => {
   return axios(config).then(response => checkStatus(response)).catch((err) => {
-    let routerUrl = ['addGame']
+    let routerUrl = ['addGame','gameHallConfig']
     let isPass = routerUrl.some((item)=>{
         return item === localStorage.nowUrl
     })

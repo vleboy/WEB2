@@ -7,6 +7,7 @@ import operatorList from '@/pages/operator/operatorList'
 import addOperator from '@/pages/operator/addOperator'
 import gameList from '@/pages/game/gameList' // 游戏列表
 import addGame from '@/pages/game/addGame' // 创建游戏
+import gameHallConfig from '@/pages/gameHallConfig/gameHallConfig' // 游戏大厅管理
 
 const loginRouter = {
     path: '/login',
@@ -53,6 +54,13 @@ export const appRouter=[
         name:'game',
         component:main,
         children:[{path:'gameList',title:'游戏列表', name:'gameList',component:gameList}]
+    },
+    {
+        path:'/gameHall',
+        title:'游戏大厅管理',
+        name:'gameHall',
+        component:main,
+        children:[{path:'gameHallConfig',title:'游戏大厅管理', name:'gameHallConfig',component:gameHallConfig}]
     },
 ]
 export const routers = [

@@ -6,6 +6,8 @@
       openName = ["gameList"];
     } else if (name == "operatorList") {
       openName = ["operatorList"];
+    } else if (name == "gameHallConfig") {
+      openName = ["gameHallConfig"];
     }
     return openName
   }

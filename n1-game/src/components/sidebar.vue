@@ -9,7 +9,7 @@
                 <MenuItem name="gameList" >
                 <span>游戏管理</span>
                 </MenuItem>
-                <MenuItem name="giftList" >
+                <MenuItem name="gameHallConfig" >
                 <span>游戏大厅管理</span>
                 </MenuItem>
                 <Submenu name="tool" >
