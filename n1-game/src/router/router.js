@@ -3,7 +3,11 @@ import err404 from '@/pages/404'
 import login from '@/pages/login'
 
 import home from '@/pages/home'
-import giftList from '@/pages/giftList'
+import operatorList from '@/pages/operator/operatorList'
+import addOperator from '@/pages/operator/addOperator'
+import gameList from '@/pages/game/gameList' // 游戏列表
+import addGame from '@/pages/game/addGame' // 创建游戏
+
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -30,16 +34,25 @@ export const otherRouter={
     component: main,
     children: [
         { path: 'home', name: 'home',title:'首页', component: home},
+        { path: 'addGame', name: 'addGame',title:'创建游戏', component: addGame},
+        { path: 'addOperator', name: 'addOperator',title:'创建供应商', component: addOperator}
     ]
 }
 // 作为main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter=[
     {
-        path:'/gift',
-        title:'礼品',
-        name:'gift',
+        path:'/operator',
+        title:'供应商管理',
+        name:'operator',
         component:main,
-        children:[{path:'giftList',title:'礼品中心', name:'giftList',component:giftList}]
+        children:[{path:'operatorList',title:'供应商管理', name:'operatorList',component:operatorList}]
+    },
+    {
+        path:'/game',
+        title:'游戏列表',
+        name:'game',
+        component:main,
+        children:[{path:'gameList',title:'游戏列表', name:'gameList',component:gameList}]
     },
 ]
 export const routers = [

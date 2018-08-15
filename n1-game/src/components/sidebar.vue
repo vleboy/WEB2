@@ -3,10 +3,10 @@
         <Sider width='200px' collapsible hide-trigger :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
             <img class="logoimg" src="../../static/logo.png" alt="">
             <Menu ref="sideMenu" :active-name="$route.name" :open-names="openName" theme="dark" width="auto" @on-select='selectMenu'>
-                <MenuItem name="giftList" >
+                <MenuItem name="operatorList" >
                   <span>供应商管理</span>
                 </MenuItem>
-                <MenuItem name="giftList" >
+                <MenuItem name="gameList" >
                 <span>游戏管理</span>
                 </MenuItem>
                 <MenuItem name="giftList" >

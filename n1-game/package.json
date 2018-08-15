@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.7.5",
     "iview": "^3.0.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",

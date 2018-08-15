@@ -1,0 +1,297 @@
+<template>
+  <div class="p-gameList">
+    <RadioGroup v-model="companyInfo" @on-change="startSearch" class="searchbox" type="button">
+      <Radio v-for="(item,index) of companyOptions" :key="index" :label="item.company">{{item.company}}</Radio>
+    </RadioGroup>
+    <Row>
+      <Col :span="21">
+        <Button type="primary"  @click="goCreate">创建新游戏</Button>
+      </Col>
+      <Col  :span="3">
+        <Select v-model="searchInfo.gameStatus" placeholder="请选择状态" filterable clearable @on-change="startSearch">
+          <Option value="2" label="全部"></Option>
+          <Option value="1" label="正常"></Option>
+          <Option value="0" label="下线"></Option>
+        </Select>
+      </Col>
+    </Row>
+    <div class="outresult">
+      <Table :columns="columns" :data="gameItems"></Table>
+      <Spin size="large" fix v-if="isFetching">
+        <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+        <div>加载中...</div>
+      </Spin>
+      <div style="text-align: right;margin:2rem 0">
+        <Page :total="gameListData.length" show-elevator :page-size="50" :current.sync="currentPage" @on-change="getNowpage"></Page>
+      </div>
+    </div>
+    <Modal title='游戏详情' v-model="isShowDetail" class="g-text-center"  width="800"  cancel-text="">
+      <detailModal ref="childMethod" :dataProp="propChild"></detailModal>
+    </Modal>
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  import { httpRequest } from "@/service/index";
+  import detailModal from '@/components/detailModal'
+export default {
+  name: 'gameList',
+  components: { detailModal },
+  created () {
+    this.getCompanyList() // 获取所属游戏商信息
+    this.getGameType()
+  },
+  data () {
+    return {
+      nowSize: 50,
+      nowPage: 1,
+      currentPage: 1,
+      isFetching: false,
+      isShowDetail: false,
+      gameTypeList: [],
+      companyInfo: '',
+      companyOptions: [],
+      gameStatus: ['下线', '正常'],
+      searchInfo: {
+        gameStatus: '2',
+        companyIden: '',
+      },
+      columns: [
+        {
+          title: '游戏名称',
+          key: 'gameName'
+        },
+        {
+          title: '供应商标识',
+          key: 'companyIden'
+        },
+        {
+          title: '分类',
+          render: (h, params) => {
+            return h('span', this.getType(params.row))
+          }
+        },
+        {
+          title: 'kindId',
+          key: 'kindId'
+        },
+        {
+          title: '游戏链接',
+          key: 'gameLink'
+        },
+        {
+          title: '状态',
+          render: (h, params) => {
+            return h(
+              "Tag",
+              {
+                props: {
+                  type: "border",
+                  color: params.row.gameStatus ? "green" : "red"
+                }
+              }, this.gameStatus[params.row.gameStatus])
+          }
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 180,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
+                },
+                style: {
+                  color:'#20a0ff',
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.goDetail(params.row)
+                  }
+                }
+              }, '查看'),
+              h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
+                },
+                style: {
+                  color:'#20a0ff'
+                },
+                on: {
+                  click: () => {
+                    this.goUpdate(params.row)
+                  }
+                }
+              }, '编辑'),
+              h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
+                },
+                style: {
+                  color:'#20a0ff'
+                },
+                on: {
+                  click: () => {
+                    this.gameOperation(params.row)
+                  }
+                }
+              }, `${params.row.gameStatus ? '停用':'启用'}`)
+            ])
+          }
+        }
+      ],
+      gameListData: [],
+      propChild: ''
+    }
+  },
+  computed: {
+    gameItems () {
+      if (this.nowPage === 1) {
+        return this.gameListData.slice(0, this.nowSize)
+      } else {
+        return this.gameListData.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
+      }
+    }
+  },
+  methods: {
+    getGameList() {
+      if (this.isFetching) return
+      this.isFetching = true
+      if(this.searchInfo.gameStatus == '' || this.searchInfo.gameStatus == '2'){
+        delete this.searchInfo.gameStatus
+      }
+      if(this.searchInfo.companyIden == ''){
+        delete this.searchInfo.companyIden
+      }
+
+      httpRequest('post', '/gameList', {
+        gameType: null,
+        query: this.searchInfo
+      },'game').then(result => {
+        this.gameListData = result.payload
+        }
+      ).finally(()=>{
+        this.isFetching = false
+      })
+    },
+    goCreate () {
+      this.$store.commit('closeEditState')
+      this.$router.push({
+        name: "addGame"
+      });
+
+      this.$store.commit({
+        type: 'gameOperatorIden',
+        data: this.companyInfo
+      })
+    },
+    goUpdate(row){
+      if (this.isFetching) return
+      this.isFetching = true
+      this.$store.commit('openEditState')
+      httpRequest('get',`/gameOne/${row.gameType}/${row.gameId}`,{},'game')
+      .then((data) => {
+        this.$store.commit({
+          type: 'storageGameOneItem',
+          data: data.payload
+        })
+        this.$router.push({
+          name: "addGame",
+          query: {
+            name: row.gameName
+          }
+        });
+
+      }).finally(()=>{
+        this.isFetching = false
+      })
+
+    },
+    goDetail (row) {
+      this.propChild  = ''
+      httpRequest('get',`/gameOne/${row.gameType}/${row.gameId}`,{},'game')
+      .then(data => {
+        this.propChild = data.payload
+      })
+      this.isShowDetail = !this.isShowDetail
+    },
+    getType (row) {
+      for (var i = 0; i < this.gameTypeList.length; i++) {
+        if (this.gameTypeList[i].code === row.gameType) {
+          return this.gameTypeList[i].name
+        }
+      }
+    },
+    getGameType () {
+      httpRequest("post", "/gameType", {},'game').then(res => {
+        this.gameTypeList = res.payload
+      });
+    },
+    getNowpage (page) {
+      this.nowPage = page
+      console.log('当前是第:' + page + '页')
+    },
+    gameOperation(row) {
+      this.$Modal.confirm({
+        title: "提示!",
+        content: `${row.gameStatus ? '此操作将停用该游戏！服务器会踢掉所有正在此游戏的玩家，并且停用游戏！， 是否继续？' :
+          '此操作将启用该游戏，是否继续？'}`,
+        onOk: () => {
+          httpRequest("post", "/gameChangeStatus", {
+            gameType: row.gameType,
+            gameId: row.gameId,
+            status: row.gameStatus ? 0 : 1
+          },'game').then(res => {
+            this.$Message.success("状态改变成功");
+            this.getGameList()
+          });
+        }
+      });
+    }, // 更改玩家状态
+    getCompanyList () {
+      httpRequest('post','/companySelect',{
+        parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
+      },'game').then(
+        result => {
+          this.companyOptions = result.payload || []
+          this.companyInfo = this.$store.state.add.gameIden ? this.$store.state.add.gameIden : this.companyOptions[0].company
+          this.searchInfo.companyIden =  this.companyInfo
+          this.getGameList()
+        }
+      )
+
+    }, //获取运营商列表
+    startSearch () {
+      this.searchInfo.companyIden = this.companyInfo == '全部厂商' ? '' : this.companyInfo
+      this.getGameList()
+    }
+  },
+  watch: {
+    '$route': function (_new, _old) {
+      if((_new.name == 'gameList') && this.$store.state.add.isRefresh) {
+        this.getGameList()
+        this.$store.state.add.isRefresh = false
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="less" type="text/less">
+  .p-gameList {
+    min-height: 89vh;
+    .searchbox{padding:16px 0;}
+    .outresult{ padding-top: 1rem}
+    .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
+    .demo-spin-icon-load {
+      animation: ani-demo-spin 1s linear infinite;
+    }
+  }
+</style>
