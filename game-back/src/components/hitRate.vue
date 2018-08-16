@@ -63,7 +63,8 @@ export default {
           {
             name: "命中率",
             data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200],
-            type: "bar"
+            type: "bar",
+            barWidth:'50%'
           },
         ],
         tooltip: {

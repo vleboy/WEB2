@@ -60,9 +60,10 @@ export default {
         },
         series: [
           {
-            name: "今日",
+            name: this.range,
             data: data,
-            type: "bar"
+            type: "bar",
+            barWidth:'40%'
           },
         ],
         tooltip: {
@@ -70,7 +71,10 @@ export default {
           trigger:'axis',
           axisPointer: {
               type: 'shadow'
-            }
+            },
+        //   formatter(params){
+        //       console.log(params)
+        //   }
         }
       };
     //  if (myChart != null && myChart != "" && myChart != undefined) {
