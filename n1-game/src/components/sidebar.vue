@@ -12,13 +12,12 @@
                 <MenuItem name="gameHallConfig" >
                 <span>游戏大厅管理</span>
                 </MenuItem>
-                <Submenu name="tool" >
-                    <template slot="title">
-                        道具管理
-                    </template>
-                    <MenuItem name="giftList" >道具列表</MenuItem>
-                    <MenuItem name="giftList" >礼包列表</MenuItem>
-                </Submenu>
+                <MenuItem name="propList" >
+                <span>道具列表</span>
+                </MenuItem>
+                <MenuItem name="packageList" >
+                <span>礼包列表</span>
+                </MenuItem>
             </Menu>
         </Sider>
     </div>

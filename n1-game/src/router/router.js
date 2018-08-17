@@ -8,6 +8,8 @@ import addOperator from '@/pages/operator/addOperator'
 import gameList from '@/pages/game/gameList' // 游戏列表
 import addGame from '@/pages/game/addGame' // 创建游戏
 import gameHallConfig from '@/pages/gameHallConfig/gameHallConfig' // 游戏大厅管理
+import propList from '@/pages/prop/propList' // 道具列表
+import packageList from '@/pages/prop/packageList' // 礼包列表
 
 const loginRouter = {
     path: '/login',
@@ -61,6 +63,20 @@ export const appRouter=[
         name:'gameHall',
         component:main,
         children:[{path:'gameHallConfig',title:'游戏大厅管理', name:'gameHallConfig',component:gameHallConfig}]
+    },
+    {
+        path:'/propList',
+        title:'道具列表',
+        name:'propList',
+        component:main,
+        children:[{path:'propList',title:'道具列表', name:'propList',component:propList}]
+    },
+    {
+        path:'/packageList',
+        title:'礼包列表',
+        name:'packageList',
+        component:main,
+        children:[{path:'packageList',title:'礼包列表', name:'packageList',component:packageList}]
     },
 ]
 export const routers = [
