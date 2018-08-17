@@ -8,24 +8,23 @@ const RouterConfig = {
   routes: routers
 };
 export const router = new VueRouter(RouterConfig);
-// router.beforeEach((to, from, next) => {
-//   let token = window.localStorage.getItem('gameToken')
-//   if (token) {
-//     next()
-//   } else {
-//     if (to.name == 'login') {
-//       next();
-//     } else {
-//       next({
-//         name: 'login',
-//         query: {
-//           redirect: to.fullPath
-//         }
-//       })
-//     }
-//   }
-
-// });
+router.beforeEach((to, from, next) => {
+  let token = window.localStorage.getItem('gameToken')
+  if (token) {
+    next()
+  } else {
+    if (to.name == 'login') {
+      next();
+    } else {
+      next({
+        name: 'login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  }
+});
 
 router.afterEach((to) => {
   window.scrollTo(0, 0);

@@ -40,21 +40,14 @@ export const login = {
         userlogin({ commit }, { role, username, password, challenge, vid, cb, err }) {
             logIn(role, username, password, challenge, vid).then(res => {
                 if (res.code == 0) {
-                    if (localStorage.getItem('gameToken')) {
-                        localStorage.removeItem('gameToken');
-                        localStorage.setItem('gameToken', res.payload.token)
-                    } else {
-                        localStorage.setItem('gameToken', res.payload.token);
-                    }
+                    localStorage.setItem('gameToken', res.payload.token);
                     setTimeout(() => localStorage.removeItem('gameToken'), 259200000);
-                    localStorage.setItem('subRole', res.payload.subRole);
-                    localStorage.setItem('userInfo', JSON.stringify(res.payload))
-                    localStorage.setItem('loginId', res.payload.userId)
-                    localStorage.setItem('loginRole', res.payload.role)
                     commit('saveInfo', { params: res.payload });
+                    localStorage.setItem('displayName',res.payload.displayName)
+                    localStorage.setItem('uname',res.payload.uname)
                     cb && cb()
                 } else {
-                    commit('updateLoading', { params: false });
+                    commit('globalLoading', { params: false });
                     err && err()
                 }
             })

@@ -287,7 +287,7 @@
         this.isFetching = true
         httpRequest('post', '/configMultList', {
           code: 'lobbyconfig'
-        }).then(res => {
+        },'admin').then(res => {
           this.gameItems = res.payload
           }).finally(()=>{
           this.isFetching = false

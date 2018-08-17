@@ -65,16 +65,16 @@ export const appRouter=[
         children:[{path:'gameHallConfig',title:'游戏大厅管理', name:'gameHallConfig',component:gameHallConfig}]
     },
     {
-        path:'/propList',
+        path:'/prop',
         title:'道具列表',
-        name:'propList',
+        name:'prop',
         component:main,
         children:[{path:'propList',title:'道具列表', name:'propList',component:propList}]
     },
     {
-        path:'/packageList',
+        path:'/package',
         title:'礼包列表',
-        name:'packageList',
+        name:'package',
         component:main,
         children:[{path:'packageList',title:'礼包列表', name:'packageList',component:packageList}]
     },

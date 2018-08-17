@@ -73,7 +73,7 @@ export async function httpRequest(method,url,params,type) {
 
 //登录
 export async function logIn(role,username,password,challenge,vid,cb,err){
-    return http(post('/users/auth',{role,username,password,challenge,vid,cb,err}))
+    return http(post('/users/auth',{role,username,password,challenge,vid,cb,err},'admin'))
 }
 
 //改密码

@@ -3,20 +3,20 @@
 export let URL = type => {
   if (process.env.NODE_ENV == 'production') {
     switch (type) {
-      case 'game':
-        return 'n1game.na12345.com'
+      case 'admin':
+        return 'n1admin.na12345.com'
         break
       default:
-        return 'n1admin.na12345.com'
+        return 'n1game.na12345.com'
         break
     }
   } else {
     switch (type) {
-      case 'game':
-        return 'dgjmusja39cm2.cloudfront.net'
+      case 'admin':
+        return 'd3rqtlfdd4m9wd.cloudfront.net'//login url
         break
       default:
-        return 'd3rqtlfdd4m9wd.cloudfront.net'
+        return 'dgjmusja39cm2.cloudfront.net'
         break
     }
   }
@@ -26,6 +26,6 @@ export let URL = type => {
 export const httpType = 'https://'
 
 export const api = {
-  getVaptcha: httpType + URL() + '/vaptcha/getVaptcha',
-  getDownTime: httpType + URL() + '/vaptcha/getDownTime'
+  getVaptcha: httpType + URL('admin') + '/vaptcha/getVaptcha',
+  getDownTime: httpType + URL('admin') + '/vaptcha/getDownTime'//宕机
 }

@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       // avatorPath: "",
-      userName: localStorage.subRole,
+      userName: localStorage.displayName,
       openName: []
     };
   },
@@ -49,8 +49,7 @@ export default {
       return this.$store.state.home.pageOpenedList; //打开的页面的页面对象
     },
     uname(){
-      // return JSON.parse(localStorage.userInfo).uname;
-      return 'test'
+      return localStorage.uname||''
     }
   },
   methods: {
@@ -81,7 +80,7 @@ export default {
           localStorage.clear();
           this.$store.commit('clearAllTag')
           this.$router.push({ name: "login" });
-          this.$store.commit('changeLoading',{params:false});
+          this.$store.commit('globalLoading',{params:false});
         }
       });
     }
