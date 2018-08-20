@@ -236,7 +236,6 @@ export default {
         toolId: row.toolId,
         status: row.toolStatus ? 0 : 1
       },'game').then(result => {
-          this.$Message.success('状态改变成功')
           this.getPropList()
         }
       )
@@ -250,7 +249,6 @@ export default {
             toolId: row.toolId,
             toolName: row.toolName
           },'game').then(res => {
-            this.$Message.success("删除成功");
             this.isAddProp = false
             this.getPropList()
           });
