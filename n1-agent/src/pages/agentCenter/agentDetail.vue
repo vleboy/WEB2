@@ -4,7 +4,7 @@
       <span> {{$route.query.displayName }}</span>
       <span class="btns">
         <Button type="primary" class="edit" @click="reload">刷新</Button>
-         <span v-if="permission.includes('编辑代理')">
+        <span v-if="permission.includes('编辑代理')">
           <Button type="primary" class="edit" @click.stop="editBtn" v-if="isedit">编辑</Button>
           <Button type="primary" class="edit" @click.stop="save" v-else>提交修改</Button>
         </span>
@@ -17,6 +17,11 @@
           <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
+              <FormItem label="上级">
+                {{ agentDetail.parentDisplayName}}
+              </FormItem>
+              </Col>
+              <Col span="8">
               <FormItem label="代理ID">
                 {{ agentDetail.displayId}}
               </FormItem>
@@ -26,13 +31,13 @@
                 {{agentDetail.sn}}
               </FormItem>
               </Col>
+            </Row>
+            <Row>
               <Col span="8">
               <FormItem label="管理员账号">
                 {{ agentDetail.username}}
               </FormItem>
               </Col>
-            </Row>
-            <Row>
               <Col span="8">
               <FormItem label="创建时间">
                 {{dayjs(agentDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
@@ -43,6 +48,8 @@
                 {{dayjs(agentDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
+            </Row>
+            <Row>
               <Col span="8">
               <FormItem label="上次登录IP">
                 {{agentDetail.lastIP}}
@@ -595,19 +602,13 @@ export default {
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
-              return h(
-                "span",
-                "减点"
-              );
+              return h("span", "减点");
             } else {
-              return h(
-                "span",
-                "加点"
-              );
+              return h("span", "加点");
             }
           }
         },
-         {
+        {
           title: "交易前余额",
           key: "oldBalance"
         },
@@ -683,8 +684,8 @@ export default {
       return "上级代理点数为" + this.agentDetail.balance;
     },
     permission() {
-      return JSON.parse(localStorage.userInfo).subRolePermission ||[];
-    },
+      return JSON.parse(localStorage.userInfo).subRolePermission || [];
+    }
   },
   watch: {
     $route(to, from) {
