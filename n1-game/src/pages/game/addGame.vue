@@ -3,10 +3,10 @@
     <h2 class="title">游戏基本信息<span style="font-size: 14px"> (<span style="color: #ff4949"> * </span>为必填项)</span></h2>
     <Form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" :label-width="80">
       <FormItem label="游戏名称" prop="gameName">
-        <Input v-model="managerInfo.gameName" class="input" type="text"  placeholder="请输入游戏名称" :maxlength='20'></Input>
+        <Input v-model="managerInfo.gameName" class="input" type="text"  placeholder="请输入游戏名称" :maxlength='20' :disabled="isEdit"></Input>
       </FormItem>
       <FormItem label="游戏标识" prop="gameIden">
-        <Input v-model="managerInfo.gameIden" class="input" type="text" placeholder="请输入游戏标识(必须首字母开头并且大写)" :maxlength='20'></Input>
+        <Input v-model="managerInfo.gameIden" class="input" type="text" placeholder="请输入游戏标识(必须首字母开头并且大写)" :maxlength='20' :disabled="isEdit"></Input>
       </FormItem>
       <FormItem label="游戏简介" prop="gameRecommend">
         <Input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></Input>
@@ -15,7 +15,7 @@
         <Input v-model="companyIden" class="input" placeholder="请输入游戏简介" type="text" disabled></Input>
       </FormItem>
       <FormItem label="游戏类别" prop="gameType">
-        <Select v-model="managerInfo.gameType" placeholder="请选择游戏类别" clearable class="input">
+        <Select v-model="managerInfo.gameType" placeholder="请选择游戏类别"  class="input" :disabled="isEdit">
           <Option v-for="item in gameTypeOptions" :key="item.code" :label="item.name" :value="item.code" class="select-width"></Option>
         </Select>
       </FormItem>
@@ -195,6 +195,9 @@ export default {
   computed: {
     storeInfo () {
       return this.$store.state.add.gameOneItem
+    },
+    isEdit () {
+      return this.$store.state.add.isEdit
     }
   },
   mounted () {
