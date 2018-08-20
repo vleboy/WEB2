@@ -957,13 +957,13 @@ export default {
                       on: {
                         click: () => {
                           let userId = params.row.userId;
-                          let username = params.row.username;
+                          let displayName = params.row.displayName;
                           let parent = params.row.parent;
                           this.$router.push({
                             path: "/agentDetail",
                             query: {
                               userId,
-                              username,
+                              displayName,
                               parent
                             }
                           });

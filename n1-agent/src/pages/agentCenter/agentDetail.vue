@@ -1,7 +1,7 @@
 <template>
   <div class="agentDetail">
     <div class="userName">
-      <span> {{$route.query.username }}</span>
+      <span> {{$route.query.displayName }}</span>
       <span class="btns">
         <Button type="primary" class="edit" @click="reload">刷新</Button>
          <span v-if="permission.includes('编辑代理')">
@@ -39,7 +39,7 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="最后登录时间">
+              <FormItem label="上次登录时间">
                 {{dayjs(agentDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
               </FormItem>
               </Col>
