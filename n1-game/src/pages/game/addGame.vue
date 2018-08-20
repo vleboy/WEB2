@@ -361,7 +361,7 @@ export default {
         httpRequest('post','/upload', {
           contentType: 'image',
           filePath: this.imgFile.fileName
-        }).then(res => {
+        },'admin').then(res => {
           this.uploadAction = res.payload
           this.actionUrl = res.payload[0].aws
           this.uploadAws()

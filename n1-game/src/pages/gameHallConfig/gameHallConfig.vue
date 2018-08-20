@@ -311,7 +311,7 @@
             httpRequest("post", "/configMultDel", {
               code: 'lobbyconfig',
               businessKey: id
-            }).then(() => {
+            },'admin').then(() => {
               this.$Message.success("删除成功");
               this.getGameHallList()
             });
@@ -403,7 +403,8 @@
         this.isSending = true
         httpRequest("post",
           "/configMultNew",
-          this.gameHallInfo).then(() => {
+          this.gameHallInfo,
+          'admin').then(() => {
             this.$Message.success("操作成功");
             this.isOpenModal = false
             this.fileListTwoAli = []
@@ -438,7 +439,7 @@
           httpRequest('post','/upload', {
             contentType: 'image',
             filePath: this.imgFile.fileName
-          }).then(res => {
+          },'admin').then(res => {
             this.uploadAction = res.payload
             this.uploadAli()
             this.uploadAws()
@@ -511,7 +512,7 @@
           httpRequest('post','/upload', {
             contentType: 'image',
             filePath: this.imgFileTwo.fileName
-          }).then(res => {
+          },'admin').then(res => {
             this.uploadActionTwo = res.payload
             this.uploadAliTwo()
             this.uploadAwsTwo()
@@ -589,7 +590,7 @@
           httpRequest('post','/upload', {
             contentType: 'image',
             filePath: this.imgFileThree.fileName
-          }).then(res => {
+          },'admin').then(res => {
             this.uploadActionThree = res.payload
             this.uploadAliThree()
             this.uploadAwsThree()
