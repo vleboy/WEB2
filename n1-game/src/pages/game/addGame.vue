@@ -380,7 +380,7 @@ export default {
   watch: {
     '$route': function (_new, _old) {
       this.resetData()
-      if((_new.name == 'addGame') && this.$store.state.add.isEdit) {
+      if(_new.name == 'addGame') {
         this.init()
       }
     }
