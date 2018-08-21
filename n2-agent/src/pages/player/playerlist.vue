@@ -2,33 +2,44 @@
   <div class="p-playerlist">
     <div class="propList-search">
       <Row class="row -search-row">
-        <Col span="2" offset="4">用户名</Col>
+        <Col span="2" :offset="level ? '2' : '4'">玩家账号</Col>
         <Col span="4">
         <Input v-model="searchInfo.userName" placeholder="请输入"></Input>
         </Col>
+
         <Col span="2">玩家ID</Col>
         <Col span="4">
         <Input v-model="searchInfo.userId" placeholder="请输入"></Input>
         </Col>
 
-        <Col span="5">
+        <Col span="2" v-if="level">游戏状态</Col>
+        <Col span="4" v-if="level" >
+        <Select v-model="searchInfo.gameId" clearable placeholder="请选择游戏状态" style="text-align: left">
+          <Option v-for="(item, index) in gameTypeList" :value="item.code" :key="index">{{ item.name }}</Option>
+        </Select>
+        </Col>
+
+        <Col span="4">
         <div class="btns">
           <Button type="primary" @click="getSearch(true)">搜索</Button>
           <Button type="ghost" @click="getSearch(false)">重置</Button>
         </div>
         </Col>
       </Row>
-      <Row class="row ">
-        <Col span="2" offset="4">直属代理</Col>
-        <Col span="4">
-        <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
-        </Col>
-        <Col span="2" >游戏状态</Col>
+
+      <Row class="row " v-if="!level">
+        <Col span="2" offset="4">游戏状态</Col>
         <Col span="4">
         <Select v-model="searchInfo.gameId" clearable placeholder="请选择游戏状态" style="text-align: left">
           <Option v-for="(item, index) in gameTypeList" :value="item.code" :key="index">{{ item.name }}</Option>
         </Select>
         </Col>
+
+        <Col span="2">直属代理</Col>
+        <Col span="4">
+        <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
+        </Col>
+
       </Row>
     </div>
 
@@ -269,10 +280,11 @@
             }
           }
         ],
+        level: +localStorage.level
       }
     },
     created () {
-      // this.getPlayList()
+      this.level &&  this.getPlayList()
       this.getGameTypeList()
     },
     computed: {
