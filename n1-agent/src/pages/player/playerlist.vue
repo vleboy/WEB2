@@ -271,7 +271,7 @@
       }
     },
     created () {
-      this.getPlayList()
+      // this.getPlayList()
       this.getGameTypeList()
     },
     computed: {
