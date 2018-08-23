@@ -127,7 +127,6 @@ export default {
   created() {
     // let permission = this.permission;
     // let str = permission.toString();
-    // console.log(str.includes("报表"));
   },
   methods: {
     selectMenu(name) {
