@@ -58,6 +58,10 @@
                         <template slot="title">DT游戏报表</template>
                         <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
                     </Submenu>
+                    <Submenu name='ppReport' v-if='gameList.includes("PP电子游戏")'>
+                        <template slot="title">PP游戏报表</template>
+                        <MenuItem name="PPGame">PP电子游戏报表</MenuItem>
+                    </Submenu>
                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>

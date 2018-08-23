@@ -148,6 +148,15 @@ export default {
                       title: "DT电子游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "PP游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "PP电子游戏报表"
+                    }
+                  ]
                 }
               ]
             },

@@ -557,7 +557,9 @@ export default {
     }
     this.init();
   },
-  props: ["gameType"]
+  props: {
+    gameType:Number
+  }
 };
 </script>
 <style lang="less" scoped>

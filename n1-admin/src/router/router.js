@@ -31,6 +31,8 @@ import ttgvideo from '@/pages/reports/ttgVideoGame'
 import ysbSport from '@/pages/reports/ysbSport'
 import rtgGame from '@/pages/reports/rtgGame'
 import dtGame from '@/pages/reports/dtReport'
+import ppGame from '@/pages/reports/ppGame'
+
 
 import merchantList from '@/pages/businessCenter/merchantList'
 import managerList from '@/pages/businessCenter/managerList'
@@ -177,6 +179,13 @@ export const appRouter = [
         name:'dt',
         component:main,
         children:[{path:'video',title:'DT电子游戏报表',name:'dtGame',component:dtGame}]
+    },
+    {
+        path:'/pp',
+        title:'pp',
+        name:'pp',
+        component:main,
+        children:[{path:'video',title:'PP游戏报表',name:'ppGame',component:ppGame}]
     },
     {
         path:'/ysb',

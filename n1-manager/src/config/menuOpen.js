@@ -32,6 +32,8 @@
       openName = ["report", "rtgReport"];
     }else if (name == 'dtGame') {
       openName = ["report", "dtReport"];
+    }else if (name == 'ppGame') {
+      openName = ["report", "ppReport"];
     }
     return openName
   }

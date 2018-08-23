@@ -14,6 +14,8 @@ export const menuOpen = function (name) {
     openName = ["report", "rtgReport"];
   }else if (name == 'dtGame') {
     openName = ["report", "dtReport"];
+  }else if (name == 'ppGame') {
+    openName = ["report", "ppReport"];
   } else if (name == "agtrue") {
     openName = ["report", "agreport"];
   } else if (name == "ugsport") {

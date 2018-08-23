@@ -512,6 +512,43 @@ export default {
           }
         },
         {
+          title: "PP游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+             let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1160000") {
+                count = obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "PP游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1160000") {
+                count = obj[key].submitAmount;
+              }
+            }
+            return h("span", thousandFormatter(count.toFixed(2)));
+          }
+        },
+        {
           title: "YSB游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -751,6 +788,29 @@ export default {
             let count = 0;
             for (let key in obj) {
               if (key == "1150000") {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "PP游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1160000") {
                 count += obj[key].winloseAmount;
               }
             }

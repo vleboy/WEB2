@@ -179,6 +179,17 @@ export default {
                     checked: false
                   }
                 ]
+              },
+              {
+                title: "PP游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "PP电子游戏报表",
+                    checked: false
+                  }
+                ]
               }
             ]
           },
