@@ -28,7 +28,7 @@
                     </Submenu>
                     <Submenu name='ttgreport' v-if='permission.includes("TTG电子游戏报表")'>
                         <template slot="title">TTG游戏报表</template>
-                        <MenuItem name="ttgvideo" v-if='permission.includes("TTG电子游戏报表")'>TTG电子游戏报表</MenuItem>
+                        <MenuItem name="ttgvideo">TTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='sareport' v-if="str.includes('SA')">
                         <template slot="title">SA游戏报表</template>
@@ -44,23 +44,27 @@
                     </Submenu>
                     <Submenu name='mgreport' v-if='permission.includes("MG电子游戏报表")'>
                         <template slot="title">MG游戏报表</template>
-                        <MenuItem name="mgvideo" v-if='permission.includes("MG电子游戏报表")'>MG电子游戏报表</MenuItem>
+                        <MenuItem name="mgvideo">MG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='agreport' v-if='permission.includes("AG真人游戏报表")'>
                         <template slot="title">AG游戏报表</template>
-                        <MenuItem name="agtrue" v-if='permission.includes("AG真人游戏报表")'>AG真人游戏报表</MenuItem>
+                        <MenuItem name="agtrue">AG真人游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='rtgReport' v-if='permission.includes("RTG电子游戏报表")'>
                         <template slot="title">RTG游戏报表</template>
-                        <MenuItem name="rtgGame" v-if='permission.includes("RTG电子游戏报表")'>RTG电子游戏报表</MenuItem>
+                        <MenuItem name="rtgGame">RTG电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='dtReport' v-if='permission.includes("DT电子游戏报表")'>
                         <template slot="title">DT游戏报表</template>
-                        <MenuItem name="dtGame" v-if='permission.includes("DT电子游戏报表")'>DT电子游戏报表</MenuItem>
+                        <MenuItem name="dtGame">DT电子游戏报表</MenuItem>
+                    </Submenu>
+                     <Submenu name='ppReport' v-if='permission.includes("PP电子游戏报表")'>
+                        <template slot="title">PP游戏报表</template>
+                        <MenuItem name="ppGame">PP电子游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ysbReport' v-if='permission.includes("YSB体育游戏报表")'>
                         <template slot="title">YSB游戏报表</template>
-                        <MenuItem name="ysbSport" v-if='permission.includes("YSB体育游戏报表")'>YSB体育游戏报表</MenuItem>
+                        <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="report" v-else>
