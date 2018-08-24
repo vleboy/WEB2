@@ -4,7 +4,9 @@
             <Col span="4">
             <i-circle :percent="80" stroke-color="#169BD5" class="circle">
                 <p class="circle1">平均杀数</p>
-                <p class="circle2"><span class="demo-Circle-inner" style="font-size:24px">80%</span></p>
+                <p class="circle2" @click="changeToKill">
+                    <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                </p>
                 <Button type="default" class="switch">切换</Button>
             </i-circle>
             <p class="title">盈利总和-{{range}}</p>
@@ -12,7 +14,7 @@
                 <Icon type="logo-yen" class="icon" />{{profit}} </p>
             </Col>
             <Col span="20">
-             <div :id="'killProfit'+chartId" class="chart"></div>
+            <div :id="'killProfit'+chartId" class="chart"></div>
             </Col>
         </Row>
     </div>
@@ -23,23 +25,24 @@ export default {
   name: "killProfit",
   components: {},
   props: {
-      range:String,
-      chartId:String
+    range: String,
+    chartId: String
   },
   data() {
     return {
-      profit: thousandFormatter(1234556543),
+      profit: thousandFormatter(1234556543)
     };
   },
   computed: {},
   watch: {},
   created() {},
-  mounted(){
-      let killData=[82, 50, 15,82, 50, 15,82, 50, 15];
-      this.drawLineChart(killData)
+  mounted() {
+    let killData = [82, 50, 15, 82, 50, 15, 82, 50, 15];
+    let color = ["#169BD5"];
+    this.drawLineChart(killData, color);
   },
   methods: {
-    drawLineChart(data) {
+    drawLineChart(data, color) {
       let option = {
         xAxis: {
           type: "category",
@@ -63,31 +66,38 @@ export default {
             name: this.range,
             data: data,
             type: "bar",
-            barWidth:'40%'
-          },
+            barWidth: "30%"
+          }
         ],
         tooltip: {
           show: true,
-          trigger:'axis',
+          trigger: "axis",
           axisPointer: {
-              type: 'shadow'
-            },
-        //   formatter(params){
-        //       console.log(params)
-        //   }
-        }
+            type: "shadow"
+          }
+          //   formatter(params){
+          //       console.log(params)
+          //   }
+        },
+        color: color
       };
-    //  if (myChart != null && myChart != "" && myChart != undefined) {
-    //         myChart.dispose();
-    //         console.log(1);
-    //  } 
-      let dom='killProfit'+this.chartId;
+      //  if (myChart != null && myChart != "" && myChart != undefined) {
+      //         myChart.dispose();
+      //         console.log(1);
+      //  }
+      let dom = "killProfit" + this.chartId;
       let myChart = this.$echarts.init(document.getElementById(dom));
       myChart.setOption(option);
     },
-    changeToProfit(){
-        let profitData=[824, 5054, -154,382, 250, 515,82, -5210, 4315];
-        this.drawLineChart(profitData)
+    changeToKill() {
+      let killData = [82, 50, 15, 82, 50, 15, 82, 50, 15];
+      let color = ["#169BD5"];
+      this.drawLineChart(killData, color);
+    },
+    changeToProfit() {
+      let profitData = [824, 5054, -154, 382, 250, 515, 82, -5210, 4315];
+      let color = ["#c23531"];
+      this.drawLineChart(profitData, color);
     }
   }
 };
@@ -97,33 +107,34 @@ export default {
   background-color: #fff;
   text-align: center;
   margin: 10px auto;
-  .circle{
-      margin-top: 28px;
+  .circle {
+    margin-top: 28px;
   }
-  .circle1{
-      padding-top: 18px;
+  .circle1 {
+    padding-top: 18px;
   }
-  .circle2{
-      padding-top: 8px;
+  .circle2 {
+    padding-top: 8px;
+    cursor: pointer;
   }
-  .switch{
-      position: relative;
-      top: 20px;
+  .switch {
+    position: relative;
+    top: 20px;
   }
-  .title{
-      font-size: 16px;
-      margin-top: 10px;
-      font-weight: bold;
+  .title {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: bold;
   }
-  .num{
-      font-size: 16px;
-      font-weight: bold;
-      color: #f00;
-      cursor: pointer;
+  .num {
+    font-size: 16px;
+    font-weight: bold;
+    color: #f00;
+    cursor: pointer;
   }
-  .chart{
-      width: 100%;
-      height: 250px;
+  .chart {
+    width: 100%;
+    height: 250px;
   }
 }
 </style>
