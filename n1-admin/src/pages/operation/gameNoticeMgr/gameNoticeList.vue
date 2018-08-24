@@ -474,7 +474,7 @@ export default {
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
       mi.multipartUpload(fileName, this.imgFile, {
       }).then((results) => {
-        this.$Message.success('上传成功')
+        this.$Message.success('阿里云上传成功')
         this.loadingStatus = false
         this.noticeInfo.imgAli = `http://app.risheng3d.com/${results.name}` || results.url
         // console.log(results,this.noticeInfo.img, 'src')
@@ -489,7 +489,7 @@ export default {
 
       httpRequest('put',`${this.uploadAction[0].aws}`, this.imgFile)
         .then(res => {
-          this.$Message.success('上传成功')
+          this.$Message.success('亚马逊上传成功')
           this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
       }).finally(()=>{
         this.loadingStatus = false
@@ -497,6 +497,7 @@ export default {
     },
     beforeUpload (file) {
       let fileName = this.suffixFun(file.name)
+      let reg = new RegExp(/^[0-9a-zA-Z]*$/)
       const isLt1M = file.size / 1024 / 1024 < 2
       const suffix = fileName[1].toLowerCase()
       const fileType = ['png', 'jpg']
@@ -506,6 +507,8 @@ export default {
         return this.$Message.error('上传图片只能是 JPG或者PNG 格式!')
       } else if (!isLt1M) {
         return this.$Message.error('大小不能超过 2MB!')
+      } else if (!reg.exec(this.suffixFun(this.imgFile.fileName)[0])) {
+        return this.$Message.error("文件名只能是英文或者数字！");
       }
       return new Promise((resolve, reject) =>{
         this.loadingStatus = true
