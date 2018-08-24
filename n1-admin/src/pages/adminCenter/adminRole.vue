@@ -92,6 +92,9 @@ export default {
                   {
                     title: "NA真人游戏报表",
                     checked: false
+                  }, {
+                    title: "NA捕鱼游戏报表",
+                    checked: false
                   }
                 ]
               },

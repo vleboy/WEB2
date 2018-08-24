@@ -25,6 +25,7 @@
                         <MenuItem name="natrue" v-if="gameStr.includes('NA真人')">NA真人游戏报表</MenuItem>
                         <MenuItem name="jump" v-if="gameStr.includes('NA真人')">NA真人游戏报表(跳转)</MenuItem>
                         <MenuItem name="nacard" v-if="gameList.includes('NA棋牌游戏')">NA棋牌游戏报表</MenuItem>
+                        <MenuItem name="nafishing" v-if="gameList.includes('NA捕鱼游戏')">NA捕鱼游戏报表</MenuItem>
                     </Submenu>
                     <Submenu name='ttgreport' v-if="gameList.includes('TTG电子游戏')">
                         <template slot="title">TTG游戏报表</template>

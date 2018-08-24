@@ -77,6 +77,9 @@ export default {
                     },
                     {
                       title: "NA真人游戏报表"
+                    },
+                    {
+                      title: "NA捕鱼游戏报表"
                     }
                   ]
                 },

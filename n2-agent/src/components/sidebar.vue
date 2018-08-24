@@ -22,6 +22,7 @@
                     <MenuItem name="natrue">NA真人游戏报表</MenuItem>
                     <MenuItem name="jump">NA真人游戏报表(跳转)</MenuItem>
                     <MenuItem name="nacard">NA棋牌游戏报表</MenuItem>
+                    <MenuItem name="nafishing">NA捕鱼游戏报表</MenuItem>
                 </Submenu>
                 <Submenu name="agentCenter">
                     <template slot="title">

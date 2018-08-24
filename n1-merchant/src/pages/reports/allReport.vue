@@ -42,7 +42,7 @@ export default {
         3,
         30000,
         40000,
-        50000,
+        50000,60000,
         1010000,
         10300000,
         1050000,
@@ -108,7 +108,7 @@ export default {
             let gameList = params.row.gameTypeMap;
             let count = 0;
             for (let key in gameList) {
-              if (["3", "30000", "40000", "50000"].includes(key)) {
+              if (["3", "30000", "40000", "50000","60000"].includes(key)) {
                 count += gameList[key].winloseAmount;
               }
             }
@@ -134,7 +134,7 @@ export default {
             let gameList = params.row.gameTypeMap;
             let count = 0;
             for (let key in gameList) {
-              if (["3", "30000", "40000", "50000"].includes(key)) {
+              if (["3", "30000", "40000", "50000","60000"].includes(key)) {
                 count += gameList[key].submitAmount;
               }
             }
@@ -572,7 +572,7 @@ export default {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (["3", "30000", "40000", "50000"].includes(key)) {
+              if (["3", "30000", "40000", "50000","60000"].includes(key)) {
                 count += obj[key].winloseAmount;
               }
             }

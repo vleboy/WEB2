@@ -61,7 +61,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [3, 30000, 40000, 50000],
+      gameType: [3, 30000, 40000, 50000,60000],
       source: "1",
       columns1: [
         {
@@ -421,6 +421,68 @@ export default {
               return h("span", thousandFormatter(submitAmount));
             }
           }
+        },
+        {
+          title: "NA捕鱼游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "60000") {
+                  count += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.role == "1") {
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count.toFixed(2))
+              );
+            } else {
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap["60000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "60000"
+                ].winloseAmount.toFixed(2);
+              }
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(winloseAmount)
+              );
+            }
+          }
+        },
+        {
+          title: "NA捕鱼游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.role == "1") {
+              return h("span", "0.00");
+            } else {
+              let submitAmount = 0;
+              if (params.row.gameTypeMap["60000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "60000"
+                ].submitAmount.toFixed(2);
+              }
+              return h("span", thousandFormatter(submitAmount));
+            }
+          }
         }
       ],
       columns2: [
@@ -508,6 +570,28 @@ export default {
             if (params.row.gameTypeMap["50000"] !== undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "50000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
+            );
+          }
+        },
+         {
+          title: "NA捕鱼游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["60000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "60000"
               ].winloseAmount.toFixed(2);
             }
             let color = winloseAmount < 0 ? "#f30" : "#0c0";
