@@ -333,7 +333,7 @@ export default {
       }
       subRoleNew({
         ...this.admin,
-        permissions: permissions
+        permissions
       }).then(res => {
         if (res.code == 0) {
           this.$Message.success("创建成功");

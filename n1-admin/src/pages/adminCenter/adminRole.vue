@@ -570,7 +570,7 @@ export default {
       }
       subRoleUpdate({
         ...this.admin,
-        permissions: permissions
+        permissions
       }).then(res => {
         if (res.code == 0) {
           this.$Message.success("保存成功");
