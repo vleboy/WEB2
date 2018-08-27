@@ -6,12 +6,18 @@
 <script>
 import BasicContent from '@/components/BasicContent'
 export default {
+  components:{BasicContent},
   data(){
     return{
 
     }
   },
-  components:{BasicContent}
+  created(){
+    this.$http.post('http://47.88.170.136:44445/main')
+    .then(res=>{
+      console.log(res.data);
+    })
+  }
 }
 </script>
 <style lang="less" scoped>

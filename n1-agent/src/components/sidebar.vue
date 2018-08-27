@@ -23,7 +23,7 @@
                         <MenuItem name="navideo" v-if='permission.includes("NA电子游戏报表")'>NA电子游戏报表</MenuItem>
                         <MenuItem name="nastreet" v-if='permission.includes("NA街机游戏报表")'>NA街机游戏报表</MenuItem>
                         <MenuItem name="natrue" v-if='permission.includes("NA真人游戏报表")'>NA真人游戏报表</MenuItem>
-                        <MenuItem name="jump" v-if='permission.includes("NA真人游戏报表")'>NA真人游戏报表(跳转)</MenuItem>
+                        <!-- <MenuItem name="jump" v-if='permission.includes("NA真人游戏报表")'>NA真人游戏报表(跳转)</MenuItem> -->
                         <MenuItem name="nacard" v-if='permission.includes("NA棋牌游戏报表")'>NA棋牌游戏报表</MenuItem>
                         <MenuItem name="nafishing" v-if='permission.includes("NA捕鱼游戏报表")'>NA捕鱼游戏报表</MenuItem>
                     </Submenu>
@@ -80,7 +80,7 @@
                         <MenuItem name="navideo" v-if="gameList.includes('NA电子游戏')">NA电子游戏报表</MenuItem>
                         <MenuItem name="nastreet" v-if="gameList.includes('NA街机游戏')">NA街机游戏报表</MenuItem>
                         <MenuItem name="natrue" v-if="gameStr.includes('NA真人')">NA真人游戏报表</MenuItem>
-                        <MenuItem name="jump" v-if="gameStr.includes('NA真人')">NA真人游戏报表(跳转)</MenuItem>
+                        <!-- <MenuItem name="jump" v-if="gameStr.includes('NA真人')">NA真人游戏报表(跳转)</MenuItem> -->
                         <MenuItem name="nacard" v-if="gameList.includes('NA棋牌游戏')">NA棋牌游戏报表</MenuItem>
                         <MenuItem name="nafishing" v-if="gameList.includes('NA捕鱼游戏')">NA捕鱼游戏报表</MenuItem>
                     </Submenu>
