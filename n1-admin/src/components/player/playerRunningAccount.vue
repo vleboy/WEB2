@@ -65,6 +65,7 @@ $
             <Radio label="3">下注</Radio>
             <Radio label="11">中心钱包</Radio>
             <Radio label="4">返奖</Radio>
+            <Radio label="5">返还</Radio>
             <Radio label="6">冻结</Radio>
             <Radio label="13">商城</Radio>
           </RadioGroup>
