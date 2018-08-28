@@ -11,7 +11,12 @@
                 <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
             </div>
          </div>
-        <kill-profit-item range="历史" chartId="1"/>
+        <kill-profit-item 
+            range="历史" 
+            chartId="1"
+            :profit="profitCountAll"
+            :KillRate="killRateAll"
+        />
         <kill-profit-item range="今日" chartId="2"/>
         <div class="btn">
             <Button type="primary" class="morebtn" v-if='!showHour' @click="seeHourChart">点击查看每小时盈利曲线</Button>
@@ -27,7 +32,7 @@ export default {
     name:'',
     components:{KillProfitItem,HourChart},
     filters:{
-
+        
     },
     props:{
 
@@ -36,7 +41,9 @@ export default {
         return{
             source:'',
             range:'',
-            showHour:false
+            showHour:false,
+            profitCountAll:0,
+            killRateAll:[]
         }
     },
     computed:{
@@ -46,6 +53,30 @@ export default {
 
     },
     created(){
+        let game=this.$store.state.gameDetail;
+        console.log(game);
+        let rateAverage=0;
+        let profitCount=0;
+        let level1=0;
+        let level2=0;
+        let level3=0;
+        let len=0;
+        for (let [key, value] of Object.entries(game)){
+            console.log(value);
+            len=key.length
+            level1+= value.betLevel.level_1.killRate
+            level2+= value.betLevel.level_2.killRate
+            level3+= value.betLevel.level_3.killRate
+           for (let [k, v] of Object.entries(value.betLevel)){
+               profitCount+=v.earn
+               rateAverage+=v.killRate
+           }
+        }
+        profitCount=profitCount.toFixed(2)
+        this.profitCountAll=profitCount
+        console.log(rateAverage);
+        // console.log(level1,level2,level3);
+        let killRate=[];
 
     },
     mounted(){

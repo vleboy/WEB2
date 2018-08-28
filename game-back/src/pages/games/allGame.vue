@@ -19,7 +19,8 @@ export default {
   created(){
     this.$http.post('http://47.88.170.136:44445/main')
     .then(res=>{
-      console.log(res.data);
+      this.$store.commit('saveGame',{params:res.data})
+      this.$store.commit('saveGameDetail',{params:res.data.game})
     })
   },
   methods:{

@@ -7,11 +7,11 @@
                 <p class="circle2" @click="changeToKill">
                     <span class="demo-Circle-inner" style="font-size:24px">80%</span>
                 </p>
-                <Button type="default" class="switch">切换</Button>
+                <Button type="default" class="switch" @click="switchLevel">切换</Button>
             </i-circle>
             <p class="title">盈利总和-{{range}}</p>
             <p class="num" @click="changeToProfit">
-                <Icon type="logo-yen" class="icon" />{{profit}} </p>
+                <Icon type="logo-yen" class="icon" />{{formatProfit}} </p>
             </Col>
             <Col span="20">
             <div :id="'killProfit'+chartId" class="chart"></div>
@@ -26,14 +26,20 @@ export default {
   components: {},
   props: {
     range: String,
-    chartId: String
+    chartId: String,
+    profit:String,
+    killRate:Array,
   },
   data() {
-    return {
-      profit: thousandFormatter(1234556543)
-    };
+    return{
+
+    }
   },
-  computed: {},
+  computed: {
+    formatProfit(){
+      return thousandFormatter(+this.profit)
+    }
+  },
   watch: {},
   created() {},
   mounted() {
@@ -98,6 +104,9 @@ export default {
       let profitData = [824, 5054, -154, 382, 250, 515, 82, -5210, 4315];
       let color = ["#c23531"];
       this.drawLineChart(profitData, color);
+    },
+    switchLevel(){
+      console.log(1);
     }
   }
 };
