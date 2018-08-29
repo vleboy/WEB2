@@ -42,7 +42,11 @@
      <div class="btn">
             <Button type="primary" class="morebtn" v-if='!showHourBet' @click="seeHourBet">点击查看每小时下注金额</Button>
         </div>
-      <hour-chart title="每小时下注" hourId="2" :legend='["今日下注", "7日平均下注"]' v-if="showHourBet"/>
+      <hour-chart title="每小时下注" hourId="2" 
+        :legend='["今日下注", "7日平均下注"]' 
+        :todayArr="betHourTodayArr"
+        :avarageArr="betHourAvArr"
+      v-if="showHourBet"/>
     <Row>
       <Col span="12">
       <Row>
@@ -72,15 +76,20 @@
       </Col>
     </Row>
     <div class="btn">
-            <Button type="primary" class="morebtn" v-if='!showHourCount' @click="seeHourCount">点击查看每小时下注金额</Button>
+            <Button type="primary" class="morebtn" v-if='!showHourCount' @click="seeHourCount">点击查看每小时下注局数</Button>
         </div>
-      <hour-chart title="每小时局数" hourId="3" :legend='["今日局数", "7日平均局数"]' v-if="showHourCount"/>
+      <hour-chart title="每小时局数" hourId="3"
+        :legend='["今日局数", "7日平均局数"]' 
+        :todayArr="countHourTodayArr"
+        :avarageArr="countHourAvArr"
+       v-if="showHourCount"/>
   </div>
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
 import RankItem from "@/components/RankItem";
 import HourChart from '@/components/HourChart'
+import { mapState } from "vuex";
 export default {
   name: "gameSummary",
   components: { RankItem,HourChart},
@@ -92,6 +101,10 @@ export default {
       showHourCount:false,
       source:'',
       dateRange:'',
+      betHourTodayArr:[],
+      betHourAvArr:[],
+      countHourTodayArr:[],
+      countHourAvArr:[],
       rankList: [
         {
           name: "熊猫传奇",
@@ -115,6 +128,16 @@ export default {
         }
       ]
     };
+  },
+  computed:{
+    ...mapState(["gameDetail"])
+  },
+  created(){
+    let game = this.gameDetail;
+    this.betHourTodayArr=game.todayDetail.today.total.bet
+    this.betHourAvArr=game.todayDetail.lastWeekArg.total.bet
+    this.countHourTodayArr=game.todayDetail.today.total.betCount
+    this.countHourAvArr=game.todayDetail.lastWeekArg.total.betCount
   },
   mounted() {
     let data1 = [

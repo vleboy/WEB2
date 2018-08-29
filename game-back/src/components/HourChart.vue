@@ -13,7 +13,9 @@ export default {
     props:{
         title:String,
         legend:Array,
-        hourId:String
+        hourId:String,
+        todayArr:Array,
+        avarageArr:Array
     },
     data(){
         return{
@@ -68,12 +70,12 @@ export default {
           {
             name: this.legend[0],
             type: "line",
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: this.todayArr
           },
           {
             name: this.legend[1],
             type: "line",
-            data: [220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310,220, 182, 191, 234, 290, 330, 310]
+            data: this.avarageArr
           },
         ]
       };

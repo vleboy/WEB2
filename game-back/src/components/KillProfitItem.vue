@@ -5,13 +5,14 @@
             <i-circle :percent="80" stroke-color="#169BD5" class="circle">
                 <p class="circle1">平均杀数</p>
                 <p class="circle2" @click="changeToKill">
-                    <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+                    <u><span class="demo-Circle-inner" style="font-size:20px">{{rate|filterRate}}</span></u>
                 </p>
+                <p class="circle3">{{level}}</p>
                 <Button type="default" class="switch" @click="switchLevel">切换</Button>
             </i-circle>
             <p class="title">盈利总和-{{range}}</p>
             <p class="num" @click="changeToProfit">
-                <Icon type="logo-yen" class="icon" />{{formatProfit}} </p>
+                <u><Icon type="logo-yen" class="icon" />{{formatProfit}}</u></p>
             </Col>
             <Col span="20">
             <div :id="'killProfit'+chartId" class="chart"></div>
@@ -24,28 +25,43 @@ import { thousandFormatter } from "@/config/format";
 export default {
   name: "killProfit",
   components: {},
+  filters:{
+    filterRate(v){
+      return v + '%'
+    }
+  },
   props: {
     range: String,
     chartId: String,
-    profit:String,
-    killRate:Array,
+    profit:[Number,String],
+    killRate:Object,
+    profitArr:Array,
+    killRateArr:Array
   },
   data() {
     return{
-
+      rate:'',
+      level:'',
+      index:1
     }
   },
   computed: {
     formatProfit(){
       return thousandFormatter(+this.profit)
+    },
+    entries(){
+      return Object.entries(this.killRate)
     }
   },
   watch: {},
-  created() {},
+  created() {
+    let kill=this.killRate;
+    this.rate=kill.total;
+    this.level='total'
+  },
   mounted() {
-    let killData = [82, 50, 15, 82, 50, 15, 82, 50, 15];
     let color = ["#169BD5"];
-    this.drawLineChart(killData, color);
+    this.drawLineChart(this.killRateArr, color);
   },
   methods: {
     drawLineChart(data, color) {
@@ -53,15 +69,15 @@ export default {
         xAxis: {
           type: "category",
           data: [
+            "熊猫传奇",
+            "财富足球",
+            "神秘海域",
             "塔罗之谜",
             "小厨娘",
             "祥龙献瑞",
             "四方神兽",
             "财神进宝",
-            "福运亨通",
-            "熊猫传奇",
-            "幸运足球",
-            "神秘海域"
+            "福运亨通"
           ]
         },
         yAxis: {
@@ -96,17 +112,23 @@ export default {
       myChart.setOption(option);
     },
     changeToKill() {
-      let killData = [82, 50, 15, 82, 50, 15, 82, 50, 15];
       let color = ["#169BD5"];
-      this.drawLineChart(killData, color);
+      this.drawLineChart(this.killRateArr, color);
     },
     changeToProfit() {
-      let profitData = [824, 5054, -154, 382, 250, 515, 82, -5210, 4315];
       let color = ["#c23531"];
-      this.drawLineChart(profitData, color);
+      this.drawLineChart(this.profitArr, color);
     },
     switchLevel(){
-      console.log(1);
+      let entries=this.entries;
+      let index=this.index;
+      if (index > entries.length - 1) {
+					index = 0;
+      }
+      this.level=entries[index][0]
+      this.rate=entries[index][1]
+      index ++;
+      this.index=index;
     }
   }
 };
@@ -126,9 +148,13 @@ export default {
     padding-top: 8px;
     cursor: pointer;
   }
+  .circle3{
+    padding-top: 4px;
+    line-height: 24px;
+  }
   .switch {
     position: relative;
-    top: 20px;
+    top: 8px;
   }
   .title {
     font-size: 16px;

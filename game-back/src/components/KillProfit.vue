@@ -1,6 +1,6 @@
 <template>
     <div class="killprofit">
-         <div class="search clear">
+        <div class="search clear">
             <div class="right">
                 <RadioGroup v-model="source" type="button" @on-change='changeSource'>
                     <Radio label="0">1月</Radio>
@@ -10,109 +10,147 @@
                 </RadioGroup>
                 <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
             </div>
-         </div>
+        </div>
+        <kill-profit-item
+         range="历史"
+         chartId="1"
+         :profit="profitCountHistory" 
+         :killRate="killRateHistory"
+         :profitArr="profitTotalArr"
+         :killRateArr="killTotalArr"         
+          />
         <kill-profit-item 
-            range="历史" 
-            chartId="1"
-            :profit="profitCountAll"
-            :KillRate="killRateAll"
-        />
-        <kill-profit-item range="今日" chartId="2"/>
+        range="今日" 
+        chartId="2"
+        :profit="profitCountToday" 
+        :killRate="killRateToday"
+        :profitArr="profitTodayArr"
+        :killRateArr="killTodayArr" 
+         />
         <div class="btn">
             <Button type="primary" class="morebtn" v-if='!showHour' @click="seeHourChart">点击查看每小时盈利曲线</Button>
         </div>
-        <hour-chart title="每小时盈利" hourId="1" :legend="['今日下注', '7日平均下注']" v-if="showHour"/>
+        <hour-chart title="每小时盈利"
+         hourId="1"
+         :legend="['今日盈利', '7日平均盈利']"
+         :todayArr="profitHourTodayArr"
+         :avarageArr="profitHourAvArr"
+          v-if="showHour" />
     </div>
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
-import KillProfitItem from '@/components/KillProfitItem'
-import HourChart from '@/components/HourChart'
-export default {
-    name:'',
-    components:{KillProfitItem,HourChart},
-    filters:{
-        
-    },
-    props:{
-
-    },
-    data(){
-        return{
-            source:'',
-            range:'',
-            showHour:false,
-            profitCountAll:0,
-            killRateAll:[]
-        }
-    },
-    computed:{
-
-    },
-    watch:{
-
-    },
-    created(){
-        let game=this.$store.state.gameDetail;
-        console.log(game);
-        let rateAverage=0;
-        let profitCount=0;
-        let level1=0;
-        let level2=0;
-        let level3=0;
-        let len=0;
-        for (let [key, value] of Object.entries(game)){
-            console.log(value);
-            len=key.length
-            level1+= value.betLevel.level_1.killRate
-            level2+= value.betLevel.level_2.killRate
-            level3+= value.betLevel.level_3.killRate
-           for (let [k, v] of Object.entries(value.betLevel)){
-               profitCount+=v.earn
-               rateAverage+=v.killRate
-           }
-        }
-        profitCount=profitCount.toFixed(2)
-        this.profitCountAll=profitCount
-        console.log(rateAverage);
-        // console.log(level1,level2,level3);
-        let killRate=[];
-
-    },
-    mounted(){
-
-    },
-    methods:{
-       changeSource(){
-           console.log(this.source);
-       },
-       changeRange(){
-           let range = this.range.map(item => {
-            return item.getTime();
-            });
-            console.log(range);
-       },
-       seeHourChart(){
-           this.showHour=true;
-       },
-    }
+import KillProfitItem from "@/components/KillProfitItem";
+import HourChart from "@/components/HourChart";
+import { mapState } from "vuex";
+const GAME_LIST = {
+  '41001':'熊猫传奇', //熊猫穿起
+  '41002':'财富足球', //财富足球
+  '41003':'神秘海域', //神秘海域
+  '42001':'塔罗之谜', //塔罗之谜
+  '42002':'小厨娘',  //小厨娘
+  '42003':'祥龙献瑞', //祥龙献瑞
+  '42004':'四方神兽', //四方神兽
+  '42005':'财神进宝', //财神进宝
+  '42006':'福运亨通'  //福运亨通
 }
+export default {
+  name: "",
+  components: { KillProfitItem, HourChart },
+  filters: {},
+  props: {},
+  data() {
+    return {
+      source: "",
+      range: "",
+      showHour: false,
+      //kill
+      profitCountHistory: 0,
+      profitCountToday:0,
+      killRateHistory: {},
+      killRateToday:{},
+      //chartdata
+      killTotalArr:[],
+      profitTotalArr:[],
+      profitTodayArr:[],
+      killTodayArr:[],
+      profitHourTodayArr:[],
+      profitHourAvArr:[],//7day avrage
+    };
+  },
+  computed: {
+    // gameDetail(){
+    //     return this.$store.state.gameDetail
+    // },
+    ...mapState(["gameDetail"])
+  },
+  watch: {},
+  created() {
+    let game = this.gameDetail;
+    console.log(game);
+    let today=game.killRateAndEarn_today
+    let total=game.killRateAndEarn_total
+    this.profitCountHistory=total.earn.total.total;
+    this.killRateHistory=total.killRate.total
+    this.profitCountToday=today.earn.total.total;
+    this.killRateToday=today.killRate.total
+    //历史
+    let profitTotalArr=[];
+    let killTotalArr=[]
+    for(let [key,val] of Object.entries(total.earn.games)){
+        profitTotalArr.push(val.total)
+    }
+     for(let [key,val] of Object.entries(total.killRate.games)){
+        killTotalArr.push(val.total)
+    }
+    this.profitTotalArr=profitTotalArr
+    this.killTotalArr=killTotalArr
+    //今日
+    let profitTodayArr=[];
+    let killTodayArr=[]
+    for(let [key,val] of Object.entries(today.earn.games)){
+        profitTodayArr.push(val.total)
+    }
+     for(let [key,val] of Object.entries(today.killRate.games)){
+        killTodayArr.push(val.total)
+    }
+    this.profitTodayArr=profitTodayArr
+    this.killTodayArr=killTodayArr;
+    this.profitHourTodayArr=game.todayDetail.today.total.earn
+    this.profitHourAvArr=game.todayDetail.lastWeekArg.total.earn
+  },
+  mounted() {},
+  methods: {
+    changeSource() {
+      console.log(this.source);
+    },
+    changeRange() {
+      let range = this.range.map(item => {
+        return item.getTime();
+      });
+      console.log(range);
+    },
+    seeHourChart() {
+      this.showHour = true;
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-    .killprofit{
-        background-color: #fff;
-        margin-top: 15px;
-        .search{
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-        .btn{
-            text-align: center;
-            .morebtn{
-                width: 250px;
-                margin-top: 10px;
-                margin-bottom: 15px;
-            }
-        }
+.killprofit {
+  background-color: #fff;
+  margin-top: 15px;
+  .search {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .btn {
+    text-align: center;
+    .morebtn {
+      width: 250px;
+      margin-top: 10px;
+      margin-bottom: 15px;
     }
+  }
+}
 </style>

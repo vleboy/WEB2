@@ -1,6 +1,6 @@
 <template>
   <div class="allGame">
-    <basic-content :gameType="1"/>
+    <basic-content :gameType="1" v-if="showComponent"/>
   </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
   components:{BasicContent},
   data(){
     return{
-
+      showComponent:false//存入state再渲染组件
     }
   },
   computed:{
@@ -19,8 +19,10 @@ export default {
   created(){
     this.$http.post('http://47.88.170.136:44445/main')
     .then(res=>{
-      this.$store.commit('saveGame',{params:res.data})
+      console.log(res.data);
+      this.$store.commit('loginToday',{params:res.data.loginToday})
       this.$store.commit('saveGameDetail',{params:res.data.game})
+      this.showComponent=true
     })
   },
   methods:{
