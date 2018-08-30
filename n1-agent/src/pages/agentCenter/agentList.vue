@@ -347,6 +347,7 @@ export default {
       toRole: "",
       source: "1",
       toUser: "",
+      parent:'',
       maxBalance: "上级代理余额为:",
       //创建agnet
       agentModal: false,
@@ -773,6 +774,7 @@ export default {
                             } else {
                               this.fromUserId = params.row.parent;
                             }
+                            this.parent=params.row.parent;
                             this.toRole = params.row.role;
                             this.toUser = params.row.username;
                           }
@@ -1575,11 +1577,15 @@ export default {
             remark: this.remark
           })
           .then(() => {
-            setTimeout(() => {
+           if(parent==this.parent){
+              setTimeout(() => {
               this.$store.dispatch("getAgentList", params);
               this.point = "";
               this.remark = "";
-            }, 200);
+            }, 100);
+           }else{
+             console.log(1);
+           }
           });
       } else {
         //player
