@@ -1579,7 +1579,7 @@ export default {
               this.$store.dispatch("getAgentList", params);
               this.point = "";
               this.remark = "";
-            }, 100);
+            }, 200);
           });
       } else {
         //player
@@ -1595,6 +1595,7 @@ export default {
               this.point = "";
               this.remark = "";
               this.playerPoint = false;
+              this.maxBalance = "上级代理余额为:";
             });
         } else {
           this.$store.dispatch("playReduceBill", {
@@ -1602,11 +1603,13 @@ export default {
             fromUserId: this.fromUserId,
             remark: this.remark,
             toUser: this.toUser
-          });
-          this.point = "";
-          this.remark = "";
-          this.playerPoint = false;
-          this.maxBalance = "上级代理余额为:";
+          }).then(()=>{
+              this.point = "";
+              this.remark = "";
+              this.playerPoint = false;
+              this.maxBalance = "上级代理余额为:";
+          })
+         
         }
       }
     },

@@ -16,12 +16,12 @@
       <Row>
         <Col span="18">
         <div class="singlePie">
-          <p class="pieTitle">下注总和-今日 <span class="count">¥ {{count}}</span></p>
+          <p class="pieTitle">下注总和-今日 <span class="count">¥ {{format(betCountToday)}}</span></p>
           <div id="pie1" class="pie"></div>
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='rankList' />
+        <rank-item range="今日" :rankList='betTodayRank' />
         </Col>
       </Row>
       </Col>
@@ -29,12 +29,12 @@
       <Row>
         <Col span="18">
         <div class="singlePie">
-          <p class="pieTitle">下注总和-历史 <span class="count">¥ {{count}}</span></p>
+          <p class="pieTitle">下注总和-历史 <span class="count">¥ {{format(betCountHistory)}}</span></p>
           <div id="pie2" class="pie"></div>
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='rankList' />
+        <rank-item range="今日" :rankList='betHistoryRank' />
         </Col>
       </Row>
       </Col>
@@ -52,12 +52,12 @@
       <Row>
         <Col span="18">
         <div class="singlePie">
-          <p class="pieTitle">游戏局数-今日 <span class="count">¥ {{count}}</span></p>
+          <p class="pieTitle">游戏局数-今日 <span class="count">{{gameCountToday}}</span></p>
           <div id="pie3" class="pie"></div>
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='rankList' />
+        <rank-item range="今日" :rankList='countTodayRank' />
         </Col>
       </Row>
       </Col>
@@ -65,12 +65,12 @@
       <Row>
         <Col span="18">
         <div class="singlePie">
-          <p class="pieTitle">游戏局数-历史 <span class="count">¥ {{count}}</span></p>
+          <p class="pieTitle">游戏局数-历史 <span class="count">{{gameCountHistory}}</span></p>
           <div id="pie4" class="pie"></div>
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='rankList' />
+        <rank-item range="今日" :rankList='countHistoryRank' />
         </Col>
       </Row>
       </Col>
@@ -96,37 +96,26 @@ export default {
   props: {},
   data() {
     return {
-      count:thousandFormatter(234565),
+      format:thousandFormatter,
       showHourBet:false,
       showHourCount:false,
       source:'',
       dateRange:'',
+      //hourchart
       betHourTodayArr:[],
       betHourAvArr:[],
       countHourTodayArr:[],
       countHourAvArr:[],
-      rankList: [
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        },
-        {
-          name: "熊猫传奇",
-          profit: 4356465
-        }
-      ]
+      //count
+      betCountToday:0,
+      betCountHistory:0,
+      gameCountToday:0,
+      gameCountHistory:0,
+      //rank
+      betTodayRank:[],
+      betHistoryRank:[],
+      countTodayRank:[],
+      countHistoryRank:[]
     };
   },
   computed:{
@@ -140,21 +129,77 @@ export default {
     this.countHourAvArr=game.todayDetail.lastWeekArg.total.betCount
   },
   mounted() {
-    let data1 = [
-      { value: 10, name: "塔罗之谜" },
-      { value: 5, name: "小厨娘" },
-      { value: 15, name: "祥龙献瑞" },
-      { value: 25, name: "四方神兽" },
-      { value: 20, name: "财神进宝" },
-      { value: 35, name: "福运亨通" },
-      { value: 30, name: "熊猫传奇" },
-      { value: 40, name: "幸运足球" },
-      { value: 18, name: "神秘海域" }
-    ];
-    this.drawPie("pie1", data1);
-    this.drawPie("pie2", data1);
-    this.drawPie("pie3", data1);
-    this.drawPie("pie4", data1);
+    let game=this.gameDetail;
+    let betToday=[];
+    let betHistory=[];
+    let countToday=[]
+    let countHistory=[]
+    let betDetail=game.betDetail;
+    let countDetail=game.roundCountDetail;
+    for (let item of betDetail.betOrderd_today){
+      this.betCountToday+=item.betTotal
+      betToday.push({
+        name:item.name,
+        value:item.betTotal,
+        '占比':item.ratio,
+        '排名':item.order,
+        '0.25-2.5':item.betLevel_1,
+        '5-50':item.betLevel_2,
+        '125-500':item.betLevel_3
+      })
+      this.betTodayRank.push({
+        name:item.name
+      })
+    }
+    for (let item of betDetail.betOrderd_total){
+      this.betCountHistory+=item.betTotal
+      betHistory.push({
+        name:item.name,
+        value:item.betTotal,
+        '占比':item.ratio,
+        '排名':item.order,
+        '0.25-2.5':item.betLevel_1,
+        '5-50':item.betLevel_2,
+        '125-500':item.betLevel_3
+      })
+      this.betHistoryRank.push({
+        name:item.name
+      })
+    }
+    for (let item of countDetail.roundCountOrderd_today){
+      this.gameCountToday+=item.roundCountTotal
+       countToday.push({
+        name:item.name,
+        value:item.roundCountTotal,
+        '占比':item.ratio,
+        '排名':item.order,
+        '0.25-2.5':item.roundCountLevel_1,
+        '5-50':item.roundCountLevel_2,
+        '125-500':item.roundCountLevel_3
+      })
+      this.countTodayRank.push({
+        name:item.name
+      })
+    }
+    for (let item of countDetail.roundCountOrderd_total){
+      this.gameCountHistory+=item.roundCountTotal
+       countHistory.push({
+        name:item.name,
+        value:item.roundCountTotal,
+        '占比':item.ratio,
+        '排名':item.order,
+        '0.25-2.5':item.roundCountLevel_1,
+        '5-50':item.roundCountLevel_2,
+        '125-500':item.roundCountLevel_3
+      })
+      this.countHistoryRank.push({
+        name:item.name
+      })
+    }
+    this.drawPie("pie1", betToday);
+    this.drawPie("pie2", betHistory);
+    this.drawPie("pie3", countToday);
+    this.drawPie("pie4", countHistory);
   },
   methods: {
     goDetail(name) {
@@ -177,18 +222,20 @@ export default {
     },
     drawPie(id, data) {
       let option = {
-        title: {
-          text: "南丁格尔玫瑰图",
-          x: "center"
-        },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter(params){
+            let data=params.data;
+            let res=''
+            for (let [key,val] of Object.entries(data)){
+                res+=key+' : '+val+'<br/>'
+            }
+            return res
+          }
         },
         calculable: true,
         series: [
           {
-            name: "面积模式",
             type: "pie",
             radius: [30, 110],
             roseType: "area",

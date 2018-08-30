@@ -62,12 +62,14 @@ export const agent = {
         addBill(params).then(res=>{
           if(res.code==0){
             Message.success('操作成功');
-            dispatch('getAgentPlayer',{
-              fromUserId:params.fromUserId
-            })
-            .finally(()=>{
-              commit('agentLoading',{params:false})
-            })
+            setTimeout(() => {//延迟200ms执行,解决未同步刷新
+              dispatch('getAgentPlayer',{
+                fromUserId:params.fromUserId
+              })
+              .finally(()=>{
+                commit('agentLoading',{params:false})
+              })
+           }, 200);
           }
         })
        },
@@ -76,12 +78,14 @@ export const agent = {
          reduceBill(params).then(res=>{
            if(res.code==0){
             Message.success('操作成功');
-            dispatch('getAgentPlayer',{
-              fromUserId:params.fromUserId
-            })
-            .finally(()=>{
-              commit('agentLoading',{params:false})
-            })
+            setTimeout(() => {
+              dispatch('getAgentPlayer',{
+                fromUserId:params.fromUserId
+              })
+              .finally(()=>{
+                commit('agentLoading',{params:false})
+              })
+           }, 200);
            }
          })
        }

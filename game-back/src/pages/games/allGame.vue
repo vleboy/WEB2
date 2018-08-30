@@ -5,6 +5,7 @@
 </template>
 <script>
 import BasicContent from '@/components/BasicContent'
+import {httpRequest} from '@/service/index'
 export default {
   name:'allGame',
   components:{BasicContent},
@@ -17,11 +18,11 @@ export default {
 
   },
   created(){
-    this.$http.post('http://47.88.170.136:44445/main')
+    httpRequest('post','/main')
     .then(res=>{
-      console.log(res.data);
-      this.$store.commit('loginToday',{params:res.data.loginToday})
-      this.$store.commit('saveGameDetail',{params:res.data.game})
+      console.log(res);
+      this.$store.commit('loginToday',{params:res.loginToday})
+      this.$store.commit('saveGameDetail',{params:res.game})
       this.showComponent=true
     })
   },

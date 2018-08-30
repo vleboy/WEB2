@@ -42,7 +42,8 @@ export default {
     return{
       rate:'',
       level:'',
-      index:1
+      index:1,
+      showProfit:false
     }
   },
   computed: {
@@ -81,7 +82,8 @@ export default {
           ]
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          axisLabel:this.showProfit?{formatter:'{value}'} : {formatter:'{value} %'}
         },
         series: [
           {
@@ -92,14 +94,18 @@ export default {
           }
         ],
         tooltip: {
-          show: true,
           trigger: "axis",
           axisPointer: {
             type: "shadow"
+          },
+           formatter(params){
+              let data=params[0].data;
+              let res=''
+              for (let [key,val] of Object.entries(data)){
+                  res+=key+' : '+val+'<br/>'
+              }
+              return res
           }
-          //   formatter(params){
-          //       console.log(params)
-          //   }
         },
         color: color
       };
@@ -113,10 +119,12 @@ export default {
     },
     changeToKill() {
       let color = ["#169BD5"];
+      this.showProfit=false;
       this.drawLineChart(this.killRateArr, color);
     },
     changeToProfit() {
       let color = ["#c23531"];
+      this.showProfit=true;
       this.drawLineChart(this.profitArr, color);
     },
     switchLevel(){

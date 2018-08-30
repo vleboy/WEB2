@@ -98,10 +98,20 @@ export default {
     let profitTotalArr=[];
     let killTotalArr=[]
     for(let [key,val] of Object.entries(total.earn.games)){
-        profitTotalArr.push(val.total)
+        profitTotalArr.push({
+          value:val.total,
+          '0.25-2.5':val.level_1,
+          '5-50':val.level_2,
+          '125-500':val.level_3
+        })
     }
      for(let [key,val] of Object.entries(total.killRate.games)){
-        killTotalArr.push(val.total)
+        killTotalArr.push({
+          value:val.total,
+          '0.25-2.5':val.level_1,
+          '5-50':val.level_2,
+          '125-500':val.level_3
+        })
     }
     this.profitTotalArr=profitTotalArr
     this.killTotalArr=killTotalArr
@@ -109,10 +119,20 @@ export default {
     let profitTodayArr=[];
     let killTodayArr=[]
     for(let [key,val] of Object.entries(today.earn.games)){
-        profitTodayArr.push(val.total)
+        profitTodayArr.push({
+          value:val.total,
+         '0.25-2.5':val.level_1,
+          '5-50':val.level_2,
+          '125-500':val.level_3
+        })
     }
      for(let [key,val] of Object.entries(today.killRate.games)){
-        killTodayArr.push(val.total)
+        killTodayArr.push({
+          value:val.total,
+          '0.25-2.5':val.level_1,
+          '5-50':val.level_2,
+          '125-500':val.level_3
+        })
     }
     this.profitTodayArr=profitTodayArr
     this.killTodayArr=killTodayArr;
