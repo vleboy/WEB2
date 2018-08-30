@@ -1568,7 +1568,7 @@ export default {
       if (this.level != 0) {
         params.isTest = 0;
       }
-      if (this.playerPoint == false) {
+      if (this.playerPoint == false) {//代理加点
         this.$store
           .dispatch("transferBill", {
             amount: this.point,
@@ -1597,14 +1597,14 @@ export default {
                   }
                   this.point = "";
                   this.remark = "";
-             }).finally(()=>{
-               this.$store.commit('agentLoading',{params:false})
-             })
+                  }).finally(()=>{
+                    this.$store.commit('agentLoading',{params:false})
+                  })
             },100)
            }
           });
       } else {
-        //player
+        //player加点
         if (this.plus == true) {
           this.$store
             .dispatch("playAddBill", {
