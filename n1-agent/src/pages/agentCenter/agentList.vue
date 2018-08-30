@@ -185,6 +185,7 @@ import {
   checkExit,
   agentOne,
   agentNew,
+  getagentList,
   creatPlayer,
   getBill,
   frozen
@@ -1577,14 +1578,29 @@ export default {
             remark: this.remark
           })
           .then(() => {
-           if(parent==this.parent){
+           if(parent==this.parent){//第一级
               setTimeout(() => {
               this.$store.dispatch("getAgentList", params);
               this.point = "";
               this.remark = "";
             }, 100);
            }else{
-             console.log(1);
+             params.parent=this.parent;
+               setTimeout(()=>{
+                  getagentList(params).then(res=>{
+                  let agentList = this.agentChild;
+                  //更新列表
+                  for (let item of agentList) {
+                    if (item.id == this.parent) {
+                      item.childItem = res.payload;
+                    }
+                  }
+                  this.point = "";
+                  this.remark = "";
+             }).finally(()=>{
+               this.$store.commit('agentLoading',{params:false})
+             })
+            },100)
            }
           });
       } else {
