@@ -116,10 +116,12 @@
           {
             title: '交易号',
             key: 'businessKey',
+            minWidth:120
           },
           {
             title: '交易时间',
             key: '',
+            minWidth:120,
             render: (h, params) => {
               return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
             }
