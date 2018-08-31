@@ -1074,7 +1074,8 @@ export default {
                     {
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer"
+                        cursor: "pointer",
+                        paddingLeft:'10px'
                       },
                       on: {
                         click: () => {
