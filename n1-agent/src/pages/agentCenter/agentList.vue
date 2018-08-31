@@ -918,6 +918,7 @@ export default {
                   style: {
                     color: "#20a0ff",
                     cursor: "pointer",
+                    marginRight:'10px',
                     display: this.createAgents ? "inline" : "none"
                   },
                   on: {
@@ -951,7 +952,6 @@ export default {
                       style: {
                         color: "#20a0ff",
                         cursor: "pointer",
-                        paddingLeft:'10px',
                         display:this.currentPlayer
                       },
                       on: {
