@@ -116,20 +116,21 @@
           {
             title: '交易号',
             key: 'businessKey',
-            width: 200
           },
           {
             title: '交易时间',
             key: '',
-            width: 160,
             render: (h, params) => {
               return h("span", dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"));
             }
           },
           {
+            title: '交易类型',
+            key: 'typeName',
+          },
+          {
             title: '结算前余额',
             key: '',
-            width: 140,
             render: (h, params) => {
               return h('span', thousandFormatter(params.row.originalAmount))
             }
@@ -177,7 +178,6 @@
           {
             title: '操作',
             key: 'action',
-            width: 90,
             align: 'center',
             render: (h, params) => {
               if (params.row.gameType != 1 && params.row.gameType != 2 && params.row.gameType != 3) {
