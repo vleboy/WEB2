@@ -160,20 +160,20 @@
               },thousandFormatter(params.row.profitAmount))
             }
           },
-          {
-            title: '成数',
-            key: '',
-            render: (h, params) => {
-              return h('span', `${params.row.rate}%`)
-            }
-          },
-          {
-            title: '洗码比',
-            key: '',
-            render: (h, params) => {
-              return h('span', `${params.row.mix}%`)
-            }
-          },
+          // {
+          //   title: '成数',
+          //   key: '',
+          //   render: (h, params) => {
+          //     return h('span', `${params.row.rate}%`)
+          //   }
+          // },
+          // {
+          //   title: '洗码比',
+          //   key: '',
+          //   render: (h, params) => {
+          //     return h('span', `${params.row.mix}%`)
+          //   }
+          // },
           {
             title: '操作',
             key: 'action',
