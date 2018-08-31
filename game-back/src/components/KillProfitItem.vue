@@ -2,7 +2,7 @@
     <div class="killprofititem">
         <Row>
             <Col span="4">
-            <i-circle :percent="80" stroke-color="#169BD5" class="circle">
+            <i-circle :percent="rate>=100?100:rate" stroke-color="#169BD5" class="circle">
                 <p class="circle1">平均杀数</p>
                 <p class="circle2" @click="changeToKill">
                     <u><span class="demo-Circle-inner" style="font-size:20px">{{rate|filterRate}}</span></u>
@@ -97,6 +97,9 @@ export default {
           trigger: "axis",
           axisPointer: {
             type: "shadow"
+          },
+          textStyle:{
+            align:'left'
           },
            formatter(params){
               let data=params[0].data;

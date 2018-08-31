@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="btn">
-            <Button type="primary" class="morebtn" v-if='!showHourOnline' @click="seeHourOnline">点击查看每小时下注金额</Button>
+            <Button type="primary" class="morebtn" v-if='!showHourOnline' @click="seeHourOnline">点击查看每小时在线玩家人数</Button>
         </div>
         <hour-online v-if="showHourOnline"/>
     </div>

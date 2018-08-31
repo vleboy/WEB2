@@ -1762,6 +1762,8 @@ export default {
               this.playerMix = [];
             }
           });
+        }else{
+          return this.$Message.warning("请填写完整信息");
         }
       });
     },
