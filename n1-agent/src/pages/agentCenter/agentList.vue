@@ -339,7 +339,7 @@ export default {
       startStop: false,
       createAgents: false,
       // search2: "",
-      admin: false, //代理管理员创建代理
+      admin: false, //当前代理
       parentDisplayName: "",
       playerPoint: false,
       agentChild: [],
@@ -350,6 +350,7 @@ export default {
       toUser: "",
       parent:'',
       maxBalance: "上级代理余额为:",
+      topBalance:0,
       //创建agnet
       agentModal: false,
       Topdisabled: false,
@@ -769,6 +770,7 @@ export default {
                             getBill(id).then(res => {
                               this.maxBalance =
                                 "上级代理余额为:" + res.payload.balance;
+                                this.topBalance=res.payload.balance
                             });
                             if (params.row.parent == "01") {
                               this.fromUserId = localStorage.userId;
@@ -802,6 +804,7 @@ export default {
                             getBill(id).then(res => {
                               this.maxBalance =
                                 "上级代理余额为:" + res.payload.balance;
+                                this.topBalance=res.payload.balance
                             });
                             this.parentDisplayName =
                               "【" +
@@ -906,7 +909,7 @@ export default {
           title: "操作",
           key: "",
           render: (h, params) => {
-            if (params.row.parent == "00") {
+            if (params.row.current == true) {
               return h(
                 "span",
                 {
@@ -1190,6 +1193,7 @@ export default {
                         getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
+                          this.topBalance=res.payload.balance
                         });
                         this.playerPoint = true;
                         this.plus = true;
@@ -1221,6 +1225,7 @@ export default {
                         getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
+                          this.topBalance=res.payload.balance
                         });
                         this.plus = false;
                         this.parentDisplayName =
@@ -1553,10 +1558,15 @@ export default {
       this.agent.game = "";
       this.agent.select = "";
       this.agentType = 1;
+      this.admin=false;
       this.agent.remark = "";
     },
     ok() {
       //bill
+      if(+this.point>+this.topBalance){
+        this.point='';
+        return this.$Message.warning('输入点数超出,请重新输入')
+      }
       let parent = this.level == 0 ? "01" : localStorage.userId;
       let params = {
         parent,
@@ -1733,6 +1743,7 @@ export default {
       agentOne(userId).then(res => {
         if (res.code == 0) {
           let arr = [];
+          res.payload.current=true
           arr.push(res.payload);
           this.userInfo = arr;
         }

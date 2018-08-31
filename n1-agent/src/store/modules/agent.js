@@ -53,6 +53,8 @@ export const agent = {
          billTransfer(params).then(res=>{
            if(res.code==0){
              Message.success('操作成功');
+            }else{
+            commit('agentLoading',{params:false})
             }
         })
        },
@@ -70,6 +72,8 @@ export const agent = {
                 commit('agentLoading',{params:false})
               })
            }, 200);
+          }else{
+            commit('agentLoading',{params:false})
           }
         })
        },
@@ -86,6 +90,8 @@ export const agent = {
                 commit('agentLoading',{params:false})
               })
            }, 200);
+           }else{
+            commit('agentLoading',{params:false})
            }
          })
        }
