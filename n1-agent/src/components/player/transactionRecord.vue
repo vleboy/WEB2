@@ -30,7 +30,7 @@
           <Button type="primary" @click="exportData">导出数据</Button>
         </Col>
         <Col span="8">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span>
+          <!-- <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span> -->
           <Button class="-color" type="text" @click="resultGetPlayerDetail">刷新</Button>
           <Button class="-color" type="text" @click="openModal(0)">存点</Button>
           <Button class="-color" type="text" @click="openModal(1)">提点</Button>
@@ -322,6 +322,7 @@
         this.getTransactionRecord()
       },
       getTransactionRecord () {
+        this.isFetching = true
         this.initTime()
         let name = localStorage.playerName
         let [startTime, endTime] = this.amountDate
