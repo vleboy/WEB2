@@ -349,6 +349,7 @@ export default {
       source: "1",
       toUser: "",
       parent:'',
+      currentPlayer:'none',//创建玩家
       maxBalance: "上级代理余额为:",
       topBalance:0,
       //创建agnet
@@ -910,7 +911,8 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.current == true) {
-              return h(
+              return h('div',[
+                h(
                 "span",
                 {
                   style: {
@@ -942,7 +944,35 @@ export default {
                   }
                 },
                 "创建代理"
-              );
+              ),
+              h(
+                    "span",
+                    {
+                      style: {
+                        color: "#20a0ff",
+                        cursor: "pointer",
+                        display:this.currentPlayer
+                      },
+                      on: {
+                        click: () => {
+                          this.playerModal = true;
+                          let userId = params.row.userId;
+                          if (this.player.parentId == userId) {
+                            this.selectPlayerParent(userId);
+                          } else {
+                            this.player.parentId = userId;
+                          }
+                          availableAgents({ parent: userId }).then(res => {
+                            if (res.code == 0) {
+                              this.parentList = res.payload;
+                            }
+                          });
+                        }
+                      }
+                    },
+                    "创建玩家"
+                  )
+              ])
             } else {
               let color = "";
               let text = "";
@@ -1856,6 +1886,9 @@ export default {
     }
     if (this.permission.includes("停启用代理") || this.level != 0) {
       this.startStop = true;
+    }
+    if(this.level !=0){
+      this.currentPlayer='inline'
     }
   }
 };
