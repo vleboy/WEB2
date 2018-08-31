@@ -951,6 +951,7 @@ export default {
                       style: {
                         color: "#20a0ff",
                         cursor: "pointer",
+                        paddingLeft:'10px',
                         display:this.currentPlayer
                       },
                       on: {
@@ -1075,7 +1076,6 @@ export default {
                       style: {
                         color: "#20a0ff",
                         cursor: "pointer",
-                        paddingLeft:'10px'
                       },
                       on: {
                         click: () => {
@@ -1134,7 +1134,6 @@ export default {
                       style: {
                         color: color,
                         cursor: "pointer",
-                        marginRight: "10px",
                         display: this.startStop ? "inline" : "none"
                       },
                       on: {
