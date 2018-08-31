@@ -29,7 +29,7 @@
           <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
           <Col span="6"><span class="-span-base">玩家昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</span></Col>
           <Col span="6"><span class="-span-base">游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
-          <Col span="6"><span class="-span-base">余额{{detailInfo.balance}}</span></Col>
+          <Col span="6"><span class="-span-base">余额: {{detailInfo.balance}}</span></Col>
         </Row>
         <Row>
           <Col span="6"><span class="-span-base">上次登录游戏：{{lastTime}}</span></Col>
