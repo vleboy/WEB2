@@ -170,15 +170,15 @@ $
             }
           },
           {
+            title: '游戏类型',
+            key: 'gameName'
+          },
+          {
             title: '交易类型',
             key: 'msn',
             render: (h, params) => {
               return h('span', this.typeList[params.row.type])
             }
-          },
-          {
-            title: '游戏类型',
-            key: 'gameName'
           },
           {
             title: '帐变前余额',
