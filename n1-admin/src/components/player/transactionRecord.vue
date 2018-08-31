@@ -191,7 +191,7 @@
                     },
                     style: {
                       color:'#20a0ff',
-                      marginRight: '5px'
+                      // marginRight: '5px'
                     },
                     on: {
                       click: () => {
