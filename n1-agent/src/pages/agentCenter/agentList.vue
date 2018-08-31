@@ -1504,6 +1504,12 @@ export default {
         } else {
           parent = userId;
         }
+        let params={
+                    parent,
+                    query: {},
+                    sort: "desc",
+                    sortkey: "createdAt"
+                  }
         if (valid) {
           if (_.isEmpty(this.gameDetail)) {
             this.$Message.error("尚未选择游戏");
@@ -1527,13 +1533,7 @@ export default {
               if (res.code == 0) {
                 this.$Message.success("创建成功");
                 if (this.admin) {
-                  this.$store.dispatch("getAgentList", {
-                    parent,
-                    isTest: +this.source,
-                    query: {},
-                    sort: "desc",
-                    sortkey: "createdAt"
-                  });
+                  this.$store.dispatch("getAgentList",params);
                 }
                 this.resetAgent();
               }
