@@ -16,7 +16,7 @@
           <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
           <Col span="6"><span class="-span-base" >游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
           <Col span="6"><span class="-span-base" >余额：{{detailInfo.balance}}</span></Col>
-          <Col span="6"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
+          <Col span="6"><span class="-span-base">上次登录游戏：{{lastTime}}</span></Col>
         </Row>
         <Row>
           <Col span="6" v-for="(item,index) of detailInfo.gameList" :key="index">
