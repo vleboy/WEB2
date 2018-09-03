@@ -77,9 +77,9 @@ export default {
           type: "index",
           maxWidth: 80
         },
-        {
-          title: "操作",
-          key: "action"
+          {
+          title: "操作人",
+          key: "username"
         },
         {
           title: "操作时间",
@@ -91,9 +91,9 @@ export default {
             );
           }
         },
-        {
-          title: "操作人",
-          key: "username"
+       {
+          title: "操作",
+          key: "action"
         },
         {
           title: "操作结果",
