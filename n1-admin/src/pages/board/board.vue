@@ -579,6 +579,9 @@
                 icon: 'circle'
               }
             ],
+            selected:{
+              '累计注册人数':false
+            },
             right: '3%'
           },
           xAxis: {

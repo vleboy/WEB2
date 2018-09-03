@@ -75,7 +75,6 @@ export default {
         init(){
             let today=this.login.loginToday;
             let currentPeople=0;
-            console.log(today);
             let now=new Date().getHours();
             for(let item of today){
                 let name=this.gameName(item.gameId);
