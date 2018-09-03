@@ -30,7 +30,10 @@
         <div class="btn">
             <Button type="primary" class="morebtn" v-if='!showHourOnline' @click="seeHourOnline">点击查看每小时在线玩家人数</Button>
         </div>
-        <hour-online v-if="showHourOnline"/>
+        <hour-online 
+            :onlineToday="onlineTodayArr"
+            :onlineSeven="onlineSevenAverage"
+         v-if="showHourOnline"/>
     </div>
 </template>
 <script>
@@ -86,9 +89,11 @@ export default {
         },
         init(){
             let today=this.login.loginToday;
+            let loginCountDetail=this.login.loginCountDetail;
+            this.onlineSevenAverage=loginCountDetail.last7dayAvg
+            this.onlineTodayArr=loginCountDetail.today
              for(let item of today){
                 let name=this.gameName(item.gameId);
-
                 let onlineHour=(item.loginTimeTotal/(1000*60*60)).toFixed(2)
                 this.OnlineList.push({
                     name,

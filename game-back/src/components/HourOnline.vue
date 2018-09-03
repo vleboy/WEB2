@@ -8,10 +8,11 @@ export default {
     name:'hourOnlineChart',
     components:{},
     filters:{
-
+      
     },
     props:{
-       
+       onlineToday:Array,
+       onlineSeven:Array
     },
     data(){
         return{
@@ -51,12 +52,12 @@ export default {
         series: [
           {
             name: "7日平均人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,12],
+            data: this.onlineSeven,
             type: "bar"
           },
           {
             name: "今日在线人数",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200, 150,120, 200,  150, 120,  200,  150,120,200,  150 ,122].reverse(),
+            data: this.onlineToday,
             type: "bar"
           }
         ],

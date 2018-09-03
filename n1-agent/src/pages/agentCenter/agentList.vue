@@ -1808,6 +1808,7 @@ export default {
                 this.$store.dispatch("getAgentPlayer", {
                   fromUserId: userId
                 });
+                this.newPlayer=false;
               }
             }
           });
@@ -1820,6 +1821,7 @@ export default {
       this.$refs["playerForm"].resetFields();
       this.playerMix = [];
       this.player.remark = "";
+      this.newPlayer=false;
     },
     selectPlayerParent(id) {
       this.disabled = false;
