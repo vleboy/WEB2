@@ -349,6 +349,7 @@ export default {
       source: "1",
       toUser: "",
       parent:'',
+      newPlayer:false,
       currentPlayer:'none',//创建玩家
       maxBalance: "上级代理余额为:",
       topBalance:0,
@@ -957,6 +958,7 @@ export default {
                       on: {
                         click: () => {
                           this.playerModal = true;
+                          this.newPlayer=true;
                           let userId = params.row.userId;
                           if (this.player.parentId == userId) {
                             this.selectPlayerParent(userId);
@@ -1801,6 +1803,12 @@ export default {
               this.$Message.success("创建成功");
               this.$refs["playerForm"].resetFields();
               this.playerMix = [];
+              if(this.newPlayer){
+                let userId=localStorage.userId;
+                this.$store.dispatch("getAgentPlayer", {
+                  fromUserId: userId
+                });
+              }
             }
           });
         }else{

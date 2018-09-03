@@ -18,7 +18,7 @@
             </div>
             <div class="detail">
                 <ul class="gameul">
-                    <li v-for="item in OnlineList" :key="item.count" class="gameList">
+                    <li v-for="(item,index) in OnlineList" :key="index" class="gameList">
                         <p>{{item.name}}</p>
                         <p>{{item.count}}</p>
                     </li>
@@ -29,6 +29,8 @@
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
+import { mapState } from "vuex";
+import {GAME_LIST} from '@/config/gameList'
 export default {
     name:'onLine',
     components:{},
@@ -39,55 +41,18 @@ export default {
         return{
             source:'',
             range:'',
-            sum:thousandFormatter(45432),
-            OnlineList:[
-                {
-                    name:'罗塔之迷',
-                    count:234
-                },
-                {
-                    name:'罗塔之迷',
-                    count:32
-                },
-                {
-                    name:'罗塔之迷',
-                    count:13
-                },
-                {
-                    name:'罗塔之迷',
-                    count:64
-                },
-                {
-                    name:'罗塔之迷',
-                    count:43
-                },
-                {
-                    name:'罗塔之迷',
-                    count:212
-                },
-                {
-                    name:'罗塔之迷',
-                    count:45
-                },
-                {
-                    name:'罗塔之迷',
-                    count:343
-                },
-                {
-                    name:'罗塔之迷',
-                    count:56
-                },
-            ]
+            sum:0,
+            OnlineList:[]
         }
     },
     computed:{
-
+        ...mapState(["login"])
     },
     watch:{
 
     },
     created(){
-
+        this.init()
     },
     methods:{
         changeRange(){
@@ -96,8 +61,32 @@ export default {
             });
             console.log(range);
         },
+        gameName(id){
+            //遍历gametype 获取名字
+            for (let key in GAME_LIST ){
+                if(key === id){
+                    return GAME_LIST[key]
+                }
+            }
+        },
         changeSource(){
             console.log(this.source);
+        },
+        init(){
+            let today=this.login.loginToday;
+            let currentPeople=0;
+            console.log(today);
+            let now=new Date().getHours();
+            for(let item of today){
+                let name=this.gameName(item.gameId);
+                let onlineCount=item.onlineUserCount[now]
+                currentPeople+=item.onlineUserCount[now];
+                this.OnlineList.push({
+                    name,
+                    count:onlineCount
+                })
+            }
+            this.sum=currentPeople;
         }
     }
 }
@@ -121,7 +110,7 @@ export default {
                 line-height: 32px;
             }
             .icon{
-                font-size: 36px;
+                font-size: 28px;
             }
             .sum{
                 font-size: 18px;

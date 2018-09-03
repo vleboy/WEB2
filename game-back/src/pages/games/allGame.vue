@@ -21,7 +21,7 @@ export default {
     httpRequest('post','/main')
     .then(res=>{
       console.log(res);
-      this.$store.commit('loginToday',{params:res.loginToday})
+      this.$store.commit('login',{params:res.login})
       this.$store.commit('saveGameDetail',{params:res.game})
       this.showComponent=true
     })

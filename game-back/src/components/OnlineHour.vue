@@ -18,10 +18,10 @@
             </div>
             <div class="detail">
                 <ul class="gameul">
-                    <li v-for="item in OnlineList" :key="item.hour" class="gameList">
+                    <li v-for="(item,index) in OnlineList" :key="index" class="gameList">
                         <i-circle :percent="80" stroke-color="#5cb85c">
                             <p>{{item.name}}</p>
-                            <p>{{item.hour+'h'}}</p>
+                            <p>{{item.hour+'分'}}</p>
                         </i-circle>
                     </li>
                 </ul>
@@ -36,6 +36,8 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 import HourOnline from '@/components/HourOnline'
+import { mapState } from "vuex";
+import {GAME_LIST} from '@/config/gameList'
 export default {
     name:'onLine',
     components:{HourOnline},
@@ -47,54 +49,19 @@ export default {
             source:'',
             range:'',
             showHourOnline:false,
-            OnlineList:[
-                {
-                    name:'罗塔之迷',
-                    hour:234
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:32
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:13
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:64
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:43
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:212
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:45
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:343
-                },
-                {
-                    name:'罗塔之迷',
-                    hour:56
-                },
-            ]
+            OnlineList:[ ],
+            onlineTodayArr:[],
+            onlineSevenAverage:[]
         }
     },
     computed:{
-
+        ...mapState(["login"])
     },
     watch:{
 
     },
     created(){
-
+        this.init()
     },
     methods:{
         changeRange(){
@@ -108,6 +75,26 @@ export default {
         },
         seeHourOnline(){
             this.showHourOnline=true
+        },
+        gameName(id){
+            //遍历gametype 获取名字
+            for (let key in GAME_LIST ){
+                if(key === id){
+                    return GAME_LIST[key]
+                }
+            }
+        },
+        init(){
+            let today=this.login.loginToday;
+             for(let item of today){
+                let name=this.gameName(item.gameId);
+
+                let onlineHour=(item.loginTimeTotal/(1000*60*60)).toFixed(2)
+                this.OnlineList.push({
+                    name,
+                    hour:onlineHour
+                })
+            }
         }
     }
 }
