@@ -40,7 +40,7 @@ export default {
 
   },
   created(){
-    console.log(this.gameType);
+    // console.log(this.gameType);
   },
   mounted() {
     

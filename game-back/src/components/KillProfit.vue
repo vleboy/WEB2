@@ -81,7 +81,6 @@ export default {
   methods: {
     init(){
       let game = this.gameDetail; 
-      console.log(game);
       let today=game.killRateAndEarn_today
       let total=game.killRateAndEarn_total
       this.profitCountHistory=total.earn.total.total;
