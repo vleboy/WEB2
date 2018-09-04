@@ -40,7 +40,7 @@ export default {
         },
         {
           value: "2",
-          label: "账号结果异常"
+          label: "系统异常"
         },
         {
           value: "7",
