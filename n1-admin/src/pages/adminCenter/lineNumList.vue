@@ -12,6 +12,9 @@
         </div>
         </Col>
       </Row>
+      <Row class="row">
+        <p class="warning">线路号已废弃，该功能页仅提供基础查询</p>
+      </Row>
     </div>
     <div class="table">
       <Table :columns="columns1" :data="lineNumList" size="small" ></Table>
@@ -33,33 +36,33 @@ export default {
           title: "线路号",
           key: "msn",
         },
-        {
-          title: "状态",
-          key: "status",
-          render: (h, params) => {
-            let text = "";
-            let color = "";
-            if (params.row.status == 1) {
-              color = "#f30";
-              text = "已使用";
-            } else if (params.row.status == 0) {
-              color = "#0c0";
-              text = "未使用";
-            } else {
-              color = "#108de9";
-              text = "已停用";
-            }
-            return h(
-              "span",
-              {
-                style: {
-                  color: color
-                }
-              },
-              text
-            );
-          }
-        },
+        // {
+        //   title: "状态",
+        //   key: "status",
+        //   render: (h, params) => {
+        //     let text = "";
+        //     let color = "";
+        //     if (params.row.status == 1) {
+        //       color = "#f30";
+        //       text = "已使用";
+        //     } else if (params.row.status == 0) {
+        //       color = "#0c0";
+        //       text = "未使用";
+        //     } else {
+        //       color = "#108de9";
+        //       text = "已停用";
+        //     }
+        //     return h(
+        //       "span",
+        //       {
+        //         style: {
+        //           color: color
+        //         }
+        //       },
+        //       text
+        //     );
+        //   }
+        // },
         {
           title: "商户",
           key: "displayName",
@@ -71,53 +74,53 @@ export default {
             }
           }
         },
-        {
-          title: "操作",
-          key: "",
-          render: (h, params) => {
-            let text = "";
-            let opreate = null;
-            let color = "";
-            if (params.row.status == 0) {
-              text = "停用";
-              opreate = 2;
-              color = "#0c0";
-            } else if (params.row.status == 2) {
-              text = "启用";
-              opreate = 0;
-              color = "#20a0ff";
-            }
-            if (params.row.status == 0 || params.row.status == 2) {
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color,
-                    cursor: "pointer"
-                  },
-                  on: {
-                    click: () => {
-                      let msn = params.row.msn;
-                      this.$Modal.confirm({
-                        title: "提示!",
-                        content: `<p>是否${text}线路号</p>`,
-                        onOk: async () => {
-                          this.$store.commit("logLoading", { params: true });
-                          await changeLineStatus(msn, opreate);
-                          this.$store.dispatch("getLineNumList", {});
-                          this.$Message.success(`${text}成功`);
-                        }
-                      });
-                    }
-                  }
-                },
-                text
-              );
-            } else {
-              return h("span", "");
-            }
-          }
-        }
+        // {
+        //   title: "操作",
+        //   key: "",
+        //   render: (h, params) => {
+        //     let text = "";
+        //     let opreate = null;
+        //     let color = "";
+        //     if (params.row.status == 0) {
+        //       text = "停用";
+        //       opreate = 2;
+        //       color = "#0c0";
+        //     } else if (params.row.status == 2) {
+        //       text = "启用";
+        //       opreate = 0;
+        //       color = "#20a0ff";
+        //     }
+        //     if (params.row.status == 0 || params.row.status == 2) {
+        //       return h(
+        //         "span",
+        //         {
+        //           style: {
+        //             color: color,
+        //             cursor: "pointer"
+        //           },
+        //           on: {
+        //             click: () => {
+        //               let msn = params.row.msn;
+        //               this.$Modal.confirm({
+        //                 title: "提示!",
+        //                 content: `<p>是否${text}线路号</p>`,
+        //                 onOk: async () => {
+        //                   this.$store.commit("logLoading", { params: true });
+        //                   await changeLineStatus(msn, opreate);
+        //                   this.$store.dispatch("getLineNumList", {});
+        //                   this.$Message.success(`${text}成功`);
+        //                 }
+        //               });
+        //             }
+        //           }
+        //         },
+        //         text
+        //       );
+        //     } else {
+        //       return h("span", "");
+        //     }
+        //   }
+        // }
       ],
       spinShow: false
     };
@@ -152,6 +155,11 @@ export default {
   .search {
     // background-color: #f2f2f2;
     // height: 60px;
+    .warning{
+      font-size: 16px;
+      font-weight: bold;
+      color: #f00;
+    }
     .row {
       line-height: 32px;
       text-align: center;
