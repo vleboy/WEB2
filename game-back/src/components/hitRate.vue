@@ -17,8 +17,8 @@
                 <p class="secTitle">游戏命中率</p>
                 </Col>
                 <Col span="5">
-                <p><span class="rate">{{rate}}</span></p>
-                <p class="count">{{count}} 局</p>
+                <p><span class="rate">{{hitRateCount+'%'}}</span></p>
+                <p class="count">{{gameCount}} 局</p>
                 </Col>
             </Row>
         </div>
@@ -28,14 +28,20 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 export default {
-  props: {},
+  props: {
+      hitRateCount:Number,
+      gameCount:Number,
+      xAxis:Array,
+      data:Array
+  },
   data() {
     return {
-      rate: "43%",
       source:'',
       dateRange:'',
-      count: thousandFormatter(234554)
     };
+  },
+  computed:{
+
   },
   mounted(){
       this.drawBar()
@@ -54,15 +60,16 @@ export default {
       let option = {
         xAxis: {
           type: "category",
-          data: ['Scat','Wild','SSO','SS1','SS2','SS3','SS4','NS0','NS1','NS2','NS3','NS4','NS5'],
+          data: this.xAxis
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          axisLabel: {formatter:'{value} %'}
         },
         series: [
           {
             name: "命中率",
-            data: [  120,   150,    120,  200,  150,  120,  200,  150, 120,   200,   150, 120,  200],
+            data: this.data,
             type: "bar",
             barWidth:'50%'
           },
@@ -72,7 +79,15 @@ export default {
           trigger:'axis',
           axisPointer: {
               type: 'shadow'
-            }
+            },
+           formatter(params){
+              let data=params[0].data;
+              let res=''
+              for (let [key,val] of Object.entries(data)){
+                  res+=key+' : '+val+'<br/>'
+              }
+              return res
+          }
         }
       };
       const chart = document.getElementById("hitrateChart");

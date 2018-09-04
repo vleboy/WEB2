@@ -1,6 +1,6 @@
 <template>
   <div class="fuyun">
-    <basic-content :gameType="5"/>
+    <basic-content :gameType="42006"/>
   </div>
 </template>
 <script>

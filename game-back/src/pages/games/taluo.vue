@@ -1,6 +1,6 @@
 <template>
   <div class="taluo">
-    <basic-content :gameType="8"/>
+    <basic-content :gameType="42001"/>
   </div>
 </template>
 <script>

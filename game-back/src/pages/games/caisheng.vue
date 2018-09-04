@@ -1,6 +1,6 @@
 <template>
   <div class="caisheng">
-    <basic-content :gameType="2"/>
+    <basic-content :gameType="42005"/>
   </div>
 </template>
 <script>

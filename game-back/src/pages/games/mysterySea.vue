@@ -1,6 +1,6 @@
 <template>
   <div class="panda">
-    <basic-content :gameType="10"/>
+    <basic-content :gameType="41003"/>
   </div>
 </template>
 <script>

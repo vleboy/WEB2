@@ -243,9 +243,6 @@ export default {
                   title: "管理员列表"
                 },
                 {
-                  title: "线路号列表"
-                },
-                {
                   title: "管理员角色列表"
                 }
               ]

@@ -1,6 +1,6 @@
 <template>
   <div class="chuliang">
-    <basic-content :gameType="3"/>
+    <basic-content :gameType="42002"/>
   </div>
 </template>
 <script>

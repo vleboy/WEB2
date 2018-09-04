@@ -1,6 +1,6 @@
 <template>
   <div class="xianglong">
-    <basic-content :gameType="9"/>
+    <basic-content :gameType="42003"/>
   </div>
 </template>
 <script>

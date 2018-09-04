@@ -1,6 +1,6 @@
 <template>
   <div class="football">
-    <basic-content :gameType="4"/>
+    <basic-content :gameType="41002"/>
   </div>
 </template>
 <script>

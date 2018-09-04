@@ -68,9 +68,6 @@ export default {
     };
   },
   computed: {
-    // gameDetail(){
-    //     return this.$store.state.gameDetail
-    // },
     ...mapState(["gameDetail"])
   },
   watch: {},

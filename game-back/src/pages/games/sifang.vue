@@ -1,6 +1,6 @@
 <template>
   <div class="sifang">
-    <basic-content :gameType="7"/>
+    <basic-content :gameType="42004"/>
   </div>
 </template>
 <script>

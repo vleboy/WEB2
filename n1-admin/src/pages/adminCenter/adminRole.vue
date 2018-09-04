@@ -288,10 +288,6 @@ export default {
                 checked: false
               },
               {
-                title: "线路号列表",
-                checked: false
-              },
-              {
                 title: "管理员角色列表",
                 checked: false
               }
