@@ -309,7 +309,13 @@ export default {
         if (!testReg.test(value)) {
           callback(new Error("5-16位,限英文和数字"));
         } else {
-          callback();
+           checkExit({ user: { role: "100", username: value,suffix:this.basic.suffix } }).then(res => {
+            if (res.payload == true) {
+              callback();
+            } else {
+              callback(new Error("昵称不可用,请重新输入"));
+            }
+          });
         }
       }
     };
