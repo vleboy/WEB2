@@ -157,9 +157,6 @@ export default {
       if((_new.name == 'playDetail') && (localStorage.playerName != this.playerDetailInfo.userName)) {
         this.getPlayerDetail()
       }
-      if(_old.name== 'playList'){
-        this.getPlayerDetail()
-      }
     }
   }
 }
