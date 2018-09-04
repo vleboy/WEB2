@@ -5,7 +5,7 @@ import err404 from '@/pages/404'
 import home from '@/pages/home'
 import playerDetail from '@/pages/player/playerdetail'
 import agentDetail from '@/pages/agentCenter/agentDetail'
-//report
+//reports
 import ownSpace from '@/pages/ownSpace'
 import board from '@/pages/board/board'
 import allReport from '@/pages/reports/allReport'
