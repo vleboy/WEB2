@@ -121,6 +121,7 @@ export default {
           this.reportType = '1'
         }
       ).finally(()=>{
+        this.editPassword = false
         this.isFetching = false
       })
     },
