@@ -81,6 +81,53 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          let free=winKindDetail.total.free
+          let normal=winKindDetail.total.normal
+          let freeSelect=this.gameDetail.freeModeSelectDetail.total
+          let freeData=[]
+          let normalData=[]
+          let freeSelectData=[]
+          for(let[key,val] of Object.entries(free)){
+            if(key!='totalPay'){
+              freeData.push({
+                name:val.name,
+                value:val.pay,
+                '比率':val.rate+'%',
+                '总次数':val.count,
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+            }
+          }
+          for(let[key,val] of Object.entries(normal)){
+            if(key!='totalPay'){
+              normalData.push({
+                name:val.name,
+                value:val.pay,
+                '比率':val.rate+'%',
+                '总次数':val.count,
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+            }
+          }
+          for(let[key,val] of Object.entries(freeSelect)){
+              freeSelectData.push({
+                name:val.name,
+                value:val.count,
+                '比率':val.rate+'%',
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+          }
+          this.$store.commit('savePriceNormalData',{params:normalData})
+          this.$store.commit('savePriceFreeData',{params:freeData})
+          this.$store.commit('saveFreeChooseData',{params:freeSelectData})
+          this.$store.commit('savePriceFreeCount',{params:free.totalPay})
+          this.$store.commit('savePriceNormalCount',{params:normal.totalPay})
           break;
           //单个游戏
         case 41001:
@@ -199,7 +246,7 @@ export default {
             });
           }
     },
-      gameName(id){
+    gameName(id){
             //遍历gametype 获取名字
             for (let key in GAME_LIST ){
                 if(key === id){

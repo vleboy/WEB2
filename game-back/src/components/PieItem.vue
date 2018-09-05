@@ -42,7 +42,14 @@ export default {
       let option = {
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+           formatter(params){
+            let data=params.data;
+            let res=''
+            for (let [key,val] of Object.entries(data)){
+                res+=key+' : '+val+'<br/>'
+            }
+            return res
+          }
         },
         series: [
           {

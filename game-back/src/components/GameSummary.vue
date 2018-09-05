@@ -141,7 +141,7 @@ export default {
       betToday.push({
         name:item.name,
         value:item.betTotal,
-        '占比':item.ratio,
+        '占比':item.ratio+'%',
         '排名':item.order,
         '0.25-2.5':item.betLevel_1,
         '5-50':item.betLevel_2,
@@ -156,7 +156,7 @@ export default {
       betHistory.push({
         name:item.name,
         value:item.betTotal,
-        '占比':item.ratio,
+        '占比':item.ratio+'%',
         '排名':item.order,
         '0.25-2.5':item.betLevel_1,
         '5-50':item.betLevel_2,
@@ -171,7 +171,7 @@ export default {
        countToday.push({
         name:item.name,
         value:item.roundCountTotal,
-        '占比':item.ratio,
+        '占比':item.ratio+'%',
         '排名':item.order,
         '0.25-2.5':item.roundCountLevel_1,
         '5-50':item.roundCountLevel_2,
@@ -186,7 +186,7 @@ export default {
        countHistory.push({
         name:item.name,
         value:item.roundCountTotal,
-        '占比':item.ratio,
+        '占比':item.ratio+'%',
         '排名':item.order,
         '0.25-2.5':item.roundCountLevel_1,
         '5-50':item.roundCountLevel_2,

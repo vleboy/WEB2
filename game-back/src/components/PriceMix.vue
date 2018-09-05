@@ -15,17 +15,17 @@
             <Col span="12">
                 <pie-item 
                     title="大奖占比—普通模式"
-                    :count="234564"
+                    :count="priceNormalCount"
                     pieId="1"
-                    :data="pieData1"
+                    :data="priceNormalData"
                 />
             </Col>
             <Col span="12">
                 <pie-item 
                     title="大奖占比—免费模式"
-                    :count="2345674"
+                    :count="priceFreeCount"
                     pieId="2"
-                    :data="pieData1"
+                    :data="priceFreeData"
                 />
             </Col>
         </Row>
@@ -35,7 +35,7 @@
                     title="免费模式—选择次数"
                     :count="-1"
                     pieId="3"
-                    :data="pieData2"
+                    :data="freeChooseData"
                 />
             </Col>
             <Col span="12">
@@ -52,6 +52,7 @@
 <script>
 import { thousandFormatter } from "@/config/format";
 import PieItem from '@/components/PieItem'
+import { mapState } from "vuex";
 export default {
     name:'pricemix',
     components:{PieItem},
@@ -65,11 +66,6 @@ export default {
         return{
             source:'',
             range:'',
-            pieData1:[
-                { value: 335, name: "Super win" },
-                { value: 310, name: "Big win" },
-                { value: 234, name: "Mega win" }
-            ],
             pieData2:[
                 { value: 335, name: "5次" },
                 { value: 310, name: "8次" },
@@ -80,7 +76,7 @@ export default {
         }
     },
     computed:{
-
+    ...mapState(["priceNormalCount","priceNormalData","priceFreeCount","priceFreeData","freeChooseData"]),
     },
     watch:{
 
