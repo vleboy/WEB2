@@ -50,11 +50,6 @@ const Image = (method, url, data) => ({
     }
 })
 
-//example
-export async function example(params) {
-    return http()
-}
-
 //针对业务逻辑里的请求
 export async function httpRequest(method,url,params,type) {
   //参数分别作用 （方法, 请求接口, 参数, 域名接口）
@@ -69,6 +64,11 @@ export async function httpRequest(method,url,params,type) {
       return http(Image(method,url,params))
     break
   }
+}
+
+//example
+export async function example(params) {
+    return http()
 }
 
 //登录

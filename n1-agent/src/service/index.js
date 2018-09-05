@@ -108,7 +108,7 @@ export async function getagentList(params){
 }
 //代理玩家列表
 export async function playerList(params){
-    return http(post('/player/list',params))
+    return http(post('/agent/player/list',params))
 }
 //转账
 export async function billTransfer(params){

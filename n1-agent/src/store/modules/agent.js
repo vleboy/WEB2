@@ -66,7 +66,7 @@ export const agent = {
             Message.success('操作成功');
             setTimeout(() => {//延迟200ms执行,解决未同步刷新
               dispatch('getAgentPlayer',{
-                fromUserId:params.fromUserId
+                userId:params.fromUserId
               })
               .finally(()=>{
                 commit('agentLoading',{params:false})
@@ -84,7 +84,7 @@ export const agent = {
             Message.success('操作成功');
             setTimeout(() => {
               dispatch('getAgentPlayer',{
-                fromUserId:params.fromUserId
+                userId:params.fromUserId
               })
               .finally(()=>{
                 commit('agentLoading',{params:false})

@@ -606,7 +606,7 @@ export default {
                       }
                       this.agentChild = showList;
                       this.$store.dispatch("getAgentPlayer", {
-                        fromUserId: userId
+                         userId
                       });
                     }
                   }
@@ -1768,7 +1768,7 @@ export default {
       } else {
         parent = userId;
         this.$store.dispatch("getAgentPlayer", {
-          fromUserId: userId
+          userId
         });
       }
       this.$store.commit("agentLoading", { params: true });
@@ -1806,7 +1806,7 @@ export default {
               if(this.newPlayer){
                 let userId=localStorage.userId;
                 this.$store.dispatch("getAgentPlayer", {
-                  fromUserId: userId
+                  userId
                 });
                 this.newPlayer=false;
               }

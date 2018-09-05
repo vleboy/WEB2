@@ -28,31 +28,26 @@
     </div>
 </template>
 <script>
-import { thousandFormatter } from "@/config/format";
-import { mapState } from "vuex";
-import {GAME_LIST} from '@/config/gameList'
 export default {
     name:'onLine',
     components:{},
     props:{
-
+        sum:Number,
+        OnlineList:Array
     },
     data(){
         return{
             source:'',
             range:'',
-            sum:0,
-            OnlineList:[]
         }
     },
     computed:{
-        ...mapState(["login"])
     },
     watch:{
 
     },
     created(){
-        this.init()
+        // this.init()
     },
     methods:{
         changeRange(){
@@ -61,32 +56,9 @@ export default {
             });
             console.log(range);
         },
-        gameName(id){
-            //遍历gametype 获取名字
-            for (let key in GAME_LIST ){
-                if(key === id){
-                    return GAME_LIST[key]
-                }
-            }
-        },
         changeSource(){
             console.log(this.source);
         },
-        init(){
-            let today=this.login.loginToday;
-            let currentPeople=0;
-            let now=new Date().getHours();
-            for(let item of today){
-                let name=this.gameName(item.gameId);
-                let onlineCount=item.onlineUserCount[now]
-                currentPeople+=item.onlineUserCount[now];
-                this.OnlineList.push({
-                    name,
-                    count:onlineCount
-                })
-            }
-            this.sum=currentPeople;
-        }
     }
 }
 </script>

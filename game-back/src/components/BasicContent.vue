@@ -7,7 +7,10 @@
         <Button type="primary" @click="search">搜索</Button>
       </div>
     </div>
-    <on-line/>
+    <on-line 
+    :sum="sum"
+    :OnlineList="OnlineList"
+    />
     <kill-profit/>
     <game-summary/>
     <on-line-hour/>
@@ -27,6 +30,7 @@ import OnLine from "@/components/Online";
 import GameSummary from "@/components/GameSummary";
 import PriceMix from "@/components/PriceMix";
 import { mapState } from "vuex";
+import {GAME_LIST} from '@/config/gameList'
 export default {
   name: "basicContent",
   components: {
@@ -49,11 +53,14 @@ export default {
       hitRateCount: 0,
       gameCount: 0,
       hitXaxis: [],
-      hitRateData: []
+      hitRateData: [],
+      //online
+      OnlineList:[],
+      sum:0,
     };
   },
   computed: {
-    ...mapState(["gameDetail"])
+    ...mapState(["gameDetail","login"]),
   },
   created() {
     // console.log(this.gameType);
@@ -63,27 +70,97 @@ export default {
   methods: {
     init() {
       let hitRate = this.gameDetail.hitDetail;
+      let winKindDetail=this.gameDetail.winKindDetail
+      let hitGames=hitRate.games;
+      let detail,killItem
       switch (this.gameType) {
+        //全部游戏
         case 1:
-          let killTotal = hitRate.total;
-          this.hitRateCount = killTotal.hitRate;
-          this.gameCount = killTotal.roundCountTotal;
-          let detail = killTotal.detail;
-          for (let [key, val] of Object.entries(detail)) {
-            this.hitXaxis.push(val.name);
-            this.hitRateData.push({
-              name: val.name,
-              value: val.hitRate,
-              命中局数: val.hitCount,
-              赔付: val.hitPay.toFixed(2),
-              "0.25-2.5": val.level_1,
-              "5-50": val.level_2,
-              "125-500": val.level_3
-            });
-          }
+          killItem = hitRate.total;
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
           break;
+          //单个游戏
         case 41001:
+          killItem=hitGames['41001']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+         case 41002:
+          killItem=hitGames['41002']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 41003:
+          killItem=hitGames['41003']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42001:
+          killItem=hitGames['42001']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42002:
+          killItem=hitGames['42002']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42003:
+          killItem=hitGames['42003']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42004:
+          killItem=hitGames['42004']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42005:
+          killItem=hitGames['42005']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
+        case 42006:
+          killItem=hitGames['42006']
+          this.hitRateCount = killItem.hitRate;
+          this.gameCount = killItem.roundCountTotal;
+          detail = killItem.detail;
+          this.getKillRate(detail)
+          break;
       }
+      //当前在线
+      let today=this.login.loginToday;
+      let currentPeople=0;
+      let now=new Date().getHours();
+      for(let item of today){
+          let name=this.gameName(item.gameId);
+          let onlineCount=item.onlineUserCount[now]
+          currentPeople+=item.onlineUserCount[now];
+          this.OnlineList.push({
+              name,
+              count:onlineCount
+          })
+      }
+      this.sum=currentPeople;
     },
     changeSource() {
       let range = {};
@@ -108,6 +185,28 @@ export default {
       }
       console.log(range);
     },
+    getKillRate(detail){
+      for (let [key, val] of Object.entries(detail)) {
+            this.hitXaxis.push(val.name);
+            this.hitRateData.push({
+              name: val.name,
+              value: val.hitRate,
+              '命中局数': val.hitCount,
+              '赔付': val.hitPay.toFixed(2),
+              "0.25-2.5": val.level_1,
+              "5-50": val.level_2,
+              "125-500": val.level_3
+            });
+          }
+    },
+      gameName(id){
+            //遍历gametype 获取名字
+            for (let key in GAME_LIST ){
+                if(key === id){
+                    return GAME_LIST[key]
+                }
+            }
+        },
     search() {
       console.log("id==>", this.id);
       console.log("acount==>", this.acount);

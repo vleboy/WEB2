@@ -19,7 +19,7 @@
             <div class="detail">
                 <ul class="gameul">
                     <li v-for="(item,index) in OnlineList" :key="index" class="gameList">
-                        <i-circle :percent="80" stroke-color="#5cb85c">
+                        <i-circle :percent="item.percent" stroke-color="#5cb85c">
                             <p>{{item.name}}</p>
                             <p>{{item.hour+'分'}}</p>
                         </i-circle>
@@ -88,16 +88,17 @@ export default {
             }
         },
         init(){
+            let gameTimeDetail=this.login.gameTimeDetail
             let today=this.login.loginToday;
             let loginCountDetail=this.login.loginCountDetail;
             this.onlineSevenAverage=loginCountDetail.last7dayAvg
             this.onlineTodayArr=loginCountDetail.today
-             for(let item of today){
-                let name=this.gameName(item.gameId);
-                let onlineHour=(item.loginTimeTotal/(1000*60*60)).toFixed(2)
+             for(let [key,val] of Object.entries(gameTimeDetail)){
+                let name=this.gameName(key);
                 this.OnlineList.push({
                     name,
-                    hour:onlineHour
+                    percent:val/(60*24),
+                    hour:val
                 })
             }
         }
