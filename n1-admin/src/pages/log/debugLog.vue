@@ -2,10 +2,13 @@
   <div class="debugLog">
     <div class="option">
       <Row class="row">
-        <Col span="4" offset='20'>
-        <Select style="width:200px;float:right" @on-change='changeRole' v-model="role">
+        <Col span="10">
+        <RadioGroup v-model="role" @on-change="changeRole" type="button">
+            <Radio v-for="item in selectOption" :label="item.value" :key="item.value">{{ item.label }}</Radio>
+        </RadioGroup>
+        <!-- <Select style="width:200px;float:right" @on-change='changeRole' v-model="role">
           <Option v-for="item in selectOption" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
+        </Select> -->
         </Col>
       </Row>
     </div>

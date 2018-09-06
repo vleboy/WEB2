@@ -47,7 +47,13 @@ export default {
           title: "操作人",
           key: "",
           render:(h,params)=>{
-            return h('span',params.row.detail.operatorDisplayName)
+            let name=''
+            if(params.row.operateToken){
+              name=params.row.operateToken.displayName
+            }else{
+              name=params.row.detail.operatorDisplayName
+            }
+            return h('span',name)
           }
         },
         {
