@@ -33,13 +33,13 @@ export default {
         },
         {
           title: "操作人",
-          key: "",
+          key: "username",
           render:(h,params)=>{
             let name=''
             if(params.row.operateToken){
               name=params.row.operateToken.displayName
             }else{
-              name=params.row.detail.operatorDisplayName
+              name=params.row.username
             }
             return h('span',name)
           }

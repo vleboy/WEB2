@@ -38,14 +38,14 @@
                     :data="freeChooseData"
                 />
             </Col>
-            <Col span="12">
+            <!-- <Col span="12">
                 <pie-item 
                     title="免费模式—赔付金额"
                     :count="-1"
                     pieId="4"
                     :data="pieData2"
                 />
-            </Col>
+            </Col> -->
         </Row>
     </div>
 </template>

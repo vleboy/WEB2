@@ -101,11 +101,6 @@ export default {
       showHourCount:false,
       source:'',
       dateRange:'',
-      //hourchart
-      betHourTodayArr:[],
-      betHourAvArr:[],
-      countHourTodayArr:[],
-      countHourAvArr:[],
       //count
       betCountToday:0,
       betCountHistory:0,
@@ -119,14 +114,10 @@ export default {
     };
   },
   computed:{
-    ...mapState(["gameDetail"])
+    ...mapState(["gameDetail","betHourTodayArr","betHourAvArr","countHourTodayArr","countHourAvArr"])
   },
   created(){
     let game = this.gameDetail;
-    this.betHourTodayArr=game.todayDetail.today.total.bet
-    this.betHourAvArr=game.todayDetail.lastWeekArg.total.bet
-    this.countHourTodayArr=game.todayDetail.today.total.betCount
-    this.countHourAvArr=game.todayDetail.lastWeekArg.total.betCount
   },
   mounted() {
     let game=this.gameDetail;

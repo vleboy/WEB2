@@ -17,7 +17,9 @@
          :profit="profitCountHistory" 
          :killRate="killRateHistory"
          :profitArr="profitTotalArr"
-         :killRateArr="killTotalArr"         
+         :killRateArr="killTotalArr"
+         :killXaxis="killXaxisHistory"  
+         :profitxAxis="profitXaxisHistory"       
           />
         <kill-profit-item 
         range="今日" 
@@ -26,6 +28,8 @@
         :killRate="killRateToday"
         :profitArr="profitTodayArr"
         :killRateArr="killTodayArr" 
+        :killXaxis="killXaxisToday"  
+        :profitxAxis="profitXaxisToday"       
          />
         <div class="btn">
             <Button type="primary" class="morebtn" v-if='!showHour' @click="seeHourChart">点击查看每小时盈利曲线</Button>
@@ -43,6 +47,7 @@ import { thousandFormatter } from "@/config/format";
 import KillProfitItem from "@/components/KillProfitItem";
 import HourChart from "@/components/HourChart";
 import { mapState } from "vuex";
+import {GAME_LIST} from '@/config/gameList'
 export default {
   name: "",
   components: { KillProfitItem, HourChart },
@@ -63,12 +68,15 @@ export default {
       profitTotalArr:[],
       profitTodayArr:[],
       killTodayArr:[],
-      profitHourTodayArr:[],
-      profitHourAvArr:[],//7day avrage
+      //axias
+      killXaxisHistory:[],
+      profitXaxisHistory:[],
+      killXaxisToday:[],
+      profitXaxisToday:[]
     };
   },
   computed: {
-    ...mapState(["gameDetail"])
+    ...mapState(["gameDetail","profitHourTodayArr","profitHourAvArr"])
   },
   watch: {},
   created() {
@@ -88,6 +96,7 @@ export default {
       let profitTotalArr=[];
       let killTotalArr=[]
       for(let [key,val] of Object.entries(total.earn.games)){
+          this.profitXaxisHistory.push(this.gameName(key))
           profitTotalArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
@@ -96,6 +105,7 @@ export default {
           })
       }
       for(let [key,val] of Object.entries(total.killRate.games)){
+          this.killXaxisHistory.push(this.gameName(key))
           killTotalArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
@@ -109,6 +119,7 @@ export default {
       let profitTodayArr=[];
       let killTodayArr=[]
       for(let [key,val] of Object.entries(today.earn.games)){
+          this.profitXaxisToday.push(this.gameName(key))//x轴
           profitTodayArr.push({
             value:val.total,
           '0.25-2.5':val.level_1,
@@ -117,6 +128,7 @@ export default {
           })
       }
       for(let [key,val] of Object.entries(today.killRate.games)){
+          this.killXaxisToday.push(this.gameName(key))//x轴
           killTodayArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
@@ -126,8 +138,6 @@ export default {
       }
       this.profitTodayArr=profitTodayArr
       this.killTodayArr=killTodayArr;
-      this.profitHourTodayArr=game.todayDetail.today.total.earn
-      this.profitHourAvArr=game.todayDetail.lastWeekArg.total.earn
     },
     changeSource() {
       console.log(this.source);
@@ -137,6 +147,14 @@ export default {
         return item.getTime();
       });
       console.log(range);
+    },
+    gameName(id){
+        //遍历gametype 获取名字
+        for (let key in GAME_LIST ){
+            if(key === id){
+                return GAME_LIST[key]
+            }
+        }
     },
     seeHourChart() {
       this.showHour = true;

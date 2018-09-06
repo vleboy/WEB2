@@ -35,7 +35,7 @@ export default {
           render:(h,params)=>{
             let name=''
             if(params.row.operateToken){
-              name=params.row.operateToken.displayName
+              name=params.row.operateToken.username
             }else{
               name=params.row.username
             }

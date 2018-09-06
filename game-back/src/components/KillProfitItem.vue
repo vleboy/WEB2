@@ -36,7 +36,9 @@ export default {
     profit:[Number,String],
     killRate:Object,
     profitArr:Array,
-    killRateArr:Array
+    killRateArr:Array,
+    killXaxis:Array,
+    profitxAxis:Array,
   },
   data() {
     return{
@@ -62,24 +64,14 @@ export default {
   },
   mounted() {
     let color = ["#169BD5"];
-    this.drawLineChart(this.killRateArr, color);
+    this.drawLineChart(this.killRateArr,this.killXaxis, color);
   },
   methods: {
-    drawLineChart(data, color) {
+    drawLineChart(data,xAxis,color) {
       let option = {
         xAxis: {
           type: "category",
-          data: [
-            "熊猫传奇",
-            "财富足球",
-            "神秘海域",
-            "塔罗之谜",
-            "小厨娘",
-            "祥龙献瑞",
-            "四方神兽",
-            "财神进宝",
-            "福运亨通"
-          ]
+          data:xAxis
         },
         yAxis: {
           type: "value",
@@ -123,12 +115,12 @@ export default {
     changeToKill() {
       let color = ["#169BD5"];
       this.showProfit=false;
-      this.drawLineChart(this.killRateArr, color);
+      this.drawLineChart(this.killRateArr,this.killXaxis, color);
     },
     changeToProfit() {
       let color = ["#c23531"];
       this.showProfit=true;
-      this.drawLineChart(this.profitArr, color);
+      this.drawLineChart(this.profitArr,this.profitxAxis, color);
     },
     switchLevel(){
       let entries=this.entries;

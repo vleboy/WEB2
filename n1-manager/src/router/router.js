@@ -32,8 +32,9 @@ import rtgGame from '@/pages/reports/rtgGame'
 import ysbSport from '@/pages/reports/ysbSport'
 import dtGame from '@/pages/reports/dtReport'
 import ppGame from '@/pages/reports/ppGame'
-
-import opreateLog from '@/pages/log/opreateLog'
+//log
+import managerOpreateLog from '@/pages/log/managerOpreateLog'
+import merchantOpreateLog from '@/pages/log/merchantOpreateLog'
 import merchantLog from '@/pages/log/merchantLog'
 import managerLog from '@/pages/log/managerLog'
 import playerlist from '@/pages/player/playerlist'
@@ -182,7 +183,8 @@ export const appRouter = [
         name:'log',
         component:main,
         children:[
-            {path:'opreate',title:'管理员操作日志',name:'opreateLog',component:opreateLog},
+            {path:'managerOpreate',title:'线路商操作日志',name:'managerOpreateLog',component:managerOpreateLog},
+            {path:'merchantOpreate',title:'线路商操作日志',name:'merchantOpreateLog',component:merchantOpreateLog},
             {path:'manager',title:'线路商登录日志',name:'managerLog',component:managerLog},
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:merchantLog},
         ]

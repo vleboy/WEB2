@@ -32,18 +32,6 @@ export default {
           maxWidth: 80
         },
         {
-          title: "操作",
-          key: "action"
-        },
-        {
-          title: "操作时间",
-          key: "createdAt",
-          render: (h, params) => {
-            return h("span",dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
-            );
-          }
-        },
-        {
           title: "操作人",
           key: "username",
           render:(h,params)=>{
@@ -54,6 +42,18 @@ export default {
               name=params.row.username
             }
             return h('span',name)
+          }
+        },
+        {
+          title: "操作",
+          key: "action"
+        },
+        {
+          title: "操作时间",
+          key: "createdAt",
+          render: (h, params) => {
+            return h("span",dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
+            );
           }
         },
         {

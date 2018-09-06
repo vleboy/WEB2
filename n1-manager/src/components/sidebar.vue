@@ -90,7 +90,8 @@
                     </template>
                     <MenuItem name="managerLog">线路商登录日志</MenuItem>
                     <MenuItem name="merchantLog">商户登录日志</MenuItem>
-                    <MenuItem name="opreateLog">操作日志</MenuItem>
+                    <MenuItem name="managerOpreteLog">线路商操作日志</MenuItem>
+                    <MenuItem name="merchantOpreateLog">商户操作日志</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>

@@ -69,73 +69,50 @@ export default {
   mounted() {},
   methods: {
     init() {
+      //hitrate
       let hitRate = this.gameDetail.hitDetail;
-      let winKindDetail=this.gameDetail.winKindDetail
       let hitGames=hitRate.games;
-      let detail,killItem
+      //winkind
+      let winKindDetail=this.gameDetail.winKindDetail
+      let winGames=winKindDetail.games;
+      // freeSelect
+      let freeSelect=this.gameDetail.freeModeSelectDetail;
+      let freeSelectGames=freeSelect.games
+      //hourChart
+      let hourChart=this.gameDetail.todayDetail
+      let hourGames=hourChart.games
+      let detail,killItem,winItem,freeSelectItem,hourItem
       switch (this.gameType) {
         //全部游戏
         case 1:
+          //kill
           killItem = hitRate.total;
           this.hitRateCount = killItem.hitRate;
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
-          let free=winKindDetail.total.free
-          let normal=winKindDetail.total.normal
-          let freeSelect=this.gameDetail.freeModeSelectDetail.total
-          let freeData=[]
-          let normalData=[]
-          let freeSelectData=[]
-          for(let[key,val] of Object.entries(free)){
-            if(key!='totalPay'){
-              freeData.push({
-                name:val.name,
-                value:val.pay,
-                '比率':val.rate+'%',
-                '总次数':val.count,
-                '0.25-2.5':val.level_1,
-                '5-50':val.level_2,
-                '125-500':val.level_3
-              })
-            }
-          }
-          for(let[key,val] of Object.entries(normal)){
-            if(key!='totalPay'){
-              normalData.push({
-                name:val.name,
-                value:val.pay,
-                '比率':val.rate+'%',
-                '总次数':val.count,
-                '0.25-2.5':val.level_1,
-                '5-50':val.level_2,
-                '125-500':val.level_3
-              })
-            }
-          }
-          for(let[key,val] of Object.entries(freeSelect)){
-              freeSelectData.push({
-                name:val.name,
-                value:val.count,
-                '比率':val.rate+'%',
-                '0.25-2.5':val.level_1,
-                '5-50':val.level_2,
-                '125-500':val.level_3
-              })
-          }
-          this.$store.commit('savePriceNormalData',{params:normalData})
-          this.$store.commit('savePriceFreeData',{params:freeData})
-          this.$store.commit('saveFreeChooseData',{params:freeSelectData})
-          this.$store.commit('savePriceFreeCount',{params:free.totalPay})
-          this.$store.commit('savePriceNormalCount',{params:normal.totalPay})
+          //win
+          winItem=winKindDetail.total
+          this.getWinKind(winItem)
+          //select
+          freeSelectItem=freeSelect.total
+          this.getFreeSelect(freeSelectItem)
+          //hourChart
+          hourItem=hourChart.total
+          this.getHourChart(hourItem)
           break;
-          //单个游戏
         case 41001:
           killItem=hitGames['41001']
           this.hitRateCount = killItem.hitRate;
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['41001']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['41001']
+          this.getFreeSelect(freeSelectItem)
+          hourItem=hourGames['41001']
+          this.getHourChart(hourItem)
           break;
          case 41002:
           killItem=hitGames['41002']
@@ -143,6 +120,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['41002']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['41002']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['41002']
+          this.getHourChart(hourItem)
           break;
         case 41003:
           killItem=hitGames['41003']
@@ -150,6 +133,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+           winItem=winGames['41003']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['41003']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['41003']
+          this.getHourChart(hourItem)
           break;
         case 42001:
           killItem=hitGames['42001']
@@ -157,6 +146,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42001']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42001']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42001']
+          this.getHourChart(hourItem)
           break;
         case 42002:
           killItem=hitGames['42002']
@@ -164,6 +159,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42002']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42002']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42002']
+          this.getHourChart(hourItem)
           break;
         case 42003:
           killItem=hitGames['42003']
@@ -171,6 +172,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42003']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42003']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42003']
+          this.getHourChart(hourItem)
           break;
         case 42004:
           killItem=hitGames['42004']
@@ -178,6 +185,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42004']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42004']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42004']
+          this.getHourChart(hourItem)
           break;
         case 42005:
           killItem=hitGames['42005']
@@ -185,6 +198,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42005']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42005']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42005']
+          this.getHourChart(hourItem)
           break;
         case 42006:
           killItem=hitGames['42006']
@@ -192,6 +211,12 @@ export default {
           this.gameCount = killItem.roundCountTotal;
           detail = killItem.detail;
           this.getKillRate(detail)
+          winItem=winGames['42006']
+          this.getWinKind(winItem)
+          freeSelectItem=freeSelectGames['42006']
+          this.getFreeSelect(freeSelectItem)
+           hourItem=hourGames['42006']
+          this.getHourChart(hourItem)
           break;
       }
       //当前在线
@@ -245,6 +270,64 @@ export default {
               "125-500": val.level_3
             });
           }
+    },
+    getWinKind(item){
+      let free=item.free
+      let normal=item.normal
+      let freeData=[]
+      let normalData=[]
+      for(let[key,val] of Object.entries(free)){
+            if(key!='totalPay'){
+              freeData.push({
+                name:val.name,
+                value:val.pay,
+                '比率':val.rate+'%',
+                '总次数':val.count,
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+            }
+          }
+          for(let[key,val] of Object.entries(normal)){
+            if(key!='totalPay'){
+              normalData.push({
+                name:val.name,
+                value:val.pay,
+                '比率':val.rate+'%',
+                '总次数':val.count,
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+            }
+          }
+          this.$store.commit('savePriceNormalData',{params:normalData})
+          this.$store.commit('savePriceFreeData',{params:freeData})
+          this.$store.commit('savePriceFreeCount',{params:free.totalPay})
+          this.$store.commit('savePriceNormalCount',{params:normal.totalPay})
+    },
+    getFreeSelect(item){
+      let freeSelectData=[]
+      for(let[key,val] of Object.entries(item)){
+              freeSelectData.push({
+                name:val.name,
+                value:val.count,
+                '比率':val.rate+'%',
+                '0.25-2.5':val.level_1,
+                '5-50':val.level_2,
+                '125-500':val.level_3
+              })
+          }
+      this.$store.commit('saveFreeChooseData',{params:freeSelectData})
+    },
+    getHourChart(item){
+      this.$store.commit('saveProfitHourTodayArr',{params:item.today.earn})
+      this.$store.commit('saveProfitHourAvArr',{params:item.lastWeekArg.earn})
+      this.$store.commit('saveBetHourTodayArr',{params:item.today.bet})
+      this.$store.commit('saveBetHourAvArr',{params:item.lastWeekArg.bet})
+      this.$store.commit('saveCountHourTodayArr',{params:item.today.betCount})
+      this.$store.commit('saveCountHourAvArr',{params:item.lastWeekArg.betCount})
     },
     gameName(id){
             //遍历gametype 获取名字
