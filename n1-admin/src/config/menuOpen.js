@@ -1,6 +1,6 @@
   export const menuOpen = function (name) {
     let openName = []
-    if (name.includes('na')){
+    if (name.includes('na' && name!='managerOpreateLog')){
       openName = ["report", "nareport"];
     } else if (name == "ttgvideo") {
       openName = ["report", "ttgreport"];

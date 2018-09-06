@@ -10,7 +10,8 @@ export const admin = {
        lineLog:[],
        merchantLog:[],
        merchantOprateLog:[],
-       managerOprateLog:[]
+       managerOprateLog:[],
+       adminLoginLog:[]
     },
     mutations:{
         changeAdminList(state,{params}){
@@ -47,6 +48,9 @@ export const admin = {
         },
         changeManagerOprateLog(state,{params}){
             state.managerOprateLog=params
+        },
+        changeAdminLoginLog(state,{params}){
+            state.adminLoginLog=params
         }
     },
     actions:{
@@ -71,6 +75,16 @@ export const admin = {
         logList(params).then(res=>{
             if(res.code==0){
                 commit('changeAdminLog',{params:res.payload.Items});
+                commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
+                commit('logLoading',{params:false})
+            }
+        })
+      },
+      getAdminLoginLog({commit},params){
+        commit('logLoading',{params:true})
+        logList(params).then(res=>{
+            if(res.code==0){
+                commit('changeAdminLoginLog',{params:res.payload.Items});
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
                 commit('logLoading',{params:false})
             }

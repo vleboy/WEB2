@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state:{
         loading:false,
+        currentGameId:0,//当前游戏id
         login:{},
         gameDetail:{},
         priceNormalCount:0,
@@ -66,6 +67,9 @@ export const store = new Vuex.Store({
     saveCountHourAvArr(state,{params}){
         state.countHourAvArr=params
         },
+    currentGameId(state,{params}){
+        state.currentGameId=params
+    }
     },
     actions:{
 

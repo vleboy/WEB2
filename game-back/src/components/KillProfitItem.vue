@@ -22,6 +22,7 @@
 </template>
 <script>
 import { thousandFormatter } from "@/config/format";
+import { mapState } from "vuex";
 export default {
   name: "killProfit",
   components: {},
@@ -54,7 +55,7 @@ export default {
     },
     entries(){
       return Object.entries(this.killRate)
-    }
+    },
   },
   watch: {},
   created() {

@@ -76,7 +76,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["gameDetail","profitHourTodayArr","profitHourAvArr"])
+    ...mapState(["gameDetail","profitHourTodayArr","profitHourAvArr","currentGameId"])
   },
   watch: {},
   created() {
@@ -93,34 +93,38 @@ export default {
       this.profitCountToday=today.earn.total.total;
       this.killRateToday=today.killRate.total
       //历史
-      let profitTotalArr=[];
-      let killTotalArr=[]
       for(let [key,val] of Object.entries(total.earn.games)){
+        if(key!=this.currentGameId ||this.currentGameId==1){
           this.profitXaxisHistory.push(this.gameName(key))
-          profitTotalArr.push({
+          this.profitTotalArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
             '5-50':val.level_2,
             '125-500':val.level_3
           })
+        }else{
+          this.profitXaxisHistory.unshift(this.gameName(key))
+          this.profitTotalArr.unshift({
+            value:val.total,
+            '0.25-2.5':val.level_1,
+            '5-50':val.level_2,
+            '125-500':val.level_3
+          })
+        }
       }
       for(let [key,val] of Object.entries(total.killRate.games)){
           this.killXaxisHistory.push(this.gameName(key))
-          killTotalArr.push({
+          this.killTotalArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
             '5-50':val.level_2,
             '125-500':val.level_3
           })
       }
-      this.profitTotalArr=profitTotalArr
-      this.killTotalArr=killTotalArr
       //今日
-      let profitTodayArr=[];
-      let killTodayArr=[]
       for(let [key,val] of Object.entries(today.earn.games)){
           this.profitXaxisToday.push(this.gameName(key))//x轴
-          profitTodayArr.push({
+          this.profitTodayArr.push({
             value:val.total,
           '0.25-2.5':val.level_1,
             '5-50':val.level_2,
@@ -129,15 +133,13 @@ export default {
       }
       for(let [key,val] of Object.entries(today.killRate.games)){
           this.killXaxisToday.push(this.gameName(key))//x轴
-          killTodayArr.push({
+          this.killTodayArr.push({
             value:val.total,
             '0.25-2.5':val.level_1,
             '5-50':val.level_2,
             '125-500':val.level_3
           })
       }
-      this.profitTodayArr=profitTodayArr
-      this.killTodayArr=killTodayArr;
     },
     changeSource() {
       console.log(this.source);

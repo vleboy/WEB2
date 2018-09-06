@@ -70,6 +70,7 @@ export default {
   methods: {
     init() {
       //hitrate
+      this.$store.commit('currentGameId',{params:this.gameType})
       let hitRate = this.gameDetail.hitDetail;
       let hitGames=hitRate.games;
       //winkind

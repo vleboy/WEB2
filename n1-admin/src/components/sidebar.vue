@@ -110,6 +110,7 @@
                         <Icon type="bug"></Icon>
                         日志中心
                     </template>
+                    <MenuItem name="adminLoginLog" v-if='permission.includes("登录日志")'>管理员登录日志</MenuItem>
                     <MenuItem name="adminLog" v-if='permission.includes("操作日志")'>管理员操作日志</MenuItem>
                     <MenuItem name="lineLoginLog" v-if='permission.includes("登录日志")'>线路商登录日志</MenuItem>
                     <MenuItem name="managerOpreateLog" v-if='permission.includes("操作日志")'>线路商操作日志</MenuItem>
