@@ -184,7 +184,7 @@ export const appRouter = [
         component:main,
         children:[
             {path:'managerOpreate',title:'线路商操作日志',name:'managerOpreateLog',component:managerOpreateLog},
-            {path:'merchantOpreate',title:'线路商操作日志',name:'merchantOpreateLog',component:merchantOpreateLog},
+            {path:'merchantOpreate',title:'商户操作日志',name:'merchantOpreateLog',component:merchantOpreateLog},
             {path:'manager',title:'线路商登录日志',name:'managerLog',component:managerLog},
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:merchantLog},
         ]

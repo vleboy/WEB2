@@ -3,7 +3,7 @@
     <div class="reload">
       <Row>
         <Col span="5" offset="17">
-        <Row>
+        <Row v-if="agentLevel==0">
           <Col span="8">
           <span class="selectText">代理层级</span>
           </Col>
@@ -135,6 +135,9 @@ export default {
     };
   },
   computed: {
+    agentLevel(){
+      return +localStorage.level
+    },
     agentLog() {
       return this.$store.state.log.agentOpreateLog;
     }
