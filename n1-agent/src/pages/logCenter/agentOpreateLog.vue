@@ -79,7 +79,16 @@ export default {
         },
           {
           title: "操作人",
-          key: "username"
+          key: "username",
+          render:(h,params)=>{
+            let name=''
+            if(params.row.operateToken){
+              name=params.row.operateToken.displayName
+            }else{
+              name=params.row.username
+            }
+            return h('span',name)
+          }
         },
         {
           title: "操作时间",
