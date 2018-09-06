@@ -8,7 +8,9 @@ export const admin = {
        debugLog:[],
        startKey:{},
        lineLog:[],
-       merchantLog:[]
+       merchantLog:[],
+       merchantOprateLog:[],
+       managerOprateLog:[]
     },
     mutations:{
         changeAdminList(state,{params}){
@@ -39,6 +41,12 @@ export const admin = {
         },
         changeMerchantLog(state,{params}){
             state.merchantLog=params
+        },
+        changeMerchantOprateLog(state,{params}){
+            state.merchantOprateLog=params
+        },
+        changeManagerOprateLog(state,{params}){
+            state.managerOprateLog=params
         }
     },
     actions:{
@@ -60,7 +68,7 @@ export const admin = {
       },
       getAdminLog({commit},params){
         commit('logLoading',{params:true})
-        return logList(params).then(res=>{
+        logList(params).then(res=>{
             if(res.code==0){
                 commit('changeAdminLog',{params:res.payload.Items});
                 commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
@@ -92,6 +100,26 @@ export const admin = {
           logList(params).then(res=>{
               if(res.code==0){
                   commit('changeLineLog',{params:res.payload.Items})
+                  commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
+                  commit('logLoading',{params:false})
+              }
+          })
+      },
+      getManagerOpreateLog({commit},params){
+        commit('logLoading',{params:true})
+          logList(params).then(res=>{
+              if(res.code==0){
+                  commit('changeManagerOprateLog',{params:res.payload.Items})
+                  commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
+                  commit('logLoading',{params:false})
+              }
+          })
+      },
+      getMerchantOpreateLog({commit},params){
+        commit('logLoading',{params:true})
+          logList(params).then(res=>{
+              if(res.code==0){
+                  commit('changeMerchantOprateLog',{params:res.payload.Items})
                   commit('changeStartKey',{params:res.payload.LastEvaluatedKey})
                   commit('logLoading',{params:false})
               }

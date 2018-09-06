@@ -252,13 +252,10 @@ export default {
               expand: true,
               children: [
                 {
-                  title: "线路商登录日志"
+                  title: "登录日志"
                 },
                 {
-                  title: "商户登录日志"
-                },
-                {
-                  title: "管理员操作日志"
+                  title: "操作日志"
                 },
                 {
                   title: "DEBUG日志"

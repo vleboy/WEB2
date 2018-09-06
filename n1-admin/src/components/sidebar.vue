@@ -110,9 +110,11 @@
                         <Icon type="bug"></Icon>
                         日志中心
                     </template>
-                    <MenuItem name="adminLog" v-if='permission.includes("管理员操作日志")'>管理员操作日志</MenuItem>
-                    <MenuItem name="lineLoginLog" v-if='permission.includes("线路商登录日志")'>线路商登录日志</MenuItem>
-                    <MenuItem name="merchantLog" v-if='permission.includes("商户登录日志")'>商户登录日志</MenuItem>
+                    <MenuItem name="adminLog" v-if='permission.includes("操作日志")'>管理员操作日志</MenuItem>
+                    <MenuItem name="lineLoginLog" v-if='permission.includes("登录日志")'>线路商登录日志</MenuItem>
+                    <MenuItem name="managerOpreateLog" v-if='permission.includes("操作日志")'>线路商操作日志</MenuItem>
+                    <MenuItem name="merchantLog" v-if='permission.includes("登录日志")'>商户登录日志</MenuItem>
+                    <MenuItem name="merchantOpreateLog" v-if='permission.includes("操作日志")'>商户操作日志</MenuItem>
                     <MenuItem name="debugLog" v-if='permission.includes("DEBUG日志")'>DEBUG日志</MenuItem>
                     <MenuItem name="dataRepair" v-if='permission.includes("DEBUG日志")'>DEBUG修正</MenuItem>
                 </Submenu>

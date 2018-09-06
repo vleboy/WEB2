@@ -41,10 +41,14 @@ import warnList from '@/pages/businessCenter/warnList'
 import adminList from '@/pages/adminCenter/adminList'
 import adminRole from '@/pages/adminCenter/adminRole'
 import lineNumList from '@/pages/adminCenter/lineNumList'
+
 import lineLoginLog from '@/pages/log/lineLoginLog'
 import merchantLog from '@/pages/log/merchantLog'
 import adminLog from '@/pages/log/adminLog'
 import debugLog from '@/pages/log/debugLog'
+import managerOpreateLog from '@/pages/log/managerOpreateLog'
+import merchantOpreateLog from '@/pages/log/merchantOpreateLog'
+
 import dataRepair from '@/pages/log/dataRepair'
 import playerlist from '@/pages/player/playerlist'
 import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
@@ -226,6 +230,8 @@ export const appRouter = [
         children:[
             {path:'lineLogin',title:'线路商登录日志',name:'lineLoginLog',component:lineLoginLog},
             {path:'merchant',title:'商户登录日志',name:'merchantLog',component:merchantLog},
+            {path:'managerOpreate',title:'线路商操作日志',name:'managerOpreateLog',component:managerOpreateLog},
+            {path:'merchantOpreate',title:'商户操作日志',name:'merchantOpreateLog',component:merchantOpreateLog},
             {path:'admin',title:'管理员操作日志',name:'adminLog',component:adminLog},
             {path:'debug',title:'DEBUG日志',name:'debugLog',component:debugLog},
             {path:'dataRepair',title:'DEBUG修正',name:'dataRepair',component:dataRepair},

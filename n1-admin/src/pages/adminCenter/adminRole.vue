@@ -310,15 +310,11 @@ export default {
             checked: false,
             children: [
               {
-                title: "线路商登录日志",
+                title: "登录日志",
                 checked: false
               },
               {
-                title: "商户登录日志",
-                checked: false
-              },
-              {
-                title: "管理员操作日志",
+                title: "操作日志",
                 checked: false
               },
               {
