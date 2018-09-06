@@ -2,7 +2,7 @@
   <div class="agentLog">
     <div class="reload">
       <Row>
-        <Col span="5" offset="17">
+        <Col span="5" offset="17" style="{'height':'32px'}">
         <Row v-if="agentLevel==0">
           <Col span="8">
           <span class="selectText">代理层级</span>
