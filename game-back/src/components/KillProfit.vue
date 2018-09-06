@@ -94,7 +94,6 @@ export default {
       this.killRateToday=today.killRate.total
       //历史
       for(let [key,val] of Object.entries(total.earn.games)){
-        if(key!=this.currentGameId ||this.currentGameId==1){
           this.profitXaxisHistory.push(this.gameName(key))
           this.profitTotalArr.push({
             value:val.total,
@@ -102,15 +101,6 @@ export default {
             '5-50':val.level_2,
             '125-500':val.level_3
           })
-        }else{
-          this.profitXaxisHistory.unshift(this.gameName(key))
-          this.profitTotalArr.unshift({
-            value:val.total,
-            '0.25-2.5':val.level_1,
-            '5-50':val.level_2,
-            '125-500':val.level_3
-          })
-        }
       }
       for(let [key,val] of Object.entries(total.killRate.games)){
           this.killXaxisHistory.push(this.gameName(key))
