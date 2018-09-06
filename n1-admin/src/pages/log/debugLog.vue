@@ -2,7 +2,7 @@
   <div class="debugLog">
     <div class="option">
       <Row class="row">
-        <Col span="10">
+        <Col span="16">
         <RadioGroup v-model="role" @on-change="changeRole" type="button">
             <Radio v-for="item in selectOption" :label="item.value" :key="item.value">{{ item.label }}</Radio>
         </RadioGroup>
