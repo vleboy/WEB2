@@ -606,7 +606,7 @@ export default {
                       }
                       this.agentChild = showList;
                       this.$store.dispatch("getAgentPlayer", {
-                         userId
+                         fromUserId: userId
                       });
                     }
                   }
