@@ -660,22 +660,13 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
-      let params1 = {};
       if (level == 0) {
-        params1 = { userId: userId, isTest: +this.source };
         parent = "01";
       } else {
         parent = userId;
         this.source=2
-        params1 = {
-          userId: userId,
-          isTest: +this.source,
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        };
       }
+      let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
         parent: parent,
         isTest: +this.source,

@@ -110,6 +110,8 @@ export default {
                         })
                         .then(res => {
                           // console.log(res);
+                          this.reportChild=[]
+                          this.playerList=[]
                           this.child = res.payload;
                           this.spinShow = false;
                         });

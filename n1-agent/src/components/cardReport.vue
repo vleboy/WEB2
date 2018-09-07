@@ -109,8 +109,9 @@ export default {
                           }
                         })
                         .then(res => {
-                          this.child = res.payload;
                           this.reportChild = [];
+                          this.playerList=[]
+                          this.child = res.payload;
                           this.spinShow = false;
                         });
                     } else {

@@ -101,7 +101,6 @@ export default {
                   click: async () => {
                     this.spinShow = true;
                     let userId = localStorage.getItem("userId");
-                    this.reportChild = [];
                     //代理
                     if (params.row.userId == this.userId) {
                       this.$store
@@ -873,22 +872,13 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
-      let params1 =  {};
       if (level == 0) {
         parent = "01";
-        params1 = { userId: userId, isTest: +this.source };
       } else {
         this.source=2
         parent = userId;
-        params1 = {
-          userId: userId,
-          isTest: +this.source,
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        };
       }
+      let params1 =  { userId: userId, isTest: +this.source };
       let params2 = {
         parent: parent,
         isTest: +this.source,

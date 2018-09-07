@@ -100,9 +100,10 @@ export default {
                     this.spinShow = true;
                     let userId = localStorage.userId;
                     if (params.row.userId == userId) {
+                      let parent=localStorage.level==0?'01':userId;
                       this.$store
                         .dispatch("getUserChild", {
-                          parent: "01",
+                          parent: parent,
                           gameType: this.gameType,
                           isTest:+this.source,
                           query: {
@@ -111,6 +112,8 @@ export default {
                         })
                         .then(res => {
                           // console.log(res);
+                          this.reportChild=[]
+                          this.playerList=[]
                           this.child = res.payload;
                           this.spinShow = false;
                         });
@@ -514,7 +517,7 @@ export default {
         parent = "01";
       } else {
         parent = userId;
-        this.source=2
+        this.source=2;
       }
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
