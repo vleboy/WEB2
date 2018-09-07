@@ -5,9 +5,9 @@
         <p class="title">
           当前用户列表
           <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-            <Radio label="正式"></Radio>
-            <Radio label="测试"></Radio>
-            <Radio label="全部"></Radio>
+             <Radio label="0">正式</Radio>
+              <Radio label="1">测试</Radio>
+              <Radio label="2">全部</Radio>
           </RadioGroup>
          <Button type="ghost" @click="exportdata('table_0')">导出数据</Button>
         </p>
@@ -61,7 +61,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      source: "正式",
+      source: "0",
       // option: {
       //   disabledDate(date) {
       //     return date && date.valueOf() > Date.now() - 180000;
@@ -319,16 +319,6 @@ export default {
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     },
-    isTest() {
-      let source = this.source;
-      if (source == "正式") {
-        return 0;
-      } else if (source == "测试") {
-        return 1;
-      } else {
-        return 2;
-      }
-    }
   },
   methods: {
     confirm() {
@@ -413,7 +403,7 @@ export default {
       this.spinShow = true;
       let params1 = {
         userId: userId,
-        isTest: this.isTest,
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
@@ -421,16 +411,12 @@ export default {
       };
       let params2 = {
         parent: userId,
-        isTest: this.isTest,
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
       };
-      if (this.isTest == 2) {
-        delete params1.isTest;
-        delete params2.isTest;
-      }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果

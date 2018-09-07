@@ -96,7 +96,7 @@ export default {
       for(let [key,val] of Object.entries(total.earn.games)){
         if(key==this.currentGameId){
           console.log(key);
-        }
+        }else{
           this.profitXaxisHistory.push(this.gameName(key))
           this.profitTotalArr.push({
             value:val.total,
@@ -104,6 +104,7 @@ export default {
             '5-50':val.level_2,
             '125-500':val.level_3
           })
+        }
       }
       for(let [key,val] of Object.entries(total.killRate.games)){
           this.killXaxisHistory.push(this.gameName(key))

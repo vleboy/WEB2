@@ -1840,18 +1840,11 @@ export default {
       let parent = list.id;
       let params = {
         parent: parent,
-        isTest: 0,
+        isTest: +isTest,
         sort: "desc",
         sortkey: "createdAt",
         query: {}
       };
-      if (isTest == "测试") {
-        params.isTest = 1;
-      } else if (isTest == "正式") {
-        params.isTest = 0;
-      } else {
-        delete params.isTest;
-      }
       this.$store.commit("agentLoading", { params: true });
       this.$store
         .dispatch("getAgentNext", params)
