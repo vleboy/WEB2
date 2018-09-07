@@ -100,6 +100,8 @@ export default {
                 on: {
                   click: async () => {
                     this.spinShow = true;
+                    let userId = localStorage.getItem("userId");
+                    this.reportChild = [];
                     //代理
                     if (params.row.userId == this.userId) {
                       this.$store
