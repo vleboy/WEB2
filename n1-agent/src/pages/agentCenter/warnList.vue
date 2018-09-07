@@ -393,7 +393,8 @@ export default {
       if (level == 0) {
         params = { parent: "01", isTest: +this.source };
       } else {
-        params = { parent: userId, isTest: 0 };
+        this.source=2
+        params = { parent: userId,isTest: +this.source };
       }
       let req1 = configOne({
         code: "roundLast"
@@ -443,7 +444,7 @@ export default {
     },
     async getNextLevel(showList, userId) {
       return new Promise((resolve, reject) => {
-        queryUserStat({ parent: userId }).then(res => {
+        queryUserStat({ parent: userId,isTest:+this.source }).then(res => {
           showList.push(res.payload);
           showList = _.uniqWith(showList, _.isEqual);
           resolve(showList);

@@ -323,6 +323,7 @@ export default {
       this.$store.commit('saveFreeChooseData',{params:freeSelectData})
     },
     getHourChart(item){
+      console.log(item);
       this.$store.commit('saveProfitHourTodayArr',{params:item.today.earn})
       this.$store.commit('saveProfitHourAvArr',{params:item.lastWeekArg.earn})
       this.$store.commit('saveBetHourTodayArr',{params:item.today.bet})

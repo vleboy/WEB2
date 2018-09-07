@@ -1724,7 +1724,7 @@ export default {
         this.$store
           .dispatch("getAgentNext", {
             parent: userId,
-            isTest: 0,
+            isTest: +this.source,
             sort: "desc",
             sortkey: "createdAt",
             query: {}
@@ -1767,8 +1767,9 @@ export default {
         parent = "01";
       } else {
         parent = userId;
+        this.source=2
         this.$store.dispatch("getAgentPlayer", {
-          userId
+          fromUserId:userId
         });
       }
       this.$store.commit("agentLoading", { params: true });
@@ -1787,9 +1788,6 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
-      if (level != 0) {
-        params.isTest = 0;
-      }
       this.$store.dispatch("getAgentList", params);
     }, //添加玩家
     addPlayerConfirm() {
@@ -1806,7 +1804,7 @@ export default {
               if(this.newPlayer){
                 let userId=localStorage.userId;
                 this.$store.dispatch("getAgentPlayer", {
-                  userId
+                  fromUserId: userId
                 });
                 this.newPlayer=false;
               }

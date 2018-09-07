@@ -105,6 +105,7 @@ export default {
                       this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
+                          isTest:+this.source,
                           gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
@@ -638,6 +639,7 @@ export default {
         this.$store
           .dispatch("getUserChild", {
             parent: userId,
+            isTest:+this.source,
             gameType: this.gameType,
             query: {
               createdAt: this.changedTime
@@ -656,11 +658,6 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
-      if (level == 0) {
-        parent = "01";
-      } else {
-        parent = userId;
-      }
       let params1 = {};
       let params2 = {
         parent: parent,
@@ -672,16 +669,18 @@ export default {
       };
       if (level == 0) {
         params1 = { userId: userId, isTest: +this.source };
+        parent = "01";
       } else {
+        parent = userId;
+        this.source=2
         params1 = {
           userId: userId,
-          isTest: 0,
+          isTest: +this.source,
           gameType: this.gameType,
           query: {
             createdAt: this.changedTime
           }
         };
-        params2.isTest=0;
       }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);

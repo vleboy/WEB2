@@ -103,6 +103,7 @@ export default {
                         .dispatch("getUserChild", {
                           parent: "01",
                           gameType: this.gameType,
+                          isTest:+this.source,
                           query: {
                             createdAt: this.changedTime
                           }
@@ -507,6 +508,7 @@ export default {
         this.$store
           .dispatch("getUserChild", {
             parent: userId,
+            isTest: +this.source,
             gameType: this.gameType,
             query: {
               createdAt: this.changedTime
@@ -540,8 +542,7 @@ export default {
         }
       };
        if (level != 0) {
-        params1.isTest=0;
-        params2.isTest=0;
+        this.source=2;
        }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);

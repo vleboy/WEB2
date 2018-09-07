@@ -696,6 +696,7 @@ export default {
         this.$store
           .dispatch("getUserChild", {
             parent: userId,
+            isTest:+this.source,
             gameType: this.gameType,
             query: {
               createdAt: this.changedTime

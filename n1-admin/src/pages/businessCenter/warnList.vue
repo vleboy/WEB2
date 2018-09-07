@@ -513,7 +513,7 @@ export default {
     },
     async getNextLevel(showList, userId) {
       return new Promise((resolve, reject) => {
-        queryUserStat({ parent: userId }).then(res => {
+        queryUserStat({ parent: userId ,isTest: +this.source}).then(res => {
           showList.push(res.payload);
           showList = _.uniqWith(showList, _.isEqual);
           resolve(showList);

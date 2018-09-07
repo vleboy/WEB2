@@ -104,6 +104,7 @@ export default {
                         .dispatch("getUserChild", {
                           parent: "01",
                           gameType: this.gameType,
+                          isTest:+this.source,
                           query: {
                             createdAt: this.changedTime
                           }
@@ -514,29 +515,18 @@ export default {
       } else {
         parent = userId;
       }
-      let params1 = {};
+      let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
         parent,
-        // isTest: +this.source, bug
+        isTest: +this.source,
         gameType: this.gameType,
         query: {
           createdAt: this.changedTime
         }
       };
-      
-      if (level == 0) {
-        params1 = { userId: userId, isTest: +this.source };
-      } else {
-        params2.isTest=0;
-        params1 = {
-          userId: userId,
-          isTest: 0,
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        };
-      }
+      if (level != 0) {
+        this.source=2
+      } 
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;

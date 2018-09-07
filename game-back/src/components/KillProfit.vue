@@ -94,6 +94,9 @@ export default {
       this.killRateToday=today.killRate.total
       //历史
       for(let [key,val] of Object.entries(total.earn.games)){
+        if(key==this.currentGameId){
+          console.log(key);
+        }
           this.profitXaxisHistory.push(this.gameName(key))
           this.profitTotalArr.push({
             value:val.total,
