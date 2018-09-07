@@ -129,6 +129,25 @@ export default {
                   }
                 ]
               },
+               {
+                title: "SB游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "SB游戏总报表",
+                    checked: false
+                  },
+                  {
+                    title: "SB电子游戏报表",
+                    checked: false
+                  },
+                  {
+                    title: "SB真人游戏报表",
+                    checked: false
+                  }
+                ]
+              },
               {
                 title: "MG游戏报表",
                 expand: true,

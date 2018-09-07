@@ -108,6 +108,21 @@ export default {
                   ]
                 },
                 {
+                  title: "SB游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "SB游戏总报表"
+                    },
+                    {
+                      title: "SB电子游戏报表"
+                    },
+                    {
+                      title: "SB真人游戏报表"
+                    }
+                  ]
+                },
+                {
                   title: "MG游戏报表",
                   expand: true,
                   children: [
