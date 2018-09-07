@@ -1741,14 +1741,14 @@ export default {
                 }
                 showList.push({
                   id: userId,
-                  isTest: +this.source,
+                  isTest: this.source,
                   childItem: res.payload
                 });
               }
             } else {
               showList.push({
                 id: userId,
-                isTest: +this.source,
+                isTest: this.source,
                 childItem: res.payload
               });
             }
