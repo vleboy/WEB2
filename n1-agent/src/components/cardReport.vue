@@ -130,7 +130,7 @@ export default {
                         .then(res => {
                           // console.log(res);
                           this.reportChild=[]
-                          this.userName='当前用户'
+                          this.showName=false
                           this.child = res.payload;
                           this.spinShow = false;
                         });

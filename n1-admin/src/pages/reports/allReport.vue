@@ -127,6 +127,8 @@ export default {
                           // console.log(res);
                           this.child = res.payload;
                           this.reportChild = [];
+                          this.showName=false
+                          this.playerList=[]
                           this.spinShow = false;
                         });
                     } else if (params.row.role == "100") {
