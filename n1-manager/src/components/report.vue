@@ -134,6 +134,7 @@ export default {
                           .dispatch("getUserChild", {
                             parent: id,
                             gameType: this.gameType,
+                            isTest:+this.source,
                             query: {
                               createdAt: this.changedTime
                             }
@@ -386,6 +387,7 @@ export default {
           .dispatch("getUserChild", {
             parent: userId,
             gameType: this.gameType,
+            isTest:+this.source,
             query: {
               createdAt: this.changedTime
             }
