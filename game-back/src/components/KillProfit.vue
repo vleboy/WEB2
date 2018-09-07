@@ -95,7 +95,13 @@ export default {
       //历史
       for(let [key,val] of Object.entries(total.earn.games)){
         if(key==this.currentGameId){
-          console.log(key);
+          this.profitXaxisHistory.unshift(this.gameName(key))
+          this.profitTotalArr.unshift({
+            value:val.total,
+            '0.25-2.5':val.level_1,
+            '5-50':val.level_2,
+            '125-500':val.level_3
+          })
         }else{
           this.profitXaxisHistory.push(this.gameName(key))
           this.profitTotalArr.push({
@@ -107,6 +113,15 @@ export default {
         }
       }
       for(let [key,val] of Object.entries(total.killRate.games)){
+        if(key==this.currentGameId){
+          this.killXaxisHistory.unshift(this.gameName(key))
+          this.killTotalArr.unshift({
+            value:val.total,
+            '0.25-2.5':val.level_1,
+            '5-50':val.level_2,
+            '125-500':val.level_3
+          })
+        }else{
           this.killXaxisHistory.push(this.gameName(key))
           this.killTotalArr.push({
             value:val.total,
@@ -114,9 +129,19 @@ export default {
             '5-50':val.level_2,
             '125-500':val.level_3
           })
+        }
       }
       //今日
       for(let [key,val] of Object.entries(today.earn.games)){
+        if(key==this.currentGameId){
+          this.profitXaxisToday.unshift(this.gameName(key))//x轴
+          this.profitTodayArr.unshift({
+            value:val.total,
+          '0.25-2.5':val.level_1,
+            '5-50':val.level_2,
+            '125-500':val.level_3
+          })
+        }else{
           this.profitXaxisToday.push(this.gameName(key))//x轴
           this.profitTodayArr.push({
             value:val.total,
@@ -124,8 +149,18 @@ export default {
             '5-50':val.level_2,
             '125-500':val.level_3
           })
+        }
       }
       for(let [key,val] of Object.entries(today.killRate.games)){
+        if(key==this.currentGameId){
+          this.killXaxisToday.unshift(this.gameName(key))//x轴
+          this.killTodayArr.unshift({
+            value:val.total,
+            '0.25-2.5':val.level_1,
+            '5-50':val.level_2,
+            '125-500':val.level_3
+          })
+        }else{
           this.killXaxisToday.push(this.gameName(key))//x轴
           this.killTodayArr.push({
             value:val.total,
@@ -133,6 +168,7 @@ export default {
             '5-50':val.level_2,
             '125-500':val.level_3
           })
+        }
       }
     },
     changeSource() {

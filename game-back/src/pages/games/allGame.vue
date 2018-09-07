@@ -1,6 +1,10 @@
 <template>
   <div class="allGame">
     <basic-content :gameType="1" v-if="showComponent"/>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
   </div>
 </template>
 <script>
@@ -11,19 +15,23 @@ export default {
   components:{BasicContent},
   data(){
     return{
-      showComponent:false//存入state再渲染组件
+      showComponent:false,//存入state再渲染组件
+      spinShow:false,
     }
   },
   computed:{
 
   },
   created(){
+    this.spinShow=true;
     httpRequest('post','/main')
     .then(res=>{
       console.log(res);
       this.$store.commit('login',{params:res.login})
       this.$store.commit('saveGameDetail',{params:res.game})
       this.showComponent=true
+    }).finally(()=>{
+      this.spinShow=false
     })
   },
   methods:{
@@ -32,5 +40,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+  .allGame{
+    min-height: 89vh;
+  }
 </style>
