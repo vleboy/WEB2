@@ -99,8 +99,26 @@ export default {
                   click: async () => {
                     this.spinShow = true;
                     let userId = localStorage.userId;
+                    let level=localStorage.level;
+                    let parent=''
                     if (params.row.userId == userId) {
-                      let parent=localStorage.level==0?'01':userId;
+                      if(level==0){
+                        parent='01';
+                        this.playerList=[]
+                      }else{
+                        parent=userId
+                        this.$store
+                        .dispatch("getPlayerList", {
+                          parentId: userId,
+                          gameType: this.gameType,
+                          query: {
+                            createdAt: this.changedTime
+                          }
+                        })
+                        .then(res => {
+                          this.playerList = res.payload;
+                        });
+                      }
                       this.$store
                         .dispatch("getUserChild", {
                           parent: parent,
@@ -113,7 +131,7 @@ export default {
                         .then(res => {
                           // console.log(res);
                           this.reportChild=[]
-                          this.playerList=[]
+                          this.userName='当前用户'
                           this.child = res.payload;
                           this.spinShow = false;
                         });
@@ -518,6 +536,17 @@ export default {
       } else {
         parent = userId;
         this.source=2;
+        this.$store
+        .dispatch("getPlayerList", {
+          parentId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        })
+        .then(res => {
+          this.playerList = res.payload;
+        });
       }
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {

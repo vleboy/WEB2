@@ -110,15 +110,19 @@ export default {
                 },
                 on: {
                   click: async () => {
-                    let userId = localStorage.getItem("userId");
                     this.spinShow = true;
-                    this.reportChild = [];
-                    //代理
+                    let userId = localStorage.userId;
+                    let level=localStorage.level;
+                    let parent=''
                     if (params.row.userId == userId) {
-                      this.$store
+                      if(level==0){
+                        parent='01'
+                        this.playerList=[]
+                      }else{
+                        parent=userId
+                        this.$store
                         .dispatch("getPlayerList", {
                           parentId: userId,
-                          isTest:+this.source,
                           gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
@@ -126,8 +130,23 @@ export default {
                         })
                         .then(res => {
                           this.playerList = res.payload;
-                          this.spinShow = false;
+                        });
+                      }
+                      this.$store
+                        .dispatch("getUserChild", {
+                          parent: parent,
+                          gameType: this.gameType,
+                          isTest:+this.source,
+                          query: {
+                            createdAt: this.changedTime
+                          }
+                        })
+                        .then(res => {
                           // console.log(res);
+                          this.reportChild=[]
+                          this.userName='当前用户'
+                          this.child = res.payload;
+                          this.spinShow = false;
                         });
                     } else {
                       this.userName = params.row.displayName;
@@ -1687,6 +1706,7 @@ export default {
     },
     //初始化
     async init() {
+      this.spinShow = true;
       let userInfo = JSON.parse(localStorage.getItem("userInfo"));
       let userId = userInfo.userId;
       let level = userInfo.level;
@@ -1696,6 +1716,17 @@ export default {
       } else {
         parent = userId;
         this.source=2
+        this.$store
+        .dispatch("getPlayerList", {
+          parentId: userId,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          }
+        })
+        .then(res => {
+          this.playerList = res.payload;
+        });
       }
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
@@ -1708,19 +1739,7 @@ export default {
       };
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
-      this.spinShow = true;
       let [acct, perms] = await this.axios.all([req1, req2]);
-      this.$store
-        .dispatch("getPlayerList", {
-          parentId: userId,
-          gameType: this.gameType,
-          query: {
-            createdAt: this.changedTime
-          }
-        })
-        .then(res => {
-          this.playerList = res.payload;
-        });
       this.user = [];
       if (acct && acct.code == 0) {
         this.user.push(acct.payload);
