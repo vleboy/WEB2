@@ -311,6 +311,7 @@ export default {
     },
     async init() {
       this.spinShow = true;
+      this.playerList=[]
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let params1 = {
         userId: userId,

@@ -404,6 +404,7 @@ export default {
     async init() {
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       this.spinShow = true;
+      this.playerList=[]
       let params1 = {
         userId: userId,
         isTest: +this.source,
