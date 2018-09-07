@@ -140,6 +140,7 @@ export default {
                       document.documentElement.scrollTop = anchor.offsetTop;
                     } else if (params.row.role == "10") {
                       //线路商
+                      this.playerList=[]
                       let id = localStorage.loginId;
                       if ((params.row.userId = id)) {
                         this.$store
