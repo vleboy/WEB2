@@ -100,7 +100,7 @@ export default {
                       let userId = localStorage.userId;
                     let level=localStorage.level;
                     let parent=''
-                    if (params.row.userId == userId) {
+                    if (params.row.level== 0) {
                       if(level==0){
                         parent='01'
                         this.playerList=[]
@@ -188,8 +188,7 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            let userId = localStorage.getItem("userId");
-            if (params.row.userId == userId) {
+            if (params.row.level== 0) {
               return h("span", count);
             } else {
               return h("span", params.row.betCount);
@@ -205,8 +204,7 @@ export default {
             for (let item of arr) {
               count += item.betAmount;
             }
-            let userId = localStorage.getItem("userId");
-            if (params.row.userId == userId) {
+            if (params.row.level== 0) {
               return h("span", thousandFormatter(count.toFixed(2)));
             } else {
               return h(

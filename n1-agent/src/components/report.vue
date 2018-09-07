@@ -190,8 +190,7 @@ export default {
             for (let item of arr) {
               count += item.betCount;
             }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", count);
             } else {
               return h("span", params.row.betCount);
@@ -207,8 +206,7 @@ export default {
             for (let item of arr) {
               count += item.betAmount;
             }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", thousandFormatter(count.toFixed(2)));
             } else {
               return h("span", thousandFormatter(params.row.betAmount));
@@ -224,9 +222,8 @@ export default {
             for (let item of arr) {
               count += item.winloseAmount;
             }
-            let userId = localStorage.userId;
             let color = "";
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               color = count < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
@@ -260,8 +257,7 @@ export default {
             for (let item of arr) {
               count += item.mixAmount;
             }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", thousandFormatter(count));
             } else {
               return h("span", thousandFormatter(params.row.mixAmount));
@@ -272,8 +268,7 @@ export default {
           title: "返水比例",
           key: "",
           render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               let obj = params.row.gameList;
@@ -296,8 +291,7 @@ export default {
             for (let item of arr) {
               boundsSum += item.boundsSum;
             }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", thousandFormatter(boundsSum.toFixed(2)));
             } else {
               return h(
@@ -316,8 +310,7 @@ export default {
             for (let item of arr) {
               totalSum += item.totalSum;
             }
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", thousandFormatter(totalSum.toFixed(2)));
             } else {
               return h(
@@ -339,8 +332,7 @@ export default {
           title: "代理交公司",
           key: "submitAmount",
           render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               return h("span", 0);
             } else {
               return h("span", thousandFormatter(params.row.submitAmount));
@@ -351,8 +343,7 @@ export default {
           title: "获利比例",
           key: "rate",
           render: (h, params) => {
-            let userId = localStorage.userId;
-            if (params.row.userId == userId) {
+            if (params.row.level == 0) {
               let totalSum = 0;
               let betAmount = 0;
               let arr = this.child;
