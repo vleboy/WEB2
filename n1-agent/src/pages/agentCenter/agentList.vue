@@ -30,9 +30,9 @@
       <p class="title">
         ({{item.childItem.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : parentNameChild}}) 下级代理列表
         <RadioGroup v-model="item.isTest" v-if="level==0" class="radioGroup" type="button" @on-change='changeChildType(item)'>
-          <Radio label="正式"></Radio>
-          <Radio label="测试"></Radio>
-          <Radio label="全部"></Radio>
+          <Radio label="0">正式</Radio>
+          <Radio label="1">测试</Radio>
+          <Radio label="2">全部</Radio>
         </RadioGroup>
       </p>
       <Table :columns="columns1" :data="item.childItem" size="small"></Table>
@@ -1741,14 +1741,14 @@ export default {
                 }
                 showList.push({
                   id: userId,
-                  isTest: "正式",
+                  isTest: +this.source,
                   childItem: res.payload
                 });
               }
             } else {
               showList.push({
                 id: userId,
-                isTest: "正式",
+                isTest: +this.source,
                 childItem: res.payload
               });
             }
