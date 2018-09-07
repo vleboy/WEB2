@@ -338,6 +338,7 @@ export default {
         parent = "01";
       } else {
         parent = userId;
+        this.source = 2;
       }
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
@@ -348,9 +349,6 @@ export default {
           createdAt: this.changedTime
         }
       };
-      if (level != 0) {
-        this.source = 2;
-      }
       let req1 = this.$store.dispatch("getUserList", params1);
       let req2 = this.$store.dispatch("getUserChild", params2);
       this.spinShow = true;

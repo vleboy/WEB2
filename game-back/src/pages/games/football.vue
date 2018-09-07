@@ -1,17 +1,30 @@
 <template>
   <div class="football">
-    <basic-content :gameType="41002"/>
+     <basic-content :gameType="41002" v-if="showComponent"/>
   </div>
 </template>
 <script>
 import BasicContent from '@/components/BasicContent'
+import {httpRequest} from '@/service/index'
 export default {
+  name:'football',
+  components:{BasicContent},
   data(){
     return{
-
+      showComponent:false//存入state再渲染组件
     }
   },
-  components:{BasicContent}
+  computed:{
+
+  },
+  created(){
+    httpRequest('post','/main')
+    .then(res=>{
+      this.$store.commit('login',{params:res.login})
+      this.$store.commit('saveGameDetail',{params:res.game})
+      this.showComponent=true
+    })
+  },
 }
 </script>
 <style lang="less" scoped>
