@@ -549,11 +549,20 @@ export default {
       let userId = userInfo.userId;
       let level = userInfo.level;
       let parent = "";
+      let params1={}
       if (level == 0) {
         parent = "01";
+        params1 =  { userId: userId, isTest: +this.source };
       } else {
         parent = userId;
         this.source=2;
+         params1 = { 
+          userId: userId,
+          isTest: +this.source,
+          gameType: this.gameType,
+          query: {
+            createdAt: this.changedTime
+          } };
         this.$store
         .dispatch("getPlayerList", {
           parentId: userId,
@@ -566,7 +575,6 @@ export default {
           this.playerList = res.payload;
         });
       }
-      let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
         parent: parent,
         isTest: +this.source,
