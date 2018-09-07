@@ -103,6 +103,7 @@ export default {
                         .dispatch("getUserChild", {
                           parent: "01",
                           gameType: this.gameType,
+                          isTest:+this.source,
                           query: {
                             createdAt: this.changedTime
                           }
