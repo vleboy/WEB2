@@ -32,9 +32,10 @@ const post = (urls, datas, type) => {
       "Content-Type": "application/json; charset=utf-8",
     }
   }
+  let url=type=='game'?'https://dgjmusja39cm2.cloudfront.net':httpType+ URL;
   return {
     method: 'post',
-    url: httpType+ URL + urls,
+    url:url+ urls,
     data:datas,                       //QS.stringify(datas),
     headers: headers
   }
