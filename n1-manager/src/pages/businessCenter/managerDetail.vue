@@ -987,7 +987,7 @@ export default {
         this.$Message.warning("密码不能为空");
         return;
       }else{
-         if (this.passwordLevel(this.repassword) < 3) {
+         if (this.passwordLevel(password) < 3) {
          return  this.$Message.warning({
           content: "密码强度不够"
         });
