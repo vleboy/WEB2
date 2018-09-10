@@ -361,7 +361,7 @@ export default {
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
-      this.noticeInfo.publishTime = this.publishTime!='' ? new Date(this.publishTime).getTime() : ''
+      this.noticeInfo.publishTime = this.publishTime!='' ? new Date(this.publishTime).getTime() : new Date().getTime()
       httpRequest('post',`${id ? '/adUpdate' : '/adNew'}`,this.noticeInfo)
         .then(
         result => {
