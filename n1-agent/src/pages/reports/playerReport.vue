@@ -81,7 +81,7 @@ export default {
                     key:'parentDisplayName'
                 },
                 {
-                    title:'所属SN',
+                    title:'所属标识',
                     key:'parentSn' 
                 },
                 {

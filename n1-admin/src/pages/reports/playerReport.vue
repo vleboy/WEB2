@@ -2,8 +2,8 @@
     <div class="player">
         <div class="search">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
-            <span class="searchLabel">所属SN:</span>
-            <Input v-model.trim="parent" placeholder="所属SN" style="width: 200px"></Input>
+            <span class="searchLabel">所属标识:</span>
+            <Input v-model.trim="parent" placeholder="所属标识" style="width: 200px"></Input>
             <span class="searchLabel">请选择游戏:</span>
            <Select style="width:200px" @on-change='changeGame' v-model="game">
             <Option v-for="(item,index) in selectOption" :value="item.code" :key="index">{{ item.name }}</Option>
@@ -81,7 +81,7 @@ export default {
                     key:'parentDisplayName'
                 },
                 {
-                    title:'所属SN',
+                    title:'所属标识',
                     key:'parentSn' 
                 },
                 {
