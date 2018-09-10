@@ -10,7 +10,7 @@
           <Col span="6"><span class="-span-base">代理ID：{{detailInfo.buId}}</span></Col>
           <Col span="6"><span class="-span-base">所属代理：{{detailInfo.merchantName}}</span></Col>
           <Col span="6"><span class="-span-base">代理标识：{{detailInfo.sn}}</span></Col>
-          <Col span="4">
+          <Col span="6">
           <span class="-span-base">
               <div class="-player-title" >
                 密码：
@@ -18,8 +18,8 @@
                 <Input v-model="password" placeholder="请输入密码" type="text" v-else style="width: 50%"></Input>
                 <Button type="text" @click="openPwdInput" v-if="!editPassword" class="-p-edit">修改</Button>
                 <span v-else style="margin-left: 0.5rem;color:#20a0ff ">
-                  <Button type="text" @click="updatePwd">确认</Button>
-                  <Button type="text" @click="editPassword = !editPassword">取消</Button>
+                  <Button size="small" type="primary" @click="updatePwd">确认</Button>
+                  <Button size="small" type="primary" @click="editPassword = !editPassword">取消</Button>
                 </span>
               </div>
             </span>
