@@ -6,6 +6,15 @@
         <Input v-model="id" placeholder="输入ID" style="width: 200px"></Input>
         <Button type="primary" @click="search">搜索</Button>
       </div>
+       <div class="right">
+            <RadioGroup v-model="source" type="button" @on-change='changeSource'>
+                <Radio label="0">1月</Radio>
+                <Radio label="1">7天</Radio>
+                <Radio label="2">3天</Radio>
+                <Radio label="3">昨天</Radio>
+            </RadioGroup>
+            <DatePicker type="daterange" v-model="dateRange" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
+        </div>
     </div>
     <on-line 
     :sum="sum"
@@ -20,6 +29,10 @@
     :xAxis="hitXaxis" 
     :data="hitRateData" />
     <price-mix/>
+    <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
   </div>
 </template>
 <script>
@@ -30,6 +43,7 @@ import OnLine from "@/components/Online";
 import GameSummary from "@/components/GameSummary";
 import PriceMix from "@/components/PriceMix";
 import { mapState } from "vuex";
+import {httpRequest} from '@/service/index'
 import {GAME_LIST} from '@/config/gameList'
 export default {
   name: "basicContent",
@@ -49,7 +63,8 @@ export default {
       acount: "",
       id: "",
       source: "",
-      range: "",
+      dateRange: "",
+      spinShow:false,
       hitRateCount: 0,
       gameCount: 0,
       hitXaxis: [],
@@ -235,28 +250,50 @@ export default {
       }
       this.sum=currentPeople;
     },
+    changeRange(){
+      let range = this.dateRange.map(item => {
+            return item.getTime();
+            });
+      this.getTimeRangeData(range)
+
+    },
     changeSource() {
-      let range = {};
+      let start
+      const now=new Date().getTime()
+      let range=[]
       switch (+this.source) {
         case 0:
-          range.startTime = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
-          range.endTime = new Date().getTime();
+          start = now - 30 * 24 * 60 * 60 * 1000;
+          range=[start,now]
           break;
         case 1:
-          range.startTime = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
-          range.endTime = new Date().getTime();
+          start = now - 7 * 24 * 60 * 60 * 1000;
+          range=[start,now]
           break;
         case 2:
-          range.startTime = new Date().getTime() - 3 * 24 * 60 * 60 * 1000;
-          range.endTime = new Date().getTime();
+          start = now - 3 * 24 * 60 * 60 * 1000;
+          range=[start,now]
           break;
         case 3:
           let zero = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-          range.startTime = zero - 86400000;
-          range.endTime = zero;
+          start = zero - 86400000;
+          range=[start,zero]
           break;
       }
-      console.log(range);
+      this.getTimeRangeData(range)
+    },
+    getTimeRangeData(range){
+      this.spinShow=true;
+      httpRequest('post','/main',{
+        timeRange:range
+      })
+      .then(res=>{
+        this.$store.commit('login',{params:res.login})
+        this.$store.commit('saveGameDetail',{params:res.game})
+        this.showComponent=true
+      }).finally(()=>{
+        this.spinShow=false
+      })
     },
     getKillRate(detail){
       for (let [key, val] of Object.entries(detail)) {

@@ -1,6 +1,10 @@
 <template>
   <div class="xianglong">
      <basic-content :gameType="42003" v-if="showComponent"/>
+     <Spin size="large" fix v-if="spinShow">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
   </div>
 </template>
 <script>
@@ -11,20 +15,33 @@ export default {
   components:{BasicContent},
   data(){
     return{
-      showComponent:false//存入state再渲染组件
+      showComponent:false,//存入state再渲染组件
+      spinShow:false,
     }
   },
   computed:{
 
   },
   created(){
-    httpRequest('post','/main')
+    this.spinShow=true;
+    httpRequest('post','/main',{
+      timeRange:this.getDefaultTime()
+    })
     .then(res=>{
       this.$store.commit('login',{params:res.login})
       this.$store.commit('saveGameDetail',{params:res.game})
       this.showComponent=true
+    }).finally(()=>{
+      this.spinShow=false
     })
   },
+  methods:{
+    getDefaultTime(){
+      let now=new Date().getTime()
+      let start=now-90*24*60*60*1000;
+      return [start,now]
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

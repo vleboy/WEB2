@@ -1,6 +1,6 @@
 <template>
     <div class="hitRate">
-        <div class="search clear">
+        <!-- <div class="search clear">
             <div class="right">
                 <RadioGroup v-model="source" type="button" @on-change='changeSource'>
                     <Radio label="0">1月</Radio>
@@ -10,7 +10,7 @@
                 </RadioGroup>
                 <DatePicker type="daterange" v-model="dateRange" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
             </div>
-         </div>
+         </div> -->
         <div class="title">
              <Row>
                 <Col span="10">
@@ -36,8 +36,6 @@ export default {
   },
   data() {
     return {
-      source:'',
-      dateRange:'',
     };
   },
   computed:{
@@ -47,15 +45,15 @@ export default {
       this.drawBar()
   },
   methods:{
-      changeSource(){
-          console.log(this.source);
-      },
-      changeRange(){
-          let range = this.dateRange.map(item => {
-            return item.getTime();
-            });
-            console.log(range);
-      },
+    //   changeSource(){
+    //       console.log(this.source);
+    //   },
+    //   changeRange(){
+    //       let range = this.dateRange.map(item => {
+    //         return item.getTime();
+    //         });
+    //         console.log(range);
+    //   },
        drawBar() {
       let option = {
         xAxis: {

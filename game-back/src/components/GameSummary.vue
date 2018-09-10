@@ -1,16 +1,5 @@
 <template>
   <div class="piechart">
-    <div class="search clear">
-            <div class="right">
-                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-                    <Radio label="0">1月</Radio>
-                    <Radio label="1">7天</Radio>
-                    <Radio label="2">3天</Radio>
-                    <Radio label="3">昨天</Radio>
-                </RadioGroup>
-                <DatePicker type="daterange" v-model="dateRange" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
-            </div>
-         </div>
     <Row>
       <Col span="12">
       <Row>
@@ -99,8 +88,6 @@ export default {
       format:thousandFormatter,
       showHourBet:false,
       showHourCount:false,
-      source:'',
-      dateRange:'',
       //count
       betCountToday:0,
       betCountHistory:0,
@@ -195,15 +182,6 @@ export default {
   methods: {
     goDetail(name) {
       this.$router.push({ name });
-    },
-    changeSource(){
-      console.log(this.source);
-    },
-    changeRange(){
-      let range = this.dateRange.map(item => {
-            return item.getTime();
-            });
-            console.log(range);
     },
     seeHourBet(){
       this.showHourBet=true;

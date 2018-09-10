@@ -634,6 +634,8 @@ export default {
       updateMerchant(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
+        }else{
+          this.resetPass()
         }
         this.spinShow = false;
       });
@@ -731,6 +733,16 @@ export default {
     //   }
     //   this.basic.password = pw;
     // },
+    resetPass(){
+      let userId = this.$route.query.userId;
+      oneMerchants(userId).then(res=>{
+        this.merchantDetail = res.payload;
+        this.defaultBrower = res.payload.isOpenBrowser == 1 ? true : false; //brower
+        this.isTest = res.payload.isTest == 1 ? true : false; //test
+        this.basic.skin = res.payload.skin || "1"; //skin
+        this.gameDetail = res.payload.gameList;
+      })
+    },
     async init() {
       this.spinShow = true;
       let userId = this.$route.query.userId;

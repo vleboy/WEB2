@@ -1012,10 +1012,10 @@ export default {
       updateManagers(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-          this.spinShow = false;
         } else {
+          this.resetPass()
+          }
           this.spinShow = false;
-        }
       });
     },
     selectCompany(value) {
@@ -1071,6 +1071,14 @@ export default {
         this.$Message.warning("占成为0-100数字");
       }
     }, //生成密码
+    resetPass(){
+      let userId = this.$route.query.userId;
+      oneManagers(userId).then(res=>{
+       this.lineDetail = res.payload;
+        this.isTest = res.payload.isTest == 1 ? true : false;
+        this.gameDetail = res.payload.gameList;
+      })
+    },
     async init() {
       this.spinShow = true;
       let userId = this.$route.query.userId;

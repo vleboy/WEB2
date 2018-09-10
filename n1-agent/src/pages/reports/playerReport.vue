@@ -2,11 +2,16 @@
     <div class="player">
         <div class="search">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <span class="searchLabel">所属用户:</span>
+          <Input v-model.trim="parent" placeholder="所属用户" style="width: 200px"></Input>
+          <span class="searchLabel">请选择游戏:</span>
            <Select style="width:200px" @on-change='changeGame' v-model="game">
             <Option v-for="(item,index) in selectOption" :value="item.code" :key="index">{{ item.name }}</Option>
             </Select>
-          <Button type="primary" @click="search">搜索</Button>
-          <Button type="ghost" @click="reset">重置</Button>
+           <span class="btn">
+            <Button type="primary" @click="search">搜索</Button>
+            <Button type="ghost" @click="reset">重置</Button>
+          </span>
         </div>
       <Table :columns="columns1" :data="player" size="small" ref='table'></Table>
       <Spin size="large" fix v-if="spinShow">
@@ -34,6 +39,7 @@ export default {
             spinShow:false,
             selectOption:[],
             game:'',
+            parent:'',
             gameType: [
                 3,
                 30000,
@@ -92,7 +98,10 @@ export default {
                 },
                 {
                     title:'下注金额',
-                    key:'betAmount'
+                    key:'betAmount',
+                    render:(h,params)=>{
+                        return h('span',thousandFormatter(params.row.betAmount))
+                    }
                 },
                 {
                     title:'输赢金额',
@@ -202,7 +211,8 @@ export default {
            httpRequest('post','/queryRealPlayerStat',{
                gameType:gameList,
                query:{
-                  createdAt:this.changedTime 
+                  createdAt:this.changedTime,
+                  parent:this.parent
                }
            }).then(res=>{
                if(res.code==0){
@@ -235,6 +245,7 @@ export default {
        reset(){
         this.defaultTime = getDefaultTime();
         this.game=''
+        this.parent=''
         this.init(this.gameType)
        }
     }
@@ -245,6 +256,13 @@ export default {
     min-height: 89vh;
     .search{
         margin-bottom: 10px;
+        .searchLabel{
+            padding: 10px;
+        }
+        .btn{
+            position: absolute;
+            right: 18px;
+        }
     }
 }
 </style>

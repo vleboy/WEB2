@@ -24,7 +24,9 @@ export default {
   },
   created(){
     this.spinShow=true;
-    httpRequest('post','/main')
+    httpRequest('post','/main',{
+      timeRange:this.getDefaultTime()
+    })
     .then(res=>{
       console.log(res);
       this.$store.commit('login',{params:res.login})
@@ -35,7 +37,11 @@ export default {
     })
   },
   methods:{
-    
+    getDefaultTime(){
+      let now=new Date().getTime()
+      let start=now-90*24*60*60*1000;
+      return [start,now]
+    }
   }
 }
 </script>

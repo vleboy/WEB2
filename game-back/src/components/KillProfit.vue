@@ -1,16 +1,5 @@
 <template>
     <div class="killprofit">
-        <div class="search clear">
-            <div class="right">
-                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-                    <Radio label="0">1月</Radio>
-                    <Radio label="1">7天</Radio>
-                    <Radio label="2">3天</Radio>
-                    <Radio label="3">昨天</Radio>
-                </RadioGroup>
-                <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
-            </div>
-        </div>
         <kill-profit-item
          range="历史"
          chartId="1"
@@ -55,8 +44,6 @@ export default {
   props: {},
   data() {
     return {
-      source: "",
-      range: "",
       showHour: false,
       //kill
       profitCountHistory: 0,
@@ -170,15 +157,6 @@ export default {
           })
         }
       }
-    },
-    changeSource() {
-      console.log(this.source);
-    },
-    changeRange() {
-      let range = this.range.map(item => {
-        return item.getTime();
-      });
-      console.log(range);
     },
     gameName(id){
         //遍历gametype 获取名字

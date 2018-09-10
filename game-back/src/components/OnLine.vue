@@ -1,16 +1,5 @@
 <template>
     <div class="online">
-         <div class="search clear">
-            <div class="right">
-                <RadioGroup v-model="source" type="button" @on-change='changeSource'>
-                    <Radio label="0">1月</Radio>
-                    <Radio label="1">7天</Radio>
-                    <Radio label="2">3天</Radio>
-                    <Radio label="3">昨天</Radio>
-                </RadioGroup>
-                <DatePicker type="daterange" v-model="range" :editable='false' @on-change="changeRange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></DatePicker>
-            </div>
-        </div>
         <div class="content">
             <div class="sum">
                 <p class="title">当前在线人数</p>
@@ -37,8 +26,7 @@ export default {
     },
     data(){
         return{
-            source:'',
-            range:'',
+            
         }
     },
     computed:{
@@ -50,15 +38,6 @@ export default {
         // this.init()
     },
     methods:{
-        changeRange(){
-           let range = this.range.map(item => {
-            return item.getTime();
-            });
-            console.log(range);
-        },
-        changeSource(){
-            console.log(this.source);
-        },
     }
 }
 </script>

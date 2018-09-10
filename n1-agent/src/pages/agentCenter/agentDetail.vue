@@ -833,11 +833,11 @@ export default {
       agentUpdate(params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-          this.spinShow = false;
         } else {
           this.$Message.error("修改有误");
-          this.spinShow = false;
+          this.resetPass()
         }
+          this.spinShow = false;
       });
     },
     selectCompany(value) {
@@ -895,6 +895,14 @@ export default {
       this.gameDetail.push(gameItem);
       this.gameDetail = _.uniqWith(this.gameDetail, _.isEqual);
     }, //生成密码
+    resetPass(){
+      let userId = this.$route.query.userId;
+      agentOne(userId).then(res=>{
+        this.agentDetail = res.payload;
+        this.isTest = res.payload.isTest == 1 ? true : false;
+        this.gameDetail = res.payload.gameList;
+      })
+    },
     async init() {
       this.spinShow = true;
       let userId = this.$route.query.userId;
