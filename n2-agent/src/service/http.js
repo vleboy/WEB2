@@ -4,7 +4,7 @@ axios.interceptors.request.use(config => config, error => Promise.reject(error))
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
 Message.config({
     top: 50,
-    duration: 3
+    duration: 4
 });
 function checkStatus(response) {
     // console.log(response)
@@ -20,11 +20,11 @@ function checkStatus(response) {
   if (response && (response.status == 200 || response.status == 304 || response.status == 400)) {
     return response.data
   } else {
+    Message.warning('网络异常');
     return {
       status: 404,
       msg: '网络异常'
     }
-    Message.warning('网络异常');
   }
 }
 

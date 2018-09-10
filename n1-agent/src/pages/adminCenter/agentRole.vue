@@ -69,6 +69,10 @@ export default {
                 checked: false
               },
               {
+                title: "玩家输赢报表",
+                checked: false
+              },
+              {
                 title: "NA游戏报表",
                 expand: true,
                 checked: false,

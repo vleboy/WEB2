@@ -60,6 +60,9 @@ export default {
                   title: "公司输赢总报表"
                 },
                 {
+                  title: "玩家输赢报表"
+                },
+                {
                   title: "NA游戏报表",
                   expand: true,
                   children: [

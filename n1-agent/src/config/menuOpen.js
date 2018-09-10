@@ -38,6 +38,8 @@ export const menuOpen = function (name) {
     openName = ['adminCenter']
   } else if (name == "board") {
     openName = ["board"];
+  }else if (name== 'playerReport'){
+    openName=['report']
   }
   return openName
 }

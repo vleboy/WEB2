@@ -14,6 +14,7 @@ import playerDetail from '@/pages/player/playerdetail'
 import ownSpace from '@/pages/ownSpace'
 import board from '@/pages/board/board'
 import allReport from '@/pages/reports/allReport'
+import playerReport from '@/pages/reports/playerReport'
 import agtrue from '@/pages/reports/agTrueGame'
 import mgvideo from '@/pages/reports/mgVideoGame'
 import nacard from '@/pages/reports/naCardGame'
@@ -49,6 +50,7 @@ import debugLog from '@/pages/log/debugLog'
 import managerOpreateLog from '@/pages/log/managerOpreateLog'
 import merchantOpreateLog from '@/pages/log/merchantOpreateLog'
 import adminLoginLog from '@/pages/log/adminLoginLog'
+
 
 import dataRepair from '@/pages/log/dataRepair'
 import playerlist from '@/pages/player/playerlist'
@@ -115,6 +117,13 @@ export const appRouter = [
         name:'all',
         component:main,
         children:[{path:'all',title:'公司输赢总报表',name:'allreport',component:allReport}]
+    },
+    {
+        path:'/player',
+        title:'玩家输赢总报表',
+        name:'player',
+        component:main,
+        children:[{path:'all',title:'玩家输赢总报表',name:'playerReport',component:playerReport}]
     },
     {
         path:'/aggame',

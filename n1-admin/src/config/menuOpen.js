@@ -40,6 +40,8 @@
       openName = ["board"];
     } else if (name == 'dataRepair') {
       openName = ["logCenter"];
+    } else if (name== 'playerReport'){
+      openName=['report']
     }
     return openName
   }
