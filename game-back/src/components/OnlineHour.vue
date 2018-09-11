@@ -40,8 +40,6 @@ export default {
         return{
             showHourOnline:false,
             OnlineList:[ ],
-            onlineTodayArr:[],
-            onlineSevenAverage:[]
         }
     },
     computed:{
@@ -67,10 +65,6 @@ export default {
         },
         init(){
             let gameTimeDetail=this.login.gameTimeDetail
-            let today=this.login.loginToday;
-            let loginCountDetail=this.login.loginCountDetail;
-            this.onlineSevenAverage=loginCountDetail.last7dayAvg
-            this.onlineTodayArr=loginCountDetail.today
              for(let [key,val] of Object.entries(gameTimeDetail)){
                 let name=this.gameName(key);
                 this.OnlineList.push({

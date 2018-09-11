@@ -172,7 +172,8 @@ export default {
                         "Poptip",
                         {
                             props: {
-                            trigger: "hover"
+                            trigger: "hover",
+                            placement:'left-end'
                             }
                         },
                         [

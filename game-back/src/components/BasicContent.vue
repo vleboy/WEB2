@@ -97,7 +97,10 @@ export default {
       //hourChart
       let hourChart=this.gameDetail.todayDetail
       let hourGames=hourChart.games
-      let detail,killItem,winItem,freeSelectItem,hourItem
+      //online hour
+      let login=this.login.loginCountDetail;
+      let loginGames=login.games
+      let detail,killItem,winItem,freeSelectItem,hourItem,onLineItem
       switch (this.gameType) {
         //全部游戏
         case 1:
@@ -116,6 +119,9 @@ export default {
           //hourChart
           hourItem=hourChart.total
           this.getHourChart(hourItem)
+          //online
+          onLineItem=login.total
+          this.getOnlineArr(onLineItem)
           break;
         case 41001:
           killItem=hitGames['41001']
@@ -129,6 +135,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
           hourItem=hourGames['41001']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['41001']
+          this.getOnlineArr(onLineItem)
           break;
          case 41002:
           killItem=hitGames['41002']
@@ -142,6 +150,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['41002']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['41002']
+          this.getOnlineArr(onLineItem)
           break;
         case 41003:
           killItem=hitGames['41003']
@@ -155,6 +165,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['41003']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['41003']
+          this.getOnlineArr(onLineItem)
           break;
         case 42001:
           killItem=hitGames['42001']
@@ -168,6 +180,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42001']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42001']
+          this.getOnlineArr(onLineItem)
           break;
         case 42002:
           killItem=hitGames['42002']
@@ -181,6 +195,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42002']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42002']
+          this.getOnlineArr(onLineItem)
           break;
         case 42003:
           killItem=hitGames['42003']
@@ -194,6 +210,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42003']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42003']
+          this.getOnlineArr(onLineItem)
           break;
         case 42004:
           killItem=hitGames['42004']
@@ -207,6 +225,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42004']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42004']
+          this.getOnlineArr(onLineItem)
           break;
         case 42005:
           killItem=hitGames['42005']
@@ -220,6 +240,8 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42005']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42005']
+          this.getOnlineArr(onLineItem)
           break;
         case 42006:
           killItem=hitGames['42006']
@@ -233,16 +255,19 @@ export default {
           this.getFreeSelect(freeSelectItem)
            hourItem=hourGames['42006']
           this.getHourChart(hourItem)
+          onLineItem=loginGames['42006']
+          this.getOnlineArr(onLineItem)
           break;
       }
       //当前在线
-      let today=this.login.loginToday;
+      
       let currentPeople=0;
       let now=new Date().getHours();
-      for(let item of today){
-          let name=this.gameName(item.gameId);
-          let onlineCount=item.onlineUserCount[now]
-          currentPeople+=item.onlineUserCount[now];
+      for(let key in loginGames){
+          let item=loginGames[key]
+          let name=this.gameName(key);
+          let onlineCount=item.today[now]
+          currentPeople+=item.today[now];
           this.OnlineList.push({
               name,
               count:onlineCount
@@ -360,13 +385,16 @@ export default {
       this.$store.commit('saveFreeChooseData',{params:freeSelectData})
     },
     getHourChart(item){
-      console.log(item);
       this.$store.commit('saveProfitHourTodayArr',{params:item.today.earn})
       this.$store.commit('saveProfitHourAvArr',{params:item.lastWeekArg.earn})
       this.$store.commit('saveBetHourTodayArr',{params:item.today.bet})
       this.$store.commit('saveBetHourAvArr',{params:item.lastWeekArg.bet})
       this.$store.commit('saveCountHourTodayArr',{params:item.today.betCount})
       this.$store.commit('saveCountHourAvArr',{params:item.lastWeekArg.betCount})
+    },
+    getOnlineArr(item){
+      this.$store.commit('saveOnlineToday',{params:item.today})
+      this.$store.commit('saveOnlineSeven',{params:item.last7dayAvg})
     },
     gameName(id){
             //遍历gametype 获取名字
