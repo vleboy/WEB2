@@ -211,6 +211,7 @@ import {
   oneManagers
 } from "@/service/index";
 import _ from "lodash";
+import {passwordLevel} from '@/config/getDefaultTime'
 export default {
   data() {
     const validateNickname = (rule, value, callback) => {
@@ -235,12 +236,11 @@ export default {
       if (value == "") {
         callback(new Error("密码不能为空"));
       } else {
-        let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
-        if (!testReg.test(value)) {
-          callback(new Error("6~16位,包含字母、数字及符号"));
-        } else {
-          callback();
-        }
+         if (this.passwordLevel(value) < 2) {
+            callback(new Error("密码中必须包含6-16位由字母、数字、符号中至少两种组成"));
+          } else {
+            callback();
+          }
       }
     };
     const validatesuffix = (rule, value, callback) => {

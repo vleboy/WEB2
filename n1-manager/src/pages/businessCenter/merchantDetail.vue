@@ -577,9 +577,9 @@ export default {
         this.$Message.warning("密码不能为空");
         return;
       }else{
-         if (this.passwordLevel(password) < 3) {
+         if (this.passwordLevel(password) < 2) {
          return  this.$Message.warning({
-          content: "密码强度不够"
+          content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
         });
        }
       }
@@ -654,6 +654,10 @@ export default {
     },
     passwordLevel(password) {
       let Modes = 0;
+      let len=password.length;
+      if(len<6||len>16){
+        return 0
+      }
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
       }

@@ -224,22 +224,15 @@ export default {
       this.adminModal = true;
     },
     ok() {
-      let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{8,16}$/;
-      if (!passReg.test(this.password)) {
-        this.$Message.warning({
-          content: "密码为8-16位的(英文、数字、符号)"
-        });
-        return;
-      }
       if (this.password != this.repassword) {
         this.$Message.warning({
           content: "两次密码不一致"
         });
         return;
       }
-      if (this.passwordLevel(this.repassword) < 3) {
+      if (this.passwordLevel(this.repassword) < 2) {
         this.$Message.warning({
-          content: "密码强度不够"
+          content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
         });
         return;
       }
@@ -260,9 +253,9 @@ export default {
       this.repassword = "";
     },
     add() {
-      if (this.passwordLevel(this.adminInfo.password) < 3) {
+      if (this.passwordLevel(this.adminInfo.password) < 2) {
         this.$Message.warning({
-          content: "密码强度不够"
+          content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
         });
         return;
       }
@@ -328,6 +321,10 @@ export default {
     },
     passwordLevel(password) {
       let Modes = 0;
+      let len=password.length;
+      if(len<6||len>16){
+        return 0
+      }
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
       }

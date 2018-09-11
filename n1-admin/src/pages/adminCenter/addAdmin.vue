@@ -12,7 +12,7 @@
           <Input v-model="formItem.username" placeholder="5-16位,限英文和数字"></Input>
         </FormItem>
         <FormItem label="管理员密码" prop='password'>
-          <Input v-model="formItem.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
+          <Input v-model="formItem.password" placeholder="6-16位由字母、数字、符号中至少两种组成"></Input>
         </FormItem>
         <FormItem label="管理员姓名" prop="adminName">
           <Input v-model="formItem.adminName" placeholder="2~16位,只能输入中英文"></Input>
@@ -51,12 +51,11 @@ export default {
       if (value == "") {
         callback(new Error("密码不能为空"));
       } else {
-        let testReg = /^[a-zA-Z0-9@_#$%^&*!~-]{6,16}$/;
-        if (!testReg.test(value)) {
-          callback(new Error("6~16位,包含字母、数字及符号"));
-        } else {
-          callback();
-        }
+        if (this.passwordLevel(value) < 2) {
+            callback(new Error("密码中必须包含6-16位由字母、数字、符号中至少两种组成"));
+          } else {
+            callback();
+          }
       }
     };
     const validateName = (rule, value, callback) => {
@@ -150,9 +149,9 @@ export default {
     addAdmin(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          if (this.passwordLevel(this.formItem.password) < 3) {
+          if (this.passwordLevel(this.formItem.password) < 2) {
             this.$Message.warning({
-              content: "密码强度不够"
+              content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
             });
             return;
           }
@@ -186,6 +185,10 @@ export default {
     },
     passwordLevel(password) {
       let Modes = 0;
+      let len=password.length;
+      if(len<6||len>16){
+        return 0
+      }
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
       }
