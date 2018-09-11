@@ -5,10 +5,10 @@
           <span class="searchLabel">所属用户:</span>
           <Input v-model.trim="parent" placeholder="所属用户" style="width: 200px"></Input>
           <span class="searchLabel">请选择游戏:</span>
-           <Select style="width:200px" @on-change='changeGame' v-model="game">
+            <Select style="width:200px" @on-change='changeGame' v-model="game">
             <Option v-for="(item,index) in selectOption" :value="item.code" :key="index">{{ item.name }}</Option>
             </Select>
-             <Checkbox v-model="isTest" @on-change="hideTest">隐藏测试</Checkbox>
+            <Checkbox v-model="isTest" :style="{marginLeft:'10px',fontSize:'14px'}" @on-change="hideTest">隐藏测试</Checkbox>
            <span class="btn">
             <Button type="primary" @click="search">搜索</Button>
             <Button type="ghost" @click="reset">重置</Button>
