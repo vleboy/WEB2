@@ -8,7 +8,7 @@
            <Select style="width:200px" @on-change='changeGame' v-model="game">
             <Option v-for="(item,index) in selectOption" :value="item.code" :key="index">{{ item.name }}</Option>
             </Select>
-             <Checkbox v-model="isTest">隐藏测试</Checkbox>
+             <Checkbox v-model="isTest" @on-change="hideTest">隐藏测试</Checkbox>
            <span class="btn">
             <Button type="primary" @click="search">搜索</Button>
             <Button type="ghost" @click="reset">重置</Button>
@@ -272,6 +272,15 @@ export default {
         }else{
         this.init(this.gameType)
         }
+       },
+       hideTest(v){
+           let player=this.player;
+           const notTest=player.filter(item=> item.isTest==0)
+           if(v==true){
+               this.player=notTest
+           }else{
+               this.getPlayerList(this.gameType)
+           }
        },
        reset(){
         this.defaultTime = getDefaultTime();
