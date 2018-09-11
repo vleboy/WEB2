@@ -96,7 +96,7 @@
           <Input v-model="agent.username" placeholder="5~16位,只能包含英文或数字"></Input>
         </FormItem>
         <FormItem label="代理密码" prop='password'>
-          <Input v-model="agent.password" placeholder="8~16位,必须包含英文、数字和符号任意两种组合"></Input>
+          <Input v-model="agent.password" placeholder="6~16位,必须包含英文、数字和符号任意两种组合"></Input>
         </FormItem>
         <FormItem label="代理昵称" prop='displayName'>
           <Input v-model="agent.displayName" placeholder="2~10位,只能包含中文、英文或数字"></Input>

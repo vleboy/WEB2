@@ -19,7 +19,10 @@ export const store = new Vuex.Store({
         betHourTodayArr:[],
         betHourAvArr:[],
         countHourTodayArr:[],
-        countHourAvArr:[]
+        countHourAvArr:[],
+        //在线时长
+        onlineTodayArr:[],
+        onlineSevenAverage:[]
     },
     mutations:{
     globalLoading(state,{params}){
@@ -69,6 +72,12 @@ export const store = new Vuex.Store({
         },
     currentGameId(state,{params}){
         state.currentGameId=params
+    },
+    saveOnlineToday(state,{params}){
+        state.onlineTodayArr=params
+    },
+    saveOnlineSeven(state,{params}){
+        state.onlineSevenAverage=params
     }
     },
     actions:{

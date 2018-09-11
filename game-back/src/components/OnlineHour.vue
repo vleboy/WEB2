@@ -45,7 +45,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(["login"])
+        ...mapState(["login","onlineSevenAverage","onlineTodayArr"])
     },
     watch:{
 
