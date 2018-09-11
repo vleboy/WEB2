@@ -2,10 +2,7 @@ import axios from 'axios'
 import {Message} from 'iview'
 axios.interceptors.request.use(config => config, error => Promise.reject(error))
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
-Message.config({
-    top: 50,
-    duration: 4
-});
+
 function checkStatus(response) {
     // console.log(response)
   if (response.data.code != '0') {
