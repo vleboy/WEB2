@@ -17,7 +17,7 @@
                         输赢报表
                     </template>
                     <MenuItem name="allreport" v-if='permission.includes("公司输赢总报表")'>公司输赢总报表</MenuItem>
-                    <MenuItem name="playerReport" v-if='permission.includes("玩家输赢报表")'>玩家输赢报表</MenuItem>
+                    <MenuItem name="playerReport" v-if='permission.includes("玩家输赢报表")'>玩家输赢总报表</MenuItem>
                     <Submenu name='nareport' v-if='authorityStr.includes("NA")'>
                         <template slot="title">NA游戏报表</template>
                         <MenuItem name="naAll" v-if='permission.includes("NA游戏总报表")'>NA游戏总报表</MenuItem>
