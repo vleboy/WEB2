@@ -75,7 +75,6 @@
                         输赢报表
                     </template>
                     <MenuItem name="allreport">公司输赢总报表</MenuItem>
-                    <MenuItem name="playerReport">玩家输赢报表</MenuItem>
                     <Submenu name='nareport' v-if="gameStr.includes('NA')">
                         <template slot="title">NA游戏报表</template>
                         <MenuItem name="naAll">NA游戏总报表</MenuItem>
