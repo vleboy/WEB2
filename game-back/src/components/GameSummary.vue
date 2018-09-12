@@ -23,7 +23,7 @@
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='betHistoryRank' />
+        <rank-item range="历史" :rankList='betHistoryRank' />
         </Col>
       </Row>
       </Col>
@@ -59,7 +59,7 @@
         </div>
         </Col>
         <Col span="5">
-        <rank-item range="今日" :rankList='countHistoryRank' />
+        <rank-item range="历史" :rankList='countHistoryRank' />
         </Col>
       </Row>
       </Col>

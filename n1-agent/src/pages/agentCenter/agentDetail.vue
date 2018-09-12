@@ -81,9 +81,13 @@
                   <span v-if="showPass">{{agentDetail.password}}</span>
                   <span v-else>********</span>
                   </Col>
-                  <Col span="6" v-if="permission.includes('查看密码')">
+                  <Col span="4" v-if="permission.includes('查看密码')||level!=0">
                   <span class="showpass" @click="showPass=!showPass" v-if="!showPass">显示</span>
                   <span class="showpass" @click="showPass=!showPass" v-else>隐藏</span>
+                  </Col>
+                   <Col span="12" v-if="level!=0">
+                    <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中至少两种组成"></Input>
+                    <span class="showpass"  @click="changeNextAgentPass">修改密码</span>
                   </Col>
                 </Row>
               </FormItem>
@@ -677,6 +681,9 @@ export default {
     total() {
       return this.waterfall.length;
     },
+    level() {
+      return JSON.parse(localStorage.getItem("userInfo")).level;
+    },
     tipContent() {
       return "上级代理成数为" + this.agentDetail.rate;
     },
@@ -709,6 +716,32 @@ export default {
       let _end = index * size;
       this.showData = this.waterfall.slice(_start, _end);
       // console.log(this.showData);
+    },
+    changeNextAgentPass(){
+      let password = this.basic.password;
+      if (password == "") {
+        this.$Message.warning("密码不能为空");
+        return;
+      }else{
+        if (this.passwordLevel(password) < 2) {
+          return  this.$Message.warning({
+            content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
+        });
+       }
+      }
+      let params = this.agentDetail;
+      params.password = password;
+      this.spinShow = true;
+      agentUpdate(params).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("修改成功");
+          this.basic.password=''
+        } else {
+          this.$Message.error("修改有误");
+          this.resetPass()
+        }
+          this.spinShow = false;
+      });
     },
     editBtn() {
       this.edit = false;
