@@ -86,8 +86,11 @@
                   <span class="showpass" @click="showPass=!showPass" v-else>隐藏</span>
                   </Col>
                    <Col span="12" v-if="level!=0">
-                    <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中至少两种组成"></Input>
-                    <span class="showpass"  @click="changeNextAgentPass">修改密码</span>
+                     <span class="showpass" @click="editPassword" v-if="!editPass" >修改密码</span>
+                     <div v-else>
+                      <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中至少两种组成"></Input>
+                      <span class="showpass"  @click="changeNextAgentPass">确认修改</span>
+                     </div>
                   </Col>
                 </Row>
               </FormItem>
@@ -239,6 +242,7 @@ export default {
     return {
       parent: "",
       value: "",
+      editPass:false,
       dayjs: dayjs,
       parentGame: [],
       maxMix: 0,
@@ -735,13 +739,18 @@ export default {
       agentUpdate(params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-          this.basic.password=''
+          this.basic.password='';
+          this.editPass=false;
         } else {
           this.$Message.error("修改有误");
           this.resetPass()
         }
           this.spinShow = false;
       });
+    },
+    editPassword(){
+      this.editPass=!this.editPass;
+      this.showPass=true
     },
     editBtn() {
       this.edit = false;
