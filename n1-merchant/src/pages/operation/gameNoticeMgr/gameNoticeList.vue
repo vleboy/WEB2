@@ -383,6 +383,7 @@ export default {
         this.noticeInfo = JSON.parse(JSON.stringify(row))
         this.noticeInfo.remark = this.noticeInfo.remark === 'NULL!' ? '' : this.noticeInfo.remark
         this.noticeInfo.url = this.noticeInfo.url === 'NULL!' ? '' : this.noticeInfo.url
+        this.publishTime = new Date(this.noticeInfo.publishTime)
         this.fileList.push({
           name: '',
           url: this.noticeInfo.img
@@ -400,6 +401,7 @@ export default {
           model: ''
         }
         this.fileList = []
+        this.publishTime = new Date()
       }
     },
     openInput (row) {
@@ -474,7 +476,7 @@ export default {
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
       mi.multipartUpload(fileName, this.imgFile, {
       }).then((results) => {
-        this.$Message.success('上传成功')
+        this.$Message.success('上传阿里云成功')
         this.loadingStatus = false
         this.noticeInfo.imgAli = `http://app.risheng3d.com/${results.name}` || results.url
         // console.log(results,this.noticeInfo.img, 'src')
@@ -489,7 +491,7 @@ export default {
 
       httpRequest('put',`${this.uploadAction[0].aws}`, this.imgFile)
         .then(res => {
-          this.$Message.success('上传成功')
+          this.$Message.success('上传亚马逊成功')
           this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
       }).finally(()=>{
         this.loadingStatus = false

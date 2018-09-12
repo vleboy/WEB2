@@ -383,6 +383,7 @@ export default {
         this.noticeInfo = JSON.parse(JSON.stringify(row))
         this.noticeInfo.remark = this.noticeInfo.remark === 'NULL!' ? '' : this.noticeInfo.remark
         this.noticeInfo.url = this.noticeInfo.url === 'NULL!' ? '' : this.noticeInfo.url
+        this.publishTime = new Date(this.noticeInfo.publishTime)
         this.fileList.push({
           name: '',
           url: this.noticeInfo.img
@@ -400,6 +401,7 @@ export default {
           remark: ''
         }
         this.fileList = []
+        this.publishTime = new Date()
       }
     },
     openInput (row) {
