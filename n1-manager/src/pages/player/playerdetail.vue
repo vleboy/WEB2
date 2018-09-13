@@ -3,29 +3,34 @@
     <div class="-d-title">
       <h2>{{userName}}</h2>
     </div>
-    <div class="-d-base">
-      <h4>基本信息</h4>
-      <div class="-b-form">
-        <Row>
-          <Col span="6"><span class="-span-base">商户ID：{{detailInfo.buId}}</span></Col>
-          <Col span="6"><span class="-span-base">所属商户：{{detailInfo.merchantName}}</span></Col>
-          <Col span="6"><span class="-span-base">商户标识：{{detailInfo.sn}}</span></Col>
-          <Col span="6"><span class="-span-base">线路号：{{detailInfo.msn}}</span></Col>
-        </Row>
-        <Row>
-          <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
-          <Col span="6"><span class="-span-base" >游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
-          <Col span="12"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
-        </Row>
-        <Row>
-          <Col span="6" v-for="(item,index) of detailInfo.gameList" :key="index">
-          <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
-          </Col>
-        </Row>
-      </div>
-    </div>
+    <Collapse v-model="panel1" :style="{marginBottom:'15px'}">
+      <Panel name="1">
+      基本信息  所属商户: {{detailInfo.merchantName}} 
+        <div slot="content">
+          <div class="-d-base">
+            <div class="-b-form">
+              <Row>
+                <Col span="6"><span class="-span-base">商户ID：{{detailInfo.buId}}</span></Col>
+                <Col span="6"><span class="-span-base">所属商户：{{detailInfo.merchantName}}</span></Col>
+                <Col span="6"><span class="-span-base">商户标识：{{detailInfo.sn}}</span></Col>
+                <Col span="6"><span class="-span-base">线路号：{{detailInfo.msn}}</span></Col>
+              </Row>
+              <Row>
+                <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
+                <Col span="6"><span class="-span-base" >游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
+                <Col span="12"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></Col>
+              </Row>
+              <Row>
+                <Col span="6" v-for="(item,index) of detailInfo.gameList" :key="index">
+                <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </div>
+      </Panel>
+    </Collapse>
     <div class="-d-content">
-      <h4>消费信息</h4>
       <Col span="24" class="-c-top">
       <RadioGroup v-model="reportType" type="button">
         <Radio label="1">流水报表</Radio>
@@ -64,6 +69,7 @@ export default {
       isFetching: false,
       playerDetailInfo: '',
       reportType: '1',
+      panel1:'',
       gameStatus: {
         '1': '离线',
         '2': '在线',
@@ -124,10 +130,6 @@ export default {
     min-height: 89vh;
     .-d-title{
       text-align: center;
-      h2{
-        font-size: 2.5rem;
-        color: #5a5a5a;
-      }
     }
 
     .-d-base{
@@ -135,7 +137,6 @@ export default {
       vertical-align: baseline;
 
       .-b-form{
-        background-color: #f5f5f5;
         padding: 0 16px;
       }
       .-span-base{
@@ -146,24 +147,14 @@ export default {
 
     .-d-content{
 
-      .-c-top{
-        background-color: #f5f5f5;
-        padding: 16px 16px 0 16px
-      }
       .-c-info{
-        background-color: #f5f5f5;
         font-size: 1.1rem;
         padding:16px;
         overflow: hidden
       }
     }
 
-    h4{
-      font-size: 1.3rem;
-      font-weight: normal;
-      padding: 16px 0;
-      color: #5a5a5a
-    }
+  
 
     .-p-green{
       color: #00CC00

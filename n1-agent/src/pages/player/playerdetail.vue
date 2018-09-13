@@ -3,46 +3,51 @@
     <div class="-d-title">
       <h2>{{detailInfo.userName}}</h2>
     </div>
-    <div class="-d-base">
-      <h4>基本信息</h4>
-      <div class="-b-form">
-        <Row>
-          <Col span="6"><span class="-span-base">代理ID：{{detailInfo.buId}}</span></Col>
-          <Col span="6"><span class="-span-base">所属代理：{{detailInfo.merchantName}}</span></Col>
-          <Col span="6"><span class="-span-base">代理标识：{{detailInfo.sn}}</span></Col>
-          <Col span="6">
-          <span class="-span-base">
-              <div class="-player-title" >
-                密码：
-                <span v-if="!editPassword">{{detailInfo.password}}</span>
-                <Input v-model="password" placeholder="请输入密码" type="text" v-else style="width: 50%"></Input>
-                <Button type="text" @click="openPwdInput" v-if="!editPassword" class="-p-edit">修改</Button>
-                <span v-else style="margin-left: 0.5rem;color:#20a0ff ">
-                  <Button size="small" type="primary" @click="updatePwd">确认</Button>
-                  <Button size="small" type="primary" @click="editPassword = !editPassword">取消</Button>
-                </span>
-              </div>
-            </span>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
-          <Col span="6"><span class="-span-base">玩家昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</span></Col>
-          <Col span="6"><span class="-span-base">游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
-          <Col span="6"><span class="-span-base">余额: {{detailInfo.balance}}</span></Col>
-        </Row>
-        <Row>
-          <Col span="6"><span class="-span-base">上次登录游戏：{{lastTime}}</span></Col>
-        </Row>
-        <Row>
-          <Col span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
-          <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
-          </Col>
-        </Row>
-      </div>
-    </div>
+     <Collapse v-model="panel1" :style="{marginBottom:'15px'}">
+      <Panel name="1">
+      基本信息  所属代理：: {{detailInfo.merchantName}} 
+        <div slot="content">
+          <div class="-d-base">
+            <div class="-b-form">
+              <Row>
+                <Col span="6"><span class="-span-base">代理ID：{{detailInfo.buId}}</span></Col>
+                <Col span="6"><span class="-span-base">所属代理：{{detailInfo.merchantName}}</span></Col>
+                <Col span="6"><span class="-span-base">代理标识：{{detailInfo.sn}}</span></Col>
+                <Col span="6">
+                <span class="-span-base">
+                    <div class="-player-title" >
+                      密码：
+                      <span v-if="!editPassword">{{detailInfo.password}}</span>
+                      <Input v-model="password" placeholder="请输入密码" type="text" v-else style="width: 50%"></Input>
+                      <Button type="text" @click="openPwdInput" v-if="!editPassword" class="-p-edit">修改</Button>
+                      <span v-else style="margin-left: 0.5rem;color:#20a0ff ">
+                        <Button size="small" type="primary" @click="updatePwd">确认</Button>
+                        <Button size="small" type="primary" @click="editPassword = !editPassword">取消</Button>
+                      </span>
+                    </div>
+                  </span>
+                </Col>
+              </Row>
+              <Row>
+                <Col span="6"><span class="-span-base">玩家ID：{{detailInfo.userId}}</span></Col>
+                <Col span="6"><span class="-span-base">玩家昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</span></Col>
+                <Col span="6"><span class="-span-base">游戏状态：{{gameStatus[detailInfo.gameState]}}</span></Col>
+                <Col span="6"><span class="-span-base">余额: {{detailInfo.balance}}</span></Col>
+              </Row>
+              <Row>
+                <Col span="6"><span class="-span-base">上次登录游戏：{{lastTime}}</span></Col>
+              </Row>
+              <Row>
+                <Col span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
+                <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </div>
+      </Panel>
+     </Collapse>
     <div class="-d-content">
-      <h4>消费信息</h4>
       <Col span="24" class="-c-top">
       <RadioGroup v-model="reportType" type="button">
         <Radio label="1">流水报表</Radio>
@@ -82,6 +87,7 @@ export default {
       balanceInfo: {},
       playerDetailInfo: '',
       reportType: '1',
+      panel1:'',
       gameStatus: {
         '1': '离线',
         '2': '在线',
@@ -168,10 +174,6 @@ export default {
     min-height: 89vh;
     .-d-title{
       text-align: center;
-      h2{
-        font-size: 2.5rem;
-        color: #5a5a5a;
-      }
     }
 
     .-d-base{
@@ -179,7 +181,6 @@ export default {
       vertical-align: baseline;
 
       .-b-form{
-        background-color: #f5f5f5;
         padding: 0 16px;
       }
       .-span-base{
@@ -196,23 +197,15 @@ export default {
 
     .-d-content{
 
-      .-c-top{
-        background-color: #f5f5f5;
-        padding: 16px 16px 0 16px
-      }
+      // .-c-top{
+      //   background-color: #f5f5f5;
+      //   padding: 16px 16px 0 16px
+      // }
       .-c-info{
-        background-color: #f5f5f5;
         font-size: 1.1rem;
         padding:16px;
         overflow: hidden
       }
-    }
-
-    h4{
-      font-size: 1.3rem;
-      font-weight: normal;
-      padding: 16px 0;
-      color: #5a5a5a
     }
 
     .-p-green{
