@@ -166,6 +166,10 @@ export default {
           sortable: true
         },
         {
+          title:'商户数量',
+          key:'merchantCount'
+        },
+        {
           title: "剩余点数",
           key: "balance",
           sortable: true,
@@ -313,10 +317,6 @@ export default {
               ]
             );
           }
-        },
-        {
-          title:'商户数量',
-          key:'merchantCount'
         },
         {
           title: "创建时间",

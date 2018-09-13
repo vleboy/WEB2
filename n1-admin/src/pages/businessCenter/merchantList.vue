@@ -181,6 +181,10 @@ export default {
           key: "parentDisplayName",
           sortable: true
         },
+         {
+          title:'玩家数量',
+          key:'playerCount'
+        },
         {
           title: "剩余点数",
           key: "balance",
@@ -329,10 +333,6 @@ export default {
               ]
             );
           }
-        },
-        {
-          title:'玩家数量',
-          key:'playerCount'
         },
         {
           title: "创建时间",
