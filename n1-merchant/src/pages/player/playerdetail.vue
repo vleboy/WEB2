@@ -147,8 +147,8 @@ export default {
 
       .-c-info{
         font-size: 1.1rem;
-        padding:16px;
-        overflow: hidden
+        // padding:16px;
+        // overflow: hidden
       }
     }
 

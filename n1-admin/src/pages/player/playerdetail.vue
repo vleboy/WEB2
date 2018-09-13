@@ -160,8 +160,8 @@ export default {
       .-c-info{
         // background-color: #f5f5f5;
         font-size: 1.1rem;
-        padding:1px;
-        overflow: hidden
+        // padding:1px;
+        // overflow: hidden
       }
     }
 
