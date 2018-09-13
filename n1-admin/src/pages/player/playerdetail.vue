@@ -42,7 +42,6 @@
         <playerRunningAccount ref="childMethod" v-if="reportType==1"></playerRunningAccount>
         <transactionRecord v-else></transactionRecord>
       </div>
-      
     </div>
     <Spin size="large" fix v-if="isFetching">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>

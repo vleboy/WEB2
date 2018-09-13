@@ -31,12 +31,10 @@
       </Panel>
     </Collapse>
     <div class="-d-content">
-      <Col span="24" class="-c-top">
       <RadioGroup v-model="reportType" type="button">
         <Radio label="1">流水报表</Radio>
         <Radio label="2">交易记录</Radio>
       </RadioGroup>
-      </Col>
       <div class="-c-info">
         <playerRunningAccount ref="childMethod" v-if="reportType==1"></playerRunningAccount>
         <transactionRecord v-else></transactionRecord>
