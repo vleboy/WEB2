@@ -315,6 +315,10 @@ export default {
           }
         },
         {
+          title:'商户数量',
+          key:'merchantCount'
+        },
+        {
           title: "创建时间",
           key: "createdAt",
           sortable: true,
@@ -353,39 +357,39 @@ export default {
             }
           }
         },
-        {
-          title: "备注",
-          key: "remark",
-          maxWidth: 80,
-          render: (h, params) => {
-            let remark = params.row.remark;
-            let result = Object.prototype.toString.call(remark);
-            if (result.includes("String")) {
-              if (result != "NULL!") {
-                return h(
-                  "Tooltip",
-                  {
-                    props: {
-                      content: remark
-                    }
-                  },
-                  [
-                    h("Icon", {
-                      props: {
-                        type: "search",
-                        color: "#20a0ff"
-                      }
-                    })
-                  ]
-                );
-              } else {
-                return h("span", "");
-              }
-            } else {
-              return h("span", "");
-            }
-          }
-        },
+        // {
+        //   title: "备注",
+        //   key: "remark",
+        //   maxWidth: 80,
+        //   render: (h, params) => {
+        //     let remark = params.row.remark;
+        //     let result = Object.prototype.toString.call(remark);
+        //     if (result.includes("String")) {
+        //       if (result != "NULL!") {
+        //         return h(
+        //           "Tooltip",
+        //           {
+        //             props: {
+        //               content: remark
+        //             }
+        //           },
+        //           [
+        //             h("Icon", {
+        //               props: {
+        //                 type: "search",
+        //                 color: "#20a0ff"
+        //               }
+        //             })
+        //           ]
+        //         );
+        //       } else {
+        //         return h("span", "");
+        //       }
+        //     } else {
+        //       return h("span", "");
+        //     }
+        //   }
+        // },
         {
           title: "操作",
           key: "",

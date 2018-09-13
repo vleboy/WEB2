@@ -727,6 +727,10 @@ export default {
           key:'playerCount'
         },
         {
+          title:'下级代理数量',
+          key:'agentCount'
+        },
+        {
           title: "代理成数",
           key: "rate",
           sortable: true,
