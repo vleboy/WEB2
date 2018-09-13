@@ -723,12 +723,12 @@ export default {
           }
         },
         {
-          title:'玩家人数',
-          key:'playerCount'
-        },
-        {
           title:'下级代理数量',
           key:'agentCount'
+        },
+        {
+          title:'玩家数量',
+          key:'playerCount'
         },
         {
           title: "代理成数",
