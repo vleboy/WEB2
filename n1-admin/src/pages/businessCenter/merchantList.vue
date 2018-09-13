@@ -331,7 +331,7 @@ export default {
           }
         },
         {
-          title:'玩家人数',
+          title:'玩家数量',
           key:'playerCount'
         },
         {
