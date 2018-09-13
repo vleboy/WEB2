@@ -4,7 +4,6 @@ $
     <div class="-p-base">
       <Row class="-b-form">
         <Col span="17">
-          时间：
           <DatePicker
             :editable='false'
             :transfer='true'
