@@ -31,7 +31,7 @@
       </Panel>
     </Collapse>
     <div class="-d-content">
-      <RadioGroup v-model="reportType" type="button">
+      <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}">
         <Radio label="1">流水报表</Radio>
         <Radio label="2">交易记录</Radio>
       </RadioGroup>
