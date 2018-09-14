@@ -85,6 +85,7 @@ export default {
   methods: {
     init() {
       //hitrate
+      let loginOnline=this.login.realTimeOnline
       this.$store.commit('currentGameId',{params:this.gameType})
       let hitRate = this.gameDetail.hitDetail;
       let hitGames=hitRate.games;
@@ -260,20 +261,16 @@ export default {
           break;
       }
       //当前在线
-      
-      let currentPeople=0;
-      let now=new Date().getHours();
-      for(let key in loginGames){
-          let item=loginGames[key]
+      this.sum=loginOnline.total
+      let loginGameItems=loginOnline.games
+      for(const key in loginGameItems){
+          let item=loginGameItems[key]
           let name=this.gameName(key);
-          let onlineCount=item.today[now]
-          currentPeople+=item.today[now];
           this.OnlineList.push({
               name,
-              count:onlineCount
+              count:item||0
           })
       }
-      this.sum=currentPeople;
     },
     changeRange(){
       let range = this.dateRange.map(item => {
@@ -396,13 +393,9 @@ export default {
       this.$store.commit('saveOnlineToday',{params:item.today})
       this.$store.commit('saveOnlineSeven',{params:item.last7dayAvg})
     },
-    gameName(id){
-            //遍历gametype 获取名字
-            for (let key in GAME_LIST ){
-                if(key === id){
-                    return GAME_LIST[key]
-                }
-            }
+    gameName(key){
+            //gametype 获取名字
+            return GAME_LIST[key] 
         },
     search() {
       console.log("id==>", this.id);

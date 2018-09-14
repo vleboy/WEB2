@@ -55,13 +55,9 @@ export default {
         seeHourOnline(){
             this.showHourOnline=true
         },
-        gameName(id){
-            //遍历gametype 获取名字
-            for (let key in GAME_LIST ){
-                if(key === id){
-                    return GAME_LIST[key]
-                }
-            }
+        gameName(key){
+            //gametype 获取名字
+            return GAME_LIST[key]
         },
         init(){
             let gameTimeDetail=this.login.gameTimeDetail

@@ -158,13 +158,9 @@ export default {
         }
       }
     },
-    gameName(id){
-        //遍历gametype 获取名字
-        for (let key in GAME_LIST ){
-            if(key === id){
-                return GAME_LIST[key]
-            }
-        }
+    gameName(key){
+        //gametype 获取名字
+        return GAME_LIST[key]
     },
     seeHourChart() {
       this.showHour = true;
