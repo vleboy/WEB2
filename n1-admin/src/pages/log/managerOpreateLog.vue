@@ -1,7 +1,22 @@
 <template>
     <div class="opreateLog">
         <div class="reload">
-        <Button type="primary" class="reset" @click="reset">刷新</Button>
+           <Row class="row">
+            <Col span="2" >操作人</Col>
+            <Col span="4">
+            <Input v-model.trim="userName" placeholder="请输入"></Input>
+            </Col>
+            <!-- <Col span="2">操作类型</Col>
+            <Col span="4">
+            <Input v-model.trim="opreateType" placeholder="请输入"></Input>
+            </Col> -->
+            <Col span="5" offset="6">
+            <div class="btns">
+              <Button type="primary" @click="search">搜索</Button>
+              <Button type="ghost" @click="reset">重置</Button>
+            </div>
+            </Col>
+          </Row>
         </div>
         <div class="table">
             <Table :columns="columns1" :data="oprateLog" size="small" ></Table>
@@ -23,6 +38,8 @@ export default {
     return {
       dayjs: dayjs,
       firstPage: true,
+      userName:'',
+      opreateType:'',
       columns1: [
         {
           title: "序号",
@@ -94,12 +111,19 @@ export default {
   methods: {
     nextPage() {
       let startKey = this.$store.state.admin.startKey;
-      this.$store.dispatch("getManagerOpreateLog", {
+      let params={
         role: "10",
         type: "operate",
         pageSize: 50,
+        query:{
+          username:this.userName,
+        },
         startKey: startKey
-      });
+      }
+      if(this.userName==""){
+        delete params.query
+      }
+      this.$store.dispatch("getManagerOpreateLog", params);
       this.firstPage = false;
     },
     homePage() {
@@ -107,14 +131,26 @@ export default {
       this.firstPage = true;
     },
     init() {
-      this.$store.dispatch("getManagerOpreateLog", {
+      let params={
         role: "10",
         type: "operate",
         pageSize: 50,
+        query:{
+          username:this.userName,
+        },
         startKey: null
-      });
+      }
+      if(this.userName==""){
+        delete params.query
+      }
+      this.$store.dispatch("getManagerOpreateLog", params);
+    },
+    search(){
+      this.init()
     },
     reset() {
+      this.username=''
+      this.opreateType=''
       this.init();
     }
   },
@@ -126,6 +162,11 @@ export default {
 <style lang="less" scoped>
 .opreateLog {
   min-height: 89vh;
+  .row {
+    line-height: 32px;
+    text-align: center;
+    padding: 15px 10px;
+  }
   .btn {
     text-align: right;
     .nextpage {
@@ -133,9 +174,7 @@ export default {
     }
   }
   .reload {
-    text-align: right;
-    margin: 15px auto;
-    padding-right: 10px;
+   height: 60px;
   }
 }
 </style>

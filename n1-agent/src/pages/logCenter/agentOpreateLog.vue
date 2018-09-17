@@ -2,7 +2,15 @@
   <div class="agentLog">
     <div class="reload">
       <Row>
-        <Col span="5" offset="17" :style="{height:'32px'}">
+         <Col span="2" >操作人</Col>
+        <Col span="4">
+        <Input v-model.trim="userName" placeholder="请输入"></Input>
+        </Col>
+        <!-- <Col span="2">操作类型</Col>
+        <Col span="4">
+        <Input v-model.trim="opreateType" placeholder="请输入"></Input>
+        </Col> -->
+        <Col span="5" :style="{height:'32px'}">
         <Row v-if="agentLevel==0">
           <Col span="8">
           <span class="selectText">代理层级</span>
@@ -14,8 +22,11 @@
           </Col>
         </Row>
         </Col>
-        <Col span="2">
-        <Button type="primary" class="reset" @click="reset">刷新</Button>
+        <Col span="5">
+            <div class="btns">
+              <Button type="primary" @click="search">搜索</Button>
+              <Button type="ghost" @click="reset">重置</Button>
+            </div>
         </Col>
       </Row>
     </div>
@@ -39,6 +50,8 @@ export default {
     return {
       firstPage: true,
       level: "1",
+      userName:'',
+      opreateType:'',
       levelList: [
         {
           value: "1"
@@ -145,13 +158,20 @@ export default {
   methods: {
     nextPage() {
       let startKey = this.$store.state.log.startKey;
-      this.$store.dispatch("getAgentOpreateLog", {
+      let params={
         role: "1000",
         type: "operate",
         pageSize: 100,
+         query:{
+          username:this.userName,
+        },
         level: +this.level,
         startKey: startKey
-      });
+      }
+       if(this.userName==""){
+        delete params.query
+      }
+      this.$store.dispatch("getAgentOpreateLog", params);
       this.firstPage = false;
     },
     homePage() {
@@ -159,15 +179,27 @@ export default {
       this.firstPage = true;
     },
     init() {
-      this.$store.dispatch("getAgentOpreateLog", {
+      let params={
         role: "1000",
         type: "operate",
         pageSize: 100,
+         query:{
+          username:this.userName,
+        },
         level: +this.level,
         startKey: null
-      });
+      }
+       if(this.userName==""){
+        delete params.query
+      }
+      this.$store.dispatch("getAgentOpreateLog", params);
+    },
+    search(){
+      this.init()
     },
     reset() {
+       this.username=''
+      this.opreateType=''
       this.init();
     },
     changeLevel() {
@@ -189,10 +221,12 @@ export default {
     }
   }
   .reload {
-    margin-bottom: 10px;
-    .selectText {
-      line-height: 32px;
-    }
+   text-align: center;
+  line-height: 32px;
+   margin-bottom: 10px;
+    // .selectText {
+    //   line-height: 32px;
+    // }
   }
 }
 </style>
