@@ -2,7 +2,7 @@
     <div class="opreateLog">
         <div class="reload">
            <Row class="row">
-            <Col span="2" >操作人</Col>
+            <Col span="2" offset='6'>操作人</Col>
             <Col span="4">
             <Input v-model.trim="userName" placeholder="请输入"></Input>
             </Col>
@@ -10,7 +10,7 @@
             <Col span="4">
             <Input v-model.trim="opreateType" placeholder="请输入"></Input>
             </Col> -->
-            <Col span="5" offset="6">
+            <Col span="5">
             <div class="btns">
               <Button type="primary" @click="search">搜索</Button>
               <Button type="ghost" @click="reset">重置</Button>

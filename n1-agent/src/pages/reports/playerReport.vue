@@ -15,6 +15,17 @@
           </span>
         </div>
       <Table :columns="columns1" :data="player" size="small" ref='table'></Table>
+       <Row class="count_row">
+            <Col span="3" offset="15">
+            总下注次数: <span class="num">{{allBetCount}}</span>
+            </Col>
+            <Col span="3">
+            总下注金额: <span class="num">{{allBetAmount}}</span>
+            </Col>
+            <Col span="3">
+            总输赢金额: <span class="num">{{allWinLose}}</span>
+            </Col>
+        </Row>
       <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -41,6 +52,9 @@ export default {
             selectOption:[],
             game:'-1',
             parent:'',
+            allBetCount:0,
+            allBetAmount:0,
+            allWinLose:0,
             isTest:false,
             gameType: [
                 3,
@@ -234,6 +248,9 @@ export default {
        },
         getPlayerList(gameList){
             this.spinShow=true;
+            this.allBetCount=0
+            this.allBetAmount=0
+            this.allWinLose=0
             httpRequest('post','/queryRealPlayerStat',{
                gameType:gameList,
                query:{
@@ -242,7 +259,15 @@ export default {
                }
            }).then(res=>{
                if(res.code==0){
-                   this.player=res.payload
+                   let list=res.payload
+                   this.player=list
+                   for(let item of list){
+                       this.allBetCount+=item.betCount;
+                       this.allBetAmount+=item.betAmount;
+                       this.allWinLose+=item.winloseAmount;
+                   }
+                   this.allBetAmount=this.allBetAmount.toFixed(2)
+                   this.allWinLose=this.allWinLose.toFixed(2)
                }
            }).finally(()=>{
                this.spinShow=false
@@ -304,6 +329,13 @@ export default {
             position: absolute;
             right: 18px;
         }
+    }
+     .count_row{
+        line-height: 32px;
+        padding: 10px 0;
+    }
+    .num{
+        font-weight: bold;
     }
 }
 </style>

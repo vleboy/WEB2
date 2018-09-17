@@ -2,7 +2,7 @@
   <div class="agentLog">
     <div class="reload">
       <Row>
-         <Col span="2" >操作人</Col>
+         <Col span="2" offset="4" >操作人</Col>
         <Col span="4">
         <Input v-model.trim="userName" placeholder="请输入"></Input>
         </Col>
