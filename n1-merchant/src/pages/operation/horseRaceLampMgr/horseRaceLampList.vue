@@ -352,7 +352,7 @@ export default {
     min-height: 89vh;
     .-p-m-header{
       overflow: hidden;
-      padding: 16px 0;
+      padding-bottom: 16px;
       .g-text-right{
         text-align: right;
       }

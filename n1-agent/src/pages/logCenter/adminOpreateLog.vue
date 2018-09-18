@@ -172,7 +172,7 @@ export default {
   .reload {
   text-align: center;
    line-height: 32px;
-   margin-bottom: 10px;
+  padding-bottom: 16px;
   }
 }
 </style>

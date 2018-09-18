@@ -520,7 +520,7 @@
   .businessRecordList {
     min-height: 89vh;
     .transition-box {
-      padding:16px 0;
+      padding-bottom: 16px;
       text-align: center;
     }
 
@@ -535,7 +535,7 @@
     }
 
     .rebackinfo {
-      padding:16px 0;
+      padding-bottom: 16px;
     }
 
     .playerform {

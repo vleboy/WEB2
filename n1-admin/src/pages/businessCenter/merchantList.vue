@@ -680,15 +680,11 @@ export default {
 .row {
   line-height: 32px;
   text-align: center;
-  padding: 10px 10px;
-}
-.search {
-  // background-color: #f2f2f2;
-  height: 110px;
+  padding-bottom: 16px;
 }
 .option {
   .create {
-    padding-bottom: 15px;
+    padding-bottom: 16px;
   }
 }
 .table {

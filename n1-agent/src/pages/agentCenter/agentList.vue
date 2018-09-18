@@ -1906,7 +1906,7 @@ export default {
   min-height: 89vh;
   .top {
     clear: both;
-    height: 50px;
+    height: 48px;
     .left {
       float: left;
     }

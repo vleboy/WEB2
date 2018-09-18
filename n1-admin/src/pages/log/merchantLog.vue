@@ -203,7 +203,7 @@ export default {
     .row {
       line-height: 32px;
       text-align: center;
-      padding: 10px 10px;
+      padding-bottom: 16px;
       .searchbtn {
         margin-left: 5px;
         margin-right: 5px;

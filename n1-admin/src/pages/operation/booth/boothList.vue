@@ -479,7 +479,6 @@ export default {
   .p-boothList{
     min-height: 89vh;
     .-search{
-      padding: 10px;
       text-align: center
     }
     .-s-text{

@@ -499,7 +499,7 @@ export default {
   min-height: 89vh;
   .head {
     p {
-      margin: 15px auto;
+      padding-bottom: 16px;
       .title {
         font-size: 26px;
         font-weight: bold;

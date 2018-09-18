@@ -321,7 +321,7 @@ export default {
 .player{
     min-height: 89vh;
     .search{
-        margin-bottom: 10px;
+        margin-bottom: 16px;
         .searchLabel{
             padding: 10px;
         }

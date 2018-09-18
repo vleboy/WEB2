@@ -165,7 +165,7 @@ export default {
   .row {
     line-height: 32px;
     text-align: center;
-    padding: 10px 10px;
+    padding-bottom: 16px;
   }
   .btn {
     text-align: right;

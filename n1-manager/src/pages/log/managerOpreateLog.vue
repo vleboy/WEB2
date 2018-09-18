@@ -135,11 +135,10 @@ export default {
 <style lang="less" scoped>
 .opreateLog {
   min-height: 89vh;
-
   .search {
     text-align: right;
       .searchbtn {
-        margin-bottom: 15px;
+        margin-bottom: 16px;
         margin-right: 5px;
       }
   }

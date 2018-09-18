@@ -266,14 +266,14 @@ export default {
   .p-propPrizeList {
     min-height: 89vh;
     .-search{
-      padding: 16px 0;
+      padding-bottom: 16px;
       text-align: center
     }
     .input{
       width: 80%
     }
     .searchResult{
-      padding: 16px 0
+      padding-bottom: 16px;
     }
     .page {
       padding-bottom: 2rem;

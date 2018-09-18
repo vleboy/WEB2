@@ -407,9 +407,6 @@ export default {
 <style scpoed lang="less" type="text/less">
 .p-playerlist {
   min-height: 89vh;
-  .playerform {
-    margin-top: 16px;
-  }
   .propList {
     padding: 1rem 2rem;
   }
@@ -422,7 +419,7 @@ export default {
   .propList-search {
     line-height: 32px;
     text-align: center;
-    padding: 15px 10px;
+    padding-bottom: 16px;
   }
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;

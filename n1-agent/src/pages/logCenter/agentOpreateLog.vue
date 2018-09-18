@@ -216,7 +216,7 @@ export default {
    text-align: center;
    line-height: 32px;
    height: 32px;
-   margin-bottom: 10px;
+   margin-bottom: 16px;
    position: relative;
     .selectText {
      padding-left: 10px;
