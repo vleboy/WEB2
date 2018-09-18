@@ -236,7 +236,7 @@ export default {
       if (value == "") {
         callback(new Error("密码不能为空"));
       } else {
-         if (this.passwordLevel(value) < 2) {
+         if (passwordLevel(value) < 2) {
             callback(new Error("密码中必须包含6-16位由字母、数字、符号中至少两种组成"));
           } else {
             callback();
