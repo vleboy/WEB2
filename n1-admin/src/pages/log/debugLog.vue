@@ -165,7 +165,7 @@ export default {
     }
   }
   .option{
-    margin: 20px auto;
+    padding-bottom: 16px;
   }
 }
 </style>
