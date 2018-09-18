@@ -446,7 +446,7 @@
     .propList-search{
       line-height: 32px;
       text-align: center;
-      padding-bottom: 16px;
+      padding-bottom: 6px;
     }
     .demo-spin-icon-load{
       animation: ani-demo-spin 1s linear infinite;

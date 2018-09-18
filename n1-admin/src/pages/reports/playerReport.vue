@@ -16,13 +16,13 @@
         </div>
       <Table :columns="columns1" :data="player" size="small" ref='table'></Table>
        <Row class="count_row">
-            <Col span="3" offset="15">
+            <Col span="4" offset="12">
             总下注次数: <span class="num">{{allBetCount}}</span>
             </Col>
-            <Col span="3">
+            <Col span="4">
             总下注金额: <span class="num">{{allBetAmount}}</span>
             </Col>
-            <Col span="3">
+            <Col span="4">
             总输赢金额: <span class="num">{{allWinLose}}</span>
             </Col>
         </Row>

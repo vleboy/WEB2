@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="download-n2">
+    <!-- <div class="download-n2">
       <div class="container">
         <h2>代理APP下载</h2>
         <div class="download-desc">
@@ -61,7 +61,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
