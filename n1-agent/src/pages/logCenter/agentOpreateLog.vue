@@ -1,34 +1,22 @@
 <template>
   <div class="agentLog">
     <div class="reload">
-      <Row>
-        <Col span="2" offset="6" v-if="agentLevel==0">操作人</Col>
-        <Col span="4" v-if="agentLevel==0">
-          <Input v-model.trim="userName" placeholder="请输入"></Input>
-        </Col>
+        <span v-if="agentLevel==0">
+          <span class="searchLabel">操作人:</span>
+          <Input v-model.trim="userName" placeholder="请输入" style="width: 200px"></Input>
+          <span class="selectText">代理层级:</span>
+          <Select v-model="level" style="width:200px" placeholder="请选择代理层级" @on-change="changeLevel">
+            <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
+          </Select>
+        </span>
         <!-- <Col span="2">操作类型</Col>
         <Col span="4">
         <Input v-model.trim="opreateType" placeholder="请输入"></Input>
         </Col> -->
-        <Col span="5" v-if="agentLevel==0" :style="{height:'32px'}">
-          <Row >
-            <Col span="8">
-            <span class="selectText">代理层级</span>
-            </Col>
-            <Col span="8">
-            <Select v-model="level" placeholder="请选择代理层级" @on-change="changeLevel">
-              <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
-            </Select>
-            </Col>
-          </Row>
-        </Col>
-        <Col span="5">
-            <div class="btns">
-              <Button type="primary" @click="search" v-if="agentLevel==0">搜索</Button>
-              <Button type="primary" @click="reset">重置</Button>
-            </div>
-        </Col>
-      </Row>
+        <span class="btns">
+          <Button type="primary" @click="search" v-if="agentLevel==0">搜索</Button>
+          <Button type="primary" @click="reset">重置</Button>
+        </span>
     </div>
     <div class="table">
       <Table :columns="columns1" :data="agentLog" size="small"></Table>
@@ -220,13 +208,19 @@ export default {
       margin: 20px;
     }
   }
+  .btns{
+    position: absolute;
+    right: 18px;
+  }
   .reload {
    text-align: center;
-  line-height: 32px;
+   line-height: 32px;
+   height: 32px;
    margin-bottom: 10px;
-    // .selectText {
-    //   line-height: 32px;
-    // }
+   position: relative;
+    .selectText {
+     padding-left: 10px;
+    }
   }
 }
 </style>

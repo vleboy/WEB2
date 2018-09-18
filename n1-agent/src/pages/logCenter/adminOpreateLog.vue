@@ -163,11 +163,6 @@ export default {
 <style lang="less" scoped>
 .adminLog {
   min-height: 89vh;
-  .row {
-    line-height: 32px;
-    text-align: center;
-    padding: 15px 10px;
-  }
   .btn {
     text-align: right;
     .nextpage {
@@ -175,7 +170,9 @@ export default {
     }
   }
   .reload {
-    height: 60px;
+    text-align: center;
+   line-height: 32px;
+   margin-bottom: 10px;
   }
 }
 </style>
