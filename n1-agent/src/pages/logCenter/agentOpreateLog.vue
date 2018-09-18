@@ -2,30 +2,30 @@
   <div class="agentLog">
     <div class="reload">
       <Row>
-         <Col span="2" offset="4" >操作人</Col>
-        <Col span="4">
-        <Input v-model.trim="userName" placeholder="请输入"></Input>
+        <Col span="2" offset="6" v-if="agentLevel==0">操作人</Col>
+        <Col span="4" v-if="agentLevel==0">
+          <Input v-model.trim="userName" placeholder="请输入"></Input>
         </Col>
         <!-- <Col span="2">操作类型</Col>
         <Col span="4">
         <Input v-model.trim="opreateType" placeholder="请输入"></Input>
         </Col> -->
-        <Col span="5" :style="{height:'32px'}">
-        <Row v-if="agentLevel==0">
-          <Col span="8">
-          <span class="selectText">代理层级</span>
-          </Col>
-          <Col span="8">
-          <Select v-model="level" placeholder="请选择代理层级" @on-change="changeLevel">
-            <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
-          </Select>
-          </Col>
-        </Row>
+        <Col span="5" v-if="agentLevel==0" :style="{height:'32px'}">
+          <Row >
+            <Col span="8">
+            <span class="selectText">代理层级</span>
+            </Col>
+            <Col span="8">
+            <Select v-model="level" placeholder="请选择代理层级" @on-change="changeLevel">
+              <Option v-for="item in levelList" :value="item.value" :key="item.value">{{ item.value }}</Option>
+            </Select>
+            </Col>
+          </Row>
         </Col>
         <Col span="5">
             <div class="btns">
-              <Button type="primary" @click="search">搜索</Button>
-              <Button type="ghost" @click="reset">重置</Button>
+              <Button type="primary" @click="search" v-if="agentLevel==0">搜索</Button>
+              <Button type="primary" @click="reset">重置</Button>
             </div>
         </Col>
       </Row>
@@ -198,7 +198,7 @@ export default {
       this.init()
     },
     reset() {
-       this.username=''
+      this.userName=''
       this.opreateType=''
       this.init();
     },
