@@ -165,16 +165,13 @@ export default {
   .row {
     line-height: 32px;
     text-align: center;
-    padding: 15px 10px;
+    padding: 10px 10px;
   }
   .btn {
     text-align: right;
     .nextpage {
       margin: 20px;
     }
-  }
-  .reload {
-       height: 60px;
   }
 }
 </style>

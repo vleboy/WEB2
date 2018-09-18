@@ -170,7 +170,7 @@ export default {
     }
   }
   .reload {
-    text-align: center;
+  text-align: center;
    line-height: 32px;
    margin-bottom: 10px;
   }
