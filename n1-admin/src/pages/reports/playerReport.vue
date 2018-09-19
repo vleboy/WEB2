@@ -248,9 +248,6 @@ export default {
        },
        getPlayerList(gameList){
             this.spinShow=true;
-            this.allBetCount=0
-            this.allBetAmount=0
-            this.allWinLose=0
             httpRequest('post','/queryRealPlayerStat',{
                gameType:gameList,
                query:{
@@ -261,17 +258,23 @@ export default {
                if(res.code==0){
                    let list=res.payload
                    this.player=list
-                   for(let item of list){
-                       this.allBetCount+=item.betCount;
-                       this.allBetAmount+=item.betAmount;
-                       this.allWinLose+=item.winloseAmount;
-                   }
-                   this.allBetAmount=this.allBetAmount.toFixed(2)
-                   this.allWinLose=this.allWinLose.toFixed(2)
+                   this.getAllCount(list)
                }
            }).finally(()=>{
                this.spinShow=false
            })
+       },
+       getAllCount(list){
+        this.allBetCount=0
+        this.allBetAmount=0
+        this.allWinLose=0
+        for(let item of list){
+            this.allBetCount+=item.betCount;
+            this.allBetAmount+=item.betAmount;
+            this.allWinLose+=item.winloseAmount;
+        }
+        this.allBetAmount=+(this.allBetAmount).toFixed(2)
+        this.allWinLose=+(this.allWinLose).toFixed(2)
        },
        getGames(){
             httpRequest('post','/gameType',{},'game').then(res=>{
@@ -300,10 +303,13 @@ export default {
         }
        },
        hideTest(v){
+           this.spinShow=true;
            let player=this.player;
            const notTest=player.filter(item=> item.isTest==0)
            if(v==true){
                this.player=notTest
+               this.getAllCount(notTest)
+               this.spinShow=false;
            }else{
                this.getPlayerList(this.gameType)
            }
