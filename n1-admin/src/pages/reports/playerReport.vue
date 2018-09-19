@@ -1,14 +1,14 @@
 <template>
     <div class="player">
         <div class="search">
-          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="confirm"></DatePicker>
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
             <span class="searchLabel">所属标识:</span>
             <Input v-model.trim="parent" placeholder="所属标识" style="width: 200px"></Input>
             <span class="searchLabel">请选择游戏:</span>
-           <Select style="width:200px" @on-change='changeGame' v-model="game">
+           <Select style="width:200px" @on-change='search' v-model="game">
             <Option v-for="(item,index) in selectOption" :value="item.code" :key="index">{{ item.name }}</Option>
             </Select>
-             <Checkbox v-model="isTest" :style="{marginLeft:'10px',fontSize:'14px'}" @on-change="hideTest">隐藏测试</Checkbox>
+             <Checkbox v-model="isTest" :style="{marginLeft:'10px',fontSize:'14px'}" @on-change="search">隐藏测试</Checkbox>
           <span class="btn">
           <Button type="primary" @click="search">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
@@ -54,8 +54,8 @@ export default {
             allWinLose:0,
             selectOption:[],
             game:'-1',
-            isTest:false,
             parent:'',
+            isTest:true,
             gameType: [
                 3,
                 30000,
@@ -234,18 +234,18 @@ export default {
             this.defaultTime = [new Date(time[0]), new Date(time[1])];
             return time;
             },
+            test(){
+                return this.isTest ? 0: 2
+            }
     },
     watch:{
 
     },
     created(){
         this.getGames()
-        this.init(this.gameType)
+        this.getPlayerList(this.gameType)
     },
     methods:{
-       init(gameList){
-           this.getPlayerList(gameList)
-       },
        getPlayerList(gameList){
             this.spinShow=true;
             httpRequest('post','/queryRealPlayerStat',{
@@ -253,7 +253,8 @@ export default {
                query:{
                   createdAt:this.changedTime,
                   parent:this.parent
-               }
+               },
+               isTest:this.test
            }).then(res=>{
                if(res.code==0){
                    let list=res.payload
@@ -287,38 +288,21 @@ export default {
                }
            })
        },
-       changeGame(){
-           this.search()
-       },
-       confirm(){
-        this.init(this.gameType)
-       },
        search(){
         if(this.game!='' && +this.game>0){
             let list=[];
             list.push(this.game)
-            this.init(list)
+            this.getPlayerList(list)
         }else{
-             this.init(this.gameType)
+             this.getPlayerList(this.gameType)
         }
-       },
-       hideTest(val){
-           this.spinShow=true;
-           let player=this.player;
-           const notTest=player.filter(item=> item.isTest==0)
-           if(val==true){
-               this.player=notTest
-               this.getAllCount(notTest)
-               this.spinShow=false;
-           }else{
-               this.getPlayerList(this.gameType)
-           }
        },
        reset(){
         this.defaultTime = getDefaultTime();
         this.game='-1';
-        this.parent=''
-        this.init(this.gameType)
+        this.parent='';
+        this.isTest=true
+        this.getPlayerList(this.gameType)
        }
     }
 }

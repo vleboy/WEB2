@@ -368,7 +368,6 @@ export default {
           this.$store.commit('savePriceNormalCount',{params:normal.totalPay})
     },
     getFreeSelect(item){
-      console.log(item);
       let freeSelectData=[]
       for(let[key,val] of Object.entries(item)){
               freeSelectData.push({
