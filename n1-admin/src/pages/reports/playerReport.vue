@@ -299,14 +299,14 @@ export default {
             list.push(this.game)
             this.init(list)
         }else{
-        this.init(this.gameType)
+             this.init(this.gameType)
         }
        },
-       hideTest(v){
+       hideTest(val){
            this.spinShow=true;
            let player=this.player;
            const notTest=player.filter(item=> item.isTest==0)
-           if(v==true){
+           if(val==true){
                this.player=notTest
                this.getAllCount(notTest)
                this.spinShow=false;

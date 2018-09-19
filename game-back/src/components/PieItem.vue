@@ -1,6 +1,6 @@
 <template>
     <div class="pieItem">
-        <p class="title">{{title}} <span class="count" v-if="count>0">{{count|format}}</span></p>
+        <p class="title">{{title}} <span class="count">{{count|format}}</span></p>
         <div class="piechart" :id="'pieitem'+pieId"></div>
     </div>
 </template>
@@ -11,7 +11,7 @@ export default {
     components:{},
     filters:{
         format(v){
-            return '¥'+thousandFormatter(v)
+            return thousandFormatter(v)
         }
     },
     props:{

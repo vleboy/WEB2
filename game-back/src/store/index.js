@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
         priceFreeCount:0,
         priceFreeData:[],
         freeChooseData:[],
+        freeSelectCount:0,
         profitHourTodayArr:[],
         profitHourAvArr:[],
         betHourTodayArr:[],
@@ -44,6 +45,9 @@ export const store = new Vuex.Store({
     savePriceFreeCount(state,{params}){
         state.priceFreeCount=params;
         },
+    saveFreeSelectCount(state,{params}){
+        state.freeSelectCount=params
+    },
     savePriceFreeData(state,{params}){
         state.priceFreeData=params
         },

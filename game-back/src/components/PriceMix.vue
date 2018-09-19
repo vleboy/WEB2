@@ -22,7 +22,7 @@
             <Col span="12">
                 <pie-item 
                     title="免费模式—选择次数"
-                    :count="-1"
+                    :count="freeSelectCount"
                     pieId="3"
                     :data="freeChooseData"
                 />
@@ -63,7 +63,7 @@ export default {
         }
     },
     computed:{
-    ...mapState(["priceNormalCount","priceNormalData","priceFreeCount","priceFreeData","freeChooseData"]),
+    ...mapState(["priceNormalCount","priceNormalData","priceFreeCount","priceFreeData","freeChooseData","freeSelectCount"]),
     },
     watch:{
 

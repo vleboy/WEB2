@@ -368,6 +368,7 @@ export default {
           this.$store.commit('savePriceNormalCount',{params:normal.totalPay})
     },
     getFreeSelect(item){
+      console.log(item);
       let freeSelectData=[]
       for(let[key,val] of Object.entries(item)){
               freeSelectData.push({
@@ -380,6 +381,7 @@ export default {
               })
           }
       this.$store.commit('saveFreeChooseData',{params:freeSelectData})
+      this.$store.commit('saveFreeSelectCount',{params:item.selectCount})
     },
     getHourChart(item){
       this.$store.commit('saveProfitHourTodayArr',{params:item.today.earn})
