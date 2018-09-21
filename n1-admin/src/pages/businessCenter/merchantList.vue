@@ -549,7 +549,7 @@ export default {
     },
     changeOption(id) {
       this.disabled = false;
-      if (id != "") {
+      if (id) {
         this.$store.dispatch("otherBill", id);
       }
     },
