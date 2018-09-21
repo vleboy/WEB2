@@ -2,9 +2,9 @@
   <div class="basic">
     <div class="search clear">
       <div class="left">
-        <Input v-model="acount" placeholder="输入账号" style="width: 200px"></Input>
+        <!-- <Input v-model="acount" placeholder="输入账号" style="width: 200px"></Input>
         <Input v-model="id" placeholder="输入ID" style="width: 200px"></Input>
-        <Button type="primary" @click="search">搜索</Button>
+        <Button type="primary" @click="search">搜索</Button> -->
       </div>
        <div class="right">
             <RadioGroup v-model="source" type="button" @on-change='changeSource'>

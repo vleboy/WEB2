@@ -6,7 +6,7 @@
         <div class="tags-con">
           <tag-close :pageTagsList="pageTagsList" />
         </div>
-        <div class="user-dropdown-menu-con">
+        <!-- <div class="user-dropdown-menu-con">
           <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
             <Avatar icon="md-person" size="small" style="background: #619fe7;margin-right: 8px;"></Avatar>
             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
@@ -19,7 +19,7 @@
               </DropdownMenu>
             </Dropdown>
           </Row>
-        </div>
+        </div> -->
       </Header>
       <Content>
         <Card :style="{backgroundColor:'#f5f5f5'}">
