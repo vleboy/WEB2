@@ -206,8 +206,6 @@
 import {
   checkExit,
   gameBigType,
-  msnRandom,
-  checkMsn,
   oneManagers
 } from "@/service/index";
 import _ from "lodash";
