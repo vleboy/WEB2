@@ -19,6 +19,7 @@ import nacard from '@/pages/reports/naCardGame'
 import nastreet from '@/pages/reports/naStreetGame'
 import naFishing from '@/pages/reports/naFishing'
 import natrue from '@/pages/reports/naTrueGame'
+import nahfive from '@/pages/reports/nahfive'
 import navideo from '@/pages/reports/naVideoGame'
 import naAll from '@/pages/reports/naAllReport'
 import saAll from '@/pages/reports/saAllReport'
@@ -116,6 +117,7 @@ export const appRouter = [
             {path:'street',title:'NA街机游戏报表',name:'nastreet',component:nastreet},
             {path:'true',title:'NA真人游戏报表',name:'natrue',component:natrue},
             {path:'video',title:'NA电子游戏报表',name:'navideo',component:navideo},
+            {path:'hfive',title:'NA电子H5报表',name:'nahfive',component:nahfive},
             {path:'all',title:'NA游戏总报表',name:'naAll',component:naAll},
             {path:'fishing',title:'NA捕鱼游戏报表',name:'nafishing',component:naFishing},
         ]

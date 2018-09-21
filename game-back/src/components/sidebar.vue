@@ -33,9 +33,9 @@
                 <MenuItem name="mysterySea">
                     <span>神秘海域</span>
                 </MenuItem>
-                <MenuItem name="sepcialCount">
+                <!-- <MenuItem name="sepcialCount">
                     <span>特殊统计</span>
-                </MenuItem>
+                </MenuItem> -->
             </Menu>
         </Sider>
     </div>

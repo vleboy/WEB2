@@ -11,7 +11,7 @@ export default {
     components:{},
     filters:{
         format(v){
-            return thousandFormatter(v)
+            return v.toLocaleString()
         }
     },
     props:{

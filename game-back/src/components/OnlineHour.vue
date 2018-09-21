@@ -65,7 +65,7 @@ export default {
                 let name=this.gameName(key);
                 this.OnlineList.push({
                     name,
-                    percent:val/(60*24),
+                    percent:(val/(60*24))*100,
                     hour:val
                 })
             }

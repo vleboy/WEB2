@@ -63,7 +63,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       source: "1",
-      gameType: [10000, 30000, 40000, 50000,60000],
+      gameType: [10000, 30000, 40000, 50000,60000,70000],
       // option: {
       //   disabledDate(date) {
       //     return date && date.valueOf() > Date.now() - 180000;
@@ -634,6 +634,98 @@ export default {
               return h("span", thousandFormatter(mixAmount));
             }
           }
+        },
+         {
+          title: "NA电子h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "70000") {
+                  count += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.level == 0) {
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count.toFixed(2))
+              );
+            } else {
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  winloseAmount = params.row.gameTypeMap[
+                    "70000"
+                  ].winloseAmount.toFixed(2);
+                }
+              }
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(winloseAmount)
+              );
+            }
+          }
+        },
+        {
+          title: "NA电子h5(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              return h("span", "0.00");
+            } else {
+              let submitAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  submitAmount = params.row.gameTypeMap[
+                    "70000"
+                  ].submitAmount.toFixed(2);
+                }
+              }
+              return h("span", thousandFormatter(submitAmount));
+            }
+          }
+        },
+        {
+          title: "NA电子h5(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "70000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(count));
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  mixAmount = params.row.gameTypeMap["70000"].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
+            }
+          }
         }
       ],
       columns2: [
@@ -778,6 +870,42 @@ export default {
             let count = 0;
             for (let key in obj) {
               if (key == "50000") {
+                count += obj[key].mixAmount;
+              }
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
+        {
+          title: "NA电子h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["70000"] != undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "70000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA电子h5(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "70000") {
                 count += obj[key].mixAmount;
               }
             }
