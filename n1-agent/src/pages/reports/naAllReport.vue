@@ -1080,6 +1080,7 @@ export default {
 <style lang="less" scoped>
 .naAll {
   min-height: 90vh;
+  width: 150%;
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;
