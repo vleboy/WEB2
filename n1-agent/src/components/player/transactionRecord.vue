@@ -57,7 +57,7 @@
         </Col>
       </Row>
     </div>
-    <playerRecharge v-if="isOpenModal" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
+    <playerRecharge v-if="isOpenModal" ref="childMethod" @updateInfo="updatePlayerInfo" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
     <Modal title="战绩详细" v-model="isOpenModalBill" class="g-text-center"  width="940" cancel-text="">
       <!--<OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>-->
       <RealLifeModal ref="childMethod" v-if="isRealLife" :dataProp="propChild"></RealLifeModal>
@@ -260,6 +260,9 @@
           this.playerDetailListStorage = JSON.parse(JSON.stringify(this.playerDetailList))
           this.getTransactionRecord()
         }
+      },
+      updatePlayerInfo(){
+        this.$emit('updateBalance')
       },
       openModal (bool) {
         this.isOpenModal = true

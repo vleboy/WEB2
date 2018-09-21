@@ -54,7 +54,7 @@
       </RadioGroup>
       <div class="-c-info">
         <playerRunningAccount ref="childMethod" v-if="reportType==1"></playerRunningAccount>
-        <transactionRecord :dataProp="playerDetailInfo"  v-else></transactionRecord>
+        <transactionRecord :dataProp="playerDetailInfo" @updateBalance="getPlayerDetail"  v-else></transactionRecord>
       </div>
     </div>
     <Spin size="large" fix v-if="isFetching">

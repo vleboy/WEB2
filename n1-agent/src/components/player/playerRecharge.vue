@@ -103,8 +103,9 @@
             if(result.code == '0') {
               this.$Message.success('提交成功')
               this.isSuccess = true
-              setTimeout(function () {
-                this.isOpenModalChild = false
+              setTimeout(()=> {
+                this.isOpenModalChild = false;
+                this.$emit('updateInfo')
               },1000)
             }
           }
