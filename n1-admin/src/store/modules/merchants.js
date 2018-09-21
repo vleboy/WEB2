@@ -49,12 +49,6 @@ export const merchants = {
             if(res.code==0){
                 Message.success('操作成功');
                 //刷新
-                dispatch("getManagerList", {
-                    query: {
-                    },
-                    sortkey: "createdAt",
-                    sort: "desc"
-                  });
             }
         })
        },
@@ -63,12 +57,6 @@ export const merchants = {
             if(res.code==0){
                 Message.success('操作成功');
                 //刷新
-                dispatch("getMerchantsList", {
-                    query: {
-                    },
-                    sortkey: "createdAt",
-                    sort: "desc"
-                  });
             }
         })
        }

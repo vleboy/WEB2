@@ -1616,7 +1616,7 @@ export default {
       if (this.playerPoint == false) {//代理加点
         this.$store
           .dispatch("transferBill", {
-            amount: this.point,
+            amount: this.point||0,
             fromUserId: this.fromUserId,
             toRole: this.toRole,
             toUser: this.toUser,
@@ -1653,7 +1653,7 @@ export default {
         if (this.plus == true) {
           this.$store
             .dispatch("playAddBill", {
-              amount: this.point,
+              amount: this.point||0,
               fromUserId: this.fromUserId,
               remark: this.remark,
               toUser: this.toUser
@@ -1666,7 +1666,7 @@ export default {
             });
         } else {
           this.$store.dispatch("playReduceBill", {
-            amount: this.point,
+            amount: this.point||0,
             fromUserId: this.fromUserId,
             remark: this.remark,
             toUser: this.toUser
@@ -1873,7 +1873,7 @@ export default {
       return this.$store.state.agent.agentList;
     },
     level() {
-      return JSON.parse(localStorage.getItem("userInfo")).level;
+      return localStorage.level
     },
     playerList() {
       return this.$store.state.agent.playerList;

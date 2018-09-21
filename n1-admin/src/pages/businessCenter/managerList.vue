@@ -515,16 +515,18 @@ export default {
           }
         }
       }
+     
       // console.log(this.toRole, this.select);
       this.$store
         .dispatch("transferBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,
           toUser: this.toUser,
-          amount: this.point,
+          amount: this.point||0,
           remark: this.note
         })
         .then(() => {
+          this.init()
           this.select = "";
           this.note = "";
           this.point = "";
