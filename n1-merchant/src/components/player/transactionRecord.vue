@@ -30,7 +30,7 @@
           <Button type="primary" @click="exportData">导出数据</Button>
         </Col>
         <Col span="7">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span>
+          <!-- <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span> -->
           <Button type="text" @click="resultGetPlayerDetail">刷新</Button>
         </Col>
       </Row>
@@ -108,7 +108,7 @@
         playerDetailList: [],
         playerDetailListStorage: [],
         playerDetailStartKey: '',
-        balance: '',
+        // balance: '',
         betId: '',
         propChild: {},
         runningDetail: {},
@@ -318,7 +318,7 @@
           result => {
             this.isLastMessage = result.list < this.pageSize
             this.playerDetailList = result.list
-            this.balance = result.balance
+            // this.balance = result.balance
             this.playerDetailStartKey = result.startKey
             this.playerDetailListStorage.length && (this.playerDetailList = this.playerDetailListStorage.concat(this.playerDetailList))
             this.isFetching = false
