@@ -76,7 +76,7 @@ export default {
     return {
       modal: false,
       password: "",
-      showPass:false,
+      showPass: false,
       repassword: "",
       dayjs: dayjs,
       pageSize: 50,
@@ -92,7 +92,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          sortable:true,
+          sortable: true,
           minWidth: 100,
           render: (h, params) => {
             return h(
@@ -123,26 +123,57 @@ export default {
         {
           title: "交易类型",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let row = params.row;
-            if (row.amount > 0) {
-              return h(
-                "span",
-                "减点"
-              );
+            if (row.fromLevel > row.toLevel) {
+              return h("span", "减点");
             } else {
-              return h(
-                "span",
-                "加点"
-              );
+              return h("span", "加点");
             }
+            // let currentLevel = JSON.parse(localStorage.userInfo).level;
+            // // 自己是目的账户
+            // if (currentLevel == row.toLevel) {
+            //   // 自己是目的账户，自己的等级高
+            //   if (row.fromLevel > row.toLevel) {
+            //     if (row.amount > 0) {
+            //       return h("span", "减点"); // 自己是目的账户，自己的等级高，自己的点数增加（自己减别人的点）
+            //     } else {
+            //       return h("span", "加点"); // 自己是目的账户，自己的等级高，自己的点数减少（自己给别人加点）
+            //     }
+            //   } else {
+            //     // 自己是目的账户，自己的等级低
+            //     if (row.amount > 0) {
+            //       return h("span", "加点"); // 自己是目的账户，自己的等级低，自己的点数增加（别人给自己加点）
+            //     } else {
+            //       return h("span", "减点"); // 自己是目的账户，自己的等级低，自己的点数减少（别人给自己减点）
+            //     }
+            //   }
+            // }
+            // // 自己是发起账户
+            // else {
+            //   // 自己是发起账户，自己的等级低
+            //   if (row.fromLevel > row.toLevel) {
+            //     if (row.amount > 0) {
+            //       return h("span", "加点"); // 自己是发起账户，自己的等级低，自己的点数增加（别人给自己加点）
+            //     } else {
+            //       return h("span", "减点"); // 自己是发起账户，自己的等级低，自己的点数减少（别人给自己减点）
+            //     }
+            //   } else {
+            //     // 自己是发起账户，自己的等级高
+            //     if (row.amount > 0) {
+            //       return h("span", "减点"); // 自己是发起账户，自己的等级高，自己的点数增加（自己减别人的点）
+            //     } else {
+            //       return h("span", "加点"); // 自己是发起账户，自己的等级高，自己的点数减少（自己给别人加点）
+            //     }
+            //   }
+            // }
           }
         },
         {
           title: "交易前余额",
           key: "oldBalance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.oldBalance));
           }
@@ -150,7 +181,7 @@ export default {
         {
           title: "交易点数",
           key: "amount",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             let color = params.row.amount < 0 ? "#f30" : "#0c0";
             return h(
@@ -167,7 +198,7 @@ export default {
         {
           title: "交易后余额",
           key: "balance",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", thousandFormatter(params.row.balance));
           }
@@ -175,7 +206,7 @@ export default {
         {
           title: "操作人",
           key: "operator",
-          sortable:true,
+          sortable: true,
           render: (h, params) => {
             return h("span", params.row.operator.split("_")[1]);
           }
