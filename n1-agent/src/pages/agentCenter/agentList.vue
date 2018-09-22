@@ -816,6 +816,7 @@ export default {
                               params.row.parentDisplayName +
                               "】" +
                               params.row.parentName;
+                            this.parent=params.row.parent;
                             this.fromUserId = params.row.userId;
                             this.toRole = params.row.parentRole;
                             this.toUser = params.row.parentName;
@@ -1628,7 +1629,7 @@ export default {
               this.$store.dispatch("getAgentList", params);
               this.point = "";
               this.remark = "";
-            }, 100);
+            }, 150);
            }else{
              params.parent=this.parent;
                setTimeout(()=>{
