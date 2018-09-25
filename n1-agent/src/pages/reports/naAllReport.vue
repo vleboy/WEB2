@@ -1079,7 +1079,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .naAll {
-  min-height: 90vh;
+  min-height: 87vh;
   width: 150%;
   .title {
     font-size: 1.2rem;
