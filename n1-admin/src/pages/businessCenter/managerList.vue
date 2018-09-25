@@ -560,7 +560,7 @@ export default {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
     createLine() {
-      this.$router.push({ name: "addDealer" });
+      this.$router.push({ name: "addManager" });
     },
     reset() {
       this.suffix = "";
