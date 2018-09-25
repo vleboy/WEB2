@@ -1,7 +1,7 @@
 <template>
   <div class="warn">
     <div class="head">
-      <p>
+      <div class="left">
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
         <RadioGroup v-if="level==0" v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
@@ -9,10 +9,14 @@
           <Radio label="1">测试</Radio>
           <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
         </RadioGroup>
-        <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
-      </p>
-      <Table :columns="columns" :data="warnList" size="small"></Table>
+      </div>
+      <div class="search">
+      <Input v-model.trim="sn" placeholder="请输入SN" style="width: 150px"></Input>
+      <Button type="primary" @click="searchSn">搜索</Button>
+      <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
+      </div>
     </div>
+      <Table :columns="columns" :data="warnList" size="small"></Table>
     <div class="childLists" v-for="(item,index) in childList" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
@@ -67,6 +71,7 @@ export default {
       gameType: "",
       opreate: null,
       userId: "",
+      sn:'',
       role: "", //
       spinShow: false,
       topAmount: null,
@@ -391,10 +396,17 @@ export default {
       let level = userInfo.level;
       let params = {};
       if (level == 0) {
-        params = { parent: "01", isTest: +this.source };
+        params = { parent: "01", isTest: +this.source, query:{
+          sn:this.sn
+        } };
       } else {
         this.source=2
-        params = { parent: userId,isTest: +this.source };
+        params = { parent: userId,
+        isTest: +this.source,
+        query:{
+          sn:this.sn
+        }
+        };
       }
       let req1 = configOne({
         code: "roundLast"
@@ -416,10 +428,14 @@ export default {
     changeSource(value) {
       this.init();
     },
+    searchSn(){
+      this.init()
+    },
     reset() {
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
+      this.sn=''
       this.init();
     },
     changePoint() {
@@ -498,8 +514,10 @@ export default {
 .warn {
   min-height: 89vh;
   .head {
-    p {
-      padding-bottom: 16px;
+    overflow: hidden;
+    padding-bottom: 12px;
+    .left {
+      float: left;
       .title {
         font-size: 26px;
         font-weight: bold;
@@ -507,11 +525,14 @@ export default {
       .endtime {
         font-size: 16px;
       }
-      .searchbtn {
-        float: right;
+    }
+    .search{
+    float: right;
+    line-height: 40px;
+     .searchbtn {
         margin-right: 10px;
       }
-    }
+  }
   }
 }
 .red {

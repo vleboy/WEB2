@@ -1612,6 +1612,7 @@ export default {
         sortkey: "createdAt"
       };
       let userInfo=this.userInfo[0];
+      let userId=localStorage.userId
       if (this.level != 0) {
         params.isTest = 0;
       }
@@ -1631,6 +1632,14 @@ export default {
            if(parent==this.parent){//第一级
               setTimeout(() => {
               this.$store.dispatch("getAgentList", params);
+               agentOne(userId).then(res => {
+                if (res.code == 0) {
+                  let arr = [];
+                  res.payload.current=true
+                  arr.push(res.payload);
+                  this.userInfo = arr;
+                }
+              });
               this.point = "";
               this.remark = "";
             }, 150);

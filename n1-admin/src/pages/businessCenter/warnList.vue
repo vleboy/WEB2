@@ -1,7 +1,7 @@
 <template>
   <div class="warn">
     <div class="head">
-      <p>
+      <div class="left">
         <span class="title">管理员直管接入商 </span>
         <span class="endtime">统计截止时间:{{countTime}}</span>
         <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
@@ -9,8 +9,12 @@
           <Radio label="1">测试</Radio>
           <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
         </RadioGroup>
+      </div>
+       <div class="search">
+        <Input v-model.trim="sn" placeholder="请输入SN" style="width: 150px"></Input>
+        <Button type="primary" @click="searchSn">搜索</Button>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
-      </p>
+      </div>
       <Table :columns="columns" :data="warnList" size="small"></Table>
     </div>
     <div class="childLists" v-for="(item,index) in childList" :key="index">
@@ -66,6 +70,7 @@ export default {
       userId: "",
       role: "", //
       source: "1",
+      sn:'',
       spinShow: false,
       topAmount: null,
       winloseAmount: null,
@@ -467,7 +472,9 @@ export default {
       let req1 = configOne({
         code: "roundLast"
       });
-      let params = { parent: "01", isTest: +this.source };
+      let params = { parent: "01", isTest: +this.source,query:{
+          sn:this.sn
+        } };
       let req2 = queryUserStat(params);
       let [config, userStat] = await this.axios.all([req1, req2]);
       if (config && config.code == 0) {
@@ -485,10 +492,14 @@ export default {
     changeSource(value) {
       this.init();
     },
+     searchSn(){
+      this.init()
+    },
     reset() {
       if (this.permission.includes("正式数据")) {
         this.source = '0';
       }
+      this.sn=''
       this.init();
     },
     changePoint() {
@@ -564,8 +575,10 @@ export default {
 .warn {
   min-height: 89vh;
   .head {
-    p {
-      padding-bottom: 16px;
+    overflow: hidden;
+    padding-bottom: 12px;
+    .left {
+      float: left;
       .title {
         font-size: 26px;
         font-weight: bold;
@@ -573,11 +586,14 @@ export default {
       .endtime {
         font-size: 16px;
       }
-      .searchbtn {
-        float: right;
+    }
+    .search{
+    float: right;
+    line-height: 40px;
+     .searchbtn {
         margin-right: 10px;
       }
-    }
+   }
   }
 }
 .red {
