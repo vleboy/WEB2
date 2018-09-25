@@ -394,19 +394,20 @@ export default {
       let userInfo = JSON.parse(localStorage.getItem("userInfo"));
       let userId = userInfo.userId;
       let level = userInfo.level;
-      let params = {};
-      if (level == 0) {
-        params = { parent: "01", isTest: +this.source, query:{
-          sn:this.sn
-        } };
-      } else {
-        this.source=2
-        params = { parent: userId,
-        isTest: +this.source,
-        query:{
-          sn:this.sn
-        }
+      let params ={
+          isTest: +this.source,
+          query:{
+            sn:this.sn
+          }
         };
+      if (level == 0) {
+        params.parent='01'
+      } else {
+        this.source=2;
+        params.parent=userId
+      }
+      if(!this.sn){
+        delete params.query
       }
       let req1 = configOne({
         code: "roundLast"

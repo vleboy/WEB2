@@ -475,6 +475,9 @@ export default {
       let params = { parent: "01", isTest: +this.source,query:{
           sn:this.sn
         } };
+      if(!this.sn){
+        delete params.query
+      }
       let req2 = queryUserStat(params);
       let [config, userStat] = await this.axios.all([req1, req2]);
       if (config && config.code == 0) {
