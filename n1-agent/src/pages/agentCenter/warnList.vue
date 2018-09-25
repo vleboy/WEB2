@@ -396,9 +396,7 @@ export default {
       let level = userInfo.level;
       let params ={
           isTest: +this.source,
-          query:{
-            sn:this.sn
-          }
+          sn:this.sn
         };
       if (level == 0) {
         params.parent='01'
@@ -407,7 +405,7 @@ export default {
         params.parent=userId
       }
       if(!this.sn){
-        delete params.query
+        delete params.sn
       }
       let req1 = configOne({
         code: "roundLast"

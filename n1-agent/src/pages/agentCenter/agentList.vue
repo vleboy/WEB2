@@ -1571,7 +1571,7 @@ export default {
                 this.$Message.success("创建成功");
                 if (this.admin) {
                   this.$store.dispatch("getAgentList",params);
-                 agentOne(userId).then(res => {
+                  agentOne(userId).then(res => {
                   if (res.code == 0) {
                     let arr = [];
                     res.payload.current=true

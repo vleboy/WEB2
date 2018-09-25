@@ -472,11 +472,9 @@ export default {
       let req1 = configOne({
         code: "roundLast"
       });
-      let params = { parent: "01", isTest: +this.source,query:{
-          sn:this.sn
-        } };
+      let params = { parent: "01", isTest: +this.source,sn:this.sn };
       if(!this.sn){
-        delete params.query
+        delete params.sn
       }
       let req2 = queryUserStat(params);
       let [config, userStat] = await this.axios.all([req1, req2]);
