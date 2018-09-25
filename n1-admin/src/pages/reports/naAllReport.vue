@@ -843,7 +843,8 @@ export default {
   .top {
     clear: both;
     .right {
-      float: right;
+      display: inline-block;
+      padding-left: 20px;
     }
   }
   .demo-spin-icon-load {
