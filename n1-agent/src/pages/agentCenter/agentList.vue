@@ -1477,13 +1477,12 @@ export default {
       }
     },
     selectGame(o) {
+      let parentGameList = this.parentGameList;
+      let maxMix = null;
       if (this.agent.game) {
         this.selected = true;
         this.game = o.label;
         this.code = o.value;
-      }
-      let parentGameList = this.parentGameList;
-      let maxMix = null;
       if (parentGameList.length > 0) {
         for (let item of parentGameList) {
           if (item.code == o.value) {
@@ -1493,6 +1492,7 @@ export default {
         }
       } else {
         this.tipContent = `上级游戏洗码比为:1`;
+      }
       }
     },
     addGame() {
@@ -1700,7 +1700,7 @@ export default {
       this.playerPoint = false;
       this.maxBalance = "上级代理余额为:";
     },
-    changeSource(value) {
+    changeSource() {
       this.init();
       this.agentChild = [];
       this.$store.commit("changePlayer", { params: [] });

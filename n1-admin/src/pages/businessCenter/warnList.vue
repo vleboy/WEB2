@@ -15,8 +15,8 @@
         <Button type="primary" @click="searchSn">搜索</Button>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </div>
-      <Table :columns="columns" :data="warnList" size="small"></Table>
     </div>
+    <Table :columns="columns" :data="warnList" size="small"></Table>
     <div class="childLists" v-for="(item,index) in childList" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
