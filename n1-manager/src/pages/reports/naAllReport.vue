@@ -710,7 +710,6 @@ export default {
     display: inline-block;
   }
   .top {
-    clear: both;
     .right {
       display: inline-block;
       padding-left: 20px;
