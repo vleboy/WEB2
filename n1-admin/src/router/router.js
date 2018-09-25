@@ -90,7 +90,7 @@ export const otherRouter = {
         { path: 'addAdmin', name: 'addAdmin',title:'新增管理员', component: addAdmin},
         { path: 'createRole', name: 'createRole',title:'创建新角色', component: createRole},
         { path: 'addMerchant', name: 'addMerchant',title:'创建商户', component: addMerchant},
-        { path: 'addManager', name: 'addDealer',title:'创建线路商', component: addManager},
+        { path: 'addManager', name: 'addManager',title:'创建线路商', component: addManager},
         { path: 'dealerDetail', name: 'dealerDetail',title:'线路商详情', component: managerDetail},
         { path: 'merchantDetail', name: 'merchantDetail',title:'商户详情', component: merchantDetail},
         { path: 'detail', name:'playDetail', title:'玩家详情',  meta: {keepAlive: true}, component:playerDetail},
