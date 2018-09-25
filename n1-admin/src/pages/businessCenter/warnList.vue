@@ -11,7 +11,7 @@
         </RadioGroup>
       </div>
        <div class="search">
-        <Input v-model.trim="sn" placeholder="请输入SN" style="width: 150px"></Input>
+        <Input v-model.trim="sn" placeholder="请输入接入商标识" style="width: 150px"></Input>
         <Button type="primary" @click="searchSn">搜索</Button>
         <Button type="primary" class="searchbtn" @click="reset">刷新</Button>
       </div>
