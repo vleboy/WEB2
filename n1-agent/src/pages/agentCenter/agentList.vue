@@ -1569,8 +1569,8 @@ export default {
             .then(res => {
               if (res.code == 0) {
                 this.$Message.success("创建成功");
+                this.$store.dispatch("getAgentList",params);
                 if (this.admin) {
-                  this.$store.dispatch("getAgentList",params);
                   agentOne(userId).then(res => {
                   if (res.code == 0) {
                     let arr = [];
