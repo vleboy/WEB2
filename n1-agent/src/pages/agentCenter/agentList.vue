@@ -1611,8 +1611,12 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
+      let userInfo=this.userInfo[0];
       if (this.level != 0) {
         params.isTest = 0;
+      }
+      if (userInfo.isTest==1){
+        params.isTest = 1;
       }
       if (this.playerPoint == false) {//代理加点
         this.$store
