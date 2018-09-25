@@ -1543,6 +1543,7 @@ export default {
         let params={
                     parent,
                     query: {},
+                    isTest: +this.source,
                     sort: "desc",
                     sortkey: "createdAt"
                   }
@@ -1571,6 +1572,14 @@ export default {
                 if (this.admin) {
                   this.$store.dispatch("getAgentList",params);
                 }
+                 agentOne(userId).then(res => {
+                  if (res.code == 0) {
+                    let arr = [];
+                    res.payload.current=true
+                    arr.push(res.payload);
+                    this.userInfo = arr;
+                  }
+                });
                 this.resetAgent();
               }
             })
