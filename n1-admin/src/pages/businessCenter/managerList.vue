@@ -548,11 +548,11 @@ export default {
     //     this.showData = this.waterfall.slice(0, 50);
     //   }
     // },
-    changeOption(id) {
-      this.disabled = false;
+    async changeOption(id) {
       if(this.plus){
         if (id) {
-          this.$store.dispatch("otherBill", id);
+          await this.$store.dispatch("otherBill", id);
+          this.disabled = false;  
         }
       }
     },

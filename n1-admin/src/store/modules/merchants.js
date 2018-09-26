@@ -36,7 +36,7 @@ export const merchants = {
             commit('changeLoading',{params:false})
          })
        },
-       otherBill({commit},id){
+       async otherBill({commit},id){
         getBill(id).then(res=>{
             commit('updateBill',{params:res.payload.balance})
         })
