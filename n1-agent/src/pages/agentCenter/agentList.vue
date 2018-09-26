@@ -65,12 +65,22 @@
             <Input type="text" v-model="point" placeholder="请输入点数" style="width: 280px"> </Input>
           </Tooltip>
         </FormItem>
-        <FormItem label="起始账户" v-if="plus">
-          {{parentDisplayName}}
-        </FormItem>
-        <FormItem label="转入账户" v-else>
-          {{parentDisplayName}}
-        </FormItem>
+        <div v-if="plus">
+          <FormItem label="起始账户">
+            {{parentDisplayName}}
+          </FormItem>
+          <FormItem label="转入账户">
+            {{currentDisplayName}}
+          </FormItem>
+        </div>
+        <div v-else>
+          <FormItem label="起始账户">
+            {{currentDisplayName}}
+          </FormItem>
+          <FormItem label="转入账户">
+            {{parentDisplayName}}
+          </FormItem>
+        </div>
         <FormItem label="备注">
           <Input v-model="remark" type="textarea" :rows="4" placeholder="注明备注,如没有可不填" style="width: 280px"></Input>
         </FormItem>
@@ -201,7 +211,7 @@ export default {
         if (!nameReg.test(value)) {
           callback(new Error("6~16位,只能包含英文或数字"));
         } else {
-        callback();
+          callback();
         }
       }
     };
@@ -285,9 +295,11 @@ export default {
         callback(new Error("密码不能为空"));
       } else {
         if (this.passwordLevel(value) < 2) {
-            callback(new Error("密码中必须包含6-16位由字母、数字、符号中至少两种组成"));
-          } else {
-            callback();
+          callback(
+            new Error("密码中必须包含6-16位由字母、数字、符号中至少两种组成")
+          );
+        } else {
+          callback();
         }
       }
     };
@@ -343,11 +355,11 @@ export default {
       toRole: "",
       source: "1",
       toUser: "",
-      parent:'',
-      newPlayer:false,
-      currentPlayer:'none',//创建玩家
+      parent: "",
+      newPlayer: false,
+      currentPlayer: "none", //创建玩家
       maxBalance: "上级代理余额为:",
-      topBalance:0,
+      topBalance: 0,
       //创建agnet
       agentModal: false,
       Topdisabled: false,
@@ -437,6 +449,7 @@ export default {
       },
       //添加玩家
       playerModal: false,
+      currentDisplayName: "",
       player: {
         userName: "",
         userPwd: "",
@@ -601,7 +614,7 @@ export default {
                       }
                       this.agentChild = showList;
                       this.$store.dispatch("getAgentPlayer", {
-                         fromUserId: userId
+                        fromUserId: userId
                       });
                     }
                   }
@@ -723,12 +736,12 @@ export default {
           }
         },
         {
-          title:'下级代理数量',
-          key:'agentCount'
+          title: "下级代理数量",
+          key: "agentCount"
         },
         {
-          title:'玩家数量',
-          key:'playerCount'
+          title: "玩家数量",
+          key: "playerCount"
         },
         {
           title: "代理成数",
@@ -763,6 +776,11 @@ export default {
                           click: () => {
                             this.modal = true;
                             this.plus = true;
+                            this.currentDisplayName =
+                              "【" +
+                              params.row.displayName +
+                              "】" +
+                              params.row.username;
                             this.parentDisplayName =
                               "【" +
                               params.row.parentDisplayName +
@@ -775,14 +793,14 @@ export default {
                             getBill(id).then(res => {
                               this.maxBalance =
                                 "上级代理余额为:" + res.payload.balance;
-                                this.topBalance=res.payload.balance
+                              this.topBalance = res.payload.balance;
                             });
                             if (params.row.parent == "01") {
                               this.fromUserId = localStorage.userId;
                             } else {
                               this.fromUserId = params.row.parent;
                             }
-                            this.parent=params.row.parent;
+                            this.parent = params.row.parent;
                             this.toRole = params.row.role;
                             this.toUser = params.row.username;
                           }
@@ -801,6 +819,11 @@ export default {
                         on: {
                           click: () => {
                             this.modal = true;
+                             this.currentDisplayName=
+                             "【" +
+                              params.row.displayName +
+                              "】" +
+                              params.row.username;
                             this.plus = false;
                             let id =
                               params.row.parent == "01"
@@ -808,15 +831,15 @@ export default {
                                 : params.row.parent;
                             getBill(id).then(res => {
                               this.maxBalance =
-                                "上级代理余额为:" + res.payload.balance;
-                                this.topBalance=res.payload.balance
+                                "起始账户余额为:" + res.payload.balance;
+                              this.topBalance = res.payload.balance;
                             });
                             this.parentDisplayName =
                               "【" +
                               params.row.parentDisplayName +
                               "】" +
                               params.row.parentName;
-                            this.parent=params.row.parent;
+                            this.parent = params.row.parent;
                             this.fromUserId = params.row.userId;
                             this.toRole = params.row.parentRole;
                             this.toUser = params.row.parentName;
@@ -916,70 +939,70 @@ export default {
           key: "",
           render: (h, params) => {
             if (params.row.current == true) {
-              return h('div',[
+              return h("div", [
                 h(
-                "span",
-                {
-                  style: {
-                    color: "#20a0ff",
-                    cursor: "pointer",
-                    marginRight:'10px',
-                    display: this.createAgents ? "inline" : "none"
-                  },
-                  on: {
-                    click: async () => {
-                      //代理管理员
-                      this.agent.parent = ''
-                      this.admin = true;
-                      this.defaultSn = false;
-                      this.agentModal = true;
-                      this.agentType = 2;
-                      this.Topdisabled = true;
-                      let parent =
-                        params.row.level == 0 ? "01" : params.row.userId;
-                      let res = await availableAgents({ parent });
-                      if (res.code == 0) {
-                        this.parentList = res.payload;
-                        this.agent.parent = parent; //默认代理
-                        this.selectParent(parent);
-                      }
-                      this.parentRate = params.row.rate;
-                      this.selected = false;
-                      this.rateContent = "上级代理成数为:" + params.row.rate;
-                    }
-                  }
-                },
-                "创建代理"
-              ),
-              h(
-                    "span",
-                    {
-                      style: {
-                        color: "#20a0ff",
-                        cursor: "pointer",
-                        display:this.currentPlayer
-                      },
-                      on: {
-                        click: () => {
-                          this.playerModal = true;
-                          this.newPlayer=true;
-                          let userId = params.row.userId;
-                          if (this.player.parentId == userId) {
-                            this.selectPlayerParent(userId);
-                          } else {
-                            this.player.parentId = userId;
-                          }
-                          availableAgents({ parent: userId }).then(res => {
-                            if (res.code == 0) {
-                              this.parentList = res.payload;
-                            }
-                          });
-                        }
-                      }
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                      display: this.createAgents ? "inline" : "none"
                     },
-                    "创建玩家"
-                  )
-              ])
+                    on: {
+                      click: async () => {
+                        //代理管理员
+                        this.agent.parent = "";
+                        this.admin = true;
+                        this.defaultSn = false;
+                        this.agentModal = true;
+                        this.agentType = 2;
+                        this.Topdisabled = true;
+                        let parent =
+                          params.row.level == 0 ? "01" : params.row.userId;
+                        let res = await availableAgents({ parent });
+                        if (res.code == 0) {
+                          this.parentList = res.payload;
+                          this.agent.parent = parent; //默认代理
+                          this.selectParent(parent);
+                        }
+                        this.parentRate = params.row.rate;
+                        this.selected = false;
+                        this.rateContent = "上级代理成数为:" + params.row.rate;
+                      }
+                    }
+                  },
+                  "创建代理"
+                ),
+                h(
+                  "span",
+                  {
+                    style: {
+                      color: "#20a0ff",
+                      cursor: "pointer",
+                      display: this.currentPlayer
+                    },
+                    on: {
+                      click: () => {
+                        this.playerModal = true;
+                        this.newPlayer = true;
+                        let userId = params.row.userId;
+                        if (this.player.parentId == userId) {
+                          this.selectPlayerParent(userId);
+                        } else {
+                          this.player.parentId = userId;
+                        }
+                        availableAgents({ parent: userId }).then(res => {
+                          if (res.code == 0) {
+                            this.parentList = res.payload;
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "创建玩家"
+                )
+              ]);
             } else {
               let color = "";
               let text = "";
@@ -1058,7 +1081,7 @@ export default {
                       },
                       on: {
                         click: async () => {
-                          this.agent.parent = ''
+                          this.agent.parent = "";
                           this.agentModal = true;
                           this.parentSn = params.row.sn || "NA369";
                           let userId = params.row.userId;
@@ -1081,7 +1104,7 @@ export default {
                     {
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer",
+                        cursor: "pointer"
                       },
                       on: {
                         click: () => {
@@ -1229,7 +1252,7 @@ export default {
                         getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
-                          this.topBalance=res.payload.balance
+                          this.topBalance = res.payload.balance;
                         });
                         this.playerPoint = true;
                         this.plus = true;
@@ -1261,7 +1284,7 @@ export default {
                         getBill(id).then(res => {
                           this.maxBalance =
                             "上级代理余额为:" + res.payload.balance;
-                          this.topBalance=res.payload.balance
+                          this.topBalance = res.payload.balance;
                         });
                         this.plus = false;
                         this.parentDisplayName =
@@ -1430,11 +1453,11 @@ export default {
       if (level != 0) {
         params.isTest = 0;
       }
-      if(!username){
-        delete params.query
+      if (!username) {
+        delete params.query;
       }
       this.$store.commit("agentLoading", { params: true });
-      this.$store.dispatch("getAgentList", params)
+      this.$store.dispatch("getAgentList", params);
     },
     reset() {
       this.userName = "";
@@ -1487,16 +1510,16 @@ export default {
         this.selected = true;
         this.game = o.label;
         this.code = o.value;
-      if (parentGameList.length > 0) {
-        for (let item of parentGameList) {
-          if (item.code == o.value) {
-            maxMix = item.mix;
-            this.tipContent = `上级游戏洗码比为:${maxMix}`;
+        if (parentGameList.length > 0) {
+          for (let item of parentGameList) {
+            if (item.code == o.value) {
+              maxMix = item.mix;
+              this.tipContent = `上级游戏洗码比为:${maxMix}`;
+            }
           }
+        } else {
+          this.tipContent = `上级游戏洗码比为:1`;
         }
-      } else {
-        this.tipContent = `上级游戏洗码比为:1`;
-      }
       }
     },
     addGame() {
@@ -1544,13 +1567,13 @@ export default {
         } else {
           parent = userId;
         }
-        let params={
-                    parent,
-                    query: {},
-                    isTest: +this.source,
-                    sort: "desc",
-                    sortkey: "createdAt"
-                  }
+        let params = {
+          parent,
+          query: {},
+          isTest: +this.source,
+          sort: "desc",
+          sortkey: "createdAt"
+        };
         if (valid) {
           if (_.isEmpty(this.gameDetail)) {
             this.$Message.error("尚未选择游戏");
@@ -1573,16 +1596,16 @@ export default {
             .then(res => {
               if (res.code == 0) {
                 this.$Message.success("创建成功");
-                this.$store.dispatch("getAgentList",params);
+                this.$store.dispatch("getAgentList", params);
                 if (this.admin) {
                   agentOne(userId).then(res => {
-                  if (res.code == 0) {
-                    let arr = [];
-                    res.payload.current=true
-                    arr.push(res.payload);
-                    this.userInfo = arr;
-                  }
-                });
+                    if (res.code == 0) {
+                      let arr = [];
+                      res.payload.current = true;
+                      arr.push(res.payload);
+                      this.userInfo = arr;
+                    }
+                  });
                 }
                 this.resetAgent();
               }
@@ -1607,14 +1630,14 @@ export default {
       this.agent.game = "";
       this.agent.select = "";
       this.agentType = 1;
-      this.admin=false;
+      this.admin = false;
       this.agent.remark = "";
     },
     ok() {
       //bill
-      if(+this.point>+this.topBalance){
-        this.point='';
-        return this.$Message.warning('输入点数超出,请重新输入')
+      if (+this.point > +this.topBalance) {
+        this.point = "";
+        return this.$Message.warning("输入点数超出,请重新输入");
       }
       let parent = this.level == 0 ? "01" : localStorage.userId;
       let params = {
@@ -1624,63 +1647,67 @@ export default {
         sort: "desc",
         sortkey: "createdAt"
       };
-      let userInfo=this.userInfo[0];
-      let userId=localStorage.userId
+      let userInfo = this.userInfo[0];
+      let userId = localStorage.userId;
       if (this.level != 0) {
         params.isTest = 0;
       }
-      if (userInfo.isTest==1){
+      if (userInfo.isTest == 1) {
         params.isTest = 1;
       }
-      if (this.playerPoint == false) {//代理加点
+      if (this.playerPoint == false) {
+        //代理加点
         this.$store
           .dispatch("transferBill", {
-            amount: this.point||0,
+            amount: this.point || 0,
             fromUserId: this.fromUserId,
             toRole: this.toRole,
             toUser: this.toUser,
             remark: this.remark
           })
           .then(() => {
-           if(parent==this.parent){//第一级
+            if (parent == this.parent) {
+              //第一级
               setTimeout(() => {
-              this.$store.dispatch("getAgentList", params);
-               agentOne(userId).then(res => {
-                if (res.code == 0) {
-                  let arr = [];
-                  res.payload.current=true
-                  arr.push(res.payload);
-                  this.userInfo = arr;
-                }
-              });
-              this.point = "";
-              this.remark = "";
-            }, 150);
-           }else{
-             params.parent=this.parent;
-               setTimeout(()=>{
-                  getagentList(params).then(res=>{
-                  let agentList = this.agentChild;
-                  //更新列表
-                  for (let item of agentList) {
-                    if (item.id == this.parent) {
-                      item.childItem = res.payload;
-                    }
+                this.$store.dispatch("getAgentList", params);
+                agentOne(userId).then(res => {
+                  if (res.code == 0) {
+                    let arr = [];
+                    res.payload.current = true;
+                    arr.push(res.payload);
+                    this.userInfo = arr;
                   }
-                  this.point = "";
-                  this.remark = "";
-                  }).finally(()=>{
-                    this.$store.commit('agentLoading',{params:false})
+                });
+                this.point = "";
+                this.remark = "";
+              }, 150);
+            } else {
+              params.parent = this.parent;
+              setTimeout(() => {
+                getagentList(params)
+                  .then(res => {
+                    let agentList = this.agentChild;
+                    //更新列表
+                    for (let item of agentList) {
+                      if (item.id == this.parent) {
+                        item.childItem = res.payload;
+                      }
+                    }
+                    this.point = "";
+                    this.remark = "";
                   })
-            },100)
-           }
+                  .finally(() => {
+                    this.$store.commit("agentLoading", { params: false });
+                  });
+              }, 100);
+            }
           });
       } else {
         //player加点
         if (this.plus == true) {
           this.$store
             .dispatch("playAddBill", {
-              amount: this.point||0,
+              amount: this.point || 0,
               fromUserId: this.fromUserId,
               remark: this.remark,
               toUser: this.toUser
@@ -1692,18 +1719,19 @@ export default {
               this.maxBalance = "上级代理余额为:";
             });
         } else {
-          this.$store.dispatch("playReduceBill", {
-            amount: this.point||0,
-            fromUserId: this.fromUserId,
-            remark: this.remark,
-            toUser: this.toUser
-          }).then(()=>{
+          this.$store
+            .dispatch("playReduceBill", {
+              amount: this.point || 0,
+              fromUserId: this.fromUserId,
+              remark: this.remark,
+              toUser: this.toUser
+            })
+            .then(() => {
               this.point = "";
               this.remark = "";
               this.playerPoint = false;
               this.maxBalance = "上级代理余额为:";
-          })
-         
+            });
         }
       }
     },
@@ -1720,9 +1748,9 @@ export default {
     },
     passwordLevel(password) {
       let Modes = 0;
-      let len=password.length;
-      if(len<6||len>16){
-        return 0
+      let len = password.length;
+      if (len < 6 || len > 16) {
+        return 0;
       }
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
@@ -1801,16 +1829,16 @@ export default {
         parent = "01";
       } else {
         parent = userId;
-        this.source=2
+        this.source = 2;
         this.$store.dispatch("getAgentPlayer", {
-          fromUserId:userId
+          fromUserId: userId
         });
       }
       this.$store.commit("agentLoading", { params: true });
       agentOne(userId).then(res => {
         if (res.code == 0) {
           let arr = [];
-          res.payload.current=true
+          res.payload.current = true;
           arr.push(res.payload);
           this.userInfo = arr;
         }
@@ -1835,16 +1863,16 @@ export default {
               this.$Message.success("创建成功");
               this.$refs["playerForm"].resetFields();
               this.playerMix = [];
-              if(this.newPlayer){
-                let userId=localStorage.userId;
+              if (this.newPlayer) {
+                let userId = localStorage.userId;
                 this.$store.dispatch("getAgentPlayer", {
                   fromUserId: userId
                 });
-                this.newPlayer=false;
+                this.newPlayer = false;
               }
             }
           });
-        }else{
+        } else {
           return this.$Message.warning("请填写完整信息");
         }
       });
@@ -1853,7 +1881,7 @@ export default {
       this.$refs["playerForm"].resetFields();
       this.playerMix = [];
       this.player.remark = "";
-      this.newPlayer=false;
+      this.newPlayer = false;
     },
     selectPlayerParent(id) {
       this.disabled = false;
@@ -1900,7 +1928,7 @@ export default {
       return this.$store.state.agent.agentList;
     },
     level() {
-      return localStorage.level
+      return localStorage.level;
     },
     playerList() {
       return this.$store.state.agent.playerList;
@@ -1922,8 +1950,8 @@ export default {
     if (this.permission.includes("停启用代理") || this.level != 0) {
       this.startStop = true;
     }
-    if(this.level !=0){
-      this.currentPlayer='inline'
+    if (this.level != 0) {
+      this.currentPlayer = "inline";
     }
   }
 };

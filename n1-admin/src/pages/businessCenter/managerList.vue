@@ -554,6 +554,8 @@ export default {
           await this.$store.dispatch("otherBill", id);
           this.disabled = false;  
         }
+      }else{
+          this.disabled = false;  
       }
     },
     focus() {
