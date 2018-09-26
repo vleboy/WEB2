@@ -104,7 +104,7 @@ export default {
     ...mapState(["gameDetail","betHourTodayArr","betHourAvArr","countHourTodayArr","countHourAvArr"])
   },
   created(){
-    let game = this.gameDetail;
+    
   },
   mounted() {
     let game=this.gameDetail;

@@ -35,24 +35,14 @@ export default {
     }).finally(()=>{
       this.spinShow=false
     })
-    let _this=this
     this.timer = setInterval(()=>{
-      _this.update()
+      location.reload()
     },60000)
   },
   beforeDestroy(){
     clearInterval(this.timer)
   },
   methods:{
-    update(){
-      httpRequest('post','/main',{
-        timeRange:this.getDefaultTime()
-      })
-      .then(res=>{
-        this.$store.commit('login',{params:res.login})
-        this.$store.commit('saveGameDetail',{params:res.game})
-      })
-    },
     getDefaultTime(){
       let now=new Date().getTime()
       let start=now-90*24*60*60*1000;

@@ -34,6 +34,12 @@ export default {
     }).finally(()=>{
       this.spinShow=false
     })
+     this.timer = setInterval(()=>{
+      location.reload()
+    },60000)
+  },
+  beforeDestroy(){
+    clearInterval(this.timer)
   },
   methods:{
     getDefaultTime(){
