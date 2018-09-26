@@ -169,9 +169,7 @@ export default {
                         this.fromUserId = params.row.userId;
                         this.toRole = "10";
                         this.toUser = userName;
-                        getBill(adminId).then(res => {
-                          this.tooltip = "起始账户余额为" + res.payload.balance;
-                        });
+                        this.tooltip = "起始账户余额为" + params.row.balance;
                       }
                     }
                   },

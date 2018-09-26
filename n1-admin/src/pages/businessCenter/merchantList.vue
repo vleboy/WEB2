@@ -255,6 +255,7 @@ export default {
                               userName: userName
                             }
                           ];
+                          this.$store.commit('updateBill',{params:params.row.balance})
                           if (params.row.parent != "01") {
                             let another = {
                               value: params.row.parent,
@@ -549,8 +550,10 @@ export default {
     },
     changeOption(id) {
       this.disabled = false;
-      if (id) {
-        this.$store.dispatch("otherBill", id);
+      if(this.plus){
+        if (id) {
+          this.$store.dispatch("otherBill", id);
+        }
       }
     },
     focus() {

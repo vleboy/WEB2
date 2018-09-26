@@ -17,6 +17,7 @@ export default {
     return{
       showComponent:false,//存入state再渲染组件
       spinShow:false,
+      timer:null
     }
   },
   computed:{
@@ -28,15 +29,30 @@ export default {
       timeRange:this.getDefaultTime()
     })
     .then(res=>{
-      console.log(res);
       this.$store.commit('login',{params:res.login})
       this.$store.commit('saveGameDetail',{params:res.game})
       this.showComponent=true
     }).finally(()=>{
       this.spinShow=false
     })
+    let _this=this
+    this.timer = setInterval(()=>{
+      _this.update()
+    },60000)
+  },
+  beforeDestroy(){
+    clearInterval(this.timer)
   },
   methods:{
+    update(){
+      httpRequest('post','/main',{
+        timeRange:this.getDefaultTime()
+      })
+      .then(res=>{
+        this.$store.commit('login',{params:res.login})
+        this.$store.commit('saveGameDetail',{params:res.game})
+      })
+    },
     getDefaultTime(){
       let now=new Date().getTime()
       let start=now-90*24*60*60*1000;
