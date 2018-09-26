@@ -38,8 +38,8 @@
           <FormItem label="商户初始点数" prop="points">
             <Row>
               <Col span="20">
-              <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
-                <Input v-model="basic.points" :disabled='disabled' @on-focus='focus' placeholder="请输入"></Input>
+              <Tooltip :content="tooltip" @on-popper-show="focus" placement="top" :disabled='disabled'>
+                <Input v-model="basic.points" :disabled='disabled' placeholder="请输入"></Input>
               </Tooltip>
               </Col>
             </Row>

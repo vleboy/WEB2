@@ -43,8 +43,8 @@
         <Col span="4" v-if='plus'>增加点数</Col>
         <Col span="4" v-else>减少点数</Col>
         <Col span="16">
-        <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
-          <Input v-model="point" placeholder="请输入点数" :disabled='disabled' @on-focus='focus'></Input>
+        <Tooltip :content="tooltip" @on-popper-show="focus" placement="top" :disabled='disabled'>
+          <Input v-model="point" placeholder="请输入点数" :disabled='disabled'></Input>
         </Tooltip>
         </Col>
       </Row>

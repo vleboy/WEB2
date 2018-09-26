@@ -1430,7 +1430,11 @@ export default {
       if (level != 0) {
         params.isTest = 0;
       }
-      this.$store.dispatch("getAgentList", params);
+      if(!username){
+        delete params.query
+      }
+      this.$store.commit("agentLoading", { params: true });
+      this.$store.dispatch("getAgentList", params)
     },
     reset() {
       this.userName = "";

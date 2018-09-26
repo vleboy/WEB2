@@ -5,7 +5,7 @@ export const merchants = {
        merchantsList:[],
        managerList:[],
        spinShow:false,
-       bill:null
+       bill:0
     },
     mutations:{
       updateList(state,{params}){

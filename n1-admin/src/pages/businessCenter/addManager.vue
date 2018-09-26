@@ -31,8 +31,8 @@
           <FormItem label="初始线路商点数" prop="points">
             <Row>
               <Col span="20">
-              <Tooltip :content="tooltip" placement="top" :disabled='disabled'>
-                <Input v-model="basic.points" placeholder="请输入" :disabled='disabled' @on-focus='focus'></Input>
+              <Tooltip :content="tooltip" placement="top" @on-popper-show="focus" :disabled='disabled'>
+                <Input v-model="basic.points" placeholder="请输入" :disabled='disabled'></Input>
               </Tooltip>
               </Col>
             </Row>
