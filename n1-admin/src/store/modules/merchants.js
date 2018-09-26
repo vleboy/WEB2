@@ -36,23 +36,23 @@ export const merchants = {
             commit('changeLoading',{params:false})
          })
        },
-       async otherBill({commit},id){
-        getBill(id).then(res=>{
+       otherBill({commit},id){
+        return getBill(id).then(res=>{
             commit('updateBill',{params:res.payload.balance})
         })
        },
        detailBill({dispatch,commit},params){
            return billTransfer(params)
        },
-       async transferBill({dispatch,commit},params){
-        billTransfer(params).then(res=>{
+       transferBill({dispatch,commit},params){
+        return billTransfer(params).then(res=>{
             if(res.code==0){
                 Message.success('操作成功');
             }
         })
        },
-       async transferBussnessBill({dispatch,commit},params){
-        billTransfer(params).then(res=>{
+       transferBussnessBill({dispatch,commit},params){
+        return billTransfer(params).then(res=>{
             if(res.code==0){
                 Message.success('操作成功');
             }
