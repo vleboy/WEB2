@@ -17,7 +17,7 @@
           </RadioGroup>
         </span>
         <div class="search">
-          <Input v-model.trim="userName" placeholder="请输入搜索账号" style="width: 150px"></Input>
+          <Input v-model.trim="userName" placeholder="请输入代理账号" style="width: 150px"></Input>
           <Button type="primary" @click="searchAgent">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
