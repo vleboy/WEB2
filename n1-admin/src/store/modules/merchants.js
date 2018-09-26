@@ -44,19 +44,17 @@ export const merchants = {
        detailBill({dispatch,commit},params){
            return billTransfer(params)
        },
-       transferBill({dispatch,commit},params){
+       async transferBill({dispatch,commit},params){
         billTransfer(params).then(res=>{
             if(res.code==0){
                 Message.success('操作成功');
-                //刷新
             }
         })
        },
-       transferBussnessBill({dispatch,commit},params){
+       async transferBussnessBill({dispatch,commit},params){
         billTransfer(params).then(res=>{
             if(res.code==0){
                 Message.success('操作成功');
-                //刷新
             }
         })
        }

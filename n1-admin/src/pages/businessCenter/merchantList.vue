@@ -556,7 +556,7 @@ export default {
     focus() {
       this.tooltip = "起始账户余额为" + this.$store.state.merchants.bill;
     },
-    ok() {
+    async ok() {
       if (this.plus == true) {
         this.fromUserId = this.select;
       } else {
@@ -569,21 +569,17 @@ export default {
           }
         }
       }
-      // console.log(this.toRole, this.select);
-      this.$store
-        .dispatch("transferBussnessBill", {
+      await this.$store.dispatch("transferBussnessBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,
           toUser: this.toUser,
           amount: this.point||0,
           remark: this.note
         })
-        .then(() => {
-          this.init()
-          this.select = "";
-          this.note = "";
-          this.point = "";
-        });
+      this.init()
+      this.select = "";
+      this.note = "";
+      this.point = "";
     },
     cancel() {
       this.select = "";
