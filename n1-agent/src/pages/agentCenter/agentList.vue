@@ -829,11 +829,9 @@ export default {
                               params.row.parent == "01"
                                 ? localStorage.userId
                                 : params.row.parent;
-                            getBill(id).then(res => {
-                              this.maxBalance =
-                                "起始账户余额为:" + res.payload.balance;
-                              this.topBalance = res.payload.balance;
-                            });
+                            this.maxBalance =
+                              "起始账户余额为:" + params.row.balance;
+                            this.topBalance = params.row.balance;
                             this.parentDisplayName =
                               "【" +
                               params.row.parentDisplayName +
