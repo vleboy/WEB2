@@ -517,6 +517,7 @@ export default {
         }
       }
       // console.log(this.toRole, this.select);
+      this.$store.commit('changeLoading',{params:true})
       await this.$store.dispatch("transferBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,

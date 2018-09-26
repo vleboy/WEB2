@@ -574,6 +574,7 @@ export default {
           }
         }
       }
+      this.$store.commit('changeLoading',{params:true})
       await this.$store.dispatch("transferBussnessBill", {
           fromUserId: this.fromUserId,
           toRole: this.toRole,
