@@ -552,7 +552,9 @@ export default {
       if(this.plus){
         if (id) {
          await this.$store.dispatch("otherBill", id);
-         this.disabled = false;
+         setTimeout(()=>{
+           this.disabled = false;
+         },500)
         }
       }else{
           this.disabled = false;  
@@ -581,7 +583,9 @@ export default {
           amount: this.point||0,
           remark: this.note
         })
-      this.init()
+      setTimeout(()=>{
+          this.init()
+        },500)
       this.select = "";
       this.note = "";
       this.point = "";

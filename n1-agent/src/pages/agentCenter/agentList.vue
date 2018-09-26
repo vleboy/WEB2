@@ -1678,7 +1678,7 @@ export default {
                 });
                 this.point = "";
                 this.remark = "";
-              }, 150);
+              }, 200);
             } else {
               params.parent = this.parent;
               setTimeout(() => {
