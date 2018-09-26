@@ -148,7 +148,7 @@
       <Form :label-width="80" ref="playerForm" :model="player" :rules='playerValidate'>
         <FormItem label="用户名" prop='userName'>
           <!-- 6-16位中英文或者数字 -->
-          <Input v-model="player.userName" placeholder="请输入"></Input>
+          <Input v-model="player.userName" placeholder="6~16位,只能包含英文或数字"></Input>
         </FormItem>
         <FormItem label="密码" prop='userPwd'>
           <Input v-model="player.userPwd" placeholder="密码由6-16位字母和数字至少两种组成"></Input>
@@ -197,12 +197,12 @@ export default {
       if (value == "") {
         callback(new Error("用户名不能为空"));
       } else {
-        // let nameReg = /^[\u4e00-\u9fa5A-Za-z0-9]{6,10}$/;
-        // if (!nameReg.test(value)) {
-        //   callback(new Error("6~16位,只能包含英文或数字"));
-        // } else {
+        let nameReg = /^[A-Za-z0-9]{6,16}$/;
+        if (!nameReg.test(value)) {
+          callback(new Error("6~16位,只能包含英文或数字"));
+        } else {
         callback();
-        // }
+        }
       }
     };
     const validatePlayerPass = (rule, value, callback) => {

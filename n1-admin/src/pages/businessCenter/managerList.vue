@@ -570,7 +570,7 @@ export default {
       }
       this.init();
     },
-    changeSource(value) {
+    changeSource() {
       this.init();
     },
     init() {
