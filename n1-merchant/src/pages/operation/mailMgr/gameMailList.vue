@@ -1,6 +1,6 @@
 <template>
   <div class="p-email">
-    <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p>
+    <!-- <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p> -->
     <div class="-p-m-header">
       <Col :span="11">
         <Button type="primary" @click="openModal()">创建邮件</Button>
