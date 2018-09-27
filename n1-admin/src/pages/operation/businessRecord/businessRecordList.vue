@@ -28,7 +28,7 @@
         </RadioGroup>
       </div>
       <div class="rebackinfo" style="padding-top: 0">
-        <p>共搜索到 {{businessRecordList.length || 0}} 条数据</p>
+        <!-- <p>共搜索到 {{businessRecordList.length || 0}} 条数据</p> -->
       </div>
       <div class="playerform">
         <Table :columns="columnsHorse" :data="getItems" v-show="radioType == '1'"></Table>

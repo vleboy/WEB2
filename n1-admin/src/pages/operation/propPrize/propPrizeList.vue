@@ -19,7 +19,7 @@
         </Col>
       </Row>
     </div>
-    <p class="searchResult">共搜索到 {{propPrizeList.length || 0}} 条数据</p>
+    <!-- <p class="searchResult">共搜索到 {{propPrizeList.length || 0}} 条数据</p> -->
     <div class="propPrizeList">
       <Table :columns="columns" :data="getItems"></Table>
       <div class="page">

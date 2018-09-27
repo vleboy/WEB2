@@ -18,7 +18,7 @@
               <Col span="12">
               <span class="newPassword" @click="showPass=!showPass" v-if="!showPass">显示</span>
               <span class="newPassword" @click="showPass=!showPass" v-else>隐藏</span>
-              <h5 class="newPassword" @click="newPassword">修改密码</h5>
+              <span class="newPassword" @click="newPassword">修改密码</span>
               </Col>
             </Row>
           </td>

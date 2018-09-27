@@ -39,9 +39,9 @@
     <div class="rebackinfo" style="margin-bottom: 28px">
       <el-button type="primary" @click="goPrizeConfig()">奖品配置</el-button>
     </div>
-    <div class="rebackinfo">
+    <!-- <div class="rebackinfo">
       <p>共搜索到 {{prizeList.length || 0}} 条数据</p>
-    </div>
+    </div> -->
     <div class="playerform">
       <el-table stripe :data="getItems"  @sort-change="sortFun">
         <el-table-column prop="userName" label="用户名" align="center"></el-table-column>
