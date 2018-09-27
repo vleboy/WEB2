@@ -38,6 +38,7 @@ export default {
   name: 'gameList',
   components: { detailModal },
   created () {
+    this.isFetching = true
     this.getCompanyList() // 获取所属游戏商信息
     this.getGameType()
   },
@@ -161,7 +162,6 @@ export default {
   },
   methods: {
     getGameList() {
-      if (this.isFetching) return
       this.isFetching = true
       if(this.searchInfo.gameStatus == '' || this.searchInfo.gameStatus == '2'){
         delete this.searchInfo.gameStatus
