@@ -419,7 +419,7 @@ export default {
   .propList-search {
     line-height: 32px;
     text-align: center;
-    padding-bottom: 6px;
+    padding-bottom: 16px;
   }
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
