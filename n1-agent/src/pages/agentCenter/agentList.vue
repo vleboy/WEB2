@@ -939,13 +939,15 @@ export default {
             if (params.row.current == true) {
               return h("div", [
                 h(
-                  "span",
+                  "Button",
                   {
                     style: {
                       color: "#20a0ff",
-                      cursor: "pointer",
-                      marginRight: "10px",
                       display: this.createAgents ? "inline" : "none"
+                    },
+                     props: {
+                      type: "text",
+                      size: "small"
                     },
                     on: {
                       click: async () => {
@@ -973,11 +975,14 @@ export default {
                   "创建代理"
                 ),
                 h(
-                  "span",
+                  "Button",
                   {
+                     props: {
+                      type: "text",
+                      size: "small"
+                    },
                     style: {
                       color: "#20a0ff",
-                      cursor: "pointer",
                       display: this.currentPlayer
                     },
                     on: {
@@ -1011,12 +1016,14 @@ export default {
                 status = 0;
                 return h("div", [
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                      },
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer",
-                        marginRight: "10px"
                       },
                       on: {
                         click: () => {
@@ -1037,12 +1044,14 @@ export default {
                     "查看"
                   ),
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                    },
                       style: {
                         color: color,
-                        cursor: "pointer",
-                        marginRight: "10px",
                         display: this.startStop ? "inline" : "none"
                       },
                       on: {
@@ -1069,12 +1078,14 @@ export default {
                     text
                   ),
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                    },
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer",
-                        marginRight: "10px",
                         display: this.createAgents ? "inline" : "none"
                       },
                       on: {
@@ -1098,11 +1109,14 @@ export default {
                     "创建代理"
                   ),
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                    },
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer"
                       },
                       on: {
                         click: () => {
@@ -1130,12 +1144,14 @@ export default {
                 status = 1;
                 return h("div", [
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                    },
                       style: {
                         color: "#20a0ff",
-                        cursor: "pointer",
-                        marginRight: "10px"
                       },
                       on: {
                         click: () => {
@@ -1156,11 +1172,14 @@ export default {
                     "查看"
                   ),
                   h(
-                    "span",
+                    "Button",
                     {
+                       props: {
+                      type: "text",
+                      size: "small"
+                    },
                       style: {
                         color: color,
-                        cursor: "pointer",
                         display: this.startStop ? "inline" : "none"
                       },
                       on: {
