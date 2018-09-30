@@ -1649,6 +1649,7 @@ export default {
       this.agentType = 1;
       this.admin = false;
       this.agent.remark = "";
+      this.$store.commit("agentLoading", { params: false });
     },
     ok() {
       //bill
@@ -1899,6 +1900,7 @@ export default {
       this.playerMix = [];
       this.player.remark = "";
       this.newPlayer = false;
+      this.$store.commit("agentLoading", { params: false });
     },
     selectPlayerParent(id) {
       this.disabled = false;
