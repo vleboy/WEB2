@@ -59,7 +59,7 @@
 export default {
   data () {
     var validateGameName = (rule, value, callback) => {
-      var regName = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+      var regName = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_-]+$/)
       if (value === '') {
         callback(new Error('请输入游戏名称'))
         this.isfinish.gameName = false
