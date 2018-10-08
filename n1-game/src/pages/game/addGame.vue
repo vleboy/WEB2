@@ -3,7 +3,7 @@
     <h2 class="title">游戏基本信息<span style="font-size: 14px"> (<span style="color: #ff4949"> * </span>为必填项)</span></h2>
     <Form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" :label-width="80">
       <FormItem label="游戏名称" prop="gameName">
-        <Input v-model="managerInfo.gameName" class="input" type="text"  placeholder="请输入游戏名称" :maxlength='20' :disabled="isEdit"></Input>
+        <Input v-model="managerInfo.gameName" class="input" type="text"  placeholder="请输入游戏名称" :maxlength='30' :disabled="isEdit"></Input>
       </FormItem>
       <FormItem label="游戏标识" prop="gameIden">
         <Input v-model="managerInfo.gameIden" class="input" type="text" placeholder="请输入游戏标识(必须首字母开头并且大写)" :maxlength='20' :disabled="isEdit"></Input>
