@@ -1494,9 +1494,10 @@ export default {
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
             this.parentGameList = res.payload.gameList || [];
-            this.$store.commit("agentLoading", { params: false });
           }
-        });
+        }).finally(()=>{
+          this.$store.commit("agentLoading", { params: false });
+        })
       }
     },
     selectType(v) {
@@ -1648,7 +1649,7 @@ export default {
       this.agent.select = "";
       this.agentType = 1;
       this.admin = false;
-      this.agent.remark = "";
+      this.agent.remark = ""; 
       this.$store.commit("agentLoading", { params: false });
     },
     ok() {
@@ -1911,8 +1912,9 @@ export default {
             this.playerMix = res.payload.gameList;
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
-            this.$store.commit("agentLoading", { params: false });
           }
+        }).finally(()=>{
+          this.$store.commit("agentLoading", { params: false });
         });
       }
     },
