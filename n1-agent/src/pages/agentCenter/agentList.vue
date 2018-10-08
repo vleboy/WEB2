@@ -1486,7 +1486,6 @@ export default {
     selectParent(id) {
       //代理
       if (id) {
-        this.$store.commit("agentLoading", { params: true });
         this.disabled = false;
         agentOne(id).then(res => {
           if (res.code == 0) {
@@ -1495,8 +1494,6 @@ export default {
             this.pointContent = "上级代理余额为:" + res.payload.balance;
             this.parentGameList = res.payload.gameList || [];
           }
-        }).finally(()=>{
-          this.$store.commit("agentLoading", { params: false });
         })
       }
     },
@@ -1650,7 +1647,6 @@ export default {
       this.agentType = 1;
       this.admin = false;
       this.agent.remark = ""; 
-      this.$store.commit("agentLoading", { params: false });
     },
     ok() {
       //bill
@@ -1901,11 +1897,9 @@ export default {
       this.playerMix = [];
       this.player.remark = "";
       this.newPlayer = false;
-      this.$store.commit("agentLoading", { params: false });
     },
     selectPlayerParent(id) {
       this.disabled = false;
-      this.$store.commit("agentLoading", { params: true });
       if (id) {
         agentOne(id).then(res => {
           if (res.code == 0) {
@@ -1913,9 +1907,7 @@ export default {
             this.parentBalance = res.payload.balance;
             this.pointContent = "上级代理余额为:" + res.payload.balance;
           }
-        }).finally(()=>{
-          this.$store.commit("agentLoading", { params: false });
-        });
+        })
       }
     },
     changeChildType(list) {
