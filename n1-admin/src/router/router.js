@@ -35,7 +35,8 @@ import ysbSport from '@/pages/reports/ysbSport'
 import rtgGame from '@/pages/reports/rtgGame'
 import dtGame from '@/pages/reports/dtReport'
 import ppGame from '@/pages/reports/ppGame'
-
+import pgVideo from '@/pages/reports/pgVideo'
+import habaVideo from '@/pages/reports/habaVideo'
 
 import merchantList from '@/pages/businessCenter/merchantList'
 import managerList from '@/pages/businessCenter/managerList'
@@ -183,6 +184,20 @@ export const appRouter = [
         name:'ttggame',
         component:main,
         children:[{path:'video',title:'TTG电子游戏报表',name:'ttgvideo',component:ttgvideo}]
+    },
+    {
+        path:'/pg',
+        title:'PG电子游戏报表',
+        name:'pg',
+        component:main,
+        children:[{path:'video',title:'PG电子游戏报表',name:'pgGame',component:pgVideo}]
+    },
+    {
+        path:'/haba',
+        title:'HABA电子游戏报表',
+        name:'haba',
+        component:main,
+        children:[{path:'video',title:'HABA电子游戏报表',name:'habaGame',component:habaVideo}]
     },
     {
         path:'/rtg',

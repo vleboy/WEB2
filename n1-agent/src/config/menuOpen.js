@@ -12,6 +12,10 @@ export const menuOpen = function (name) {
     openName = ["report", "mgreport"];
   }else if (name == 'rtgGame') {
     openName = ["report", "rtgReport"];
+  }else if (name == 'pgGame') {
+    openName = ["report", "pgReport"];
+  } else if (name == 'habaGame') {
+    openName = ["report", "habaReport"];
   }else if (name == 'dtGame') {
     openName = ["report", "dtReport"];
   }else if (name == 'ppGame') {

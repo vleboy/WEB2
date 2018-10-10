@@ -68,7 +68,7 @@ export default {
         30000,
         40000,
         50000,60000,70000,
-        1010000,
+        1010000,1090000,1040000,
         10300000,
         1050000,
         1060000,
@@ -1187,7 +1187,189 @@ export default {
               return h("span", thousandFormatter(count));
             }
           }
-        }
+        },
+        {
+          title: "PG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let allCount = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "1090000") {
+                  allCount += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.level == 0) {
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(allCount)
+              );
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1090000") {
+                  count = obj[key].winloseAmount;
+                }
+              }
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count)
+              );
+            }
+          }
+        },
+        {
+          title: "PG游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              return h("span", "0.00");
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1090000") {
+                  count = obj[key].submitAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
+        {
+          title: "PG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1090000") {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1090000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
+        {
+          title: "HABA游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let allCount = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "1040000") {
+                  allCount += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.level == 0) {
+              color = allCount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(allCount)
+              );
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1040000") {
+                  count = obj[key].winloseAmount;
+                }
+              }
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count)
+              );
+            }
+          }
+        },
+        {
+          title: "HABA游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              return h("span", "0.00");
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1040000") {
+                  count = obj[key].submitAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
+        {
+          title: "HABA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let allCount = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "1040000") {
+                    allCount += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(allCount));
+            } else {
+              let obj = params.row.gameTypeMap;
+              let count = 0;
+              for (let key in obj) {
+                if (key == "1040000") {
+                  count += obj[key].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(count));
+            }
+          }
+        },
       ],
       columns2: [
         {
@@ -1598,7 +1780,81 @@ export default {
             }
             return h("span", thousandFormatter(count));
           }
-        }
+        },
+        {
+          title: "PG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1090000") {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "PG游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1090000") {
+                count += obj[key].mixAmount;
+              }
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
+        {
+          title: "HABA游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1040000") {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "HABA游戏(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1040000") {
+                count += obj[key].mixAmount;
+              }
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
       ]
     };
   },
@@ -1769,7 +2025,7 @@ export default {
 <style lang="less" scoped>
 .allreport {
   min-height: 88vh;
-  width: 210%;
+  width: 300%;
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;

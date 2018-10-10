@@ -161,11 +161,11 @@ export async function availableAgents(params){
 }
 //gameBigType
 export async function gameBigType(params){
-    return http(post('/gameBigType',params))
+    return http(post('/gameBigType',params,'game'))
 }
 //上级线路商游戏
 export async function companySelect(params){
-    return http(post('/companySelect',params))
+    return http(post('/companySelect',params,'game'))
 }
 //创建代理
 export async function agentNew(params){

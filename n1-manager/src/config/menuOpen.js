@@ -12,6 +12,10 @@
       openName = [];
     }else if(name.includes('na')) {
       openName = ["report", "nareport"];
+    }else if (name == 'pgGame') {
+      openName = ["report", "pgReport"];
+    } else if (name == 'habaGame') {
+      openName = ["report", "habaReport"];
     } else if (name == "ttgvideo") {
       openName = ["report", "ttgreport"];
     } else if (name.includes('sa')) {

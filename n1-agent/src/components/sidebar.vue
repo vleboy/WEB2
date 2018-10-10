@@ -69,6 +69,14 @@
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
                     </Submenu>
+                    <Submenu name='pgReport' v-if='permission.includes("PG电子游戏报表")'>
+                        <template slot="title">PG游戏报表</template>
+                        <MenuItem name="pgGame">PG电子游戏报表</MenuItem>
+                    </Submenu>
+                     <Submenu name='habaReport' v-if='permission.includes("HABA电子游戏报表")'>
+                        <template slot="title">HABA游戏报表</template>
+                        <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="report" v-else>
                     <template slot="title">
@@ -126,6 +134,14 @@
                     <Submenu name='ysbReport' v-if="gameList.includes('YSB体育游戏')">
                         <template slot="title">YSB游戏报表</template>
                         <MenuItem name="ysbSport">YSB体育游戏报表</MenuItem>
+                    </Submenu>
+                       <Submenu name='pgReport' v-if='gameList.includes("PG电子游戏")'>
+                        <template slot="title">PG游戏报表</template>
+                        <MenuItem name="pgGame">PG电子游戏报表</MenuItem>
+                    </Submenu>
+                     <Submenu name='habaReport' v-if='gameList.includes("HABA电子游戏")'>
+                        <template slot="title">HABA游戏报表</template>
+                        <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="agentCenter" v-if='level==0'>

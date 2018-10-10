@@ -221,6 +221,28 @@ export default {
                     checked: false
                   }
                 ]
+              },
+              {
+                title: "PG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "PG电子游戏报表",
+                    checked: false
+                  }
+                ]
+              },
+              {
+                title: "HABA游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "HABA电子游戏报表",
+                    checked: false
+                  }
+                ]
               }
             ]
           },

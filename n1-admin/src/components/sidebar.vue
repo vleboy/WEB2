@@ -69,6 +69,14 @@
                         <template slot="title">PP游戏报表</template>
                         <MenuItem name="ppGame">PP电子游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='pgReport' v-if='permission.includes("PG电子游戏报表")'>
+                        <template slot="title">PG游戏报表</template>
+                        <MenuItem name="pgGame">PG电子游戏报表</MenuItem>
+                    </Submenu>
+                     <Submenu name='habaReport' v-if='permission.includes("HABA电子游戏报表")'>
+                        <template slot="title">HABA游戏报表</template>
+                        <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">

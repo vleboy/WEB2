@@ -181,6 +181,24 @@ export default {
                       title: "PP电子游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "PG游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "PG电子游戏报表"
+                    }
+                  ]
+                },
+                {
+                  title: "HABA游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "HABA电子游戏报表"
+                    }
+                  ]
                 }
               ]
             },

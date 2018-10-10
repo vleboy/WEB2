@@ -67,7 +67,7 @@ export default {
         30000,
         40000,
         50000,60000,70000,
-        1010000,
+        1010000,1090000,1040000,
         10300000,
         1050000,
         1060000,
@@ -586,6 +586,80 @@ export default {
             }
             return h("span", thousandFormatter(count.toFixed(2)));
           }
+        },
+        {
+          title: "PG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1090000") {
+                count = obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "PG游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1090000") {
+                count = obj[key].submitAmount;
+              }
+            }
+            return h("span", thousandFormatter(count.toFixed(2)));
+          }
+        },
+        {
+          title: "HABA游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1040000") {
+                count = obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "HABA游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "1040000") {
+                count = obj[key].submitAmount;
+              }
+            }
+            return h("span", thousandFormatter(count.toFixed(2)));
+          }
         }
       ],
       columns2: [
@@ -850,6 +924,52 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
+        },
+        {
+          title: "PG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1090000"].includes(key)) {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
+        {
+          title: "HABA游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1040000"].includes(key)) {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
         }
       ]
     };
@@ -988,7 +1108,7 @@ export default {
 <style lang="less" scoped>
 .allreport {
   min-height: 87vh;
-  width: 150%;
+  width: 200%;
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;
