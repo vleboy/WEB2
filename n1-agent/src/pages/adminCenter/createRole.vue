@@ -199,6 +199,15 @@ export default {
                       title: "HABA电子游戏报表"
                     }
                   ]
+                },
+                {
+                  title: "PNG游戏报表",
+                  expand: true,
+                  children: [
+                    {
+                      title: "PNG电子游戏报表"
+                    }
+                  ]
                 }
               ]
             },

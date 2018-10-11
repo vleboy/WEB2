@@ -14,6 +14,8 @@
       openName = ["report", "pgReport"];
     } else if (name == 'habaGame') {
       openName = ["report", "habaReport"];
+    } else if (name == 'pngGame') {
+      openName = ["report", "pngReport"];
     } else if (name == "agtrue") {
       openName = ["report", "agreport"];
     } else if (name == 'ysbSport') {

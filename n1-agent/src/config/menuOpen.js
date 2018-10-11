@@ -6,19 +6,21 @@ export const menuOpen = function (name) {
     openName = ["report", "ttgreport"];
   } else if (name.includes('sa')) {
     openName = ["report", "sareport"];
-  }else if (name == "sbvideo" || name == "sbtrue" || name == "sbAll") {
+  } else if (name == "sbvideo" || name == "sbtrue" || name == "sbAll") {
     openName = ["report", "sbreport"];
   } else if (name == "mgvideo") {
     openName = ["report", "mgreport"];
-  }else if (name == 'rtgGame') {
+  } else if (name == 'pngGame') {
+    openName = ["report", "pngReport"];
+  } else if (name == 'rtgGame') {
     openName = ["report", "rtgReport"];
-  }else if (name == 'pgGame') {
+  } else if (name == 'pgGame') {
     openName = ["report", "pgReport"];
   } else if (name == 'habaGame') {
     openName = ["report", "habaReport"];
-  }else if (name == 'dtGame') {
+  } else if (name == 'dtGame') {
     openName = ["report", "dtReport"];
-  }else if (name == 'ppGame') {
+  } else if (name == 'ppGame') {
     openName = ["report", "ppReport"];
   } else if (name == "agtrue") {
     openName = ["report", "agreport"];
@@ -38,12 +40,12 @@ export const menuOpen = function (name) {
     openName = ["playerCenter"];
   } else if (name == 'gameConfig') {
     openName = ['gameCenter']
-  } else if (name == 'adminList'||name=='agentRole') {
+  } else if (name == 'adminList' || name == 'agentRole') {
     openName = ['adminCenter']
   } else if (name == "board") {
     openName = ["board"];
-  }else if (name== 'playerReport'){
-    openName=['report']
+  } else if (name == 'playerReport') {
+    openName = ['report']
   }
   return openName
 }

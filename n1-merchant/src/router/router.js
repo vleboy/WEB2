@@ -30,6 +30,7 @@ import dtGame from '@/pages/reports/dtReport'
 import ppGame from '@/pages/reports/ppGame'
 import pgVideo from '@/pages/reports/pgVideo'
 import habaVideo from '@/pages/reports/habaVideo'
+import pngVideo from '@/pages/reports/pngVideo'
 
 import opreateLog from '@/pages/log/opreateLog'
 import playerlist from '@/pages/player/playerlist'
@@ -102,6 +103,13 @@ export const appRouter = [
         name:'mggame',
         component:main,
         children:[{path:'video',title:'MG电子游戏报表',name:'mgvideo',component:mgvideo}]
+    },
+    {
+        path:'/png',
+        title:'PNG电子游戏报表',
+        name:'png',
+        component:main,
+        children:[{path:'video',title:'PNG电子游戏报表',name:'pngGame',component:pngVideo}]
     },
     {
         path:'/pg',

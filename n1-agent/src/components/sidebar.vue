@@ -77,6 +77,10 @@
                         <template slot="title">HABA游戏报表</template>
                         <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='pngReport' v-if='permission.includes("PNG电子游戏报表")'>
+                        <template slot="title">PNG游戏报表</template>
+                        <MenuItem name="pngGame">PNG电子游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="report" v-else>
                     <template slot="title">
@@ -142,6 +146,10 @@
                      <Submenu name='habaReport' v-if='gameList.includes("HABA电子游戏")'>
                         <template slot="title">HABA游戏报表</template>
                         <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
+                    </Submenu>
+                     <Submenu name='pngReport' v-if='gameList.includes("PNG电子游戏")'>
+                        <template slot="title">PNG游戏报表</template>
+                        <MenuItem name="pngGame">PNG电子游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="agentCenter" v-if='level==0'>

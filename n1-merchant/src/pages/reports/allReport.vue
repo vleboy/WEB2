@@ -43,7 +43,7 @@ export default {
         30000,
         40000,
         50000,60000,
-        1010000,1090000,1040000,
+        1010000,1090000,1040000,1020000,
         10300000,
         1050000,
         1060000,
@@ -616,7 +616,50 @@ export default {
             }
             return h("span", thousandFormatter(count));
           }
-        }
+        },
+          {
+          title: "PNG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1020000") {
+                count = gameList[key].winloseAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "PNG游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "1020000") {
+                count = gameList[key].submitAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
       ],
       columns2: [
         {
@@ -926,7 +969,30 @@ export default {
               thousandFormatter(count.toFixed(2))
             );
           }
-        }
+        },
+         {
+          title: "PNG游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (["1020000"].includes(key)) {
+                count += obj[key].winloseAmount;
+              }
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count.toFixed(2))
+            );
+          }
+        },
       ]
     };
   },

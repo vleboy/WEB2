@@ -1,6 +1,6 @@
   export const menuOpen = function (name) {
     let openName = []
-    if (name.includes('na') && name!='managerOpreateLog'){
+    if (name.includes('na') && name != 'managerOpreateLog') {
       openName = ["report", "nareport"];
     } else if (name == "ttgvideo") {
       openName = ["report", "ttgreport"];
@@ -18,11 +18,13 @@
       openName = ["report", "rtgReport"];
     } else if (name == 'pgGame') {
       openName = ["report", "pgReport"];
+    } else if (name == 'pngGame') {
+      openName = ["report", "pngReport"];
     } else if (name == 'habaGame') {
       openName = ["report", "habaReport"];
     } else if (name == 'dtGame') {
       openName = ["report", "dtReport"];
-    }else if(name=='ppGame'){
+    } else if (name == 'ppGame') {
       openName = ["report", "ppReport"];
     } else if (name == "ugsport") {
       openName = ["report", "ugreport"];
@@ -44,8 +46,8 @@
       openName = ["board"];
     } else if (name == 'dataRepair') {
       openName = ["logCenter"];
-    } else if (name== 'playerReport'){
-      openName=['report']
+    } else if (name == 'playerReport') {
+      openName = ['report']
     }
     return openName
   }

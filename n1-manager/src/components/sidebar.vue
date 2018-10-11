@@ -76,6 +76,10 @@
                         <template slot="title">HABA游戏报表</template>
                         <MenuItem name="habaGame">HABA电子游戏报表</MenuItem>
                     </Submenu>
+                     <Submenu name='pngReport' v-if='gameList.includes("PNG电子游戏")'>
+                        <template slot="title">PNG游戏报表</template>
+                        <MenuItem name="pngGame">PNG电子游戏报表</MenuItem>
+                    </Submenu>
                 </Submenu>
                 <Submenu name="businessCenter">
                     <template slot="title">

@@ -242,6 +242,17 @@ export default {
                     checked: false
                   }
                 ]
+              },
+               {
+                title: "PNG游戏报表",
+                expand: true,
+                checked: false,
+                children: [
+                  {
+                    title: "PNG电子游戏报表",
+                    checked: false
+                  }
+                ]
               }
             ]
           },
