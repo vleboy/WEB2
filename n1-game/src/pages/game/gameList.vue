@@ -64,13 +64,13 @@ export default {
           width:150
         },
         {
-          title: '供应商标识',
+          title: '供应商',
           key: 'companyIden',
-          width:120
+          width:85
         },
         {
           title: '分类',
-          width:150,
+          width:110,
           render: (h, params) => {
             return h('span', this.getType(params.row))
           }
@@ -78,15 +78,16 @@ export default {
         {
           title: 'kindId',
           key: 'kindId',
-          width:150
+          width:90
         },
         {
           title: '游戏链接',
-          key: 'gameLink'
+          key: 'gameLink',
+          align:'center'
         },
         {
           title: '状态',
-          width:100,
+          width:85,
           render: (h, params) => {
             return h(
               "Tag",
@@ -101,7 +102,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 200,
+          width: 180,
           align: 'center',
           render: (h, params) => {
             return h('div', [
