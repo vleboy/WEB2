@@ -45,6 +45,10 @@ export default {
           value: "2",
           label: "系统异常"
         },
+         {
+          value: "6",
+          label: "玩家退出"
+        },
         {
           value: "7",
           label: "控分停用"
