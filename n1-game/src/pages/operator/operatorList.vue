@@ -45,20 +45,24 @@ export default {
       columns: [
         {
           title: '供应商名称',
-          key: 'companyName'
+          key: 'companyName',
+          align: 'center',
         },
         {
           title: '供应商标识',
-          key: 'companyIden'
+          key: 'companyIden',
+          align: 'center',
         },
         {
           title: '接入类型',
+          align: 'center',
           render: (h, params) => {
             return h('span', `${this.companyTypeArray[params.row.companyType-1]}`)
           }
         },
         {
           title: '状态',
+          align: 'center',
           render: (h, params) => {
             return h(
               "Tag",
