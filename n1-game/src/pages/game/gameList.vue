@@ -60,21 +60,25 @@ export default {
       columns: [
         {
           title: '游戏名称',
-          key: 'gameName'
+          key: 'gameName',
+          width:150
         },
         {
           title: '供应商标识',
-          key: 'companyIden'
+          key: 'companyIden',
+          width:120
         },
         {
           title: '分类',
+          width:150,
           render: (h, params) => {
             return h('span', this.getType(params.row))
           }
         },
         {
           title: 'kindId',
-          key: 'kindId'
+          key: 'kindId',
+          width:150
         },
         {
           title: '游戏链接',
@@ -82,6 +86,7 @@ export default {
         },
         {
           title: '状态',
+          width:100,
           render: (h, params) => {
             return h(
               "Tag",
@@ -96,7 +101,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 180,
+          width: 200,
           align: 'center',
           render: (h, params) => {
             return h('div', [
