@@ -66,11 +66,13 @@ export default {
         {
           title: '供应商',
           key: 'companyIden',
-          width:85
+          width:85,
+          align: 'center'
         },
         {
           title: '分类',
           width:110,
+          align: 'center',
           render: (h, params) => {
             return h('span', this.getType(params.row))
           }
@@ -78,6 +80,7 @@ export default {
         {
           title: 'kindId',
           key: 'kindId',
+          align: 'center',
           width:90
         },
         {
@@ -88,6 +91,7 @@ export default {
         {
           title: '状态',
           width:85,
+          align:'center',
           render: (h, params) => {
             return h(
               "Tag",
