@@ -100,7 +100,7 @@ export default {
       showKey:false,
       repassword: "",
       dayjs: dayjs,
-      pageSize: 50,
+      pageSize: 50, 
       admin: {},
       waterfall: [],
       showData: [],
