@@ -51,7 +51,7 @@
 
             </Row>
             <Row>
-               <Col span="8">
+              <Col span="8">
               <FormItem label="商户密匙">
                 <Row>
                   <Col span="18">
@@ -271,6 +271,21 @@
           <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
         </div>
       </Panel>
+      <Panel name="4">
+        免转钱包
+        <div slot="content">
+          <Form :model="transfer" label-position="left" :label-width="100">
+            <Row>
+              <Col span="12">
+              <FormItem label="商户钱包域名" v-if="edit">{{ merchantDetail.transferURL}}</FormItem>
+              <FormItem label="商户钱包域名" v-else>
+              <Input v-model="transfer.transferURL" placeholder="请输入"></Input>
+              </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
     </Collapse>
     <div class="finance">
       <h2>财务信息</h2>
@@ -335,6 +350,9 @@ export default {
             validator: validateRate
           }
         ]
+      },
+      transfer:{
+        transferURL:''
       },
       basic: {
         password: "",
@@ -565,7 +583,7 @@ export default {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["2", "3"];
+      this.value = ["2", "3","4"];
       this.basic.password = this.merchantDetail.password;
       this.basic.remark = this.merchantDetail.remark;
       this.basic.frontURL = this.merchantDetail.frontURL;
@@ -573,6 +591,7 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
+      this.transfer.transferURL=this.merchantDetail.transferURL
       //reset
       this.gameForm.gameType = "";
       this.gameForm.gamelist = "";
@@ -600,12 +619,12 @@ export default {
       if (password == "") {
         this.$Message.warning("密码不能为空");
         return;
-      }else{
-         if (this.passwordLevel(password) < 2) {
-         return  this.$Message.warning({
-          content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
-        });
-       }
+      } else {
+        if (this.passwordLevel(password) < 2) {
+          return this.$Message.warning({
+            content: "密码中必须包含6-16位由字母、数字、符号中至少两种组成"
+          });
+        }
       }
       //  else {
       //   let testReg = /^[a-zA-Z0-9@_#$%^&*!.~-]{6,16}$/;
@@ -631,6 +650,7 @@ export default {
       params.isOpenBrowser = this.defaultBrower;
       params.launchImg = this.merchantDetail.launchImg;
       params.isTest = this.isTest == true ? 1 : 0;
+      params.transferURL=this.transfer.transferURL;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -640,8 +660,8 @@ export default {
       updateMerchant(userId, params).then(res => {
         if (res.code == 0) {
           this.$Message.success("修改成功");
-        }else{
-          this.resetPass()
+        } else {
+          this.resetPass();
         }
         this.spinShow = false;
       });
@@ -741,9 +761,9 @@ export default {
     // },
     passwordLevel(password) {
       let Modes = 0;
-      let len=password.length;
-      if(len<6||len>16){
-        return 0
+      let len = password.length;
+      if (len < 6 || len > 16) {
+        return 0;
       }
       for (let i = 0; i < password.length; i++) {
         Modes |= CharMode(password.charCodeAt(i));
@@ -772,15 +792,15 @@ export default {
         return modes;
       }
     },
-    resetPass(){
+    resetPass() {
       let userId = this.$route.query.userId;
-      oneMerchants(userId).then(res=>{
+      oneMerchants(userId).then(res => {
         this.merchantDetail = res.payload;
         this.defaultBrower = res.payload.isOpenBrowser == 1 ? true : false; //brower
         this.isTest = res.payload.isTest == 1 ? true : false; //test
         this.basic.skin = res.payload.skin || "1"; //skin
         this.gameDetail = res.payload.gameList;
-      })
+      });
     },
     async init() {
       this.spinShow = true;
@@ -830,8 +850,7 @@ export default {
       let suffix = this.suffixFun(this.imgFileLogo.name);
       let date = new Date().getTime();
       let fileName = `image/${suffix[0] + date}.${suffix[1]}`;
-      mi
-        .multipartUpload(fileName, this.imgFileLogo, {})
+      mi.multipartUpload(fileName, this.imgFileLogo, {})
         .then(results => {
           this.$Message.success("上传成功");
           this.loadingStatusLogo = false;
@@ -868,7 +887,7 @@ export default {
     beforeUploadLogo(file) {
       localStorage.setItem("nowUrl", "merchantDetail");
       let fileName = this.suffixFun(file.name);
-      let reg = new RegExp(/^[0-9a-zA-Z]*$/)
+      let reg = new RegExp(/^[0-9a-zA-Z]*$/);
       const isLt1M = file.size / 1024 / 1024 < 2;
       const suffix = fileName[1].toLowerCase();
       const fileType = ["png", "jpg"];
@@ -915,8 +934,7 @@ export default {
       let suffix = this.suffixFun(this.imgFileName.name);
       let date = new Date().getTime();
       let fileName = `image/${suffix[0] + date}.${suffix[1]}`;
-      mi
-        .multipartUpload(fileName, this.imgFileName, {})
+      mi.multipartUpload(fileName, this.imgFileName, {})
         .then(results => {
           this.$Message.success("上传成功");
           this.loadingStatusName = false;
@@ -948,7 +966,7 @@ export default {
     beforeUploadName(file) {
       localStorage.setItem("nowUrl", "merchantDetail");
       let fileName = this.suffixFun(file.name);
-      let reg = new RegExp(/^[0-9a-zA-Z]*$/)
+      let reg = new RegExp(/^[0-9a-zA-Z]*$/);
       const isLt1M = file.size / 1024 / 1024 < 2;
       const suffix = fileName[1].toLowerCase();
       const fileType = ["png", "jpg"];

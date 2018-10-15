@@ -8,11 +8,11 @@
         <tr>
           <td>
              <Row>
-              <Col span="10">商户密匙 :
+              <Col span="21">商户密匙 :
               <span v-if="showKey">{{admin.apiKey}}</span>
               <span v-else>********</span>
               </Col>
-              <Col span="12">
+              <Col span="3">
               <span class="newPassword" @click="showKey=!showKey" v-if="!showKey">显示</span>
               <span class="newPassword" @click="showKey=!showKey" v-else>隐藏</span>
               </Col>
