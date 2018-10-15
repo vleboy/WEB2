@@ -747,7 +747,7 @@ export default {
     //     "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     //     "1234567890",
     //     "@_#$%^&*!.~-"
-    //   ];
+    //   ];//
     //   let rand = function(min, max) {
     //     return Math.floor(Math.max(min, Math.random() * (max + 1)));
     //   };
