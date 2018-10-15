@@ -116,7 +116,7 @@ export default {
       });
     },
     login() {
-      // let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{7,16}$/;
+      // let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{7,16}$/
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
       if (!this.userdata.challenge) {
@@ -132,7 +132,7 @@ export default {
         return;
       }
       // if (!passReg.test(this.password)) {
-      //   this.$Message.warning({
+      //   this.$Message.warning({ 
       //     content: "密码为8-16位的(英文、数字、符号)"
       //   });
       //   return;
