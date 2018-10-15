@@ -7,6 +7,9 @@
       <table cellspacing="0">
         <tr>
           <td>
+           <span>商户ID : {{admin.displayId}}</span>
+          </td>
+          <td>
              <Row>
               <Col span="21">商户密匙 :
               <span v-if="showKey">{{admin.apiKey}}</span>
@@ -21,11 +24,11 @@
           <td>
             <span>商户简称 : {{ admin.suffix }}</span>
           </td>
+        </tr>
+        <tr>
           <td>
             <span>商户标识 : {{admin.sn}} </span>
           </td>
-        </tr>
-        <tr>
           <td>
             <span>管理员账号 : {{admin.uname}}</span>
           </td>
@@ -42,19 +45,16 @@
               </Col>
             </Row>
           </td>
+        </tr>
+        <tr>
           <td>
             <span>商户线路号 : {{ admin.msn }}</span>
           </td>
-        </tr>
-        <tr>
           <td>
             <span>上次登录时间 : {{dayjs(admin.loginAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </td>
           <td>
             <span>上次登录IP : {{admin.lastIP}}</span>
-          </td>
-          <td>
-            <span>商户ID : {{admin.displayId}}</span>
           </td>
         </tr>
       </table>
