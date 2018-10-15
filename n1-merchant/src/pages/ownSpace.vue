@@ -7,7 +7,16 @@
       <table cellspacing="0">
         <tr>
           <td>
-            <span>商户密匙 : {{admin.apiKey}}</span>
+             <Row>
+              <Col span="10">商户密匙 :
+              <span v-if="showKey">{{admin.apiKey}}</span>
+              <span v-else>********</span>
+              </Col>
+              <Col span="12">
+              <span class="newPassword" @click="showKey=!showKey" v-if="!showKey">显示</span>
+              <span class="newPassword" @click="showKey=!showKey" v-else>隐藏</span>
+              </Col>
+            </Row>
           </td>
           <td>
             <span>商户简称 : {{ admin.suffix }}</span>
@@ -44,7 +53,9 @@
           <td>
             <span>上次登录IP : {{admin.lastIP}}</span>
           </td>
-          <td></td>
+          <td>
+            <span>商户ID : {{admin.displayId}}</span>
+          </td>
         </tr>
       </table>
     </div>
@@ -86,6 +97,7 @@ export default {
       modal: false,
       password: "",
       showPass: false,
+      showKey:false,
       repassword: "",
       dayjs: dayjs,
       pageSize: 50,
