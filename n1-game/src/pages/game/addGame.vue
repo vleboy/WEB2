@@ -337,7 +337,7 @@ export default {
     },
     uploadAws () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
-      const prod = `http://img.na77.com/${this.imgFile.name}` //开发环境
+      const prod = `http://img.na77.com/${this.imgFile.fileName}` //正式环境
       httpRequest('put',`${this.uploadAction[0].aws}`, this.imgFile)
         .then(res => {
           this.$Message.success('上传亚马逊成功')
