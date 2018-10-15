@@ -32,7 +32,11 @@ const post = (urls, datas, type) => {
       "Content-Type": "application/json; charset=utf-8",
     }
   }
-  let url=type=='game'?'https://dgjmusja39cm2.cloudfront.net':httpType+ URL;
+  let url=type=='game'
+    ?process.env.NODE_ENV == 'production'
+       ? 'https://n1game.na12345.com'
+       :'https://dgjmusja39cm2.cloudfront.net'
+    :httpType+ URL;
   return {
     method: 'post',
     url:url+ urls,
