@@ -17,11 +17,15 @@
     </Row>
     <Row class="record-row">
       <Col :span="12">网页游戏：{{detailInfo.isWebGame!='0' ? '是' : '否'}}</Col>
-      <Col :span="12" class="-row-left">网页地址：{{detailInfo.gameLink || '暂无'}}</Col>
+    </Row>
+     <Row class="record-row">
+      <Col :span="24">网页地址：{{detailInfo.gameLink || '暂无'}}</Col>
     </Row>
     <Row class="record-row">
-      <Col :span="12">图片链接（亚马逊）：{{detailInfo.gameImg}}</Col>
-      <Col :span="12" class="-row-left">图片链接（阿里云）：{{detailInfo.gameImgAli || '无'}}</Col>
+      <Col :span="24">图片链接（亚马逊）：{{detailInfo.gameImg}}</Col>
+    </Row>
+    <Row class="record-row">
+      <Col :span="24">图片链接（阿里云）：{{detailInfo.gameImgAli || '无'}}</Col>
     </Row>
   </div>
 </template>
