@@ -30,7 +30,7 @@ export default {
         {banner: require('@/assets/img/banner1.jpg')},
         {banner: require('@/assets/img/banner2.jpg')},
         {banner: require('@/assets/img/banner3.jpg')},
-        {banner: require('@/assets/img/banner4.jpg')},
+        // {banner: require('@/assets/img/banner4.jpg')},
       ]
     }
   },

@@ -63,6 +63,7 @@ import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampL
 import businessRecordList from '@/pages/operation/businessRecord/businessRecordList'
 import boothList from '@/pages/operation/booth/boothList'
 import propPrizeList from '@/pages/operation/propPrize/propPrizeList'
+import flow from '@/pages/notransfer/flow'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -282,6 +283,15 @@ export const appRouter = [
           {path:'list',title:'玩家列表',name:'playList',component:playerlist}
         ]
     },
+    {
+        path:'/transfer',
+        title:'',
+        name:'transfer',
+        component:main,
+        children:[
+            {path:'notransfer',title:'流水交易',name:'flow',component:flow}
+          ]
+      },
     {
       path:'/operation',
       title:'运营中心',

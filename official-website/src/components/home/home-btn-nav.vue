@@ -29,7 +29,9 @@ export default {
   },
   methods: {
     jumpUrl (id) {
-      this.$router.push({path: '/detail', query: {id: id}})
+      if(id!==3){
+        this.$router.push({path: '/detail', query: {id: id}})
+      }
     }
   }
 }

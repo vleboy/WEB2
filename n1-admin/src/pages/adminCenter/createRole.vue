@@ -331,6 +331,15 @@ export default {
                 }
               ]
             },
+             {
+            title: "免转中心",
+            expand: true,
+            children: [
+              {
+                title: "流水交易",
+              },
+            ]
+          },
             {
             title: "数据权限",
             expand: true,

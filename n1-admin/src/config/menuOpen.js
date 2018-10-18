@@ -48,6 +48,8 @@
       openName = ["logCenter"];
     } else if (name == 'playerReport') {
       openName = ['report']
+    } else if(name=='flow'){
+      openName=['noTransfer']
     }
     return openName
   }

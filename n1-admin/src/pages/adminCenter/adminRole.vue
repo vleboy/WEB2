@@ -412,6 +412,17 @@ export default {
             ]
           },
           {
+            title: "免转中心",
+            expand: true,
+            checked: false,
+            children: [
+              {
+                title: "流水交易",
+                checked: false
+              },
+            ]
+          },
+          {
             title: "数据权限",
             expand: true,
             checked: false,

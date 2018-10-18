@@ -189,22 +189,22 @@
                   id: 2
                 }
               ],
-              [
-                {
-                  url: require('@/assets/img/detail/tz/all-jz.png'),
-                  id: 0,
-                  isTitle: true
-                },
-                {
-                  url: require('@/assets/img/btn-nav/btn-nav-3.jpg'),
-                  id: 1
-                },
-                {
-                  url: require('@/assets/img/detail/tz/jz-null.png'),
-                  id: 2,
-                  isTitle: true
-                }
-              ]
+              // [
+              //   {
+              //     url: require('@/assets/img/detail/tz/all-jz.png'),
+              //     id: 0,
+              //     isTitle: true
+              //   },
+              //   {
+              //     url: require('@/assets/img/btn-nav/btn-nav-3.jpg'),
+              //     id: 1
+              //   },
+              //   {
+              //     url: require('@/assets/img/detail/tz/jz-null.png'),
+              //     id: 2,
+              //     isTitle: true
+              //   }
+              // ]
             ]
         }
         return jumpType
