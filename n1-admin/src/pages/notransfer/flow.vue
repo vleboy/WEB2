@@ -4,14 +4,18 @@
       <div class="search">
         <Row class="row">
           <Col span="2">运营商标识</Col>
-          <Col span="4">
-          <Input v-model="plat" placeholder="请输入" style="width: 150px"></Input>
+          <Col span="2">
+          <Input v-model="plat" placeholder="请输入"></Input>
           </Col>
-          <Col span="2">玩家ID</Col>
-          <Col span="4">
-          <Input v-model="userId" placeholder="请输入" style="width: 150px"></Input>
+          <Col span="2" style="paddingLeft: 10px">玩家ID</Col>
+          <Col span="2">
+          <Input v-model="userId" placeholder="请输入"></Input>
           </Col>
-          <Col span="8" style="textAlign:right">
+          <Col span="2" style="paddingLeft: 10px">交易号</Col>
+          <Col span="3">
+          <Input v-model="businessKey" placeholder="请输入"></Input>
+          </Col>
+          <Col span="7" style="textAlign:right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
           </Col>
           <Col span="4" style="textAlign:right">
@@ -21,10 +25,25 @@
         </Row>
       </div>
     </div>
-    <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}" @on-change="search">
-      <Radio label="1">流水记录</Radio>
-      <Radio label="2">交易记录</Radio>
-    </RadioGroup>
+    <Row class="row">
+      <Col span="8">
+      <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}" @on-change="search">
+        <Radio label="1">流水记录</Radio>
+        <Radio label="2">交易记录</Radio>
+      </RadioGroup>
+      </Col>
+      <!-- <Col span="8">
+       <span>分页数量:</span>
+      <Select v-model="pageSize" style="width:90px" @on-change="search">
+        <Option v-for="item in sizeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
+      </Col> -->
+      <Col span="8" :offset='8' style="textAlign:right">
+      <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
+        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
+      </Col>
+    </Row>
     <Table :columns="columns" size="small" v-if="reportType==1" :data="showData"></Table>
     <Table :columns="columns1" size="small" v-else :data="showData"></Table>
     <Row class="count_row" v-if="reportType=='2'">
@@ -91,6 +110,36 @@ export default {
       allRet: 0,
       allWin: 0,
       rowDetail: {},
+      // pageSize:200,
+      //  sizeList: [
+      //   {
+      //     value: 200,
+      //     label: "200"
+      //   },
+      //   {
+      //     value: 100,
+      //     label: "100"
+      //   },
+      //   {
+      //     value: 20,
+      //     label: "20"
+      //   }
+      // ],
+      status: "",
+      statusList: [
+        {
+          value: "Y",
+          label: "同步成功"
+        },
+        {
+          value: "N",
+          label: "下注成功"
+        },
+        {
+          value: "E",
+          label: "下注失败"
+        }
+      ],
       typeList: {
         "3": "下注",
         "4": "返奖",
@@ -107,19 +156,20 @@ export default {
       isOpenModalRunning: false,
       plat: "",
       userId: "",
+      businessKey: "",
       reportType: "1",
       defaultTime: getDefaultTime(),
       columns: [
         {
-          title: "流水号",
-          key: "sn",
-          width: 200,
-          align: "center"
-        },
-        {
           title: "交易号",
           width: 200,
           key: "businessKey",
+          align: "center"
+        },
+        {
+          title: "流水号",
+          key: "sn",
+          width: 250,
           align: "center"
         },
         {
@@ -506,9 +556,12 @@ export default {
     reset() {
       this.userId = "";
       this.plat = "";
+      this.businessKey = "";
+      this.status = "";
+      this.defaultTime = getDefaultTime();
     },
     search() {
-      if (this.plat == "" && this.userId == "") {
+      if (this.plat == "" && this.userId == "" && this.businessKey == "") {
         return this.$Message.warning("请输入查询条件");
       }
       this.spin = true;
@@ -516,6 +569,9 @@ export default {
         userId: this.userId,
         isRound: this.reportType == "1" ? false : true,
         plat: this.plat,
+        status: this.status,
+        // pageSize:this.pageSize,
+        businessKey: this.businessKey,
         startTime: this.changedTime[0],
         endTime: this.changedTime[1]
       })
@@ -554,10 +610,10 @@ export default {
     padding: 20px 0;
   }
 }
-.green{
-    color: #0c0
-  }
-  .red{
-    color: #f30
-  }
+.green {
+  color: #0c0;
+}
+.red {
+  color: #f30;
+}
 </style>
