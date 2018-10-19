@@ -84,7 +84,7 @@
                 </Submenu>
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">
-                        <Icon type="model-s"></Icon>
+                        <Icon type="person-stalker"></Icon>
                         商户中心
                     </template>
                     <MenuItem name="dealerList" v-if='permission.includes("线路商列表")'>线路商列表</MenuItem>
@@ -135,7 +135,7 @@
                 </Submenu>
                  <Submenu name="noTransfer" v-if='permission.includes("流水交易")'>
                     <template slot="title">
-                        <Icon type="waterdrop"></Icon>
+                        <Icon type="social-usd"></Icon>
                         免转中心
                     </template>
                     <MenuItem name="flow" v-if='permission.includes("流水交易")'>流水交易</MenuItem>

@@ -1,41 +1,73 @@
 <template>
-    <div class="flow">
-        <div class="top">
-            <div class="search">
-                <Row class="row">
-                    <Col span="2">运营商标识:</Col>
-                    <Col span="4">
-                    <Input v-model="plat" placeholder="请输入"></Input>
-                    </Col>
-                    <Col span="2">玩家ID:</Col>
-                    <Col span="4">
-                    <Input v-model="userId" placeholder="请输入"></Input>
-                    </Col>
-                    <Col span="6" :offset='4'>
-                    <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
-                    </Col>
-                    <Col span="2">
-                    <Button type="primary" @click="search">搜索</Button>
-                    <Button type="ghost" @click="reset">重置</Button>
-                    </Col>
-                </Row>
-            </div>
-        </div>
-        <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}" @on-change="search">
-            <Radio label="1">流水报表</Radio>
-            <Radio label="2">交易记录</Radio>
-        </RadioGroup>
-        <Table :columns="columns" v-if="reportType==1" :data="showData"></Table>
-        <Table :columns="columns1" v-else :data="showData"></Table>
-        <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
-        <Spin size="large" fix v-if="spin">
-            <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-            <div>加载中...</div>
-        </Spin>
-        <Modal title="流水详情" v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
-            <Table :columns="columns2" :data="runningDetail"></Table>
-        </Modal>
+  <div class="flow">
+    <div class="top">
+      <div class="search">
+        <Row class="row">
+          <Col span="2">运营商标识</Col>
+          <Col span="4">
+          <Input v-model="plat" placeholder="请输入" style="width: 150px"></Input>
+          </Col>
+          <Col span="2">玩家ID</Col>
+          <Col span="4">
+          <Input v-model="userId" placeholder="请输入" style="width: 150px"></Input>
+          </Col>
+          <Col span="8" style="textAlign:right">
+          <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
+          </Col>
+          <Col span="4" style="textAlign:right">
+          <Button type="primary" @click="search">搜索</Button>
+          <Button type="ghost" @click="reset">重置</Button>
+          </Col>
+        </Row>
+      </div>
     </div>
+    <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}" @on-change="search">
+      <Radio label="1">流水记录</Radio>
+      <Radio label="2">交易记录</Radio>
+    </RadioGroup>
+    <Table :columns="columns" size="small" v-if="reportType==1" :data="showData"></Table>
+    <Table :columns="columns1" size="small" v-else :data="showData"></Table>
+    <Row class="count_row" v-if="reportType=='2'">
+      <Col span="4">
+      总下注次数: <span class="num">{{allBetCount|format}}</span>
+      </Col>
+      <Col span="4">
+      总下注金额: <span class="num">{{allBetAmount|format}}</span>
+      </Col>
+      <Col span="4">
+      总返还金额: <span class="num">{{allRet|format}}</span>
+      </Col>
+      <Col span="4">
+      总返奖金额: <span class="num">{{allWin|format}}</span>
+      </Col>
+      <Col span="4">
+      总退款金额: <span class="num">{{allRefund|format}}</span>
+      </Col>
+      <Col span="4">
+      总输赢金额: <span class="num">{{allWinLose|format}}</span>
+      </Col>
+    </Row>
+    <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+    <Spin size="large" fix v-if="spin">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
+    <Modal title="流水详情" v-model="isOpenModalRunning" class="g-text-center" width="800">
+      <Row class="g-text-left" style="margin-bottom: 15px">
+        <Col span="12">交易号：{{rowDetail.businessKey}}</Col>
+        <Col span="4">下注金额:<span :class="rowDetail.betAmount>0?'green':'red'">{{rowDetail.betAmount}}</span></Col>
+        <Col span="4">返奖金额：{{rowDetail.winAmount}}</Col>
+        <Col span="4">退款金额：{{rowDetail.refundAmount}}</Col>
+      </Row>
+      <Row class="g-text-left" style="margin-bottom: 15px">
+        <Col span="4">返还金额：{{rowDetail.retAmount}}</Col>
+        <Col span="4">输赢金额:
+        <span :class="{'green':rowDetail.winloseAmount>0,'red':rowDetail.winloseAmount<0}">{{rowDetail.winloseAmount}}</span>
+        </Col>
+      </Row>
+      <Table size="small" :columns="columns2" :data="runningDetail"></Table>
+    </Modal>
+  </div>
 </template>
 <script>
 import { httpRequest } from "@/service/index";
@@ -44,10 +76,21 @@ import { getDefaultTime } from "@/config/getDefaultTime";
 export default {
   name: "",
   components: {},
-  filters: {},
+  filters: {
+    format(v) {
+      return v.toLocaleString();
+    }
+  },
   props: {},
   data() {
     return {
+      allBetCount: 0,
+      allBetAmount: 0,
+      allRefund: 0,
+      allWinLose: 0,
+      allRet: 0,
+      allWin: 0,
+      rowDetail: {},
       typeList: {
         "3": "下注",
         "4": "返奖",
@@ -69,43 +112,74 @@ export default {
       columns: [
         {
           title: "流水号",
-          key: "sn"
+          key: "sn",
+          width: 200,
+          align: "center"
         },
         {
           title: "交易号",
-          key: "businessKey"
+          width: 200,
+          key: "businessKey",
+          align: "center"
         },
         {
           title: "接入方",
-          key: "plat"
+          key: "plat",
+          width: 100,
+          align: "center"
         },
         {
           title: "玩家ID",
-          key: "userId"
+          key: "userId",
+          width: 100,
+          align: "center"
         },
         {
           title: "玩家昵称",
-          key: "userNick"
+          key: "userNick",
+          width: 100,
+          align: "center"
         },
         {
           title: "游戏大类",
-          key: "gameType"
+          key: "gameType",
+          width: 100,
+          align: "center"
         },
         {
           title: "游戏ID",
-          key: "gameId"
+          key: "gameId",
+          width: 100,
+          align: "center"
         },
         {
           title: "帐变金额",
-          key: "amount"
+          key: "amount",
+          width: 100,
+          align: "center",
+          render: (h, params) => {
+            let color = params.row.amount > 0 ? "#0c0" : "#f30";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.amount
+            );
+          }
         },
         {
           title: "余额",
-          key: "balance"
+          key: "balance",
+          width: 100,
+          align: "center"
         },
         {
           title: "类型",
           key: "type",
+          width: 100,
           render: (h, params) => {
             return h("span", this.typeList[params.row.type]);
           }
@@ -113,6 +187,7 @@ export default {
         {
           title: "状态",
           key: "status",
+          width: 100,
           render: (h, params) => {
             let color, text;
             switch (params.row.status) {
@@ -143,6 +218,8 @@ export default {
         {
           title: "同步时间",
           key: "createdAt",
+          align: "center",
+          width: 200,
           render: (h, params) => {
             return h(
               "span",
@@ -154,31 +231,44 @@ export default {
       columns1: [
         {
           title: "交易号",
-          key: "businessKey"
+          key: "businessKey",
+          width: 200
         },
         {
           title: "接入方",
-          key: "plat"
+          key: "plat",
+          width: 100,
+          align: "center"
         },
         {
           title: "玩家ID",
-          key: "userId"
+          key: "userId",
+          width: 100,
+          align: "center"
         },
         {
           title: "玩家昵称",
-          key: "userNick"
+          key: "userNick",
+          width: 100,
+          align: "center"
         },
         {
           title: "游戏大类",
-          key: "gameType"
+          key: "gameType",
+          width: 100,
+          align: "center"
         },
         {
           title: "游戏ID",
-          key: "gameId"
+          key: "gameId",
+          width: 100,
+          align: "center"
         },
         {
           title: "状态",
           key: "status",
+          width: 100,
+          align: "center",
           render: (h, params) => {
             let color, text;
             switch (params.row.status) {
@@ -208,27 +298,57 @@ export default {
         },
         {
           title: "下注金额",
-          key: "betAmount"
+          key: "betAmount",
+          width: 100,
+          align: "center"
+        },
+        {
+          title: "下注次数",
+          key: "betCount",
+          width: 100,
+          align: "center"
         },
         {
           title: "返奖金额",
-          key: "winAmount"
+          key: "winAmount",
+          width: 100,
+          align: "center"
         },
         {
           title: "退款金额",
-          key: "refundAmount"
+          key: "refundAmount",
+          width: 100,
+          align: "center"
         },
         {
           title: "返还金额",
-          key: "retAmount"
+          key: "retAmount",
+          width: 100,
+          align: "center"
         },
         {
           title: "输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          width: 100,
+          align: "center",
+          render: (h, params) => {
+            let color = params.row.winloseAmount > 0 ? "#0c0" : "#f30";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              params.row.winloseAmount
+            );
+          }
         },
         {
           title: "操作",
           key: "",
+          width: 100,
+          align: "center",
           render: (h, params) => {
             return h(
               "Button",
@@ -243,6 +363,7 @@ export default {
                 on: {
                   click: () => {
                     this.openModalRunning(params.row.content);
+                    this.rowDetail = params.row;
                   }
                 }
               },
@@ -338,6 +459,27 @@ export default {
     //   this.init()
   },
   methods: {
+    getAllCount(list) {
+      this.allBetCount = 0;
+      this.allBetAmount = 0;
+      this.allWinLose = 0;
+      this.allRefund = 0;
+      this.allWin = 0;
+      this.allRet = 0;
+      for (let item of list) {
+        this.allBetCount += item.betCount;
+        this.allBetAmount += item.betAmount;
+        this.allWinLose += item.winloseAmount;
+        this.allRefund += item.refundAmount;
+        this.allRet += item.retAmount;
+        this.allWin += item.winAmount;
+      }
+      this.allBetAmount = +this.allBetAmount.toFixed(2);
+      this.allWinLose = +this.allWinLose.toFixed(2);
+      this.allRefund = +this.allRefund.toFixed(2);
+      this.allWin = +this.allWin.toFixed(2);
+      this.allRet = +this.allRet.toFixed(2);
+    },
     handlePage() {
       let data = this.reportType == "1" ? this.flowList : this.tradeRecord;
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
@@ -346,6 +488,7 @@ export default {
       } else {
         this.showData = data.slice(0, this.pageSize);
       }
+      this.getAllCount(this.showData);
     },
     changepage(index) {
       let data = this.reportType == "1" ? this.flowList : this.tradeRecord;
@@ -353,6 +496,7 @@ export default {
       let _start = (index - 1) * size;
       let _end = index * size;
       this.showData = data.slice(_start, _end);
+      this.getAllCount(this.showData);
       // console.log(this.showData);
     },
     openModalRunning(data) {
@@ -365,7 +509,7 @@ export default {
     },
     search() {
       if (this.plat == "" && this.userId == "") {
-        return this.$Message.warning("至少输入一个搜索条件");
+        return this.$Message.warning("请输入查询条件");
       }
       this.spin = true;
       httpRequest("post", "/transferDetail", {
@@ -405,5 +549,15 @@ export default {
     text-align: right;
     margin-top: 20px;
   }
+  .count_row {
+    line-height: 32px;
+    padding: 20px 0;
+  }
 }
+.green{
+    color: #0c0
+  }
+  .red{
+    color: #f30
+  }
 </style>
