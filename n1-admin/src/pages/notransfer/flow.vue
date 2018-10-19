@@ -125,8 +125,12 @@ export default {
       //     label: "20"
       //   }
       // ],
-      status: "",
+      status: "A",
       statusList: [
+        {
+          value:'A',
+          label:'全部'
+        },
         {
           value: "Y",
           label: "同步成功"
@@ -164,13 +168,11 @@ export default {
           title: "交易号",
           width: 200,
           key: "businessKey",
-          align: "center"
         },
         {
           title: "流水号",
           key: "sn",
           width: 250,
-          align: "center"
         },
         {
           title: "接入方",
