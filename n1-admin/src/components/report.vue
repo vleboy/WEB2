@@ -102,7 +102,7 @@ export default {
                       this.$store
                         .dispatch("getUserChild", {
                           parent: "01",
-                          isTest:+this.source,
+                          isTest: +this.source,
                           gameType: this.gameType,
                           query: {
                             createdAt: this.changedTime
@@ -110,8 +110,8 @@ export default {
                         })
                         .then(res => {
                           this.child = res.payload;
-                          this.showName=false
-                          this.playerList=[]
+                          this.showName = false;
+                          this.playerList = [];
                           this.reportChild = [];
                           this.spinShow = false;
                         });
@@ -288,7 +288,7 @@ export default {
               }
               let result = "";
               if (winloseAmount != 0) {
-                result = (100 * winloseAmount / mixAmount).toFixed(2) + "%";
+                result = ((100 * winloseAmount) / mixAmount).toFixed(2) + "%";
               } else {
                 result = 0;
               }
@@ -312,7 +312,31 @@ export default {
         },
         {
           title: "用户名",
-          key: "userName"
+          key: "userName",
+          render: (h, params) => {
+            let name = params.row.userName;
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor:'pointer'
+                },
+                on: {
+                  click: () => {
+                    localStorage.setItem("playerName", name);
+                    this.$router.push({
+                      name: "playDetail",
+                      query: {
+                        name:name
+                      }
+                    });
+                  }
+                }
+              },
+              name
+            );
+          }
         },
         {
           title: "昵称",
@@ -439,7 +463,7 @@ export default {
         this.$store
           .dispatch("getUserChild", {
             parent: userId,
-            isTest:+this.source,
+            isTest: +this.source,
             gameType: this.gameType,
             query: {
               createdAt: this.changedTime

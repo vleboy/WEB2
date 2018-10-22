@@ -180,7 +180,31 @@ export default {
         },
         {
           title: "用户名",
-          key: "userName"
+          key: "userName",
+          render: (h, params) => {
+            let name = params.row.userName;
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor:'pointer'
+                },
+                on: {
+                  click: () => {
+                    localStorage.setItem("playerName", name);
+                    this.$router.push({
+                      name: "playDetail",
+                      query: {
+                        name:name
+                      }
+                    });
+                  }
+                }
+              },
+              name
+            );
+          }
         },
         {
           title: "昵称",
