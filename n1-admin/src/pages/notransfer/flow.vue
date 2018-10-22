@@ -3,17 +3,13 @@
     <div class="top">
       <div class="search">
         <Row class="row">
-          <Col span="2">运营商标识</Col>
-          <Col span="2">
-          <Input v-model="plat" placeholder="请输入"></Input>
-          </Col>
-          <Col span="2" style="paddingLeft: 10px">玩家ID</Col>
-          <Col span="2">
-          <Input v-model="userId" placeholder="请输入"></Input>
-          </Col>
-          <Col span="2" style="paddingLeft: 10px">交易号</Col>
-          <Col span="3">
-          <Input v-model="businessKey" placeholder="请输入"></Input>
+          <Col span="13">
+          <span class="label">接入方标识</span>
+          <Input v-model="plat" style="width: 100px" placeholder="请输入"></Input>
+          <span class="label">玩家ID</span>
+          <Input v-model="userId" style="width: 100px" placeholder="请输入"></Input>
+          <span class="label">交易号</span>
+          <Input v-model="businessKey" style="width: 120px" placeholder="请输入"></Input>
           </Col>
           <Col span="7" style="textAlign:right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
@@ -25,12 +21,15 @@
         </Row>
       </div>
     </div>
-    <Row class="row">
+    <Row class="row selection">
       <Col span="8">
       <RadioGroup v-model="reportType" type="button" :style="{paddingBottom:'10px'}" @on-change="search">
         <Radio label="1">流水记录</Radio>
         <Radio label="2">交易记录</Radio>
       </RadioGroup>
+       <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
+        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
       </Col>
       <!-- <Col span="8">
        <span>分页数量:</span>
@@ -38,35 +37,30 @@
         <Option v-for="item in sizeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       </Col> -->
-      <Col span="8" :offset='8' style="textAlign:right">
-      <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
-        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select>
-      </Col>
     </Row>
-    <Table :columns="columns" size="small" v-if="reportType==1" :data="showData"></Table>
-    <Table :columns="columns1" size="small" v-else :data="showData"></Table>
+    <Table :columns="columns" no-data-text='请输入查询条件' size="small" v-if="reportType==1" :data="dataList"></Table>
+    <Table :columns="columns1" no-data-text='请输入查询条件' size="small" v-else :data="dataList"></Table>
     <Row class="count_row" v-if="reportType=='2'">
       <Col span="4">
-      总下注次数: <span class="num">{{allBetCount|format}}</span>
+      当页数据总下注次数: <span class="num">{{allBetCount|format}}</span>
       </Col>
       <Col span="4">
-      总下注金额: <span class="num">{{allBetAmount|format}}</span>
+      当页数据总下注金额: <span class="num">{{allBetAmount|format}}</span>
       </Col>
       <Col span="4">
-      总返还金额: <span class="num">{{allRet|format}}</span>
+      当页数据总返还金额: <span class="num">{{allRet|format}}</span>
       </Col>
       <Col span="4">
-      总返奖金额: <span class="num">{{allWin|format}}</span>
+      当页数据总返奖金额: <span class="num">{{allWin|format}}</span>
       </Col>
       <Col span="4">
-      总退款金额: <span class="num">{{allRefund|format}}</span>
+      当页数据总退款金额: <span class="num">{{allRefund|format}}</span>
       </Col>
       <Col span="4">
-      总输赢金额: <span class="num">{{allWinLose|format}}</span>
+      当页数据总输赢金额: <span class="num">{{allWinLose|format}}</span>
       </Col>
     </Row>
-    <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+    <Page :total="total" class="page" show-elevator :page-size='nowSize' :current.sync="currentPage" @on-change="changepage"></Page>
     <Spin size="large" fix v-if="spin">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -109,8 +103,16 @@ export default {
       allWinLose: 0,
       allRet: 0,
       allWin: 0,
+      nowPage: 1,
+      currentPage: 1,
+      isLast: false, //主要判断是否是后台返回最后一次信息
+      pageSize: 200, //请求的数量
+      nowSize: 20, //显示的数量
+      flowStartKey: null,
+      tradeStartKey: null,
+      flowStorage: [],
+      tradeStorage: [],
       rowDetail: {},
-      // pageSize:200,
       //  sizeList: [
       //   {
       //     value: 200,
@@ -128,8 +130,8 @@ export default {
       status: "A",
       statusList: [
         {
-          value:'A',
-          label:'全部'
+          value: "A",
+          label: "全部"
         },
         {
           value: "Y",
@@ -155,7 +157,6 @@ export default {
       },
       showData: [],
       spin: false,
-      pageSize: 20,
       runningDetail: [],
       isOpenModalRunning: false,
       plat: "",
@@ -167,12 +168,12 @@ export default {
         {
           title: "交易号",
           width: 200,
-          key: "businessKey",
+          key: "businessKey"
         },
         {
           title: "流水号",
           key: "sn",
-          width: 250,
+          width: 250
         },
         {
           title: "接入方",
@@ -504,6 +505,32 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
+    },
+    dataList() {
+      if (this.reportType == "1") {
+        if (this.nowPage === 1) {
+          return this.flowList.slice(0, this.nowSize);
+        } else {
+          return this.flowList.slice(
+            (this.nowPage - 1) * this.nowSize,
+            this.nowSize * this.nowPage
+          );
+        }
+      } else {
+        let list=[]
+        if (this.nowPage === 1) {
+          list=this.tradeRecord.slice(0, this.nowSize);
+          this.getAllCount(list)
+          return list
+        } else {
+          list=this.tradeRecord.slice(
+            (this.nowPage - 1) * this.nowSize,
+            this.nowSize * this.nowPage
+          );
+          this.getAllCount(list)
+          return list
+        }
+      }
     }
   },
   watch: {},
@@ -532,24 +559,29 @@ export default {
       this.allWin = +this.allWin.toFixed(2);
       this.allRet = +this.allRet.toFixed(2);
     },
-    handlePage() {
-      let data = this.reportType == "1" ? this.flowList : this.tradeRecord;
-      // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
-      if (this.total < this.pageSize) {
-        this.showData = data;
+    changepage(page) {
+      this.nowPage = page;
+      if (this.reportType == "1") {
+        if (
+          page == Math.ceil(this.flowList.length / this.nowSize) &&
+          !this.spin &&
+          page != 1 &&
+          !this.isLast
+        ) {
+          this.flowStorage = JSON.parse(JSON.stringify(this.flowList));
+          this.getData();
+        }
       } else {
-        this.showData = data.slice(0, this.pageSize);
+        if (
+          page == Math.ceil(this.tradeRecord.length / this.nowSize) &&
+          !this.spin &&
+          page != 1 &&
+          !this.isLast
+        ) {
+          this.tradeStorage = JSON.parse(JSON.stringify(this.tradeRecord));
+          this.getData();
+        }
       }
-      this.getAllCount(this.showData);
-    },
-    changepage(index) {
-      let data = this.reportType == "1" ? this.flowList : this.tradeRecord;
-      let size = this.pageSize;
-      let _start = (index - 1) * size;
-      let _end = index * size;
-      this.showData = data.slice(_start, _end);
-      this.getAllCount(this.showData);
-      // console.log(this.showData);
     },
     openModalRunning(data) {
       this.isOpenModalRunning = true;
@@ -561,8 +593,23 @@ export default {
       this.businessKey = "";
       this.status = "";
       this.defaultTime = getDefaultTime();
+      this.resetPage()
     },
-    search() {
+    resetPage(){
+        this.currentPage = 1;
+        this.nowPage = 1;
+        this.flowList = [];
+        this.flowStorage = [];
+        this.flowStartKey = null;
+        this.tradeRecord=[];
+        this.tradeStorage=[];
+        this.tradeStartKey=null
+    },
+    search(){
+      this.resetPage();
+      this.getData()
+    },
+    getData() {
       if (this.plat == "" && this.userId == "" && this.businessKey == "") {
         return this.$Message.warning("请输入查询条件");
       }
@@ -572,7 +619,8 @@ export default {
         isRound: this.reportType == "1" ? false : true,
         plat: this.plat,
         status: this.status,
-        // pageSize:this.pageSize,
+        pageSize: this.pageSize,
+        startKey: this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,
         businessKey: this.businessKey,
         startTime: this.changedTime[0],
         endTime: this.changedTime[1]
@@ -580,12 +628,16 @@ export default {
         .then(res => {
           if (res.code == 0) {
             if (res.payload) {
+              this.isLast = res.payload.Items < this.pageSize;
               if (this.reportType == "1") {
                 this.flowList = res.payload.Items;
+                this.flowStartKey=res.payload.startKey
+                this.flowStorage.length && (this.flowList = this.flowStorage.concat(this.flowList))
               } else {
                 this.tradeRecord = res.payload.Items;
+                this.tradeStartKey=res.payload.startKey
+                this.tradeStorage.length && (this.tradeRecord = this.tradeStorage.concat(this.tradeRecord))
               }
-              this.handlePage();
             }
           }
         })
@@ -615,7 +667,13 @@ export default {
 .green {
   color: #0c0;
 }
+.label {
+  padding-right: 10px;
+}
 .red {
   color: #f30;
+}
+.ivu-select{
+  vertical-align: top;
 }
 </style>

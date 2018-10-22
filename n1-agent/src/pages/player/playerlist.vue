@@ -37,7 +37,7 @@
 
         <Col span="2">直属代理</Col>
         <Col span="4">
-          <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
+          <Input v-model="searchInfo.merchantName" placeholder="请输入代理昵称"></Input>
         </Col>
 
       </Row>
