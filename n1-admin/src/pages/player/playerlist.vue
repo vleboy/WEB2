@@ -23,9 +23,9 @@
         <Input v-model="searchInfo.buId" placeholder="请输入"></Input>
         </Col>
 
-        <Col span="2">商户昵称</Col>
+        <Col span="2">商户标识</Col>
         <Col span="4">
-        <Input v-model="searchInfo.merchantName" placeholder="请输入"></Input>
+        <Input v-model="searchInfo.parentSn" placeholder="请输入"></Input>
         </Col>
 
         <Col span="2">游戏状态</Col>
@@ -91,6 +91,7 @@ export default {
         userName: "",
         nickname: "",
         suffix: "",
+        parentSn:'',
         msn: ""
       },
       role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）

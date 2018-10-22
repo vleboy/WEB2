@@ -40,6 +40,11 @@
     </Row>
     <Table :columns="columns" no-data-text='请输入查询条件' size="small" v-if="reportType==1" :data="dataList"></Table>
     <Table :columns="columns1" no-data-text='请输入查询条件' size="small" v-else :data="dataList"></Table>
+    <Row class="count_row" v-if="reportType=='1'">
+      <Col span="4">
+      当页数据总输赢金额: <span class="num">{{flowAmount|format}}</span>
+      </Col>
+    </Row>
     <Row class="count_row" v-if="reportType=='2'">
       <Col span="4">
       当页数据总下注次数: <span class="num">{{allBetCount|format}}</span>
@@ -103,6 +108,7 @@ export default {
       allWinLose: 0,
       allRet: 0,
       allWin: 0,
+      flowAmount:0,
       nowPage: 1,
       currentPage: 1,
       isLast: false, //主要判断是否是后台返回最后一次信息
@@ -131,7 +137,7 @@ export default {
       statusList: [
         {
           value: "A",
-          label: "全部"
+          label: "全部状态"
         },
         {
           value: "Y",
@@ -507,17 +513,21 @@ export default {
       return time;
     },
     dataList() {
+      let list=[]
       if (this.reportType == "1") {
         if (this.nowPage === 1) {
-          return this.flowList.slice(0, this.nowSize);
+          list=this.flowList.slice(0, this.nowSize);
+          this.getFlowCount(list)
+          return list
         } else {
-          return this.flowList.slice(
+          list=this.flowList.slice(
             (this.nowPage - 1) * this.nowSize,
             this.nowSize * this.nowPage
           );
+          this.getFlowCount(list)
+          return list
         }
       } else {
-        let list=[]
         if (this.nowPage === 1) {
           list=this.tradeRecord.slice(0, this.nowSize);
           this.getAllCount(list)
@@ -538,6 +548,13 @@ export default {
     //   this.init()
   },
   methods: {
+    getFlowCount(list){
+      this.flowAmount=0
+      for(let item of list){
+        this.flowAmount+=item.amount
+      }
+      this.flowAmount=+this.flowAmount.toFixed(2)
+    },
     getAllCount(list) {
       this.allBetCount = 0;
       this.allBetAmount = 0;
@@ -591,7 +608,7 @@ export default {
       this.userId = "";
       this.plat = "";
       this.businessKey = "";
-      this.status = "";
+      this.status = "A";
       this.defaultTime = getDefaultTime();
       this.resetPage()
     },
