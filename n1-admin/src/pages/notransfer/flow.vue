@@ -45,7 +45,7 @@
       当页数据总输赢金额: <span class="num">{{flowAmount|format}}</span>
       </Col>
     </Row>
-    <Row class="count_row" v-if="reportType=='2'">
+    <Row class="count_row" v-else>
       <Col span="4">
       当页数据总下注次数: <span class="num">{{allBetCount|format}}</span>
       </Col>
