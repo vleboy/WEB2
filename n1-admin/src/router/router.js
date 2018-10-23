@@ -64,6 +64,7 @@ import businessRecordList from '@/pages/operation/businessRecord/businessRecordL
 import boothList from '@/pages/operation/booth/boothList'
 import propPrizeList from '@/pages/operation/propPrize/propPrizeList'
 import flow from '@/pages/notransfer/flow'
+import noTransferReport from '@/pages/notransfer/noTransferReport'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -289,7 +290,8 @@ export const appRouter = [
         name:'transfer',
         component:main,
         children:[
-            {path:'notransfer',title:'流水交易',name:'flow',component:flow}
+            {path:'flow',title:'流水交易',name:'flow',component:flow},
+            {path:'report',title:'输赢报表',name:'noTransferReport',component:noTransferReport}
           ]
       },
     {

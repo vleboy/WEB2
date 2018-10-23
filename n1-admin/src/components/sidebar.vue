@@ -139,6 +139,7 @@
                         免转中心
                     </template>
                     <MenuItem name="flow" v-if='permission.includes("流水交易")'>流水交易</MenuItem>
+                    <MenuItem name="noTransferReport">输赢报表</MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
