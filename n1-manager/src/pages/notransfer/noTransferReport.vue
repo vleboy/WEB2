@@ -113,7 +113,8 @@ export default {
                 on: {
                   click: () => {
                     this.$router.push({path:'/transfer/flow',query:{
-                      userId:params.row.userId
+                      userId:params.row.userId,
+                      plat:this.parent
                     }})
                   }
                 }

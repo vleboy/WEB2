@@ -547,8 +547,10 @@ export default {
     '$route':function(to,from){
       if(from.name=='noTransferReport'){
         let userId=this.$route.query.userId;
+        let plat=this.$route.query.plat
         if(userId){
-          this.userId=userId
+          this.userId=userId;
+          this.plat=plat
           this.search()
         }
       }
