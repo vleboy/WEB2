@@ -27,7 +27,7 @@
         <Radio label="1">流水记录</Radio>
         <Radio label="2">交易记录</Radio>
       </RadioGroup>
-       <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
+      <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       </Col>
@@ -108,7 +108,7 @@ export default {
       allWinLose: 0,
       allRet: 0,
       allWin: 0,
-      flowAmount:0,
+      flowAmount: 0,
       nowPage: 1,
       currentPage: 1,
       isLast: false, //主要判断是否是后台返回最后一次信息
@@ -513,58 +513,65 @@ export default {
       return time;
     },
     dataList() {
-      let list=[]
+      let list = [];
       if (this.reportType == "1") {
         if (this.nowPage === 1) {
-          list=this.flowList.slice(0, this.nowSize);
-          this.getFlowCount(list)
-          return list
+          list = this.flowList.slice(0, this.nowSize);
+          this.getFlowCount(list);
+          return list;
         } else {
-          list=this.flowList.slice(
+          list = this.flowList.slice(
             (this.nowPage - 1) * this.nowSize,
             this.nowSize * this.nowPage
           );
-          this.getFlowCount(list)
-          return list
+          this.getFlowCount(list);
+          return list;
         }
       } else {
         if (this.nowPage === 1) {
-          list=this.tradeRecord.slice(0, this.nowSize);
-          this.getAllCount(list)
-          return list
+          list = this.tradeRecord.slice(0, this.nowSize);
+          this.getAllCount(list);
+          return list;
         } else {
-          list=this.tradeRecord.slice(
+          list = this.tradeRecord.slice(
             (this.nowPage - 1) * this.nowSize,
             this.nowSize * this.nowPage
           );
-          this.getAllCount(list)
-          return list
+          this.getAllCount(list);
+          return list;
         }
       }
     }
   },
   watch: {
-    '$route':function(to,from){
-      if(from.name=='noTransferReport'){
-        let userId=this.$route.query.userId;
-        let plat=this.$route.query.plat
-        if(userId){
-          this.userId=userId;
-          this.plat=plat
-          this.search()
+    $route: function(to, from) {
+      if (from.name == "noTransferReport") {
+        let userId = this.$route.query.userId;
+        let plat = this.$route.query.plat;
+        if (userId) {
+          this.userId = userId;
+          this.plat = plat;
+          this.search();
         }
       }
     }
   },
   created() {
+    let userId = this.$route.query.userId;
+    let plat = this.$route.query.plat;
+    if (userId) {
+      this.userId = userId;
+      this.plat = plat;
+      this.search();
+    }
   },
   methods: {
-    getFlowCount(list){
-      this.flowAmount=0
-      for(let item of list){
-        this.flowAmount+=item.amount
+    getFlowCount(list) {
+      this.flowAmount = 0;
+      for (let item of list) {
+        this.flowAmount += item.amount;
       }
-      this.flowAmount=+this.flowAmount.toFixed(2)
+      this.flowAmount = +this.flowAmount.toFixed(2);
     },
     getAllCount(list) {
       this.allBetCount = 0;
@@ -621,21 +628,21 @@ export default {
       this.businessKey = "";
       this.status = "A";
       this.defaultTime = getDefaultTime();
-      this.resetPage()
-    },
-    resetPage(){
-        this.currentPage = 1;
-        this.nowPage = 1;
-        this.flowList = [];
-        this.flowStorage = [];
-        this.flowStartKey = null;
-        this.tradeRecord=[];
-        this.tradeStorage=[];
-        this.tradeStartKey=null
-    },
-    search(){
       this.resetPage();
-      this.getData()
+    },
+    resetPage() {
+      this.currentPage = 1;
+      this.nowPage = 1;
+      this.flowList = [];
+      this.flowStorage = [];
+      this.flowStartKey = null;
+      this.tradeRecord = [];
+      this.tradeStorage = [];
+      this.tradeStartKey = null;
+    },
+    search() {
+      this.resetPage();
+      this.getData();
     },
     getData() {
       if (this.plat == "" && this.userId == "" && this.businessKey == "") {
@@ -648,7 +655,8 @@ export default {
         plat: this.plat,
         status: this.status,
         pageSize: this.pageSize,
-        startKey: this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,
+        startKey:
+          this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,
         businessKey: this.businessKey,
         startTime: this.changedTime[0],
         endTime: this.changedTime[1]
@@ -659,12 +667,16 @@ export default {
               this.isLast = res.payload.Items < this.pageSize;
               if (this.reportType == "1") {
                 this.flowList = res.payload.Items;
-                this.flowStartKey=res.payload.startKey
-                this.flowStorage.length && (this.flowList = this.flowStorage.concat(this.flowList))
+                this.flowStartKey = res.payload.startKey;
+                this.flowStorage.length &&
+                  (this.flowList = this.flowStorage.concat(this.flowList));
               } else {
                 this.tradeRecord = res.payload.Items;
-                this.tradeStartKey=res.payload.startKey
-                this.tradeStorage.length && (this.tradeRecord = this.tradeStorage.concat(this.tradeRecord))
+                this.tradeStartKey = res.payload.startKey;
+                this.tradeStorage.length &&
+                  (this.tradeRecord = this.tradeStorage.concat(
+                    this.tradeRecord
+                  ));
               }
             }
           }
@@ -701,7 +713,7 @@ export default {
 .red {
   color: #f30;
 }
-.ivu-select{
+.ivu-select {
   vertical-align: top;
 }
 </style>

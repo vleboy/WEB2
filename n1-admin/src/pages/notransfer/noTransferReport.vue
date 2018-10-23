@@ -7,6 +7,7 @@
         <Input v-model="plat" @keyup.native.enter="search" style="width: 150px" placeholder="请输入"></Input>
         </Col>
         <Col span="12" style="textAlign:right">
+        <!-- :options="options" -->
         <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
         <Button type="ghost" @click="reset">重置</Button>
@@ -37,11 +38,51 @@ export default {
       plat: "",
       spin: false,
       parent: "",
-      showPlayer:false,
+      showPlayer: false,
       defaultTime: getDefaultTime(),
+      options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              return [start, end];
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              return [start, end];
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              return [start, end];
+            }
+          }
+        ]
+      },
       columns: [
         {
-          title: "接入商标识",
+          title: "接入方标识",
           key: "plat",
           render: (h, params) => {
             return h(
@@ -54,7 +95,7 @@ export default {
                 on: {
                   click: () => {
                     this.parent = params.row.plat;
-                    this.showPlayer=true
+                    this.showPlayer = true;
                     this.getPlayerList(params.row.plat);
                   }
                 }
@@ -104,23 +145,30 @@ export default {
         {
           title: "玩家ID",
           key: "userId",
-          render:(h,params)=>{
-            return h('span',{
-              style: {
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
                   color: "#20a0ff",
                   cursor: "pointer"
                 },
                 on: {
                   click: () => {
-                    this.$router.push({path:'/transfer/flow',query:{
-                      userId:params.row.userId
-                    }})
+                    this.$router.push({
+                      path: "/transfer/flow",
+                      query: {
+                        userId: params.row.userId
+                      }
+                    });
                   }
                 }
-            },params.row.userId)
+              },
+              params.row.userId
+            );
           }
         },
-         {
+        {
           title: "玩家昵称",
           key: "userNick"
         },
@@ -190,8 +238,8 @@ export default {
       this.plat = "";
       this.defaultTime = getDefaultTime();
       this.reportList = [];
-      this.showPlayer=false
-      this.playerList=[];
+      this.showPlayer = false;
+      this.playerList = [];
       this.getReportList();
     },
     getReportList() {

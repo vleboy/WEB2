@@ -41,7 +41,7 @@ export default {
       defaultTime: getDefaultTime(),
       columns: [
         {
-          title: "接入商标识",
+          title: "接入方标识",
           key: "plat",
           render: (h, params) => {
             return h(
