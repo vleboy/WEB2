@@ -2,7 +2,7 @@
   <div class="notransfer">
     <div class="search">
       <Row class="row">
-        <Col span="12" style="textAlign:right">
+        <Col span="24" style="textAlign:right">
         <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
         <Button type="ghost" @click="reset">重置</Button>
