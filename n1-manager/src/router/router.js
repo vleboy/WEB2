@@ -43,6 +43,9 @@ import merchantOpreateLog from '@/pages/log/merchantOpreateLog'
 import merchantLog from '@/pages/log/merchantLog'
 import managerLog from '@/pages/log/managerLog'
 import playerlist from '@/pages/player/playerlist'
+
+import flow from '@/pages/notransfer/flow'
+import noTransferReport from '@/pages/notransfer/noTransferReport'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -226,6 +229,16 @@ export const appRouter = [
             {path:'manager',title:'线路商列表',name:'dealerList',component:managerList},
     ]
     },
+    {
+        path:'/transfer',
+        title:'',
+        name:'transfer',
+        component:main,
+        children:[
+            {path:'flow',title:'流水交易',name:'flow',component:flow},
+            {path:'report',title:'输赢报表',name:'noTransferReport',component:noTransferReport}
+          ]
+      },
     {
       path:'/play',
       title:'玩家列表',

@@ -40,6 +40,8 @@
       openName = ["report", "dtReport"];
     } else if (name == 'ppGame') {
       openName = ["report", "ppReport"];
+    } else if(name=='flow'||name=='noTransferReport'){
+      openName=['noTransfer']
     }
     return openName
   }

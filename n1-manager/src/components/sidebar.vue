@@ -106,6 +106,14 @@
                     <MenuItem name="merchantLog">商户登录日志</MenuItem>
                     <MenuItem name="merchantOpreateLog">商户操作日志</MenuItem>
                 </Submenu>
+                <Submenu name="noTransfer">
+                    <template slot="title">
+                        <Icon type="social-usd"></Icon>
+                        免转中心
+                    </template>
+                    <MenuItem name="noTransferReport">输赢报表</MenuItem>
+                    <MenuItem name="flow">流水交易</MenuItem>
+                </Submenu>
             </Menu>
         </Sider>
     </div>

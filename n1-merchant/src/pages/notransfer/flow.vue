@@ -4,12 +4,10 @@
       <div class="search">
         <Row class="row">
           <Col span="13">
-          <span class="label">接入方标识</span>
-          <Input v-model="plat" style="width: 100px" placeholder="请输入"></Input>
           <span class="label">玩家ID</span>
           <Input v-model="userId" style="width: 100px" placeholder="请输入"></Input>
           <span class="label">交易号</span>
-          <Input v-model="businessKey" style="width: 120px" placeholder="请输入"></Input>
+          <Input v-model="businessKey" style="width: 150px" placeholder="请输入"></Input>
           </Col>
           <Col span="7" style="textAlign:right">
           <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
@@ -615,7 +613,6 @@ export default {
     },
     reset() {
       this.userId = "";
-      this.plat = "";
       this.businessKey = "";
       this.status = "A";
       this.defaultTime = getDefaultTime();
@@ -643,7 +640,6 @@ export default {
       httpRequest("post", "/transferDetail", {
         userId: this.userId,
         isRound: this.reportType == "1" ? false : true,
-        plat: this.plat,
         status: this.status,
         pageSize: this.pageSize,
         startKey: this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,

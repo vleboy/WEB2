@@ -44,6 +44,8 @@
       openName = ["operation"];
     } else if (name == "board") {
       openName = ["board"];
+    } else if(name=='flow'||name=='noTransferReport'){
+      openName=['noTransfer']
     }
     return openName
   }

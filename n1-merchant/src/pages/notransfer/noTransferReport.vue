@@ -2,10 +2,6 @@
   <div class="notransfer">
     <div class="search">
       <Row class="row">
-        <Col span="12">
-        <span class="label">接入方标识</span>
-        <Input v-model="plat" @keyup.native.enter="search" style="width: 150px" placeholder="请输入"></Input>
-        </Col>
         <Col span="12" style="textAlign:right">
         <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
@@ -199,7 +195,6 @@ export default {
       httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
         endTime: this.changedTime[1],
-        plat: this.plat
       })
         .then(res => {
           if (res.code == 0) {
@@ -215,7 +210,6 @@ export default {
       httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
         endTime: this.changedTime[1],
-        plat: plat,
         handleType: "player"
       })
         .then(res => {

@@ -38,6 +38,8 @@ import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
 import gameMailList from '@/pages/operation/mailMgr/gameMailList'
 import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampList'
 import boothList from '@/pages/operation/booth/merchantBoothList'
+import flow from '@/pages/notransfer/flow'
+import noTransferReport from '@/pages/notransfer/noTransferReport'
 const loginRouter = {
     path: '/login',
     name: 'login',
@@ -206,6 +208,16 @@ export const appRouter = [
             {path:'opreate',title:'操作日志',name:'opreateLog',component:opreateLog},
         ]
     },
+    {
+        path:'/transfer',
+        title:'',
+        name:'transfer',
+        component:main,
+        children:[
+            {path:'flow',title:'流水交易',name:'flow',component:flow},
+            {path:'report',title:'输赢报表',name:'noTransferReport',component:noTransferReport}
+          ]
+      },
     {
       path:'/play',
       title:'玩家列表',
