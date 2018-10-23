@@ -10,8 +10,8 @@
       </Row>
     </div>
     <Table :columns="columns" size="small" :data="reportList"></Table>
-    <div v-if="showPlayer">
-      <p class="sum"> {{parent}} 所属玩家汇总</p>
+    <div>
+      <p class="sum">所属玩家汇总</p>
       <Table :columns="columns1" size="small" :data="playerList"></Table>
     </div>
     <Spin size="large" fix v-if="spin">
@@ -30,34 +30,13 @@ export default {
   props: {},
   data() {
     return {
-      plat: "",
       spin: false,
-      parent: "",
-      showPlayer:false,
+      showPlayer: false,
       defaultTime: getDefaultTime(),
       columns: [
         {
           title: "接入商标识",
-          key: "plat",
-          render: (h, params) => {
-            return h(
-              "span",
-              {
-                style: {
-                  color: "#20a0ff",
-                  cursor: "pointer"
-                },
-                on: {
-                  click: () => {
-                    this.parent = params.row.plat;
-                    this.showPlayer=true
-                    this.getPlayerList(params.row.plat);
-                  }
-                }
-              },
-              params.row.plat
-            );
-          }
+          key: "plat"
         },
         {
           title: "下注次数",
@@ -100,23 +79,30 @@ export default {
         {
           title: "玩家ID",
           key: "userId",
-          render:(h,params)=>{
-            return h('span',{
-              style: {
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
                   color: "#20a0ff",
                   cursor: "pointer"
                 },
                 on: {
                   click: () => {
-                    this.$router.push({path:'/transfer/flow',query:{
-                      userId:params.row.userId
-                    }})
+                    this.$router.push({
+                      path: "/transfer/flow",
+                      query: {
+                        userId: params.row.userId
+                      }
+                    });
                   }
                 }
-            },params.row.userId)
+              },
+              params.row.userId
+            );
           }
         },
-         {
+        {
           title: "玩家昵称",
           key: "userNick"
         },
@@ -176,50 +162,34 @@ export default {
   },
   watch: {},
   created() {
-    this.getReportList();
+    this.init();
   },
   methods: {
     search() {
-      this.getReportList();
+      this.init();
     },
     reset() {
-      this.plat = "";
       this.defaultTime = getDefaultTime();
       this.reportList = [];
-      this.showPlayer=false
-      this.playerList=[];
-      this.getReportList();
+      this.showPlayer = false;
+      this.playerList = [];
+      this.init();
     },
-    getReportList() {
+    async init() {
       this.spin = true;
-      httpRequest("post", "/transferUserStat", {
+      let req1= httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
-        endTime: this.changedTime[1],
+        endTime: this.changedTime[1]
       })
-        .then(res => {
-          if (res.code == 0) {
-            this.reportList = res.payload;
-          }
-        })
-        .finally(() => {
-          this.spin = false;
-        });
-    },
-    getPlayerList(plat) {
-      this.spin = true;
-      httpRequest("post", "/transferUserStat", {
+      let req2= httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
         endTime: this.changedTime[1],
         handleType: "player"
       })
-        .then(res => {
-          if (res.code == 0) {
-            this.playerList = res.payload;
-          }
-        })
-        .finally(() => {
-          this.spin = false;
-        });
+      let[current,player]=await this.axios.all([req1,req2])
+      this.reportList = current.payload;
+      this.playerList = player.payload;
+      this.spin=false
     }
   }
 };
