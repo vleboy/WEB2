@@ -554,7 +554,7 @@ export default {
       }
     }
   },
-  created() {
+  created() {//初始化
     let userId = this.$route.query.userId;
     if (userId) {
       this.userId = userId;
