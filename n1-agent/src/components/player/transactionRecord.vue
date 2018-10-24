@@ -83,7 +83,7 @@ import oneRunningAccount from "@/components/player/oneRunningAccount";
 import playerRecharge from "@/components/player/playerRecharge";
 
 export default {
-  components: { oneRunningAccount, playerRecharge, RealLifeModal, SportsModal },
+  components: { oneRunningAccount, playerRecharge, RealLifeModal, SportsModal,HfiveModal },
   name: "transactionRecord",
   props: ["dataProp"],
   data() {

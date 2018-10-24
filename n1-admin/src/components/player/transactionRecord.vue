@@ -329,7 +329,11 @@ export default {
           this.$refs.childMethod.getRealLife();
         }, 0);
       } else if (data.gameType == "70000") {
-        await this.getHfiveData(data.businessKey)
+        try {
+          await this.getHfiveData(data.businessKey)
+        }catch(err){
+          this.$Message.error(err)
+        }
         this.naHfive = true;
       } else {
         this.$Message.error("对不起，该游戏不支持查看战绩");

@@ -79,7 +79,7 @@ import SportsModal from "@/components/record/sportsModal";
 import HfiveModal from "@/components/player/HfiveModal";
 
 export default {
-  components: { oneRunningAccount, RealLifeModal, SportsModal },
+  components: { oneRunningAccount, RealLifeModal, SportsModal,HfiveModal },
   name: "transactionRecord",
   props: ["dataProp"],
   data() {
