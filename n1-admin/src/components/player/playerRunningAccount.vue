@@ -211,7 +211,6 @@ $
             width: 90,
             align: 'center',
             render: (h, params) => {
-
               if (params.row.type == '3' && params.row.gameType == '1130000') {
                 return h('div', [
                   h('Button', {
