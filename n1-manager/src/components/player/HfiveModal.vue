@@ -12,7 +12,7 @@
                 </div>
                 <div class="item">
                     <p>{{dataProp.winloseAmount |format}}</p>
-                    <p class="orange">Bet(CNY)</p>
+                    <p class="orange">Win/Lose(CNY)</p>
                 </div>
                 <div class="item">
                     <p>{{result.userInfo.balance|format}}</p>
