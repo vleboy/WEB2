@@ -7,8 +7,7 @@
         <Input v-model="plat" @keyup.native.enter="search" style="width: 150px" placeholder="请输入"></Input>
         </Col>
         <Col span="12" style="textAlign:right">
-        <!-- :options="options" -->
-        <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
+        <DatePicker type="datetimerange" :options="options" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
         <Button type="ghost" @click="reset">重置</Button>
         </Col>
@@ -26,6 +25,7 @@
   </div>
 </template>
 <script>
+import dayjs from 'dayjs'
 import { httpRequest } from "@/service/index";
 import { getDefaultTime } from "@/config/getDefaultTime";
 export default {
@@ -45,37 +45,26 @@ export default {
           {
             text: "本周",
             value() {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              return [start, end];
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
             }
           },
           {
             text: "本月",
             value() {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              return [start, end];
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
             }
           },
           {
             text: "上周",
             value() {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              return [start, end];
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
             }
           },
           {
             text: "上月",
             value() {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              return [start, end];
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
             }
           }
         ]

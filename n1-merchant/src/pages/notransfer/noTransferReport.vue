@@ -3,7 +3,7 @@
     <div class="search">
       <Row class="row">
         <Col span="24" style="textAlign:right">
-        <DatePicker type="datetimerange" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
+        <DatePicker type="datetimerange" :options="options" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
         <Button type="ghost" @click="reset">重置</Button>
         </Col>
@@ -30,6 +30,35 @@ export default {
   props: {},
   data() {
     return {
+      options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
+            }
+          }
+        ]
+      },
       spin: false,
       showPlayer: false,
       defaultTime: getDefaultTime(),
