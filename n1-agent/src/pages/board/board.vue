@@ -82,6 +82,7 @@
                     type="daterange"
                     placement='bottom-end'
                     :transfer='true'
+                    :options="options"
                     @on-change="changeConsume"
                     placeholder="选择日期范围">
                   </Date-picker>
@@ -124,6 +125,7 @@
                     style="margin-left: 1rem"
                     v-model="dateIntervalTwo"
                     :transfer='true'
+                    :options="options"
                     placement='bottom-end'
                     type="daterange"
                     @on-change="changeConsumeTwo"
@@ -158,6 +160,7 @@
                 style="width: 200px"
                 v-model="dateIntervalThree"
                 :transfer='true'
+                :options="options"
                 placement='bottom-end'
                 type="daterange"
                 @on-change="changeConsumeThree"
@@ -179,6 +182,7 @@
 </template>
 <script type="text/ecmascript-6">
   import { httpRequest } from '@/service/index'
+  import dayjs from 'dayjs'
   import { thousandFormatter } from '@/config/format'
   export default {
     beforeCreate () {
@@ -186,6 +190,35 @@
     },
     data () {
       return {
+          options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
+            }
+          }
+        ]
+      },
         dateType: '1',
         dateTypeTwo: '1',
         dateTypeThree: '1',

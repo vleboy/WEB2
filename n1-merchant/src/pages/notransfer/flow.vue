@@ -194,7 +194,7 @@ export default {
       userId: "",
       businessKey: "",
       reportType: "1",
-      defaultTime: getDefaultTime(),
+      defaultTime: getDefaultTime(true),
       columns: [
         {
           title: "交易号",
@@ -529,9 +529,6 @@ export default {
     changedTime() {
       let time = this.defaultTime;
       time = time.map((item, index) => {
-        if (index == 1 && item.getTime() > Date.now() - 180000) {
-          return Date.now() - 180000;
-        }
         return item.getTime();
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
@@ -647,7 +644,7 @@ export default {
       this.userId = "";
       this.businessKey = "";
       this.status = "A";
-      this.defaultTime = getDefaultTime();
+      this.defaultTime = getDefaultTime(true);
       this.resetPage();
     },
     resetPage() {

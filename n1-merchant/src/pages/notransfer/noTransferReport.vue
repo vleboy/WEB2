@@ -22,6 +22,7 @@
 </template>
 <script>
 import { httpRequest } from "@/service/index";
+import dayjs from 'dayjs';
 import { getDefaultTime } from "@/config/getDefaultTime";
 export default {
   name: "notransferReport",
@@ -61,7 +62,7 @@ export default {
       },
       spin: false,
       showPlayer: false,
-      defaultTime: getDefaultTime(),
+      defaultTime: getDefaultTime(true),
       columns: [
         {
           title: "接入方标识",
@@ -180,9 +181,6 @@ export default {
     changedTime() {
       let time = this.defaultTime;
       time = time.map((item, index) => {
-        if (index == 1 && item.getTime() > Date.now() - 180000) {
-          return Date.now() - 180000;
-        }
         return item.getTime();
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
@@ -198,7 +196,7 @@ export default {
       this.init();
     },
     reset() {
-      this.defaultTime = getDefaultTime();
+      this.defaultTime = getDefaultTime(true);
       this.reportList = [];
       this.showPlayer = false;
       this.playerList = [];

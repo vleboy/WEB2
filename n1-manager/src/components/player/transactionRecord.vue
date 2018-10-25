@@ -18,7 +18,7 @@
       <Row>
         <Col span="17" style="float: right; text-align: right">
         <Input v-model="betId" placeholder="请输入交易号" style="width: 30%;"></Input>
-        <DatePicker v-model="amountDate" type="datetimerange" :transfer='true' style="width: 300px" @on-ok="searchAmount" placeholder="选择日期时间范围">
+        <DatePicker v-model="amountDate" :options="options" type="datetimerange" :transfer='true' style="width: 300px" @on-ok="searchAmount" placeholder="选择日期时间范围">
         </DatePicker>
         <Button type="primary" @click="searchAmount">搜索</Button>
         <Button type="primary" @click="exportData">导出数据</Button>
@@ -84,6 +84,35 @@ export default {
   props: ["dataProp"],
   data() {
     return {
+       options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
+            }
+          }
+        ]
+      }, 
       hProp: {
         roundResult: {
           userInfo: {},

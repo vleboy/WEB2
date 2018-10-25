@@ -8,7 +8,7 @@
     </Row>
     <Row class="row">
       <Col span="12" class="date">
-      <DatePicker type="datetimerange" :editable='false' v-model="range" placeholder="选择日期时间" style="width: 300px"></DatePicker>
+      <DatePicker type="datetimerange" :options="options" :editable='false' v-model="range" placeholder="选择日期时间" style="width: 300px"></DatePicker>
       </Col>
       <Col span="12">
       <Button type="primary" @click="rangeCount">局表统计</Button>
@@ -28,11 +28,41 @@
 </template>
 <script>
 import { httpRequest } from "@/service/index";
+import dayjs from 'dayjs'
 export default {
   data() {
     return {
       range: [],
-      day: ""
+      day: "",
+       options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
+            }
+          }
+        ]
+      }, 
     };
   },
   computed: {

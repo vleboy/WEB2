@@ -8,6 +8,7 @@ $
             :editable='false'
             :transfer='true'
             v-model="amountDate"
+            :options="options"
             type="datetimerange"
             @on-change="changeDate"
             placeholder="选择日期范围" style="width: 300px">
@@ -119,6 +120,35 @@ $
     components: {SportsModal},
     data() {
       return {
+        options: {
+        shortcuts: [
+          {
+            text: "本周",
+            value() {
+              return [new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "本月",
+            value() {
+              return [new Date(dayjs().startOf('month').valueOf()), new Date(dayjs().endOf('second').valueOf())]
+            }
+          },
+          {
+            text: "上周",
+            value() {
+              return [new Date(dayjs().add(-1, 'week').startOf('week').valueOf() + 24 * 60 * 60 * 1000), new Date(dayjs().startOf('week').valueOf() + 24 * 60 * 60 * 1000 - 1)]
+            }
+          },
+          {
+            text: "上月",
+            value() {
+              //-1 上月
+              return [new Date(dayjs().add(-1, 'month').startOf('month').valueOf()), new Date(dayjs().startOf('month').valueOf() - 1)]
+            }
+          }
+        ]
+      }, 
         nowSize: 20,
         nowPage: 1,
         pageSize: 100,
