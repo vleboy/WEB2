@@ -200,7 +200,7 @@ export default {
     }
     .line {
       border: 1px solid #f30;
-      width: 60px;
+      width: 52px;
       height: 36px;
       display: flex;
       flex-wrap: wrap;
