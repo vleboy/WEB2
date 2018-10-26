@@ -28,8 +28,8 @@
     <Modal title='游戏详情' v-model="isShowDetail" class="g-text-center"  width="800"  cancel-text="">
       <detailModal ref="childMethod" :dataProp="propChild"></detailModal>
     </Modal>
-    <Modal title='游戏排序' v-model="orderModal" class="g-text-center"  width="300" @on-ok='saveOrder' @on-cancel='cancelOrder'>
-        <Input v-model.number="gameOrder" placeholder="请输入数字"></Input>
+    <Modal title='游戏排序' v-model="orderModal" class="g-text-center"  width="250" @on-ok='saveOrder' @on-cancel='cancelOrder'>
+         <InputNumber :min="0" :step='1' v-model="gameOrder" style="width: 150px"></InputNumber>
     </Modal>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       orderModal:false,
-      gameOrder:'',
+      gameOrder:0,
       gameId:'',
       gameType:'',
       nowSize: 50,
@@ -206,13 +206,13 @@ export default {
       },'game').then(res=>{
         if(res.code==0){
           this.$Message.success("操作成功");
-          this.gameOrder=''
+          this.gameOrder=0
           this.getGameList()
         }
       })
     },
     cancelOrder(){
-      this.gameOrder=''
+      this.gameOrder=0
     },
     getGameList() {
       this.isFetching = true
