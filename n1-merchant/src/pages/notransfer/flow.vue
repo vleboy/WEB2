@@ -23,6 +23,9 @@
         <Radio label="1">流水记录</Radio>
         <Radio label="2">交易记录</Radio>
       </RadioGroup>
+       <Select v-model="gameType" style="width:110px" @on-change="search">
+          <Option v-for="item in gameTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
       <Select v-model="status" style="width:90px" v-if="reportType=='1'" @on-change="search">
         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
@@ -127,6 +130,17 @@ export default {
           }
         ]
       },
+       gameType: "A",
+      gameTypeList: [
+        {
+          value: "A",
+          label: "全部大类"
+        },
+        {
+          value: 70000,
+          label: "H5电子游戏"
+        }
+      ],
       allBetCount: 0,
       allBetAmount: 0,
       allRefund: 0,
@@ -303,7 +317,7 @@ export default {
           title: "同步时间",
           key: "createdAt",
           align: "center",
-          width: 200,
+          minWidth: 200,
           render: (h, params) => {
             return h(
               "span",
@@ -431,7 +445,7 @@ export default {
         {
           title: "操作",
           key: "",
-          width: 100,
+          minWidth: 100,
           align: "center",
           render: (h, params) => {
             return h(
@@ -671,8 +685,8 @@ export default {
         isRound: this.reportType == "1" ? false : true,
         status: this.status,
         pageSize: this.pageSize,
-        startKey:
-          this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,
+        gameType:this.gameType,
+        startKey: this.reportType == "1" ? this.flowStartKey : this.tradeStartKey,
         businessKey: this.businessKey,
         startTime: this.changedTime[0],
         endTime: this.changedTime[1]

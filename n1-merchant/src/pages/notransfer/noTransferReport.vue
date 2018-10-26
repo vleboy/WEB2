@@ -3,6 +3,9 @@
     <div class="search">
       <Row class="row">
         <Col span="24" style="textAlign:right">
+         <Select v-model="gameType" style="width:110px" @on-change="search">
+          <Option v-for="item in gameTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
         <DatePicker type="datetimerange" :options="options" :editable='false' v-model="defaultTime" placeholder="选择日期时间范围(默认最近一周)" style="width: 300px" @on-ok="search"></DatePicker>
         <Button type="primary" @click="search">搜索</Button>
         <Button type="ghost" @click="reset">重置</Button>
@@ -14,6 +17,17 @@
       <p class="sum">所属玩家汇总</p>
       <Table :columns="columns1" size="small" :data="playerList"></Table>
     </div>
+     <Modal v-model="pointModal" title="预警点数" :width='450' @on-ok="changePoint" @on-cancel='cancel'>
+      <p class='gameTitle'>H5电子游戏</p>
+      <p class="current">当前值 {{winloseAmount}}/{{topAmount}}</p>
+      <Row class="current">
+        <Col span="8"> 设定值:{{winloseAmount}}/
+        </Col>
+        <Col span="12">
+        <Input v-model="newAmount" :number='true' size="small" placeholder="请输入"></Input>
+        </Col>
+      </Row>
+    </Modal>
     <Spin size="large" fix v-if="spin">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
@@ -31,6 +45,17 @@ export default {
   props: {},
   data() {
     return {
+       gameType: "A",
+      gameTypeList: [
+        {
+          value: "A",
+          label: "全部大类"
+        },
+        {
+          value: 70000,
+          label: "H5电子游戏"
+        }
+      ],
       options: {
         shortcuts: [
           {
@@ -103,7 +128,75 @@ export default {
               params.row.winloseAmount
             );
           }
-        }
+        },
+         {
+          title: "接入商",
+          key: "",
+          render: (h, params) => {
+            let transferMap = params.row.transferMap["70000"];
+            return h("span", transferMap.name);
+          }
+        },
+        {
+          title: "历史游戏点数消耗",
+          key: "",
+          render: (h, params) => {
+            if (params.row.transferMap) {
+              let transferMap = params.row.transferMap["70000"];
+              let topAmount = transferMap.topAmount;
+              let winloseAmount = transferMap.winloseAmountMap.winloseAmount.toFixed(
+                2
+              );
+              let text = winloseAmount + "/" + topAmount;
+              let width = 0;
+              let color = "#fff";
+              if (
+                winloseAmount < topAmount &&
+                winloseAmount > 0 &&
+                topAmount > 0
+              ) {
+                width = ((100 * winloseAmount) / topAmount).toFixed(2) + "%";
+                if (winloseAmount / topAmount > 0.8) {
+                  color = "red";
+                } else {
+                  color = "#0c0";
+                }
+              } else if (
+                winloseAmount > 0 &&
+                topAmount > 0 &&
+                winloseAmount > topAmount
+              ) {
+                (width = "100%"), (color = "red");
+              }
+              return h(
+                "div",
+                {
+                  style: {
+                    margin: "8px 0px",
+                    border: "1px solid rgb(0, 0, 0)",
+                    borderRadius: "5px",
+                    textAlign: "center",
+                    height: "24px"
+                  }
+                },
+                [
+                  h("span", text),
+                  h("div", {
+                    style: {
+                      width: width,
+                      backgroundColor: color,
+                      marginTop: "-19px",
+                      borderRadius: "5px",
+                      height: "24px"
+                    }
+                  })
+                ]
+              );
+            } else {
+              return h("span", "");
+            }
+          }
+        },
       ],
       columns1: [
         {
@@ -192,8 +285,34 @@ export default {
     this.init();
   },
   methods: {
+      setTop(row) {
+      let transferMap = row.transferMap["70000"];
+      let topAmount = transferMap.topAmount;
+      let winloseAmount = transferMap.winloseAmountMap.winloseAmount.toFixed(2);
+      this.topAmount = topAmount;
+      this.winloseAmount = winloseAmount;
+      this.plat = row.plat;
+      this.pointModal = true;
+    },
+    changePoint() {
+      httpRequest("post", "/transferMap", {
+        topAmount: this.newAmount,
+        gameType: "70000",
+        plat: this.plat
+      }).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+          this.newAmount = "";
+          this.reset();
+        }
+      });
+    },
     search() {
       this.init();
+    },
+     cancel() {
+      this.plat = "";
+      this.newAmount = "";
     },
     reset() {
       this.defaultTime = getDefaultTime(true);
@@ -206,11 +325,13 @@ export default {
       this.spin = true;
       let req1= httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
+        gameType:this.gameType,
         endTime: this.changedTime[1]
       })
       let req2= httpRequest("post", "/transferUserStat", {
         startTime: this.changedTime[0],
         endTime: this.changedTime[1],
+        gameType:this.gameType,
         handleType: "player"
       })
       let[current,player]=await this.axios.all([req1,req2])
@@ -233,5 +354,15 @@ export default {
   .sum {
     line-height: 36px;
   }
+}
+.gameTitle {
+  text-align: center;
+  margin: 10px auto;
+  font-size: 16px;
+}
+.current {
+  margin: 20px auto;
+  font-size: 14px;
+  text-indent: 1em;
 }
 </style>

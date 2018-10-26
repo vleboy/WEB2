@@ -341,7 +341,7 @@ export default {
         this.$Message.error("对不起，该游戏不支持查看战绩");
       }
     },
-    async getHfiveData(betId) {
+    getHfiveData(betId) {
       httpRequest("post", "/player/bill/record", {
         userName: localStorage.playerName,
         betId

@@ -331,22 +331,6 @@ export default {
     },
     async openModalBill(data) {
       this.propChild = data;
-      // if (this.propChild.gameType == '40000') {
-      //   this.isOpenModalBill = true
-      //   setTimeout(()=>{
-      //     this.$refs.childMethod.getOneArmBandit()
-      //   },0)
-      // } else if (this.propChild.gameType == '30000') {
-      //   this.isOpenModalBill = true
-      //   setTimeout(()=>{
-      //     this.$refs.childMethod.getRealLife()
-      //   },0)
-      // } else if (this.propChild.gameType == '50000') {
-      //   this.isOpenModalBill = true
-      //   setTimeout(()=>{
-      //     this.$refs.childMethod.getRecordSLXY()
-      //   },0)
-      // } else
       if (this.isRealLife) {
         this.isOpenModalBill = true;
         setTimeout(() => {
@@ -376,7 +360,7 @@ export default {
       this.initData();
       this.getTransactionRecord();
     },
-    async getHfiveData(betId){
+    getHfiveData(betId){
       httpRequest('post','/player/bill/record',{
         userName: localStorage.playerName,
         betId

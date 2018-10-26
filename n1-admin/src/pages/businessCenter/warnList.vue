@@ -151,6 +151,7 @@ export default {
         {
           title: "接入商",
           key: "",
+          align: 'center',
           render: (h, params) => {
             if (params.row.companyList) {
               let companyList = params.row.companyList || [];
@@ -165,7 +166,7 @@ export default {
                         margin: "5px 0",
                         backgroundColor: "#e4e8f1",
                         borderRadius: " 4px",
-                        width: "80%",
+                        // width: "80%",
                         height: "26px"
                       }
                     },
@@ -181,6 +182,7 @@ export default {
         {
           title: "游戏状态",
           key: "",
+          align: 'center',
           render: (h, params) => {
             if (params.row.companyList) {
               let companyList = params.row.companyList || [];
@@ -204,7 +206,7 @@ export default {
                         margin: "5px 0",
                         backgroundColor: "#e4e8f1",
                         borderRadius: " 4px",
-                        width: "80%",
+                        // width: "80%",
                         color: color,
                         height: "26px"
                       }
@@ -221,6 +223,7 @@ export default {
         {
           title: "游戏点数消耗分布",
           key: "",
+          align: 'center',
           render: (h, params) => {
             if (params.row.companyList) {
               let companyList = params.row.companyList || [];
@@ -268,9 +271,9 @@ export default {
                         style: {
                           width: width,
                           backgroundColor: color,
-                          marginTop: "-19px",
+                          marginTop: "-18px",
                           borderRadius: "5px",
-                          height: "24px"
+                          height: "22px"
                         }
                       })
                     ]
@@ -285,6 +288,7 @@ export default {
         {
           title: "操作",
           key: "",
+          align: 'center',
           render: (h, params) => {
             let permission = this.permission;
             if (
