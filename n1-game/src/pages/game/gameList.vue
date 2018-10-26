@@ -28,6 +28,9 @@
     <Modal title='游戏详情' v-model="isShowDetail" class="g-text-center"  width="800"  cancel-text="">
       <detailModal ref="childMethod" :dataProp="propChild"></detailModal>
     </Modal>
+    <Modal title='游戏排序' v-model="orderModal" class="g-text-center"  width="300" @on-ok='saveOrder' @on-cancel='cancelOrder'>
+        <Input v-model.number="gameOrder" placeholder="请输入数字"></Input>
+    </Modal>
   </div>
 </template>
 
@@ -44,6 +47,10 @@ export default {
   },
   data () {
     return {
+      orderModal:false,
+      gameOrder:'',
+      gameId:'',
+      gameType:'',
       nowSize: 50,
       nowPage: 1,
       currentPage: 1,
@@ -106,8 +113,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 180,
-          align: 'center',
+          width: 210,
           render: (h, params) => {
             return h('div', [
               h('Button', {
@@ -152,7 +158,23 @@ export default {
                     this.gameOperation(params.row)
                   }
                 }
-              }, `${params.row.gameStatus ? '停用':'启用'}`)
+              }, `${params.row.gameStatus ? '停用':'启用'}`),
+               h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
+                },
+                style: {
+                  color:'#20a0ff'
+                },
+                on: {
+                  click: () => {
+                    this.gameId=params.row.gameId;
+                    this.gameType=params.row.gameType;
+                    this.orderModal=true
+                  }
+                }
+              }, '排序')
             ])
           }
         }
@@ -171,6 +193,21 @@ export default {
     }
   },
   methods: {
+    saveOrder(){
+       httpRequest('post', '/gameChangeOrder', {
+        gameType:this.gameType,
+        gameId:this.gameId,
+        order:this.gameOrder,
+      },'game').then(res=>{
+        if(res.code==0){
+          this.$Message.success("操作成功");
+          this.gameOrder=''
+        }
+      })
+    },
+    cancelOrder(){
+      this.gameOrder=''
+    },
     getGameList() {
       this.isFetching = true
       if(this.searchInfo.gameStatus == '' || this.searchInfo.gameStatus == '2'){
