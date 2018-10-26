@@ -117,6 +117,7 @@ export default {
         ]
       }, 
       hProp: {
+        gameId:70010,
         roundResult: {
           userInfo: {},
           viewGrid: [3, 2, 11, 8, 9, 2, 8, 6, 6, 3, 7, 7, 1, 7, 8],
@@ -167,6 +168,10 @@ export default {
               dayjs(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss")
             );
           }
+        },
+        {
+          title: "游戏ID",
+          key: "gameId"
         },
         {
           title: "结算前余额",

@@ -99,16 +99,18 @@ export default {
     },
     treasureImg(){
       let result = this.result.treasureData;
-      let baseUrl = "http://img.na77.com/adminh5/70007/treasure";
+      let gameId=this.dataProp.gameId;
+      let baseUrl = `http://img.na77.com/adminh5/${gameId}/treasure`;
       baseUrl=baseUrl+'_'+result.winIndex+'.png';
       return baseUrl
     },
     ImgList() {
       let result = this.result;
+      let gameId=this.dataProp.gameId;
       let imgResult = [];
       if (result.treasureData) {
         let grid = result.treasureData.grid;
-        let baseUrl = "http://img.na77.com/adminh5/70007/treasure";
+        let baseUrl = `http://img.na77.com/adminh5/${gameId}/treasure`;
         for (let item of grid) {
           let img = baseUrl + "_" + item + ".png";
           imgResult.push(img);
@@ -116,7 +118,7 @@ export default {
         return imgResult;
       } else {
         let grid = result.viewGrid;
-        let baseUrl = "http://img.na77.com/adminh5/70007/Symbol";
+        let baseUrl = `http://img.na77.com/adminh5/${gameId}/treasure`;
         for (let item of grid) {
           let img = baseUrl + "_" + item + ".png";
           imgResult.push(img);

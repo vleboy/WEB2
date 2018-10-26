@@ -209,6 +209,10 @@ $
               return h('span', this.typeList[params.row.type])
             }
           },
+           {
+          title: "游戏ID",
+          key: "gameId"
+          },
           {
             title: '帐变前余额',
             key: 'originalAmount',

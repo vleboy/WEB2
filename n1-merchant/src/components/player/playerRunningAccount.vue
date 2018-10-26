@@ -206,6 +206,10 @@ $
               return h('span', this.typeList[params.row.type])
             }
           },
+           {
+          title: "游戏ID",
+          key: "gameId"
+        },
           {
             title: '游戏类型',
             key: 'gameName'
