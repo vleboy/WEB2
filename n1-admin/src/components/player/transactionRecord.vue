@@ -173,7 +173,7 @@ export default {
           }
         },
         {
-          title: "交易类型",
+          title: "游戏类型",
           key: "typeName"
         },
         {

@@ -166,6 +166,10 @@ export default {
           }
         },
          {
+          title: "游戏类型",
+          key: "typeName"
+        },
+         {
           title: "游戏ID",
           key: "gameId"
           },
