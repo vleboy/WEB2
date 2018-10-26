@@ -66,6 +66,11 @@ export default {
       },
       columns: [
         {
+          title: '顺序',
+          key: 'sortOrder',
+          width:60
+        },
+        {
           title: '游戏名称',
           key: 'gameName',
           width:150
@@ -197,11 +202,12 @@ export default {
        httpRequest('post', '/gameChangeOrder', {
         gameType:this.gameType,
         gameId:this.gameId,
-        order:this.gameOrder,
+        sortOrder:this.gameOrder,
       },'game').then(res=>{
         if(res.code==0){
           this.$Message.success("操作成功");
           this.gameOrder=''
+          this.getGameList()
         }
       })
     },
