@@ -321,7 +321,8 @@ export default {
 
     }, //获取运营商列表
     startSearch () {
-      this.searchInfo.companyIden = this.companyInfo == '全部厂商' ? '' : this.companyInfo
+      this.searchInfo.companyIden = this.companyInfo == '全部厂商' ? '' : this.companyInfo;
+      this.nowPage=1;
       this.getGameList()
     }
   },
