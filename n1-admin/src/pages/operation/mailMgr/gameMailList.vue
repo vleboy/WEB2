@@ -69,7 +69,7 @@
             placeholder="选择日期时间" style="width: 100%">
           </DatePicker>
         </FormItem>
-        <FormItem label="包含物品"  v-if="role!='100'">
+        <!-- <FormItem label="包含物品"  v-if="role!='100'">
           <Row>
             <Col :span="7">
               <Col :span="4">类型</Col>
@@ -108,7 +108,7 @@
               <Table :columns="columnsTool" :data="addToolList"></Table>
             </Row>
           </div>
-        </FormItem>
+        </FormItem> -->
       </Form>
       <div slot="footer" class="dialog-footer">
         <Button @click="isAddMail = false">取 消</Button>
@@ -129,8 +129,8 @@ export default {
   name: 'app',
   created () {
     this.getMailList()
-    this.getPackageList()
-    this.getPropList()
+    // this.getPackageList()
+    // this.getPropList()
     this.getMerchantList()
   },
   data () {
