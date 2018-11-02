@@ -189,21 +189,21 @@ export default {
           title: '邮件内容',
           key: 'content'
         },
-        {
-          title: '包含物品',
-          key: '',
-          render: (h, params) => {
-            let html = []
-            if (params.row.tools.length) {
-              for (let item of params.row.tools) {
-                html.push(h('span',`${item.toolName}x${item.sum};`))
-              }
-              return h('div',html)
-            } else {
-              return h('span','暂无物品')
-            }
-          }
-        },
+        // {
+        //   title: '包含物品',
+        //   key: '',
+        //   render: (h, params) => {
+        //     let html = []
+        //     if (params.row.tools.length) {
+        //       for (let item of params.row.tools) {
+        //         html.push(h('span',`${item.toolName}x${item.sum};`))
+        //       }
+        //       return h('div',html)
+        //     } else {
+        //       return h('span','暂无物品')
+        //     }
+        //   }
+        // },
         {
           title: '发送对象',
           key: 'msn',
