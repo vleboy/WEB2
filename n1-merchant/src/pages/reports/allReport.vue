@@ -69,7 +69,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前商户
       gameType: [
-        3,
+        // 3,
         30000,
         40000,
         50000,60000,

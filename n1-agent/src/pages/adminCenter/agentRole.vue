@@ -93,10 +93,10 @@ export default {
                     title: "NA电子h5报表",
                     checked: false
                   },
-                  {
-                    title: "NA棋牌游戏报表",
-                    checked: false
-                  },
+                  // {
+                  //   title: "NA棋牌游戏报表",
+                  //   checked: false
+                  // },
                   {
                     title: "NA真人游戏报表",
                     checked: false

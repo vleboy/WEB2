@@ -24,7 +24,7 @@
           <Radio label="1">跑马灯管理</Radio>
           <Radio label="2">公告管理</Radio>
           <Radio label="3">邮件管理</Radio>
-          <Radio label="4">展位管理</Radio>
+          <!-- <Radio label="4">展位管理</Radio> -->
         </RadioGroup>
       </div>
       <div class="rebackinfo" style="padding-top: 0">

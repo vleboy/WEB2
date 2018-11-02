@@ -93,7 +93,7 @@ export default {
       child: [], //管理员下级
       source: "0",
       gameType: [
-        3,
+        // 3,
         30000,
         40000,
         50000,60000,70000,

@@ -92,7 +92,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       source: "0",
-      gameType: [3, 30000, 40000, 50000,60000,70000],
+      gameType: [30000, 40000, 50000,60000,70000],
       columns1: [
         {
           title: "序号",

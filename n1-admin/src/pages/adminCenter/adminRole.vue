@@ -89,10 +89,10 @@ export default {
                     title: "NA街机游戏报表",
                     checked: false
                   },
-                  {
-                    title: "NA棋牌游戏报表",
-                    checked: false
-                  },
+                  // {
+                  //   title: "NA棋牌游戏报表",
+                  //   checked: false
+                  // },
                   {
                     title: "NA电子h5报表",
                     checked: false
@@ -397,18 +397,18 @@ export default {
                 title: "商户运营记录",
                 checked: false
               },
-              {
-                title: "展位列表",
-                checked: false
-              },
+              // {
+              //   title: "展位列表",
+              //   checked: false
+              // },
               {
                 title: "物品上架",
                 checked: false
               },
-              {
-                title: "道具定价",
-                checked: false
-              }
+              // {
+              //   title: "道具定价",
+              //   checked: false
+              // }
             ]
           },
           {

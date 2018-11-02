@@ -94,7 +94,7 @@ export default {
       child: [], //管理员下级
       source: "1",
       gameType: [
-        3, //NA棋牌
+        // 3, //NA棋牌
         30000,
         40000,
         50000,60000,70000,

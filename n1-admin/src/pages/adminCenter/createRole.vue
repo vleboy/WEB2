@@ -75,9 +75,9 @@ export default {
                     {
                       title: "NA街机游戏报表"
                     },
-                    {
-                      title: "NA棋牌游戏报表"
-                    },
+                    // {
+                    //   title: "NA棋牌游戏报表"
+                    // },
                      {
                       title: "NA电子h5报表"
                     },
@@ -320,15 +320,15 @@ export default {
                 {
                   title: "商户运营记录"
                 },
-                {
-                  title: "展位列表"
-                },
+                // {
+                //   title: "展位列表"
+                // },
                 {
                   title: "物品上架"
                 },
-                {
-                  title: "道具定价"
-                }
+                // {
+                //   title: "道具定价"
+                // }
               ]
             },
              {

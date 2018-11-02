@@ -91,7 +91,7 @@ export default {
       playerList: [], //玩家列表
       user: [], //当前管理员
       child: [], //管理员下级
-      gameType: [3, 30000, 40000, 50000,60000,70000],
+      gameType: [30000, 40000, 50000,60000,70000],
       source: "1",
       columns1: [
         {
