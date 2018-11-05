@@ -118,7 +118,7 @@ export default {
         return imgResult;
       } else {
         let grid = result.viewGrid;
-        let baseUrl = `http://img.na77.com/adminh5/${gameId}/treasure`;
+        let baseUrl = `http://img.na77.com/adminh5/${gameId}/Symbol`;
         for (let item of grid) {
           let img = baseUrl + "_" + item + ".png";
           imgResult.push(img);
