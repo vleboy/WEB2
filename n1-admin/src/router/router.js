@@ -38,7 +38,7 @@ import ppGame from '@/pages/reports/ppGame'
 import pgVideo from '@/pages/reports/pgVideo'
 import habaVideo from '@/pages/reports/habaVideo'
 import pngVideo from '@/pages/reports/pngVideo'
-import natruehfive from '@/pages/reports/natruehfive'
+import natruehfive from '@/pages/reports/naTrueHfive'
 
 
 import merchantList from '@/pages/businessCenter/merchantList'
