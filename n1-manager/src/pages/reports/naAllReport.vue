@@ -92,7 +92,7 @@ export default {
       user: [], //当前管理员
       child: [], //管理员下级
       source: "0",
-      gameType: [30000, 40000, 50000,60000,70000],
+      gameType: [30000, 40000, 50000,60000,70000,80000],
       columns1: [
         {
           title: "序号",
@@ -450,6 +450,50 @@ export default {
               return h("span", "0.00");
             }
           }
+        },
+        {
+          title: "NA真人h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = "";
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap) {
+              if (params.row.gameTypeMap["80000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "80000"
+                ].winloseAmount.toFixed(2);
+              }
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(winloseAmount)
+              );
+            } else {
+              return h("span", { style: { color: "#0c0" } }, 0);
+            }
+          }
+        },
+        {
+          title: "NA真人h5(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let submitAmount = 0;
+            if (params.row.gameTypeMap) {
+              if (params.row.gameTypeMap["80000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "80000"
+                ].submitAmount.toFixed(2);
+              }
+              return h("span", thousandFormatter(submitAmount));
+            } else {
+              return h("span", "0.00");
+            }
+          }
         }
       ],
       columns2: [
@@ -605,6 +649,28 @@ export default {
             if (params.row.gameTypeMap["70000"] !== undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "70000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA真人h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["80000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "80000"
               ].winloseAmount.toFixed(2);
             }
             let color = winloseAmount < 0 ? "#f30" : "#0c0";

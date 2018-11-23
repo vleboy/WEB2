@@ -31,6 +31,7 @@ import ppGame from '@/pages/reports/ppGame'
 import pgVideo from '@/pages/reports/pgVideo'
 import habaVideo from '@/pages/reports/habaVideo'
 import pngVideo from '@/pages/reports/pngVideo'
+import natruehfive from '@/pages/reports/natruehfive'
 
 import opreateLog from '@/pages/log/opreateLog'
 import playerlist from '@/pages/player/playerlist'
@@ -133,13 +134,14 @@ export const appRouter = [
         name:'nagame',
         component:main,
         children:[
-            {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
+            // {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
             {path:'street',title:'NA街机游戏报表',name:'nastreet',component:nastreet},
             {path:'true',title:'NA真人游戏报表',name:'natrue',component:natrue},
             {path:'video',title:'NA电子游戏报表',name:'navideo',component:navideo},
             {path:'hfive',title:'NA电子H5报表',name:'nahfive',component:nahfive},
             {path:'all',title:'NA游戏总报表',name:'naAll',component:naAll},
             {path:'fishing',title:'NA捕鱼游戏报表',name:'nafishing',component:naFishing},
+            {path:'truefive',title:'NA真人H5报表',name:'natruehfive',component:natruehfive}
         ]
     },
     {

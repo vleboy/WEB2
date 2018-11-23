@@ -97,7 +97,7 @@ export default {
         // 3, //NA棋牌
         30000,
         40000,
-        50000,60000,70000,
+        50000,60000,70000,80000,
         1010000,1090000,1040000,1020000,
         10300000,
         1050000,
@@ -316,7 +316,7 @@ export default {
             let allCount = 0;
             for (let item of arr) {
               for (let key in item.gameTypeMap) {
-                if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+                if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -337,7 +337,7 @@ export default {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
-                if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+                if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                   count += obj[key].winloseAmount;
                 }
               }
@@ -364,7 +364,7 @@ export default {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
-                if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+                if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                   count += obj[key].submitAmount;
                 }
               }
@@ -381,7 +381,7 @@ export default {
               let allCount = 0;
               for (let item of arr) {
                 for (let key in item.gameTypeMap) {
-                  if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+                  if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                     allCount += item.gameTypeMap[key].mixAmount;
                   }
                 }
@@ -391,7 +391,7 @@ export default {
               let obj = params.row.gameTypeMap;
               let count = 0;
               for (let key in obj) {
-                if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+                if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                   count += obj[key].mixAmount;
                 }
               }
@@ -1563,7 +1563,7 @@ export default {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+              if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                 count += obj[key].winloseAmount;
               }
             }
@@ -1586,7 +1586,7 @@ export default {
             let obj = params.row.gameTypeMap;
             let count = 0;
             for (let key in obj) {
-              if (["3", "30000", "40000", "50000","60000","70000"].includes(key)) {
+              if (["3", "30000", "40000", "50000","60000","70000",'80000'].includes(key)) {
                 count += obj[key].mixAmount;
               }
             }
