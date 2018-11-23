@@ -81,6 +81,9 @@ export default {
                      {
                       title: "NA电子h5报表"
                     },
+                     {
+                      title: "NA真人h5报表"
+                    },
                     {
                       title: "NA真人游戏报表"
                     },
