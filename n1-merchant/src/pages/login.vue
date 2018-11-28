@@ -173,6 +173,7 @@ export default {
 }
 .getCode {
  padding-left: 15px;
+ cursor: pointer;
 }
 .loginbtn {
   width: 100%;
