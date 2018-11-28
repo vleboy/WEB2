@@ -55,7 +55,8 @@
 
 <script>
 import bcrypt from "bcryptjs";
-import { api } from "@/service/urlConfig";
+import { httpRequest } from "@/service/index";
+
 export default {
   data() {
     return {
