@@ -72,8 +72,8 @@ export async function example(params) {
 }
 
 //登录
-export async function logIn(role,username,password,captcha,cb,err){
-    return http(post('/users/auth',{role,username,password,captcha,cb,err}))
+export async function logIn(params){
+    return http(post('/users/auth',params))
 }
 //查询平台用户账单统计
 export async function queryUserStat(params){

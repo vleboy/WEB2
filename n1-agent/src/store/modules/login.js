@@ -25,8 +25,9 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({commit},{role,username,password,challenge,vid,cb,err}){
-            logIn(role,username,password,challenge,vid).then(res=>{
+        userlogin({commit},params){
+            let {cb,err,...rest}=params
+            logIn(rest).then(res=>{
                 // console.log(res);
                 if(res.code==0){
                     if(localStorage.getItem('agentToken')) {

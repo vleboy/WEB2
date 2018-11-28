@@ -33,6 +33,8 @@
              <Input v-model="validate" style="width: 80px" :maxlength='4'></Input>
               <span class="getCode" v-if='showCode' @click="getCode">点击显示验证码</span>
               <img class="validateImg" v-else :src="codeSrc" alt="oo">
+               <Spin fix v-if='loadImg'>
+             </Spin>
             </Col>
           </Row>
         </FormItem>
@@ -58,13 +60,13 @@ import { httpRequest } from "@/service/index";
 export default {
   data() {
     return {
-      role: "1",
       username: "", // 用户名
       password: "", // 密码
       sn:'',
       validate:'',
       showCode:true,
-      codeSrc:''
+      codeSrc:'',
+      loadImg:false
     };
   },
   watch: {},
@@ -89,6 +91,7 @@ export default {
       if(!this.sn){
         return this.$Message.warning('请填写标识')
       }
+      this.loadImg=true;
       httpRequest('post','/captcha',{
         relKey:`${this.sn}_${this.username}`
       }).then(res=>{
@@ -96,6 +99,8 @@ export default {
           this.showCode=false;
           this.codeSrc='data:image/png;base64,'+res.payload
         }
+      }).finally(()=>{
+        this.loadImg=false
       })
     },
     login() {

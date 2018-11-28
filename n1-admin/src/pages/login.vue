@@ -26,6 +26,8 @@
             <Input v-model="validate" style="width: 80px" :maxlength='4'></Input>
               <span class="getCode" v-if='showCode' @click="getCode">点击显示验证码</span>
               <img class="validateImg" v-else :src="codeSrc" alt="oo">
+              <Spin fix v-if='loadImg'>
+             </Spin>
             <!-- <div id="vaptcha_container">
               <div class="vaptcha-init-main">
                 <div class="vaptcha-init-loading">
@@ -59,12 +61,12 @@ import { httpRequest } from "@/service/index";
 export default {
   data() {
     return {
-      role: "1",
       username: "", // 用户名
       password: "", // 密码
       validate:'',
       showCode:true,
-      codeSrc:''
+      codeSrc:'',
+      loadImg:false
     };
   },
   watch: {},
@@ -110,6 +112,7 @@ export default {
       if(!this.username){
         return this.$Message.warning('请填写账号')
       }
+      this.loadImg=true;
       httpRequest('post','/captcha',{
         relKey:`PLAT_${this.username}`
       }).then(res=>{
@@ -117,6 +120,8 @@ export default {
           this.showCode=false;
           this.codeSrc='data:image/png;base64,'+res.payload
         }
+      }).finally(()=>{
+        this.loadImg=false;
       })
     },
     login() {
