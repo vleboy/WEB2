@@ -1,5 +1,7 @@
 import React from "react";
 import { Menu, Icon } from "antd";
+import { Link } from "react-router-dom";
+
 const { SubMenu } = Menu;
 
 export default function SideMenu() {
@@ -27,16 +29,20 @@ export default function SideMenu() {
         <Menu.Item key="13">牌路介绍</Menu.Item>
       </SubMenu>
       <Menu.Item key="1">
+        <Link to="/twentyOne">
           <Icon type="user" />
           <span>21点</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key="2">
+        <Link to="/niuniu">
           <Icon type="video-camera" />
           <span>牛牛</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key="3">
-          <Icon type="upload" />
-          <span>龙虎</span>
+        <Icon type="upload" />
+        <span>龙虎</span>
       </Menu.Item>
       <Menu.Item key="4">
         <Icon type="upload" />

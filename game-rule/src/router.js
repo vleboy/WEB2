@@ -7,7 +7,7 @@ export default class RouteConfig extends Component {
         return(
             <HashRouter>
                 <Switch>
-                    <Route path='/' exact component={Niuniu}/>
+                    <Route path='/niuniu' exact component={Niuniu}/>
                     <Route path='/twentyOne' exact component={TwentyOne}/>
                     <Redirect to="/" />
                 </Switch>
