@@ -30,14 +30,9 @@
         <FormItem label="验证">
           <Row>
             <Col span="8">
-            <div id="vaptcha_container">
-              <div class="vaptcha-init-main">
-                <div class="vaptcha-init-loading">
-                  <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                  <span class="vaptcha-text">智能验证码加载中...</span>
-                </div>
-              </div>
-            </div>
+             <Input v-model="validate" style="width: 80px" :maxlength='4'></Input>
+              <span class="getCode" v-if='showCode' @click="getCode">点击显示验证码</span>
+              <img class="validateImg" v-else :src="codeSrc" alt="oo">
             </Col>
           </Row>
         </FormItem>
@@ -58,16 +53,18 @@
 
 <script>
 import bcrypt from "bcryptjs";
-import { api } from "@/service/urlConfig";
+import { httpRequest } from "@/service/index";
+
 export default {
   data() {
     return {
       role: "1",
       username: "", // 用户名
       password: "", // 密码
-      userdata: {},
       sn:'',
-      vaptchaObj: null
+      validate:'',
+      showCode:true,
+      codeSrc:''
     };
   },
   watch: {},
@@ -77,7 +74,6 @@ export default {
     }
   },
   created() {
-    this.initVaptcha();
   },
   mounted(){
     let sn=this.$route.query.sn
@@ -86,45 +82,26 @@ export default {
     this.sn=sn;
   },
   methods: {
-    initVaptcha() {
-      let self = this;
-      this.axios.post(api.getVaptcha).then(function(r) {
-        const options = {
-          vid: r.data.vid,
-          challenge: r.data.challenge,
-          type: "float", //验证码类型,string,默认float,可选择float,popup,embed,
-          checkingAnimation: "display", //是否显示智能检测动画，"hide"则为隐藏
-          outage: api.getDownTime,
-          container: "#vaptcha_container",
-          success: function(token, challenge) {
-            //当验证成功时执行回调,function,参数token为string,必选
-            self.userdata.token = token;
-            self.userdata.challenge = challenge;
-          },
-          fail: function() {
-            self.initVaptcha();
-          }
-        };
-        //vaptcha对象初始化
-        window.vaptcha(options, function(obj) {
-          self.vaptchaObj = obj;
-          self.vaptchaObj.init();
-        });
+    getCode(){
+      if(!this.username){
+        return this.$Message.warning('请填写账号')
+      }
+      if(!this.sn){
+        return this.$Message.warning('请填写标识')
+      }
+      httpRequest('post','/captcha',{
+        relKey:`${this.sn}_${this.username}`
+      }).then(res=>{
+        if(res.code==0){
+          this.showCode=false;
+          this.codeSrc='data:image/png;base64,'+res.payload
+        }
       })
-      .catch(function(err){
-          self.initVaptcha();     
-      });
     },
     login() {
       // let passReg = /^[a-zA-Z0-9@_#$%^&*!~-]{7,16}$/;
       let nameReg = /^[a-zA-Z0-9@_-]{5,16}$/;
       let self = this;
-      if (!this.userdata.challenge) {
-        this.$Message.warning({
-          content: "请进行人机验证"
-        });
-        return;
-      }
       if (!nameReg.test(this.username)) {
         this.$Message.warning({
           content: "用户名为5-16位的（英文、数字、@、_、-）"
@@ -137,9 +114,9 @@ export default {
       //   });
       //   return;
       // }
-      if(!this.sn){
+       if (!this.validate) {
         this.$Message.warning({
-          content: "请输入标识"
+          content: "请填写验证码"
         });
         return;
       }
@@ -150,15 +127,13 @@ export default {
         username: this.username,
         password: password,
         sn:this.sn,
-        challenge: this.userdata.challenge,
-        vid: this.userdata.token,
+        captcha:this.validate,
         cb: () => {
           this.$store.commit("updateLoading", { params: false });
           this.$router.push({ name: "home" });
         },
         err: () => {
-          this.userdata = {};
-          this.initVaptcha();
+            this.showCode=true;
         }
       });
     }
@@ -196,8 +171,8 @@ export default {
 .title-big {
   font-size: 3rem;
 }
-.get_code {
-  color: #20a0ff;
+.getCode {
+ padding-left: 15px;
 }
 .loginbtn {
   width: 100%;
@@ -208,6 +183,10 @@ export default {
   border: 1px solid #eee;
   border-radius: 2px;
 }
+  .validateImg{
+   vertical-align: middle;
+   padding-left: 10px
+  }
 #vaptcha_container {
   width: 100%;
   .vaptcha-init-main {
