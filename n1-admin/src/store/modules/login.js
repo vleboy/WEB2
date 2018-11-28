@@ -37,8 +37,8 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({ commit }, { role, username, password, challenge, vid, cb, err }) {
-            logIn(role, username, password, challenge, vid).then(res => {
+        userlogin({ commit }, { role, username, password,captcha, cb, err }) {
+            logIn(role, username, password,captcha).then(res => {
                 if (res.code == 0) {
                     if (localStorage.getItem('n1token')) {
                         localStorage.removeItem('n1token');

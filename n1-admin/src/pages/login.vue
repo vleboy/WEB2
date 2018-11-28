@@ -129,10 +129,8 @@ export default {
         return;
       }
       if (!this.validate) {
-        this.$Message.warning({
-          content: "请填写验证码"
-        });
-        return;
+        return this.$Message.warning('请填写验证码');
+        ;
       }
       // if (!passReg.test(this.password)) {
       //   this.$Message.warning({

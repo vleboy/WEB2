@@ -37,8 +37,8 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({ commit }, { role, username,sn, password, challenge, vid, cb, err }) {
-            logIn(role, username, password,sn,challenge, vid).then(res => {
+        userlogin({ commit }, { role, username,sn, password, captcha, cb, err }) {
+            logIn(role, username, password,sn,captcha).then(res => {
                 if (res.code == 0) {
                     if (localStorage.getItem('merchantToken')) {
                         localStorage.removeItem('merchantToken');
