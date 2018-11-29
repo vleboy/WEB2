@@ -1,8 +1,8 @@
-import React from "react";
-import { Menu, Icon } from "antd";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Menu, Icon } from 'antd'
+import { Link } from 'react-router-dom'
 
-const { SubMenu } = Menu;
+const { SubMenu } = Menu
 
 export default function SideMenu() {
   return (
@@ -10,7 +10,7 @@ export default function SideMenu() {
       theme="dark"
       mode="inline"
       // defaultSelectedKeys={["sub"]}
-      defaultOpenKeys={["sub"]}
+      defaultOpenKeys={['sub']}
     >
       <SubMenu
         key="sub"
@@ -61,5 +61,5 @@ export default function SideMenu() {
         <span>斗牛</span>
       </Menu.Item>
     </Menu>
-  );
+  )
 }
