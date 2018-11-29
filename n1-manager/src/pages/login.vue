@@ -32,7 +32,7 @@
             <Col span="8">
             <Input v-model="validate" style="width: 80px" :maxlength='4'></Input>
               <span class="getCode" v-if='showCode' @click="getCode">点击显示验证码</span>
-              <img class="validateImg" v-else :src="codeSrc" alt="oo">
+              <img class="validateImg" v-else :src="codeSrc" @click="getCode" alt="oo">
                <Spin fix v-if='loadImg'>
              </Spin>
             </Col>
