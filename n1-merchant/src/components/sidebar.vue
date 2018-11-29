@@ -17,7 +17,7 @@
                         输赢报表
                     </template>
                     <MenuItem name="allreport">公司输赢总报表</MenuItem>
-                    <Submenu name='nareport' v-if="gameStr.includes('NA')">
+                    <Submenu name='nareport' v-if="gameStr.includes('NA')||gameStr.includes('H5')">
                         <template slot="title">NA游戏报表</template>
                         <MenuItem name="naAll">NA游戏总报表</MenuItem>
                         <MenuItem name="navideo" v-if="gameList.includes('NA电子游戏')">NA电子游戏报表</MenuItem>
@@ -151,7 +151,7 @@ export default {
     },
     gameStr(){
         return this.gameList.toString()
-    }
+    },
   },
   props: ["openName"],
   updated() {
