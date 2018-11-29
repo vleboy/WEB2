@@ -103,7 +103,7 @@ export default {
       if (d < 10) {
         d = "0" + d;
       }
-      let str = y + m + d;
+      let str =`${y}${m}${d}`
       if (str) {
         httpRequest("post", "/fixRoundDay", {
           updateDay: str
