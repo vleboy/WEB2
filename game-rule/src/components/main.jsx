@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout } from 'antd'
+import { Layout,BackTop } from 'antd'
 import SideMenu from '../components/sideMenu'
 import HeadMenu from '../components/headMenu'
 import Routes from '../router'
@@ -19,12 +19,11 @@ export default class Main extends Component {
           </Header>
           <Content
             style={{
-              margin: '24px 16px',
-              padding: 24,
               background: '#fff',
               minHeight: '50vh'
             }}
           >
+            <BackTop/>
             <Routes />
           </Content>
           <Footer style={{ padding: 0 }}>
