@@ -139,6 +139,7 @@ export default {
         },
         err: () => {
             this.showCode=true;
+            this.validate=''
         }
       });
     }

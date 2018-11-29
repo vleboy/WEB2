@@ -159,8 +159,8 @@ export default {
           this.$router.push({ name: "home" });
         },
         err:()=>{
-          this.userdata={};
-          this.initVaptcha();
+          this.showCode=true;
+          this.validate=''
         }
       })
     }

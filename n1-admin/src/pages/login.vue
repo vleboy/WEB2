@@ -155,6 +155,7 @@ export default {
           this.$router.push({ name: "home" });
         },
         err: () => {
+          THIS.validate=''
           this.showCode=true;
         }
       });
