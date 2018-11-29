@@ -9,7 +9,7 @@ export default function SideMenu() {
     <Menu
       theme="dark"
       mode="inline"
-      defaultSelectedKeys={["classic"]}
+      // defaultSelectedKeys={["sub"]}
       defaultOpenKeys={["sub"]}
     >
       <SubMenu
