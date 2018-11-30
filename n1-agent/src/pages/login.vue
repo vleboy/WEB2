@@ -209,27 +209,4 @@ export default {
 .loginbtn {
   width: 100%;
 }
-.code-img {
-  width: 7.2rem;
-  height: 32px;
-  border: 1px solid #eee;
-  border-radius: 2px;
-}
-#vaptcha_container {
-  width: 100%;
-  .vaptcha-init-main {
-    display: table;
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
-    .vaptcha-init-loading {
-      text-align: center;
-      display: table-cell;
-      vertical-align: middle;
-      img{
-        vertical-align: middle;
-      }
-    }
-  }
-}
 </style>

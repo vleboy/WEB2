@@ -61,19 +61,16 @@ export async function httpRequest(method,url,params,type) {
   switch (method) {
     case 'get':
       return http(get(url,type))
-    break
     case 'post':
       return http(post(url,params,type))
-    break
     case 'put':
       return http(Image(method,url,params))
-    break
   }
 }
 
 //登录
-export async function logIn(role,username,password,challenge,vid,cb,err){
-    return http(post('/users/auth',{role,username,password,challenge,vid,cb,err},'admin'))
+export async function logIn(params){
+    return http(post('/users/auth',params,'admin'))
 }
 
 //改密码

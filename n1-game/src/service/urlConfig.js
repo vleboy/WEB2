@@ -5,19 +5,15 @@ export let URL = type => {
     switch (type) {
       case 'admin':
         return 'n1admin.na12345.com'
-        break
       default:
         return 'n1game.na12345.com'
-        break
     }
   } else {
     switch (type) {
       case 'admin':
         return 'd3rqtlfdd4m9wd.cloudfront.net'//login url
-        break
       default:
         return 'dgjmusja39cm2.cloudfront.net'
-        break
     }
   }
 }
@@ -25,7 +21,7 @@ export let URL = type => {
 
 export const httpType = 'https://'
 
-export const api = {
-  getVaptcha: httpType + URL('admin') + '/vaptcha/getVaptcha',
-  getDownTime: httpType + URL('admin') + '/vaptcha/getDownTime'//宕机
-}
+// export const api = {
+//   getVaptcha: httpType + URL('admin') + '/vaptcha/getVaptcha',
+//   getDownTime: httpType + URL('admin') + '/vaptcha/getDownTime'//宕机
+// }

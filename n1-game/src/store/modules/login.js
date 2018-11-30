@@ -37,8 +37,9 @@ export const login = {
         //         }
         //     })
         // },
-        userlogin({ commit }, { role, username, password, challenge, vid, cb, err }) {
-            logIn(role, username, password, challenge, vid).then(res => {
+        userlogin({ commit }, params) {
+            let {cb,err,...rest}=params
+            logIn(rest).then(res => {
                 if (res.code == 0) {
                     localStorage.setItem('gameToken', res.payload.token);
                     setTimeout(() => localStorage.removeItem('gameToken'), 259200000);
