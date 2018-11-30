@@ -1,12 +1,11 @@
 import React from 'react'
 import Main from '../components/main'
-import { HashRouter as Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 const Home = () => {
   return (
-    <Router>
-      {/* <Route path={"/"} render={() => <Main />} /> */}
+    <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
       <Main />
-    </Router>
+    </BrowserRouter>
   )
 }
 
