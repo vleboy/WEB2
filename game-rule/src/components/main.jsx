@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
-import { Layout,BackTop } from 'antd'
+import { Layout, BackTop } from 'antd'
 import SideMenu from '../components/sideMenu'
 import HeadMenu from '../components/headMenu'
 import ScrollToTop from '../components/scrollToTop'
 import Routes from '../router'
+import Logo from '../imgs/logo.png'
 const { Header, Footer, Sider, Content } = Layout
 export default class Main extends Component {
   render() {
     return (
       <Layout>
-        <Sider breakpoint="lg" collapsedWidth="0" style={{ height: '100vh',position:'fixed',left:0,top:0 }}>
-          {/* <img src="" alt=""/> */}
-          <div>aaa</div>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          style={{
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            overflow: 'auto'
+          }}
+        >
+          <div className="logo" style={{display:'flex',justifyContent:'center'}}>
+            <img src={Logo} alt="oops"/>
+          </div>
           <SideMenu />
         </Sider>
         <Layout>
@@ -22,12 +33,12 @@ export default class Main extends Component {
             style={{
               background: '#fff',
               minHeight: '50vh',
-              marginLeft:'200px'
+              marginLeft: '200px'
             }}
           >
-            <BackTop/>
+            <BackTop />
             <ScrollToTop>
-            <Routes />
+              <Routes />
             </ScrollToTop>
           </Content>
           <Footer style={{ padding: 0 }}>
