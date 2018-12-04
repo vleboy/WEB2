@@ -126,10 +126,10 @@
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="商户前端地址" v-if="edit">
+              <FormItem label="商户官网地址" v-if="edit">
                 {{merchantDetail.frontURL}}
               </FormItem>
-              <FormItem label="商户前端地址" v-else>
+              <FormItem label="商户官网地址" v-else>
                 <Row>
                   <Col span="10">
                   <Input v-model="basic.frontURL"></Input>

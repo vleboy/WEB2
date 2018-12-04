@@ -15,7 +15,7 @@
           <FormItem label="商户标识" prop="sn">
             <Row>
               <Col span="20">
-              <Input v-model="basic.sn" placeholder="3~5位,只能输入中英文、数字、@、_"></Input>
+              <Input v-model="basic.sn" placeholder="3~5位,只能输入中英文、数字"></Input>
               </Col>
             </Row>
           </FormItem>
@@ -121,7 +121,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="商户官网地址">
+          <FormItem label="商户官网页面地址">
             <Row>
               <Col span="10">
               <Select v-model="detail.httpType" placeholder="请选择">
@@ -241,35 +241,35 @@ export default {
           }
       }
     };
-    const validatesuffix = (rule, value, callback) => {
-      if (value == "") {
-        callback(new Error("前缀不能为空"));
-      } else {
-        let testReg = /^[a-zA-Z][a-zA-Z0-9]{1,5}$/;
-        if (!testReg.test(value)) {
-          callback(new Error("2~6位,只能输入英文数字(字母开头)"));
-        } else {
-          checkExit({
-            suffix: { role: "100", suffix: value }
-          }).then(res => {
-            if (res.code == 0) {
-              if (res.payload == true) {
-                callback();
-              } else {
-                callback(new Error("前缀不可用,请重新输入"));
-              }
-            }
-          });
-        }
-      }
-    };
+    // const validatesuffix = (rule, value, callback) => {
+    //   if (value == "") {
+    //     callback(new Error("前缀不能为空"));
+    //   } else {
+    //     let testReg = /^[a-zA-Z][a-zA-Z0-9]{1,5}$/;
+    //     if (!testReg.test(value)) {
+    //       callback(new Error("2~6位,只能输入英文数字(字母开头)"));
+    //     } else {
+    //       checkExit({
+    //         suffix: { role: "100", suffix: value }
+    //       }).then(res => {
+    //         if (res.code == 0) {
+    //           if (res.payload == true) {
+    //             callback();
+    //           } else {
+    //             callback(new Error("前缀不可用,请重新输入"));
+    //           }
+    //         }
+    //       });
+    //     }
+    //   }
+    // };
     const validateSn = (rule, value, callback) => {
       if (value == "") {
         callback(new Error("标识不能为空"));
       } else {
-        let testReg = /^[\u4E00-\u9FA5A-Za-z0-9_@]{1,5}$/;
+        let testReg = /^[A-Za-z0-9]{3,5}$/;
         if (!testReg.test(value)) {
-          callback(new Error("3~5位,只能输入中英文、数字、@、_"));
+          callback(new Error("3~5位,只能输入中英文、数字"));
         } else {
           checkExit({
             sn: { sn: value }
@@ -425,13 +425,13 @@ export default {
             trigger: "blur"
           }
         ],
-        suffix: [
-          {
-            required: true,
-            validator: validatesuffix,
-            trigger: "blur"
-          }
-        ],
+        // suffix: [
+        //   {
+        //     required: true,
+        //     validator: validatesuffix,
+        //     trigger: "blur"
+        //   }
+        // ],
         sn: [
           {
             required: true,
