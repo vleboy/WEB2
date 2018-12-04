@@ -126,10 +126,10 @@
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="商户前端域名" v-if="edit">
+              <FormItem label="商户前端地址" v-if="edit">
                 {{merchantDetail.frontURL}}
               </FormItem>
-              <FormItem label="商户前端域名" v-else>
+              <FormItem label="商户前端地址" v-else>
                 <Row>
                   <Col span="10">
                   <Input v-model="basic.frontURL"></Input>
@@ -138,10 +138,10 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户充值域名" v-if="edit">
+              <FormItem label="商户充值地址" v-if="edit">
                 {{merchantDetail.moneyURL}}
               </FormItem>
-              <FormItem label="商户充值域名" v-else>
+              <FormItem label="商户充值地址" v-else>
                 <Row>
                   <Col span="10">
                   <Input v-model="basic.moneyURL"></Input>
@@ -150,10 +150,10 @@
               </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户注册域名" v-if="edit">
+              <FormItem label="商户注册地址" v-if="edit">
                 {{merchantDetail.registerURL}}
               </FormItem>
-              <FormItem label="商户注册域名" v-else>
+              <FormItem label="商户注册地址" v-else>
                 <Row>
                   <Col span="10">
                   <Input v-model="basic.registerURL"></Input>
@@ -164,10 +164,10 @@
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="商户客服域名" v-if="edit">
+              <FormItem label="商户客服地址" v-if="edit">
                 {{merchantDetail.feedbackURL}}
               </FormItem>
-              <FormItem label="商户客服域名" v-else>
+              <FormItem label="商户客服地址" v-else>
                 <Row>
                   <Col span="10">
                   <Input v-model="basic.feedbackURL"></Input>

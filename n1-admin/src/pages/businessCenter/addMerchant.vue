@@ -5,13 +5,13 @@
       <div class="basic">
         <h2>基本信息</h2>
         <Form ref='basicform' :model="basic" :label-width="120" :rules="basicValidate">
-          <FormItem label="商户前缀" prop="suffix">
+          <!-- <FormItem label="商户前缀" prop="suffix">
             <Row>
               <Col span="20">
               <Input v-model="basic.suffix" placeholder="2~6 位,只能输入英文和数字(以字母开头)"></Input>
               </Col>
             </Row>
-          </FormItem>
+          </FormItem> -->
           <FormItem label="商户标识" prop="sn">
             <Row>
               <Col span="20">
@@ -91,7 +91,7 @@
               </Col>
             </Row>
           </FormItem>
-           <FormItem label="皮肤" prop="skin" :required='true'>
+           <!-- <FormItem label="皮肤" prop="skin" :required='true'>
             <Row>
               <Col span="10">
               <Select v-model="detail.skin" placeholder="请选择">
@@ -99,7 +99,7 @@
               </Select>
               </Col>
             </Row>
-          </FormItem>
+          </FormItem> -->
           <FormItem v-if="selected" prop='balance'>
             <label for="" slot="label">{{game}}商家占成(%)</label>
             <Row>
@@ -121,7 +121,7 @@
               </Col>
             </Row>
           </FormItem>
-          <FormItem label="商户域名">
+          <FormItem label="商户官网地址">
             <Row>
               <Col span="10">
               <Select v-model="detail.httpType" placeholder="请选择">
@@ -325,19 +325,19 @@ export default {
     };
     return {
       basic: {
-        suffix: "",
+        // suffix: "",
         sn: "",
         displayName: "",
         parent: "",
         points: null
       },
-      skinList:[{
-        value:'1',
-        name:'默认'
-      },{
-        value:'2',
-        name:'2'
-      }],
+      // skinList:[{
+      //   value:'1',
+      //   name:'默认'
+      // },{
+      //   value:'2',
+      //   name:'2'
+      // }],
       parentId: "",
       selected: false,
       tipContent: "上级游戏占成为:",
@@ -395,7 +395,7 @@ export default {
         registUrl: "",
         serviceType: "http://",
         serviceUrl: "",
-        skin:'1'
+        // skin:'1'
       },
       admin: {
         username: "",
@@ -624,7 +624,7 @@ export default {
                   ...this.admin,
                   ...this.basic,
                   gameList: this.gameDetail,
-                  skin:this.detail.skin,
+                  // skin:this.detail.skin,
                   loginWhiteList: this.detail.loginWhiteList,
                   moneyURL: this.detail.chargeType + this.detail.chargeUrl,
                   registerURL: this.detail.registType + this.detail.registUrl,
