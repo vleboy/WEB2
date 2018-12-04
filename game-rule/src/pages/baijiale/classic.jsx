@@ -15,23 +15,23 @@ const Classic = () => {
                     <div className="des">百家乐中将发两份牌<strong>{'<<庄家>>'}</strong> 和 <strong>{'<<闲家>>'}</strong>，总数得9点或最接近9点的一家胜出。</div>
                     <div className="title">操作及下注指南:</div>
                     <div className="rules">
-                        <li className="r-bg ">
+                        <li className="r-bg green">
                             <div className="col-xs-3 num"><span>1</span></div>
                             <div className="col-xs-9 des"><span>点击下注的筹码<br/>再点击桌上任意投注区下注</span></div>						
                         </li>
-                        <li className="r-bg ">
+                        <li className="r-bg green">
                             <div className="col-xs-3 num"><span>2</span></div>
                             <div className="col-xs-9 des"><span><strong>闲家和庄家</strong>将获发两张牌加起来等于<strong>10作0点</strong>，总和<strong>超过9</strong>则只算总数中的个位。</span></div>						
                         </li>
-                        <li className="r-bg ">
+                        <li className="r-bg green">
                             <div className="col-xs-3 num"><span>3</span></div>
                             <div className="col-xs-9 des"><span>任何一家拿到<strong>8点或9点（天生赢家）</strong>牌局就算结束不再补牌。</span></div>						
                         </li>
-                        <li className="r-bg ">
+                        <li className="r-bg green">
                             <div className="col-xs-3 num"><span>4</span></div>
                             <div className="col-xs-9 des"><span>派出两张牌后如果任何一手牌的头两张牌的牌面为0至6将依照补牌规则多发一张牌，不可以任选补牌。</span></div>						
                         </li>
-                        <li className="r-bg ">
+                        <li className="r-bg green">
                             <div className="col-xs-3 num"><span>5</span></div>
                             <div className="col-xs-9 des"><span>没有任何一手牌获得超过三张牌。</span></div>						
                         </li>					

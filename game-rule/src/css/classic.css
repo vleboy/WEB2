@@ -81,10 +81,12 @@
 .rules .r-bg{
     width: 650px;
     height: 100px;
-    background-color: #3a9858;
     margin: 22px auto;
     border-radius: 35px;
     position: relative;
+}
+.rules .green{
+    background-color: #3a9858;
 }
 .rules>li>.num{
     width: 100px;
@@ -525,4 +527,405 @@
     background: url(../imgs/c.jpg);
     background-position: -388px -257px;
     margin: 5px auto;
+}
+/* longbao */
+.longbao_banner{
+    height: auto;
+    background: url(../imgs/longbao/bg.jpg);
+    text-align: center;
+    padding: 40px;
+}
+.longbao_bar{
+    height: 42px;
+    background: url(../imgs/longbao/bar.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.longbao_cap{
+    width: 100%;
+    height: 400px;
+    margin: 0px auto;
+    background: url(../imgs/longbao/pic.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.longbao_title{
+    color: #d97331;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 20px;
+    text-align: center;
+}
+.longbao_des{
+    width: 90%;
+    color: #343434;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 40px auto;
+    text-align: left;
+}
+.longbao_des .name{
+    color: #d97331;
+    font-size: 16px;
+    font-weight: bold;
+}
+.longbao_des .txt{
+    color: #d97331;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+.longbao_des li{
+    text-align: center;
+    height: 120px;
+}
+.longbao_sub_title{
+    width: 65%;
+    font-size: 16px;
+    color: #2f2f2f;
+    text-align: left;
+    margin: 0px auto;
+}
+.longbao_table{
+    width: 59%;
+    min-width: 600px;
+    font-size: 14px;
+    color: #fff;
+    margin: 10px auto;
+    background-color: #ff8740;
+    padding: 0px;
+    line-height: 13px;
+}
+.longbao_table li{
+    text-align: center;
+    border: 1px solid #ffa773;
+    padding: 2px;
+}
+.longbao_table .t-title{
+    font-weight: bold;
+    height: 50px;
+    font-size: 14px;
+    background-color: #d97331;
+}
+.longbao_table .t-title span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 300px;
+    height: 50px;
+}
+.longbao_table span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 300px;
+    height: 30px;
+}
+.longbao_des2{
+    width: 70%;
+    min-width: 800px;
+    height: 245px;
+    color: #343434;
+    text-align: left;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 20px auto;
+    border: 2px solid #ffba91;
+    padding-top: 10px;
+    border-radius: 2px;
+}
+.longbao_des2 .num span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+}
+.longbao_des2 .num{
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #d97331;
+    border-radius: 50px;
+    float: left;
+    position: relative;
+    top: -20px;
+    left: -30px;
+}
+.longbao_des2 .title{
+    font-size: 18px;
+    color: #ff8740;
+    text-align: center;
+    height: 36px;
+    position: relative;
+    top: -25px;
+}
+.longbao_des2 .banker{
+    font-size: 18px;
+    color: #1a02d0;
+    font-weight: bold;
+    width: 105px;
+    text-align: right;
+}
+.longbao_des2 .banker span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    width: 150px;
+    height: 67px;
+}
+.longbao_des2 .player{
+    font-size: 18px;
+    color: #ff0000;
+    font-weight: bold;
+    width: 105px;
+    text-align: right;
+}
+.longbao_des2 .player span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    width: 150px;
+    height: 67px;
+}
+.longbao_des2 .stxt{
+    font-size: 15px;
+    color: #d97331;
+    font-weight: bold;
+    text-align: center;
+}
+.longbao_des2 .ex1a{
+    background: url(../imgs/longbao/ex1a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex1b{
+    background: url(../imgs/longbao/ex1b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex2a{
+    background: url(../imgs/longbao/ex2a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex2b{
+    background: url(../imgs/longbao/ex2b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex3a{
+    background: url(../imgs/longbao/ex3a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex3b{
+    background: url(../imgs/longbao/ex3b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex4a{
+    background: url(../imgs/longbao/ex4a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex4b{
+    background: url(../imgs/longbao/ex4b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex5a{
+    background: url(../imgs/longbao/ex5a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex5b{
+    background: url(../imgs/longbao/ex5b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex6a{
+    background: url(../imgs/longbao/ex6a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex6b{
+    background: url(../imgs/longbao/ex6b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex7a{
+    background: url(../imgs/longbao/ex7a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex7b{
+    background: url(../imgs/longbao/ex7b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex8a{
+    background: url(../imgs/longbao/ex8a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex8b{
+    background: url(../imgs/longbao/ex8b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex9a{
+    background: url(../imgs/longbao/ex9a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex9b{
+    background: url(../imgs/longbao/ex9b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex10a{
+    background: url(../imgs/longbao/ex10a.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+.longbao_des2 .ex10b{
+    background: url(../imgs/longbao/ex10b.jpg) no-repeat;
+    width: 253px;
+    max-width: 100%;
+    height: 125px;
+    background-size: 100%;
+}
+/* insurance */
+.ins_banner{
+    height: 745px;
+    background: url(../imgs/bg_ins.jpg);
+    text-align: center;
+    padding: 40px;
+}
+.ins_bar{
+    height: 42px;
+    background: url(../imgs/bar_ins.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.ins_cap{
+    width: 100%;
+    height: 400px;
+    margin: 0px auto;
+    background: url(../imgs/pic2.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+.ins_title{
+    color: #e2a43a;
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 20px;
+    text-align: center;
+}
+.res_content .r-bg{
+    background-color: #e2a43a;
+}
+.res_des{
+    width: 80%;
+    color: #343434;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 20px auto;
+    text-align: left;
+    letter-spacing: 1px; 
+}
+.res_des .txt{
+    color: #7a5621;
+    height: 60px;
+}
+.res_des .res_sub{
+    font-size: 16px;
+    color: #44331a;
+    text-align: left;
+    font-weight: bold;
+    height: 17px;
+}
+.res_des .sub-des{
+    font-size: 11px;
+    color: #a17c44;
+    text-align: left;
+    margin: 0px auto;
+    height: 17px;
+    letter-spacing: 0.5px;
+}
+.res_table{
+    width: 400px;
+    font-size: 14px;
+    color: #5b4016;
+    margin: 5px auto;
+    padding: 5px;
+    line-height: 13px;
+}
+.res_table li{
+    text-align: center;
+    border: 1px solid #ffdea4;
+    padding: 2px;
+    background-color: #f1c271;
+}
+.res_table .t-title{
+    font-weight: bold;
+    height: 50px;
+    font-size: 14px;
+    background-color: #e2a43a;
+    color: #fff;
+}
+.res_table .t-title span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    height: 50px;
+}
+.res_table span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 300px;
+    height: 30px;
 }
