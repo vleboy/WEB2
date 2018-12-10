@@ -35,7 +35,7 @@
                   <span class="vaptcha-text">智能验证码加载中...</span>
                 </div>
               </div>
-            </div> -->
+            </div>  -->
             </Col>
           </Row>
         </FormItem>
