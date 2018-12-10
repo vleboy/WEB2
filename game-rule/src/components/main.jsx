@@ -7,12 +7,17 @@ import Routes from '../router'
 import Logo from '../imgs/logo.png'
 const { Header, Footer, Sider, Content } = Layout
 export default class Main extends Component {
+  constructor(){
+    super();
+    this.state={collapse:false}
+  }
   render() {
     return (
       <Layout>
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
+          onCollapse={()=>this.setState({collapse:true})}
           style={{
             height: '100vh',
             position: 'fixed',
@@ -25,15 +30,13 @@ export default class Main extends Component {
           </div>
           <SideMenu />
         </Sider>
-        <Layout>
+        <Layout className={this.state.collapse?null:'ml200'}>
           <Header style={{ textAlign: 'right' }}>
             <HeadMenu />
           </Header>
           <Content
             style={{
-              background: '#fff',
               minHeight: '50vh',
-              marginLeft: '200px'
             }}
           >
             <BackTop />

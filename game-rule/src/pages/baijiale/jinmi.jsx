@@ -8,7 +8,7 @@ const Jinmi=()=>{
             <div className="banner jinmi clearfix">
 				<li className="title">竞咪百家乐</li>
 				<li className="des">BID Baccarat</li>
-				<li className="bar"></li>
+				<li className="jinmi_bar"></li>
 				<li className="intro">首创<strong>竞咪互动百家乐</strong>新玩法，<strong>投注额最高者享咪牌权利</strong>，牌桌上会清楚显示<strong>所有筹码</strong>，玩家拥有置身於实体赌场一样的真实座位体验。<br/><br/><strong>"等我"</strong>功能让您掌控牌局节奏；玩家可以<strong>即时和俏丽主播互动</strong>，边聊天边下注，创造实地赌场无可比拟的升级体验。</li>
 				<li className="cap jinmi_cap"></li>
 			</div>

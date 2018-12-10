@@ -1,18 +1,19 @@
 import React from 'react'
-
+import ex2 from '../imgs/niu_ex2.jpg'
+import ex1 from '../imgs/niu_ex1.jpg'
 const NiuNiu = () => {
   return (
     <div>
-      <div className="banner clearfix">
+      <div className="niu_banner clearfix">
 				<li className="title">牛牛</li>
 				<li className="des">Bull Bull</li>
-				<li className="bar"></li>
+				<li className="niu_bar"></li>
 				<li className="intro"><strong>牛牛</strong> 又名斗牛，是一款流行于广东、广西、湖南以及江浙一带的传统棋牌游戏。其中一家为庄家，其余为闲家，发完牌后马上开牌比牌，所有闲家与庄家一一进行比较确定输赢。游戏节奏紧凑刺激，规则简单。</li>
-				<li className="cap">
+				<li className="niu_cap">
         {/* <img src="images/niuniu/pic.jpg" className="img-responsive"> */}
         </li>
 			</div>
-			<div className="content clearfix">				
+			<div className="content niu_content clearfix">				
 				<div className="title">如何胜出</div>				
 				<div className="des">
 					牛牛中将根据头牌决定的顺序发四份牌 庄家、闲1、闲2、闲3，玩家可押注1~3家闲胜的「平倍」丶「翻倍」，以及对应庄家胜闲1～3的「平倍」丶「翻倍」。若押注任何一家闲家并且所押闲家牌型大於庄家，则玩家获胜；若押注庄胜其中一家闲家并且庄家牌型大於该闲家的牌型，则玩家获胜： 
@@ -40,7 +41,7 @@ const NiuNiu = () => {
 						<div className="col-xs-9 des"><span>开牌结束决定输赢。</span></div>						
 					</li>
 				</div>
-				<div className="des3">注意：玩家在 "翻倍" 中下注时，该玩家的可用余额必须高于或等于下注额度的5倍，详细请看"注意事项"。</div>
+				<div className="niu_des3">注意：玩家在 "翻倍" 中下注时，该玩家的可用余额必须高于或等于下注额度的5倍，详细请看"注意事项"。</div>
 				<div className="title">游戏玩法</div>				
 				<div className="des">
 					游戏使用扑克牌中52张牌（不含鬼牌），每局每家派发5张牌，先从5张牌中找出3张可成10或10的倍数组合，剩馀2张牌相加，如遇点数相加超过10点则减去10点，为该局之点数，与庄家比点数大小决定胜负。
@@ -54,7 +55,7 @@ const NiuNiu = () => {
 					<p><strong>『庄三』：</strong>平倍丶翻倍。（注：庄赢闲三）</p>
 					<p>注意：於"翻倍"中下注时, 玩家的馀额必须高於或等於投注额度的5倍 , 详情请看 '补充说明'</p>
 					<p>
-            {/* <img src="images/niuniu/ex2.jpg" className="img-responsive"> */}
+            <img src={ex2} className="img-responsive" alt='a'/>
             </p>
 				</div>
 				<div className="title">发牌顺序</div>				
@@ -62,11 +63,11 @@ const NiuNiu = () => {
 					<span className="col-xs-12">1. 头牌：荷官每局开始会先开'头牌'，依据头牌点数(从庄家方位逆时针方向算起)决定开牌位置。</span>
           <br/>
 					<span className="col-xs-12">
-          {/* <img src="images/niuniu/ex1.jpg" className="img-responsive"> */}
+          <img src={ex1} className="img-responsive" alt='a'/>
           </span>
 					<span className="col-xs-12"><br/>2. 根据头牌的点数(A=1点, 2 至 K = 2 至13点)，对4进行除余。</span>
 				</div>
-				<div className="table clearfix">
+				<div className="niu_table clearfix">
 					<span className="t1">头牌</span>
 					<span className="t1">发牌顺序</span>
 					<span className="c1"><strong>A、5、9、K</strong></span>

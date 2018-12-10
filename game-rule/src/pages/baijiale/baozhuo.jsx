@@ -5,7 +5,7 @@ const Baozhuo = () => {
             <div className="banner baozhuo clearfix">
                 <li className="title">包桌百家乐</li>
                 <li className="des">VIP Baccarat</li>
-                <li className="bar"></li>
+                <li className="baozhuo_bar"></li>
                 <li className="intro"><strong>包桌</strong>後可自行<strong>控制游戏节奏</strong>，尽享<strong>更换荷官</strong>丶<strong>飞牌</strong>及<strong>换靴</strong>等优越功能 成就更高级及自主的娱乐享受。</li>
                 <li className="cap baozhuo_cap"></li>
             </div>

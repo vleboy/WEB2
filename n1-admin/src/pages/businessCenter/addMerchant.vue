@@ -15,7 +15,7 @@
           <FormItem label="商户标识" prop="sn">
             <Row>
               <Col span="20">
-              <Input v-model="basic.sn" placeholder="3~5位,只能输入中英文、数字"></Input>
+              <Input v-model="basic.sn" placeholder="3~5位,只能输入英文、数字"></Input>
               </Col>
             </Row>
           </FormItem>

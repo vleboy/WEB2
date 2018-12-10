@@ -2,7 +2,7 @@ import React from 'react'
 const Toubao =()=>{
     return(
         <div>
-<div className="banner clearfix">
+			<div className="banner clearfix">
 				<li className="title">骰宝</li>
 				<li className="des">Sicbo</li>
 				<li className="bar"></li>
