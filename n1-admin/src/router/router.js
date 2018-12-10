@@ -46,7 +46,7 @@ import managerList from '@/pages/businessCenter/managerList'
 import warnList from '@/pages/businessCenter/warnList'
 import adminList from '@/pages/adminCenter/adminList'
 import adminRole from '@/pages/adminCenter/adminRole'
-import lineNumList from '@/pages/adminCenter/lineNumList'
+// import lineNumList from '@/pages/adminCenter/lineNumList'
 
 import lineLoginLog from '@/pages/log/lineLoginLog'
 import merchantLog from '@/pages/log/merchantLog'
@@ -259,7 +259,7 @@ export const appRouter = [
         children:[
             {path:'list',title:'管理员列表',name:'adminList',component:adminList},
             {path:'role',title:'管理员角色列表',name:'adminRole',component:adminRole},
-            {path:'line',title:'线路号列表',name:'lineNumList',component:lineNumList},
+            // {path:'line',title:'线路号列表',name:'lineNumList',component:lineNumList},
     ]
     },
     {

@@ -105,7 +105,7 @@
                     </template>
                     <MenuItem name="adminList" v-if='permission.includes("管理员列表")'>管理员列表</MenuItem>
                     <MenuItem name="adminRole" v-if='permission.includes("管理员角色列表")'>管理员角色列表</MenuItem>
-                    <MenuItem name="lineNumList" v-if='permission.includes("管理员列表")'>线路号列表</MenuItem>
+                    <!-- <MenuItem name="lineNumList" v-if='permission.includes("管理员列表")'>线路号列表</MenuItem> -->
                 </Submenu>
                 <Submenu name="operation" v-if='authorityStr.includes("游戏公告列表")||authorityStr.includes("游戏邮件列表")||authorityStr.includes("跑马灯列表")||authorityStr.includes("商户运营记录")||authorityStr.includes("展位列表")||authorityStr.includes("道具定价")'>
                     <template slot="title">

@@ -1631,3 +1631,408 @@
     color: #0e590f;
     font-weight: bold;
 }
+.niu_table{
+    width: 544px;
+    height: auto;
+    background-color: #5da676;
+    margin: 20px auto;
+}
+.niu_table .tniu{
+    width: 50%;
+    height: 40px;
+    background-color: #3e905a;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.niu_table .cniu{
+    width: 50%;
+    height: auto;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table .sub{
+    width: 100%;
+    height: auto;
+    background-color: #5da676;
+    font-size: 13px;
+    color: #fff;
+    display: block;
+    padding: 5px 0px;
+}
+.niu_table2{
+    width: 750px;
+    height: auto;
+    background-color: #5da676;
+    margin: 20px auto;
+}
+.niu_table2 .cniu{
+    width: 33.3%;
+    height: 120px;
+    background-color: #5da676;
+    float: left;
+    display: block;
+    padding: 10px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table2 .cniu:nth-child(3n+1){
+    width: 20%;
+}
+.niu_table2 .cniu:nth-child(3n+2){
+    width: 55%;
+}
+.niu_table2 .cniu:nth-child(3n+3){
+    width: 25%;
+}
+.niu_table2 .cniu .txt1{
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    padding-top: 14px;
+}
+.niu_table2 .cniu .txt2{
+    color: #fff;
+    font-size: 14px;
+    padding-top: 10px;
+}
+.niu_table2 .t-01{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px 0px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-02{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -104px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-03{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -208px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-04{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position:0px -314px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-05{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -418px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-06{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -548px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-07{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -654px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-08{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -760px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-09{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -864px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-10{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -968px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-11{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -1076px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table2 .t-12{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -1180px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table3{
+    width: 750px;
+    height: auto;
+    background-color: #5da676;
+    margin: 0px auto;
+}
+.niu_table3 .tniu1{
+    width: 25%;
+    height: 40px;
+    background-color: #3e905a;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.niu_table3 .tniu2{
+    width: 75%;
+    height: 40px;
+    background-color: #3e905a;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.niu_table3 .cniu{
+    width: 25%;
+    height: auto;
+    min-height: 60px;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 12px;
+    display: block;
+    padding: 10px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table3 .cniu2{
+    width: 75%;
+    height: auto;
+    min-height: 60px;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 12px;
+    display: block;
+    padding: 9px 0px 0px 0px;
+    border-bottom: 1px dotted #3e905a;
+    text-align: left;
+}
+.niu_table3 .cniu2 strong{
+    color: #fffc00;
+}
+.niu_table3 .cniu2 .name {
+    width: 30px;
+    font-size: 14px;
+    color: #fff;
+    float: left;
+    padding: 3px 0px;
+}
+.niu_table3 .cniu2 .arrow2{
+    width: 10px;
+    height: 16px;
+    color: #fff900;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+    padding: 1px 0px;
+    margin: 3px;
+}
+.niu_table3 .ico01 {
+    width: 20px;
+    height: 20px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: -5px -524px;
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+.niu_table3 .ico02 {
+    width: 20px;
+    height: 20px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: -40px -524px;
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+.niu_table3 .ico03 {
+    width: 20px;
+    height: 20px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: -80px -524px;
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+.niu_table3 .ico04 {
+    width: 20px;
+    height: 20px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: -108px -524px;
+    display: block;
+    float: left;
+    margin-left: 3px;
+}
+.niu_table3 .sub{
+    width: 80%;
+    height: auto;
+    background-color: #5da676;
+    font-size: 13px;
+    color: #bdebcd;
+    display: block;
+    padding: 5px 0px;
+    margin: 0px auto;
+}
+.niu_table2 .tniu2{
+    width: 100%;
+    height: 34px;
+    background-color: #3e905a;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 3px 0px;
+    letter-spacing: 2px;
+}
+.niu_table2 .cniu2{
+    width: 33.3%;
+    height: auto;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table2 .cniu2 strong{
+    color: #fffc00;
+}
+.niu_table .tniu2{
+    width: 100%;
+    height: 40px;
+    background-color: #3e905a;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.niu_table .cniu2{
+    width: 25%;
+    height: auto;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table .cniu3{
+    width: 75%;
+    height: auto;
+    background-color: #5da676;
+    float: left;
+    color: #fff584;
+    font-size: 13px;
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table .c4{
+    width: 25%;
+    height: 255px;
+    min-height: 70px;
+    background-color: #5da676;
+    float: left;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table .c5{
+    width: 75%;
+    height: auto;
+    min-height: 70px;
+    background-color: #5da676;
+    float: left;
+    color: #fff584;
+    font-size: 13px;
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    padding: 5px 0px;
+    border-bottom: 1px dotted #3e905a;
+}
+.niu_table .m-03{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -418px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table .m-02{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -656px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_table .m-01{
+    width: 374px;
+    height: 104px;
+    background-image: url(../imgs/niu_type.jpg);
+    background-position: 0px -313px;
+    display: block;
+    margin: 0px auto;
+}
+.niu_content .col-lg-6{
+    width: 100%;
+}
