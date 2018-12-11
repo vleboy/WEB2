@@ -1,6 +1,23 @@
 <template>
   <div class="repair">
     <Alert type="warning" class="alert">该页面功能涉及底层系统数据修复，请务必在技术人员的协作下慎重使用</Alert>
+     <Row class="row">
+       <Col span="6" class="label">
+        <span>AA扑克版本:</span>
+      </Col>
+       <Col span="4">
+          <Input v-model="poker" type="text"/>
+      </Col>
+       <Col span="4" class="label">
+        <span class="label">N1_APP版本:</span>
+      </Col>
+       <Col span="4">
+          <Input v-model="n1app" type="text"/>
+      </Col>
+      <Col span="5" class="save_btn">
+      <Button type="primary" @click="saveConfig">保存</Button>
+      </Col>
+    </Row>
     <Row class="row">
       <Col span="12" offset='12'>
       <Button type="primary" @click="checkLog">日志检查</Button>
@@ -33,6 +50,8 @@ export default {
   data() {
     return {
       range: [],
+      poker:'',
+      n1app:'',
       day: "",
        options: {
         shortcuts: [
@@ -65,9 +84,32 @@ export default {
       }, 
     };
   },
+  created(){
+    this.getConfig()
+  },
   computed: {
   },
   methods: {
+    getConfig(){
+      httpRequest("post", "/configOne",{code:'appVersion'}).then(res => {
+        if (res.code == 0) {
+         this.poker=res.payload.aapokerVersion
+         this.n1app=res.payload.n1Version    
+        }
+      });
+    },
+    saveConfig(){
+      let params={
+        code:'appVersion',
+        aapokerVersion:this.poker,
+        N1Version:this.n1app
+      }
+      httpRequest("post", "/configNew",params).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("操作成功");
+        }
+      });
+    },
     checkLog() {
       httpRequest("post", "/checkRound").then(res => {
         if (res.code == 0) {
@@ -120,6 +162,12 @@ export default {
 <style lang="less" scoped>
 .repair {
   min-height: 81vh;
+  .label{
+    text-align: right;
+    height: 32px;
+    line-height: 32px;
+    padding-right: 8px;
+  }
   .row {
     margin: 80px auto;
     .date {
@@ -133,6 +181,9 @@ export default {
   }
   .alert{
     text-align: center;
+  }
+  .save_btn{
+    margin-left: 10px;
   }
 }
 </style>
