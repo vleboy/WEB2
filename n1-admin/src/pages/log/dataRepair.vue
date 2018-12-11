@@ -102,7 +102,7 @@ export default {
       let params={
         code:'appVersion',
         aapokerVersion:this.poker,
-        N1Version:this.n1app
+        n1Version:this.n1app
       }
       httpRequest("post", "/configNew",params).then(res => {
         if (res.code == 0) {
