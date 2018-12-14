@@ -2,40 +2,40 @@ import React from 'react'
 const Lunpan =()=>{
     return(
         <div>
-        <div className="banner clearfix">
+        <div className="lun_banner clearfix">
 				<li className="title">轮盘</li>
 				<li className="des">Roulette</li>
-				<li className="bar"></li>
-				<li className="intro"><strong>AG</strong>拥有画面最逼真的<strong>真人轮盘游戏</strong>。透过实时传递的现场画面，加上令人目不暇给的轮盘丶荷官熟练而专业的技巧，都为玩家缔造一个公平公正的博彩游戏。本游戏是采用国际标准的单零轮盘，单零轮盘上共有37 个细长沟道。其中一个绿色沟道的数字编号为0，另外36个沟道分别编号为1 至36，一半是红色一半是黑色。 玩家可以买单一数字或赌桌上的数字组合。</li>
-				<li className="cap"></li>
+				<li className="lun_bar"></li>
+				<li className="lun_intro"><strong>AG</strong>拥有画面最逼真的<strong>真人轮盘游戏</strong>。透过实时传递的现场画面，加上令人目不暇给的轮盘丶荷官熟练而专业的技巧，都为玩家缔造一个公平公正的博彩游戏。本游戏是采用国际标准的单零轮盘，单零轮盘上共有37 个细长沟道。其中一个绿色沟道的数字编号为0，另外36个沟道分别编号为1 至36，一半是红色一半是黑色。 玩家可以买单一数字或赌桌上的数字组合。</li>
+				<li className="lun_cap"></li>
 			</div>
-			<div className="content clearfix">
-				<div className="title">如何胜出:</div>
+			<div className="lun_content clearfix">
+				<div className="lun_title">如何胜出:</div>
 				<div className="des">下注结束后，荷官会把轮盘向一个方向转动，然后把象牙制滚球抛到轮盘的外侧，让滚球在轮盘内转动多周后慢慢停下来，并降落在其中一个细沟内为该局结果。</div>
-				<div className="title">操作及下注指南:</div>
+				<div className="lun_title">操作及下注指南:</div>
 				<div className="rules">
-					<li className="r-bg clearfix">
+					<li className="pan-bg clearfix">
 						<div className="col-xs-3 num"><span>1</span></div>
 						<div className="col-xs-9 des"><span>开始新局后，即开始下注倒数计时，请玩家<br/>在桌面不同的方格内或方格的边界上押放筹码。</span></div>						
 					</li>
-					<li className="r-bg clearfix">
+					<li className="pan-bg clearfix">
 						<div className="col-xs-3 num"><span>2</span></div>
 						<div className="col-xs-9 des"><span>倒数结束前由荷官<br/>转动轮盘并抛出滚球。</span></div>						
 					</li>
-					<li className="r-bg clearfix">
+					<li className="pan-bg clearfix">
 						<div className="col-xs-3 num"><span>3</span></div>
 						<div className="col-xs-9 des"><span>由荷官输入结果数字<br/>同时玩家画面显示结果。</span></div>						
 					</li>					
 				</div>
 			</div>
-			<div className="content clearfix">			
-				<div className="title">游戏规则:</div>
+			<div className="lun_content clearfix">			
+				<div className="lun_title">游戏规则:</div>
 				<div className="des">筹码放在划有不同投注项目的方格的赌桌上<br/>你可以下注在任何的方格，但要在下注时限之内押注。</div>
 				
-				<div className="title">派彩赔率:</div>
+				<div className="lun_title">派彩赔率:</div>
 				<div className="des">轮盘的投注方式有 12个种类，各项投注类型与派彩赔率如下:</div>
 				
-				<div className="table clearfix">
+				<div className="lun_table clearfix">
 					<li className="col-xs-2 t-title"><span>投注项目</span></li>
 					<li className="col-xs-2 t-title"><span>赔率</span></li>					
 					<li className="col-xs-8 t-title"><span>说明</span></li>
@@ -89,43 +89,43 @@ const Lunpan =()=>{
 					<li className="col-xs-8"><span>小（1-18）；大（19-36）；若开0则通杀</span></li>					
 				</div>
 				
-				<div className="title">我的投注:</div>
+				<div className="lun_title">我的投注:</div>
 				<div className="des2" style={{textAlign:'center'}}>玩家可保存4个最喜欢的投注方式并在赌桌上一键投注。</div>
-				<div className="content clearfix">
+				<div className="clearfix">
 					<div className="rules">
-						<li className="r-bg clearfix">
+						<li className="pan-bg clearfix">
 							<div className="col-xs-3 num"><span>1</span></div>
 							<div className="col-xs-9 des"><span>保存“我的投注” 先在桌上投注，然后点选“我的投注”来打开相应的面版。点选添加，并输入投注方式的名称。</span></div>
 						</li>
-						<li className="r-bg clearfix">
+						<li className="pan-bg clearfix">
 							<div className="col-xs-3 num"><span>2</span></div>
 							<div className="col-xs-9 des"><span>使用“我的投注” 先按 '我的投注' 点击您已保存的投注。</span></div>
 						</li>
-						<li className="r-bg clearfix">
+						<li className="pan-bg clearfix">
 							<div className="col-xs-3 num"><span>3</span></div>
 							<div className="col-xs-9 des"><span>编辑“我的投注” 名称  按 '修改' 图标。</span></div>
 						</li>
-						<li className="r-bg clearfix">
+						<li className="pan-bg clearfix">
 							<div className="col-xs-3 num"><span>4</span></div>
 							<div className="col-xs-9 des"><span>删除“我的投注” 按 '删除' 删除已保存的投注方式。</span></div>
 						</li>
-						<li className="r-bg clearfix">
+						<li className="pan-bg clearfix">
 							<div className="col-xs-3 num"><span>5</span></div>
 							<div className="col-xs-9 des"><span>关闭“我的投注”面版，按 'X' 图标。</span></div>
 						</li>						
 					</div>
 				</div>
 				
-				<div className="title">邻注:</div>
-				<div className="des2">投注法式轮盘上该号码及左邻与右邻各2个的号码。例如：点选法式投注数字 7 ，则投注号码为：18, 29, 7, 28, 12。</div>				
+				<div className="lun_title">邻注:</div>
+				<div className="lun_des2">投注法式轮盘上该号码及左邻与右邻各2个的号码。例如：点选法式投注数字 7 ，则投注号码为：18, 29, 7, 28, 12。</div>				
 				
-				<div className="title">法式下注:</div>
-				<div className="des2">
+				<div className="lun_title">法式下注:</div>
+				<div className="lun_des2">
 					<li><strong>法式下注：</strong>以椭圆形画出轮盘上的分区（号码丶颜色），而后根据玩法不同分隔为4个分区（轮盘下角注丶轮上孤注丶零旁注上角丶轮上零旁），法式下注提供5种投注种类</li>
 					<li><strong>投注方式：</strong>使用筹码点击“法式下注”的椭圆形轮盘对应的玩法，轮盘投注桌上显示每个玩法投注的筹码，点击确定时将所选玩法提交下单。</li>
 				</div>				
 					
-				<div className="table clearfix">
+				<div className="lun_table clearfix">
 					<li className="col-xs-2 t-title"><span>投注种类</span></li>
 					<li className="col-xs-2 t-title"><span>注数</span></li>					
 					<li className="col-xs-8 t-title"><span>投注号位</span></li>

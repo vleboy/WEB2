@@ -2,40 +2,40 @@ import React from 'react'
 const Toubao =()=>{
     return(
         <div>
-			<div className="banner clearfix">
+			<div className="tou_banner clearfix">
 				<li className="title">骰宝</li>
 				<li className="des">Sicbo</li>
-				<li className="bar"></li>
+				<li className="tou_bar"></li>
 				<li className="intro">
 					<strong>骰宝游戏</strong> 节奏明快刺激，投注组合丰富，深受亚洲人喜爱。真人骰宝游戏更开拓出崭新领域，付予玩家前所未有的全新感受，令人乐而忘返。
 					<br/><br/>也叫赌大小，以猜测骰子开出的点数或是点数总合的博彩。多元化的投注种类及吸引的赔率，极之受玩家欢迎。</li>
-				<li className="cap"></li>
+				<li className="tou_cap"></li>
 			</div>
-			<div className="content clearfix">
-				<div className="title">如何胜出:</div>
+			<div className="tou_content clearfix">
+				<div className="tou_title">如何胜出:</div>
 				<div className="des">玩家的押注的内容与三颗骰子停留开出的点数相同，便赢得彩金。</div>
-				<div className="title">操作及下注指南:</div>
+				<div className="tou_title">操作及下注指南:</div>
 				<div className="rules">
-					<li className="r-bg clearfix">
+					<li className="tou-bg clearfix">
 						<div className="col-xs-3 num"><span>1</span></div>
 						<div className="col-xs-9 des"><span>开始新局后即开始下注倒数计时<br/>你可以依照你的预测，选择筹码下注 。</span></div>						
 					</li>
-					<li className="r-bg clearfix">
+					<li className="tou-bg clearfix">
 						<div className="col-xs-3 num"><span>2</span></div>
 						<div className="col-xs-9 des"><span>倒数时间结束后停止下注<br/>再由荷官按钮经机械自动摇骰。</span></div>						
 					</li>
-					<li className="r-bg clearfix">
+					<li className="tou-bg clearfix">
 						<div className="col-xs-3 num"><span>3</span></div>
 						<div className="col-xs-9 des"><span>待骰盅停止后，视讯显示三颗骰子停留开出的点数，由荷官输入三点数，同时画面亮起灯光，可清楚看到胜出注码和赔率；是否与玩家押注的内容相同，来判定输赢。</span></div>						
 					</li>					
 				</div>
 
-				<div className="title">游戏规则:</div>
+				<div className="tou_title">游戏规则:</div>
 				<div className="des">筹码放在划有不同赌法的方格的赌桌上<br/>你可以下注在任何的方格，但要在下注时限之内押注。</div>
 				
-				<div className="title">派彩赔率:</div>
+				<div className="tou_title">派彩赔率:</div>
 				
-				<div className="table clearfix">
+				<div className="tou_table clearfix">
 					<li className="col-xs-3 t-title"><span>投注项目</span></li>
 					<li className="col-xs-3 t-title"><span>赔率</span></li>					
 					<li className="col-xs-6 t-title"><span>说明</span></li>
@@ -56,7 +56,7 @@ const Toubao =()=>{
 				</div>
 				
 				<div className="des">下注在单一个点数:</div>				
-				<div className="table clearfix">
+				<div className="tou_table clearfix">
 					<li className="col-xs-3 t-title"><span>投注项目</span></li>
 					<li className="col-xs-3 t-title"><span>赔率</span></li>					
 					<li className="col-xs-6 t-title"><span>说明</span></li>
@@ -83,7 +83,7 @@ const Toubao =()=>{
 				</div>
 				
 				<div className="des">3颗骰子点数总和:</div>				
-				<div className="table clearfix">
+				<div className="tou_table clearfix">
 					<li className="col-xs-3 t-title"><span>投注项目</span></li>
 					<li className="col-xs-4 t-title"><span>赔率</span></li>					
 					<li className="col-xs-5 t-title"><span>说明</span></li>
@@ -114,7 +114,7 @@ const Toubao =()=>{
 				</div>
 				
 				<div className="des">3颗骰子点数总和:</div>				
-				<div className="table clearfix">
+				<div className="tou_table clearfix">
 					<li className="col-xs-3 t-title"><span>投注项目</span></li>
 					<li className="col-xs-3 t-title"><span>赔率</span></li>					
 					<li className="col-xs-6 t-title"><span>说明</span></li>
@@ -128,7 +128,7 @@ const Toubao =()=>{
 					<li className="col-xs-6"><span>总点数为 4, 6, 8, 10, 12, 14, 16 点 <br/>( 遇围骰庄家通吃 )</span></li>					
 				</div>
 				
-				<div className="title">注意事项:</div>
+				<div className="tou_title">注意事项:</div>
 				<div className="des2">
 					<li><strong>1. </strong>桌台限红是本游戏桌台主要玩法的最小丶最大玩法限红。玩家在每个玩法的可押注限额是玩法限红与玩家个人限红的交集。如需调节个人限红，请联系网站客服</li>
 					<li><strong>2. </strong>骰子摇动后，偶有稳定后无法判读点数状况时，此时荷官将重摇骰，直到能够完整判读(如遇故障因素将注销所有相关注单/派彩)。</li>

@@ -2116,3 +2116,182 @@
     padding: 2px;
     background-color: #828d77;
 }
+/* 轮盘 */
+.lun_banner{
+    height: 715px;
+    background: url(../imgs/lun_bg.jpg);
+    text-align: center;
+    padding: 40px;
+}
+.lun_bar{
+    height: 42px;
+    background: url(../imgs/lun_bar.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.lun_cap{
+    width: 100%;
+    height: 400px;
+    margin: 0px auto;
+    background: url(../imgs/lun_pic.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.lun_intro{
+    width: 80%;
+    margin: 10px auto;
+    color: #fff;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 1px;
+}
+.lun_title{
+    color: #1c7650;
+    font-size: 24px;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+    position: relative;
+    margin: 0px auto;
+    letter-spacing: 3px;
+    padding: 30px 0px 0px 0px;
+}
+.pan-bg{
+    width: 650px;
+    height: 100px;
+    background-color: #1c7650;
+    margin: 22px auto;
+    border-radius: 35px;
+    position: relative;
+}
+.lun_content .rules>li>.des span{
+    font-size: 14px;
+}
+.lun_content .des{
+    width: 70%;
+    color: #3b3b3b;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0px auto;
+    text-align: center;
+    letter-spacing: 1px;
+}
+.lun_table{
+    width: 600px;
+    font-size: 12px;
+    color: #fff;
+    margin: 10px auto;
+}
+.lun_table li{
+    text-align: center;
+    border: 1px solid #529268;
+    width: 200px;
+    height: 70px;
+    background-color: #5da676;
+}
+.lun_table .t-title{
+    width: 200px;
+    height: 70px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #3e905a;
+}
+.lun_table .t-title span{
+    width: 200px;
+    height: 70px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.lun_table span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 200px;
+    height: 70px;
+}
+.lun_des2{
+    width: 65%;
+    color: #3b3b3b;
+    font-size: 13px;
+    line-height: 35px;
+    margin: 0px auto;
+    text-align: left;
+}
+/* toubao */
+.tou_banner{
+    height: 755px;
+    background: url(../imgs/tou_bg.jpg);
+    text-align: center;
+    padding: 40px;
+}
+.tou_bar{
+    height: 42px;
+    background: url(../imgs/tou_bar.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.tou_cap{
+    width: 100%;
+    height: 319px;
+    margin: 0px auto;
+    background: url(../imgs/tou_pic.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.tou_title{
+    color: #1c7650;
+    font-size: 24px;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+    position: relative;
+    margin: 0px auto;
+    letter-spacing: 3px;
+    padding: 30px 0px 0px 0px;
+}
+.tou_content .des{
+    width: 80%;
+    color: #3b3b3b;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0px auto;
+    text-align: center;
+}
+.tou_content .tou-bg{
+    width: 650px;
+    height: 100px;
+    background-color: #3e905a;
+    margin: 22px auto;
+    border-radius: 35px;
+    position: relative;
+}
+.tou_content .rules>li>.des span{
+    font-size: 14px;
+}
+.tou_table{
+    width: 600px;
+    font-size: 14px;
+    color: #fff;
+    margin: 10px auto;
+}
+.tou_table li{
+    text-align: center;
+    border: 1px solid #529268;
+    background-color: #5da676;
+    width: 200px;
+}
+.tou_table .t-title span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 200px;
+    height: 50px;
+}
+.tou_table span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    height: 80px;
+    width: 200px;
+}
