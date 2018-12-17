@@ -2295,3 +2295,276 @@
     height: 80px;
     width: 200px;
 }
+/* jinhua */
+.jinhua_banner{
+    height: auto;
+    min-height: 740px;
+    background: url(../imgs/jinhua/banner.jpg);
+    text-align: center;
+    padding: 40px;
+}
+.jinhua_bar{
+    height: 42px;
+    background: url(../imgs/jinhua/bar.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.jinhua_cap{
+    width: 100%;
+    height: 400px;
+    margin: 0px auto;
+    background: url(../imgs/jinhua/pic.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.jinhua_title{
+    color: #823067;
+    font-size: 24px;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+    position: relative;
+    margin: 0px auto;
+    letter-spacing: 3px;
+    padding: 30px 0px 0px 0px;
+}
+.jinhua_content{
+    text-align: center;
+}
+.jinhua_content .des{
+    width: 90%;
+    color: #343434;
+    font-size: 15px;
+    line-height: 25px;
+    margin: 10px auto;
+}
+
+.jinhua_bg{
+    width: 450px;
+    height: 100px;
+    background-color: #8a5f7c;
+    margin: 22px auto;
+    border-radius: 35px;
+    position: relative;
+}
+.jinhua_bg .num{
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+}
+.des0{
+    width: 350px;
+    height: 80px;
+    font-size: 12px;
+    color: #fff;
+    letter-spacing: 3px;
+    line-height: 50px;
+}
+.jinhua_bg .num span{
+    display: table-cell;
+    vertical-align: middle;
+    color: #fff;
+    text-align: center;
+    width: 100px;
+    height: 90px;
+    font-size: 36px;
+    border-right: 1px dotted #fff;
+}
+.des0 span{
+    display: table-cell;
+    vertical-align: middle;
+    color: #fff;
+    text-align: center;
+    width: 350px;
+    height: 100px;
+    font-size: 16px;
+    line-height: 18px;
+    padding-right: 15px;
+}
+.jinhua_table{
+    width: 750px;
+    height: auto;
+    background-color: #8a5f7c;
+    margin: 20px auto;
+}
+.a1{
+    width: 33.3%;
+    height: 120px;
+    background-color: #8a5f7c;
+    float: left;
+    display: block;
+    padding: 10px;
+    border-bottom: 1px dotted #3e905a;
+}
+.a1 .txt1{
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    padding-top: 14px;
+}
+.a1 .txt2{
+    color: #fff;
+    font-size: 14px;
+    padding-top: 10px;
+}
+.t-01{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px 0px;
+    display: block;
+    margin: 0px auto;
+}
+.t-02{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px -95px;
+    display: block;
+    margin: 0px auto;
+}
+.t-03{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px -190px;
+    display: block;
+    margin: 0px auto;
+}
+.t-04{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px -285px;
+    display: block;
+    margin: 0px auto;
+}
+.t-05{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px -380px;
+    display: block;
+    margin: 0px auto;
+}
+.t-06{
+    width: 200px;
+    height: 95px;
+    background-image: url(../imgs/jinhua/icon.png);
+    background-position: 0px -480px;
+    display: block;
+    margin: 0px auto;
+}
+.jinhua_table1{
+    width: 750px;
+    height: auto;
+    background-color: #8a5f7c;
+    margin: 0px auto;
+}
+.jinhua_table1 .a1{
+    width: 10%;
+    height: auto;
+    min-height: 125px;
+    background-color: #8a5f7c;
+    float: left;
+    color: #fff;
+    font-size: 16px;
+    display: block;
+    border-bottom: 1px dotted #d390df;
+    background: url(../imgs/jinhua/diamond.png) no-repeat center center;
+    background-size: 18px 18px;
+}
+.a2{
+    width: 90%;
+    height: auto;
+    min-height: 125px;
+    background-color: #8a5f7c;
+    float: left;
+    color: #fff;
+    font-size: 14px;
+    display: block;
+    padding: 25px 0px 0px 0px;
+    border-bottom: 1px dotted #d390df;
+    text-align: left;
+}
+.more{
+    padding: 5px 0 0 0;
+}
+.less{
+    padding: 50px 0 0 0;
+}
+.des11{
+    font-size: 12px;
+    color: #fff;
+    letter-spacing: 3px;
+    line-height: 50px;
+}
+.jinhua_table2{
+    width: 600px;
+    height: auto;
+    background-color: #8a5f7c;
+    margin: 0px auto;
+}
+.j_title1{
+    width: 60%;
+    height: 40px;
+    background-color: #633955;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.j_title2{
+    width: 40%;
+    height: 40px;
+    background-color: #633955;
+    float: left;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0px;
+    letter-spacing: 2px;
+}
+.jinhua_table2 .a1{
+    width: 60%;
+    height: auto;
+    line-height: 70px;
+    min-height: 70px;
+    background-color: #8a5f7c;
+    float: left;
+    color: #fff;
+    font-size: 12px;
+    display: block;
+    padding: 0px;
+    border-bottom: 1px dotted #d390df;
+}
+.jinhua_table2 .a2{
+    width: 40%;
+    height: auto;
+    line-height: 70px;
+    min-height: 70px;
+    background-color: #8a5f7c;
+    float: left;
+    color: #fff;
+    font-size: 12px;
+    display: block;
+    padding: 0;
+    border-bottom: 1px dotted #d390df;
+    text-align: center;
+}
+.jinhua_table2 .a2 strong{
+    color: #fffc00;
+}
+.j_des{
+    width: 90%;
+    color: #343434;
+    text-align: left;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 10px auto;
+}
+/* douniu */

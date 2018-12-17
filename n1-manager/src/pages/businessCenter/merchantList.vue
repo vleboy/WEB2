@@ -29,6 +29,8 @@
       </Row>
     </div>
     <div class="option">
+      <span>H5接线</span>
+      <i-switch v-model="isH5" @on-change="changeSource"></i-switch>
       <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
         <Radio label="正式"></Radio>
         <Radio label="测试"></Radio>
@@ -89,6 +91,7 @@ import { userChangeStatus, getBill } from "@/service/index";
 export default {
   data() {
     return {
+      isH5:true,
       sn: "", //标识
       username: "", //
       displayName: "",
@@ -498,6 +501,7 @@ export default {
       let params = {
         query: {},
         isTest: this.isTest,
+        isH5:this.isH5,
         sortkey: "createdAt",
         sort: "desc"
       };
