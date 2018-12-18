@@ -10,6 +10,8 @@
       <div class="top">
         <span class="title left">
           下级代理列表
+          <span :style="{paddingLeft:'10px',fontWeight:'normal',fontSize:'16px'}">H5接线</span>
+          <i-switch v-model="isH5" @on-change="searchAgent"></i-switch>
           <RadioGroup v-model="source" v-if="level==0" class="radioGroup" type="button" @on-change='changeSource'>
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
@@ -29,6 +31,8 @@
     <div class="childList" v-for="(item,index) in agentChild" :key="index">
       <p class="title">
         ({{item.childItem.length > 0 && item.childItem[0].parentDisplayName ? item.childItem[0].parentDisplayName : parentNameChild}}) 下级代理列表
+        <span :style="{paddingLeft:'10px',fontWeight:'normal',fontSize:'16px'}">H5接线</span>
+        <i-switch v-model="item.isH5" @on-change="changeChildType(item)"></i-switch>
         <RadioGroup v-model="item.isTest" v-if="level==0" class="radioGroup" type="button" @on-change='changeChildType(item)'>
           <Radio label="0">正式</Radio>
           <Radio label="1">测试</Radio>
@@ -342,6 +346,7 @@ export default {
       point: "",
       remark: "",
       userName: "",
+      isH5:true,
       //权限
       startStop: false,
       createAgents: false,
@@ -1463,6 +1468,7 @@ export default {
       let params = {
         parent,
         isTest: +this.source,
+        isH5:this.isH5,
         query: { username },
         sort: "desc",
         sortkey: "createdAt"
@@ -1861,6 +1867,7 @@ export default {
       let params = {
         parent,
         isTest: +this.source,
+        isH5:this.isH5,
         query: {},
         sort: "desc",
         sortkey: "createdAt"
@@ -1910,19 +1917,20 @@ export default {
         })
       }
     },
-    changeChildType(list) {
-      let isTest = list.isTest;
-      let parent = list.id;
+    changeChildType(item) {
+      let isTest = item.isTest;
+      let isH5=item.isH5;
+      let parent = item.id;
       let params = {
-        parent: parent,
+        parent,
+        isH5,
         isTest: +isTest,
         sort: "desc",
         sortkey: "createdAt",
         query: {}
       };
       this.$store.commit("agentLoading", { params: true });
-      this.$store
-        .dispatch("getAgentNext", params)
+      this.$store.dispatch("getAgentNext", params)
         .then(res => {
           let agentList = this.agentChild;
           for (let item of agentList) {
