@@ -995,14 +995,11 @@ export default {
                         this.playerModal = true;
                         this.newPlayer = true;
                         let userId = params.row.userId;
-                        if (this.player.parentId == userId) {
-                          this.selectPlayerParent(userId);
-                        } else {
-                          this.player.parentId = userId;
-                        }
                         availableAgents({ parent: userId }).then(res => {
                           if (res.code == 0) {
                             this.parentList = res.payload;
+                            this.player.parentId = userId;
+                            this.selectPlayerParent(userId);
                           }
                         });
                       }
@@ -1127,14 +1124,11 @@ export default {
                         click: () => {
                           this.playerModal = true;
                           let userId = params.row.userId;
-                          if (this.player.parentId == userId) {
-                            this.selectPlayerParent(userId);
-                          } else {
-                            this.player.parentId = userId;
-                          }
                           availableAgents({ parent: userId }).then(res => {
                             if (res.code == 0) {
                               this.parentList = res.payload;
+                              this.player.parentId = userId;
+                             this.selectPlayerParent(userId);
                             }
                           });
                         }
