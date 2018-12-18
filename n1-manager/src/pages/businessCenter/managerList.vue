@@ -12,14 +12,16 @@
         </Col>
         <Col span="5">
         <div class="btns">
-          <Button type="primary" @click="search">搜索</Button>
+          <Button type="primary" @click="init">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
         </Col>
       </Row>
     </div>
     <div class="option">
-      <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+      <span>H5接线</span>
+      <i-switch v-model="isH5" @on-change="init"></i-switch>
+      <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='init'>
         <Radio label="正式"></Radio>
         <Radio label="测试"></Radio>
         <Radio label="全部"></Radio>
@@ -80,6 +82,7 @@ import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
+      isH5:true,
       uname: "", //modal增加账户
       point: "", //点数
       note: "", //备注
@@ -412,9 +415,6 @@ export default {
           this.point = "";
         });
     },
-    changeSource() {
-      this.init();
-    },
     cancel() {
       this.note = "";
       this.point = "";
@@ -438,21 +438,6 @@ export default {
       this.init();
     },
     init() {
-      let params = {
-        query: {
-          // suffix: "a",
-          // displayName: "a"
-        },
-        sortkey: "createdAt",
-        sort: "desc",
-        isTest: this.isTest
-      };
-      if (this.isTest == 2) {
-        delete params.isTest;
-      }
-      this.$store.dispatch("getManagerList", params);
-    },
-    search() {
       let query = {
         suffix: this.suffix,
         displayName: this.displayName
@@ -463,17 +448,15 @@ export default {
       if (!query.displayName) {
         delete query.displayName;
       }
-      let params = {
+       let params = {
         query,
-        isTest: this.isTest,
+        isH5:this.isH5,
+        isTest: +this.source,
         sortkey: "createdAt",
         sort: "desc"
       };
-      if (this.isTest == 2) {
-        delete params.isTest;
-      }
       this.$store.dispatch("getManagerList", params);
-    }
+    },
   },
   computed: {
     showData() {

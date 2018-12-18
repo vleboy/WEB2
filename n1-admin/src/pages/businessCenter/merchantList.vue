@@ -12,7 +12,7 @@
         </Col>
         <Col span="5">
         <div class="btns">
-          <Button type="primary" @click="search">搜索</Button>
+          <Button type="primary" @click="init">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
         </div>
         </Col>
@@ -32,8 +32,8 @@
       <p class="create">
         <Button type="primary" @click="addMerchant" v-if="permission.includes('创建商户')">创建商户</Button>
         <span :style="{paddingLeft:'10px'}">H5接线</span>
-        <i-switch v-model="isH5" @on-change="changeSource"></i-switch>
-        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='changeSource'>
+        <i-switch v-model="isH5" @on-change="init"></i-switch>
+        <RadioGroup v-model="source" class="radioGroup" type="button" @on-change='init'>
           <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
           <Radio label="1">测试</Radio>
           <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -606,21 +606,8 @@ export default {
       }
       this.init();
     },
-    changeSource() {
-      this.init();
-    },
     init() {
-      let params = {
-        query: {},
-        isTest: +this.source,
-        isH5:this.isH5,
-        sortkey: "createdAt",
-        sort: "desc"
-      };
-      this.$store.dispatch("getMerchantsList", params);
-    },
-    search() {
-      let query = {
+       let query = {
         sn: this.sn,
         uname: this.username,
         displayName: this.displayName,
@@ -640,12 +627,13 @@ export default {
       }
       let params = {
         query,
+        isH5:this.isH5,
         isTest: +this.source,
         sortkey: "createdAt",
         sort: "desc"
       };
       this.$store.dispatch("getMerchantsList", params);
-    }
+    },
   },
   computed: {
     showData() {
