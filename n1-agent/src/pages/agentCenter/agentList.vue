@@ -137,7 +137,7 @@
           <Row>
             <Col span="10">
             <Tooltip :content="tipContent">
-              <Input v-model="balance" placeholder="0~1,不超过上级洗码比"></Input>
+              <Input v-model="balance" @on-keyup="checkFloat()" placeholder="0~1,不超过上级洗码比"></Input>
             </Tooltip>
             </Col>
             <Col span="4">
@@ -1542,6 +1542,9 @@ export default {
           this.tipContent = `上级游戏洗码比为:1`;
         }
       }
+    },
+    checkFloat(){
+      this.balance = this.balance.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); 
     },
     addGame() {
       let gamelist = this.gameList;
