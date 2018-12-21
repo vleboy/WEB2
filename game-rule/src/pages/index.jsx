@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 export default function Index() {
   return (
-    <div className="indexContent">
-      <div className="item">
+    <div>
+      <div className="indexContent">
+        <div className="item">
         <Link to="/classic">
           <span>
             <p className="icon-01" />
@@ -30,7 +31,9 @@ export default function Index() {
           </span>
         </Link>
       </div>
-      <div className="item">
+    </div>
+    <div className="indexContent">
+       <div className="item">
         <Link to="/longbao">
           <span>
             <p className="icon-04" />
@@ -55,7 +58,8 @@ export default function Index() {
             <p className="tab-06" />
             <p className="title">牌路介绍</p>
           </span>
-        </Link>
+         </Link>
+        </div>
       </div>
     </div>
   )
