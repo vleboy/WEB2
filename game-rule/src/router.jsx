@@ -35,7 +35,7 @@ export default class RouteConfig extends Component {
           <Route path="/toubao" exact component={Toubao} />
           <Route path="/longhu" exact component={Longhu} />
           <Route path="/niuniu" exact component={Niuniu} />
-          <Redirect to="/" />
+          <Redirect to="/"/>
         </Switch>
     )
   }

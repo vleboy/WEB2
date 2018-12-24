@@ -15,8 +15,9 @@ export default class Main extends Component {
     return (
       <Layout>
         <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
+          breakpoint="md"
+          collapsible
+          collapsedWidth="80"
           onCollapse={()=>this.setState({collapse:true})}
           style={{
             height: '100vh',
@@ -30,7 +31,7 @@ export default class Main extends Component {
           </div>
           <SideMenu />
         </Sider>
-        <Layout className={this.state.collapse?null:'ml200'}>
+        <Layout className={this.state.collapse?'ml80':'ml200'}>
           <Header style={{ textAlign: 'right' }}>
             <HeadMenu />
           </Header>

@@ -1,6 +1,9 @@
 .ml200{
     margin-left: 200px;
 }
+.ml80{
+    margin-left: 80px;
+}
 /* index */
 .indexContent{
     display: flex;
