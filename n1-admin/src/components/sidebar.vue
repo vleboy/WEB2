@@ -117,8 +117,8 @@
                     <MenuItem name="gameMailList" v-if='permission.includes("游戏邮件列表")'>游戏邮件列表</MenuItem>
                     <MenuItem name="horseRaceLampList" v-if='permission.includes("跑马灯列表")'>跑马灯列表</MenuItem>
                     <MenuItem name="businessRecord" v-if='permission.includes("商户运营记录")'>商户运营记录</MenuItem>
-                    <!-- <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem> -->
-                    <!-- <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem> -->
+                    <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
+                    <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
                 </Submenu>
                 <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
                     <template slot="title">
