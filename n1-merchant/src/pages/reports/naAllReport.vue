@@ -68,7 +68,7 @@ export default {
       spinShow: false, //加载spin
       playerList: [], //玩家列表
       user: [], //当前商户
-      gameType: [ 30000, 40000, 50000,60000,70000,80000],
+      gameType: [ 10000,30000, 40000, 50000,60000,70000,80000],
       columns1: [
         {
           title: "序号",
