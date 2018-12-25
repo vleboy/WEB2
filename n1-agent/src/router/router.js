@@ -12,7 +12,7 @@ import allReport from '@/pages/reports/allReport'
 import playerReport from '@/pages/reports/playerReport'
 import agtrue from '@/pages/reports/agTrueGame'
 import mgvideo from '@/pages/reports/mgVideoGame'
-// import nacard from '@/pages/reports/naCardGame'
+import nacard from '@/pages/reports/naCardGame'
 import nahfive from '@/pages/reports/nahfive'
 import nastreet from '@/pages/reports/naStreetGame'
 import natrue from '@/pages/reports/naTrueGame'
@@ -138,7 +138,7 @@ export const appRouter = [
         name:'nagame',
         component:main,
         children:[
-            // {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
+            {path:'card',title:'NA棋牌游戏报表',name:'nacard',component:nacard},
             {path:'street',title:'NA街机游戏报表',name:'nastreet',component:nastreet},
             {path:'true',title:'NA真人游戏报表',name:'natrue',component:natrue},
             {path:'video',title:'NA电子游戏报表',name:'navideo',component:navideo},
