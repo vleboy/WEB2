@@ -44,7 +44,7 @@
                     :maxlength="200"></Input>
         </FormItem >
         <FormItem  label="商户最高定价上浮百分比">
-          <Input v-model="propPrizeInfo.comeUpRatio" placeholder="请输入商户最高定价上浮百分比（范围0.00~100.00）"
+          <Input v-model="propPrizeInfo.comeUpRatio" placeholder="请输入商户最高定价上浮百分比（大于0）"
                     :maxlength="200" :disabled="!isUnlimited"></Input>
         </FormItem >
         <FormItem  label="是否限制商户最高定价">
@@ -209,10 +209,10 @@ export default {
     },
     submitProp () {
       if (!pattern.digitalRange.exec(this.propPrizeInfo.lowerRatio) || !this.propPrizeInfo.lowerRatio) {
-        return this.$Message.error('请输入正确的商户最低定价下浮百分比 范围0.00~限制')
+        return this.$Message.error('请输入正确的商户最低定价下浮百分比 范围0~100')
       } else if (!pattern.positive.exec(this.propPrizeInfo.toolPrice) || !this.propPrizeInfo.toolPrice) {
         return this.$Message.error('请输入正确的道具价格，范围0.00~限制')
-      } else if ((!pattern.digitalRange.exec(this.propPrizeInfo.comeUpRatio)||!this.propPrizeInfo.comeUpRatio) && this.isUnlimited) {
+      } else if ((!pattern.positive.exec(this.propPrizeInfo.comeUpRatio)||!this.propPrizeInfo.comeUpRatio) && this.isUnlimited) {
         return this.$Message.error('请输入正确的商户最高定价上浮百分比 范围0.00~无限制')
       }
       if (this.isSending) return // 防止重复提交
