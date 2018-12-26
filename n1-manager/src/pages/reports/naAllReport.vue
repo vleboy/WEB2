@@ -232,6 +232,50 @@ export default {
           }
         },
         {
+          title: "NA棋牌游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let color = "";
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap) {
+              if (params.row.gameTypeMap["10000"] !== undefined) {
+                winloseAmount = params.row.gameTypeMap[
+                  "10000"
+                ].winloseAmount.toFixed(2);
+              }
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(winloseAmount)
+              );
+            } else {
+              return h("span", { style: { color: "#0c0" } }, 0);
+            }
+          }
+        },
+        {
+          title: "NA棋牌游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let submitAmount = 0;
+            if (params.row.gameTypeMap) {
+              if (params.row.gameTypeMap["10000"] !== undefined) {
+                submitAmount = params.row.gameTypeMap[
+                  "10000"
+                ].submitAmount.toFixed(2);
+              }
+              return h("span", thousandFormatter(submitAmount));
+            } else {
+              return h("span", "0.00");
+            }
+          }
+        },
+        {
           title: "NA真人游戏(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
@@ -550,6 +594,28 @@ export default {
                 }
               },
               thousandFormatter(params.row.winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA棋牌游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["10000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "10000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
             );
           }
         },

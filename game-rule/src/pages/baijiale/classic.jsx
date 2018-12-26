@@ -1,4 +1,5 @@
 import React from 'react'
+// import {Button} from 'antd'
 import noComm from '../../imgs/nocomm.jpg'
 const Classic = () => {
     return (
@@ -193,6 +194,13 @@ const Classic = () => {
                         <p><strong>5.</strong> “超级六”仅开放于免佣百家乐，只有开启免佣，超级六投注区才生效。</p>
                     </div>
                 </div>
+                {/* <div style={{width:'800px',height:'300px',backgroundColor:'#333',padding:'50px'}}>
+                    <Button type="primary" shape="circle" icon="search" />
+                    <Button type="primary" icon="search">Search</Button>
+                    <Button type="primary">Primary</Button>
+                    <p>sep</p>
+                    <Button type="primary" block>Primary</Button>
+                </div> */}
      </div>
     )
   }

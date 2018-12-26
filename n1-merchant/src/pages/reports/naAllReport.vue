@@ -116,6 +116,49 @@ export default {
             return h("span", thousandFormatter(params.row.submitAmount));
           }
         },
+         {
+          title: "NA棋牌游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "10000") {
+                count += gameList[key].winloseAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "NA棋牌游戏(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "10000") {
+                count += gameList[key].submitAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
         {
           title: "NA真人游戏(输赢金额)",
           key: "winloseAmount",
@@ -429,6 +472,28 @@ export default {
                 }
               },
               thousandFormatter(params.row.winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA棋牌游戏(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["10000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "10000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
             );
           }
         },

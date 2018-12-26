@@ -40,7 +40,7 @@
         </FormItem>
       </Form>
       <div slot="footer" class="dialog-footer">
-        <Button @click="isOpenModal = false">取 消</Button>
+        <Button @click="isAddProp = false">取 消</Button>
         <Button type="primary" :load="isSending" @click="submitProp(propInfo.toolId)">{{isSending ? '提交中' : '确 定'}}</Button>
       </div>
     </Modal>
