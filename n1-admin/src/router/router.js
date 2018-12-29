@@ -56,7 +56,8 @@ import managerOpreateLog from '@/pages/log/managerOpreateLog'
 import merchantOpreateLog from '@/pages/log/merchantOpreateLog'
 import adminLoginLog from '@/pages/log/adminLoginLog'
 
-
+import prizeList from '@/pages/operation/mysPrize/prizeList'
+import sysConfig from '@/pages/operation/mysPrize/sysConfig'
 import dataRepair from '@/pages/log/dataRepair'
 import playerlist from '@/pages/player/playerlist'
 import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
@@ -308,7 +309,9 @@ export const appRouter = [
           {path:'horseRaceLampList',title:'跑马灯列表',name:'horseRaceLampList',component:horseRaceLampList},
           {path:'businessRecord',title:'商户运营记录',name:'businessRecord',component:businessRecordList},
           {path:'boothList',title:'展位列表',name:'boothList',component:boothList},
-          {path:'propPrice',title:'道具定价',name:'propPrice',component:propPrizeList}
+          {path:'propPrice',title:'道具定价',name:'propPrice',component:propPrizeList},
+          {path:'sysConfig',title:'系统配置',name:'sysConfig',component:sysConfig},
+          {path:'prizeList',title:'中奖纪录',name:'prizeList',component:prizeList}
         ]
     }
 ]

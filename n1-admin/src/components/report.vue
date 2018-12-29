@@ -54,7 +54,7 @@ import { thousandFormatter } from "@/config/format";
 export default {
   data() {
     return {
-       options: {
+      options: {
         shortcuts: [
           {
             text: "本周",

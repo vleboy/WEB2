@@ -50,6 +50,8 @@
       openName = ['report']
     } else if(name=='flow'||name=='noTransferReport'){
       openName=['noTransfer']
+    }else if(name=='sysConfig'||name=='priceList'){
+      openName=['operation','mysPrice']
     }
     return openName
   }
