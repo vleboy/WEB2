@@ -5,27 +5,21 @@ export let URL = type => {
     switch (type) {
       case 'game':
         return 'n1game.na12345.com'
-        break
       default:
         return 'n1admin.na12345.com'
-        break
     }
   } else {
     switch (type) {
       case 'game':
         return 'dgjmusja39cm2.cloudfront.net'
-        break
       default:
         return 'd3rqtlfdd4m9wd.cloudfront.net'
-        break
     }
   }
 }
 // console.log(URL);
-
 export const httpType = 'https://'
-
-export const api = {
-  getVaptcha: httpType + URL() + '/vaptcha/getVaptcha',
-  getDownTime: httpType + URL() + '/vaptcha/getDownTime'
-}
+// export const api = {
+//   getVaptcha: httpType + URL() + '/vaptcha/getVaptcha',
+//   getDownTime: httpType + URL() + '/vaptcha/getDownTime'
+// }

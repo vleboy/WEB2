@@ -42,7 +42,7 @@
         <FormItem>
           <Row>
             <Col span="8">
-            <Button class="loginbtn" :loading="$store.state.login.loading" type="ghost" @click="login">
+            <Button class="loginbtn" :loading="loading" type="ghost" @click="login">
               <span v-if="!loading">登录</span>
               <span v-else>Loading...</span>
             </Button>

@@ -1,11 +1,21 @@
 <template>
   <div class="sysConfig">
-    <Select v-model="gameSeries" style="width:100px">
+   <div class="search">
+     <!-- @on-change='init' -->
+      <Select v-model="gameSeries" style="width:100px">
       <Option v-for="item in seriesList" :value="item.value" :key="item.value">{{ item.label }}</Option>
     </Select>
-    <Table :columns="columns1" :data="priceList" size="small"></Table>
-    <p>机器人系列</p>
+    <Button class="reset" type="primary" @click="init">刷新</Button>
+   </div>
+    <Table :columns="columns1" :data="prizeList" size="small"></Table>
+   <div v-if="gameSeries!='all'">
+      <p class="robot_title">机器人系列</p>
     <Table :columns="columns2" :data="robotList" size="small"></Table>
+   </div>
+     <Spin size="large" fix v-if="spin">
+      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <div>加载中...</div>
+    </Spin>
     <Modal v-model="editPrice" @on-ok="ok" title="神秘大奖" id="editPrice" @on-cancel="cancel">
       <Row class="modalrow">
         <Col span="8">
@@ -14,13 +24,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{}}</span>
+          <span>当前设置: &nbsp;{{rowParams.bonusPoolInit}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input></Input>
+              <Input v-model="newParams.bonusPoolInit"></Input>
             </Col>
           </Row>
         </Col>
@@ -32,13 +42,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{}}</span>
+          <span>当前设置: &nbsp;{{rowParams.bonusHitMin}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input></Input>
+              <Input v-model="newParams.bonusHitMin"></Input>
             </Col>
           </Row>
         </Col>
@@ -50,13 +60,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{}}</span>
+          <span>当前设置: &nbsp;{{rowParams.bonusHitMax}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input></Input>
+              <Input v-model="newParams.bonusHitMax"></Input>
             </Col>
           </Row>
         </Col>
@@ -68,13 +78,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{}}</span>
+          <span>当前设置: &nbsp;{{rowParams.bonusPoolRate}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input></Input>
+              <Input v-model="newParams.bonusPoolRate"></Input>
             </Col>
           </Row>
         </Col>
@@ -86,13 +96,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{}}</span>
+          <span>当前设置: &nbsp;{{rowParams.bonusRobotLimit}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input></Input>
+              <Input v-model="newParams.bonusRobotLimit"></Input>
             </Col>
           </Row>
         </Col>
@@ -191,15 +201,30 @@ export default {
     return {
       editPrice: false,
       editRobot: false,
-      gameSeries: 1,
+      gameSeries: 'all',
+      spin:false,
       timeList: [{}, {}],
+      rowParams:{
+        bonusPoolInit:0,
+        bonusHitMin:0,
+        bonusHitMax:0,
+        bonusPoolRate:0,
+        bonusRobotLimit:0
+      },
+      newParams:{
+        bonusPoolInit:'',
+        bonusHitMin:'',
+        bonusHitMax:'',
+        bonusHitMax:'',
+        bonusRobotLimit:''
+      },
       seriesList: [
         {
-          value: 1,
+          value: 'all',
           label: "全部"
         },
         {
-          value: 2,
+          value: 'na',
           label: "na"
         }
       ],
@@ -214,27 +239,31 @@ export default {
         },
         {
           title: "奖池初始金额",
-          key: ""
+          key: "bonusPoolInit"
         },
         {
           title: "奖池基础掉落金额",
-          key: ""
+          key: "bonusHitMin"
         },
         {
           title: "奖池必掉金额",
-          key: ""
+          key: "bonusHitMax"
         },
         {
-          title: "NA机器人数量",
-          key: ""
+          title: "机器人数量",
+          key: "",
+          render:(h,params)=>{
+            let bonusRobots=params.row.bonusRobots
+            return h('span',bonusRobots.length)
+          }
         },
         {
           title: "下注抽取比例",
           key: "bonusPoolRate"
         },
         {
-          title: "NA机器人注入奖池金额",
-          key: ""
+          title: "机器人注入奖池金额",
+          key: "bonusRobotInput"
         },
         {
           title: "机器人休眠值",
@@ -257,6 +286,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.rowParams=params.row
                       this.editPrice = true;
                     }
                   }
@@ -285,21 +315,28 @@ export default {
           }
         }
       ],
-      priceList: [
+      prizeList: [
         list
       ],
       columns2: [
-        {
-          title: "所属系列",
-          key: ""
-        },
         {
           title: "机器人ID",
           key: "id"
         },
         {
           title: "状态",
-          key: "isActive"
+          key: "isActive",
+          render: (h,params) =>{
+            let status=params.row.isActive
+            let color=status?"#20a0ff":"#f5141e"
+            let text=status?'启用':'禁用' 
+            return h('span',{
+              style:{
+                color:color
+              }
+            },text)
+          }
+
         },
         {
           title: "下注金额",
@@ -311,11 +348,23 @@ export default {
         },
         {
           title: "启用时段",
-          key: ""
-        },
-        {
-          title: "工作时长",
-          key: ""
+          key: "",
+          render:(h,params)=>{
+            let work=params.row.workTimes;
+            return h('div',
+              work.map(item =>{
+                return h('p',{
+                  style:{
+                    textAlign: "center",
+                    backgroundColor: "#e4e8f1",
+                    borderRadius: " 4px",
+                    height: "26px",
+                    lineHeight:'26px'
+                  }
+                },`${item.start}--${item.end}`)
+              })
+            )
+          }
         },
         {
           title: "操作",
@@ -379,15 +428,56 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.init()
+  },
   methods: {
-    ok() {},
-    cancel() {},
+    ok() {
+      let params=this.rowParams;
+      let newConfig=this.newParams;
+      params.bonusPoolInit=newConfig.bonusPoolInit;
+      params.bonusHitMin=newConfig.bonusHitMin;
+      params.bonusHitMax=newConfig.bonusHitMax;
+      params.bonusHitMax=newConfig.bonusHitMax;
+      params.bonusRobotLimit=newConfig.bonusRobotLimit;
+      this.axios.post('http://192.168.3.200:45557/setBonusConfig',params).then((res)=>{
+        if(res.status=200){
+          this.$Message.success('修改成功');
+          this.init()
+        }
+      })
+    },
+    cancel() {
+      this.newParams={
+        bonusPoolInit:'',
+        bonusHitMin:'',
+        bonusHitMax:'',
+        bonusHitMax:'',
+        bonusRobotLimit:''
+      }
+    },
     addTime() {
       this.timeList.push({});
     },
     delTime(index) {
       this.timeList.splice(index, 1);
+    },
+    init(){
+      this.spin=true;
+       this.axios.post('http://192.168.3.200:45557/getBonusConfig',{
+      gameType:this.gameSeries
+    }).then(res=>{
+      if(res.status==200){
+        this.prizeList=res.data.config;
+        let robotList=[]
+        for(let item of this.prizeList){
+          robotList.push(...item.bonusRobots)
+        }
+        this.robotList=robotList
+      }
+    }).finally(()=>{
+      this.spin=false
+    })
     }
   }
 };
@@ -395,6 +485,11 @@ export default {
 <style lang="less" scoped>
 .sysConfig {
   min-height: 87vh;
+  .robot_title{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px auto;
+  }
 }
 .required {
   color: red;
@@ -418,5 +513,11 @@ export default {
   padding-top: 8px;
   text-align: center;
   cursor: pointer;
+}
+.search{
+  margin-bottom: 10px;
+}
+.reset{
+  float: right;
 }
 </style>

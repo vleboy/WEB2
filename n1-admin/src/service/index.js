@@ -56,13 +56,10 @@ export async function httpRequest(method,url,params,type) {
   switch (method) {
     case 'get':
       return http(get(url,type))
-    break
     case 'post':
       return http(post(url,params,type))
-    break
     case 'put':
       return http(Image(method,url,params))
-    break
   }
 }
 
