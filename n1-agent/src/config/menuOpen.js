@@ -46,6 +46,8 @@ export const menuOpen = function (name) {
     openName = ["board"];
   } else if (name == 'playerReport') {
     openName = ['report']
+  }else if (name == 'prizeList') {
+    openName = ['opreateCenter']
   }
   return openName
 }

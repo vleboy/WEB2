@@ -7,9 +7,9 @@ import Routes from '../router'
 import Logo from '../imgs/logo.png'
 const { Header, Footer, Sider, Content } = Layout
 export default class Main extends Component {
-  constructor(){
-    super();
-    this.state={collapse:false}
+  constructor() {
+    super()
+    this.state = { collapse: false }
   }
   render() {
     return (
@@ -19,7 +19,7 @@ export default class Main extends Component {
           collapsible
           // trigger={null}
           collapsedWidth="0"
-          onCollapse={()=>this.setState({collapse:true})}
+          onCollapse={() => this.setState({ collapse: true })}
           style={{
             height: '100vh',
             position: 'fixed',
@@ -27,18 +27,21 @@ export default class Main extends Component {
             overflow: 'auto'
           }}
         >
-          <div className="logo" style={{display:'flex',justifyContent:'center'}}>
-            <img src={Logo} alt="oops"/>
+          <div
+            className="logo"
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <img src={Logo} alt="oops" />
           </div>
           <SideMenu />
         </Sider>
-        <Layout className={this.state.collapse?null:'ml200'}>
+        <Layout className={this.state.collapse ? null : 'ml200'}>
           <Header style={{ textAlign: 'right' }}>
             <HeadMenu />
           </Header>
           <Content
             style={{
-              minHeight: '50vh',
+              minHeight: '50vh'
             }}
           >
             <BackTop />

@@ -15,7 +15,7 @@
       <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-    <Modal v-model="editPrice" @on-ok="ok" title="神秘大奖" id="editPrice" @on-cancel="cancel">
+    <Modal v-model="editPrice" @on-ok="saveConfig" title="神秘大奖" id="editPrize">
       <Row class="modalrow">
         <Col span="8">
           <span>
@@ -23,13 +23,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{rowParams.bonusPoolInit}}</span>
+          <span>当前设置: &nbsp;{{cloneParams.bonusPoolInit}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model.number="newParams.bonusPoolInit"></Input>
+              <Input v-model.number="rowParams.bonusPoolInit"></Input>
             </Col>
           </Row>
         </Col>
@@ -41,13 +41,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{rowParams.bonusHitMin}}</span>
+          <span>当前设置: &nbsp;{{cloneParams.bonusHitMin}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model.number="newParams.bonusHitMin"></Input>
+              <Input v-model.number="rowParams.bonusHitMin"></Input>
             </Col>
           </Row>
         </Col>
@@ -59,13 +59,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{rowParams.bonusHitMax}}</span>
+          <span>当前设置: &nbsp;{{cloneParams.bonusHitMax}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model.number="newParams.bonusHitMax"></Input>
+              <Input v-model.number="rowParams.bonusHitMax"></Input>
             </Col>
           </Row>
         </Col>
@@ -77,13 +77,31 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{rowParams.bonusPoolRate}}</span>
+          <span>当前设置: &nbsp;{{cloneParams.bonusPoolRate}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model.number="newParams.bonusPoolRate"></Input>
+              <Input @on-keyup="validateRate()" v-model.number="rowParams.bonusPoolRate"></Input>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+       <Row class="modalrow">
+        <Col span="8">
+          <span>
+            <span class="required">*</span>中奖比例
+          </span>
+        </Col>
+        <Col span="8">
+          <span>当前设置: &nbsp;{{`1/${cloneParams.bonusHitRate}`}}</span>
+        </Col>
+        <Col span="8">
+          <Row>
+            <Col span="6">修改为</Col>
+            <Col span="18">
+              <Input v-model.number="rowParams.bonusHitRate"></Input>
             </Col>
           </Row>
         </Col>
@@ -95,13 +113,13 @@
           </span>
         </Col>
         <Col span="8">
-          <span>当前设置: &nbsp;{{rowParams.bonusRobotLimit}}</span>
+          <span>当前设置: &nbsp;{{cloneParams.bonusRobotLimit}}</span>
         </Col>
         <Col span="8">
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model.number="newParams.bonusRobotLimit"></Input>
+              <Input v-model.number="rowParams.bonusRobotLimit"></Input>
             </Col>
           </Row>
         </Col>
@@ -124,7 +142,7 @@
               <Input style="width:150px" disabled v-model="robot.id"></Input>
             </span>
           </Col>
-          <Col span="12">
+          <Col span="12" v-if="changeRobot">
             <span>状态:
               <RadioGroup v-model="robot.isActive">
                 <Radio label="active">
@@ -154,6 +172,7 @@
             <span>启用时间:
               <TimePicker
                 type="time"
+                :editable= false
                 format="HH:mm"
                 v-model="item.start"
                 placeholder="选择时间"
@@ -165,6 +184,7 @@
             <span>停用时间:
               <TimePicker
                 type="time"
+                :editable= false
                 format="HH:mm"
                 v-model="item.end"
                 placeholder="选择时间"
@@ -228,7 +248,7 @@ export default {
     return {
       editPrice: false,
       robot: {
-        isActive: "active",
+        isActive: "deactive",
         id: "",
         bet: "",
         betInterval: ""
@@ -244,14 +264,16 @@ export default {
         bonusHitMin: 0,
         bonusHitMax: 0,
         bonusPoolRate: 0,
-        bonusRobotLimit: 0
+        bonusRobotLimit: 0,
+        bonusHitRate:0,
       },
-      newParams: {
-        bonusPoolInit: "",
-        bonusHitMin: "",
-        bonusHitMax: "",
-        bonusHitMax: "",
-        bonusRobotLimit: ""
+      cloneParams: {
+        bonusPoolInit: 0,
+        bonusHitMin: 0,
+        bonusHitMax: 0,
+        bonusPoolRate: 0,
+        bonusRobotLimit: 0,
+        bonusHitRate:0,
       },
       seriesList: [
         {
@@ -290,11 +312,18 @@ export default {
           render: (h, params) => {
             let bonusRobots = params.row.bonusRobots;
             return h("span", bonusRobots.length);
-          }
+        }
         },
         {
           title: "下注抽取比例",
           key: "bonusPoolRate"
+        },
+         {
+          title: "中奖比例",
+          key: "bonusHitRate",
+          render:(h,params)=>{
+            return h('span',`1/${params.row.bonusHitRate}`)
+          }
         },
         {
           title: "机器人注入奖池金额",
@@ -321,7 +350,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.rowParams = params.row;
+                      this.rowParams = this.cloneObj(params.row)
+                      this.cloneParams=this.cloneObj(params.row)
                       this.editPrice = true;
                     }
                   }
@@ -498,8 +528,9 @@ export default {
       robotList: list.bonusRobots
     };
   },
-  computed: {},
-  watch: {},
+  // computed: {
+  // },
+  // watch: {},
   created() {
     this.init();
   },
@@ -510,14 +541,17 @@ export default {
       this.robot.isActive = row.isActive == true ? "active" : "deactive";
       this.timeList = row.workTimes;
     },
-    ok() {
+    saveConfig() {
       let params = this.rowParams;
-      let newConfig = this.newParams;
-      params.bonusPoolInit = newConfig.bonusPoolInit;
-      params.bonusPoolRate = newConfig.bonusPoolRate;
-      params.bonusHitMin = newConfig.bonusHitMin;
-      params.bonusHitMax = newConfig.bonusHitMax;
-      params.bonusRobotLimit = newConfig.bonusRobotLimit;
+      if(params.bonusPoolInit>params.bonusHitMax||params.bonusHitMin>params.bonusHitMax){
+        return this.$Message.warning('奖池初始金额和奖池基础掉落金额不能大于奖池必掉金额')
+      }
+      if(params.bonusPoolRate>1){
+        return this.$Message.warning('下注抽取比例小于1')
+      }
+       if(params.bonusRobotLimit>params.bonusHitMax){
+        return this.$Message.warning('机器人休眠值小于奖池必掉金额')
+      }
       httpRequest(
         "post",
         "/setBonusConfig",
@@ -527,18 +561,19 @@ export default {
         if (res.code == 0) {
           this.$Message.success("修改成功");
           this.init();
-          this.cancel()
         }
       });
     },
-    cancel() {
-      this.newParams = {
-        bonusPoolInit: "",
-        bonusHitMin: "",
-        bonusHitMax: "",
-        bonusHitMax: "",
-        bonusRobotLimit: ""
-      };
+    isNumber(val){
+      const reg=/^\d+$/
+      if(!reg.test(val)){
+        return this.$Message.warning('需输入数字')
+      }
+    },
+    validateRate(){
+      if(this.rowParams.bonusPoolRate>1){
+        return this.$Message.warning('比例不能大于1')
+      }
     },
     addTime() {
       this.timeList.push({});
@@ -550,6 +585,13 @@ export default {
       return JSON.parse(JSON.stringify(obj));
     },
     saveRobot() {
+      let Crobot=this.robot
+      if(Crobot.bet<0.01||Crobot.bet>5000){
+         return this.$Message.warning('机器人下注金额范围为：0.01至5000');
+        }
+      if(Crobot.betInterval<1||Crobot.bet>60){
+         return this.$Message.warning('机器人下注间隔范围为：1至60')
+      }
       if (this.changeRobot) {
         let id = this.robotId;
         let prizeList = this.cloneObj(this.prizeList);
@@ -574,7 +616,7 @@ export default {
             this.$Message.success("修改成功");
             this.init();
             this.robot = {
-              isActive: "active",
+              isActive: "deactive",
               id: "",
               bet: "",
               betInterval: ""
@@ -604,7 +646,7 @@ export default {
     },
     cancelRobot() {
       this.robot = {
-        isActive: "active",
+        isActive: "deactive",
         id: "",
         bet: "",
         betInterval: ""

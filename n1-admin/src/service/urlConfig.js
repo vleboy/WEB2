@@ -16,6 +16,7 @@ export let URL = type => {
         return 'https://dgjmusja39cm2.cloudfront.net'
       case 'prize':
         return 'http://testgame.risheng3d.com:45557'
+        // return 'http://192.168.3.200:45557'
       default:
         return 'https://d3rqtlfdd4m9wd.cloudfront.net'
     }

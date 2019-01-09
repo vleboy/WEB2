@@ -1,7 +1,7 @@
 <template>
   <div class="prizeList">
     <div class="search">
-      <Input v-model="sn" style="width: 200px" placeholder="请输入商户标识"></Input>
+      <Input v-model="displayId" style="width: 200px" placeholder="请输入代理ID"></Input>
       <DatePicker
         type="datetimerange"
         :options="options"
@@ -112,16 +112,16 @@ export default {
         ]
       },
       defaultTime: getDefaultTime(),
-      sn: "",
+      displayId: "",
       spin: false,
       columns1: [
         {
-          title: "所属商户",
+          title: "所属代理",
           key: "displayName"
         },
         {
-          title: "商户标识",
-          key: "sn"
+          title: "代理ID",
+          key: "displayId"
         },
         {
           title: "玩家账号",
@@ -204,7 +204,7 @@ export default {
   },
   methods: {
     reset() {
-      this.sn = "";
+      this.displayId = "";
       this.defaultTime = getDefaultTime();
       this.init();
     },
@@ -214,11 +214,11 @@ export default {
         winType: "SecretBonus",
         betTime: this.changedTime,
         query: {
-          sn: this.sn
+          displayId: +this.displayId
         }
       };
-      if (!this.sn) {
-        delete params.query.sn;
+      if (!this.displayId) {
+        delete params.query.displayId;
       }
       httpRequest("post", "/mysteryList", params)
         .then(res => {
