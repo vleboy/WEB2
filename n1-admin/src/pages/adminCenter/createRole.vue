@@ -331,6 +331,9 @@ export default {
                 },
                 {
                   title: "道具定价"
+                },
+                  {
+                  title: "神秘大奖"
                 }
               ]
             },

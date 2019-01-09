@@ -1,19 +1,18 @@
 <template>
   <div class="sysConfig">
-   <div class="search">
-     <!-- @on-change='init' -->
-      <Select v-model="gameSeries" style="width:100px">
-      <Option v-for="item in seriesList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-    </Select>
-    <Button class="reset" type="primary" @click="init">刷新</Button>
-   </div>
+    <div class="search">
+      <Select v-model="gameSeries" style="width:100px" @on-change='init'>
+        <Option v-for="item in seriesList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
+      <Button class="reset" type="primary" @click="init">刷新</Button>
+    </div>
     <Table :columns="columns1" :data="prizeList" size="small"></Table>
-   <div v-if="gameSeries!='all'">
+    <div v-if="gameSeries!='all'">
       <p class="robot_title">机器人系列</p>
-    <Table :columns="columns2" :data="robotList" size="small"></Table>
-   </div>
-     <Spin size="large" fix v-if="spin">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <Table :columns="columns2" :data="robotList" size="small"></Table>
+    </div>
+    <Spin size="large" fix v-if="spin">
+      <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
     <Modal v-model="editPrice" @on-ok="ok" title="神秘大奖" id="editPrice" @on-cancel="cancel">
@@ -30,7 +29,7 @@
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model="newParams.bonusPoolInit"></Input>
+              <Input v-model.number="newParams.bonusPoolInit"></Input>
             </Col>
           </Row>
         </Col>
@@ -48,7 +47,7 @@
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model="newParams.bonusHitMin"></Input>
+              <Input v-model.number="newParams.bonusHitMin"></Input>
             </Col>
           </Row>
         </Col>
@@ -66,7 +65,7 @@
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model="newParams.bonusHitMax"></Input>
+              <Input v-model.number="newParams.bonusHitMax"></Input>
             </Col>
           </Row>
         </Col>
@@ -84,7 +83,7 @@
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model="newParams.bonusPoolRate"></Input>
+              <Input v-model.number="newParams.bonusPoolRate"></Input>
             </Col>
           </Row>
         </Col>
@@ -102,48 +101,75 @@
           <Row>
             <Col span="6">修改为</Col>
             <Col span="18">
-              <Input v-model="newParams.bonusRobotLimit"></Input>
+              <Input v-model.number="newParams.bonusRobotLimit"></Input>
             </Col>
           </Row>
         </Col>
       </Row>
     </Modal>
-    <Modal v-model="editRobot" @on-ok="ok" title="机器人" id="editRobot" @on-cancel="cancel">
+    <Modal
+      v-model="editRobot"
+      @on-ok="saveRobot"
+      title="机器人"
+      id="editRobot"
+      @on-cancel="cancelRobot"
+    >
       <p>
         <span class="required">*</span>机器人参数设置
       </p>
       <div class="modal_content">
         <Row class="modalrow">
           <Col span="12">
-            <span>机器人ID: &nbsp; {{}}</span>
+            <span>机器人ID:
+              <Input style="width:150px" disabled v-model="robot.id"></Input>
+            </span>
           </Col>
           <Col span="12">
-            <span>状态: &nbsp;
-              <span>{{}}</span>
+            <span>状态:
+              <RadioGroup v-model="robot.isActive">
+                <Radio label="active">
+                  <span>激活</span>
+                </Radio>
+                <Radio label="deactive">
+                  <span>禁用</span>
+                </Radio>
+              </RadioGroup>
             </span>
           </Col>
         </Row>
         <Row class="modalrow">
           <Col span="12">
             <span>下注金额:
-              <Input style="width: 150px"></Input>
+              <Input style="width: 150px" v-model.number="robot.bet"></Input>
             </span>
           </Col>
           <Col span="12">
             <span>下注间隔:
-              <Input style="width: 150px"></Input>
+              <Input style="width: 150px" v-model.number="robot.betInterval"></Input>
             </span>
           </Col>
         </Row>
         <Row class="modalrow" v-for="(item,index) in timeList" :key="index">
           <Col span="12">
             <span>启用时间:
-              <TimePicker type="time" placeholder="选择时间" style="width: 150px"></TimePicker>
+              <TimePicker
+                type="time"
+                format="HH:mm"
+                v-model="item.start"
+                placeholder="选择时间"
+                style="width: 150px"
+              ></TimePicker>
             </span>
           </Col>
           <Col span="12">
             <span>停用时间:
-              <TimePicker type="time" placeholder="选择时间" style="width: 150px"></TimePicker>
+              <TimePicker
+                type="time"
+                format="HH:mm"
+                v-model="item.end"
+                placeholder="选择时间"
+                style="width: 150px"
+              ></TimePicker>
               <span class="del" @click="delTime(index)">删除</span>
             </span>
           </Col>
@@ -154,44 +180,45 @@
   </div>
 </template>
 <script>
-const list={
-          gameType: "moneytree",
-          bonusPool: 0,
-          bonusHitMin: 10000,
-          bonusHitMax: 20000,
-          bonusPoolRate: 0.0004,
-          bonusRobotLimit: 15000,
-          bonusRobots: [
-            {
-              id: 952700,
-              isActive: true,
-              bet: 25,
-              betInterval: 5000,
-              workTimes: [
-                {
-                  start: "17:00",
-                  end: "18:00"
-                },
-                {
-                  start: "6:00",
-                  end: "8:00"
-                }
-              ]
-            },
-            {
-              id: 952800,
-              isActive: true,
-              bet: 25,
-              betInterval: 5000,
-              workTimes: [
-                {
-                  start: "17:00",
-                  end: "18:00"
-                }
-              ]
-            }
-          ]
+import { httpRequest } from "@/service/index";
+const list = {
+  gameType: "moneytree",
+  bonusPool: 0,
+  bonusHitMin: 10000,
+  bonusHitMax: 20000,
+  bonusPoolRate: 0.0004,
+  bonusRobotLimit: 15000,
+  bonusRobots: [
+    {
+      id: 952700,
+      isActive: true,
+      bet: 25,
+      betInterval: 5000,
+      workTimes: [
+        {
+          start: "17:00",
+          end: "18:00"
+        },
+        {
+          start: "6:00",
+          end: "8:00"
         }
+      ]
+    },
+    {
+      id: 952800,
+      isActive: true,
+      bet: 25,
+      betInterval: 5000,
+      workTimes: [
+        {
+          start: "17:00",
+          end: "18:00"
+        }
+      ]
+    }
+  ]
+};
 export default {
   name: "sysConfig",
   components: {},
@@ -200,32 +227,40 @@ export default {
   data() {
     return {
       editPrice: false,
-      editRobot: false,
-      gameSeries: 'all',
-      spin:false,
-      timeList: [{}, {}],
-      rowParams:{
-        bonusPoolInit:0,
-        bonusHitMin:0,
-        bonusHitMax:0,
-        bonusPoolRate:0,
-        bonusRobotLimit:0
+      robot: {
+        isActive: "active",
+        id: "",
+        bet: "",
+        betInterval: ""
       },
-      newParams:{
-        bonusPoolInit:'',
-        bonusHitMin:'',
-        bonusHitMax:'',
-        bonusHitMax:'',
-        bonusRobotLimit:''
+      editRobot: false,
+      changeRobot: false,
+      gameSeries: "moneytree",
+      spin: false,
+      robotId: "",
+      timeList: [{}],
+      rowParams: {
+        bonusPoolInit: 0,
+        bonusHitMin: 0,
+        bonusHitMax: 0,
+        bonusPoolRate: 0,
+        bonusRobotLimit: 0
+      },
+      newParams: {
+        bonusPoolInit: "",
+        bonusHitMin: "",
+        bonusHitMax: "",
+        bonusHitMax: "",
+        bonusRobotLimit: ""
       },
       seriesList: [
         {
-          value: 'all',
+          value: "all",
           label: "全部"
         },
         {
-          value: 'na',
-          label: "na"
+          value: "moneytree",
+          label: "摇钱树系列"
         }
       ],
       columns1: [
@@ -252,9 +287,9 @@ export default {
         {
           title: "机器人数量",
           key: "",
-          render:(h,params)=>{
-            let bonusRobots=params.row.bonusRobots
-            return h('span',bonusRobots.length)
+          render: (h, params) => {
+            let bonusRobots = params.row.bonusRobots;
+            return h("span", bonusRobots.length);
           }
         },
         {
@@ -286,7 +321,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.rowParams=params.row
+                      this.rowParams = params.row;
                       this.editPrice = true;
                     }
                   }
@@ -305,6 +340,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.rowParams = params.row;
                       this.editRobot = true;
                     }
                   }
@@ -315,9 +351,7 @@ export default {
           }
         }
       ],
-      prizeList: [
-        list
-      ],
+      prizeList: [list],
       columns2: [
         {
           title: "机器人ID",
@@ -326,17 +360,20 @@ export default {
         {
           title: "状态",
           key: "isActive",
-          render: (h,params) =>{
-            let status=params.row.isActive
-            let color=status?"#20a0ff":"#f5141e"
-            let text=status?'启用':'禁用' 
-            return h('span',{
-              style:{
-                color:color
-              }
-            },text)
+          render: (h, params) => {
+            let status = params.row.isActive;
+            let color = status ? "#20a0ff" : "#f5141e";
+            let text = status ? "启用" : "禁用";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              text
+            );
           }
-
         },
         {
           title: "下注金额",
@@ -349,21 +386,26 @@ export default {
         {
           title: "启用时段",
           key: "",
-          render:(h,params)=>{
-            let work=params.row.workTimes;
-            return h('div',
-              work.map(item =>{
-                return h('p',{
-                  style:{
-                    textAlign: "center",
-                    backgroundColor: "#e4e8f1",
-                    borderRadius: " 4px",
-                    height: "26px",
-                    lineHeight:'26px'
-                  }
-                },`${item.start}--${item.end}`)
+          render: (h, params) => {
+            let work = params.row.workTimes;
+            return h(
+              "div",
+              work.map(item => {
+                return h(
+                  "p",
+                  {
+                    style: {
+                      textAlign: "center",
+                      backgroundColor: "#e4e8f1",
+                      borderRadius: " 4px",
+                      height: "26px",
+                      lineHeight: "26px"
+                    }
+                  },
+                  `${item.start}--${item.end}`
+                );
               })
-            )
+            );
           }
         },
         {
@@ -382,11 +424,31 @@ export default {
                     color: "#20a0ff"
                   },
                   on: {
-                    click: () => {}
+                    click: () => {
+                      this.editRobot = true;
+                      this.changeRobot = true;
+                      this.handleRowbot(params.row);
+                    }
                   }
                 },
                 "编辑"
               ),
+              // h(
+              //   "Button",
+              //   {
+              //     props: {
+              //       type: "text",
+              //       size: "small"
+              //     },
+              //     style: {
+              //       color: "#20a0ff"
+              //     },
+              //     on: {
+              //       click: () => {}
+              //     }
+              //   },
+              //   "禁用"
+              // ),
               h(
                 "Button",
                 {
@@ -398,23 +460,33 @@ export default {
                     color: "#20a0ff"
                   },
                   on: {
-                    click: () => {}
-                  }
-                },
-                "禁用"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "text",
-                    size: "small"
-                  },
-                  style: {
-                    color: "#20a0ff"
-                  },
-                  on: {
-                    click: () => {}
+                    click: () => {
+                      this.$Modal.confirm({
+                        title: "是否删除机器人",
+                        onOk: () => {
+                          let robotList = this.robotList;
+                          let id = params.row.id;
+                          robotList.map((item, index) => {
+                            if (item.id == id) {
+                              robotList.splice(index, 1);
+                            }
+                          });
+                          let list = this.prizeList[0];
+                          list.bonusRobots = robotList;
+                          httpRequest(
+                            "post",
+                            "/setBonusConfig",
+                            { gameType: list.gameType, config: list },
+                            "prize"
+                          ).then(res => {
+                            if (res.code == 0) {
+                              this.$Message.success("修改成功");
+                              this.init();
+                            }
+                          });
+                        }
+                      });
+                    }
                   }
                 },
                 "删除"
@@ -429,32 +501,44 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.init()
+    this.init();
   },
   methods: {
+    handleRowbot(row) {
+      this.robot = row;
+      this.robotId = row.id;
+      this.robot.isActive = row.isActive == true ? "active" : "deactive";
+      this.timeList = row.workTimes;
+    },
     ok() {
-      let params=this.rowParams;
-      let newConfig=this.newParams;
-      params.bonusPoolInit=newConfig.bonusPoolInit;
-      params.bonusHitMin=newConfig.bonusHitMin;
-      params.bonusHitMax=newConfig.bonusHitMax;
-      params.bonusHitMax=newConfig.bonusHitMax;
-      params.bonusRobotLimit=newConfig.bonusRobotLimit;
-      this.axios.post('http://192.168.3.200:45557/setBonusConfig',params).then((res)=>{
-        if(res.status=200){
-          this.$Message.success('修改成功');
-          this.init()
+      let params = this.rowParams;
+      let newConfig = this.newParams;
+      params.bonusPoolInit = newConfig.bonusPoolInit;
+      params.bonusPoolRate = newConfig.bonusPoolRate;
+      params.bonusHitMin = newConfig.bonusHitMin;
+      params.bonusHitMax = newConfig.bonusHitMax;
+      params.bonusRobotLimit = newConfig.bonusRobotLimit;
+      httpRequest(
+        "post",
+        "/setBonusConfig",
+        { gameType: params.gameType, config: params },
+        "prize"
+      ).then(res => {
+        if (res.code == 0) {
+          this.$Message.success("修改成功");
+          this.init();
+          this.cancel()
         }
-      })
+      });
     },
     cancel() {
-      this.newParams={
-        bonusPoolInit:'',
-        bonusHitMin:'',
-        bonusHitMax:'',
-        bonusHitMax:'',
-        bonusRobotLimit:''
-      }
+      this.newParams = {
+        bonusPoolInit: "",
+        bonusHitMin: "",
+        bonusHitMax: "",
+        bonusHitMax: "",
+        bonusRobotLimit: ""
+      };
     },
     addTime() {
       this.timeList.push({});
@@ -462,22 +546,97 @@ export default {
     delTime(index) {
       this.timeList.splice(index, 1);
     },
-    init(){
-      this.spin=true;
-       this.axios.post('http://192.168.3.200:45557/getBonusConfig',{
-      gameType:this.gameSeries
-    }).then(res=>{
-      if(res.status==200){
-        this.prizeList=res.data.config;
-        let robotList=[]
-        for(let item of this.prizeList){
-          robotList.push(...item.bonusRobots)
+    cloneObj(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    },
+    saveRobot() {
+      if (this.changeRobot) {
+        let id = this.robotId;
+        let prizeList = this.cloneObj(this.prizeList);
+        for (let item of prizeList) {
+          for (let i = 0; i < item.bonusRobots.length; i++) {
+            let robotItem = item.bonusRobots[i];
+            if (robotItem.id == id) {
+              let robot = this.cloneObj(this.robot);
+              robot.isActive = robot.isActive == "active" ? true : false;
+              robot.workTimes = this.timeList;
+              item.bonusRobots[i] = robot;
+            }
+          }
         }
-        this.robotList=robotList
+        let configItem = prizeList[0];
+        let params = {
+          gameType: configItem.gameType,
+          config: configItem
+        };
+        httpRequest("post", "/setBonusConfig", params, "prize").then(res => {
+          if (res.code == 0) {
+            this.$Message.success("修改成功");
+            this.init();
+            this.robot = {
+              isActive: "active",
+              id: "",
+              bet: "",
+              betInterval: ""
+            };
+          this.timeList = [{}];
+          }
+        });
+      } else {
+        let params = this.rowParams;
+        let robot = this.cloneObj(this.robot);
+        let id = Math.floor(Math.random() * 1000000);
+        robot.id = id;
+        robot.isActive = robot.isActive == "active" ? true : false;
+        robot.workTimes = this.timeList;
+        params.bonusRobots.push(robot);
+        httpRequest(
+          "post",
+          "/setBonusConfig",
+          { gameType: params.gameType, config: params },
+          "prize"
+        ).then(res => {
+          if (res.code == 0) {
+            this.$Message.success("添加成功");
+          }
+        });
       }
-    }).finally(()=>{
-      this.spin=false
-    })
+    },
+    cancelRobot() {
+      this.robot = {
+        isActive: "active",
+        id: "",
+        bet: "",
+        betInterval: ""
+      };
+      this.timeList = [{}];
+      if (this.changeRobot) {
+        this.changeRobot = false;
+      }
+    },
+    init() {
+      this.spin = true;
+      httpRequest(
+        "post",
+        "/getBonusConfig",
+        {
+          gameType: this.gameSeries
+        },
+        "prize"
+      )
+        .then(res => {
+          if (res.code == 0) {
+            this.prizeList = res.config;
+            let robotList = [];
+            for (let item of this.prizeList) {
+              robotList.push(...item.bonusRobots);
+            }
+            this.robotList = robotList;
+          }
+        })
+        .finally(() => {
+          this.spin = false;
+        });
     }
   }
 };
@@ -485,7 +644,7 @@ export default {
 <style lang="less" scoped>
 .sysConfig {
   min-height: 87vh;
-  .robot_title{
+  .robot_title {
     font-size: 14px;
     font-weight: bold;
     margin: 10px auto;
@@ -514,10 +673,10 @@ export default {
   text-align: center;
   cursor: pointer;
 }
-.search{
+.search {
   margin-bottom: 10px;
 }
-.reset{
+.reset {
   float: right;
 }
 </style>

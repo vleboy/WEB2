@@ -412,6 +412,10 @@ export default {
               {
                 title: "道具定价",
                 checked: false
+              },
+              {
+                title: "神秘大奖",
+                checked: false
               }
             ]
           },

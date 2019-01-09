@@ -1,5 +1,5 @@
 import { http } from './http'
-import { URL,httpType } from './urlConfig'
+import { URL } from './urlConfig'
 // import QS from 'qs'
 
 // get请求 (url拼接参数，请求域名类别）
@@ -12,7 +12,7 @@ const get = (urls, type) => {
     }
     return {
      method: 'get',
-     url: httpType+ URL(type) + urls,
+     url: URL(type) + urls,
      headers: headers
     }
 }
@@ -34,7 +34,7 @@ const post = (urls, datas, type) => {
     }
     return {
         method: 'post',
-        url: httpType+ URL(type) + urls,
+        url: URL(type) + urls,
         data:datas,                       //QS.stringify(datas),
         headers: headers
     }
