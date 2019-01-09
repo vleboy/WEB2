@@ -204,6 +204,7 @@ export default {
     reset() {
         this.sn=''
         this.defaultTime=getDefaultTime()
+        this.init()
     },
     init() {
       this.spin = true;
