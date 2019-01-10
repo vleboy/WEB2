@@ -543,14 +543,14 @@ export default {
     },
     saveConfig() {
       let params = this.rowParams;
-      if(params.bonusPoolInit>params.bonusHitMax||params.bonusHitMin>params.bonusHitMax){
-        return this.$Message.warning('奖池初始金额和奖池基础掉落金额不能大于奖池必掉金额')
+      if(params.bonusPoolInit>=params.bonusHitMax||params.bonusHitMin>+params.bonusHitMax){
+        return this.$Message.warning('奖池初始金额与奖池基础掉落金额必须小于奖池必掉金额')
       }
       if(params.bonusPoolRate>1){
         return this.$Message.warning('下注抽取比例小于1')
       }
-       if(params.bonusRobotLimit>params.bonusHitMax){
-        return this.$Message.warning('机器人休眠值小于奖池必掉金额')
+       if(params.bonusRobotLimit>=params.bonusHitMax){
+        return this.$Message.warning('机器人休眠值必须小于奖池必掉金额')
       }
       httpRequest(
         "post",
