@@ -199,13 +199,13 @@
                     </template>
                     <MenuItem name="gameConfig" v-if='permission.includes("包房代理游戏配置")'>包房代理游戏配置</MenuItem>
                 </Submenu>
-                  <Submenu name="opreateCenter" v-if="level==0">
+                  <!-- <Submenu name="opreateCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="social-usd"></Icon>
                         运营中心
                     </template>
                     <MenuItem name="prizeList">神秘大奖</MenuItem>
-                </Submenu>
+                </Submenu> -->
                 <Submenu name="logCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="bug"></Icon>

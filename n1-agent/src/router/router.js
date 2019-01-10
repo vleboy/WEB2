@@ -34,7 +34,7 @@ import pgVideo from '@/pages/reports/pgVideo'
 import habaVideo from '@/pages/reports/habaVideo'
 import pngVideo from '@/pages/reports/pngVideo'
 import natruehfive from '@/pages/reports/naTrueHfive'
-import prizeList from '@/pages/opreateCenter/prizeList'
+// import prizeList from '@/pages/opreateCenter/prizeList'
 import agentList from '@/pages/agentCenter/agentList'
 import warnList from '@/pages/agentCenter/warnList'
 import adminLoginLog from '@/pages/logCenter/adminLoginLog'
@@ -260,15 +260,15 @@ export const appRouter = [
             {path:'config',title:'包房代理游戏配置',name:'gameConfig',component:gameConfig},
         ]
     },
-    {
-        path:'/opreate',
-        title:'运营中心',
-        name:'opreate',
-        component:main,
-        children:[
-            {path:'prize',title:'神秘大奖',name:'prizeList',component:prizeList},
-        ]
-    },
+    // {
+    //     path:'/opreate',
+    //     title:'运营中心',
+    //     name:'opreate',
+    //     component:main,
+    //     children:[
+    //         {path:'prize',title:'神秘大奖',name:'prizeList',component:prizeList},
+    //     ]
+    // },
     {
       path:'/play',
       title:'玩家列表',
