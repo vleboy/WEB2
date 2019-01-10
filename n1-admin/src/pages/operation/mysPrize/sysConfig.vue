@@ -543,7 +543,7 @@ export default {
     },
     saveConfig() {
       let params = this.rowParams;
-      if(params.bonusPoolInit>=params.bonusHitMax||params.bonusHitMin>+params.bonusHitMax){
+      if(params.bonusPoolInit>=params.bonusHitMax||params.bonusHitMin>=params.bonusHitMax){
         return this.$Message.warning('奖池初始金额与奖池基础掉落金额必须小于奖池必掉金额')
       }
       if(params.bonusPoolRate>1){
