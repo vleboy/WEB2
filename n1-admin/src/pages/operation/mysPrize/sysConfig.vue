@@ -615,13 +615,7 @@ export default {
           if (res.code == 0) {
             this.$Message.success("修改成功");
             this.init();
-            this.robot = {
-              isActive: "deactive",
-              id: "",
-              bet: "",
-              betInterval: ""
-            };
-          this.timeList = [{}];
+            this.cancelRobot()
           }
         });
       } else {
@@ -641,17 +635,18 @@ export default {
           if (res.code == 0) {
             this.$Message.success("添加成功");
             this.init()
+            this.cancelRobot()
           }
         });
       }
     },
     cancelRobot() {
-      // this.robot = {
-      //   isActive: "deactive",
-      //   id: "",
-      //   bet: "",
-      //   betInterval: ""
-      // };
+      this.robot = {
+        isActive: "deactive",
+        id: "",
+        bet: "",
+        betInterval: ""
+      };
       this.timeList = [{}];
       if (this.changeRobot) {
         this.changeRobot = false;
