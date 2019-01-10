@@ -201,44 +201,44 @@
 </template>
 <script>
 import { httpRequest } from "@/service/index";
-const list = {
-  gameType: "moneytree",
-  bonusPool: 0,
-  bonusHitMin: 10000,
-  bonusHitMax: 20000,
-  bonusPoolRate: 0.0004,
-  bonusRobotLimit: 15000,
-  bonusRobots: [
-    {
-      id: 952700,
-      isActive: true,
-      bet: 25,
-      betInterval: 5000,
-      workTimes: [
-        {
-          start: "17:00",
-          end: "18:00"
-        },
-        {
-          start: "6:00",
-          end: "8:00"
-        }
-      ]
-    },
-    {
-      id: 952800,
-      isActive: true,
-      bet: 25,
-      betInterval: 5000,
-      workTimes: [
-        {
-          start: "17:00",
-          end: "18:00"
-        }
-      ]
-    }
-  ]
-};
+// const list = {
+//   gameType: "moneytree",
+//   bonusPool: 0,
+//   bonusHitMin: 10000,
+//   bonusHitMax: 20000,
+//   bonusPoolRate: 0.0004,
+//   bonusRobotLimit: 15000,
+//   bonusRobots: [
+//     {
+//       id: 952700,
+//       isActive: true,
+//       bet: 25,
+//       betInterval: 5000,
+//       workTimes: [
+//         {
+//           start: "17:00",
+//           end: "18:00"
+//         },
+//         {
+//           start: "6:00",
+//           end: "8:00"
+//         }
+//       ]
+//     },
+//     {
+//       id: 952800,
+//       isActive: true,
+//       bet: 25,
+//       betInterval: 5000,
+//       workTimes: [
+//         {
+//           start: "17:00",
+//           end: "18:00"
+//         }
+//       ]
+//     }
+//   ]
+// };
 export default {
   name: "sysConfig",
   components: {},
@@ -381,7 +381,7 @@ export default {
           }
         }
       ],
-      prizeList: [list],
+      prizeList: [],
       columns2: [
         {
           title: "机器人ID",
@@ -525,7 +525,7 @@ export default {
           }
         }
       ],
-      robotList: list.bonusRobots
+      robotList: []
     };
   },
   // computed: {
@@ -536,7 +536,7 @@ export default {
   },
   methods: {
     handleRowbot(row) {
-      this.robot = row;
+      this.robot = this.cloneObj(row);
       this.robotId = row.id;
       this.robot.isActive = row.isActive == true ? "active" : "deactive";
       this.timeList = row.workTimes;
@@ -589,7 +589,7 @@ export default {
       if(Crobot.bet<0.01||Crobot.bet>5000){
          return this.$Message.warning('机器人下注金额范围为：0.01至5000');
         }
-      if(Crobot.betInterval<1||Crobot.bet>60){
+      if(Crobot.betInterval<1||Crobot.betInterval>60){
          return this.$Message.warning('机器人下注间隔范围为：1至60')
       }
       if (this.changeRobot) {
@@ -640,17 +640,18 @@ export default {
         ).then(res => {
           if (res.code == 0) {
             this.$Message.success("添加成功");
+            this.init()
           }
         });
       }
     },
     cancelRobot() {
-      this.robot = {
-        isActive: "deactive",
-        id: "",
-        bet: "",
-        betInterval: ""
-      };
+      // this.robot = {
+      //   isActive: "deactive",
+      //   id: "",
+      //   bet: "",
+      //   betInterval: ""
+      // };
       this.timeList = [{}];
       if (this.changeRobot) {
         this.changeRobot = false;
