@@ -539,7 +539,7 @@ export default {
       this.robot = this.cloneObj(row);
       this.robotId = row.id;
       this.robot.isActive = row.isActive == true ? "active" : "deactive";
-      this.timeList = row.workTimes;
+      this.timeList = this.cloneObj(row.workTimes)
     },
     saveConfig() {
       let params = this.rowParams;
