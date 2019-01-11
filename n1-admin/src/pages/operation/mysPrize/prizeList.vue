@@ -111,7 +111,7 @@ export default {
           }
         ]
       },
-      defaultTime: getDefaultTime(),
+      defaultTime: getDefaultTime(true),
       sn: "",
       spin: false,
       columns1: [
@@ -188,13 +188,10 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      time = time.map((item, index) => {
-        if (index == 1 && item.getTime() > Date.now() - 180000) {
-          return Date.now() - 180000;
-        }
+      time = time.map((item) => {
         return item.getTime();
       });
-      this.defaultTime = [new Date(time[0]), new Date(time[1])];
+      // this.defaultTime = [new Date(time[0]), new Date(time[1])];
       return time;
     }
   },
@@ -205,7 +202,7 @@ export default {
   methods: {
     reset() {
       this.sn = "";
-      this.defaultTime = getDefaultTime();
+      this.defaultTime = getDefaultTime(true);
       this.init();
     },
     init() {
