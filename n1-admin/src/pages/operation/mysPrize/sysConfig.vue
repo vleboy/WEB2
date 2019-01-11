@@ -549,6 +549,9 @@ export default {
       if(params.bonusPoolRate>1){
         return this.$Message.warning('下注抽取比例小于1')
       }
+      if(!Number.isInteger(params.bonusHitRate) || params.bonusHitRate<1){
+        return this.$Message.warning('输入值需大于0的整数')
+      }
        if(params.bonusRobotLimit>=params.bonusHitMax){
         return this.$Message.warning('机器人休眠值必须小于奖池必掉金额')
       }
