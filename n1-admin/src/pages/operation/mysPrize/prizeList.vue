@@ -179,7 +179,10 @@ export default {
         },
         {
           title: "中奖金额",
-          key: "winAmount"
+          key: "winAmount",
+          render:(h,params)=>{
+            return h('span',params.row.winAmount.toFixed(2))
+          }
         }
       ],
       prizeList: []
