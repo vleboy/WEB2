@@ -432,7 +432,7 @@ export default {
                       lineHeight: "26px"
                     }
                   },
-                  `${item.start}--${item.end}`
+                  `${item.start||''}--${item.end||''}`
                 );
               })
             );
