@@ -55,7 +55,8 @@
       <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
     <Modal title="h5战绩详细" v-model="naHfive" class="g-text-center" width="500">
-      <hfive-modal :dataProp='hProp' />
+     <secreat-modal v-if="mystical" :secretBonus='secretBonus'/>
+      <hfive-modal v-else :dataProp='hProp'/>
     </Modal>
     <Modal title="流水详情" v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
       <oneRunningAccount :dataProp="runningDetail"></oneRunningAccount>
@@ -73,6 +74,7 @@ import { thousandFormatter } from "@/config/format";
 import dayjs from "dayjs";
 import { httpRequest } from "@/service/index";
 import HfiveModal from "@/components/player/HfiveModal";
+import SecreatModal from '@/components/player/SecreatModal'
 
 // import api from '@/api/api'
 // import ArcadeModal from '@/components/record/arcadeModal'
@@ -82,7 +84,7 @@ import SportsModal from "@/components/player/sportsModal";
 import oneRunningAccount from "@/components/player/oneRunningAccount";
 import playerRecharge from "@/components/player/playerRecharge";
 export default {
-  components: { oneRunningAccount, playerRecharge, RealLifeModal, SportsModal,HfiveModal },
+  components: { oneRunningAccount, playerRecharge, RealLifeModal, SportsModal,HfiveModal,SecreatModal },
   name: "transactionRecord",
   props: ["dataProp"],
   data() {
@@ -116,6 +118,8 @@ export default {
           }
         ]
       }, 
+      mystical:false,
+      secretBonus:0,
       hProp: {
         gameId:70010,
         roundResult: {
@@ -393,11 +397,20 @@ export default {
       }
     },
     getHfiveData(betId) {
+      this.mystical=false
       httpRequest("post", "/player/bill/record", {
         userName: localStorage.playerName,
         betId
       }).then(res => {
-        this.hProp = res.data;
+        let mode=res.data.mode
+        if(mode=='Secret Bonus'){
+          this.mystical=true
+          this.secretBonus=res.data.roundResult.secretBonusData.secretBonus.toFixed(2)
+        }else if(mode=='FuDai Game'){
+          console.log('FuDai');
+        }else{
+            this.hProp=res.data
+        }
       });
     },
     openModalRunning(data) {

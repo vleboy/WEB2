@@ -4,6 +4,10 @@
 .ml80{
     margin-left: 80px;
 }
+.logo_img{
+    width: 150px;
+    height: 80px;
+}
 /* index */
 .indexContent{
     display: flex;

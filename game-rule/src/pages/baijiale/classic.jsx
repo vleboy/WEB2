@@ -8,7 +8,7 @@ const Classic = () => {
                     <li className="title">传统百家乐</li>
                     <li className="des">Classic Baccarat</li>
                     <li className="bar"></li>
-                    <li className="intro">除了深受玩家欢迎的<strong>传统百家乐</strong>外，<strong>Asia Gaming</strong>更设有极速百家乐及多台百家乐，给予玩家一种置身实地赌场的真实快感，保证让您享受实时而公平的游戏体验。</li>
+                    <li className="intro">除了深受玩家欢迎的<strong>传统百家乐</strong>外，<strong>NA</strong>更设有极速百家乐及多台百家乐，给予玩家一种置身实地赌场的真实快感，保证让您享受实时而公平的游戏体验。</li>
                     <li className="cap classic_cap"></li>
                 </div>
                 <div className="content clearfix">

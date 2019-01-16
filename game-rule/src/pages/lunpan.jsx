@@ -6,7 +6,7 @@ const Lunpan =()=>{
 				<li className="title">轮盘</li>
 				<li className="des">Roulette</li>
 				<li className="lun_bar"></li>
-				<li className="lun_intro"><strong>AG</strong>拥有画面最逼真的<strong>真人轮盘游戏</strong>。透过实时传递的现场画面，加上令人目不暇给的轮盘丶荷官熟练而专业的技巧，都为玩家缔造一个公平公正的博彩游戏。本游戏是采用国际标准的单零轮盘，单零轮盘上共有37 个细长沟道。其中一个绿色沟道的数字编号为0，另外36个沟道分别编号为1 至36，一半是红色一半是黑色。 玩家可以买单一数字或赌桌上的数字组合。</li>
+				<li className="lun_intro"><strong>NA</strong>拥有画面最逼真的<strong>真人轮盘游戏</strong>。透过实时传递的现场画面，加上令人目不暇给的轮盘丶荷官熟练而专业的技巧，都为玩家缔造一个公平公正的博彩游戏。本游戏是采用国际标准的单零轮盘，单零轮盘上共有37 个细长沟道。其中一个绿色沟道的数字编号为0，另外36个沟道分别编号为1 至36，一半是红色一半是黑色。 玩家可以买单一数字或赌桌上的数字组合。</li>
 				<li className="lun_cap"></li>
 			</div>
 			<div className="lun_content clearfix">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Layout, BackTop } from 'antd'
 import SideMenu from '../components/sideMenu'
-import HeadMenu from '../components/headMenu'
+// import HeadMenu from '../components/headMenu'
 import ScrollToTop from '../components/scrollToTop'
 import Routes from '../router'
 import Logo from '../imgs/logo.png'
@@ -31,13 +31,13 @@ export default class Main extends Component {
             className="logo"
             style={{ display: 'flex', justifyContent: 'center' }}
           >
-            <img src={Logo} alt="oops" />
+            <img className='logo_img' src={Logo} alt="oops" />
           </div>
           <SideMenu />
         </Sider>
         <Layout className={this.state.collapse ? null : 'ml200'}>
           <Header style={{ textAlign: 'right' }}>
-            <HeadMenu />
+            {/* <HeadMenu /> */}
           </Header>
           <Content
             style={{
