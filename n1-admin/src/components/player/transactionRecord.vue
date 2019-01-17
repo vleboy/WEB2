@@ -358,7 +358,6 @@ export default {
         }catch(err){
           this.$Message.error(err)
         }
-        this.naHfive = true;
       } else {
         this.$Message.error("对不起，该游戏不支持查看战绩");
       }
@@ -387,8 +386,9 @@ export default {
           this.fudai=true;
           this.secretBonus=res.data.roundResult.totalGold.toFixed(2)
         }else{
-            this.hProp=res.data
+          this.hProp=res.data
         }
+        this.naHfive = true;
       })
     },
     getTransactionRecord() {

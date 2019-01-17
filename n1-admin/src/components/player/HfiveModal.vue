@@ -74,6 +74,10 @@
                 <p style="paddingBottom:10px" v-else>No Winning Combination</p>
             </div>
         </div>
+         <Spin size="large" fix v-if="spin">
+          <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+          <div>加载中...</div>
+        </Spin>
     </div>
 </template>
 <script>
@@ -91,7 +95,7 @@ export default {
     dataProp: Object
   },
   data() {
-    return {};
+    return {spin:true};
   },
   computed: {
     result() {
@@ -131,7 +135,11 @@ export default {
     }
   },
   watch: {},
-  created() {},
+  updated() {
+    setTimeout(()=>{
+      this.spin=false;
+    },600)
+  },
   methods: {}
 };
 </script>
