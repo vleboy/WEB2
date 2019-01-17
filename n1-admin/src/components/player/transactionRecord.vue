@@ -53,7 +53,7 @@
       <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
     <Modal title="h5战绩详细" v-model="naHfive" class="g-text-center" width="500">
-      <secreat-modal v-if="mystical" :secretBonus='secretBonus'/>
+      <secreat-modal v-if="mystical" :secretBonus='secretBonus' :fudai='fudai'/>
       <hfive-modal v-else :dataProp='hProp'/>
     </Modal>
 
@@ -125,6 +125,7 @@ export default {
       }, 
       mystical:false,
       secretBonus:0,
+      fudai:false,
       hProp: {
         gameId:70010,
         roundResult:{
@@ -372,6 +373,7 @@ export default {
     },
     getHfiveData(betId){
       this.mystical=false
+      this.fudai=false;
       httpRequest('post','/player/bill/record',{
         userName: localStorage.playerName,
         betId
@@ -381,7 +383,9 @@ export default {
           this.mystical=true
           this.secretBonus=res.data.roundResult.secretBonusData.secretBonus.toFixed(2)
         }else if(mode=='FuDai Game'){
-          console.log('FuDai');
+          this.mystical=true
+          this.fudai=true;
+          this.secretBonus=res.data.roundResult.totalGold.toFixed(2)
         }else{
             this.hProp=res.data
         }
