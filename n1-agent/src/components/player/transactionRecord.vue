@@ -258,6 +258,9 @@ export default {
                     },
                     on: {
                       click: () => {
+                        this.mystical=false
+                        this.fudai=false;
+                        this.nomalType=false
                         this.openModalBill(params.row);
                       }
                     }
