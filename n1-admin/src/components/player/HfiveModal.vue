@@ -74,10 +74,10 @@
                 <p style="paddingBottom:10px" v-else>No Winning Combination</p>
             </div>
         </div>
-         <!-- <Spin size="large" fix v-if="spin">
+         <Spin size="large" fix v-if="spin">
           <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
           <div>加载中...</div>
-        </Spin> -->
+        </Spin>
     </div>
 </template>
 <script>
@@ -100,6 +100,9 @@ export default {
   computed: {
     result() {
       return this.dataProp.roundResult;
+    },
+    spin(){
+      return this.$store.state.loading
     },
     treasureImg(){
       let result = this.result.treasureData;
@@ -140,6 +143,9 @@ export default {
   //     this.spin=false;
   //   },600)
   // },
+  created(){
+    this.$emit('loading')
+  }
   // methods: {}
 };
 </script>

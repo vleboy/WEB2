@@ -53,8 +53,8 @@
       <sportsModal ref="childMethod" v-if="propChild.gameType =='1130000'" :dataProp="propChild"></sportsModal>
     </Modal>
     <Modal title="h5战绩详细" v-model="naHfive" class="g-text-center" width="500">
-      <secreat-modal v-if="mystical" :secretBonus='secretBonus' :fudai='fudai'/>
-      <hfive-modal v-else :dataProp='hProp'/>
+      <secreat-modal v-if="mystical" :hProp='hProp'  v-on:loading="Load" :fudai='fudai'/>
+      <hfive-modal v-if="nomalType" v-on:loading="Load" :dataProp='hProp'/>
     </Modal>
 
     <Modal title="流水详情" v-model="isOpenModalRunning" class="g-text-center" width="800" cancel-text="">
@@ -124,19 +124,17 @@ export default {
         ]
       }, 
       mystical:false,
-      secretBonus:0,
+      nomalType:false,
       fudai:false,
       hProp: {
         gameId:70010,
+        betId:'',
+        betAmount:0,
+        winloseAmount:0,
         roundResult:{
           userInfo:{ },
-          viewGrid:[3, 2, 11, 8, 9, 2, 8, 6, 6, 3, 7, 7, 1, 7, 8],
+          viewGrid:[],
           winGrid:[],
-          treasureData:{
-            grid:[1, 0, 3, 3, 2, 2, 1, -1, 3, -1, -1, -1],
-            payTable:[],
-            winIndex:1
-          }
         }
       },
       nowSize: 20,
@@ -261,6 +259,9 @@ export default {
                     },
                     on: {
                       click: () => {
+                        this.mystical=false
+                        this.fudai=false;
+                        this.nomalType=false
                         this.openModalBill(params.row);
                       }
                     }
@@ -371,8 +372,6 @@ export default {
       this.getTransactionRecord();
     },
     getHfiveData(betId){
-      this.mystical=false
-      this.fudai=false;
       httpRequest('post','/player/bill/record',{
         userName: localStorage.playerName,
         betId
@@ -380,16 +379,21 @@ export default {
         let mode=res.data.mode
         if(mode=='Secret Bonus'){
           this.mystical=true
-          this.secretBonus=res.data.roundResult.secretBonusData.secretBonus.toFixed(2)
         }else if(mode=='FuDai Game'){
           this.mystical=true
           this.fudai=true;
-          this.secretBonus=res.data.roundResult.totalGold.toFixed(2)
         }else{
-          this.hProp=res.data
+          this.nomalType=true
         }
+        this.hProp=res.data
         this.naHfive = true;
       })
+    },
+    Load(){
+      this.$store.commit('globalLoading',{params:true})
+      setTimeout(()=>{
+         this.$store.commit('globalLoading',{params:false})
+      },500)
     },
     getTransactionRecord() {
       if (this.isFetching) return;
