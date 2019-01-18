@@ -14,9 +14,6 @@ export const store = new Vuex.Store({
         state.loading=params
         },
     },
-    actions:{
-
-    },
     modules: {
         login,
         home,
