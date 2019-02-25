@@ -1,9 +1,5 @@
 <template>
-  <!-- <div class="nico">
-    <h1>Nico</h1>
-  </div> -->
-
-  <div class="nanomys">
+  <div class="hfive">
     <report :gameType='90000'></report>
   </div>
 </template>
@@ -21,4 +17,3 @@ export default {
 <style lang="less" scoped>
 
 </style>
-

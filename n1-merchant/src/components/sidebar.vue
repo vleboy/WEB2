@@ -27,6 +27,7 @@
                         <MenuItem name="nacard" v-if="gameList.includes('NA棋牌游戏')">NA棋牌游戏报表</MenuItem>
                         <MenuItem name="nafishing" v-if="gameList.includes('NA捕鱼游戏')">NA捕鱼游戏报表</MenuItem>
                         <MenuItem name="nahfive" v-if='gameList.includes("H5电子游戏")'>NA电子H5报表</MenuItem>
+                        <MenuItem name="nanomsy" v-if='gameList.includes("H5电子游戏-无神秘奖")'>NA电子H5无神秘奖报表</MenuItem>
                         <MenuItem name="natruehfive" v-if='gameList.includes("H5真人视讯")'>NA真人H5报表</MenuItem>
                     </Submenu>
                     <Submenu name='ttgreport' v-if="gameList.includes('TTG电子游戏')">

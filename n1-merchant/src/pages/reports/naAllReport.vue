@@ -68,7 +68,7 @@ export default {
       spinShow: false, //加载spin
       playerList: [], //玩家列表
       user: [], //当前商户
-      gameType: [ 10000,30000, 40000, 50000,60000,70000,80000],
+      gameType: [ 10000,30000, 40000, 50000,60000,70000,80000,90000],
       columns1: [
         {
           title: "序号",
@@ -417,6 +417,49 @@ export default {
             return h("span", thousandFormatter(count));
           }
         },
+        {
+          title: "NA电子H5无神秘奖(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "90000") {
+                count += gameList[key].winloseAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            let color = count < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(count)
+            );
+          }
+        },
+        {
+          title: "NA电子H5无神秘奖(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            let gameList = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in gameList) {
+              if (key == "90000") {
+                count += gameList[key].submitAmount;
+              }
+            }
+            if (count) {
+              count = count.toFixed(2);
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
       ],
       columns2: [
         {
@@ -615,6 +658,28 @@ export default {
             if (params.row.gameTypeMap["80000"] !== undefined) {
               winloseAmount = params.row.gameTypeMap[
                 "80000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA电子H5无神秘奖(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["90000"] !== undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "90000"
               ].winloseAmount.toFixed(2);
             }
             let color = winloseAmount < 0 ? "#f30" : "#0c0";

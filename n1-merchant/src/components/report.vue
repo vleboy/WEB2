@@ -315,6 +315,9 @@ export default {
       }
       if (player && player.code == 0) {
         this.playerList = player.payload;
+
+        console.log(this.playerList);
+        
       }
     }
   },
