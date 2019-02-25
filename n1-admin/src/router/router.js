@@ -20,6 +20,7 @@ import mgvideo from '@/pages/reports/mgVideoGame'
 import nacard from '@/pages/reports/naCardGame'
 import nastreet from '@/pages/reports/naStreetGame'
 import nahfive from '@/pages/reports/nahfive'
+import nanomys from '@/pages/reports/nanomys'
 import natrue from '@/pages/reports/naTrueGame'
 import navideo from '@/pages/reports/naVideoGame'
 import naAll from '@/pages/reports/naAllReport'
@@ -160,6 +161,7 @@ export const appRouter = [
             {path:'fishing',title:'NA捕鱼游戏报表',name:'nafishing',component:naFishing},
             {path:'all',title:'NA游戏总报表',name:'naAll',component:naAll},
             {path:'hfive',title:'NA电子H5报表',name:'nahfive',component:nahfive},
+			{path: 'nanomys', title: 'NA电子H5无神秘奖报表', name: 'nanomys', component: nanomys},
             {path:'truefive',title:'NA真人H5报表',name:'natruehfive',component:natruehfive}
         ]
     },
