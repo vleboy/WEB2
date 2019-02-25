@@ -94,6 +94,10 @@ export default {
                     checked: false
                   },
                   {
+                    title: "NA电子h5无神秘奖报表",
+                    checked: false
+                  },
+                  {
                     title: "NA真人h5报表",
                     checked: false
                   },
