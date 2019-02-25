@@ -561,6 +561,8 @@ export default {
       for (let item of trees) {
         permissions.push(item.title);
       }
+      console.log(permissions);
+      
       subRoleUpdate({
         ...this.admin,
         permissions: permissions

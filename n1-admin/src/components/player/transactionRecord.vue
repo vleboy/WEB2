@@ -342,6 +342,8 @@ export default {
       }
     },
     async openModalBill(data) {
+      console.log(data);
+      
       this.propChild = data;
       if (this.isRealLife) {
         this.isOpenModalBill = true;
@@ -354,6 +356,12 @@ export default {
           this.$refs.childMethod.getRealLife();
         }, 0);
       } else if (data.gameType == "70000") {
+        try {
+          await this.getHfiveData(data.businessKey)
+        }catch(err){
+          this.$Message.error(err)
+        }
+      } else if (data.gameType == "90000") {
         try {
           await this.getHfiveData(data.businessKey)
         }catch(err){

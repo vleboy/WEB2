@@ -394,6 +394,8 @@ export default {
         }, 0);
       } else if (data.gameType == "70000") {
         await this.getHfiveData(data.businessKey);
+      } else if (data.gameType == "90000") {
+        await this.getHfiveData(data.businessKey);
       } else {
         this.$Message.error("对不起，该游戏不支持查看战绩");
       }
