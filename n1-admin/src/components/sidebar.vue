@@ -29,7 +29,7 @@
                         <MenuItem name="nafishing" v-if='permission.includes("NA捕鱼游戏报表")'>NA捕鱼游戏报表</MenuItem>
                         <MenuItem name="nahfive" v-if='permission.includes("NA电子h5报表")'>NA电子H5报表</MenuItem>
                         <MenuItem name="nanomys" v-if='permission.includes("NA电子H5无神秘奖报表")'>NA电子H5无神秘奖报表</MenuItem>
-						<MenuItem name="natruehfive" v-if='permission.includes("NA真人h5报表")'>NA真人H5报表</MenuItem>
+						            <MenuItem name="natruehfive" v-if='permission.includes("NA真人h5报表")'>NA真人H5报表</MenuItem>
                     </Submenu>
                     <Submenu name='ttgreport' v-if='permission.includes("TTG电子游戏报表")'>
                         <template slot="title">TTG游戏报表</template>
@@ -84,6 +84,19 @@
                         <MenuItem name="pngGame">PNG电子游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
+
+                <Submenu name="dayReport" v-if='authorityStr.includes("日报表")'>
+                    <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
+                        日报表
+                    </template>
+                    <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
+                    <MenuItem name="dayMerchant" v-if='permission.includes("商户日报表")'>商户日报表</MenuItem>
+                    <MenuItem name="dayManager" v-if='permission.includes("线路商日报表")'>线路商日报表</MenuItem>
+                    <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
+                </Submenu>
+
+
                 <Submenu name="businessCenter" v-if='authorityStr.includes("线路商列表")||authorityStr.includes("商户列表")||authorityStr.includes("接入商点数警告列表")'>
                     <template slot="title">
                         <Icon type="person-stalker"></Icon>

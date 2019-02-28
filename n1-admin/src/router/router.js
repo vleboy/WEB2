@@ -42,6 +42,12 @@ import pngVideo from '@/pages/reports/pngVideo'
 import natruehfive from '@/pages/reports/naTrueHfive'
 
 
+import dayCompany from '@/pages/day/dayCompany'
+import dayManager from '@/pages/day/dayManager'
+import dayMerchant from '@/pages/day/dayMerchant'
+import dayPlayer from '@/pages/day/dayPlayer'
+
+
 import merchantList from '@/pages/businessCenter/merchantList'
 import managerList from '@/pages/businessCenter/managerList'
 import warnList from '@/pages/businessCenter/warnList'
@@ -242,6 +248,34 @@ export const appRouter = [
         name:'ysb',
         component:main,
         children:[{path:'sport',title:'YSB体育游戏报表',name:'ysbSport',component:ysbSport}]
+    },
+    {
+        path: '/dayCompany',
+        title: '公司日报表',
+        name: 'dayCompany',
+        component: main,
+        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', component: dayCompany }]
+    },
+    {
+        path: '/dayManager',
+        title: '线路商日报表',
+        name: 'dayManager',
+        component: main,
+        children: [{ path: 'dayManager', title: '线路商日报表', name: 'dayManager', component: dayManager }]
+    },
+    {
+        path: '/dayMerchant',
+        title: '商户日报表',
+        name: 'dayMerchant',
+        component: main,
+        children: [{ path: 'dayMerchant', title: '商户日报表', name: 'dayMerchant', component: dayMerchant }]
+    },
+    {
+        path: '/dayPlayer',
+        title: '玩家日报表',
+        name: 'dayPlayer',
+        component: main,
+        children: [{ path: 'dayPlayer', title: '玩家日报表', name: 'dayPlayer', component: dayPlayer }]
     },
     {
         path:'/business',

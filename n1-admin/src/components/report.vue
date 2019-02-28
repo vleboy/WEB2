@@ -409,6 +409,8 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
+      console.log(time);
+      
       time = time.map((item, index) => {
         if (index == 1 && item.getTime() > Date.now() - 180000) {
           return Date.now() - 180000;
@@ -416,12 +418,17 @@ export default {
         return item.getTime();
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
+
+      console.log(time);
+      
+
       return time;
     },
     permission() {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
+ 
   methods: {
     confirm() {
       this.reportChild = [];
@@ -508,6 +515,11 @@ export default {
       });
     },
     async init() {
+
+      console.log(new Date(dayjs().endOf('second').valueOf()));
+      
+
+
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {

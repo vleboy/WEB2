@@ -80,6 +80,22 @@ export async function queryUserStat(params){
 export async function queryPlayer(params){
     return http(post('/queryPlayerStat',params))
 }
+//获取公司日报表
+export async function queryDayStat(params) {
+    return http(post('/query/platDayStat', params))
+}
+//商户日报表
+export async function queryUserDayStat(params) {
+    return http(post('/query/userDayStat', params))
+}
+//线路商日报表
+export async function queryManagerDayStat(params) {
+    return http(post('/query/managerDayStat', params))
+}
+//玩家日报表
+export async function queryPlayerDayStat(params) {
+    return http(post('/query/playerDayStat', params))
+}
 //game/sign
 export async function gameSign(params){
     return http(post('/game/sign',params))

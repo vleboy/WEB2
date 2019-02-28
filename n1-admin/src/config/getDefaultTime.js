@@ -12,6 +12,10 @@ export const getDefaultTime = function (current) {
   endTime = new Date(endTime);
   return [startTime, endTime]
 }
+export const getDefaultDay = function (current) {
+  
+  return [startTime, endTime]
+}
 export const formatMoney = function (number, places, symbol) {
   number = number || 0;
   places = !isNaN(places = Math.abs(places)) ? places : 2;
