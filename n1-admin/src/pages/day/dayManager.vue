@@ -2,32 +2,47 @@
   <div class="dayReport">
     <div class="nowList">
       <div class="top">
-        <p class="title">
-         <!--  当前用户列表---{{this.identity}} -->
-         <Col span="6">线路商前缀</Col>
-          <Col span="6">
+        <div style="margin-bottom:1rem" class="title1">
+          <p span="3" style="font-size:1.3rem">线路商前缀</p>
+          <p span="4" style="margin-left:1rem;">
             <Input  v-model="managerName" placeholder="请输入"></Input>
-          </Col>
-          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource" style="margin-left:2rem;">
+          </p>
+          <p span="5">
+            <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource" style="margin-left:2rem;">
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
-        </p>
-
-        <RadioGroup v-model="isAll" class="radioGroup" type="button" @on-change="changeShow">
-            <Radio label="全部"></Radio>
-            <Radio label="仅包含直属"></Radio>
-        </RadioGroup>
-
-        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
-          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
-        </Select>
-        <div class="right">
-          <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
-          <Button type="primary" @click="search">搜索</Button>
-          <Button type="ghost" @click="reset">重置</Button>
+          </p>
+          <p span="5" style="margin-left:2rem;">
+            <RadioGroup v-model="isAll" class="radioGroup" type="button" @on-change="changeShow">
+              <Radio label="全部"></Radio>
+              <Radio label="仅包含直属"></Radio>
+            </RadioGroup>
+          </p>  
+          <p span="4" style="margin-left:2rem;">
+            <p span="5">
+            <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 270px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
+          </p>
+          </p>
         </div>
+         <!--  当前用户列表---{{this.identity}} -->
+        <div class="title2">
+          <Select style="width:200px;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+              <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+            </Select>
+          
+          <p span="1" style="margin-left:2rem;">
+            <Button type="primary" @click="search">搜索</Button>
+            
+          </p> 
+          <p>
+
+          <Button type="ghost" @click="reset">重置</Button>
+
+          </p>
+        </div> 
+    
       </div>
     </div>
     <div v-if="showBox">
@@ -96,24 +111,20 @@ export default {
           key: "createdDate"
         },
         {
-          title: "投注金额",
-          key: "betAmount"
-        },
-        {
           title: "投注次数",
           key: "betCount"
         },
         {
-          title: "退款金额",
-          key: "refundAmount"
+          title: "投注金额",
+          key: "betAmount"
         },
         {
           title: "返还金额",
           key: "retAmount"
         },
         {
-          title: "返奖金额",
-          key: "winAmount"
+          title: "退款金额",
+          key: "refundAmount"
         },
         {
           title: "输赢金额",
@@ -149,18 +160,19 @@ export default {
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
-      console.log(daterange);
+     
     },
      selGame(index){
       this.gameCode = index
-      console.log(this.gameCode);
+      this.showBox = true
+      this.init();
       
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
       let _this = this;
-      //console.log(_this.dayStatList);
+     
 
       let yArr = _this.dayStatList.map((item) => {return item.betCount})
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
@@ -285,13 +297,12 @@ export default {
     display: inline-block;
   }
   .top {
-    display: flex;
-    margin-bottom: 1rem;
-    .title {
-      margin: 0;
+    .title1 {
+      display: flex;
     }
-    .right {
-      margin-left: 2rem;
+    .title2 {
+      display: flex;
+      margin-bottom: 1rem;
     }
   }
   .demo-spin-icon-load {

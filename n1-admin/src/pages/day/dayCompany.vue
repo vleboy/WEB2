@@ -82,24 +82,20 @@ export default {
           key: "createdDate"
         },
         {
-          title: "投注金额",
-          key: "betAmount"
-        },
-        {
           title: "投注次数",
           key: "betCount"
         },
         {
-          title: "退款金额",
-          key: "refundAmount"
+          title: "投注金额",
+          key: "betAmount"
         },
         {
           title: "返还金额",
           key: "retAmount"
         },
         {
-          title: "返奖金额",
-          key: "winAmount"
+          title: "退款金额",
+          key: "refundAmount"
         },
         {
           title: "输赢金额",
@@ -137,15 +133,16 @@ export default {
       this.cacheTime = daterange
     },
     selGame(index){
+      this.showChat = true
       this.gameCode = index
-      console.log(this.gameCode);
+      this.init();
       
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
       let _this = this;
-      //console.log(_this.dayStatList);
+    
 
       let yArr = _this.dayStatList.map((item) => {return item.betCount})
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})

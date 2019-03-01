@@ -4,13 +4,13 @@
       <div class="top">
         <p class="title">
           <Row class="row -search-row" :gutter="12">
+          <Col span="5">商户标识</Col>
+          <Col span="6">
+          <Input v-model="buSN" placeholder="请输入"></Input>
+          </Col>
           <Col span="4">商户ID</Col>
           <Col span="6">
           <Input v-model="buID" placeholder="请输入"></Input>
-          </Col>
-          <Col span="5" style="margin-left:1.5rem;">商户标识</Col>
-          <Col span="6">
-          <Input v-model="buSN" placeholder="请输入"></Input>
           </Col>
           </Row>
         </p>
@@ -81,30 +81,26 @@ export default {
       buSN: "",
       dayStatList: [],
       showChat: false,
-      columns1: [
+     columns1: [
         {
           title: "日期",
           key: "createdDate"
-        },
-        {
-          title: "投注金额",
-          key: "betAmount"
         },
         {
           title: "投注次数",
           key: "betCount"
         },
         {
-          title: "退款金额",
-          key: "refundAmount"
+          title: "投注金额",
+          key: "betAmount"
         },
         {
           title: "返还金额",
           key: "retAmount"
         },
         {
-          title: "返奖金额",
-          key: "winAmount"
+          title: "退款金额",
+          key: "refundAmount"
         },
         {
           title: "输赢金额",
@@ -136,19 +132,20 @@ export default {
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
-      console.log(daterange);
+    
       
     },
     selGame(index){
+      this.showChat = true
       this.gameCode = index
-      console.log(this.gameCode);
+     this.init();
       
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
       let _this = this;
-      //console.log(_this.dayStatList);
+     
 
       let yArr = _this.dayStatList.map((item) => {return item.betCount})
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})

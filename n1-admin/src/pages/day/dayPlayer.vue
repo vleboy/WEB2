@@ -87,24 +87,20 @@ export default {
           key: "createdDate"
         },
         {
-          title: "投注金额",
-          key: "betAmount"
-        },
-        {
           title: "投注次数",
           key: "betCount"
         },
         {
-          title: "退款金额",
-          key: "refundAmount"
+          title: "投注金额",
+          key: "betAmount"
         },
         {
           title: "返还金额",
           key: "retAmount"
         },
         {
-          title: "返奖金额",
-          key: "winAmount"
+          title: "退款金额",
+          key: "refundAmount"
         },
         {
           title: "输赢金额",
@@ -137,12 +133,13 @@ export default {
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
-      console.log(daterange);
+  
       
     },
     selGame(index){
+      this.showChat = true
       this.gameCode = index
-      console.log(this.gameCode);
+      this.init();
       
     },
     drawLine() {
@@ -234,7 +231,7 @@ export default {
       
       if (perms.payload != undefined && perms.payload.length == 0) {
 
-        console.log(233);
+      
         
         this.showChat = false
       }
