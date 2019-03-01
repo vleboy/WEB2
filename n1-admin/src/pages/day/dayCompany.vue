@@ -10,6 +10,9 @@
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
         </p>
+        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+        </Select>
         <div class="right">
           <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
@@ -17,7 +20,9 @@
         </div>
       </div>
     </div>
-    <div id="myChart"></div>
+    <div v-if="showChat">
+      <div id="myChart"></div>
+    </div>
     <div class="playerList" id="playerList">
       <Table :columns="columns1" :data="dayStatList" size="small" ref="table_2"></Table>
     </div>
@@ -28,6 +33,7 @@
   </div>
 </template>
 <script>
+import { httpRequest } from "@/service/index";
 import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
@@ -69,7 +75,7 @@ export default {
       spinShow: false, //加载spin
       source: "1",
       dayStatList: [],
-
+      showChat: false,
       columns1: [
         {
           title: "日期",
@@ -99,8 +105,9 @@ export default {
           title: "输赢金额",
           key: "winloseAmount"
         }
-      ]
-
+      ],
+      gameType: [],
+      gameCode:"",
       /* betAmount: -2.25  投加注金额
       betCount: 14 投注次数
       createdDate: "20190102" 日期
@@ -116,6 +123,7 @@ export default {
     }
     this.getDate()
     this.init();
+    this.getGameList();
   },
 
 
@@ -127,7 +135,10 @@ export default {
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
-      console.log(daterange);
+    },
+    selGame(index){
+      this.gameCode = index
+      console.log(this.gameCode);
       
     },
     drawLine() {
@@ -166,13 +177,14 @@ export default {
     confirms() {
       let cacheTime = this.cacheTime.map(ite => {return ite.replace(/-/g,"")})
       this.getDate(cacheTime)
+      this.showChat = true
       this.init();
     },
     changeSource(value) {
       this.init();
     },
     reset() {
-
+      this.$refs.resetSelect.clearSingleSelect()
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
@@ -180,18 +192,27 @@ export default {
       this.init();
     },
     search() {
+      this.showChat = true
       this.init();
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     // },
+    getGameList() {
+      httpRequest("post","/gameBigType",{companyIden: -1},"game")
+      .then(result => {
+        this.gameType = result.payload
+        this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
+      })
+    },
     async init() {
 
       let params = {
         parentId: "01",
         isTest: this.source,
         startTime: parseInt(this.defaultTime[0]), //当月一号
-        endTime: parseInt(this.defaultTime[1]) //当日前一天
+        endTime: parseInt(this.defaultTime[1]), //当日前一天
+        gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getDayStat", params);
       this.spinShow = true;
@@ -200,18 +221,26 @@ export default {
       this.spinShow = false;
 
       this.dayStatList = perms.payload;
-      this.drawLine();
+
+      if (perms.payload.length == 0) {
+        this.showChat = false
+      }
+      
+      if (this.showChat) {
+        this.drawLine();
+      }
     },
     
     getDate(opt) {
       
+  
       if(opt !== undefined) {
         this.defaultTime = opt
+      } else if(dayjs().format('DD') == "01") {
+        this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs().startOf('month').format('YYYYMMDD')]
       } else {
         this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs(dayjs().valueOf()-24 * 60 * 60 * 1000).format('YYYYMMDD')]
       }
-
-      console.log(this.defaultTime);
       
     }
   }
@@ -227,9 +256,13 @@ export default {
     display: inline-block;
   }
   .top {
-    clear: both;
+    display: flex;
+    margin-bottom: 1rem;
+    .title {
+      margin: 0;
+    }
     .right {
-      float: right;
+      margin-left: 2rem;
     }
   }
   .demo-spin-icon-load {

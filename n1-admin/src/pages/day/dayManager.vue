@@ -8,14 +8,21 @@
           <Col span="6">
             <Input  v-model="managerName" placeholder="请输入"></Input>
           </Col>
-          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource">
+          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource" style="margin-left:2rem;">
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
-          
         </p>
-        
+
+        <RadioGroup v-model="isAll" class="radioGroup" type="button" @on-change="changeShow">
+            <Radio label="全部"></Radio>
+            <Radio label="仅包含直属"></Radio>
+        </RadioGroup>
+
+        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+        </Select>
         <div class="right">
           <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
@@ -37,6 +44,7 @@
   </div>
 </template>
 <script>
+import { httpRequest } from "@/service/index";
 import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
@@ -78,6 +86,8 @@ export default {
       managerName:"",
       spinShow: false, //加载spin
       source: "1",
+      isAll: "全部",
+      isBoolean: true,
       dayStatList: [],
       showBox: false,
       columns1: [
@@ -109,7 +119,9 @@ export default {
           title: "输赢金额",
           key: "winloseAmount"
         }
-      ]
+      ],
+      gameType: [],
+      gameCode:"",
 
       /* betAmount: -2.25  投加注金额
       betCount: 14 投注次数
@@ -125,6 +137,7 @@ export default {
       this.source = "0";
     }
     this.getDate()
+    this.getGameList();
   },
 
 
@@ -137,6 +150,10 @@ export default {
     handle(daterange) {
       this.cacheTime = daterange
       console.log(daterange);
+    },
+     selGame(index){
+      this.gameCode = index
+      console.log(this.gameCode);
       
     },
     drawLine() {
@@ -173,6 +190,7 @@ export default {
       });
     },
     confirms() {
+      this.showBox = true
       let cacheTime = this.cacheTime.map(ite => {return ite.replace(/-/g,"")})
       this.getDate(cacheTime)
       this.init();
@@ -180,8 +198,19 @@ export default {
     changeSource(value) {
       this.init();
     },
+    changeShow(value) {
+      if (this.isAll != "全部") {
+        this.isBoolean = false
+      } else {
+        this.isBoolean = true
+      }
+     this.init();
+    },
     reset() {
+      this.$refs.resetSelect.clearSingleSelect()
       this.showBox = false
+      this.isAll = "全部"
+      this.isBoolean = true
       this.getDate();
       if (this.permission.includes("正式数据")) {
         this.source = "0";
@@ -196,6 +225,13 @@ export default {
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     // },
+    getGameList() {
+      httpRequest("post","/gameBigType",{companyIden: -1},"game")
+      .then(result => {
+        this.gameType = result.payload
+        this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
+      })
+    },
     async init() {
 
       let params = {
@@ -203,7 +239,8 @@ export default {
         isTest: this.source,
         startTime: parseInt(this.defaultTime[0]), //当月一号
         endTime: parseInt(this.defaultTime[1]), //当日前一天
-        isAll: true
+        gameType: parseInt(this.gameCode),
+        isAll: this.isBoolean
       };
       let req2 = this.$store.dispatch("getManagerDayStat", params);
       this.spinShow = true;
@@ -228,11 +265,11 @@ export default {
       
       if(opt !== undefined) {
         this.defaultTime = opt
+      } else if(dayjs().format('DD') == "01") {
+        this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs().startOf('month').format('YYYYMMDD')]
       } else {
         this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs(dayjs().valueOf()-24 * 60 * 60 * 1000).format('YYYYMMDD')]
       }
-
-      console.log(this.defaultTime);
       
     }
   }
@@ -248,9 +285,13 @@ export default {
     display: inline-block;
   }
   .top {
-    clear: both;
+    display: flex;
+    margin-bottom: 1rem;
+    .title {
+      margin: 0;
+    }
     .right {
-      float: right;
+      margin-left: 2rem;
     }
   }
   .demo-spin-icon-load {

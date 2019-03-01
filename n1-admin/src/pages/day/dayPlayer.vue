@@ -4,16 +4,19 @@
       <div class="top">
         <p class="title">
         <Row class="row -search-row" :gutter="16">
-        <Col span="4" offset="2">玩家ID</Col>
+        <Col span="4">玩家ID</Col>
         <Col span="6">
         <Input v-model="playerID" placeholder="请输入"></Input>
         </Col>
-        <Col span="5">玩家账号</Col>
+        <Col span="5" style="margin-left:1.5rem;">玩家账号</Col>
         <Col span="6">
         <Input v-model="playerName" placeholder="请输入"></Input>
         </Col>
       </Row>
         </p>
+        <Select style="width:200px;margin-right:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+        </Select>
         <div class="right">
           <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
           <Button type="primary" @click="search">搜索</Button>
@@ -34,6 +37,7 @@
   </div>
 </template>
 <script>
+import { httpRequest } from "@/service/index";
 import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
@@ -106,7 +110,9 @@ export default {
           title: "输赢金额",
           key: "winloseAmount"
         }
-      ]
+      ],
+      gameType: [],
+      gameCode:"",
 
       /* betAmount: -2.25  投加注金额
       betCount: 14 投注次数
@@ -119,6 +125,7 @@ export default {
   },
   created() {
     this.getDate()
+    this.getGameList()
   },
 
 
@@ -131,6 +138,11 @@ export default {
     handle(daterange) {
       this.cacheTime = daterange
       console.log(daterange);
+      
+    },
+    selGame(index){
+      this.gameCode = index
+      console.log(this.gameCode);
       
     },
     drawLine() {
@@ -167,12 +179,21 @@ export default {
     confirms() {
       let cacheTime = this.cacheTime.map(ite => {return ite.replace(/-/g,"")})
       this.getDate(cacheTime)
+      this.showChat = true
       this.init();
     },
     changeSource(value) {
       this.init();
     },
+    getGameList() {
+      httpRequest("post","/gameBigType",{companyIden: -1},"game")
+      .then(result => {
+        this.gameType = result.payload
+        this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
+      })
+    },
     reset() {
+      this.$refs.resetSelect.clearSingleSelect()
       this.showChat = false
       this.getDate();
       this.playerID = ""
@@ -192,7 +213,8 @@ export default {
         userId: parseInt(this.playerID),//363048 数字
         userName: this.playerName,
         startTime: parseInt(this.defaultTime[0]), //当月一号
-        endTime: parseInt(this.defaultTime[1]) //当日前一天
+        endTime: parseInt(this.defaultTime[1]), //当日前一天
+        gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getPlayerDayStat", params);
       this.spinShow = true;
@@ -227,11 +249,11 @@ export default {
       
       if(opt !== undefined) {
         this.defaultTime = opt
+      } else if(dayjs().format('DD') == "01") {
+        this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs().startOf('month').format('YYYYMMDD')]
       } else {
         this.defaultTime = [dayjs().startOf('month').format('YYYYMMDD'), dayjs(dayjs().valueOf()-24 * 60 * 60 * 1000).format('YYYYMMDD')]
       }
-
-      console.log(this.defaultTime);
       
     }
   },
@@ -248,9 +270,10 @@ export default {
     display: inline-block;
   }
   .top {
-    clear: both;
-    .right {
-      float: right;
+    display: flex;
+    margin-bottom: 1rem;
+    .title {
+      margin: 0;
     }
   }
   .demo-spin-icon-load {
