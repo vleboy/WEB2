@@ -6,11 +6,11 @@
         <Row class="row -search-row" :gutter="16">
         <Col span="5">玩家账号</Col>
         <Col span="6">
-        <Input v-model="playerName" placeholder="请输入"></Input>
+        <Input v-model="playerID" placeholder="请输入"></Input>
         </Col>
         <Col span="4"  style="margin-left:0.5rem;">玩家ID</Col>
         <Col span="6">
-        <Input v-model="playerID" placeholder="请输入"></Input>
+        <Input v-model="playerName" placeholder="请输入"></Input>
         </Col>
        
       </Row>
@@ -148,7 +148,11 @@ export default {
       let myChart = this.$echarts.init(document.getElementById("myChart"));
       let _this = this;
   
-      let yArr = _this.dayStatList.map((item) => {return item.betCount})
+      let betCountArr = _this.dayStatList.map((item) => {return item.betCount})
+      let betAmountArr = _this.dayStatList.map((item) => {return item.betAmount})
+      let retAmountArr = _this.dayStatList.map((item) => {return item.retAmount})
+      let refundAmountArr = _this.dayStatList.map((item) => {return item.refundAmount})
+      let winloseAmountArr = _this.dayStatList.map((item) => {return item.winloseAmount})
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
       // 绘制图表
       myChart.setOption({
@@ -163,14 +167,35 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["投注次数"]
+          data: ["投注次数",	"投注金额", "返还金额",	"退款金额",	"输赢金额"],
+          selectedMode: "single"
         },
-        series: [
+       series: [
           {
             name: "投注次数",
-            data: yArr,
+            data: betCountArr,
             type: "line"
-          }
+          },
+          {
+            name: "投注金额",
+            data: betAmountArr,
+            type: "line"
+          },
+          {
+            name: "返还金额",
+            data: retAmountArr,
+            type: "line"
+          },
+          {
+            name: "退款金额",
+            data: refundAmountArr,
+            type: "line"
+          },
+          {
+            name: "输赢金额",
+            data: winloseAmountArr,
+            type: "line"
+          },
         ]
       });
     },

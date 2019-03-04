@@ -160,7 +160,9 @@ export default {
 
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
 
-      
+      myChart.on('legendselectchanged', function (params) {
+        console.log(params);
+      });
       
       // 绘制图表
       myChart.setOption({
@@ -175,7 +177,8 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["投注次数",	"投注金额", "返还金额",	"退款金额",	"输赢金额"]
+          data: ["投注次数",	"投注金额", "返还金额",	"退款金额",	"输赢金额"],
+          selectedMode: "single"
         },
         series: [
           {
