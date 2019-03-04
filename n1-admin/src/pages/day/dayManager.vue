@@ -3,12 +3,9 @@
     <div class="nowList">
       <div class="top">
         <div style="margin-bottom:1rem" class="title1">
-          <p span="3" style="font-size:1.3rem">线路商前缀</p>
-          <p span="4" style="margin-left:1rem;">
-            <Input  v-model="managerName" placeholder="请输入"></Input>
-          </p>
+      
           <p span="5">
-            <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource" style="margin-left:2rem;">
+            <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource" style="">
             <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
             <Radio label="1">测试</Radio>
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
@@ -20,6 +17,10 @@
               <Radio label="仅包含直属"></Radio>
             </RadioGroup>
           </p>  
+          <p span="3" style="font-size:1.3rem;margin-left:1rem;">线路商前缀</p>
+          <p span="4" style="margin-left:1rem;">
+            <Input  v-model="managerName" placeholder="请输入"></Input>
+          </p>
           <p span="4" style="margin-left:2rem;">
             <p span="5">
             <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 270px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>

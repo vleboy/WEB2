@@ -145,9 +145,18 @@ export default {
           width:200
         },
         {
-          title: "管理员账号",
+          title: "账号/标识",
           key: "uname",
           render: (h, params) => {
+            console.log(params);
+            var name = ''
+            if (params.row.role == '1') {
+              name = params.row.uname
+            } else if(params.row.role == '10') {
+              name = params.row.suffix
+            } else {
+              name = params.row.sn
+            }
             return h(
               "span",
               {
@@ -235,7 +244,7 @@ export default {
                   }
                 }
               },
-              params.row.uname
+              name
             );
           }
         },

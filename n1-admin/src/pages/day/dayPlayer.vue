@@ -8,14 +8,14 @@
         <Col span="6">
         <Input v-model="playerName" placeholder="请输入"></Input>
         </Col>
-        <Col span="4"  style="margin-left:1.5rem;">玩家ID</Col>
+        <Col span="4"  style="margin-left:0.5rem;">玩家ID</Col>
         <Col span="6">
         <Input v-model="playerID" placeholder="请输入"></Input>
         </Col>
        
       </Row>
         </p>
-        <Select style="width:200px;margin-right:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+        <Select style="width:200px;margin-right:0.5rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
           <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
         </Select>
         <div class="right">
