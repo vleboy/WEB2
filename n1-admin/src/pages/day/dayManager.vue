@@ -64,7 +64,18 @@ import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
 export default {
- 
+   beforeRouteEnter(to, from, next) {
+    /* console.log(this, 'beforeRouteEnter'); // undefined
+    console.log(to, '组件独享守卫beforeRouteEnter第一个参数');
+    console.log(from, '组件独享守卫beforeRouteEnter第二个参数');
+    console.log(next, '组件独享守卫beforeRouteEnter第三个参数'); */
+    next(vm => {
+      //因为当钩子执行前，组件实例还没被创建
+      // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
+      //console.log(vm);//当前组件的实例
+      vm.init()
+    });
+  },
   data() {
     return {
       options: {
@@ -144,13 +155,25 @@ export default {
     };
   },
   created() {
+    //console.log(12345678910);
+    
     if (this.permission.includes("正式数据")) {
       this.source = "0";
     }
     this.getDate()
     this.getGameList();
   },
-
+  /* watch: {
+    '$route': function (to, from) {
+    
+      if(to.name == 'dayManager') {
+        this.managerName = this.$route.query.name
+        this.defaultTime = this.$route.query.time
+        this.showBox = true
+        this.init()
+      }
+    }
+  }, */
 
   computed: {
     permission() {
@@ -158,6 +181,7 @@ export default {
     }
   },
   methods: {
+   
     handle(daterange) {
       this.cacheTime = daterange
      
@@ -246,11 +270,25 @@ export default {
     },
     async init() {
 
+      if (this.$route.name == 'dayManager' && localStorage.dayManager == 'dayManager') {
+      
+        let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
+        let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
+
+        this.defaultTime = []
+        this.defaultTime.push(st,et)
+        this.showBox = true
+        this.managerName = this.$route.query.name
+        localStorage.removeItem('dayManager')
+      }
+
+
+
       let params = {
         suffix: this.managerName, //ZS1,XLSA
         isTest: this.source,
-        startTime: parseInt(this.defaultTime[0]), //当月一号
-        endTime: parseInt(this.defaultTime[1]), //当日前一天
+        startTime: parseInt(dayjs(this.defaultTime[0]).format('YYYYMMDD')), //当月一号
+        endTime: parseInt(dayjs(this.defaultTime[1]).format('YYYYMMDD')), //当日前一天
         gameType: parseInt(this.gameCode),
         isAll: this.isBoolean
       };

@@ -100,18 +100,49 @@ export default {
       columns1: [
         {
           title: "序号",
-          type: "index"
+          type: "index",
+          width:100
         },
         {
           title: "类型",
           key: "role",
           render: (h, params) => {
             return h("span", this.types(params.row.role));
-          }
+          },
+          width:100
         },
         {
           title: "昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
+                  cursor: "pointer",
+                  color: "#20a0ff"
+                },
+                on: {
+                  click: () => {
+                    
+                    let time = this.changedTime
+                    
+                    if (params.row.role == "1") {
+                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time}})
+                      localStorage.setItem('dayCompany','dayCompany')
+                    } else if(params.row.role == "10") {
+                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time}})
+                      localStorage.setItem('dayManager','dayManager')
+                    } else {
+                      this.$router.push({name: "dayMerchant",query:{name:params.row.sn,time:time}})
+                      localStorage.setItem('dayMerchant','dayMerchant')
+                    }
+                  }
+                }  
+              }, 
+              params.row.displayName+"(前往日报表)");
+          },
+          width:200
         },
         {
           title: "管理员账号",
@@ -344,6 +375,7 @@ export default {
           title: "用户名",
           key: "userName",
           render: (h, params) => {
+            
             let name = params.row.userName;
             return h(
               "span",
@@ -409,7 +441,7 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      console.log(time);
+      //console.log(time);
       
       time = time.map((item, index) => {
         if (index == 1 && item.getTime() > Date.now() - 180000) {
@@ -419,7 +451,7 @@ export default {
       });
       this.defaultTime = [new Date(time[0]), new Date(time[1])];
 
-      console.log(time);
+      //console.log(time);
       
 
       return time;
@@ -516,7 +548,7 @@ export default {
     },
     async init() {
 
-      console.log(new Date(dayjs().endOf('second').valueOf()));
+      //console.log(new Date(dayjs().endOf('second').valueOf()));
       
 
 

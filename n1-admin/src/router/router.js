@@ -254,28 +254,28 @@ export const appRouter = [
         title: '公司日报表',
         name: 'dayCompany',
         component: main,
-        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', component: dayCompany }]
+        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', meta: { keepAlive: true },component: dayCompany }]
     },
     {
         path: '/dayManager',
         title: '线路商日报表',
         name: 'dayManager',
         component: main,
-        children: [{ path: 'dayManager', title: '线路商日报表', name: 'dayManager', component: dayManager }]
+        children: [{ path: 'dayManager', title: '线路商日报表', name: 'dayManager', meta: { keepAlive: true },component: dayManager }]
     },
     {
         path: '/dayMerchant',
         title: '商户日报表',
         name: 'dayMerchant',
         component: main,
-        children: [{ path: 'dayMerchant', title: '商户日报表', name: 'dayMerchant', component: dayMerchant }]
+        children: [{ path: 'dayMerchant', title: '商户日报表', name: 'dayMerchant', meta: { keepAlive: true },component: dayMerchant }]
     },
     {
         path: '/dayPlayer',
         title: '玩家日报表',
         name: 'dayPlayer',
         component: main,
-        children: [{ path: 'dayPlayer', title: '玩家日报表', name: 'dayPlayer', component: dayPlayer }]
+        children: [{ path: 'dayPlayer', title: '玩家日报表', name: 'dayPlayer', meta: { keepAlive: true },component: dayPlayer }]
     },
     {
         path:'/business',

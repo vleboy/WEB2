@@ -128,6 +128,14 @@ export default {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
+    watch: {
+    '$route': function (to, from) {
+      if(to.name == 'dayCompany') {
+        this.defaultTime = this.$route.query.time
+        this.search()
+      }
+    }
+  },
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
@@ -144,9 +152,16 @@ export default {
       let _this = this;
     
 
-      let yArr = _this.dayStatList.map((item) => {return item.betCount})
+      let betCountArr = _this.dayStatList.map((item) => {return item.betCount})
+      let betAmountArr = _this.dayStatList.map((item) => {return item.betAmount})
+      let retAmountArr = _this.dayStatList.map((item) => {return item.retAmount})
+      let refundAmountArr = _this.dayStatList.map((item) => {return item.refundAmount})
+      let winloseAmountArr = _this.dayStatList.map((item) => {return item.winloseAmount})
+
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
-     
+
+      
+      
       // 绘制图表
       myChart.setOption({
         xAxis: {
@@ -160,14 +175,34 @@ export default {
           type: "value"
         },
         legend: {
-          data: ["投注次数"]
+          data: ["投注次数",	"投注金额", "返还金额",	"退款金额",	"输赢金额"]
         },
         series: [
           {
             name: "投注次数",
-            data: yArr,
+            data: betCountArr,
             type: "line"
-          }
+          },
+          {
+            name: "投注金额",
+            data: betAmountArr,
+            type: "line"
+          },
+          {
+            name: "返还金额",
+            data: retAmountArr,
+            type: "line"
+          },
+          {
+            name: "退款金额",
+            data: refundAmountArr,
+            type: "line"
+          },
+          {
+            name: "输赢金额",
+            data: winloseAmountArr,
+            type: "line"
+          },
         ]
       });
     },
@@ -202,13 +237,32 @@ export default {
         this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
       })
     },
+  
     async init() {
+      
+      
 
+      if (this.$route.name == 'dayCompany' && localStorage.dayCompany == 'dayCompany') {
+       
+        let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
+        let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
+
+        this.defaultTime = []
+        this.defaultTime.push(st,et)
+
+        this.showChat = true
+       
+        localStorage.removeItem('dayCompany')
+      }
+
+      
+      
+      
       let params = {
         parentId: "01",
         isTest: this.source,
-        startTime: parseInt(this.defaultTime[0]), //当月一号
-        endTime: parseInt(this.defaultTime[1]), //当日前一天
+        startTime: parseInt(dayjs(this.defaultTime[0]).format('YYYYMMDD')), //当月一号
+        endTime: parseInt(dayjs(this.defaultTime[1]).format('YYYYMMDD')), //当日前一天
         gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getDayStat", params);

@@ -4,14 +4,15 @@
       <div class="top">
         <p class="title">
         <Row class="row -search-row" :gutter="16">
-        <Col span="4">玩家ID</Col>
-        <Col span="6">
-        <Input v-model="playerID" placeholder="请输入"></Input>
-        </Col>
-        <Col span="5" style="margin-left:1.5rem;">玩家账号</Col>
+        <Col span="5">玩家账号</Col>
         <Col span="6">
         <Input v-model="playerName" placeholder="请输入"></Input>
         </Col>
+        <Col span="4"  style="margin-left:1.5rem;">玩家ID</Col>
+        <Col span="6">
+        <Input v-model="playerID" placeholder="请输入"></Input>
+        </Col>
+       
       </Row>
         </p>
         <Select style="width:200px;margin-right:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
@@ -230,9 +231,6 @@ export default {
       }
       
       if (perms.payload != undefined && perms.payload.length == 0) {
-
-      
-        
         this.showChat = false
       }
       
