@@ -980,13 +980,17 @@ export default {
           }
         },
         {
-          title: "NA电子H5无神秘奖()",
+          title: "NA电子H5无神秘奖(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
+
+            console.log(params);
+            
+
             let winloseAmount = 0;
             if (params.row.gameTypeMap["90000"] !== undefined) {
               winloseAmount = params.row.gameTypeMap[
-                "80000"
+                "90000"
               ].winloseAmount.toFixed(2);
             }
             let color = winloseAmount < 0 ? "#f30" : "#0c0";

@@ -224,7 +224,6 @@ export default {
     // },
     async init() {
 
-
       if (this.$route.name == 'dayMerchant' && localStorage.dayMerchant == 'dayMerchant') {
       
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
