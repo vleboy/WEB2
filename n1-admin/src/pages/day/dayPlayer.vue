@@ -6,11 +6,11 @@
         <Row class="row -search-row" :gutter="16">
         <Col span="5">玩家账号</Col>
         <Col span="6">
-        <Input v-model="playerID" placeholder="请输入"></Input>
+        <Input v-model="playerName" placeholder="请输入"></Input>
         </Col>
         <Col span="4"  style="margin-left:0.5rem;">玩家ID</Col>
         <Col span="6">
-        <Input v-model="playerName" placeholder="请输入"></Input>
+        <Input v-model="playerID" placeholder="请输入"></Input>
         </Col>
        
       </Row>
@@ -105,7 +105,18 @@ export default {
         },
         {
           title: "输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h,params) => {
+           let count = params.row.winloseAmount
+           let color = ''
+           if (count < 0) {
+             color = "#f30"
+           } else {
+             color = "#0c0"
+           }
+            
+           return h("span",{style: {color:color} }, count)
+          }
         }
       ],
       gameType: [],

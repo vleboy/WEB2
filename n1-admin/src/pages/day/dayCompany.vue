@@ -99,7 +99,18 @@ export default {
         },
         {
           title: "输赢金额",
-          key: "winloseAmount"
+          key: "winloseAmount",
+          render: (h,params) => {
+           let count = params.row.winloseAmount
+           let color = ''
+           if (count < 0) {
+             color = "#f30"
+           } else {
+             color = "#0c0"
+           }
+            
+           return h("span",{style: {color:color} }, count)
+          }
         }
       ],
       gameType: [],
