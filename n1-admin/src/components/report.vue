@@ -471,7 +471,7 @@ export default {
   computed: {
     changedTime() {
       let time = this.defaultTime;
-      //console.log(time);
+ 
       
       time = time.map((item, index) => {
         if (index == 1 && item.getTime() > Date.now() - 180000) {
@@ -494,6 +494,9 @@ export default {
   methods: {
     confirm() {
       this.reportChild = [];
+      this.playerList = [];
+      this.showName = false
+      
       this.init();
     },
     changeSource(value) {

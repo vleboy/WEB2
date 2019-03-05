@@ -1557,6 +1557,8 @@ export default {
   methods: {
     confirm() {
       this.reportChild = [];
+      this.playerList = [];
+      this.showName = false
       this.init();
     },
     exportdata(table) {
