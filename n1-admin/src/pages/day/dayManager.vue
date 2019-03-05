@@ -332,7 +332,7 @@ export default {
             this.model1 = '全部'
           }
         }
-
+        this.source = this.$route.query.source
         this.defaultTime = []
         this.defaultTime.push(st,et)
         this.showBox = true

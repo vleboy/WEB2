@@ -293,7 +293,7 @@ export default {
           return result.payload
         })
 
-      
+        this.source = this.$route.query.source
         
 
         for (let index = 0; index < ps.length; index++) {

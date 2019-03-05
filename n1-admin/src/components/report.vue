@@ -115,6 +115,7 @@ export default {
           title: "昵称",
           key: "displayName",
           render: (h, params) => {
+           
             return h(
               "span",
               {
@@ -128,10 +129,10 @@ export default {
                     let time = this.changedTime
                     
                     if (params.row.role == "1") {
-                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time,type:this.gameType}})
+                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time,type:this.gameType,source:this.source}})
                       localStorage.setItem('dayCompany','dayCompany')
                     } else if(params.row.role == "10") {
-                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time,type:this.gameType}})
+                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time,type:this.gameType,source:this.source}})
                       localStorage.setItem('dayManager','dayManager')
                     } else {
                       this.$router.push({name: "dayMerchant",query:{name:params.row.sn,time:time,type:this.gameType}})
@@ -525,6 +526,7 @@ export default {
     reset() {
       this.defaultTime = getDefaultTime();
       this.reportChild = [];
+      this.playerList = [];
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
