@@ -394,7 +394,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime}})
+                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime,type:this.gameType}})
                      localStorage.setItem('dayPlayer','dayPlayer')
                   }
                 }
