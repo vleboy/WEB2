@@ -254,7 +254,7 @@ export const appRouter = [
         title: '公司日报表',
         name: 'dayCompany',
         component: main,
-        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', meta: { keepAlive: true },component: dayCompany }]
+        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany',component: dayCompany }]
     },
     {
         path: '/dayManager',

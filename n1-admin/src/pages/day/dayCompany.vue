@@ -50,6 +50,7 @@ export default {
       if (localStorage.dayCompany == 'dayCompany') {
         
         //localStorage.removeItem('dayCompany')
+        //console.log(233);
         
         vm.init()
 
@@ -291,12 +292,19 @@ export default {
         .then(result => {
           return result.payload
         })
+
+      
+        
+
         for (let index = 0; index < ps.length; index++) {
           if(this.$route.query.type == ps[index].code) {
             this.model1 = ps[index].name
+            break;
+          }else {
+            this.model1 = "全部"
           }
         }
-        //console.log(this.$route.query.type);
+   
         
         this.showChat = true
        
