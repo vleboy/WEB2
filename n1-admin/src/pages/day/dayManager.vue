@@ -29,8 +29,8 @@
         </div>
          <!--  当前用户列表---{{this.identity}} -->
         <div class="title2">
-          <Select style="width:200px;" placeholder="选择游戏类别" ref="resetSelect" clearable>
-              <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+          <Select style="width:200px;" placeholder="选择游戏类别" ref="resetSelect" clearable v-model="model1">
+              <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)">{{item.name}}</Option>
             </Select>
           
           <p span="1" style="margin-left:2rem;">
@@ -74,7 +74,10 @@ export default {
       //因为当钩子执行前，组件实例还没被创建
       // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
       //console.log(vm);//当前组件的实例
-      vm.init()
+      if (localStorage.dayManager == 'dayManager') {
+         
+        vm.init()
+      }
     });
   },
   data() {
@@ -113,7 +116,7 @@ export default {
       managerName:"",
       spinShow: false, //加载spin
       source: "1",
-      isAll: "全部",
+      model1: "全部",
       isBoolean: true,
       dayStatList: [],
       showBox: false,
@@ -316,6 +319,16 @@ export default {
       
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
         let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
+
+        let ps = await  httpRequest("post","/gameBigType",{companyIden: -1},"game")
+        .then(result => {
+          return result.payload
+        })
+        for (let index = 0; index < ps.length; index++) {
+          if(this.$route.query.type == ps[index].code) {
+            this.model1 = ps[index].name
+          }
+        }
 
         this.defaultTime = []
         this.defaultTime.push(st,et)

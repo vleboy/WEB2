@@ -11,6 +11,7 @@
                     <Icon type="person"></Icon>
                     <span>个人中心</span>
                 </MenuItem>
+
                 <Submenu name="report" v-if="level==0">
                     <template slot="title">
                         <Icon type="ios-paper-outline"></Icon>
@@ -156,6 +157,30 @@
                         <MenuItem name="pngGame">PNG电子游戏报表</MenuItem>
                     </Submenu>
                 </Submenu>
+
+                <Submenu name="dayReport" v-if='level==0'>
+                    <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
+                        日报表
+                    </template>
+                    <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
+                    <MenuItem name="dayMerchant" v-if='permission.includes("商户日报表")'>商户日报表</MenuItem>
+                    <MenuItem name="dayManager" v-if='permission.includes("线路商日报表")'>线路商日报表</MenuItem>
+                    <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
+                </Submenu>
+                <Submenu name="dayReport" v-else>
+                    <template slot="title">
+                        <Icon type="ios-paper-outline"></Icon>
+                        日报表
+                    </template>
+                    <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
+                    <MenuItem name="dayMerchant" v-if='permission.includes("商户日报表")'>商户日报表</MenuItem>
+                    <MenuItem name="dayManager" v-if='permission.includes("线路商日报表")'>线路商日报表</MenuItem>
+                    <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
+                </Submenu>
+
+
+
                 <Submenu name="agentCenter" v-if='level==0'>
                     <template slot="title">
                         <Icon type="model-s"></Icon>
@@ -172,6 +197,8 @@
                     <MenuItem name="agentList">代理列表</MenuItem>
                     <MenuItem name="warnList">接入商点数警告列表</MenuItem>
                 </Submenu>
+
+
                 <Submenu name="playerCenter" v-if='level==0'>
                     <template slot="title">
                         <Icon type="ios-game-controller-b"></Icon>
@@ -186,6 +213,11 @@
                     </template>
                     <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
+
+
+
+
+
                 <Submenu name="adminCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="ios-people"></Icon>
@@ -194,6 +226,7 @@
                     <MenuItem name="adminList" v-if='permission.includes("管理员列表")'>管理员列表</MenuItem>
                     <MenuItem name="agentRole" v-if='permission.includes("代理角色列表")'>代理角色列表</MenuItem>
                 </Submenu>
+
                 <Submenu name="gameCenter" v-if="level==0">
                     <template slot="title">
                         <Icon type="gear-b"></Icon>

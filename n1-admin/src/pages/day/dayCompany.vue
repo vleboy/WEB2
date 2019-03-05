@@ -10,8 +10,8 @@
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
         </p>
-        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable v-model="model1">
-          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
+        <Select style="width:200px;margin-left:2rem;" ref="resetSelect" clearable v-model="model1">
+          <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)">{{item.name}}</Option>
         </Select>
         <div class="right">
           <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
@@ -38,7 +38,24 @@ import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
 export default {
- 
+ beforeRouteEnter(to, from, next) {
+    /* console.log(this, 'beforeRouteEnter'); // undefined
+    console.log(to, '组件独享守卫beforeRouteEnter第一个参数');
+    console.log(from, '组件独享守卫beforeRouteEnter第二个参数');
+    console.log(next, '组件独享守卫beforeRouteEnter第三个参数'); */
+    next(vm => {
+      //因为当钩子执行前，组件实例还没被创建
+      // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
+      //console.log(vm);//当前组件的实例
+      if (localStorage.dayCompany == 'dayCompany') {
+        
+        localStorage.removeItem('dayCompany')
+        
+        vm.init()
+
+      }
+    });
+  },
   data() {
     return {
       options: {
@@ -74,8 +91,12 @@ export default {
       cacheTime:[],
       spinShow: false, //加载spin
       source: "1",
+      model1: "全部",
       dayStatList: [],
       showChat: false,
+      gameTypes: [
+      
+      ],
       columns1: [
         {
           title: "日期",
@@ -130,8 +151,8 @@ export default {
       this.source = "0";
     }
     this.getDate()
-    this.init();
     this.getGameList();
+    this.init();
   },
 
 
@@ -140,14 +161,14 @@ export default {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
-    watch: {
+    /* watch: {
     '$route': function (to, from) {
       if(to.name == 'dayCompany') {
         this.defaultTime = this.$route.query.time
         this.search()
       }
     }
-  },
+  }, */
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
@@ -173,7 +194,7 @@ export default {
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
 
       myChart.on('legendselectchanged', function (params) {
-        console.log(params);
+        //console.log(params);
       });
       
       // 绘制图表
@@ -248,6 +269,7 @@ export default {
     getGameList() {
       httpRequest("post","/gameBigType",{companyIden: -1},"game")
       .then(result => {
+        
         this.gameType = result.payload
         this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
       })
@@ -265,6 +287,17 @@ export default {
         this.defaultTime = []
         this.defaultTime.push(st,et)
 
+        let ps = await  httpRequest("post","/gameBigType",{companyIden: -1},"game")
+        .then(result => {
+          return result.payload
+        })
+        for (let index = 0; index < ps.length; index++) {
+          if(this.$route.query.type == ps[index].code) {
+            this.model1 = ps[index].name
+          }
+        }
+        //console.log(this.$route.query.type);
+        
         this.showChat = true
        
         localStorage.removeItem('dayCompany')
