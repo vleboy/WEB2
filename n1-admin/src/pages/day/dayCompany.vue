@@ -49,7 +49,7 @@ export default {
       //console.log(vm);//当前组件的实例
       if (localStorage.dayCompany == 'dayCompany') {
         
-        localStorage.removeItem('dayCompany')
+        //localStorage.removeItem('dayCompany')
         
         vm.init()
 
