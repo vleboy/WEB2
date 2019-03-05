@@ -527,6 +527,7 @@ export default {
       this.defaultTime = getDefaultTime();
       this.reportChild = [];
       this.playerList = [];
+      this.showName = false
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
