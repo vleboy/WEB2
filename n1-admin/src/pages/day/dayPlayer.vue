@@ -43,7 +43,18 @@ import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
 export default {
- 
+  beforeRouteEnter(to, from, next) {
+    /* console.log(this, 'beforeRouteEnter'); // undefined
+    console.log(to, '组件独享守卫beforeRouteEnter第一个参数');
+    console.log(from, '组件独享守卫beforeRouteEnter第二个参数');
+    console.log(next, '组件独享守卫beforeRouteEnter第三个参数'); */
+    next(vm => {
+      //因为当钩子执行前，组件实例还没被创建
+      // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
+      //console.log(vm);//当前组件的实例
+      vm.init()
+    });
+  },
   data() {
     return {
       options: {
@@ -235,13 +246,30 @@ export default {
       this.dayStatList = []
     },
     search() {
-      this.showChat = true
-      this.init();
+      if (this.playerID == "" && this.playerName == "") {
+         this.$Message.info('请输入玩家账号或玩家ID');
+      } else {
+        this.showChat = true
+        this.init();
+      }
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     // },
     async init() {
+
+      if (this.$route.name == 'dayPlayer' && localStorage.dayPlayer == 'dayPlayer') {
+      
+        let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
+        let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
+
+        this.defaultTime = []
+        this.defaultTime.push(st,et)
+        this.playerName = this.$route.query.name
+        this.showChat = true
+        this.managerName = this.$route.query.name
+        localStorage.removeItem('dayPlayer')
+      }  
 
       let params = {
         userId: parseInt(this.playerID),//363048 数字

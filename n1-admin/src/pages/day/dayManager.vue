@@ -292,8 +292,13 @@ export default {
       this.init();
     },
     search() {
-      this.showBox = true
-      this.init();
+      if (this.managerName == '') {
+        this.$Message.info('请输入线路商前缀');
+      } else {
+        this.showBox = true
+        this.init();
+      }
+      
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
@@ -318,9 +323,6 @@ export default {
         this.managerName = this.$route.query.name
         localStorage.removeItem('dayManager')
       }
-
-
-
       let params = {
         suffix: this.managerName, //ZS1,XLSA
         isTest: this.source,

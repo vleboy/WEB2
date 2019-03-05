@@ -148,7 +148,7 @@ export default {
           title: "账号/标识",
           key: "uname",
           render: (h, params) => {
-            console.log(params);
+            //console.log(params);
             var name = ''
             if (params.row.role == '1') {
               name = params.row.uname
@@ -381,9 +381,32 @@ export default {
           type: "index"
         },
         {
-          title: "用户名",
+          title: "昵称",
+          key: "nickname",
+          render: (h, params) => {
+           
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor:'pointer'
+                },
+                on: {
+                  click: () => {
+                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime}})
+                     localStorage.setItem('dayPlayer','dayPlayer')
+                  }
+                }
+              },
+              params.row.nickname+"(前往日报表)")
+          }
+        },
+        {
+          title: "账号",
           key: "userName",
           render: (h, params) => {
+            //console.log(params);
             
             let name = params.row.userName;
             return h(
@@ -409,10 +432,7 @@ export default {
             );
           }
         },
-        {
-          title: "昵称",
-          key: "nickname"
-        },
+        
         {
           title: "交易次数",
           key: "betCount"

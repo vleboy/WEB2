@@ -253,8 +253,14 @@ export default {
       // if (this.dayStatList != "") {
         
       // }
-      this.showChat = true
-      this.init();
+
+      if (this.buID == '' && this.buSN == '') {
+        this.$Message.info('请输入商户标识或商户ID');
+      } else { 
+        this.showChat = true
+        this.init();
+      }
+
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
