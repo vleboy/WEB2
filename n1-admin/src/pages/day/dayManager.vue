@@ -117,6 +117,7 @@ export default {
       spinShow: false, //加载spin
       source: "1",
       model1: "全部",
+      isAll: "全部",
       isBoolean: true,
       dayStatList: [],
       showBox: false,
