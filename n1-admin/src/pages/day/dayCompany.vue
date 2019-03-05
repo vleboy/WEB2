@@ -10,7 +10,7 @@
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
         </p>
-        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable>
+        <Select style="width:200px;margin-left:2rem;" placeholder="选择游戏类别" ref="resetSelect" clearable v-model="model1">
           <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)"></Option>
         </Select>
         <div class="right">
@@ -114,6 +114,7 @@ export default {
         }
       ],
       gameType: [],
+
       gameCode:"",
       /* betAmount: -2.25  投加注金额
       betCount: 14 投注次数

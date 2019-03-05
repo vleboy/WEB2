@@ -123,16 +123,54 @@ export default {
           key: "role",
           render: (h, params) => {
             return h("span", this.types(params.row.role));
-          }
+          },
+          width:100
         },
         {
           title: "昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h(
+              "span",
+              {
+                style: {
+                  cursor: "pointer",
+                  color: "#20a0ff"
+                },
+                on: {
+                  click: () => {
+                    
+                    let time = this.changedTime
+                    
+                    if (params.row.role == "1") {
+                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time}})
+                      localStorage.setItem('dayCompany','dayCompany')
+                    } else if(params.row.role == "10") {
+                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time}})
+                      localStorage.setItem('dayManager','dayManager')
+                    } else {
+                      this.$router.push({name: "dayMerchant",query:{name:params.row.sn,time:time}})
+                      localStorage.setItem('dayMerchant','dayMerchant')
+                    }
+                  }
+                }  
+              }, 
+              params.row.displayName+"(前往日报表)");
+          },
+          width:200
         },
         {
-          title: "管理员账号",
+          title: "账号/标识",
           key: "uname",
           render: (h, params) => {
+            var name = ''
+            if (params.row.role == '1') {
+              name = params.row.uname
+            } else if(params.row.role == '10') {
+              name = params.row.suffix
+            } else {
+              name = params.row.sn
+            }
             return h(
               "span",
               {
@@ -221,7 +259,7 @@ export default {
                   }
                 }
               },
-              params.row.uname
+              name
             );
           }
         },
@@ -1129,6 +1167,28 @@ export default {
           type: "index"
         },
         {
+          title: "昵称",
+          key: "nickname",
+          render: (h, params) => {
+           
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor:'pointer'
+                },
+                on: {
+                  click: () => {
+                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime}})
+                     localStorage.setItem('dayPlayer','dayPlayer')
+                  }
+                }
+              },
+              params.row.nickname+"(前往日报表)")
+          }
+        },
+        {
           title: "用户名",
           key: "userName",
           render: (h, params) => {
@@ -1155,10 +1215,6 @@ export default {
               name
             );
           }
-        },
-        {
-          title: "昵称",
-          key: "nickname"
         },
         {
           title: "交易次数",
