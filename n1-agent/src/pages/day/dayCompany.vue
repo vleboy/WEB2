@@ -317,10 +317,10 @@ export default {
 
         this.source = this.$route.query.source
 
-        if (this.$route.query.level == 1) {
-          this.userName = this.$route.query.name
+        if (this.$route.query.level == 0) {
+           this.userName = ''
         } else {
-          this.userName = ''
+         this.userName = this.$route.query.name
         }
         
 
