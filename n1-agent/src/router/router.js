@@ -226,10 +226,10 @@ export const appRouter = [
     },
     {
         path: '/dayCompany',
-        title: '公司日报表',
+        title: '代理日报表',
         name: 'dayCompany',
         component: main,
-        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', meta: { keepAlive: true }, component: dayCompany }]
+        children: [{ path: 'dayCompany', title: '代理日报表', name: 'dayCompany', meta: { keepAlive: true }, component: dayCompany }]
     },
     {
         path: '/dayPlayer',
