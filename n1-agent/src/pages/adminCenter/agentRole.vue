@@ -270,7 +270,7 @@ export default {
             checked: false,
             children:[
               {
-                title: "公司日报表",
+                title: "代理日报表",
                 checked: false
               },
               {

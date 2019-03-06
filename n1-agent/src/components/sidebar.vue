@@ -163,7 +163,7 @@
                         <Icon type="ios-paper-outline"></Icon>
                         日报表
                     </template>
-                    <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
+                    <MenuItem name="dayCompany" v-if='permission.includes("代理日报表")'>代理日报表</MenuItem>
                     <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
                 </Submenu>
                

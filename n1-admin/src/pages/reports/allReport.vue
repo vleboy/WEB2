@@ -1189,7 +1189,7 @@ export default {
           }
         },
         {
-          title: "用户名",
+          title: "账号",
           key: "userName",
           render: (h, params) => {
             let name = params.row.userName;
