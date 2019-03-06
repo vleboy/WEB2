@@ -266,6 +266,20 @@ export default {
             ]
           },
           {
+            title: "日报表",
+            checked: false,
+            children:[
+              {
+                title: "公司日报表",
+                checked: false
+              },
+              {
+                title: "玩家日报表",
+                checked: false
+              },
+            ]
+          },
+          {
             title: "代理中心",
             expand: true,
             checked: false,

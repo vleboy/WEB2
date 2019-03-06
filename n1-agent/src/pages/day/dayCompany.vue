@@ -10,14 +10,27 @@
             <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
           </RadioGroup>
         </p>
-        <Select style="width:200px;margin-left:2rem;" ref="resetSelect" clearable v-model="model1">
+         <p style="width:200px;margin-left:2rem;">
+            <RadioGroup v-model="isAll" class="radioGroup" type="button" @on-change="changeShow">
+              <Radio label="全部"></Radio>
+              <Radio label="仅包含直属"></Radio>
+            </RadioGroup>
+          </p>
+          <p span="3" style="font-size:1.3rem;">代理账号</p>
+          <p span="4" style="margin-left:1rem;">
+            <Input  v-model="userName" placeholder="请输入"></Input>
+          </p> 
+          <div class="right">
+          <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
+         
+        </div>
+      </div>
+      <div class="top2">
+        <Select  ref="resetSelect" clearable v-model="model1" style="width:200px;">
           <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)">{{item.name}}</Option>
         </Select>
-        <div class="right">
-          <DatePicker type="daterange" :options="options" :editable='false' :value="defaultTime" placeholder="选择日期时间范围(默认最近一个月)" style="width: 300px" confirm @on-ok="confirms" @on-change="handle"></DatePicker>
-          <Button type="primary" @click="search">搜索</Button>
+         <Button type="primary" @click="search" style="margin-left:2rem;">搜索</Button>
           <Button type="ghost" @click="reset">重置</Button>
-        </div>
       </div>
     </div>
     <div v-if="showChat">
@@ -88,6 +101,7 @@ export default {
           }
         ]
       }, 
+      userName: '',
       defaultTime: [],//getDefaultTime(),
       cacheTime:[],
       spinShow: false, //加载spin
@@ -95,6 +109,8 @@ export default {
       model1: "全部",
       dayStatList: [],
       showChat: false,
+      isAll: "全部",
+      isBoolean: true,
       gameTypes: [
       
       ],
@@ -148,7 +164,7 @@ export default {
     };
   },
   created() {
-    console.log(233);
+ 
     
     if (this.permission.includes("正式数据")) {
       this.source = "0";
@@ -181,6 +197,14 @@ export default {
       this.gameCode = index
       this.init();
       
+    },
+    changeShow(value) {
+      if (this.isAll != "全部") {
+        this.isBoolean = false
+      } else {
+        this.isBoolean = true
+      }
+     this.init();
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
@@ -259,12 +283,13 @@ export default {
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
+      this.isBoolean = true
+      this.userName = ''
       this.getDate()
       this.init();
     },
     search() {
-      this.showChat = true
-      this.init();
+      this.confirms()
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
@@ -297,7 +322,7 @@ export default {
         })
 
         this.source = this.$route.query.source
-        
+        this.userName = this.$route.query.name
 
         for (let index = 0; index < ps.length; index++) {
           if(this.$route.query.type == ps[index].code) {
@@ -318,10 +343,11 @@ export default {
        this.showChat = true
       
       let params = {
-        parentId: "01",
+        username: this.userName,
         isTest: this.source,
         startTime: parseInt(dayjs(this.defaultTime[0]).format('YYYYMMDD')), //当月一号
         endTime: parseInt(dayjs(this.defaultTime[1]).format('YYYYMMDD')), //当日前一天
+        isAll:this.isBoolean,
         gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getDayStat", params);
@@ -377,6 +403,10 @@ export default {
     .right {
       margin-left: 2rem;
     }
+  }
+  .top2 {
+    display: flex;
+    margin-bottom: 1rem;
   }
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;

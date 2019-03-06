@@ -158,26 +158,15 @@
                     </Submenu>
                 </Submenu>
 
-                <Submenu name="dayReport" v-if='level==0'>
+                <Submenu name="dayReport" v-if="str.includes('日报表')">
                     <template slot="title">
                         <Icon type="ios-paper-outline"></Icon>
                         日报表
                     </template>
                     <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
-                    <MenuItem name="dayMerchant" v-if='permission.includes("商户日报表")'>商户日报表</MenuItem>
-                    <MenuItem name="dayManager" v-if='permission.includes("线路商日报表")'>线路商日报表</MenuItem>
                     <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
                 </Submenu>
-                <Submenu name="dayReport" v-else>
-                    <template slot="title">
-                        <Icon type="ios-paper-outline"></Icon>
-                        日报表
-                    </template>
-                    <MenuItem name="dayCompany" v-if='permission.includes("公司日报表")'>公司日报表</MenuItem>
-                    <MenuItem name="dayMerchant" v-if='permission.includes("商户日报表")'>商户日报表</MenuItem>
-                    <MenuItem name="dayManager" v-if='permission.includes("线路商日报表")'>线路商日报表</MenuItem>
-                    <MenuItem name="dayPlayer" v-if='permission.includes("玩家日报表")'>玩家日报表</MenuItem>
-                </Submenu>
+               
 
 
 
@@ -303,10 +292,7 @@ export default {
       }
     }
   },
-  created() {
-      console.log(localStorage.getItem("userInfo"));
-      
-  },
+  
   props: ["openName"],
   updated() {
     this.$nextTick(() => {

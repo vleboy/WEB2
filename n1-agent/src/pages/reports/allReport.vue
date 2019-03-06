@@ -120,12 +120,30 @@ export default {
           title: "类型",
           key: "role",
           render: (h, params) => {
+            //console.log(params);
+            
             return h("span", this.types(params.row.role));
           }
         },
         {
           title: "昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h("span", 
+            {
+              style:{
+                color: "#20a0ff", cursor: "pointer"
+                },
+                on: {
+                click: async () => {
+                  let time = this.changedTime
+                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"9999999",source:this.source}})
+                  localStorage.setItem('dayCompany','dayCompany')
+                }
+              }
+              },
+               params.row.displayName+"(前往日报表)")
+          } 
         },
         {
           title: "管理员账号",
@@ -1498,7 +1516,29 @@ export default {
           type: "index"
         },
         {
-          title: "用户名",
+          title: "昵称",
+          key: "nickname",
+          render: (h, params) => {
+           
+            return h(
+              "span",
+              {
+                style: {
+                  color: "#20a0ff",
+                  cursor:'pointer'
+                },
+                on: {
+                  click: () => {
+                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime,type:this.gameType}})
+                     localStorage.setItem('dayPlayer','dayPlayer')
+                  }
+                }
+              },
+              params.row.nickname+"(前往日报表)")
+          }
+        },
+        {
+          title: "账号",
           key: "userName",
           render: (h, params) => {
             let name = params.row.userName;
@@ -1525,10 +1565,7 @@ export default {
             );
           }
         },
-        {
-          title: "昵称",
-          key: "nickname"
-        },
+        
         {
           title: "交易次数",
           key: "betCount"

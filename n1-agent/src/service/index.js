@@ -87,6 +87,11 @@ export async function queryUserStat(params){
 export async function queryPlayer(params){
     return http(post('/queryPlayerStat',params))
 }
+//获取玩家日报表
+export async function queryPlayerDayStat(params) {
+  return http(post('/query/playerDayStat', params))
+}
+
 //game/sign
 export async function gameSign(params){
     return http(post('/game/sign',params))
@@ -114,6 +119,10 @@ export async function getagentList(params){
 //代理玩家列表
 export async function playerList(params){
     return http(post('/agent/player/list',params))
+}
+//获取日报表
+export async function queryDayStat(params) {
+  return http(post('/query/agentDayStat', params))
 }
 //转账
 export async function billTransfer(params){

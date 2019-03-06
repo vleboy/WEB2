@@ -114,7 +114,23 @@ export default {
         },
         {
           title: "昵称",
-          key: "displayName"
+          key: "displayName",
+          render: (h, params) => {
+            return h("span", 
+            {
+              style:{
+                color: "#20a0ff", cursor: "pointer"
+                },
+                on: {
+                click: async () => {
+                  let time = this.changedTime
+                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"9999999",source:this.source}})
+                  localStorage.setItem('dayCompany','dayCompany')
+                }
+              }
+              },
+               params.row.displayName+"(前往日报表)")
+          } 
         },
         {
           title: "管理员账号",

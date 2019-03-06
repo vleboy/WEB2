@@ -1,4 +1,4 @@
-import { queryUserStat,queryPlayer,getagentList,playerList,billTransfer,addBill,reduceBill } from '@/service/index'
+import { queryUserStat, queryPlayer, getagentList, playerList, billTransfer, addBill, reduceBill, queryDayStat, queryPlayerDayStat } from '@/service/index'
 import {Message} from 'iview'
 export const agent = {
     state:{
@@ -47,6 +47,13 @@ export const agent = {
             }
           })
        },
+      getDayStat({ commit }, params) {
+        return queryDayStat(params)
+      },
+
+      getPlayerDayStat({ commit }, params) {
+        return queryPlayerDayStat(params)
+      },
        //bill
        transferBill({dispatch,commit},params){
          commit('agentLoading',{params:true})

@@ -5,7 +5,10 @@ import err404 from '@/pages/404'
 import home from '@/pages/home'
 import playerDetail from '@/pages/player/playerdetail'
 import agentDetail from '@/pages/agentCenter/agentDetail'
+
 //reports
+import dayCompany from '@/pages/day/dayCompany'
+import dayPlayer from '@/pages/day/dayPlayer'
 import ownSpace from '@/pages/ownSpace'
 import board from '@/pages/board/board'
 import allReport from '@/pages/reports/allReport'
@@ -220,6 +223,20 @@ export const appRouter = [
         name:'haba',
         component:main,
         children:[{path:'video',title:'HABA电子游戏报表',name:'habaGame',component:habaVideo}]
+    },
+    {
+        path: '/dayCompany',
+        title: '公司日报表',
+        name: 'dayCompany',
+        component: main,
+        children: [{ path: 'dayCompany', title: '公司日报表', name: 'dayCompany', meta: { keepAlive: true }, component: dayCompany }]
+    },
+    {
+        path: '/dayPlayer',
+        title: '玩家日报表',
+        name: 'dayPlayer',
+        component: main,
+        children: [{ path: 'dayPlayer', title: '玩家日报表', name: 'dayPlayer', meta: { keepAlive: true }, component: dayPlayer }]
     },
     {
         path:'/agent',

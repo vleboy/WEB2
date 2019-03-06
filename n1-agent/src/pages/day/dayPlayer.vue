@@ -3,14 +3,19 @@
     <div class="nowList">
       <div class="top">
         <p class="title">
-         <!--  当前用户列表---{{this.identity}} -->
-          <RadioGroup v-model="source" class="radioGroup" type="button" @on-change="changeSource">
-            <Radio label="0" v-if="permission.includes('正式数据')">正式</Radio>
-            <Radio label="1">测试</Radio>
-            <Radio label="2" v-if="permission.includes('正式数据')">全部</Radio>
-          </RadioGroup>
+        <Row class="row -search-row" :gutter="16">
+        <Col span="5">玩家账号</Col>
+        <Col span="6">
+        <Input v-model="playerName" placeholder="请输入"></Input>
+        </Col>
+        <Col span="4"  style="margin-left:0.5rem;">玩家ID</Col>
+        <Col span="6">
+        <Input v-model="playerID" placeholder="请输入"></Input>
+        </Col>
+       
+      </Row>
         </p>
-        <Select style="width:200px;margin-left:2rem;" ref="resetSelect" clearable v-model="model1">
+        <Select style="width:200px;margin-right:0.5rem;" placeholder="选择游戏类别" ref="resetSelect" clearable v-model="model1">
           <Option v-for="(item, index) in gameType" :value="item.name" :key="item.name" @click.native="selGame(item.code)">{{item.name}}</Option>
         </Select>
         <div class="right">
@@ -22,7 +27,7 @@
     </div>
     <div v-if="showChat">
       <div id="myChart"></div>
-    </div>
+     </div>
     <div class="playerList" id="playerList">
       <Table :columns="columns1" :data="dayStatList" size="small" ref="table_2"></Table>
     </div>
@@ -38,7 +43,7 @@ import _ from "lodash";
 import dayjs from 'dayjs'
 import { thousandFormatter } from "@/config/format";
 export default {
- beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(to, from, next) {
     /* console.log(this, 'beforeRouteEnter'); // undefined
     console.log(to, '组件独享守卫beforeRouteEnter第一个参数');
     console.log(from, '组件独享守卫beforeRouteEnter第二个参数');
@@ -47,13 +52,9 @@ export default {
       //因为当钩子执行前，组件实例还没被创建
       // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
       //console.log(vm);//当前组件的实例
-      if (localStorage.dayCompany == 'dayCompany') {
-        
-        //localStorage.removeItem('dayCompany')
-        //console.log(233);
+      if (localStorage.dayPlayer == 'dayPlayer') {
         
         vm.init()
-
       }
     });
   },
@@ -91,13 +92,11 @@ export default {
       defaultTime: [],//getDefaultTime(),
       cacheTime:[],
       spinShow: false, //加载spin
-      source: "1",
-      model1: "全部",
+      playerID: "",
+      playerName: "",
       dayStatList: [],
+      model1: "全部",
       showChat: false,
-      gameTypes: [
-      
-      ],
       columns1: [
         {
           title: "日期",
@@ -136,8 +135,8 @@ export default {
         }
       ],
       gameType: [],
-
       gameCode:"",
+
       /* betAmount: -2.25  投加注金额
       betCount: 14 投注次数
       createdDate: "20190102" 日期
@@ -148,14 +147,8 @@ export default {
     };
   },
   created() {
-    console.log(233);
-    
-    if (this.permission.includes("正式数据")) {
-      this.source = "0";
-    }
     this.getDate()
-    this.getGameList();
-    this.init();
+    this.getGameList()
   },
 
 
@@ -164,17 +157,11 @@ export default {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
-    /* watch: {
-    '$route': function (to, from) {
-      if(to.name == 'dayCompany') {
-        this.defaultTime = this.$route.query.time
-        this.search()
-      }
-    }
-  }, */
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
+  
+      
     },
     selGame(index){
       this.showChat = true
@@ -186,20 +173,13 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
       let _this = this;
-    
-
+  
       let betCountArr = _this.dayStatList.map((item) => {return item.betCount})
       let betAmountArr = _this.dayStatList.map((item) => {return item.betAmount})
       let retAmountArr = _this.dayStatList.map((item) => {return item.retAmount})
       let refundAmountArr = _this.dayStatList.map((item) => {return item.refundAmount})
       let winloseAmountArr = _this.dayStatList.map((item) => {return item.winloseAmount})
-
       let xArr = _this.dayStatList.map((item) => {return item.createdDate})
-
-      myChart.on('legendselectchanged', function (params) {
-        //console.log(params);
-      });
-      
       // 绘制图表
       myChart.setOption({
         xAxis: {
@@ -216,7 +196,7 @@ export default {
           data: ["投注次数",	"投注金额", "返还金额",	"退款金额",	"输赢金额"],
           selectedMode: "single"
         },
-        series: [
+       series: [
           {
             name: "投注次数",
             data: betCountArr,
@@ -254,99 +234,95 @@ export default {
     changeSource(value) {
       this.init();
     },
-    reset() {
-      this.$refs.resetSelect.clearSingleSelect()
-      if (this.permission.includes("正式数据")) {
-        this.source = "0";
-      }
-      this.getDate()
-      this.init();
-    },
-    search() {
-      this.showChat = true
-      this.init();
-    },
-    // permission() {
-    //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
-    // },
     getGameList() {
       httpRequest("post","/gameBigType",{companyIden: -1},"game")
       .then(result => {
-        
         this.gameType = result.payload
         this.gameType.unshift({type: 4, code: "", name: "全部", company: ""})
       })
     },
-  
+    reset() {
+      this.$refs.resetSelect.clearSingleSelect()
+      this.showChat = false
+      this.getDate();
+      this.playerID = ""
+      this.playerName = ""
+      this.dayStatList = []
+    },
+    search() {
+      if (this.playerID == "" && this.playerName == "") {
+         this.$Message.info('请输入玩家账号或玩家ID');
+      } else {
+        this.showChat = true
+        this.init();
+      }
+    },
+    // permission() {
+    //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
+    // },
     async init() {
-      
-     
-      
 
-      if (this.$route.name == 'dayCompany' && localStorage.dayCompany == 'dayCompany') {
-       
+      if (this.$route.name == 'dayPlayer' && localStorage.dayPlayer == 'dayPlayer') {
+      
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
         let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
-
-        this.defaultTime = []
-        this.defaultTime.push(st,et)
 
         let ps = await  httpRequest("post","/gameBigType",{companyIden: -1},"game")
         .then(result => {
           return result.payload
         })
-
-        this.source = this.$route.query.source
-        
-
         for (let index = 0; index < ps.length; index++) {
           if(this.$route.query.type == ps[index].code) {
             this.model1 = ps[index].name
             break;
-          }else {
-            this.model1 = "全部"
+          } else {
+            this.model1 = '全部'
           }
         }
-   
-        
-       
-       
-        localStorage.removeItem('dayCompany')
-      }
 
-      
-       this.showChat = true
-      
+        this.defaultTime = []
+        this.defaultTime.push(st,et)
+        this.playerName = this.$route.query.name
+        this.showChat = true
+        this.managerName = this.$route.query.name
+        localStorage.removeItem('dayPlayer')
+      }  
+
       let params = {
-        parentId: "01",
-        isTest: this.source,
-        startTime: parseInt(dayjs(this.defaultTime[0]).format('YYYYMMDD')), //当月一号
-        endTime: parseInt(dayjs(this.defaultTime[1]).format('YYYYMMDD')), //当日前一天
+        userId: parseInt(this.playerID),//363048 数字
+        userName: this.playerName,
+        startTime: parseInt(this.defaultTime[0]), //当月一号
+        endTime: parseInt(this.defaultTime[1]), //当日前一天
         gameType: parseInt(this.gameCode)
       };
-      let req2 = this.$store.dispatch("getDayStat", params);
+      let req2 = this.$store.dispatch("getPlayerDayStat", params);
       this.spinShow = true;
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [perms] = await this.axios.all([req2]);
       this.spinShow = false;
+      
+      if (perms.code == 0 && perms.payload != undefined) {
+        this.dayStatList = perms.payload;
+      } else {
+        this.showChat = false
+      }
 
-      this.dayStatList = perms.payload;
-
-      if (perms.payload.length == 0) {
-        
+      if (perms.code == -1 || Object.keys(perms) == 1) {
+        this.reset()
+      }
+      
+      if (perms.payload != undefined && perms.payload.length == 0) {
         this.showChat = false
       }
       
       if (this.showChat) {
-       
-        
         this.drawLine();
       }
+ 
     },
     
     getDate(opt) {
       
-  
       if(opt !== undefined) {
         this.defaultTime = opt
       } else if(dayjs().format('DD') == "01") {
@@ -356,7 +332,8 @@ export default {
       }
       
     }
-  }
+  },
+ 
 };
 </script>
 <style lang="less" scoped>
@@ -373,9 +350,6 @@ export default {
     margin-bottom: 1rem;
     .title {
       margin: 0;
-    }
-    .right {
-      margin-left: 2rem;
     }
   }
   .demo-spin-icon-load {
