@@ -129,6 +129,8 @@ export default {
           title: "昵称",
           key: "displayName",
           render: (h, params) => {
+             console.log(params);
+            
             return h("span", 
             {
               style:{
@@ -137,7 +139,7 @@ export default {
                 on: {
                 click: async () => {
                   let time = this.changedTime
-                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"9999999",source:this.source}})
+                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"9999999",source:this.source,level:params.row.level}})
                   localStorage.setItem('dayCompany','dayCompany')
                 }
               }
@@ -2098,13 +2100,16 @@ export default {
   },
   methods: {
     confirm() {
-      this.init();
-    },
-    changeSource() {
-      this.init();
       this.reportChild = [];
       this.playerList = [];
       this.showName = false;
+      this.init();
+    },
+    changeSource() {
+      this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
+      this.init();
     },
     exportdata(table) {
       if (table == "table_0") {
@@ -2128,6 +2133,9 @@ export default {
       });
     },
     reset() {
+      this.reportChild = [];
+       this.playerList = [];
+      this.showName = false
       this.defaultTime = getDefaultTime();
       if (this.permission.includes("正式数据")) {
         this.source = "0";

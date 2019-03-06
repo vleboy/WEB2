@@ -180,14 +180,7 @@ export default {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     }
   },
-    /* watch: {
-    '$route': function (to, from) {
-      if(to.name == 'dayCompany') {
-        this.defaultTime = this.$route.query.time
-        this.search()
-      }
-    }
-  }, */
+   
   methods: {
     handle(daterange) {
       this.cacheTime = daterange
@@ -289,7 +282,8 @@ export default {
       this.init();
     },
     search() {
-      this.confirms()
+      this.showChat = true
+      this.init()
     },
     // permission() {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
@@ -322,7 +316,13 @@ export default {
         })
 
         this.source = this.$route.query.source
-        this.userName = this.$route.query.name
+
+        if (this.$route.query.level == 1) {
+          this.userName = this.$route.query.name
+        } else {
+          this.userName = ''
+        }
+        
 
         for (let index = 0; index < ps.length; index++) {
           if(this.$route.query.type == ps[index].code) {

@@ -116,6 +116,7 @@ export default {
           title: "昵称",
           key: "displayName",
           render: (h, params) => {
+           
             return h("span", 
             {
               style:{
@@ -528,6 +529,9 @@ export default {
   },
   methods: {
     confirm() {
+       this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
       this.init();
     },
     exportdata(table) {
@@ -559,6 +563,9 @@ export default {
     },
     reset() {
       this.defaultTime = getDefaultTime();
+       this.reportChild = [];
+      this.playerList = [];
+      this.showName = false;
       if (this.permission.includes("正式数据")) {
         this.source = "0";
       }
