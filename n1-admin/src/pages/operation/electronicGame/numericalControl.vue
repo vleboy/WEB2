@@ -10,10 +10,6 @@
     </p> 
   </div>
     </div>
-    <Spin size="large" fix v-if="spinShow">
-      <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
-      <div>加载中...</div>
-    </Spin>
   </div>
 </template>
 
@@ -33,7 +29,7 @@ export default {
         {
           title: "游戏系列-神秘大奖版",
           key: "gameType",
-          width: 250
+          width: 250,
         },
         {
           title: "数值配表",
@@ -41,7 +37,6 @@ export default {
           align: "center",
           width: 1000,
           render(h, params) {
-            
             return h(
               "RadioGroup",
               {
@@ -253,12 +248,23 @@ export default {
                 },
                 on: {
                   click: () => {
-                    httpRequest( 
+                    window.selfs.$Modal.confirm({
+                    title: '操作',
+                    content: '确定修改并启用配置？',
+                    onOk: () => {
+                      httpRequest(
                       "post",
                       "/setGameConfig",
                       { gameType: params.row.gameType,config:{killRateLevel:params.row.killRateLevel}},
                       "prize"
                     )
+                        window.selfs.$Message.info('操作成功');
+                    },
+                    onCancel: () => {
+                        window.selfs.$Message.info('操作取消');
+                    }
+                    });
+                    
                   }
                 }
               },
