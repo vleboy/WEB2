@@ -14,12 +14,12 @@
 </template>
 
 <script>
-window.selfs = {}
+
 import { httpRequest } from "@/service/index";
 export default {
   created() {
     this.getData();
-    selfs = this
+    
   },
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
           key: "option",
           align: "center",
           width: 1000,
-          render(h, params) {
+          render: (h, params) => {
             return h(
               "RadioGroup",
               {
@@ -113,7 +113,7 @@ export default {
           key: "setting",
           align: "center",
          
-          render(h, params) {
+          render: (h, params) =>{
            //console.log(window.selfs);
            
             return h(
@@ -125,7 +125,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    window.selfs.$Modal.confirm({
+                    this.$Modal.confirm({
                     title: '操作',
                     content: '确定修改并启用配置？',
                     onOk: () => {
@@ -135,10 +135,10 @@ export default {
                       { gameType: params.row.gameType,config:{killRateLevel:params.row.killRateLevel}},
                       "prize"
                     )
-                        window.selfs.$Message.info('操作成功');
+                        this.$Message.info('操作成功');
                     },
                     onCancel: () => {
-                        window.selfs.$Message.info('操作取消');
+                        this.$Message.info('操作取消');
                     }
                     });
                     
@@ -161,7 +161,7 @@ export default {
           key: "option",
           align: "center",
           width: 1000,
-          render(h, params) {
+          render: (h, params) => {
             return h(
               "RadioGroup",
               {
@@ -238,7 +238,7 @@ export default {
           key: "setting",
           align: "center",
          
-          render(h, params) {
+          render: (h, params) => {
             return h(
               "span",
               {
@@ -248,7 +248,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    window.selfs.$Modal.confirm({
+                    this.$Modal.confirm({
                     title: '操作',
                     content: '确定修改并启用配置？',
                     onOk: () => {
@@ -258,10 +258,10 @@ export default {
                       { gameType: params.row.gameType,config:{killRateLevel:params.row.killRateLevel}},
                       "prize"
                     )
-                        window.selfs.$Message.info('操作成功');
+                        this.$Message.info('操作成功');
                     },
                     onCancel: () => {
-                        window.selfs.$Message.info('操作取消');
+                        this.$Message.info('操作取消');
                     }
                     });
                     
@@ -271,6 +271,7 @@ export default {
               "修改并启用配置"
             );
           }
+         
         }
       ],
     };
