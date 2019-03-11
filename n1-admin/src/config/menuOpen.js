@@ -60,6 +60,8 @@
       openName=['noTransfer']
     }else if(name=='sysConfig'||name=='prizeList'){
       openName=['operation','mysPrice']
+    } else if (name == 'numericalControl') {
+      openName = ['operation', 'electronicGame']
     }
     return openName
   }

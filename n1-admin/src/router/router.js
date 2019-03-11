@@ -68,6 +68,7 @@ import sysConfig from '@/pages/operation/mysPrize/sysConfig'
 import dataRepair from '@/pages/log/dataRepair'
 import playerlist from '@/pages/player/playerlist'
 import gameNoticeList from '@/pages/operation/gameNoticeMgr/gameNoticeList'
+import numericalControl from '@/pages/operation/electronicGame/numericalControl'
 import gameMailList from '@/pages/operation/mailMgr/gameMailList'
 import horseRaceLampList from '@/pages/operation/horseRaceLampMgr/horseRaceLampList'
 import businessRecordList from '@/pages/operation/businessRecord/businessRecordList'
@@ -347,7 +348,8 @@ export const appRouter = [
           {path:'boothList',title:'展位列表',name:'boothList',component:boothList},
           {path:'propPrice',title:'道具定价',name:'propPrice',component:propPrizeList},
           {path:'sysConfig',title:'系统配置',name:'sysConfig',component:sysConfig},
-          {path:'prizeList',title:'中奖纪录',name:'prizeList',component:prizeList}
+          {path:'prizeList',title:'中奖纪录',name:'prizeList',component:prizeList},
+          { path: 'numericalControl', title: '数值调控中心', name: 'numericalControl', component: numericalControl}
         ]
     }
 ]

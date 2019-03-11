@@ -133,10 +133,14 @@
                     <MenuItem name="businessRecord" v-if='permission.includes("商户运营记录")'>商户运营记录</MenuItem>
                     <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
                     <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
-                     <Submenu name='mysPrice' v-if="permission.includes('神秘大奖')">
-                        <template slot="title">神秘大奖</template>
-                        <MenuItem name="sysConfig">系统配置</MenuItem>
-                        <MenuItem name="prizeList">中奖记录</MenuItem>
+                    <Submenu name='mysPrice' v-if="permission.includes('神秘大奖')">
+                      <template slot="title">神秘大奖</template>
+                      <MenuItem name="sysConfig">系统配置</MenuItem>
+                      <MenuItem name="prizeList">中奖记录</MenuItem>
+                    </Submenu>
+                    <Submenu name='electronicGame' v-if="permission.includes('电子游戏配置')">
+                        <template slot="title">电子游戏配置</template>
+                        <MenuItem name="numericalControl">数值调控中心</MenuItem>
                     </Submenu>
                 </Submenu>
                 <Submenu name="logCenter" v-if='authorityStr.includes("日志")'>
