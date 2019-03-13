@@ -29,13 +29,13 @@ export default {
         {
           title: "游戏系列-神秘大奖版",
           key: "gameType",
-          width: 250,
+         
         },
         {
           title: "数值配表",
           key: "option",
           align: "center",
-          width: 1000,
+         
           render: (h, params) => {
             return h(
               "RadioGroup",
@@ -154,13 +154,13 @@ export default {
         {
           title: "游戏系列-无大奖版",
           key: "gameType",
-          width: 250
+         
         },
         {
           title: "数值配表",
           key: "option",
           align: "center",
-          width: 1000,
+         
           render: (h, params) => {
             return h(
               "RadioGroup",
