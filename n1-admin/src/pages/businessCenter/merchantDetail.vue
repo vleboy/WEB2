@@ -475,7 +475,7 @@ export default {
         {
           title: "交易对象",
           key: "toUser",
-          minWidth: 150,
+          minWidth: 130,
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
