@@ -847,7 +847,7 @@ export default {
     },
     async init() {
       
-      
+      this.showData = []
       this.spinShow = true;
       let userId = this.$route.query.userId;
       let parent = this.$route.query.parent;
