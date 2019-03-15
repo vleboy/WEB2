@@ -17,270 +17,287 @@
           <Form label-position="left" :label-width="100">
             <Row>
               <Col span="8">
-              <FormItem label="上级">
-                {{ merchantDetail.parentDisplayName }}
-              </FormItem>
+                <FormItem label="上级">{{ merchantDetail.parentDisplayName }}</FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户昵称">
-                {{merchantDetail.displayName}}
-              </FormItem>
+                <FormItem label="商户昵称">{{merchantDetail.displayName}}</FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户ID">
-                {{ merchantDetail.displayId }}
-              </FormItem>
+                <FormItem label="商户ID">{{ merchantDetail.displayId }}</FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="管理员账号">
-                {{ merchantDetail.uname}}
-              </FormItem>
+                <FormItem label="管理员账号">{{ merchantDetail.uname}}</FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="标识">
-                {{merchantDetail.sn}}
-              </FormItem>
+                <FormItem label="标识">{{merchantDetail.sn}}</FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户前缀">
-                {{merchantDetail.suffix}}
-              </FormItem>
-              </Col>
-
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="商户密匙">
-                <Row>
-                  <Col span="18">
-                  <span v-if="showKey">{{merchantDetail.apiKey}}</span>
-                  <span v-else>********</span>
-                  </Col>
-                  <Col span="4" v-if="permission.includes('商户密匙')">
-                  <span class="show" @click="showKey=!showKey" v-if="!showKey">显示</span>
-                  <span class="show" @click="showKey=!showKey" v-else>隐藏</span>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="上次登录IP">
-                {{merchantDetail.lastIP}}
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户线路号">
-                {{merchantDetail.msn}}
-              </FormItem>
+                <FormItem label="商户前缀">{{merchantDetail.suffix}}</FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="上次登录时间">
-                {{dayjs(merchantDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
+                <FormItem label="商户密匙">
+                  <Row>
+                    <Col span="18">
+                      <span v-if="showKey">{{merchantDetail.apiKey}}</span>
+                      <span v-else>********</span>
+                    </Col>
+                    <Col span="4" v-if="permission.includes('商户密匙')">
+                      <span class="show" @click="showKey=!showKey" v-if="!showKey">显示</span>
+                      <span class="show" @click="showKey=!showKey" v-else>隐藏</span>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="创建时间">
-                {{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}
-              </FormItem>
+                <FormItem label="上次登录IP">{{merchantDetail.lastIP}}</FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="商户线路号">{{merchantDetail.msn}}</FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem
+                  label="上次登录时间"
+                >{{dayjs(merchantDetail.loginAt).format("YYYY-MM-DD HH:mm:ss")}}</FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem
+                  label="创建时间"
+                >{{dayjs(merchantDetail.createdAt).format("YYYY-MM-DD HH:mm:ss")}}</FormItem>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-      <Panel name="2">
-        配置信息
+      <Panel name="2">配置信息
         <div slot="content">
           <Form :model="basic" label-position="left" :label-width="100">
             <Row>
               <Col span="8">
-              <FormItem label="管理员密码" v-if="edit">
-                <Row>
-                  <Col span="6">
-                  <span v-if="showPass">{{merchantDetail.password}}</span>
-                  <span v-else>********</span>
-                  </Col>
-                  <Col span="6" v-if="permission.includes('查看密码')">
-                  <span class="show" @click="showPass=!showPass" v-if="!showPass">显示</span>
-                  <span class="show" @click="showPass=!showPass" v-else>隐藏</span>
-                  </Col>
-                </Row>
-              </FormItem>
-              <FormItem label="管理员密码" prop="password" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
+                <FormItem label="管理员密码" v-if="edit">
+                  <Row>
+                    <Col span="6">
+                      <span v-if="showPass">{{merchantDetail.password}}</span>
+                      <span v-else>********</span>
+                    </Col>
+                    <Col span="6" v-if="permission.includes('查看密码')">
+                      <span class="show" @click="showPass=!showPass" v-if="!showPass">显示</span>
+                      <span class="show" @click="showPass=!showPass" v-else>隐藏</span>
+                    </Col>
+                  </Row>
+                </FormItem>
+                <FormItem label="管理员密码" prop="password" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.password" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
               <Col span="8">
-              <Checkbox class="browser" :disabled='edit' v-model="isTest">测试号</Checkbox>
+                <Checkbox class="browser" :disabled="edit" v-model="isTest">测试号</Checkbox>
               </Col>
               <Col span="8">
-              <Checkbox class="browser" :disabled='edit' v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="8">
-              <FormItem label="商户官网地址" v-if="edit">
-                {{merchantDetail.frontURL}}
-              </FormItem>
-              <FormItem label="商户官网地址" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.frontURL"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户充值地址" v-if="edit">
-                {{merchantDetail.moneyURL}}
-              </FormItem>
-              <FormItem label="商户充值地址" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.moneyURL"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
-              </Col>
-              <Col span="8">
-              <FormItem label="商户注册地址" v-if="edit">
-                {{merchantDetail.registerURL}}
-              </FormItem>
-              <FormItem label="商户注册地址" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.registerURL"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
+                <Checkbox class="browser" :disabled="edit" v-model="defaultBrower">是否在系统浏览器中打开</Checkbox>
               </Col>
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="商户客服地址" v-if="edit">
-                {{merchantDetail.feedbackURL}}
-              </FormItem>
-              <FormItem label="商户客服地址" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.feedbackURL"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
+                <FormItem label="商户官网地址" v-if="edit">{{merchantDetail.frontURL}}</FormItem>
+                <FormItem label="商户官网地址" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.frontURL"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="商户白名单" v-if="edit">
-                {{merchantDetail.loginWhiteList}}
-              </FormItem>
-              <FormItem label="商户白名单" v-else>
-                <Row>
-                  <Col span="10">
-                  <Input v-model="basic.loginWhiteList"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
+                <FormItem label="商户充值地址" v-if="edit">{{merchantDetail.moneyURL}}</FormItem>
+                <FormItem label="商户充值地址" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.moneyURL"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="备注" v-if="edit">
-                {{merchantDetail.remark}}
-              </FormItem>
-              <FormItem label="备注" prop="remark" v-else>
-                <Row>
-                  <Col span="20">
-                  <Input v-model="basic.remark" type="textarea" :maxlength='200' :rows="1" placeholder="请输入备注,最多不超过200个字符"></Input>
-                  </Col>
-                </Row>
-              </FormItem>
+                <FormItem label="商户注册地址" v-if="edit">{{merchantDetail.registerURL}}</FormItem>
+                <FormItem label="商户注册地址" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.registerURL"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
             </Row>
             <Row>
               <Col span="8">
-              <FormItem label="LOGO">
-                <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
-                <div v-if="!edit">
-                  <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadLogo" :action="actionUrl" style="display: inline-block;width:58px;">
-                    <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusLogo">请选择需要上传文件</Button>
-                  </Upload>
-                  <p class="img_notice">文件名只能包含英文和数字</p>
-                  <p class="img_notice">且分辨率不超过 680*220 </p>
-                </div>
-              </FormItem>
+                <FormItem label="商户客服地址" v-if="edit">{{merchantDetail.feedbackURL}}</FormItem>
+                <FormItem label="商户客服地址" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.feedbackURL"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
               </Col>
               <Col span="8">
-              <FormItem label="NAME">
-                <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
-                <div v-if="!edit">
-                  <Upload ref="upload" :show-upload-list="false" :before-upload="beforeUploadName" :action="actionUrl" style="display: inline-block;width:58px;">
-                    <Button type="ghost" icon="ios-cloud-upload-outline" :loading="loadingStatusName">请选择需要上传文件</Button>
-                  </Upload>
-                  <p class="img_notice">文件名只能包含英文和数字</p>
-                  <p class="img_notice">且分辨率不超过 825*155 </p>
-                </div>
-              </FormItem>
+                <FormItem label="商户白名单" v-if="edit">{{merchantDetail.loginWhiteList}}</FormItem>
+                <FormItem label="商户白名单" v-else>
+                  <Row>
+                    <Col span="10">
+                      <Input v-model="basic.loginWhiteList"></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="备注" v-if="edit">{{merchantDetail.remark}}</FormItem>
+                <FormItem label="备注" prop="remark" v-else>
+                  <Row>
+                    <Col span="20">
+                      <Input
+                        v-model="basic.remark"
+                        type="textarea"
+                        :maxlength="200"
+                        :rows="1"
+                        placeholder="请输入备注,最多不超过200个字符"
+                      ></Input>
+                    </Col>
+                  </Row>
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">
+                <FormItem label="LOGO">
+                  <img :src="merchantDetail.launchImg.logo[0]" alt="oo" class="logo">
+                  <div v-if="!edit">
+                    <Upload
+                      ref="upload"
+                      :show-upload-list="false"
+                      :before-upload="beforeUploadLogo"
+                      :action="actionUrl"
+                      style="display: inline-block;width:58px;"
+                    >
+                      <Button
+                        type="ghost"
+                        icon="ios-cloud-upload-outline"
+                        :loading="loadingStatusLogo"
+                      >请选择需要上传文件</Button>
+                    </Upload>
+                    <p class="img_notice">文件名只能包含英文和数字</p>
+                    <p class="img_notice">且分辨率不超过 680*220</p>
+                  </div>
+                </FormItem>
+              </Col>
+              <Col span="8">
+                <FormItem label="NAME">
+                  <img :src="merchantDetail.launchImg.name[0]" alt="oo" class="logo">
+                  <div v-if="!edit">
+                    <Upload
+                      ref="upload"
+                      :show-upload-list="false"
+                      :before-upload="beforeUploadName"
+                      :action="actionUrl"
+                      style="display: inline-block;width:58px;"
+                    >
+                      <Button
+                        type="ghost"
+                        icon="ios-cloud-upload-outline"
+                        :loading="loadingStatusName"
+                      >请选择需要上传文件</Button>
+                    </Upload>
+                    <p class="img_notice">文件名只能包含英文和数字</p>
+                    <p class="img_notice">且分辨率不超过 825*155</p>
+                  </div>
+                </FormItem>
               </Col>
               <Col span="4">
-              <FormItem label="皮肤">
-                <Select v-model="basic.skin" placeholder="请选择" :disabled='edit'>
-                  <Option v-for="item in skinList" :value="item.value" :key="item.value">{{item.name}}</Option>
-                </Select>
-              </FormItem>
+                <FormItem label="皮肤">
+                  <Select v-model="basic.skin" placeholder="请选择" :disabled="edit">
+                    <Option
+                      v-for="item in skinList"
+                      :value="item.value"
+                      :key="item.value"
+                    >{{item.name}}</Option>
+                  </Select>
+                </FormItem>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-      <Panel name="3">
-        游戏信息
+      <Panel name="3">游戏信息
         <div slot="content">
-          <Form ref='gameList' :model="gameForm" :label-width="110" v-if="!edit" :rules="gameValidate">
+          <Form
+            ref="gameList"
+            :model="gameForm"
+            :label-width="110"
+            v-if="!edit"
+            :rules="gameValidate"
+          >
             <FormItem prop="ownGame">
               <Row>
                 <Col span="3">
-                <Select v-model="gameForm.gameType" placeholder="请选择" @on-change="selectCompany">
-                  <Option v-for="item in gameType" :value="item.company" :key="item.company">{{ item.company }}</Option>
-                </Select>
+                  <Select v-model="gameForm.gameType" placeholder="请选择" @on-change="selectCompany">
+                    <Option
+                      v-for="item in gameType"
+                      :value="item.company"
+                      :key="item.company"
+                    >{{ item.company }}</Option>
+                  </Select>
                 </Col>
                 <Col span="3">
-                <Select v-model="gameForm.gamelist" placeholder="请选择" @on-change="selectGame" :label-in-value='true'>
-                  <Option v-for="item in gameList" :value="item.code" :key="item.name">{{ item.name }}</Option>
-                </Select>
+                  <Select
+                    v-model="gameForm.gamelist"
+                    placeholder="请选择"
+                    @on-change="selectGame"
+                    :label-in-value="true"
+                  >
+                    <Option
+                      v-for="item in gameList"
+                      :value="item.code"
+                      :key="item.name"
+                    >{{ item.name }}</Option>
+                  </Select>
                 </Col>
               </Row>
             </FormItem>
-            <FormItem v-if="selected" prop='balance'>
+            <FormItem v-if="selected" prop="balance">
               <label slot="label">{{game}}商家占成(%)</label>
               <Row>
                 <Col span="4">
-                <Tooltip :content="tipContent">
-                  <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
-                </Tooltip>
+                  <Tooltip :content="tipContent">
+                    <Input v-model="gameForm.balance" placeholder="请输入0.00~100.00之间的数字"></Input>
+                  </Tooltip>
                 </Col>
                 <Col span="2">
-                <span class="add" @click="addGame">添加</span>
+                  <span class="add" @click="addGame">添加</span>
                 </Col>
               </Row>
             </FormItem>
           </Form>
-          <Table :columns="columns1" :data="gameDetail" width='500' class="table" size="small"></Table>
+          <Table :columns="columns1" :data="gameDetail" width="500" class="table" size="small"></Table>
         </div>
       </Panel>
-      <Panel name="4">
-        免转钱包
+      <Panel name="4">免转钱包
         <div slot="content">
           <Form :model="transfer" label-position="left" :label-width="100">
             <Row>
               <Col span="12">
-              <FormItem label="商户钱包域名" v-if="edit">{{ merchantDetail.transferURL}}</FormItem>
-              <FormItem label="商户钱包域名" v-else>
-              <Input v-model="transfer.transferURL" placeholder="请输入"></Input>
-              </FormItem>
+                <FormItem label="商户钱包域名" v-if="edit">{{ merchantDetail.transferURL}}</FormItem>
+                <FormItem label="商户钱包域名" v-else>
+                  <Input v-model="transfer.transferURL" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
             </Row>
           </Form>
@@ -288,12 +305,21 @@
       </Panel>
     </Collapse>
     <div class="finance">
-      <h2>财务信息</h2>
+      <h2>财务信息
+        <span style="color:#20a0ff;cursor:pointer;fontSize:1rem" @click="getWaterfallList">(点击查询)</span>
+      </h2>
       <Table :columns="columns" :data="showData" size="small"></Table>
-      <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
+      <Page
+        :total="total"
+        class="page"
+        show-elevator
+        :page-size="pageSize"
+        show-total
+        @on-change="changepage"
+      ></Page>
     </div>
     <Spin size="large" fix v-if="spinShow">
-      <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+      <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
   </div>
@@ -351,8 +377,8 @@ export default {
           }
         ]
       },
-      transfer:{
-        transferURL:''
+      transfer: {
+        transferURL: ""
       },
       basic: {
         password: "",
@@ -583,7 +609,7 @@ export default {
     editBtn() {
       this.edit = false;
       this.isedit = false;
-      this.value = ["2", "3","4"];
+      this.value = ["2", "3", "4"];
       this.basic.password = this.merchantDetail.password;
       this.basic.remark = this.merchantDetail.remark;
       this.basic.frontURL = this.merchantDetail.frontURL;
@@ -591,7 +617,7 @@ export default {
       this.basic.registerURL = this.merchantDetail.registerURL;
       this.basic.feedbackURL = this.merchantDetail.feedbackURL;
       this.basic.loginWhiteList = this.merchantDetail.loginWhiteList;
-      this.transfer.transferURL=this.merchantDetail.transferURL
+      this.transfer.transferURL = this.merchantDetail.transferURL;
       //reset
       this.gameForm.gameType = "";
       this.gameForm.gamelist = "";
@@ -600,6 +626,8 @@ export default {
       this.gameForm.balance = "";
     },
     handlePage() {
+      console.log(1);
+      
       // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
       if (this.total < this.pageSize) {
         this.showData = this.waterfall;
@@ -650,7 +678,7 @@ export default {
       params.isOpenBrowser = this.defaultBrower;
       params.launchImg = this.merchantDetail.launchImg;
       params.isTest = this.isTest == true ? 1 : 0;
-      params.transferURL=this.transfer.transferURL;
+      params.transferURL = this.transfer.transferURL;
       this.spinShow = true;
       if (_.isEmpty(params.gameList)) {
         this.$Message.success("尚未选择游戏");
@@ -802,7 +830,24 @@ export default {
         this.gameDetail = res.payload.gameList;
       });
     },
+    async getWaterfallList() {
+      let userId = this.$route.query.userId;
+      let req1 = getWaterfall(userId);
+      this.spinShow = true;
+      let waterfall = await this.axios.all([req1])
+      this.spinShow = false;
+      /* if (waterfall && waterfall.code == 0) {
+        this.waterfall = waterfall.payload;
+        console.log(this.waterfall);
+      } */
+      //console.log(waterfall[0].payload);
+      
+      this.showData = waterfall[0].payload
+
+    },
     async init() {
+      
+      
       this.spinShow = true;
       let userId = this.$route.query.userId;
       let parent = this.$route.query.parent;
@@ -810,18 +855,15 @@ export default {
       this.userId = userId;
       this.edit = true;
       this.isedit = true;
-      let req1 = getWaterfall(userId);
+      
       let req2 = oneMerchants(userId);
       let req3 = companySelect({ parent });
-      let [waterfall, merchant, company] = await this.axios.all([
-        req1,
+      let [merchant, company] = await this.axios.all([
         req2,
         req3
       ]);
       this.spinShow = false;
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
+      
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
         this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false; //brower
@@ -835,7 +877,7 @@ export default {
       oneManagers(parent).then(res => {
         this.parentGameList = res.payload.gameList || [];
       });
-      this.handlePage();
+      
     },
     uploadAliLogo() {
       this.actionUrl = "http://assetdownload.oss-cn-hangzhou.aliyuncs.com";

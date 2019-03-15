@@ -1,5 +1,5 @@
 <template>
-  <div class="allreport">
+  <div class="allreport" :style="{width:getTabWidth}">
     <div class="nowList">
       <div class="top">
         <p class="title">
@@ -17,28 +17,28 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ref='table_0'></Table>
+      <Table :columns="columns11" :data="user" size="small" ref='table_0'></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
         <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="child" size="small" ref='table_1'></Table>
+      <Table :columns="columns11" :data="child" size="small" ref='table_1'></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
         <Button type="ghost" @click="exportdata(index)">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="item" size="small" :ref="'table'+index"></Table>
+      <Table :columns="columns11" :data="item" size="small" :ref="'table'+index"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
         <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ref='table_2'></Table>
+      <Table :columns="columns22" :data="playerList" size="small" ref='table_2'></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -50,6 +50,7 @@
 import _ from "lodash";
 import dayjs from "dayjs";
 import { thousandFormatter } from "@/config/format";
+import { getWinloseAmount } from "@/config/getWinloseAmount";
 import { getDefaultTime } from "@/config/getDefaultTime";
 export default {
   data() {
@@ -116,15 +117,16 @@ export default {
         {
           title: "序号",
           type: "index",
-          maxWidth: 60
         },
         {
           title: "类型",
           key: "role",
           render: (h, params) => {
+            //console.log(params);
+            
             return h("span", this.types(params.row.role));
           },
-          width:100
+          
         },
         {
           title: "昵称",
@@ -157,7 +159,7 @@ export default {
               }, 
               params.row.displayName+"(前往日报表)");
           },
-          width:200
+         
         },
         {
           title: "账号/标识",
@@ -225,6 +227,7 @@ export default {
                         })
                         .then(res => {
                           this.playerList = res.payload;
+                          
                           this.spinShow = false;
                         });
                       let anchor = this.$el.querySelector("#playerList");
@@ -283,6 +286,9 @@ export default {
           title: "总游戏输赢金额",
           key: "winloseAmount",
           render: (h, params) => {
+            //console.log(this.child);
+           
+            
             let arr = this.child;
             let count = 0;
             for (let item of arr) {
@@ -301,6 +307,7 @@ export default {
                 thousandFormatter(count.toFixed(2))
               );
             } else {
+               
               color = params.row.winloseAmount < 0 ? "#f30" : "#0c0";
               return h(
                 "span",
@@ -395,6 +402,7 @@ export default {
         {
           title: "TTG游戏(输赢金额)",
           key: "winloseAmount",
+          remove: 9,
           render: (h, params) => {
             let arr = this.child;
             let allCount = 0;
@@ -593,6 +601,8 @@ export default {
             for (let item of arr) {
               for (let key in item.gameTypeMap) {
                 if (["10300000"].includes(key)) {
+                  //console.log(23333333333333333333333333);
+                  
                   allCount += item.gameTypeMap[key].winloseAmount;
                 }
               }
@@ -1161,6 +1171,8 @@ export default {
           }
         }
       ],
+      columns11: [],
+      columns22: [],
       columns2: [
         {
           title: "序号",
@@ -1553,8 +1565,16 @@ export default {
     permission() {
       return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     },
-  },
+    getTabWidth() {
+      if (this.columns11.length <= 9) {
+        return '100%'
+      } else {
+        return ((this.columns11.length) - 9) * 7 + 100 + '%'
+      }
+    }
+},
   methods: {
+    
     confirm() {
       this.reportChild = [];
       this.playerList = [];
@@ -1644,6 +1664,7 @@ export default {
       });
     },
     async init() {
+      
       let userId = JSON.parse(localStorage.getItem("userInfo")).userId;
       let params1 = { userId: userId, isTest: +this.source };
       let params2 = {
@@ -1660,16 +1681,104 @@ export default {
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.spinShow = false;
       this.user = [];
+      
+      this.columns11 = await _.cloneDeep(this.columns1)
+      this.columns22 = await _.cloneDeep(this.columns2)
+
+      let arr = perms.payload
+      let removeArr = []
+      let removeArr1 = []
+
+      if (getWinloseAmount(arr, ["1010000"]) == 0) {
+        removeArr.push(9,10)
+        removeArr1.push(6)
+      }
+      if (getWinloseAmount(arr, ["1060000", "1110000"]) == 0) {
+        removeArr.push(11,12)
+        removeArr1.push(7)
+      }
+      if (getWinloseAmount(arr, ["1120000", "1080000"]) == 0) {
+        removeArr.push(13,14)
+        removeArr1.push(8)
+      }
+      if (getWinloseAmount(arr, ["10300000"]) == 0) {
+        removeArr.push(15,16)
+        removeArr1.push(9)
+      }  
+      if (getWinloseAmount(arr, ["1050000"]) == 0) {
+        removeArr.push(17,18)
+        removeArr1.push(10)
+      }
+      if (getWinloseAmount(arr, ["1140000"]) == 0) {
+        removeArr.push(19,20)
+        removeArr1.push(11)
+      }
+      if (getWinloseAmount(arr, ["1150000"]) == 0) {
+        removeArr.push(21,22)
+        removeArr1.push(12)
+      }
+      if (getWinloseAmount(arr, ["1160000"]) == 0) {
+        removeArr.push(23,24)
+        removeArr1.push(13)
+      }
+      if (getWinloseAmount(arr, ["1090000"]) == 0) {
+        removeArr.push(25,26)
+        removeArr1.push(14)
+      }
+      if (getWinloseAmount(arr, ["1040000"]) == 0) {
+        removeArr.push(27,28)
+        removeArr1.push(15)
+      }
+      if (getWinloseAmount(arr, ["1020000"]) == 0) {
+        removeArr.push(29,30)
+        removeArr1.push(16)
+      }
+      if (getWinloseAmount(arr, ["1130000"]) == 0) {
+        removeArr.push(31,32)
+        removeArr1.push(17)
+      }
+
+
+      let rs = Array.from(new Set(removeArr));
+      let rs1 = Array.from(new Set(removeArr1));
+  
+      let flg = true
+      let flg1 = true
+    
+      for (let i = 0; i < rs.length; i++) {
+        if (flg) {
+          this.columns11.splice(rs[i], 1)
+          flg = !flg
+        } else {
+          this.columns11.splice(rs[i] - i, 1)   
+        }
+          
+      }
+
+      for (let i = 0; i < rs1.length; i++) {
+        if (flg1) {
+          this.columns22.splice(rs1[i], 1)
+          flg1 = !flg1
+        } else {
+          this.columns22.splice(rs1[i] - i, 1)   
+        }
+          
+      }
+
+
+      rs = []
+      rs1 = []
+
       if (acct && acct.code == 0) {
-        this.user.push(acct.payload);
+        this.user.push(acct.payload); 
       }
       if (perms && perms.code == 0) {
         this.child = perms.payload;
-      }
+      } 
     }
   },
   created() {
-    // console.log(this.defaultTime);
+   
     if (this.permission.includes("正式数据")) {
       this.source = "0";
     }
@@ -1680,7 +1789,7 @@ export default {
 <style lang="less" scoped>
 .allreport {
   min-height: 87vh;
-  width: 250%;
+ 
   .title {
     font-size: 1.2rem;
     margin: 0.5rem 0 0.5rem;
@@ -1696,5 +1805,8 @@ export default {
   .demo-spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
+}
+.Nico {
+  display: none;
 }
 </style>
