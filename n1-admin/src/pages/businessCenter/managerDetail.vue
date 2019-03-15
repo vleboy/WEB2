@@ -141,7 +141,10 @@
       </Panel>
     </Collapse>
     <div class="finance">
-      <h2>财务信息</h2>
+      <h2>
+        财务信息
+        <span style="color:#20a0ff;cursor:pointer;fontSize:1rem" @click="getWaterfallList">(点击查询)</span>
+        </h2>
       <Table :columns="columns" :data="showData" size="small"></Table>
       <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
@@ -1139,7 +1142,18 @@ export default {
         this.gameDetail = res.payload.gameList;
       })
     },
+    async getWaterfallList() {
+      let userId = this.$route.query.userId;
+      let req1 = getWaterfall(userId);
+      this.spinShow = true;
+      let waterfall = await this.axios.all([req1])
+      this.spinShow = false;
+  
+      this.showData = waterfall[0].payload
+
+    },
     async init() {
+      this.showData = []
       this.spinShow = true;
       let userId = this.$route.query.userId;
       let parent = this.$route.query.parent;
@@ -1147,22 +1161,17 @@ export default {
       this.userId = userId;
       this.edit = true;
       this.isedit = true;
-      let req1 = getWaterfall(userId);
       let req2 = oneManagers(userId);
       let req3 = companySelect({ parent });
       let req4 = childList(userId, "10"); //线路商
       let req5 = childList(userId, "100"); //商户
       let [
-        waterfall,
         managers,
         company,
         lineChild,
         ownBusiness
-      ] = await this.axios.all([req1, req2, req3, req4, req5]);
+      ] = await this.axios.all([req2, req3, req4, req5]);
       this.spinShow = false;
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
       if (managers && managers.code == 0) {
         this.lineDetail = managers.payload;
         this.isTest = managers.payload.isTest == 1 ? true : false;
