@@ -64,7 +64,7 @@ export default {
         
         //localStorage.removeItem('dayCompany')
         //console.log(233);
-        
+        vm.spinShow = true
         vm.init()
 
       }
@@ -300,7 +300,7 @@ export default {
     async init() {
       
      
-      
+      this.spinShow = true;
 
       if (this.$route.name == 'dayCompany' && localStorage.dayCompany == 'dayCompany') {
        
@@ -351,10 +351,10 @@ export default {
         gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getDayStat", params);
-      this.spinShow = true;
+      
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [perms] = await this.axios.all([req2]);
-      this.spinShow = false;
+      
 
       this.dayStatList = perms.payload;
 
@@ -368,6 +368,8 @@ export default {
         
         this.drawLine();
       }
+
+      this.spinShow = false;
     },
     
     getDate(opt) {
