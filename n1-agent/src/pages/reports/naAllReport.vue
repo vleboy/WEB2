@@ -315,7 +315,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(输赢金额)",
+          title: "NA电子H5(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
             let arr = this.child;
@@ -362,7 +362,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(商家交公司)",
+          title: "NA电子H5(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
@@ -381,7 +381,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(洗码量)",
+          title: "NA电子H5(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
             if (params.row.level == 0) {
@@ -1120,7 +1120,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(输赢金额)",
+          title: "NA电子H5(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
             let winloseAmount = 0;
@@ -1142,7 +1142,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(洗码量)",
+          title: "NA电子H5(洗码量)",
           key: "mixAmount",
           render: (h, params) => {
             let obj = params.row.gameTypeMap;

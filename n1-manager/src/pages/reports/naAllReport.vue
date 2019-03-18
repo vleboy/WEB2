@@ -235,7 +235,7 @@ export default {
           }
         },
         {
-          title: "NA电子h5(输赢金额)",
+          title: "NA电子H5(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
             let color = "";
@@ -483,7 +483,7 @@ export default {
         },
         
         {
-          title: "NA电子h5(商家交公司)",
+          title: "NA电子H5(商家交公司)",
           key: "submitAmount",
           render: (h, params) => {
             let submitAmount = 0;
@@ -756,7 +756,7 @@ export default {
           }
         },
          {
-          title: "NA电子h5(输赢金额)",
+          title: "NA电子H5(输赢金额)",
           key: "winloseAmount",
           render: (h, params) => {
             let winloseAmount = 0;

@@ -60,6 +60,9 @@
       </table>
     </div>
     <div class="manager-copertion">
+      <h2>财务信息
+        <span style="color:#20a0ff;cursor:pointer;fontSize:1rem" @click="getWaterfallList">(点击查询)</span>
+      </h2>
       <Table :columns="columns1" :data="showData" size="small"></Table>
       <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
@@ -332,16 +335,21 @@ export default {
     reset() {
       this.init();
     },
+    async getWaterfallList() {
+      let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
+      let req1 = getWaterfall(userId);
+      this.$store.commit("updateLoading", { params: true });
+      let waterfall = await this.axios.all([req1])
+      this.$store.commit("updateLoading", { params: false });
+      this.showData = waterfall[0].payload
+
+    },
     async init() {
       this.$store.commit("updateLoading", { params: true });
       let userId = localStorage.loginId ? localStorage.getItem("loginId") : "";
-      let req1 = getWaterfall(userId);
       let req2 = oneMerchants(userId);
-      let [waterfall, admin] = await this.axios.all([req1, req2]);
+      let [admin] = await this.axios.all([req2]);
       this.$store.commit("updateLoading", { params: false });
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
       if (admin && admin.code == 0) {
         this.admin = admin.payload;
       }

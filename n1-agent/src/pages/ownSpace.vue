@@ -47,6 +47,9 @@
       </table>
     </div>
     <div class="manager-copertion">
+      <h2>财务信息
+        <span style="color:#20a0ff;cursor:pointer;fontSize:1rem" @click="getWaterfallList">(点击查询)</span>
+      </h2>
       <Table :columns="columns1" :data="showData" size="small"></Table>
       <Page :total="total" class="page" show-elevator :page-size='pageSize' show-total @on-change="changepage"></Page>
     </div>
@@ -264,19 +267,25 @@ export default {
       this.password = "";
       this.repassword = "";
     },
+    async getWaterfallList() {
+      let userId = localStorage.userId;
+      let req1 = getWaterfall(userId);
+      this.$store.commit("changeLoading", { params: true });
+      let waterfall = await this.axios.all([req1])
+       this.$store.commit("changeLoading", { params: false });
+      this.showData = waterfall[0].payload
+
+    },
     async init() {
       let userId = localStorage.userId;
       this.$store.commit("changeLoading", { params: true });
       let req1 = agentOne(userId);
-      let req2 = getWaterfall(userId);
-      let [agent, waterfall] = await this.axios.all([req1, req2]);
+      let [agent] = await this.axios.all([req1]);
       this.$store.commit("changeLoading", { params: false });
       if (agent && agent.code == 0) {
         this.agentDetail = agent.payload;
       }
-      if (waterfall && waterfall.code == 0) {
-        this.waterfall = waterfall.payload;
-      }
+     
       this.handlePage();
     },
     passwordLevel(password) {
