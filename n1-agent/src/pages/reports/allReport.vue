@@ -1,5 +1,5 @@
 <template>
-  <div class="allreport">
+  <div class="allreport" :style="{width:getTabWidth}">
     <div class="nowList">
       <div class="top">
         <p class="title">
@@ -17,14 +17,14 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ref='table_0'></Table>
+      <Table :columns="columns11" :data="user" size="small" ref='table_0'></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
         <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="child" size="small" ref='table_1'></Table>
+      <Table :columns="columns11" :data="child" size="small" ref='table_1'></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
@@ -32,14 +32,14 @@
         <Button type="ghost" @click="exportdata(index)">导出数据</Button>
 
       </p>
-      <Table :columns="columns1" :data="item" size="small" :ref="'table'+index"></Table>
+      <Table :columns="columns11" :data="item" size="small" :ref="'table'+index"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
         <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ref='table_2'></Table>
+      <Table :columns="columns22" :data="playerList" size="small" ref='table_2'></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -52,6 +52,7 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import { getDefaultTime } from "@/config/getDefaultTime";
 import { thousandFormatter } from "@/config/format";
+import { getMixAmount } from "@/config/getWinloseAmount";
 export default {
   data() {
     return {
@@ -129,7 +130,7 @@ export default {
           title: "昵称",
           key: "displayName",
           render: (h, params) => {
-             console.log(params);
+             //console.log(params);
             
             return h("span", 
             {
@@ -2076,7 +2077,9 @@ export default {
             return h("span", thousandFormatter(count));
           }
         },
-      ]
+      ],
+      columns11:[],
+      columns22:[]
     };
   },
   computed: {
@@ -2097,6 +2100,13 @@ export default {
      level() {
       return JSON.parse(localStorage.getItem("userInfo")).level;
     },
+    getTabWidth() {
+      if (this.columns11.length <= 9) {
+        return '100%'
+      } else {
+        return ((this.columns11.length) - 9) * 7 + 100 + '%'
+      }
+    }
   },
   methods: {
     confirm() {
@@ -2232,6 +2242,99 @@ export default {
       let req2 = this.$store.dispatch("getUserChild", params2);
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.user = [];
+
+      this.columns11 = await _.cloneDeep(this.columns1)
+      this.columns22 = await _.cloneDeep(this.columns2)
+
+      let arr = perms.payload
+      let removeArr = []
+      let removeArr1 = []
+
+      if (getMixAmount(arr, ["1010000"]) == 0) {
+        removeArr.push(11,12,13)
+        removeArr1.push(8,9)
+      }
+      if (getMixAmount(arr, ["1060000", "1110000"]) == 0) {
+        removeArr.push(14,15,16)
+        removeArr1.push(10,11)
+      }
+      if (getMixAmount(arr, ["1120000", "1080000"]) == 0) {
+        removeArr.push(17,18,19)
+        removeArr1.push(12,13)
+      }
+      if (getMixAmount(arr, ["10300000"]) == 0) {
+       removeArr.push(20,21,22)
+        removeArr1.push(14,15)
+      }  
+      if (getMixAmount(arr, ["1050000"]) == 0) {
+        removeArr.push(23,24,25)
+        removeArr1.push(16,17)
+      }
+      if (getMixAmount(arr, ["1140000"]) == 0) {
+        removeArr.push(26,27,28)
+        removeArr1.push(18,19)
+      }
+      if (getMixAmount(arr, ["1150000"]) == 0) {
+        removeArr.push(29,30,31)
+        removeArr1.push(20,21)
+      }
+      if (getMixAmount(arr, ["1160000"]) == 0) {
+        removeArr.push(32,33,34)
+        removeArr1.push(22,23)
+      }
+      if (getMixAmount(arr, ["1090000"]) == 0) {
+        removeArr.push(35,36,37)
+        removeArr1.push(24,25)
+      }
+      if (getMixAmount(arr, ["1040000"]) == 0) {
+        removeArr.push(38,39,40)
+        removeArr1.push(26,27)
+      }
+      if (getMixAmount(arr, ["1020000"]) == 0) {
+        removeArr.push(41,42,43)
+        removeArr1.push(28,29)
+      }
+      if (getMixAmount(arr, ["1130000"]) == 0) {
+        removeArr.push(44,45,46)
+        removeArr1.push(30,31)
+      }
+
+
+      let rs = Array.from(new Set(removeArr));
+      let rs1 = Array.from(new Set(removeArr1));
+  
+     
+
+      let flg = true
+      let flg1 = true
+     console.log(this.columns1);
+      for (let i = 0; i < rs.length; i++) {
+        if (flg) {
+          this.columns11.splice(rs[i], 1)
+          flg = !flg
+        } else {
+          this.columns11.splice(rs[i] - i, 1)   
+         
+        }
+      }
+
+       
+      
+
+      for (let i = 0; i < rs1.length; i++) {
+        if (flg1) {
+          this.columns22.splice(rs1[i], 1)
+          flg1 = !flg1
+        } else {
+          this.columns22.splice(rs1[i] - i, 1)   
+        }
+          
+      }
+
+
+      rs = []
+      rs1 = []
+
       if (acct && acct.code == 0) {
         this.user.push(acct.payload);
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="naAll">
+  <div class="naAll" :style="{width:getTabWidth}">
     <div class="nowList">
       <div class="top">
         <p class="title">
@@ -17,28 +17,28 @@
           <Button type="ghost" @click="reset">重置</Button>
         </div>
       </div>
-      <Table :columns="columns1" :data="user" size="small" ref='table_0'></Table>
+      <Table :columns="columns11" :data="user" size="small" ref='table_0'></Table>
     </div>
     <div class="childList">
       <p class="title">
         直属下级列表
         <Button type="ghost" @click="exportdata('table_1')">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="child" size="small" ref='table_1'></Table>
+      <Table :columns="columns11" :data="child" size="small" ref='table_1'></Table>
     </div>
     <div class="childList" v-for="(item,index) in reportChild" :key="index">
       <p class="title">
         ({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 直属下级列表
         <Button type="ghost" @click="exportdata(index)">导出数据</Button>
       </p>
-      <Table :columns="columns1" :data="item" size="small" :ref="'table'+index"></Table>
+      <Table :columns="columns11" :data="item" size="small" :ref="'table'+index"></Table>
     </div>
     <div class="playerList" id="playerList">
       <p class="title">
         <span v-show="showName"> ({{ userName }})</span>所属玩家列表
         <Button type="ghost" @click="exportdata('table_2')">导出数据</Button>
       </p>
-      <Table :columns="columns2" :data="playerList" size="small" ref='table_2'></Table>
+      <Table :columns="columns22" :data="playerList" size="small" ref='table_2'></Table>
     </div>
     <Spin size="large" fix v-if="spinShow">
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
@@ -51,6 +51,7 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import { getDefaultTime } from "@/config/getDefaultTime";
 import { thousandFormatter } from "@/config/format";
+import { getMixAmount } from "@/config/getWinloseAmount";
 export default {
   data() {
     return {
@@ -310,6 +311,98 @@ export default {
               return h("span", thousandFormatter(count));
             } else {
               return h("span", thousandFormatter(params.row.mixAmount));
+            }
+          }
+        },
+        {
+          title: "NA电子h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let arr = this.child;
+            let count = 0;
+            for (let item of arr) {
+              for (let key in item.gameTypeMap) {
+                if (key == "70000") {
+                  count += item.gameTypeMap[key].winloseAmount;
+                }
+              }
+            }
+            let color = "";
+            if (params.row.level == 0) {
+              color = count < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(count.toFixed(2))
+              );
+            } else {
+              let winloseAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  winloseAmount = params.row.gameTypeMap[
+                    "70000"
+                  ].winloseAmount.toFixed(2);
+                }
+              }
+              color = winloseAmount < 0 ? "#f30" : "#0c0";
+              return h(
+                "span",
+                {
+                  style: {
+                    color: color
+                  }
+                },
+                thousandFormatter(winloseAmount)
+              );
+            }
+          }
+        },
+        {
+          title: "NA电子h5(商家交公司)",
+          key: "submitAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              return h("span", "0.00");
+            } else {
+              let submitAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  submitAmount = params.row.gameTypeMap[
+                    "70000"
+                  ].submitAmount.toFixed(2);
+                }
+              }
+              return h("span", thousandFormatter(submitAmount));
+            }
+          }
+        },
+        {
+          title: "NA电子h5(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            if (params.row.level == 0) {
+              let arr = this.child;
+              let count = 0;
+              for (let item of arr) {
+                for (let key in item.gameTypeMap) {
+                  if (key == "70000") {
+                    count += item.gameTypeMap[key].mixAmount;
+                  }
+                }
+              }
+              return h("span", thousandFormatter(count));
+            } else {
+              let mixAmount = 0;
+              if (params.row.gameTypeMap) {
+                if (params.row.gameTypeMap["70000"]) {
+                  mixAmount = params.row.gameTypeMap["70000"].mixAmount;
+                }
+              }
+              return h("span", thousandFormatter(mixAmount));
             }
           }
         },
@@ -773,98 +866,7 @@ export default {
             }
           }
         },
-         {
-          title: "NA电子h5(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let arr = this.child;
-            let count = 0;
-            for (let item of arr) {
-              for (let key in item.gameTypeMap) {
-                if (key == "70000") {
-                  count += item.gameTypeMap[key].winloseAmount;
-                }
-              }
-            }
-            let color = "";
-            if (params.row.level == 0) {
-              color = count < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                thousandFormatter(count.toFixed(2))
-              );
-            } else {
-              let winloseAmount = 0;
-              if (params.row.gameTypeMap) {
-                if (params.row.gameTypeMap["70000"]) {
-                  winloseAmount = params.row.gameTypeMap[
-                    "70000"
-                  ].winloseAmount.toFixed(2);
-                }
-              }
-              color = winloseAmount < 0 ? "#f30" : "#0c0";
-              return h(
-                "span",
-                {
-                  style: {
-                    color: color
-                  }
-                },
-                thousandFormatter(winloseAmount)
-              );
-            }
-          }
-        },
-        {
-          title: "NA电子h5(商家交公司)",
-          key: "submitAmount",
-          render: (h, params) => {
-            if (params.row.level == 0) {
-              return h("span", "0.00");
-            } else {
-              let submitAmount = 0;
-              if (params.row.gameTypeMap) {
-                if (params.row.gameTypeMap["70000"]) {
-                  submitAmount = params.row.gameTypeMap[
-                    "70000"
-                  ].submitAmount.toFixed(2);
-                }
-              }
-              return h("span", thousandFormatter(submitAmount));
-            }
-          }
-        },
-        {
-          title: "NA电子h5(洗码量)",
-          key: "mixAmount",
-          render: (h, params) => {
-            if (params.row.level == 0) {
-              let arr = this.child;
-              let count = 0;
-              for (let item of arr) {
-                for (let key in item.gameTypeMap) {
-                  if (key == "70000") {
-                    count += item.gameTypeMap[key].mixAmount;
-                  }
-                }
-              }
-              return h("span", thousandFormatter(count));
-            } else {
-              let mixAmount = 0;
-              if (params.row.gameTypeMap) {
-                if (params.row.gameTypeMap["70000"]) {
-                  mixAmount = params.row.gameTypeMap["70000"].mixAmount;
-                }
-              }
-              return h("span", thousandFormatter(mixAmount));
-            }
-          }
-        },
+         
         {
           title: "NA真人h5(输赢金额)",
           key: "winloseAmount",
@@ -1117,6 +1119,42 @@ export default {
             return h("span", thousandFormatter(params.row.mixAmount));
           }
         },
+        {
+          title: "NA电子h5(输赢金额)",
+          key: "winloseAmount",
+          render: (h, params) => {
+            let winloseAmount = 0;
+            if (params.row.gameTypeMap["70000"] != undefined) {
+              winloseAmount = params.row.gameTypeMap[
+                "70000"
+              ].winloseAmount.toFixed(2);
+            }
+            let color = winloseAmount < 0 ? "#f30" : "#0c0";
+            return h(
+              "span",
+              {
+                style: {
+                  color: color
+                }
+              },
+              thousandFormatter(winloseAmount)
+            );
+          }
+        },
+        {
+          title: "NA电子h5(洗码量)",
+          key: "mixAmount",
+          render: (h, params) => {
+            let obj = params.row.gameTypeMap;
+            let count = 0;
+            for (let key in obj) {
+              if (key == "70000") {
+                count += obj[key].mixAmount;
+              }
+            }
+            return h("span", thousandFormatter(count));
+          }
+        },
          {
           title: "NA棋牌游戏(输赢金额)",
           key: "winloseAmount",
@@ -1261,42 +1299,7 @@ export default {
             return h("span", thousandFormatter(count));
           }
         },
-        {
-          title: "NA电子h5(输赢金额)",
-          key: "winloseAmount",
-          render: (h, params) => {
-            let winloseAmount = 0;
-            if (params.row.gameTypeMap["70000"] != undefined) {
-              winloseAmount = params.row.gameTypeMap[
-                "70000"
-              ].winloseAmount.toFixed(2);
-            }
-            let color = winloseAmount < 0 ? "#f30" : "#0c0";
-            return h(
-              "span",
-              {
-                style: {
-                  color: color
-                }
-              },
-              thousandFormatter(winloseAmount)
-            );
-          }
-        },
-        {
-          title: "NA电子h5(洗码量)",
-          key: "mixAmount",
-          render: (h, params) => {
-            let obj = params.row.gameTypeMap;
-            let count = 0;
-            for (let key in obj) {
-              if (key == "70000") {
-                count += obj[key].mixAmount;
-              }
-            }
-            return h("span", thousandFormatter(count));
-          }
-        },
+        
         {
           title: "NA真人h5(输赢金额)",
           key: "winloseAmount",
@@ -1391,6 +1394,13 @@ export default {
      level() {
       return JSON.parse(localStorage.getItem("userInfo")).level;
     },
+    getTabWidth() {
+      if (this.columns11.length <= 9) {
+        return '100%'
+      } else {
+        return ((this.columns11.length) - 9) * 7 + 100 + '%'
+      }
+    }
   },
   methods: {
     confirm() {
@@ -1518,6 +1528,74 @@ export default {
       let req2 = this.$store.dispatch("getUserChild", params2);
       let [acct, perms] = await this.axios.all([req1, req2]);
       this.user = [];
+
+      this.columns11 = await _.cloneDeep(this.columns1)
+      this.columns22 = await _.cloneDeep(this.columns2)
+
+      let arr = perms.payload
+      let removeArr = []
+      let removeArr1 = []
+
+      if (getMixAmount(arr, ["10000"]) == 0) {
+        removeArr.push(11,12,13)
+        removeArr1.push(8,9)
+      }
+      if (getMixAmount(arr, ["30000"]) == 0) {
+        removeArr.push(14,15,16)
+        removeArr1.push(10,11)
+      }
+      if (getMixAmount(arr, ["40000"]) == 0) {
+        removeArr.push(17,18,19)
+        removeArr1.push(12,13)
+      }
+      if (getMixAmount(arr, ["50000"]) == 0) {
+        removeArr.push(20,21,22)
+        removeArr1.push(14,15)
+      }  
+      if (getMixAmount(arr, ["60000"]) == 0) {
+        removeArr.push(23,24,25)
+        removeArr1.push(16,17)
+      }
+      if (getMixAmount(arr, ["80000"]) == 0) {
+        removeArr.push(26,27,28)
+        removeArr1.push(18,19)
+      }
+      if (getMixAmount(arr, ["90000"]) == 0) {
+        removeArr.push(29,30,31)
+        removeArr1.push(20,21)
+      }
+
+
+      let rs = Array.from(new Set(removeArr));
+      let rs1 = Array.from(new Set(removeArr1));
+  
+      let flg = true
+      let flg1 = true
+    
+      for (let i = 0; i < rs.length; i++) {
+        if (flg) {
+          this.columns11.splice(rs[i], 1)
+          flg = !flg
+        } else {
+          this.columns11.splice(rs[i] - i, 1)   
+        }
+          
+      }
+
+      for (let i = 0; i < rs1.length; i++) {
+        if (flg1) {
+          this.columns22.splice(rs1[i], 1)
+          flg1 = !flg1
+        } else {
+          this.columns22.splice(rs1[i] - i, 1)   
+        }
+          
+      }
+
+
+      rs = []
+      rs1 = []
+
       if (acct && acct.code == 0) {
         this.user.push(acct.payload);
       }
