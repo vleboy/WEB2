@@ -464,7 +464,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-         
+          minWidth: 800,
           render: (h, params) => {
             return h(
               "span",
@@ -475,7 +475,7 @@ export default {
         {
           title: "交易对象",
           key: "toUser",
-         
+          minWidth: 110,
           render: (h, params) => {
             let row = params.row;
             if (row.fromLevel > row.toLevel) {
