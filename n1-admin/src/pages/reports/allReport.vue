@@ -1192,7 +1192,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime,type:this.gameType}})
+                     this.$router.push({name: "dayPlayer",query:{name:params.row.userName,time:this.changedTime,type:""}})
                      localStorage.setItem('dayPlayer','dayPlayer')
                   }
                 }
