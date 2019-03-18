@@ -464,7 +464,7 @@ export default {
         {
           title: "交易时间",
           key: "createdAt",
-          minWidth: 100,
+         
           render: (h, params) => {
             return h(
               "span",
