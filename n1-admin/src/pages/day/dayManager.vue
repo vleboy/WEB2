@@ -338,6 +338,7 @@ export default {
         this.defaultTime.push(st,et)
         this.showBox = true
         this.managerName = this.$route.query.name
+         this.gameCode = this.$route.query.type
         localStorage.removeItem('dayManager')
       }
       let params = {

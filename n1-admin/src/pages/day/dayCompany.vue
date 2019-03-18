@@ -298,8 +298,13 @@ export default {
           }
         }  
         localStorage.removeItem('dayCompany')
+        this.gameCode = this.$route.query.type
       }
       this.showChat = true
+
+      
+      
+
       let params = {
         parentId: "01",
         isTest: this.source,

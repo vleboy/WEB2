@@ -145,13 +145,13 @@ export default {
                     let time = this.changedTime
                     
                     if (params.row.role == "1") {
-                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time,type:"9999999",source:this.source}})
+                      this.$router.push({name: "dayCompany",query:{name:"dayCompany",time:time,type:"",source:this.source}})
                       localStorage.setItem('dayCompany','dayCompany')
                     } else if(params.row.role == "10") {
-                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time,type:"9999999",source:this.source}})
+                      this.$router.push({name: "dayManager",query:{name:params.row.suffix,time:time,type:"",source:this.source}})
                       localStorage.setItem('dayManager','dayManager')
                     } else {
-                      this.$router.push({name: "dayMerchant",query:{name:params.row.sn,time:time,type:"9999999"}})
+                      this.$router.push({name: "dayMerchant",query:{name:params.row.sn,time:time,type:""}})
                       localStorage.setItem('dayMerchant','dayMerchant')
                     }
                   }
