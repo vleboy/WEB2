@@ -315,12 +315,9 @@ export default {
       let waterfall = await this.axios.all([req1])
       this.$store.commit("updateLoading", { params: false });
       this.showData = waterfall[0].payload
-
     },
     async init() {
       this.$store.commit("updateLoading", { params: true });
-      
-      //let req1 = getWaterfall(userId);
       let req2 = adminCenter();
       let [admin] = await this.axios.all([req2]);
       this.$store.commit("updateLoading", { params: false });

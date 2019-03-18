@@ -52,7 +52,7 @@ export default {
       // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
       //console.log(vm);//当前组件的实例
       if (localStorage.dayMerchant == 'dayMerchant') {
-        
+        vm.spinShow = true
         vm.init()
       }
 
@@ -271,7 +271,7 @@ export default {
     //   return JSON.parse(localStorage.getItem("userInfo")).subRolePermission;
     // },
     async init() {
-
+      this.spinShow = true;
       if (this.$route.name == 'dayMerchant' && localStorage.dayMerchant == 'dayMerchant') {
       
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
@@ -306,10 +306,10 @@ export default {
         gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getUserDayStat", params);
-      this.spinShow = true;
+     
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [perms] = await this.axios.all([req2]);
-      this.spinShow = false;
+     
 
       this.dayStatList = perms.payload;
 
@@ -320,7 +320,8 @@ export default {
       if (this.showChat) {
         this.drawLine();
       }
-      
+      this.spinShow = false;
+
     },
     
     getDate(opt) {

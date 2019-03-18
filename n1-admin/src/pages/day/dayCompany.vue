@@ -51,7 +51,7 @@ export default {
         
         //localStorage.removeItem('dayCompany')
         //console.log(233);
-        
+        vm.spinShow = true
         vm.init()
 
       }
@@ -148,8 +148,7 @@ export default {
     };
   },
   created() {
-    console.log(233);
-    
+   
     if (this.permission.includes("正式数据")) {
       this.source = "0";
     }
@@ -279,26 +278,17 @@ export default {
     },
   
     async init() {
-      
-     
-      
-
+      this.spinShow = true;
       if (this.$route.name == 'dayCompany' && localStorage.dayCompany == 'dayCompany') {
-       
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
         let et = dayjs(this.$route.query.time[1]).format('YYYYMMDD')
-
         this.defaultTime = []
         this.defaultTime.push(st,et)
-
         let ps = await  httpRequest("post","/gameBigType",{companyIden: -1},"game")
         .then(result => {
           return result.payload
         })
-
         this.source = this.$route.query.source
-        
-
         for (let index = 0; index < ps.length; index++) {
           if(this.$route.query.type == ps[index].code) {
             this.model1 = ps[index].name
@@ -306,17 +296,10 @@ export default {
           }else {
             this.model1 = "全部"
           }
-        }
-   
-        
-       
-       
+        }  
         localStorage.removeItem('dayCompany')
       }
-
-      
-       this.showChat = true
-      
+      this.showChat = true
       let params = {
         parentId: "01",
         isTest: this.source,
@@ -325,28 +308,20 @@ export default {
         gameType: parseInt(this.gameCode)
       };
       let req2 = this.$store.dispatch("getDayStat", params);
-      this.spinShow = true;
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [perms] = await this.axios.all([req2]);
-      this.spinShow = false;
-
+      
       this.dayStatList = perms.payload;
-
       if (perms.payload.length == 0) {
-        
         this.showChat = false
       }
-      
       if (this.showChat) {
-       
-        
         this.drawLine();
       }
+      this.spinShow = false;
     },
-    
-    getDate(opt) {
-      
   
+    getDate(opt) {
       if(opt !== undefined) {
         this.defaultTime = opt
       } else if(dayjs().format('DD') == "01") {

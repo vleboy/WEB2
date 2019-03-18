@@ -75,7 +75,7 @@ export default {
       // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
       //console.log(vm);//当前组件的实例
       if (localStorage.dayManager == 'dayManager') {
-         
+        vm.spinShow = true 
         vm.init()
       }
     });
@@ -315,7 +315,7 @@ export default {
       })
     },
     async init() {
-
+      this.spinShow = true;
       if (this.$route.name == 'dayManager' && localStorage.dayManager == 'dayManager') {
       
         let st = dayjs(this.$route.query.time[0]).format('YYYYMMDD')
@@ -349,11 +349,10 @@ export default {
         isAll: this.isBoolean
       };
       let req2 = this.$store.dispatch("getManagerDayStat", params);
-      this.spinShow = true;
+      
       //当这两个请求都完成的时候会触发这个函数，两个参数分别代表返回的结果
       let [perms] = await this.axios.all([req2]);
-      this.spinShow = false;
-
+      
       if (perms.code == 0) {
         this.dayStatList = perms.payload;
       }
@@ -364,7 +363,8 @@ export default {
       if (this.showBox) {
         this.drawLine();
       }
-      
+      this.spinShow = false;
+
     },
     
     getDate(opt) {

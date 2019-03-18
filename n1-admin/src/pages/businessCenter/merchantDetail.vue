@@ -846,7 +846,6 @@ export default {
 
     },
     async init() {
-      
       this.showData = []
       this.spinShow = true;
       let userId = this.$route.query.userId;
@@ -855,15 +854,11 @@ export default {
       this.userId = userId;
       this.edit = true;
       this.isedit = true;
-      
       let req2 = oneMerchants(userId);
       let req3 = companySelect({ parent });
-      let [merchant, company] = await this.axios.all([
-        req2,
-        req3
+      let [merchant, company] = await this.axios.all([req2, req3
       ]);
       this.spinShow = false;
-      
       if (merchant && merchant.code == 0) {
         this.merchantDetail = merchant.payload;
         this.defaultBrower = merchant.payload.isOpenBrowser == 1 ? true : false; //brower
@@ -877,7 +872,6 @@ export default {
       oneManagers(parent).then(res => {
         this.parentGameList = res.payload.gameList || [];
       });
-      
     },
     uploadAliLogo() {
       this.actionUrl = "http://assetdownload.oss-cn-hangzhou.aliyuncs.com";
