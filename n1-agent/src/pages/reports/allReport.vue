@@ -2249,7 +2249,10 @@ export default {
       let arr = perms.payload
       let removeArr = []
       let removeArr1 = []
-
+      
+      //console.log(getMixAmount(arr, ["1010000"]))
+      
+      
       if (getMixAmount(arr, ["1010000"]) == 0) {
         removeArr.push(11,12,13)
         removeArr1.push(8,9)
@@ -2299,15 +2302,17 @@ export default {
         removeArr1.push(30,31)
       }
 
+      //console.log(removeArr);
 
       let rs = Array.from(new Set(removeArr));
       let rs1 = Array.from(new Set(removeArr1));
   
-     
+      
+      
 
       let flg = true
       let flg1 = true
-     console.log(this.columns1);
+      
       for (let i = 0; i < rs.length; i++) {
         if (flg) {
           this.columns11.splice(rs[i], 1)
@@ -2319,8 +2324,6 @@ export default {
       }
 
        
-      
-
       for (let i = 0; i < rs1.length; i++) {
         if (flg1) {
           this.columns22.splice(rs1[i], 1)
@@ -2331,6 +2334,7 @@ export default {
           
       }
 
+      //console.log(this.columns11);
 
       rs = []
       rs1 = []

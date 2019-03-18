@@ -13,7 +13,11 @@ export function getWinloseAmount(arr, params) {
 export function getMixAmount(arr, params) {
   let allCount = 0
   for (let item of arr) {
-    allCount += item.mixAmount
+    for (let key in item.gameTypeMap) {
+      if (params.includes(key)) {
+        allCount += item.gameTypeMap[key].mixAmount
+      }
+    }
   }
   return allCount
 }
