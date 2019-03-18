@@ -285,6 +285,7 @@ export default {
         this.playerName = this.$route.query.name
         this.showChat = true
         this.managerName = this.$route.query.name
+         this.gameCode = this.$route.query.type
         localStorage.removeItem('dayPlayer')
       }  
 

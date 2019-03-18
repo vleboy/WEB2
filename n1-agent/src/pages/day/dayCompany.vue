@@ -335,7 +335,7 @@ export default {
    
         
        
-       
+        this.gameCode = this.$route.query.type
         localStorage.removeItem('dayCompany')
       }
 

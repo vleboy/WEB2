@@ -140,7 +140,7 @@ export default {
                 on: {
                 click: async () => {
                   let time = this.changedTime
-                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"9999999",source:this.source,level:params.row.level}})
+                  this.$router.push({name: "dayCompany",query:{name:params.row.uname,time:time,type:"",source:this.source,level:params.row.level}})
                   localStorage.setItem('dayCompany','dayCompany')
                 }
               }
