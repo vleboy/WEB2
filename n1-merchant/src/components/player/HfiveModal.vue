@@ -51,7 +51,7 @@
             <div v-if="result.treasureData">
                 <Row  style="height:65px;lineHeight:65px">
                     <Col :span="12"><img class="treasureImg" :src="treasureImg" alt=""> </Col>
-                    <Col :span="12"><span>财运中奖:</span> {{result.totalGold|format}} </Col>
+                    <Col :span="12"><span>中奖:</span> {{result.totalGold|format}} </Col>
                 </Row>
             </div>
             <div v-else>
