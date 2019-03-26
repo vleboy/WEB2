@@ -1,5 +1,5 @@
 <template>
-  <div class="p-propPrizeList">
+ <!--  <div class="p-propPrizeList">
     <div class="propPrizeList -search">
       <Row class="transition-box">
         <Col class="-s-text" span="2" offset="4">物品ID</Col>
@@ -18,9 +18,9 @@
         </div>
         </Col>
       </Row>
-    </div>
+    </div> -->
     <!-- <p class="searchResult">共搜索到 {{propPrizeList.length || 0}} 条数据</p> -->
-    <div class="propPrizeList">
+    <!-- <div class="propPrizeList">
       <Table :columns="columns" :data="getItems"></Table>
       <div class="page">
         <Page :total="propPrizeList.length"
@@ -63,11 +63,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> -->
 </template>
 
 <script type="text/ecmascript-6">
-import { formatMillisecond } from '@/config/format'
+/* import { formatMillisecond } from '@/config/format'
 import { pattern } from '@/config/regexp'
 import { httpRequest } from '@/service/index'
 import dayjs from "dayjs";
@@ -258,12 +258,12 @@ export default {
       // console.log('当前是第:' + page + '页')
     }
   }
-}
+} */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped type="text/less" lang="less">
-  .p-propPrizeList {
+  /* .p-propPrizeList {
     min-height: 89vh;
     .-search{
       padding-bottom: 16px;
@@ -281,5 +281,5 @@ export default {
       margin-right: 1%;
       margin-top: 2rem
     }
-  }
+  } */
 </style>

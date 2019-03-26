@@ -302,38 +302,11 @@ export default {
               title: "运营中心",
               expand: true,
               children: [
-                {
-                  title: "游戏公告列表"
-                },
-                {
-                  title: "创建公告"
-                },
-                {
-                  title: "游戏邮件列表"
-                },
-                {
-                  title: "创建邮件"
-                },
-                {
-                  title: "跑马灯列表"
-                },
-                {
-                  title: "创建跑马灯"
-                },
-                {
-                  title: "商户运营记录"
-                },
-                {
-                  title: "展位列表"
-                },
-                {
-                  title: "物品上架"
-                },
-                {
-                  title: "道具定价"
-                },
                   {
                   title: "神秘大奖"
+                },
+                {
+                  title: "电子游戏配置"
                 }
               ]
             },

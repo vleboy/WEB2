@@ -1,5 +1,5 @@
 <template>
-  <div class="p-gameNoticeList">
+  <!-- <div class="p-gameNoticeList">
     <div class="-p-m-header">
       <Col :span="11">
       <Button type="primary" @click="openModal()">创建公告</Button>
@@ -99,11 +99,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> -->
 </template>
 
 <script type="text/ecmascript-6">
-  import { httpRequest } from '@/service/index'
+  /* import { httpRequest } from '@/service/index'
   import dayjs from "dayjs";
   import { pattern } from '@/config/regexp'
 export default {
@@ -533,12 +533,12 @@ export default {
       return arr
     } // 截取文件名的后缀
   }
-}
+} */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped type="text/less" lang="less">
-  .p-gameNoticeList{
+  /* .p-gameNoticeList{
     min-height: 89vh;
     .-p-m-header{
       overflow: hidden;
@@ -561,5 +561,5 @@ export default {
     .demo-spin-icon-load{
       animation: ani-demo-spin 1s linear infinite;
     }
-  }
+  } */
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-horseRaceLampList">
+  <!-- <div class="p-horseRaceLampList">
     <div class="-p-m-header">
       <Col :span="11">
         <Button type="primary" class="justfy1" @click="openModal()" v-if="permission.includes('创建跑马灯')">创建跑马灯</Button>
@@ -73,11 +73,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> -->
 </template>
 
 <script type="text/ecmascript-6">
-import { formatMillisecond } from '@/config/format'
+/* import { formatMillisecond } from '@/config/format'
 import { httpRequest } from '@/service/index'
 import dayjs from "dayjs";
 export default {
@@ -343,12 +343,12 @@ export default {
       this.horseRaceLampInfo.count = parseInt(dataTime / (showTime + this.horseRaceLampInfo.splitTime))
     } // 获取次数
   }
-}
+} */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped type="text/less" lang="less">
-  .p-horseRaceLampList{
+  /* .p-horseRaceLampList{
     min-height: 89vh;
     .-p-m-header{
       overflow: hidden;
@@ -381,7 +381,7 @@ export default {
     .demo-spin-icon-load{
       animation: ani-demo-spin 1s linear infinite;
     }
-  }
+  } */
 
 
 </style>

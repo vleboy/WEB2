@@ -400,46 +400,6 @@ export default {
             checked: false,
             children: [
               {
-                title: "游戏公告列表",
-                checked: false
-              },
-              {
-                title: "创建公告",
-                checked: false
-              },
-              {
-                title: "游戏邮件列表",
-                checked: false
-              },
-              {
-                title: "创建邮件",
-                checked: false
-              },
-              {
-                title: "跑马灯列表",
-                checked: false
-              },
-              {
-                title: "创建跑马灯",
-                checked: false
-              },
-              {
-                title: "商户运营记录",
-                checked: false
-              },
-              {
-                title: "展位列表",
-                checked: false
-              },
-              {
-                title: "物品上架",
-                checked: false
-              },
-              {
-                title: "道具定价",
-                checked: false
-              },
-              {
                 title: "神秘大奖",
                 checked: false
               },

@@ -1,5 +1,5 @@
 <template>
-  <div class="businessRecordList">
+ <!--  <div class="businessRecordList">
     <div class="propList-search propList">
       <Row class="transition-box">
         <Col span="2" offset="4">商户ID</Col>
@@ -24,11 +24,11 @@
           <Radio label="1">跑马灯管理</Radio>
           <Radio label="2">公告管理</Radio>
           <Radio label="3">邮件管理</Radio>
-          <!-- <Radio label="4">展位管理</Radio> -->
+          <!-- <Radio label="4">展位管理</Radio>
         </RadioGroup>
       </div>
       <div class="rebackinfo" style="padding-top: 0">
-        <!-- <p>共搜索到 {{businessRecordList.length || 0}} 条数据</p> -->
+         <p>共搜索到 {{businessRecordList.length || 0}} 条数据</p>
       </div>
       <div class="playerform">
         <Table :columns="columnsHorse" :data="getItems" v-show="radioType == '1'"></Table>
@@ -48,11 +48,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> -->
 </template>
 
 <script type="text/ecmascript-6">
-  import { httpRequest } from '@/service/index'
+  /* import { httpRequest } from '@/service/index'
   import dayjs from "dayjs";
   import {formatUserName, unFormatUserName, thousandFormatter} from '@/config/format'
 
@@ -513,11 +513,11 @@
         this.changeRadio()
       }
     }
-  }
+  } */
 </script>
 
 <style scpoed lang="less" type="text/less">
-  .businessRecordList {
+  /* .businessRecordList {
     min-height: 89vh;
     .transition-box {
       padding-bottom: 16px;
@@ -545,5 +545,5 @@
     .demo-spin-icon-load{
       animation: ani-demo-spin 1s linear infinite;
     }
-  }
+  } */
 </style>

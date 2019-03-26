@@ -90,16 +90,6 @@
                     </template>
                     <MenuItem name="playList">玩家列表</MenuItem>
                 </Submenu>
-                <Submenu name="operation">
-                    <template slot="title">
-                        <Icon type="gear-b"></Icon>
-                        运营中心
-                    </template>
-                    <MenuItem name="gameNoticeList">游戏公告列表</MenuItem>
-                    <MenuItem name="gameMailList">游戏邮件列表</MenuItem>
-                    <MenuItem name="horseRaceLampList" >跑马灯列表</MenuItem>
-                    <MenuItem name="boothList">展位列表</MenuItem>
-                </Submenu>
                 <Submenu name="logCenter">
                     <template slot="title">
                         <Icon type="bug"></Icon>

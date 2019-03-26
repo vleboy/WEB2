@@ -1,6 +1,6 @@
 <template>
-  <div class="p-email">
-    <!-- <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p> -->
+  <!--<div class="p-email">
+     <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p>
     <div class="-p-m-header">
       <Col :span="11">
         <Button type="primary" @click="openModal()" v-if="permission.includes('创建邮件')">创建邮件</Button>
@@ -69,7 +69,7 @@
             placeholder="选择日期时间" style="width: 100%">
           </DatePicker>
         </FormItem>
-        <!-- <FormItem label="包含物品"  v-if="role!='100'">
+         <FormItem label="包含物品"  v-if="role!='100'">
           <Row>
             <Col :span="7">
               <Col :span="4">类型</Col>
@@ -108,7 +108,7 @@
               <Table :columns="columnsTool" :data="addToolList"></Table>
             </Row>
           </div>
-        </FormItem> -->
+        </FormItem> 
       </Form>
       <div slot="footer" class="dialog-footer">
         <Button @click="isAddMail = false">取 消</Button>
@@ -119,11 +119,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> -->
 </template>
 
 <script type="text/ecmascript-6">
-  import { httpRequest } from '@/service/index'
+  /* import { httpRequest } from '@/service/index'
   import dayjs from "dayjs";
 export default {
   name: 'app',
@@ -496,12 +496,12 @@ export default {
       }
     }
   }
-}
+} */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
-  .p-email{
+  /* .p-email{
     min-height: 89vh;
     .-p-m-header{
       overflow: hidden;
@@ -528,5 +528,5 @@ export default {
       animation: ani-demo-spin 1s linear infinite;
     }
   }
-
+ */
 </style>

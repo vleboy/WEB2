@@ -122,17 +122,11 @@
                     <MenuItem name="adminRole" v-if='permission.includes("管理员角色列表")'>管理员角色列表</MenuItem>
                     <!-- <MenuItem name="lineNumList" v-if='permission.includes("管理员列表")'>线路号列表</MenuItem> -->
                 </Submenu>
-                <Submenu name="operation" v-if='authorityStr.includes("游戏公告列表")||authorityStr.includes("游戏邮件列表")||authorityStr.includes("跑马灯列表")||authorityStr.includes("商户运营记录")||authorityStr.includes("展位列表")||authorityStr.includes("道具定价")'>
+                <Submenu name="operation" v-if='authorityStr.includes("电子游戏配置")||authorityStr.includes("神秘大奖")'>
                     <template slot="title">
                         <Icon type="gear-b"></Icon>
                         运营中心
                     </template>
-                    <MenuItem name="gameNoticeList" v-if='permission.includes("游戏公告列表")'>游戏公告列表</MenuItem>
-                    <MenuItem name="gameMailList" v-if='permission.includes("游戏邮件列表")'>游戏邮件列表</MenuItem>
-                    <MenuItem name="horseRaceLampList" v-if='permission.includes("跑马灯列表")'>跑马灯列表</MenuItem>
-                    <MenuItem name="businessRecord" v-if='permission.includes("商户运营记录")'>商户运营记录</MenuItem>
-                    <MenuItem name="boothList" v-if='permission.includes("展位列表")'>展位列表</MenuItem>
-                    <MenuItem name="propPrice" v-if='permission.includes("道具定价")'>道具定价</MenuItem>
                     <Submenu name='mysPrice' v-if="permission.includes('神秘大奖')">
                       <template slot="title">神秘大奖</template>
                       <MenuItem name="sysConfig">系统配置</MenuItem>

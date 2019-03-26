@@ -1,5 +1,5 @@
 <template>
-  <div class="p-boothList">
+  <!-- <div class="p-boothList">
     <div class="-search">
       <Row class="row -search-row">
         <Col class="-s-text" span="2" offset="4">物品ID</Col>
@@ -19,14 +19,14 @@
         </Col>
       </Row>
     </div>
-    <!--<p class="searchResult">共搜索到 {{boothList.length || 0}} 条数据</p>-->
-    <div class="-booth-searchResult">
+    <!--<p class="searchResult">共搜索到 {{boothList.length || 0}} 条数据</p>
+    <div class="-booth-searchResult">-->
       <!--<Col :span="5">-->
         <!--<el-radio-group v-model="radioInfo" @change="changeRadio()">-->
           <!--<el-radio-button v-for="(item, index) in boothType" :key="index" :label="item.code" >{{item.name}}</el-radio-button>-->
         <!--</el-radio-group>-->
       <!--</Col>-->
-      <Col :span="24">
+      <!-- <Col :span="24">
         <Button type="primary" @click="openModal()" v-if="permission.includes('物品上架')">物品上架</Button>
       </Col>
     </div>
@@ -41,13 +41,13 @@
       </div>
     </div>
     <Modal title="物品上架" v-model="isAddProp" >
-      <Form :model="boothInfo" :label-width="80">
+      <Form :model="boothInfo" :label-width="80"> -->
         <!--<FormItem label="选择上架展位" label-width="110px" >-->
           <!--<el-select v-model="boothInfo.seatType" placeholder="请选择上架展位" clearable style="width: 100%" @change="changeType()">-->
             <!--<el-option v-for="(item, index) in boothType" :key="index" :label="item.name" :value="item.code"></el-option>-->
           <!--</el-select>-->
         <!--</FormItem>-->
-        <FormItem label="展位编号">
+        <!-- <FormItem label="展位编号">
           <InputNumber v-model="boothInfo.order" placeholder="请输入展位编号" :min=0 :max=20 style="width:100%"></InputNumber>
         </FormItem>
         <FormItem label="物品类型">
@@ -95,11 +95,11 @@
       <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
       <div>加载中...</div>
     </Spin>
-  </div>
+  </div> --> 
 </template>
 
 <script type="text/ecmascript-6">
-  import { httpRequest } from '@/service/index'
+  /* import { httpRequest } from '@/service/index'
   import dayjs from "dayjs";
   import { pattern } from '@/config/regexp'
 export default {
@@ -471,12 +471,12 @@ export default {
       }
     } // 改变展品类型
   }
-}
+} */
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped type="text/less" lang="less">
-  .p-boothList{
+  /* .p-boothList{
     min-height: 89vh;
     .-search{
       text-align: center
@@ -503,5 +503,5 @@ export default {
     .demo-spin-icon-load{
       animation: ani-demo-spin 1s linear infinite;
     }
-  }
+  } */
 </style>
