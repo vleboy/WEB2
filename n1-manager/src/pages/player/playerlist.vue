@@ -91,7 +91,7 @@ export default {
         },
         {
           title: "玩家账号",
-          key: "userNameParent",
+          key: "userName",
           sortable: true
         },
         {

@@ -87,7 +87,7 @@ export default {
       return dayjs(this.playerDetailInfo.updateAt).format("YYYY-MM-DD HH:mm:ss")
     },
     userName () {
-      return formatUserName(this.playerDetailInfo.userName || localStorage.playerName)
+      return this.playerDetailInfo.userName || localStorage.playerName
     }
   },
   methods: {

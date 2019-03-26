@@ -91,7 +91,7 @@ export default {
         },
         {
           title: "玩家账号",
-          key: "userNameParent",
+          key: "userName",
           sortable: true
         },
         {
@@ -167,6 +167,7 @@ export default {
           key: "createAt",
           sortable: true,
           render: (h, params) => {
+            console.log(params);
             return h(
               "span",
               dayjs(params.row.createAt).format("YYYY-MM-DD HH:mm:ss")
@@ -235,6 +236,8 @@ export default {
   created() {
     this.getPlayList();
     this.getGameTypeList();
+    console.log(111);
+    
   },
   computed: {
     getItems() {

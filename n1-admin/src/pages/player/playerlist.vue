@@ -104,7 +104,7 @@ export default {
         },
         {
           title: "玩家账号",
-          key: "userNameParent",
+          key: "userName",
           sortable: true
         },
         {
@@ -123,6 +123,8 @@ export default {
           sortable: true,
 
           render: (h, params) => {
+            console.log(params);
+            
             return h(
               "span",
               params.row.nickname === "NULL!" ? "-" : params.row.nickname
